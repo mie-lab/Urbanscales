@@ -29,14 +29,6 @@ def split_poly_to_bb(poly: geometry.Polygon, n, plotting_enabled=False):
     aspect_ratio = vertical / horizontal
     print("Aspect ratio ", aspect_ratio)
 
-    # for i in list(np.arange(min_lon, max_lon,)):
-    #     for j in list(np.arange(0, 1, 1 / (n * aspect_ratio))):
-    #         delta_x = (max_lat - min_lat) / n
-    #         delta_y = (max_lon - min_lon) / (n * aspect_ratio)
-    #         bbox_list.append(
-    #             (min_lat + delta_x * i, min_lon + delta_y * j, min_lat + delta_x * (i + 1), min_lon + delta_y * (j + 1))
-    #         )
-
     delta_x = (max_lat - min_lat) / n
     delta_y = (max_lon - min_lon) / (n / aspect_ratio)
     for i in list(np.linspace(min_lat, max_lat, n, endpoint=False)):
@@ -44,7 +36,6 @@ def split_poly_to_bb(poly: geometry.Polygon, n, plotting_enabled=False):
             bbox_list.append((i, j, i + delta_x, j + delta_y))
     if plotting_enabled:
 
-        # plt.figure(figsize=(10, 10 * aspect_ratio))
         for bbox in bbox_list:
             lat1, lon1, lat2, lon2 = bbox
             centre_lon = 0.5 * (lon1 + lon2)
