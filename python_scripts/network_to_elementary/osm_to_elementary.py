@@ -1,14 +1,79 @@
+import matplotlib.patches
 import osmnx as ox
 import networkx as nx
+import matplotlib
 import matplotlib.pyplot as plt
 from shapely.geometry import Polygon
 import sys
 from shapely import geometry
 import numpy as np
 import geopandas as gpd
+from pyproj import Geod
+from shapely.geometry import Point, LineString
 
 
-def point_in_polygon(poly, point_x_y):
+def split_poly_to_bb(poly: geometry.Polygon, n, plotting_enabled=False):
+    """
+    :param poly: shapely polygon
+    :param n: ise used to create a list of bounding boxes; total
+           number of such boxes = (n X (aspect_ratio * n) ); scaled_n is calculated in this function
+    :return:
+    """
+    min_lon, min_lat, max_lon, max_lat = poly.bounds
+
+    bbox_list = []
+    vertical = calculate_ground_distance(min_lat, min_lon, max_lat, min_lon)
+    horizontal = calculate_ground_distance(min_lat, min_lon, min_lat, max_lon)
+    print("vertical ", vertical // 1000, " km")
+    print("horizontal ", horizontal // 1000, " km")
+    aspect_ratio = vertical / horizontal
+    print("Aspect ratio ", aspect_ratio)
+
+    # for i in list(np.arange(min_lon, max_lon,)):
+    #     for j in list(np.arange(0, 1, 1 / (n * aspect_ratio))):
+    #         delta_x = (max_lat - min_lat) / n
+    #         delta_y = (max_lon - min_lon) / (n * aspect_ratio)
+    #         bbox_list.append(
+    #             (min_lat + delta_x * i, min_lon + delta_y * j, min_lat + delta_x * (i + 1), min_lon + delta_y * (j + 1))
+    #         )
+
+    delta_x = (max_lat - min_lat) / n
+    delta_y = (max_lon - min_lon) / (n / aspect_ratio)
+    for i in list(np.linspace(min_lat, max_lat, n, endpoint=False)):
+        for j in list(np.linspace(min_lon, max_lon, int(n / aspect_ratio) + 1, endpoint=False)):
+            bbox_list.append((i, j, i + delta_x, j + delta_y))
+    if plotting_enabled:
+
+        # plt.figure(figsize=(10, 10 * aspect_ratio))
+        for bbox in bbox_list:
+            lat1, lon1, lat2, lon2 = bbox
+            centre_lon = 0.5 * (lon1 + lon2)
+            centre_lat = 0.5 * (lat1 + lat2)
+            plt.scatter(centre_lon, centre_lat, s=0.3, color="red")
+
+            # plot rectangle
+            plt.gca().add_patch(matplotlib.patches.Rectangle((lon1, lat1), lon2 - lon1, lat2 - lat1, lw=0.8, alpha=0.5))
+
+        plt.xlim([min_lon, max_lon])
+        plt.ylim([min_lat, max_lat])
+        plt.xlabel("latitude")
+        plt.ylabel("longitude")
+        plt.show()
+
+
+def is_bounding_box_in_polygon(poly, bb):
+    """
+
+    :param poly:
+    :param point_b (2 points -> list of length 4):
+    :return: True/False
+    """
+    top_left = geometry.Point(bb[1], bb[0])
+    bottom_right = geometry.Point(bb[3], bb[2])
+    return is_point_in_polygon(top_left) and is_point_in_polygon(bottom_right)
+
+
+def is_point_in_polygon(poly, point_x_y):
     """
 
     :param poly:
@@ -110,6 +175,31 @@ def fetch_road_network_from_osm_database(
     return G
 
 
+def calculate_ground_distance(lat_1, lon_1, lat_2, lon_2):
+    """
+
+    :param lat_1:
+    :param lon_1:
+    :param lat_2:
+    :param lon_2:
+    :return:
+    """
+    line_string = LineString([Point(lon_1, lat_1), Point(lon_2, lat_2)])
+    geod = Geod(ellps="WGS84")
+    return float(f"{geod.geometry_length(line_string):.3f}")
+
+
+def test_distance():
+    # Zurich to Lugano # should be around 156 km using https://www.nhc.noaa.gov/gccalc.shtml
+    ground_truth = 156 * 1000
+    calculated = calculate_ground_distance(47.3769, 8.5417, 46.0037, 8.9511)
+
+    # difference of 3 % tolerated
+    percentage_diff = abs(ground_truth - calculated) / ground_truth * 100
+    print("Percentage diff in distance: ", percentage_diff, " %")
+    assert percentage_diff < 3
+
+
 if __name__ == "__main__":
     geo = {
         "type": "Polygon",
@@ -166,11 +256,11 @@ if __name__ == "__main__":
     lat_list_red = []
     lon_list_red = []
 
-    for i in range(1000000):
+    for i in range(10000):
         lat = np.random.rand() * (max_lat - min_lat) + min_lat
         lon = np.random.rand() * (max_lon - min_lon) + min_lon
 
-        if point_in_polygon(poly, [lat, lon]):
+        if is_point_in_polygon(poly, [lat, lon]):
             lat_list_green.append(lat)
             lon_list_green.append(lon)
         else:
@@ -186,4 +276,6 @@ if __name__ == "__main__":
     p.plot()
     plt.show()
 
-    # custom_filter = '["highway"~"motorway|motorway_link|primary"]',
+    split_poly_to_bb(poly, 50, plotting_enabled=True)
+
+    test_distance()
