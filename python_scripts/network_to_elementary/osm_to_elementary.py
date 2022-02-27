@@ -43,13 +43,20 @@ def split_poly_to_bb(poly: geometry.Polygon, n, plotting_enabled=False):
             plt.scatter(centre_lon, centre_lat, s=0.3, color="red")
 
             # plot rectangle
-            plt.gca().add_patch(matplotlib.patches.Rectangle((lon1, lat1), lon2 - lon1, lat2 - lat1, lw=0.8, alpha=0.5))
+            if is_bounding_box_in_polygon(poly, bbox):
+                color = "green"
+            else:
+                color = "red"
+            plt.gca().add_patch(
+                matplotlib.patches.Rectangle((lon1, lat1), lon2 - lon1, lat2 - lat1, lw=0.8, alpha=0.5, color=color)
+            )
 
         plt.xlim([min_lon, max_lon])
         plt.ylim([min_lat, max_lat])
         plt.xlabel("latitude")
         plt.ylabel("longitude")
-        plt.show()
+        plt.savefig("output_images/network_graphs/bbox_inside_polygoin.png", dpi=400)
+        plt.show(block=False)
 
 
 def is_bounding_box_in_polygon(poly, bb):
@@ -59,9 +66,9 @@ def is_bounding_box_in_polygon(poly, bb):
     :param point_b (2 points -> list of length 4):
     :return: True/False
     """
-    top_left = geometry.Point(bb[1], bb[0])
-    bottom_right = geometry.Point(bb[3], bb[2])
-    return is_point_in_polygon(top_left) and is_point_in_polygon(bottom_right)
+    top_left = [bb[0], bb[1]]
+    bottom_right = [bb[2], bb[3]]
+    return is_point_in_polygon(poly, top_left) and is_point_in_polygon(poly, bottom_right)
 
 
 def is_point_in_polygon(poly, point_x_y):
@@ -265,8 +272,10 @@ if __name__ == "__main__":
 
     p = gpd.GeoSeries(poly)
     p.plot()
+    plt.savefig("output_images/network_graphs/polygon_sg.png", dpi=300)
     plt.show()
 
-    split_poly_to_bb(poly, 50, plotting_enabled=True)
+
+    split_poly_to_bb(poly, 25, plotting_enabled=True)
 
     test_distance()
