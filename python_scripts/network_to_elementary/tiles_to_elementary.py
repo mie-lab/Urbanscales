@@ -5,6 +5,8 @@ from python_scripts.network_to_elementary.osm_to_tiles import (
     is_point_in_bounding_box,
 )
 import multiprocessing as mp
+import matplotlib
+import matplotlib.pyplot as plt
 import os
 import networkx as nx
 import pickle
@@ -62,7 +64,9 @@ def get_OSM_tiles(bbox_list, osm_graph, read_from_pickle):
     empty_count = 0
     non_empty_count = 0
 
-    bbox_to_points_map = get_box_to_nodelist_map(osm_graph, bbox_list=bbox_list, scale=len(bbox_list), read_from_pickle=read_from_pickle)
+    bbox_to_points_map = get_box_to_nodelist_map(
+        osm_graph, bbox_list=bbox_list, scale=len(bbox_list), read_from_pickle=read_from_pickle
+    )
 
     for bbox in bbox_list:
 
@@ -89,15 +93,12 @@ def get_OSM_tiles(bbox_list, osm_graph, read_from_pickle):
     # '["highway"~"motorway|motorway_link|primary"]'
 
 
-
-
 def get_stats_for_one_tile(input):
     """
 
     :param input: tuple of osm, its corresponding bounding box
     :return:
     """
-
 
     osm, bbox = input
 
@@ -110,20 +111,88 @@ def get_stats_for_one_tile(input):
         try:
             stats = ox.basic_stats(osm)
         except:
-            print ("stats = ox.basic_stats(osm): ", " ERROR\n Probably no edge in graph")
-            stats="EMPTY_STATS"
-    return {bbox:stats}
+            print("stats = ox.basic_stats(osm): ", " ERROR\n Probably no edge in graph")
+            stats = "EMPTY_STATS"
+    return {bbox: stats}
 
 
-def tile_to_feature(osm: ox.graph):
-    if osm == "EMPTY":
-        stats = "EMPTY_STATS"
+def tile_stats_to_images(output_path: str, list_of_dict_bbox_to_stats):
+    """
 
-    else:
-        spn = ox.utils_graph.count_streets_per_node(osm)
-        nx.set_node_attributes(osm, values=spn, name="street_count")
-        stats = ox.basic_stats(osm)
-    return stats
+    :param output_path:
+    :param dict_bbox_to_stats:
+    :return:
+
+    """
+    """
+        stats look like this: 
+        {'n': 13, 'm': 14, 'k_avg': 2.1538461538461537, 'edge_length_total': 911.3389999999999, 'edge_length_avg': 65.09564285714285, 'streets_per_node_avg': 2.1538461538461537, 'streets_per_node_counts': {0: 2, 1: 0, 2: 7, 3: 2, 4: 2}, 'streets_per_node_proportions': {0: 0.15384615384615385, 1: 0.0, 2: 0.5384615384615384, 3: 0.15384615384615385, 4: 0.15384615384615385}, 'intersection_count': 11, 'street_length_total': 911.3389999999998, 'street_segment_count': 14, 'street_length_avg': 65.09564285714285, 'circuity_avg': 0.999997647629181, 'self_loop_proportion': 0.0}
+    """
+
+    for kv in list_of_dict_bbox_to_stats:
+        for k in kv:
+            stats = kv[k]
+            if stats == "EMPTY_STATS":
+                continue
+            metric_list = list(stats.keys())
+
+    cmap = plt.get_cmap("gist_rainbow")
+    # fig = plt.figure()
+    # ax = fig.add_subplot(111)
+    # ax.set_color_cycle([cm(1.*i/NUM_COLORS) for i in range(NUM_COLORS)])
+    for metric in metric_list:
+        maxVal = 0
+        for kv in list_of_dict_bbox_to_stats:
+
+            # get max val of this metric for color encoding
+            for k in kv:
+                stats = kv[k]
+                if stats == "EMPTY_STATS":
+                    continue
+                metric_stats = stats[metric]
+
+                # # managing cases of value being dict/list
+                try:
+                    iter(metric_stats)
+                    metric_stats = len(metric_stats)
+                except:
+                    # do nothing
+                    metric_stats = metric_stats
+
+                maxVal = max(maxVal, metric_stats)
+
+        cmap = plt.get_cmap("YlGnBu")
+
+        plt.clf()
+        for kv in list_of_dict_bbox_to_stats:
+            for k in kv:
+                stats = kv[k]
+                if stats == "EMPTY_STATS":
+                    continue
+                bbox = k
+                lat1, lon1, lat2, lon2 = bbox
+                metric_stats = stats[metric]
+
+                # # managing cases of value being dict/list
+                try:
+                    iter(metric_stats)
+                    metric_stats = len(metric_stats)
+                except:
+                    # do nothing
+                    metric_stats = metric_stats
+
+                plt.scatter((lon1 + lon2) / 2, (lat1 + lat2) / 2, s=0.3, color="black")
+                plt.gca().add_patch(
+                    matplotlib.patches.Rectangle(
+                        (lon1, lat1), lon2 - lon1, lat2 - lat1, lw=0.8, alpha=0.5, color=cmap(metric_stats / maxVal)
+                    )
+                )
+
+        plt.title(metric)
+        plt.clim(0, maxVal)
+        plt.colorbar()
+        plt.savefig(output_path + metric + ".png", dpi=300)
+        plt.show(block=False)
 
 
 if __name__ == "__main__":
@@ -137,21 +206,32 @@ if __name__ == "__main__":
             pickle.dump(G_OSM, f, protocol=pickle.HIGHEST_PROTOCOL)
 
     G_OSM_dict, _error_ = get_OSM_tiles(
-        osm_graph=G_OSM, bbox_list=split_poly_to_bb(get_sg_poly(), 25, plotting_enabled=False), read_from_pickle=read_from_pickle
+        osm_graph=G_OSM,
+        bbox_list=split_poly_to_bb(get_sg_poly(), 25, plotting_enabled=False),
+        read_from_pickle=read_from_pickle,
     )
 
-    osm_tiles_stats_dict = {}
-    inputs = []
-    for osm_tile in G_OSM_dict:
-        inputs.append((G_OSM_dict[osm_tile], osm_tile))
+    if read_from_pickle:
+        with open("osm_tiles_stats_dict.pickle", "rb") as handle:
+            osm_tiles_stats_dict = pickle.load(handle)
 
-    # multithreaded
-    pool = mp.Pool(7)
-    osm_tiles_stats_dict = (pool.map(get_stats_for_one_tile, inputs))
+    else:
+        osm_tiles_stats_dict = {}
+        inputs = []
+        for osm_tile in G_OSM_dict:
+            inputs.append((G_OSM_dict[osm_tile], osm_tile))
 
-    # single threaded
-    # for i in inputs:
-    #     osm_tiles_stats_dict[i] = f(i)
+        # multithreaded
+        pool = mp.Pool(7)
+        osm_tiles_stats_dict = pool.map(get_stats_for_one_tile, inputs)
 
-    with open("osm_tiles_stats_dict.pickle", "wb") as f:
-        pickle.dump(osm_tiles_stats_dict, f, protocol=pickle.HIGHEST_PROTOCOL)
+        # single threaded
+        # for i in inputs:
+        #     osm_tiles_stats_dict[i] = f(i)
+
+        with open("osm_tiles_stats_dict.pickle", "wb") as f:
+            pickle.dump(osm_tiles_stats_dict, f, protocol=pickle.HIGHEST_PROTOCOL)
+
+    tile_stats_to_images("output_images/tilestats/", osm_tiles_stats_dict)
+
+    last_line = "dummy"
