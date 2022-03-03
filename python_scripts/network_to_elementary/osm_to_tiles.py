@@ -73,6 +73,14 @@ def is_bounding_box_in_polygon(poly, bb):
     return is_point_in_polygon(poly, top_left) and is_point_in_polygon(poly, bottom_right)
 
 
+def is_point_in_bounding_box(lat, lon, bb):
+    lat_min, lon_min = [bb[0], bb[1]]
+    lat_max, lon_max = [bb[2], bb[3]]
+
+    # this won't work when dealing with boundary conditions such as the poles/180 degree lon
+    return lat_min < lat < lat_max and lon_min < lon < lon_max
+
+
 def is_point_in_polygon(poly, point_x_y):
     """
 
@@ -95,6 +103,8 @@ def fetch_road_network_from_osm_database(
     custom_filter=None,
     plotting_with_road_names=False,
     plotting_enabled=False,
+    speed_and_travel_time_needed=True,
+    empty_allowed=False,
 ):
     """
     Args:
@@ -120,15 +130,23 @@ def fetch_road_network_from_osm_database(
             address=named_location, dist=dist, network_type=network_type, custom_filter='["highway"~"motorway"]'
         )
     elif polygon != None:
-        G = ox.graph_from_polygon(polygon, network_type=network_type, custom_filter=custom_filter)
+        try:
+            G = ox.graph_from_polygon(polygon, network_type=network_type, custom_filter=custom_filter)
+        except:
+            if not empty_allowed:
+                print("OSM returned empty json")
+                sys.exit()
+            else:
+                return "Empty_graph"
     else:
         print("Error; wrong input \n\n\n")
         sys.exit()
 
     # impute edge (driving) speeds and calculate edge traversal times
-    G = ox.add_edge_speeds(G)
-    G = ox.add_edge_travel_times(G)
-    G = ox.distance.add_edge_lengths(G)
+    if speed_and_travel_time_needed:
+        G = ox.add_edge_speeds(G)
+        G = ox.add_edge_travel_times(G)
+        G = ox.distance.add_edge_lengths(G)
 
     # The nodes carry the default ids from osmnx, we convert them to sequential node numbers
     G = nx.convert_node_labels_to_integers(G, first_label=1)
@@ -190,7 +208,8 @@ def calculate_ground_distance(lat_1, lon_1, lat_2, lon_2):
 
 
 def test_distance():
-    # Zurich to Lugano # should be around 156 km using https://www.nhc.noaa.gov/gccalc.shtml
+    # Zurich to Lugano
+    # should be around 156 km using https://www.nhc.noaa.gov/gccalc.shtml
     ground_truth = 156 * 1000
     calculated = calculate_ground_distance(47.3769, 8.5417, 46.0037, 8.9511)
 
