@@ -123,10 +123,24 @@ def tile_stats_to_images(output_path: str, list_of_dict_bbox_to_stats):
     :param dict_bbox_to_stats:
     :return:
 
-    """
-    """
-        stats look like this: 
-        {'n': 13, 'm': 14, 'k_avg': 2.1538461538461537, 'edge_length_total': 911.3389999999999, 'edge_length_avg': 65.09564285714285, 'streets_per_node_avg': 2.1538461538461537, 'streets_per_node_counts': {0: 2, 1: 0, 2: 7, 3: 2, 4: 2}, 'streets_per_node_proportions': {0: 0.15384615384615385, 1: 0.0, 2: 0.5384615384615384, 3: 0.15384615384615385, 4: 0.15384615384615385}, 'intersection_count': 11, 'street_length_total': 911.3389999999998, 'street_segment_count': 14, 'street_length_avg': 65.09564285714285, 'circuity_avg': 0.999997647629181, 'self_loop_proportion': 0.0}
+
+    stats look as shown below:
+
+    {'n': 13,
+    'm': 14,
+    'k_avg': 2.1538461538461537,
+    'edge_length_total': 911.3389999999999,
+     'edge_length_avg': 65.09564285714285,
+     'streets_per_node_avg': 2.1538461538461537,
+     'streets_per_node_counts': {0: 2, 1: 0, 2: 7, 3: 2, 4: 2},
+     'streets_per_node_proportions': {0: 0.15384615384615385, 1: 0.0, 2: 0.5384615384615384, 3: 0.15384615384615385,
+                                      4: 0.15384615384615385},
+     'intersection_count': 11,
+     'street_length_total': 911.3389999999998,
+     'street_segment_count': 14,
+     'street_length_avg': 65.09564285714285,
+     'circuity_avg': 0.999997647629181,
+     'self_loop_proportion': 0.0}
     """
 
     for kv in list_of_dict_bbox_to_stats:
@@ -191,12 +205,13 @@ def tile_stats_to_images(output_path: str, list_of_dict_bbox_to_stats):
         plt.title(metric)
         plt.clim(0, maxVal)
         plt.colorbar()
+        plt.gca().set_aspect(0.66)
         plt.savefig(output_path + metric + ".png", dpi=300)
         plt.show(block=False)
 
 
 if __name__ == "__main__":
-    read_from_pickle = True
+    read_from_pickle = False
     if read_from_pickle:
         with open("G_OSM_extracted.pickle", "rb") as handle:
             G_OSM = pickle.load(handle)
@@ -207,7 +222,7 @@ if __name__ == "__main__":
 
     G_OSM_dict, _error_ = get_OSM_tiles(
         osm_graph=G_OSM,
-        bbox_list=split_poly_to_bb(get_sg_poly(), 25, plotting_enabled=False),
+        bbox_list=split_poly_to_bb(get_sg_poly(), 100, plotting_enabled=False),
         read_from_pickle=read_from_pickle,
     )
 
