@@ -94,10 +94,10 @@ def line_to_bbox_list(bb_list, od_lat_lon_line, plotting_enabled=False):
             plt.gca().add_patch(
                 matplotlib.patches.Rectangle((lon1, lat1), lon2 - lon1, lat2 - lat1, lw=0.8, alpha=0.5, color=color)
             )
-            plt.plot([od_lat_lon_line[1], od_lat_lon_line[3]], [od_lat_lon_line[0], od_lat_lon_line[2]], color="blue")
 
     if plotting_enabled:
         plt.savefig("line_to_bbox.png", dpi=300)
+        plt.plot([od_lat_lon_line[1], od_lat_lon_line[3]], [od_lat_lon_line[0], od_lat_lon_line[2]], color="blue")
         plt.show()
 
     return list_of_bbs
@@ -266,11 +266,28 @@ def test_line_to_bbox_list(bbox_list):
     starttime = time.time()
     o_lat_lon = [1.3193201837935837, 103.85252724209599]
     d_lat_lon = [1.3416189403056658, 103.86130207662988]
-    line_to_bbox_list(bbox_list, o_lat_lon + d_lat_lon, plotting_enabled=True)
+    green_box_es_list_1 = line_to_bbox_list(bbox_list, o_lat_lon + d_lat_lon, plotting_enabled=False)
 
     new_d_lat_lon = [1.3695319030233464, 103.89436218364749]
-    line_to_bbox_list(bbox_list, d_lat_lon + new_d_lat_lon, plotting_enabled=True)
-    print (time.time() - starttime, " seconds taken for two queries")
+    green_box_es_list_2 = line_to_bbox_list(bbox_list, d_lat_lon + new_d_lat_lon, plotting_enabled=False)
+    print(time.time() - starttime, " seconds taken for two queries")
+
+    for bbox in bbox_list:
+        lat1, lon1, lat2, lon2 = bbox
+        centre_lon = 0.5 * (lon1 + lon2)
+        centre_lat = 0.5 * (lat1 + lat2)
+        plt.scatter(centre_lon, centre_lat, s=5, color="yellow")
+
+    for bbox in green_box_es_list_1 + green_box_es_list_2:
+        lat1, lon1, lat2, lon2 = bbox
+        centre_lon = 0.5 * (lon1 + lon2)
+        centre_lat = 0.5 * (lat1 + lat2)
+        plt.scatter(centre_lon, centre_lat, s=5, color="green")
+
+    plt.plot([o_lat_lon[1], d_lat_lon[1]], [o_lat_lon[0], d_lat_lon[0]], color="blue")
+    plt.plot([d_lat_lon[1], new_d_lat_lon[1]], [d_lat_lon[0], new_d_lat_lon[0]], color="blue")
+    plt.savefig("lines_to_bb_fast_plot.png", dpi=400)
+    plt.show(block=False)
 
 
 if __name__ == "__main__":
@@ -364,7 +381,7 @@ if __name__ == "__main__":
     plt.savefig("output_images/network_graphs/polygon_sg.png", dpi=300)
     plt.show()
 
-    bbox_list = split_poly_to_bb(poly, 100, plotting_enabled=True)
+    bbox_list = split_poly_to_bb(poly, 25, plotting_enabled=True)
 
     test_distance()
 
