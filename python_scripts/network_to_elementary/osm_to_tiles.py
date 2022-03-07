@@ -276,13 +276,13 @@ def test_line_to_bbox_list(bbox_list):
         lat1, lon1, lat2, lon2 = bbox
         centre_lon = 0.5 * (lon1 + lon2)
         centre_lat = 0.5 * (lat1 + lat2)
-        plt.scatter(centre_lon, centre_lat, s=5, color="yellow")
+        plt.scatter(centre_lon, centre_lat, marker="s", s=5, color="yellow")
 
     for bbox in green_box_es_list_1 + green_box_es_list_2:
         lat1, lon1, lat2, lon2 = bbox
         centre_lon = 0.5 * (lon1 + lon2)
         centre_lat = 0.5 * (lat1 + lat2)
-        plt.scatter(centre_lon, centre_lat, s=5, color="green")
+        plt.scatter(centre_lon, centre_lat, marker="s", s=5, color="green")
 
     plt.plot([o_lat_lon[1], d_lat_lon[1]], [o_lat_lon[0], d_lat_lon[0]], color="blue")
     plt.plot([d_lat_lon[1], new_d_lat_lon[1]], [d_lat_lon[0], new_d_lat_lon[0]], color="blue")
