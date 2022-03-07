@@ -7,7 +7,15 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
 
 
-def get_gof_clustering(keys_bbox_list, vals_vector_array, clustering_algo="dbscan", scaling=True, pca=True, pca_comp=3, k_means_cluster_number_max=10):
+def get_gof_clustering(
+    keys_bbox_list,
+    vals_vector_array,
+    clustering_algo="dbscan",
+    scaling=True,
+    pca=True,
+    pca_comp=3,
+    k_means_cluster_number_max=10,
+):
     X = vals_vector_array
 
     if scaling:
@@ -54,12 +62,12 @@ def get_gof_clustering(keys_bbox_list, vals_vector_array, clustering_algo="dbsca
 
                 number_of_clusters = len(np.unique(clustering.labels_))
                 # clustering.labels_ + 1 to set the indices from 0, otherwise no corresponding color present
-                plt.scatter(lon1, lat1, s=3, marker="s",
-                            color=cmap((clustering.labels_[counter] + 1) / number_of_clusters))
+                plt.scatter(
+                    lon1, lat1, s=3, marker="s", color=cmap((clustering.labels_[counter] + 1) / number_of_clusters)
+                )
                 counter += 1
-            plt.savefig("clusters_num_clusters_"+str(num_clusters)+".png", dpi=300)
+            plt.savefig("clusters_num_clusters_" + str(num_clusters) + ".png", dpi=300)
             plt.show(block=False)
-
 
         plt.plot(range(2, N), distortion, linewidth=3)
         plt.xlabel("Number of clusters")
@@ -107,6 +115,7 @@ def impute_with_mean(vals_vector_array):
         "\n\n",
     )
     return vals_vector_array
+
 
 def osm_tiles_states_to_vectors(osm_tiles_stats_dict):
     """
@@ -167,7 +176,6 @@ if __name__ == "__main__":
 
     keys_bbox_list, vals_vector_array = osm_tiles_states_to_vectors(osm_tiles_stats_dict)
     get_gof_clustering(keys_bbox_list, vals_vector_array, clustering_algo="kmeans", pca=True, pca_comp=3)
-
 
 
 do_nothing = True

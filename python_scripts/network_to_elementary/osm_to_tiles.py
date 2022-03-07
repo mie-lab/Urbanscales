@@ -1,3 +1,5 @@
+import time
+
 import matplotlib.patches
 import osmnx as ox
 import networkx as nx
@@ -59,6 +61,46 @@ def split_poly_to_bb(poly: geometry.Polygon, n, plotting_enabled=False):
         plt.show(block=False)
 
     return bbox_list
+
+
+def is_bounding_box_on_line(bb, od_lat_lon_line):
+    """
+
+    :param bb:
+    :param od_lat_lon_line:
+    :return:
+    """
+    linestring = LineString([(od_lat_lon_line[0], od_lat_lon_line[1]), (od_lat_lon_line[2], od_lat_lon_line[3])])
+    lat1, lon1, lat2, lon2 = bb
+    polygon = Polygon([[lat1, lon1], [lat1, lon2], [lat2, lon2], [lat2, lon1], [lat1, lon1]])
+    return polygon.intersection(linestring)
+
+
+def line_to_bbox_list(bb_list, od_lat_lon_line, plotting_enabled=False):
+    list_of_bbs = []
+    for bbox in bb_list:
+        lat1, lon1, lat2, lon2 = bbox
+
+        if is_bounding_box_on_line(bbox, od_lat_lon_line):
+            color = "green"
+            list_of_bbs.append(bbox)
+        else:
+            color = "yellow"
+
+        if plotting_enabled:
+            centre_lon = 0.5 * (lon1 + lon2)
+            centre_lat = 0.5 * (lat1 + lat2)
+            plt.scatter(centre_lon, centre_lat, s=0.3, color="black")
+            plt.gca().add_patch(
+                matplotlib.patches.Rectangle((lon1, lat1), lon2 - lon1, lat2 - lat1, lw=0.8, alpha=0.5, color=color)
+            )
+            plt.plot([od_lat_lon_line[1], od_lat_lon_line[3]], [od_lat_lon_line[0], od_lat_lon_line[2]], color="blue")
+
+    if plotting_enabled:
+        plt.savefig("line_to_bbox.png", dpi=300)
+        plt.show()
+
+    return list_of_bbs
 
 
 def is_bounding_box_in_polygon(poly, bb):
@@ -219,6 +261,18 @@ def test_distance():
     assert percentage_diff < 3
 
 
+def test_line_to_bbox_list(bbox_list):
+
+    starttime = time.time()
+    o_lat_lon = [1.3193201837935837, 103.85252724209599]
+    d_lat_lon = [1.3416189403056658, 103.86130207662988]
+    line_to_bbox_list(bbox_list, o_lat_lon + d_lat_lon, plotting_enabled=True)
+
+    new_d_lat_lon = [1.3695319030233464, 103.89436218364749]
+    line_to_bbox_list(bbox_list, d_lat_lon + new_d_lat_lon, plotting_enabled=True)
+    print (time.time() - starttime, " seconds taken for two queries")
+
+
 if __name__ == "__main__":
     geo = {
         "type": "Polygon",
@@ -310,6 +364,8 @@ if __name__ == "__main__":
     plt.savefig("output_images/network_graphs/polygon_sg.png", dpi=300)
     plt.show()
 
-    split_poly_to_bb(poly, 25, plotting_enabled=True)
+    bbox_list = split_poly_to_bb(poly, 100, plotting_enabled=True)
 
     test_distance()
+
+    test_line_to_bbox_list(bbox_list)
