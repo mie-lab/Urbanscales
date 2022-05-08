@@ -51,7 +51,11 @@ def create_bbox_to_CCT(csv_file_name, read_from_pickle=True, N=100):
             bbox_list, [o_lat[i], o_lon[i], d_lat[i], d_lon[i]], plotting_enabled=False
         )
         for bbox in bbox_intersecting:
-            dict_bbox_to_CCT[bbox] = pd.to_timedelta(incident_data["lasting_time"][i]).total_seconds()
+            if bbox in dict_bbox_to_CCT:
+                dict_bbox_to_CCT[bbox].append(pd.to_timedelta(incident_data["lasting_time"][i]).total_seconds())
+            else:
+                dict_bbox_to_CCT[bbox] = [pd.to_timedelta(incident_data["lasting_time"][i]).total_seconds()]
+
     return dict_bbox_to_CCT
 
 
