@@ -12,6 +12,7 @@ import os
 import networkx as nx
 import pickle
 from osmnx import truncate, utils_graph
+from osmnx import stats as osxstats
 import osmnx as ox
 
 
@@ -104,7 +105,7 @@ def get_stats_for_one_tile(input):
         stats = "EMPTY_STATS"
 
     else:
-        spn = utils_graph.count_streets_per_node(osm)
+        spn = osxstats.count_streets_per_node(osm)
         nx.set_node_attributes(osm, values=spn, name="street_count")
         try:
             stats = ox.basic_stats(osm)
