@@ -4,6 +4,7 @@ from python_scripts.network_to_elementary.osm_to_tiles import (
     split_poly_to_bb,
     is_point_in_bounding_box,
 )
+from tqdm import tqdm
 import multiprocessing as mp
 import matplotlib
 import matplotlib.pyplot as plt
@@ -31,12 +32,8 @@ def get_box_to_nodelist_map(G_osm: ox.graph, bbox_list, scale, read_from_pickle=
 
     else:
         bbox_to_points_map = {}
-        count = 0
-        total = len(list(G_osm.nodes))
-        for node in G_osm.nodes:
-
-            print(round(count / total * 100, 2), "%")
-            count += 1
+        total_nodes = len(list(G_osm.nodes))
+        for node, tq in zip(G_osm.nodes, tqdm(range(total_nodes))):
 
             # y is the lat, x is the lon (Out[20]: {'y': 1.2952316, 'x': 103.872544, 'street_count': 3})
             lat, lon = G_osm.nodes[node]["y"], G_osm.nodes[node]["x"]
@@ -48,6 +45,7 @@ def get_box_to_nodelist_map(G_osm: ox.graph, bbox_list, scale, read_from_pickle=
                         bbox_to_points_map[bbox].append(node)
                     else:
                         bbox_to_points_map[bbox] = [node]
+            pass
 
         with open(filename, "wb") as f:
             pickle.dump(bbox_to_points_map, f, protocol=pickle.HIGHEST_PROTOCOL)
@@ -261,7 +259,7 @@ def step_1_osm_tiles_to_features(
 
 
 if __name__ == "__main__":
-    for N_iter in range(10, 100, 10):
+    for N_iter in range(15, 100, 10):
         step_1_osm_tiles_to_features(
             read_G_from_pickle=True, read_osm_tiles_stats_from_pickle=False, N=N_iter, plotting_enabled=False
         )
