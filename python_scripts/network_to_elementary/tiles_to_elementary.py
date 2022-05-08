@@ -212,6 +212,7 @@ def tile_stats_to_images(output_path: str, list_of_dict_bbox_to_stats):
 
 if __name__ == "__main__":
     read_from_pickle = False
+    N = 50
     if read_from_pickle:
         with open("G_OSM_extracted.pickle", "rb") as handle:
             G_OSM = pickle.load(handle)
@@ -222,12 +223,12 @@ if __name__ == "__main__":
 
     G_OSM_dict, _error_ = get_OSM_tiles(
         osm_graph=G_OSM,
-        bbox_list=split_poly_to_bb(get_sg_poly(), 100, plotting_enabled=False),
+        bbox_list=split_poly_to_bb(get_sg_poly(), N, plotting_enabled=False),
         read_from_pickle=read_from_pickle,
     )
 
     if read_from_pickle:
-        with open("osm_tiles_stats_dict.pickle", "rb") as handle:
+        with open("osm_tiles_stats_dict" + str(N) + ".pickle", "rb") as handle:
             osm_tiles_stats_dict = pickle.load(handle)
 
     else:
@@ -244,7 +245,7 @@ if __name__ == "__main__":
         # for i in inputs:
         #     osm_tiles_stats_dict[i] = f(i)
 
-        with open("osm_tiles_stats_dict.pickle", "wb") as f:
+        with open("osm_tiles_stats_dict" + str(N) + ".pickle", "wb") as f:
             pickle.dump(osm_tiles_stats_dict, f, protocol=pickle.HIGHEST_PROTOCOL)
 
     tile_stats_to_images("output_images/tilestats/", osm_tiles_stats_dict)

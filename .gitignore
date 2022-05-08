@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 python_scripts/network_to_elementary/cache/
+python_scripts/network_to_elementary/output_images/
 python_scripts/.DS_Store
 
 # C extensions

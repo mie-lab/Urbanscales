@@ -36,8 +36,8 @@ def split_poly_to_bb(poly: geometry.Polygon, n, plotting_enabled=False):
     for i in list(np.linspace(min_lat, max_lat, n, endpoint=False)):
         for j in list(np.linspace(min_lon, max_lon, int(n / aspect_ratio) + 1, endpoint=False)):
             bbox_list.append((i, j, i + delta_x, j + delta_y))
-    if plotting_enabled:
 
+    if plotting_enabled:
         for bbox in bbox_list:
             lat1, lon1, lat2, lon2 = bbox
             centre_lon = 0.5 * (lon1 + lon2)
@@ -270,22 +270,26 @@ def test_line_to_bbox_list(bbox_list):
 
     new_d_lat_lon = [1.3695319030233464, 103.89436218364749]
     green_box_es_list_2 = line_to_bbox_list(bbox_list, d_lat_lon + new_d_lat_lon, plotting_enabled=False)
-    print(time.time() - starttime, " seconds taken for two queries")
+
+    fourth_d_lat_lon = [1.3909025219608484, 103.86315022113891]
+    green_box_es_list_3 = line_to_bbox_list(bbox_list, new_d_lat_lon + fourth_d_lat_lon, plotting_enabled=False)
+    print(time.time() - starttime, " seconds taken for three queries")
 
     for bbox in bbox_list:
         lat1, lon1, lat2, lon2 = bbox
         centre_lon = 0.5 * (lon1 + lon2)
         centre_lat = 0.5 * (lat1 + lat2)
-        plt.scatter(centre_lon, centre_lat, marker="s", s=5, color="yellow")
+        plt.scatter(centre_lon, centre_lat, marker="s", s=1, color="yellow")
 
-    for bbox in green_box_es_list_1 + green_box_es_list_2:
+    for bbox in green_box_es_list_1 + green_box_es_list_2 + green_box_es_list_3:
         lat1, lon1, lat2, lon2 = bbox
         centre_lon = 0.5 * (lon1 + lon2)
         centre_lat = 0.5 * (lat1 + lat2)
-        plt.scatter(centre_lon, centre_lat, marker="s", s=5, color="green")
+        plt.scatter(centre_lon, centre_lat, marker="s", s=1, color="green")
 
     plt.plot([o_lat_lon[1], d_lat_lon[1]], [o_lat_lon[0], d_lat_lon[0]], color="blue")
     plt.plot([d_lat_lon[1], new_d_lat_lon[1]], [d_lat_lon[0], new_d_lat_lon[0]], color="blue")
+    plt.plot([new_d_lat_lon[1], fourth_d_lat_lon[1]], [new_d_lat_lon[0], fourth_d_lat_lon[0]], color="blue")
     plt.savefig("lines_to_bb_fast_plot.png", dpi=400)
     plt.show(block=False)
 
@@ -381,7 +385,7 @@ if __name__ == "__main__":
     plt.savefig("output_images/network_graphs/polygon_sg.png", dpi=300)
     plt.show()
 
-    bbox_list = split_poly_to_bb(poly, 25, plotting_enabled=True)
+    bbox_list = split_poly_to_bb(poly, 50, plotting_enabled=False)
 
     test_distance()
 
