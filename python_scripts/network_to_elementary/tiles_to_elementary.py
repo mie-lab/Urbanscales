@@ -210,10 +210,19 @@ def tile_stats_to_images(output_path: str, list_of_dict_bbox_to_stats):
         plt.show(block=False)
 
 
-if __name__ == "__main__":
-    read_from_pickle = False
-    N = 50
-    if read_from_pickle:
+def step_1_osm_tiles_to_features(
+    read_G_from_pickle=True, read_osm_tiles_stats_from_pickle=False, n_threads=7, N=50, plotting_enabled=True
+):
+    """
+
+    :param read_G_from_pickle:
+    :param read_osm_tiles_stats_from_pickle:
+    :param n_threads:
+    :param N:
+    :param plotting_enabled:
+    :return:
+    """
+    if read_G_from_pickle:
         with open("G_OSM_extracted.pickle", "rb") as handle:
             G_OSM = pickle.load(handle)
     else:
@@ -224,21 +233,20 @@ if __name__ == "__main__":
     G_OSM_dict, _error_ = get_OSM_tiles(
         osm_graph=G_OSM,
         bbox_list=split_poly_to_bb(get_sg_poly(), N, plotting_enabled=False),
-        read_from_pickle=read_from_pickle,
+        read_from_pickle=read_osm_tiles_stats_from_pickle,
     )
 
-    if read_from_pickle:
+    if read_osm_tiles_stats_from_pickle:
         with open("osm_tiles_stats_dict" + str(N) + ".pickle", "rb") as handle:
             osm_tiles_stats_dict = pickle.load(handle)
 
     else:
-        osm_tiles_stats_dict = {}
         inputs = []
         for osm_tile in G_OSM_dict:
             inputs.append((G_OSM_dict[osm_tile], osm_tile))
 
         # multithreaded
-        pool = mp.Pool(7)
+        pool = mp.Pool(n_threads)
         osm_tiles_stats_dict = pool.map(get_stats_for_one_tile, inputs)
 
         # single threaded
@@ -248,6 +256,13 @@ if __name__ == "__main__":
         with open("osm_tiles_stats_dict" + str(N) + ".pickle", "wb") as f:
             pickle.dump(osm_tiles_stats_dict, f, protocol=pickle.HIGHEST_PROTOCOL)
 
-    tile_stats_to_images("output_images/tilestats/", osm_tiles_stats_dict)
+    if plotting_enabled:
+        tile_stats_to_images("output_images/tilestats/", osm_tiles_stats_dict)
 
+
+if __name__ == "__main__":
+    for N_iter in range(10, 100, 10):
+        step_1_osm_tiles_to_features(
+            read_G_from_pickle=True, read_osm_tiles_stats_from_pickle=False, N=N_iter, plotting_enabled=False
+        )
     last_line = "dummy"
