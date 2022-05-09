@@ -23,11 +23,19 @@ def step_2(N, folder_path):
 
     keys_bbox_list, vals_vector_array = osm_tiles_states_to_vectors(osm_tiles_stats_dict)
 
-    X = vals_vector_array
-
     Y = []
-    for key in keys_bbox_list:
-        Y.append(dict_bbox_to_CCT[key])
+    X = []
+    count_present = 0
+    count_absent = 0
+    for count, key in enumerate(keys_bbox_list):
+        if key in dict_bbox_to_CCT:
+            Y.append(dict_bbox_to_CCT[key])
+            X.append(vals_vector_array[count])
+            count_present += 1
+        else:
+            count_absent += 1
+    print("Count present in CCT file: ", count_present)
+    print("Count absent in CCT file: ", count_absent)
 
     debug_wait = True
 
