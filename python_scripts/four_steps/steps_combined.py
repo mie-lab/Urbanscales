@@ -3,6 +3,7 @@ from python_scripts.network_to_elementary.elf_to_clusters import osm_tiles_state
 from python_scripts.network_to_elementary.process_incidents import create_bbox_to_CCT
 from python_scripts.network_to_elementary.tiles_to_elementary import step_1_osm_tiles_to_features
 import pickle
+import numpy as np
 import sys
 
 sys.path.insert(0, "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary")
@@ -34,11 +35,29 @@ def step_2(N, folder_path):
             count_present += 1
         else:
             count_absent += 1
-    print("Count present in CCT file: ", count_present)
-    print("Count absent in CCT file: ", count_absent)
+    print("2nd step: Count present in CCT file: ", count_present)
+    print("2nd step: Count absent in CCT file: ", count_absent)
+    return X, Y
 
-    debug_wait = True
+
+def step_2a_extend_the_vectors(X, Y):
+    """
+    We need to create copies of incidents when several incidents happen in the
+    same gird, Our first stab at this is to create multiple copies of the vector
+    :return:
+    """
+    y = []
+    x = []
+    for i in range(len(Y)):
+        for j in range(len(Y[i])): # Y is a list of lists
+            x.append(X[i])
+            y.append(Y[i][j])
+    return np.array(x), np.array(y)
+
+# def step_2b_calculate_GOF(X, Y, model="regression"):
+
 
 
 if __name__ == "__main__":
-    step_2(30, "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/")
+    X, Y = step_2(30, "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/")
+    X, Y = step_2a_extend_the_vectors(X, Y)
