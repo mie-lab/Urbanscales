@@ -63,25 +63,32 @@ def split_poly_to_bb(poly: geometry.Polygon, n, plotting_enabled=False):
     return bbox_list
 
 
-def is_bounding_box_on_line(bb, od_lat_lon_line):
+def is_bounding_box_on_line(bb, od_lat_lon_line, use_route_path=False, route_linestring=None):
     """
-
     :param bb:
     :param od_lat_lon_line:
+    :param use_route_path:
+    :param route_linestring:
     :return:
     """
-    linestring = LineString([(od_lat_lon_line[0], od_lat_lon_line[1]), (od_lat_lon_line[2], od_lat_lon_line[3])])
+
+    if not use_route_path:
+        linestring = LineString([(od_lat_lon_line[0], od_lat_lon_line[1]), (od_lat_lon_line[2], od_lat_lon_line[3])])
+    else:
+        linestring = route_linestring
     lat1, lon1, lat2, lon2 = bb
     polygon = Polygon([[lat1, lon1], [lat1, lon2], [lat2, lon2], [lat2, lon1], [lat1, lon1]])
     return polygon.intersection(linestring)
 
 
-def line_to_bbox_list(bb_list, od_lat_lon_line, plotting_enabled=False):
+def line_to_bbox_list(bb_list, od_lat_lon_line, plotting_enabled=False, use_route_path=False, route_linestring=False):
     list_of_bbs = []
     for bbox in bb_list:
         lat1, lon1, lat2, lon2 = bbox
 
-        if is_bounding_box_on_line(bbox, od_lat_lon_line):
+        if is_bounding_box_on_line(
+            bbox, od_lat_lon_line, use_route_path=use_route_path, route_linestring=route_linestring
+        ):
             color = "green"
             list_of_bbs.append(bbox)
         else:

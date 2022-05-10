@@ -14,12 +14,16 @@ import geopandas as gpd
 from pyproj import Geod
 from shapely.geometry import Point, LineString
 import sys
+import taxicab as tc
+
 
 sys.path.insert(0, "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary")
 from osm_to_tiles import line_to_bbox_list
 
 
-def create_bbox_to_CCT(csv_file_name, read_from_pickle=True, N=100, folder_path=""):
+def create_bbox_to_CCT(
+    csv_file_name, read_from_pickle=True, N=100, folder_path="", use_route_path=False, graph_with_edge_travel_time=None
+):
     """
 
     :param csv_file_name:
@@ -57,15 +61,35 @@ def create_bbox_to_CCT(csv_file_name, read_from_pickle=True, N=100, folder_path=
         print("Please use the previously saved dictionary to get BBs")
         sys.exit()
 
+    path_missing_counter = 0
+    path_present_counter = 0
     for i in range(incident_data.shape[0]):
-        bbox_intersecting = line_to_bbox_list(
-            bbox_list, [o_lat[i], o_lon[i], d_lat[i], d_lon[i]], plotting_enabled=False
-        )
+        if not use_route_path:
+            bbox_intersecting = line_to_bbox_list(
+                bbox_list, [o_lat[i], o_lon[i], d_lat[i], d_lon[i]], plotting_enabled=False
+            )
+        else:
+            try:
+
+                route_linestring = tc.distance.shortest_path(
+                    graph_with_edge_travel_time, (o_lat[i], o_lon[i]), (d_lat[i], d_lon[i])
+                )
+                bbox_intersecting = line_to_bbox_list(
+                    bbox_list, None, plotting_enabled=False, route_linestring=route_linestring
+                )
+                path_present_counter += 1
+            except:
+                print("Route not found! ")
+                path_missing_counter += 1
+                continue
+
         for bbox in bbox_intersecting:
             if bbox in dict_bbox_to_CCT:
                 dict_bbox_to_CCT[bbox].append(pd.to_timedelta(incident_data["lasting_time"][i]).total_seconds())
             else:
                 dict_bbox_to_CCT[bbox] = [pd.to_timedelta(incident_data["lasting_time"][i]).total_seconds()]
+        print("Route not found: ", path_missing_counter * 100 / (path_missing_counter + path_present_counter), "%")
+    print("Route not found: ", path_missing_counter * 100 / (path_missing_counter + path_present_counter), "%")
 
     return dict_bbox_to_CCT
 
