@@ -1,27 +1,14 @@
-import concurrent
 import os
-import time
-import warnings
-import networkx
-import pandas as pd
-import matplotlib.patches
-import osmnx as ox
 import pickle
-from multiprocessing import Process, Manager, Pool
-import networkx as nx
-import matplotlib
-import matplotlib.pyplot as plt
-from shapely.geometry import Polygon
 import sys
-from shapely import geometry
-import numpy as np
-import geopandas as gpd
-from pyproj import Geod
-from shapely.geometry import Point, LineString
-import sys
-import taxicab as tc
-from tqdm import tqdm
+import warnings
+from multiprocessing import Pool
 
+import networkx
+import numpy as np
+import pandas as pd
+import taxicab as tc
+from shapely.geometry import LineString
 
 sys.path.insert(0, "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary")
 from osm_to_tiles import line_to_bbox_list
@@ -103,8 +90,6 @@ def create_bbox_to_CCT(
                 dict_bbox_to_CCT[bbox].append(CCT)
             else:
                 dict_bbox_to_CCT[bbox] = [CCT]
-            # tuple
-            print(row)
 
     return dict_bbox_to_CCT
 
