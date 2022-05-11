@@ -1,3 +1,4 @@
+import networkx
 import osmnx as ox
 import taxicab as tc
 import matplotlib.pyplot as plt
@@ -25,44 +26,44 @@ for orig_dest in list_of_OD:
     G = ox.speed.add_edge_speeds(G)
     G = ox.speed.add_edge_travel_times(G)
 
-    # try:
-    route = tc.distance.shortest_path(G, orig, dest)
-    x_main, y_main = [], []
-    x_first, y_first = [], []
-    x_last, y_last = [], []
-    if route[1]:
-        for u, v in zip(route[1][:-1], route[1][1:]):
-            # if there are parallel edges, select the shortest in length
-            data = min(G.get_edge_data(u, v).values(), key=lambda d: d["length"])
-            if "geometry" in data:
-                # if geometry attribute exists, add all its coords to list
-                xs, ys = data["geometry"].xy
-                x_main.extend(xs)
-                y_main.extend(ys)
-            else:
-                # otherwise, the edge is a straight line from node to node
-                x_main.extend((G.nodes[u]["x"], G.nodes[v]["x"]))
-                y_main.extend((G.nodes[u]["y"], G.nodes[v]["y"]))
+    try:
+        route = tc.distance.shortest_path(G, orig, dest)
+        x_main, y_main = [], []
+        x_first, y_first = [], []
+        x_last, y_last = [], []
+        if route[1]:
+            for u, v in zip(route[1][:-1], route[1][1:]):
+                # if there are parallel edges, select the shortest in length
+                data = min(G.get_edge_data(u, v).values(), key=lambda d: d["length"])
+                if "geometry" in data:
+                    # if geometry attribute exists, add all its coords to list
+                    xs, ys = data["geometry"].xy
+                    x_main.extend(xs)
+                    y_main.extend(ys)
+                else:
+                    # otherwise, the edge is a straight line from node to node
+                    x_main.extend((G.nodes[u]["x"], G.nodes[v]["x"]))
+                    y_main.extend((G.nodes[u]["y"], G.nodes[v]["y"]))
 
-    # process partial edge first one
-    if route[2]:
-        x_first, y_first = zip(*route[2].coords)
+        # process partial edge first one
+        if route[2]:
+            x_first, y_first = zip(*route[2].coords)
 
-    # process partial edge last one
-    if route[3]:
-        x_last, y_last = zip(*route[3].coords)
+        # process partial edge last one
+        if route[3]:
+            x_last, y_last = zip(*route[3].coords)
 
-    lon_list = x_main + list(x_first) + list(x_last)
-    lat_list = y_main + list(y_first) + list(y_last)
+        lon_list = x_main + list(x_first) + list(x_last)
+        lat_list = y_main + list(y_first) + list(y_last)
 
-    XYcoord = np.column_stack((lat_list, lon_list)).flatten()
-    # at this point, we should get lat, lon, lat, lon, ......  and so on
+        XYcoord = np.column_stack((lat_list, lon_list)).flatten()
+        # at this point, we should get lat, lon, lat, lon, ......  and so on
 
-    print(XYcoord)
+        print(XYcoord)
 
-    # except:
-    #     print("Route not found! ")
-    #     continue
+    except networkx.exception.NetworkXNoPath:
+        print("Route not found! Error: networkx.exception.NetworkXNoPath between nodes")
+        continue
 
     fig, ax = tc.plot.plot_graph_route(G, route, node_size=30, show=False, close=False, figsize=(10, 10))
     padding = 0.001
