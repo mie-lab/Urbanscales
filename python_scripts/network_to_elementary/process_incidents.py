@@ -136,7 +136,6 @@ def create_bbox_to_CCT(
                 path_present_counter += 1
             except (UnboundLocalError, IndexError, networkx.exception.NetworkXNoPath) as e:
                 print("Route not found! Straight line used ")
-                path_missing_counter += 1
                 bbox_intersecting = line_to_bbox_list(
                     bbox_list,
                     [o_lat[i], o_lon[i], d_lat[i], d_lon[i]],
@@ -144,7 +143,9 @@ def create_bbox_to_CCT(
                     use_route_path=False,
                     route_linestring=None,
                 )
-                continue
+                path_missing_counter += 1
+
+
 
         for bbox in bbox_intersecting:
             if bbox in dict_bbox_to_CCT:
