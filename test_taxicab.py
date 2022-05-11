@@ -3,6 +3,7 @@ import osmnx as ox
 import taxicab as tc
 import matplotlib.pyplot as plt
 import numpy as np
+from shapely.geometry import LineString
 
 
 list_of_OD = [
@@ -56,8 +57,11 @@ for orig_dest in list_of_OD:
         lon_list = x_main + list(x_first) + list(x_last)
         lat_list = y_main + list(y_first) + list(y_last)
 
-        XYcoord = np.column_stack((lat_list, lon_list)).flatten()
+        XYcoord = (np.column_stack((lat_list, lon_list)).flatten()).tolist()
         # at this point, we should get lat, lon, lat, lon, ......  and so on
+
+        assert len(XYcoord) % 2 == 0
+        linestring = LineString(list(zip(XYcoord[0::2], XYcoord[1::2])))
 
         print(XYcoord)
 
