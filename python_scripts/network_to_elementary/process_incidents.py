@@ -66,7 +66,10 @@ def create_bbox_to_CCT(
     for i in range(incident_data.shape[0]):
         if not use_route_path:
             bbox_intersecting = line_to_bbox_list(
-                bbox_list, [o_lat[i], o_lon[i], d_lat[i], d_lon[i]], plotting_enabled=False
+                bbox_list,
+                [o_lat[i], o_lon[i], d_lat[i], d_lon[i]],
+                plotting_enabled=False,
+                use_route_path=use_route_path,
             )
         else:
             try:
@@ -75,7 +78,11 @@ def create_bbox_to_CCT(
                     graph_with_edge_travel_time, (o_lat[i], o_lon[i]), (d_lat[i], d_lon[i])
                 )
                 bbox_intersecting = line_to_bbox_list(
-                    bbox_list, None, plotting_enabled=False, route_linestring=route_linestring
+                    bbox_list,
+                    [o_lat[i], o_lon[i], d_lat[i], d_lon[i]],
+                    plotting_enabled=False,
+                    use_route_path=use_route_path,
+                    route_linestring=route_linestring,
                 )
                 path_present_counter += 1
             except:
@@ -88,8 +95,14 @@ def create_bbox_to_CCT(
                 dict_bbox_to_CCT[bbox].append(pd.to_timedelta(incident_data["lasting_time"][i]).total_seconds())
             else:
                 dict_bbox_to_CCT[bbox] = [pd.to_timedelta(incident_data["lasting_time"][i]).total_seconds()]
-        print("Route not found: ", path_missing_counter * 100 / (path_missing_counter + path_present_counter), "%")
-    print("Route not found: ", path_missing_counter * 100 / (path_missing_counter + path_present_counter), "%")
+
+        if use_route_path:
+            print("Route not found: ", path_missing_counter * 100 / (path_missing_counter + path_present_counter), "%")
+
+    if use_route_path:
+        print(
+            "Total route not found: ", path_missing_counter * 100 / (path_missing_counter + path_present_counter), "%"
+        )
 
     return dict_bbox_to_CCT
 

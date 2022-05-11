@@ -177,6 +177,6 @@ def step_3(min_, max_, step_):
 
 
 if __name__ == "__main__":
-    mean_cv_score_dict = step_3(10, 100, 10)
+    mean_cv_score_dict = step_3(10, 100, 5)
     for key in mean_cv_score_dict:
         print(key, mean_cv_score_dict[key])
