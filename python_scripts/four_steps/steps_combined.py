@@ -22,8 +22,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 
-server_path="/home/niskumar/WCS/python_scripts/network_to_elementary/"
-local_path= "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/"
+server_path = "/home/niskumar/WCS/python_scripts/network_to_elementary/"
+local_path = "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/"
 sys.path.insert(0, server_path)
 # step_1_osm_tiles_to_features( read_G_from_pickle=True, read_osm_tiles_stats_from_pickle=False, n_threads=7, N=50, plotting_enabled=True)
 
@@ -105,6 +105,7 @@ def step_2(N, folder_path):
         folder_path=folder_path,
         graph_with_edge_travel_time=auxiliary_func_G_for_curved_paths(),
         use_route_path=True,
+        read_curved_paths_from_pickle=True,
     )
 
     with open(folder_path + "osm_tiles_stats_dict" + str(N) + ".pickle", "rb") as f:
@@ -185,6 +186,6 @@ def step_3(min_, max_, step_):
 
 
 if __name__ == "__main__":
-    mean_cv_score_dict = step_3(10, 100, 5)
+    mean_cv_score_dict = step_3(10, 11, 5)
     for key in mean_cv_score_dict:
         print(key, mean_cv_score_dict[key])

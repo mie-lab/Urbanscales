@@ -17,7 +17,13 @@ from osm_to_tiles import line_to_bbox_list
 
 
 def create_bbox_to_CCT(
-    csv_file_name, read_from_pickle=True, N=100, folder_path="", use_route_path=False, graph_with_edge_travel_time=None
+    csv_file_name,
+    read_from_pickle=True,
+    N=100,
+    folder_path="",
+    use_route_path=False,
+    graph_with_edge_travel_time=None,
+    read_curved_paths_from_pickle=False,
 ):
     """
 
@@ -70,13 +76,14 @@ def create_bbox_to_CCT(
                 use_route_path,
                 graph_with_edge_travel_time,
                 incident_data,
+                read_curved_paths_from_pickle,
             )
         )
 
-    p = Pool(35)
+    p = Pool(40)
 
-    os.system("rm -rf temp_files")
-    os.system("mkdir temp_files")
+    # os.system("rm -rf temp_files")
+    # os.system("mkdir temp_files")
     p.map(helper_box_to_CCT, paramlist)
 
     os.system("cat temp_files/*.t > temp_files/combined_file.txt")
@@ -107,8 +114,9 @@ def helper_box_to_CCT(params):
         use_route_path,
         graph_with_edge_travel_time,
         incident_data,
+        read_curved_paths_from_pickle,
     ) = params
-    print(i)
+    # print(i)
     if not use_route_path:
         bbox_intersecting = line_to_bbox_list(
             bbox_list,
@@ -163,7 +171,15 @@ def helper_box_to_CCT(params):
             # at this point, we should get lat, lon, lat, lon, ......  and so on
 
             assert len(XYcoord) % 2 == 0
-            route_linestring = LineString(list(zip(XYcoord[0::2], XYcoord[1::2])))
+
+            picklefilename = "temp_files/" + str(i) + ".pickle"
+            if read_curved_paths_from_pickle:
+                with open(picklefilename, "rb") as handle:
+                    i, route_linestring = pickle.load(handle)
+            else:
+                route_linestring = LineString(list(zip(XYcoord[0::2], XYcoord[1::2])))
+                with open(picklefilename, "wb") as f:
+                    pickle.dump((i, route_linestring), f, protocol=pickle.HIGHEST_PROTOCOL)
 
             bbox_intersecting = line_to_bbox_list(
                 bbox_list,
@@ -182,7 +198,7 @@ def helper_box_to_CCT(params):
                 route_linestring=None,
             )
     for bbox in bbox_intersecting:
-        with open("temp_files/" + str(int(np.random.rand() * 1000000000000)) + ".t", "w") as f:
+        with open("temp_files/" + str(i) + ".t", "w") as f:
             f.write(str(bbox) + "-" + str(pd.to_timedelta(incident_data["lasting_time"][i]).total_seconds()) + "\n")
 
 
