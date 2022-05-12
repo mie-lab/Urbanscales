@@ -1,4 +1,6 @@
 # First, a uniform segmentation of the urban space into spatial grids is done and eight graph-based features are extracted for each grid.
+import os
+
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import cross_val_score
 
@@ -11,12 +13,18 @@ from shapely.geometry import Polygon
 import numpy as np
 import sys
 import osmnx as ox
+
+# import os
+# os.system("pip install -r requirements.txt")
+
 from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 
-sys.path.insert(0, "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary")
+server_path="/home/niskumar/WCS/python_scripts/network_to_elementary/"
+local_path= "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/"
+sys.path.insert(0, server_path)
 # step_1_osm_tiles_to_features( read_G_from_pickle=True, read_osm_tiles_stats_from_pickle=False, n_threads=7, N=50, plotting_enabled=True)
 
 
@@ -169,7 +177,7 @@ def step_3(min_, max_, step_):
     """
     mean_cv_score_dict = {}
     for N in range(min_, max_, step_):
-        X, Y = step_2(N, "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/")
+        X, Y = step_2(N, folder_path=server_path)
         X, Y = step_2a_extend_the_vectors(X, Y, expand_type="max")
         cv_score = step_2b_calculate_GOF(X, Y, "regression")
         mean_cv_score_dict[N] = cv_score

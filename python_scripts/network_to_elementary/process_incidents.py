@@ -10,7 +10,9 @@ import pandas as pd
 import taxicab as tc
 from shapely.geometry import LineString
 
-sys.path.insert(0, "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary")
+local_path = "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary"
+server_path = "/home/niskumar/WCS/python_scripts/network_to_elementary"
+sys.path.insert(0, server_path)
 from osm_to_tiles import line_to_bbox_list
 
 
@@ -54,8 +56,7 @@ def create_bbox_to_CCT(
         sys.exit()
 
     paramlist = []
-    # for i in range(incident_data.shape[0]):
-    for i in range(20):
+    for i in range(incident_data.shape[0]):
 
         paramlist.append(
             (
@@ -72,7 +73,7 @@ def create_bbox_to_CCT(
             )
         )
 
-    p = Pool(5)
+    p = Pool(35)
 
     os.system("rm -rf temp_files")
     os.system("mkdir temp_files")
@@ -171,7 +172,7 @@ def helper_box_to_CCT(params):
                 use_route_path=use_route_path,
                 route_linestring=route_linestring,
             )
-        except (UnboundLocalError, IndexError, networkx.exception.NetworkXNoPath) as e:
+        except (UnboundLocalError, IndexError, networkx.exception.NetworkXNoPath, KeyError) as e:
             print("Route not found! Straight line used ")
             bbox_intersecting = line_to_bbox_list(
                 bbox_list,

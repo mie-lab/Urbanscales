@@ -1,7 +1,8 @@
 import pickle
 import numpy as np
 from sklearn.cluster import DBSCAN, KMeans
-from yellowbrick.cluster.elbow import kelbow_visualizer
+
+# from yellowbrick.cluster.elbow import kelbow_visualizer
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
@@ -40,7 +41,7 @@ def get_gof_clustering(
         ).fit(X)
     elif clustering_algo == "kmeans":
 
-        kelbow_visualizer(KMeans(random_state=0), X, k=(2, 15))
+        # kelbow_visualizer(KMeans(random_state=0), X, k=(2, 15))
         plt.savefig("elbow_plot.png", dpi=300)
 
         distortion = []
