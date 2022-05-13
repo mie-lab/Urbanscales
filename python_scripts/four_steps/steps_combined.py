@@ -1,8 +1,19 @@
 # First, a uniform segmentation of the urban space into spatial grids is done and eight graph-based features are extracted for each grid.
 import os
 
+import sys
+import csv
+import pandas
+import matplotlib.pyplot as plt
+
+server_path = "/home/niskumar/WCS/python_scripts/network_to_elementary/"
+local_path = "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/"
+sys.path.insert(0, server_path)
+
+import time
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import cross_val_score
+from sklearn.decomposition import PCA
 
 from python_scripts.network_to_elementary.elf_to_clusters import osm_tiles_states_to_vectors
 from python_scripts.network_to_elementary.osm_to_tiles import fetch_road_network_from_osm_database
@@ -22,9 +33,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 
-server_path = "/home/niskumar/WCS/python_scripts/network_to_elementary/"
-local_path = "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/"
-sys.path.insert(0, server_path)
+
 # step_1_osm_tiles_to_features( read_G_from_pickle=True, read_osm_tiles_stats_from_pickle=False, n_threads=7, N=50, plotting_enabled=True)
 
 
@@ -98,14 +107,14 @@ def auxiliary_func_G_for_curved_paths():
 # step 2
 def step_2(N, folder_path):
 
-    dict_bbox_to_CCT = create_bbox_to_CCT(
+    dict_bbox_to_CCT_and_start_time = create_bbox_to_CCT(
         csv_file_name="combined_incidents_13_days.csv",
         read_from_pickle=True,
         N=N,
         folder_path=folder_path,
         graph_with_edge_travel_time=auxiliary_func_G_for_curved_paths(),
         use_route_path=True,
-        read_curved_paths_from_pickle=True,
+        read_curved_paths_from_pickle=False,
     )
 
     with open(folder_path + "osm_tiles_stats_dict" + str(N) + ".pickle", "rb") as f:
@@ -113,20 +122,28 @@ def step_2(N, folder_path):
 
     keys_bbox_list, vals_vector_array = osm_tiles_states_to_vectors(osm_tiles_stats_dict)
 
-    Y = []
-    X = []
-    count_present = 0
-    count_absent = 0
-    for count, key in enumerate(keys_bbox_list):
-        if key in dict_bbox_to_CCT:
-            Y.append(dict_bbox_to_CCT[key])
-            X.append(vals_vector_array[count])
-            count_present += 1
-        else:
-            count_absent += 1
-    print("2nd step: Count present in CCT file: ", count_present)
-    print("2nd step: Count absent in CCT file: ", count_absent)
-    return X, Y
+    X_t = {}
+    Y_t = {}
+    for hour in range(24):
+        Y = []
+        X = []
+        count_present = 0
+        count_absent = 0
+        for i, key in enumerate(keys_bbox_list):
+            if (key, hour) in dict_bbox_to_CCT_and_start_time:
+
+                    Y.append(dict_bbox_to_CCT_and_start_time[key, hour])
+                    X.append(vals_vector_array[i])
+                    count_present += 1
+                    print(dict_bbox_to_CCT_and_start_time[key, hour])
+
+            else:
+                count_absent += 1
+        X_t[hour] = X
+        Y_t[hour] = Y
+        print("2nd step: Count present in CCT file: @hour", hour, count_present)
+        print("2nd step: Count absent in CCT file: @hour", hour, count_absent)
+    return X_t, Y_t
 
 
 def step_2a_extend_the_vectors(X, Y, expand_type="duplicate"):
@@ -149,26 +166,31 @@ def step_2a_extend_the_vectors(X, Y, expand_type="duplicate"):
         elif expand_type == "max":
             x.append(X[i])
             y.append(max(Y[i]))
+        elif expand_type == "mean":
+            x.append(X[i])
+            y.append(np.mean(Y[i]))
     return np.array(x), np.array(y)
 
 
 def step_2b_calculate_GOF(X, Y, model="regression"):
     X_train, X_test, y_train, y_test = train_test_split(X, Y, train_size=0.9, random_state=0)
 
-    # ('scaler', StandardScaler())
+    # ('scaler', StandardScaler()),
+    # ("pca", PCA(n_components=5))
     pipe = Pipeline([("scaler", StandardScaler()), ("RF", RandomForestRegressor())])
     # The pipeline can be used as any other estimator
     # and avoids leaking the test set into the train set
     print(pipe.fit(X_train, y_train))
     print(pipe.score(X_test, y_test), " GoF measure")
 
-    scores = cross_val_score(pipe, X, Y, cv=5)
-    print("CV GoF measure: ", scores)
-    print("Mean CV (GoF):", np.mean(scores))
-    return np.mean(scores)
+    # scores = cross_val_score(pipe, X, Y, cv=7)
+    # print("CV GoF measure: ", scores)
+    # print("Mean CV (GoF):", np.mean(scores))
+    # return np.mean(scores)
+    return pipe.score(X_test, y_test)
 
 
-def step_3(min_, max_, step_):
+def step_3(min_, max_, step_, multiple_runs=1):
     """
 
     :param min_:
@@ -178,14 +200,57 @@ def step_3(min_, max_, step_):
     """
     mean_cv_score_dict = {}
     for N in range(min_, max_, step_):
-        X, Y = step_2(N, folder_path=server_path)
-        X, Y = step_2a_extend_the_vectors(X, Y, expand_type="max")
-        cv_score = step_2b_calculate_GOF(X, Y, "regression")
-        mean_cv_score_dict[N] = cv_score
+        X_t, Y_t = step_2(N, folder_path=server_path)
+        for hour in range(24):
+            X, Y = step_2a_extend_the_vectors(X_t[hour], Y_t[hour], expand_type="mean")
+            mean_cv_score_dict[N] = []
+            for m in range(multiple_runs):
+                cv_score = step_2b_calculate_GOF(X, Y, "regression")
+
+                mean_cv_score_dict[N].append(cv_score)
+
+            with open("temp_files/final_results.csv", "a") as f:
+                csvwriter = csv.writer(f)
+                csvwriter.writerow([N, hour] + mean_cv_score_dict[N])
+
     return mean_cv_score_dict
 
 
 if __name__ == "__main__":
-    mean_cv_score_dict = step_3(10, 11, 5)
-    for key in mean_cv_score_dict:
-        print(key, mean_cv_score_dict[key])
+    starttime = time.time()
+
+    RUN_MODE = "RUNNING"  # ["RUNNING", "PLOTTING"]:
+
+    MULTIPLE_RUN = 10
+    if RUN_MODE == "RUNNING":
+
+        with open("temp_files/final_results.csv", "w") as f:
+            csvwriter = csv.writer(f)
+            csvwriter.writerow(["grid_size", "hour"] + ["run_" + str(x) for x in range(1, MULTIPLE_RUN + 1)])
+
+            mean_cv_score_dict = step_3(100, 121, 10, multiple_runs=MULTIPLE_RUN)
+
+            # csvwriter.writerow(["Repeat after all runs, same as above"])
+            for grid_size in mean_cv_score_dict:
+                csvwriter.writerow([grid_size] + mean_cv_score_dict[grid_size])
+
+        print(round(time.time() - starttime, 2), " seconds")
+
+    elif RUN_MODE == "PLOTTING":
+        data = pandas.read_csv("temp_files/final_results.csv")
+        print(pandas.read_csv("temp_files/final_results.csv"))
+
+        # invert all values (to get the mse )
+        data[["run_" + str(i) for i in range(1, MULTIPLE_RUN + 1)]] = -data[
+            ["run_" + str(i) for i in range(1, MULTIPLE_RUN + 1)]
+        ]
+        data["max"] = data[["run_" + str(i) for i in range(1, MULTIPLE_RUN + 1)]].max(axis=1)
+        data["min"] = data[["run_" + str(i) for i in range(1, MULTIPLE_RUN + 1)]].min(axis=1)
+        data["median"] = data[["run_" + str(i) for i in range(1, MULTIPLE_RUN + 1)]].median(axis=1)
+
+        for col in ["min", "max", "median"]:
+            plt.plot(data["grid_size"], data[col], label=col)
+        plt.grid(True)
+        plt.legend()
+        plt.fill_between(data["grid_size"], data["min"], data["max"], color="yellow", alpha=0.4)
+        plt.show()

@@ -94,10 +94,12 @@ def create_bbox_to_CCT(
             listed = row.strip().split("-")
             bbox = eval(listed[0].strip())
             CCT = float(eval(listed[1].strip()))
-            if bbox in dict_bbox_to_CCT:
-                dict_bbox_to_CCT[bbox].append(CCT)
+            incident_start_hour = int(eval(listed[2].strip()))
+
+            if (bbox, incident_start_hour) in dict_bbox_to_CCT:
+                dict_bbox_to_CCT[bbox, incident_start_hour].append(CCT)
             else:
-                dict_bbox_to_CCT[bbox] = [CCT]
+                dict_bbox_to_CCT[bbox, incident_start_hour] = [CCT]
 
     return dict_bbox_to_CCT
 
@@ -199,7 +201,14 @@ def helper_box_to_CCT(params):
             )
     for bbox in bbox_intersecting:
         with open("temp_files/" + str(i) + ".t", "w") as f:
-            f.write(str(bbox) + "-" + str(pd.to_timedelta(incident_data["lasting_time"][i]).total_seconds()) + "\n")
+            f.write(
+                str(bbox)
+                + "-"
+                + str(pd.to_timedelta(incident_data["lasting_time"][i]).total_seconds())
+                + "-"
+                + str(pd.to_datetime(incident_data["start_time"][i]).hour)
+                + "\n"
+            )
 
 
 if __name__ == "__main__":

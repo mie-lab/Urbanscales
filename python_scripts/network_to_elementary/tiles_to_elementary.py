@@ -261,7 +261,7 @@ def step_1_osm_tiles_to_features(
 
 
 if __name__ == "__main__":
-    for N_iter in range(15, 100, 10):
+    for N_iter in range(150, 200, 10):
         step_1_osm_tiles_to_features(
             read_G_from_pickle=True, read_osm_tiles_stats_from_pickle=False, N=N_iter, plotting_enabled=False
         )
