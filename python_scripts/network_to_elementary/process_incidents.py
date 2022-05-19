@@ -43,7 +43,7 @@ def create_bbox_to_CCT(
             incident_data["d_lon"].to_numpy(),
         )
     except KeyError:
-        print ("Header missing in pandas datafrme;\n to be specific the incidents.csv file")
+        print("Header missing in pandas datafrme;\n to be specific the incidents.csv file")
         sys.exit()
 
     if read_OSM_tiles_dict_from_pickle:
@@ -90,19 +90,24 @@ def create_bbox_to_CCT(
     os.system("cat temp_files/*.t > temp_files/combined_file.txt")
     dict_bbox_to_CCT = {}
     print(os.getcwd())
+    list_of_dates = []
     with open("temp_files/combined_file.txt") as f:
         for row in f:
             listed = row.strip().split("-")
             bbox = eval(listed[0].strip())
             CCT = float(eval(listed[1].strip()))
             incident_start_hour = int(eval(listed[2].strip()))
+            incident_start_date = str(eval(listed[3].strip()))
 
             if (bbox, incident_start_hour) in dict_bbox_to_CCT:
-                dict_bbox_to_CCT[bbox, incident_start_hour].append(CCT)
+                dict_bbox_to_CCT[bbox, incident_start_hour, incident_start_date].append(CCT)
             else:
-                dict_bbox_to_CCT[bbox, incident_start_hour] = [CCT]
+                dict_bbox_to_CCT[bbox, incident_start_hour, incident_start_date] = [CCT]
 
-    return dict_bbox_to_CCT
+            list_of_dates.append(incident_start_date)
+
+    unique_dates_list = list(set(list_of_dates))
+    return dict_bbox_to_CCT, unique_dates_list
 
 
 def helper_box_to_CCT(params):
@@ -128,6 +133,8 @@ def helper_box_to_CCT(params):
         )
     else:
         try:
+            if np.random.rand() < 0.95:
+                return
 
             with warnings.catch_warnings():
                 warnings.filterwarnings("ignore", message="Geometry is in a geographic CRS. Results from 'distance'")
@@ -201,15 +208,18 @@ def helper_box_to_CCT(params):
             )
     for bbox in bbox_intersecting:
         with open("temp_files/" + str(i) + ".t", "w") as f:
+            pandas_dt = pd.to_datetime(incident_data["start_time"][i]).tz_localize("utc").tz_convert("Singapore")
             f.write(
                 str(bbox)
                 + "-"
                 + str(pd.to_timedelta(incident_data["lasting_time"][i]).total_seconds())
                 + "-"
-                + str(pd.to_datetime(incident_data["start_time"][i]).tz_localize('utc').tz_convert("Singapore").hour)
+                + str(pandas_dt.hour)
+                + "-"
+                + str(pandas_dt._date_repr)
                 + "\n"
             )
-
+            do_nothing = True # debug pit stop
 
 if __name__ == "__main__":
 

@@ -6,6 +6,7 @@ import csv
 import pandas
 import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error
+from unittest.mock import ANY
 
 server_path = "/home/niskumar/WCS/python_scripts/network_to_elementary/"
 local_path = "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/"
@@ -108,7 +109,7 @@ def auxiliary_func_G_for_curved_paths():
 # step 2
 def step_2(N, folder_path):
 
-    dict_bbox_to_CCT_and_start_time = create_bbox_to_CCT(
+    dict_bbox_to_CCT_and_start_time, unique_dates = create_bbox_to_CCT(
         csv_file_name="combined_incidents_45_days.csv",
         read_OSM_tiles_dict_from_pickle=True,
         N=N,
@@ -130,47 +131,92 @@ def step_2(N, folder_path):
         X = []
         count_present = 0
         count_absent = 0
-        for i, key in enumerate(keys_bbox_list):
-            if (key, hour) in dict_bbox_to_CCT_and_start_time:
 
-                Y.append(dict_bbox_to_CCT_and_start_time[key, hour])
-                X.append(vals_vector_array[i])
-                count_present += 1
-                print(dict_bbox_to_CCT_and_start_time[key, hour])
+        for date_ in unique_dates:
+            for i, bbox in enumerate(keys_bbox_list):
+                if (bbox, hour, date_) in dict_bbox_to_CCT_and_start_time:
 
-            else:
-                count_absent += 1
-        X_t[hour] = X
-        Y_t[hour] = Y
+                    Y.append(dict_bbox_to_CCT_and_start_time[bbox, hour, date_])
+                    X.append(vals_vector_array[i])
+                    count_present += 1
+                    # print(dict_bbox_to_CCT_and_start_time[key, hour])
+
+                else:
+                    count_absent += 1
+
+            X_t[hour, date_] = X
+            Y_t[hour, date_] = Y
+
         print("2nd step: Count present in CCT file: @hour", hour, count_present)
         print("2nd step: Count absent in CCT file: @hour", hour, count_absent)
     return X_t, Y_t
 
 
-def step_2a_extend_the_vectors(X, Y, expand_type="duplicate"):
-    """
-    We need to create copies of incidents when several incidents happen in the
-    same grid, Our first stab at this is to create multiple copies of the vector
+# def step_2a_extend_the_vectors(X, Y, expand_type="duplicate"):
+#     """
+#     We need to create copies of incidents when several incidents happen in the
+#     same grid, Our first stab at this is to create multiple copies of the vector
+#
+#     :param X:
+#     :param Y:
+#     :param expand_type: "duplicate" or "max"
+#     :return:
+#     """
+#     y = []
+#     x = []
+#     for i in range(len(Y)):
+#         if expand_type == "duplicate":
+#             for j in range(len(Y[i])):  # Y is a list of lists
+#                 x.append(X[i])
+#                 y.append(Y[i][j])
+#         elif expand_type == "max":
+#             x.append(X[i])
+#             y.append(max(Y[i]))
+#         elif expand_type == "mean":
+#             x.append(X[i])
+#             y.append(np.mean(Y[i]))
+#         elif expand_type =="mean_across_days_of_max_of_hours":
+#             for j in range(24):
+#                 if X[i]
+#         else:
+#             sys.exit("Wrong input in expand_type\n func:step_2a_extend_the_vectors")
+#     return np.array(x), np.array(y)
 
-    :param X:
-    :param Y:
-    :param expand_type: "duplicate" or "max"
+
+def incident_data_to_mean_of_hourly_max(X_t, Y_t, hour_):
+    """
+    X_t[hour, date_] = X
+    Y_t[hour, date_] = Y
+    where X is
+            Y.append(dict_bbox_to_CCT_and_start_time[bbox, hour, date_])
+            X.append(vals_vector_array[i])
+
+    In this function: X_t is vitually the same. All changes induced by
+    this function is into the Y_t variable
+
+    :param X_t:
+    :param Y_t:
     :return:
     """
-    y = []
-    x = []
-    for i in range(len(Y)):
-        if expand_type == "duplicate":
-            for j in range(len(Y[i])):  # Y is a list of lists
-                x.append(X[i])
-                y.append(Y[i][j])
-        elif expand_type == "max":
-            x.append(X[i])
-            y.append(max(Y[i]))
-        elif expand_type == "mean":
-            x.append(X[i])
-            y.append(np.mean(Y[i]))
-    return np.array(x), np.array(y)
+    list_of_dates = []
+    for h, d in X_t:
+        list_of_dates.append(d)
+    list_of_dates = list(set(list_of_dates))
+
+
+    for date_ in list_of_dates:
+
+        # max for each hour; for whole day; for this particular bbox
+        Y_t[hour_, date_] = max(Y_t[date_, hour])
+
+    t = []
+    for date_ in list_of_dates:
+        t.append(Y_t[hour_, date_])
+
+    # mean across dates
+    Y_t[hour_] = np.mean(t)
+
+    return np.array(X_t[hour_]), np.array(Y_t[hour_])
 
 
 def step_2b_calculate_GOF(X, Y, model="regression"):
@@ -212,11 +258,14 @@ def step_3(min_, max_, step_, multiple_runs=1, use_saved_vectors=False):
                 X_t, Y_t = pickle.load(f)
         else:
             X_t, Y_t = step_2(N, folder_path=server_path)
+
             with open("temp_files/" + "X_t_Y_t_" + str(N) + ".pickle", "wb") as f:
                 pickle.dump((X_t, Y_t), f, protocol=pickle.HIGHEST_PROTOCOL)
 
         for hour in range(24):
-            X, Y = step_2a_extend_the_vectors(X_t[hour], Y_t[hour], expand_type="mean")
+
+            # X, Y = step_2a_extend_the_vectors(X_t[hour], Y_t[hour])
+            X, Y = incident_data_to_mean_of_hourly_max(X_t, Y_t, hour)
             mean_cv_score_dict[N, hour] = []
             for m in range(multiple_runs):
                 cv_score = step_2b_calculate_GOF(X, Y, "regression")
@@ -253,7 +302,7 @@ if __name__ == "__main__":
                 + ["X_shape_0", "X_Shape_1", "Y_Shape_0", "Y_Shape_1"]
             )
 
-        mean_cv_score_dict = step_3(10, 175, 10, multiple_runs=MULTIPLE_RUN, use_saved_vectors=False)
+        mean_cv_score_dict = step_3(30, 50, 10, multiple_runs=MULTIPLE_RUN, use_saved_vectors=False)
 
         # csvwriter.writerow(["Repeat after all runs, same as above"])
         with open("temp_files/final_results_after_complete.csv", "w") as f:

@@ -63,10 +63,9 @@ def get_box_to_nodelist_map(G_osm: ox.graph, bbox_list, scale, N, read_from_pick
                     else:
                         bbox_to_points_map[bbox] = [node]
 
-            # enablePrint()
         with open(filename, "wb") as f:
             pickle.dump(bbox_to_points_map, f, protocol=pickle.HIGHEST_PROTOCOL)
-        enablePrint()
+
         return bbox_to_points_map
 
 
@@ -280,12 +279,15 @@ def step_1_osm_tiles_to_features(
 def generate_one_grid_size(N_iter):
 
     step_1_osm_tiles_to_features(
-        read_G_from_pickle=True, read_osm_tiles_stats_from_pickle=False, N=N_iter, plotting_enabled=False
+        read_G_from_pickle=True, read_osm_tiles_stats_from_pickle=False, N=N_iter, plotting_enabled=False, n_threads=80
     )
 
 
 if __name__ == "__main__":
-    with multiprocessing.Pool(10) as p:
-        p.map(generate_one_grid_size, list(range(170, 300, 10)))
+    # with multiprocessing.Pool(10) as p:
+    #     p.map(generate_one_grid_size, list(range(170, 300, 10)))
+
+    for scale in range(170, 300, 10):
+        generate_one_grid_size(scale)
 
     last_line = "dummy"
