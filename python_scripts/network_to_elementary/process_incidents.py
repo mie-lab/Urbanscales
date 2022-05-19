@@ -209,8 +209,6 @@ def helper_box_to_CCT(params):
                 + str(pd.to_datetime(incident_data["start_time"][i]).tz_localize('utc').tz_convert("Singapore").hour)
                 + "\n"
             )
-            print (str(pd.to_datetime(incident_data["start_time"][i]).tz_localize('utc').tz_convert("Singapore").hour) + " " * 100 + str(pd.to_datetime(incident_data["start_time"][i]).hour))
-
 
 
 if __name__ == "__main__":
