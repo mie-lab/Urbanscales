@@ -18,7 +18,7 @@ from osm_to_tiles import line_to_bbox_list
 
 def create_bbox_to_CCT(
     csv_file_name,
-    read_from_pickle=True,
+    read_OSM_tiles_dict_from_pickle=True,
     N=100,
     folder_path="",
     use_route_path=False,
@@ -35,14 +35,18 @@ def create_bbox_to_CCT(
     """
     incident_data = pd.read_csv(folder_path + csv_file_name)
     print(incident_data.head())
-    o_lat, o_lon, d_lat, d_lon = (
-        incident_data["o_lat"].to_numpy(),
-        incident_data["o_lon"].to_numpy(),
-        incident_data["d_lat"].to_numpy(),
-        incident_data["d_lon"].to_numpy(),
-    )
+    try:
+        o_lat, o_lon, d_lat, d_lon = (
+            incident_data["o_lat"].to_numpy(),
+            incident_data["o_lon"].to_numpy(),
+            incident_data["d_lat"].to_numpy(),
+            incident_data["d_lon"].to_numpy(),
+        )
+    except KeyError:
+        print ("Header missing in pandas datafrme;\n to be specific the incidents.csv file")
+        sys.exit()
 
-    if read_from_pickle:
+    if read_OSM_tiles_dict_from_pickle:
         bbox_list = []
         with open(folder_path + "osm_tiles_stats_dict" + str(N) + ".pickle", "rb") as handle:
             osm_tiles_stats_dict = pickle.load(handle)
@@ -80,10 +84,7 @@ def create_bbox_to_CCT(
             )
         )
 
-    p = Pool(40)
-
-    # os.system("rm -rf temp_files")
-    # os.system("mkdir temp_files")
+    p = Pool(30)
     p.map(helper_box_to_CCT, paramlist)
 
     os.system("cat temp_files/*.t > temp_files/combined_file.txt")
@@ -118,7 +119,6 @@ def helper_box_to_CCT(params):
         incident_data,
         read_curved_paths_from_pickle,
     ) = params
-    # print(i)
     if not use_route_path:
         bbox_intersecting = line_to_bbox_list(
             bbox_list,
@@ -206,9 +206,11 @@ def helper_box_to_CCT(params):
                 + "-"
                 + str(pd.to_timedelta(incident_data["lasting_time"][i]).total_seconds())
                 + "-"
-                + str(pd.to_datetime(incident_data["start_time"][i]).hour)
+                + str(pd.to_datetime(incident_data["start_time"][i]).tz_localize('utc').tz_convert("Singapore").hour)
                 + "\n"
             )
+            print (str(pd.to_datetime(incident_data["start_time"][i]).tz_localize('utc').tz_convert("Singapore").hour) + " " * 100 + str(pd.to_datetime(incident_data["start_time"][i]).hour))
+
 
 
 if __name__ == "__main__":

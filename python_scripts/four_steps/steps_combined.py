@@ -110,7 +110,7 @@ def step_2(N, folder_path):
 
     dict_bbox_to_CCT_and_start_time = create_bbox_to_CCT(
         csv_file_name="combined_incidents_45_days.csv",
-        read_from_pickle=True,
+        read_OSM_tiles_dict_from_pickle=True,
         N=N,
         folder_path=folder_path,
         graph_with_edge_travel_time=auxiliary_func_G_for_curved_paths(),
@@ -239,7 +239,7 @@ def box_plot_of_CCT_vs_hours():
 if __name__ == "__main__":
     starttime = time.time()
 
-    RUN_MODE = "PLOTTING"  # ["RUNNING", "PLOTTING"]:
+    RUN_MODE = "RUNNING"  # ["RUNNING", "PLOTTING"]:
     MULTIPLE_RUN = 10
     names_of_multiple_run_cols = ["run_" + str(i) for i in range(1, MULTIPLE_RUN + 1)]
 
@@ -253,7 +253,7 @@ if __name__ == "__main__":
                 + ["X_shape_0", "X_Shape_1", "Y_Shape_0", "Y_Shape_1"]
             )
 
-        mean_cv_score_dict = step_3(10, 175, 10, multiple_runs=MULTIPLE_RUN, use_saved_vectors=True)
+        mean_cv_score_dict = step_3(10, 175, 10, multiple_runs=MULTIPLE_RUN, use_saved_vectors=False)
 
         # csvwriter.writerow(["Repeat after all runs, same as above"])
         with open("temp_files/final_results_after_complete.csv", "w") as f:
