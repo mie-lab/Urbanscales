@@ -35,6 +35,7 @@ def create_bbox_to_CCT(
     """
     incident_data = pd.read_csv(folder_path + csv_file_name)
     print(incident_data.head())
+    os.system("rm temp_files/*.t temp_files/*.pickle")
     try:
         o_lat, o_lon, d_lat, d_lon = (
             incident_data["o_lat"].to_numpy(),
