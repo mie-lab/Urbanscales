@@ -1,11 +1,21 @@
+import multiprocessing
+
+import numpy as np
+
 from get_sg_osm import get_sg_poly, get_poly_from_bbox
 from python_scripts.network_to_elementary.osm_to_tiles import (
     fetch_road_network_from_osm_database,
     split_poly_to_bb,
     is_point_in_bounding_box,
 )
+import sys, os
 
-from tqdm import tqdm
+
+import os
+from multiprocessing import Pool
+from tqdm.auto import tqdm
+
+# from p_tqdm import p_map
 import multiprocessing as mp
 import matplotlib
 import matplotlib.pyplot as plt
@@ -17,14 +27,10 @@ from osmnx import stats as osxstats
 import osmnx as ox
 
 
-def get_box_to_nodelist_map(G_osm: ox.graph, bbox_list, scale, read_from_pickle=False):
+def get_box_to_nodelist_map(G_osm: ox.graph, bbox_list, scale, N, read_from_pickle=False):
     """
     This funciton is O(n^2) it can be made faster using hashing
     (depending on need)
-    :param G_osm:
-    :param bbox_list:
-    :param scale:
-    :return:
     """
     filename = "bbox_to_points_map_" + str(scale) + ".pickle"
     if read_from_pickle:
@@ -35,7 +41,16 @@ def get_box_to_nodelist_map(G_osm: ox.graph, bbox_list, scale, read_from_pickle=
     else:
         bbox_to_points_map = {}
         total_nodes = len(list(G_osm.nodes))
-        for node, tq in zip(G_osm.nodes, tqdm(range(total_nodes))):
+        for node, tq in zip(
+            G_osm.nodes,
+            tqdm(
+                range(total_nodes),
+                position=((N - 170) // 10),
+                desc=str(N) + "" * 30 * ((N - 170) // 10),
+                leave=True,
+            ),
+        ):
+            # for node, tq in zip(G_osm.nodes, (range(total_nodes))):
 
             # y is the lat, x is the lon (Out[20]: {'y': 1.2952316, 'x': 103.872544, 'street_count': 3})
             lat, lon = G_osm.nodes[node]["y"], G_osm.nodes[node]["x"]
@@ -47,14 +62,15 @@ def get_box_to_nodelist_map(G_osm: ox.graph, bbox_list, scale, read_from_pickle=
                         bbox_to_points_map[bbox].append(node)
                     else:
                         bbox_to_points_map[bbox] = [node]
-            pass
 
+            # enablePrint()
         with open(filename, "wb") as f:
             pickle.dump(bbox_to_points_map, f, protocol=pickle.HIGHEST_PROTOCOL)
+        enablePrint()
         return bbox_to_points_map
 
 
-def get_OSM_tiles(bbox_list, osm_graph, read_from_pickle):
+def get_OSM_tiles(bbox_list, osm_graph, read_from_pickle, N):
     """
     :param bbox_list:
     :param osm_graph:
@@ -65,7 +81,7 @@ def get_OSM_tiles(bbox_list, osm_graph, read_from_pickle):
     non_empty_count = 0
 
     bbox_to_points_map = get_box_to_nodelist_map(
-        osm_graph, bbox_list=bbox_list, scale=len(bbox_list), read_from_pickle=read_from_pickle
+        osm_graph, bbox_list=bbox_list, scale=len(bbox_list), N=N, read_from_pickle=read_from_pickle
     )
 
     for bbox in bbox_list:
@@ -233,6 +249,7 @@ def step_1_osm_tiles_to_features(
     G_OSM_dict, _error_ = get_OSM_tiles(
         osm_graph=G_OSM,
         bbox_list=split_poly_to_bb(get_sg_poly(), N, plotting_enabled=False),
+        N=N,
         read_from_pickle=read_osm_tiles_stats_from_pickle,
     )
 
@@ -260,9 +277,15 @@ def step_1_osm_tiles_to_features(
         tile_stats_to_images("output_images/tilestats/", osm_tiles_stats_dict)
 
 
+def generate_one_grid_size(N_iter):
+
+    step_1_osm_tiles_to_features(
+        read_G_from_pickle=True, read_osm_tiles_stats_from_pickle=False, N=N_iter, plotting_enabled=False
+    )
+
+
 if __name__ == "__main__":
-    for N_iter in range(150, 200, 10):
-        step_1_osm_tiles_to_features(
-            read_G_from_pickle=True, read_osm_tiles_stats_from_pickle=False, N=N_iter, plotting_enabled=False
-        )
+    with multiprocessing.Pool(10) as p:
+        p.map(generate_one_grid_size, list(range(170, 300, 10)))
+
     last_line = "dummy"

@@ -5,6 +5,7 @@ import sys
 import csv
 import pandas
 import matplotlib.pyplot as plt
+from sklearn.metrics import mean_squared_error
 
 server_path = "/home/niskumar/WCS/python_scripts/network_to_elementary/"
 local_path = "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/"
@@ -108,7 +109,7 @@ def auxiliary_func_G_for_curved_paths():
 def step_2(N, folder_path):
 
     dict_bbox_to_CCT_and_start_time = create_bbox_to_CCT(
-        csv_file_name="combined_incidents_13_days.csv",
+        csv_file_name="combined_incidents_45_days.csv",
         read_from_pickle=True,
         N=N,
         folder_path=folder_path,
@@ -132,10 +133,10 @@ def step_2(N, folder_path):
         for i, key in enumerate(keys_bbox_list):
             if (key, hour) in dict_bbox_to_CCT_and_start_time:
 
-                    Y.append(dict_bbox_to_CCT_and_start_time[key, hour])
-                    X.append(vals_vector_array[i])
-                    count_present += 1
-                    print(dict_bbox_to_CCT_and_start_time[key, hour])
+                Y.append(dict_bbox_to_CCT_and_start_time[key, hour])
+                X.append(vals_vector_array[i])
+                count_present += 1
+                print(dict_bbox_to_CCT_and_start_time[key, hour])
 
             else:
                 count_absent += 1
@@ -173,24 +174,29 @@ def step_2a_extend_the_vectors(X, Y, expand_type="duplicate"):
 
 
 def step_2b_calculate_GOF(X, Y, model="regression"):
-    X_train, X_test, y_train, y_test = train_test_split(X, Y, train_size=0.9, random_state=0)
+    try:
+        X_train, X_test, y_train, y_test = train_test_split(X, Y, train_size=0.9, random_state=int(time.time()))
 
-    # ('scaler', StandardScaler()),
-    # ("pca", PCA(n_components=5))
-    pipe = Pipeline([("scaler", StandardScaler()), ("RF", RandomForestRegressor())])
-    # The pipeline can be used as any other estimator
-    # and avoids leaking the test set into the train set
-    print(pipe.fit(X_train, y_train))
-    print(pipe.score(X_test, y_test), " GoF measure")
+        # ('scaler', StandardScaler()),
+        # ("pca", PCA(n_components=5))
+        pipe = Pipeline([("scaler", StandardScaler()), ("RF", RandomForestRegressor())])
+        # The pipeline can be used as any other estimator
+        # and avoids leaking the test set into the train set
+        print(pipe.fit(X_train, y_train))
+        print(pipe.score(X_test, y_test), " GoF measure")
 
-    # scores = cross_val_score(pipe, X, Y, cv=7)
-    # print("CV GoF measure: ", scores)
-    # print("Mean CV (GoF):", np.mean(scores))
-    # return np.mean(scores)
-    return pipe.score(X_test, y_test)
+        # scores = cross_val_score(pipe, X, Y, cv=7)
+        # print("CV GoF measure: ", scores)
+        # print("Mean CV (GoF):", np.mean(scores))
+        # return np.mean(scores)
+        # return pipe.score(X_test, y_test)
+        y_pred = pipe.predict(X_test)
+        return mean_squared_error(y_test, y_pred)
+    except:
+        return -99999
 
 
-def step_3(min_, max_, step_, multiple_runs=1):
+def step_3(min_, max_, step_, multiple_runs=1, use_saved_vectors=False):
     """
 
     :param min_:
@@ -200,39 +206,61 @@ def step_3(min_, max_, step_, multiple_runs=1):
     """
     mean_cv_score_dict = {}
     for N in range(min_, max_, step_):
-        X_t, Y_t = step_2(N, folder_path=server_path)
+
+        if use_saved_vectors:
+            with open("temp_files/" + "X_t_Y_t_" + str(N) + ".pickle", "rb") as f:
+                X_t, Y_t = pickle.load(f)
+        else:
+            X_t, Y_t = step_2(N, folder_path=server_path)
+            with open("temp_files/" + "X_t_Y_t_" + str(N) + ".pickle", "wb") as f:
+                pickle.dump((X_t, Y_t), f, protocol=pickle.HIGHEST_PROTOCOL)
+
         for hour in range(24):
             X, Y = step_2a_extend_the_vectors(X_t[hour], Y_t[hour], expand_type="mean")
-            mean_cv_score_dict[N] = []
+            mean_cv_score_dict[N, hour] = []
             for m in range(multiple_runs):
                 cv_score = step_2b_calculate_GOF(X, Y, "regression")
-
-                mean_cv_score_dict[N].append(cv_score)
+                mean_cv_score_dict[N, hour].append(cv_score)
 
             with open("temp_files/final_results.csv", "a") as f:
                 csvwriter = csv.writer(f)
-                csvwriter.writerow([N, hour] + mean_cv_score_dict[N])
+                csvwriter.writerow([N, hour] + mean_cv_score_dict[N, hour] + list(X.shape) + list(Y.shape))
 
     return mean_cv_score_dict
+
+
+def box_plot_of_CCT_vs_hours():
+    """
+    get all Y
+    :return:
+    """
 
 
 if __name__ == "__main__":
     starttime = time.time()
 
-    RUN_MODE = "RUNNING"  # ["RUNNING", "PLOTTING"]:
-
+    RUN_MODE = "PLOTTING"  # ["RUNNING", "PLOTTING"]:
     MULTIPLE_RUN = 10
+    names_of_multiple_run_cols = ["run_" + str(i) for i in range(1, MULTIPLE_RUN + 1)]
+
     if RUN_MODE == "RUNNING":
 
         with open("temp_files/final_results.csv", "w") as f:
             csvwriter = csv.writer(f)
+            csvwriter.writerow(
+                ["grid_size", "hour"]
+                + names_of_multiple_run_cols
+                + ["X_shape_0", "X_Shape_1", "Y_Shape_0", "Y_Shape_1"]
+            )
+
+        mean_cv_score_dict = step_3(10, 175, 10, multiple_runs=MULTIPLE_RUN, use_saved_vectors=True)
+
+        # csvwriter.writerow(["Repeat after all runs, same as above"])
+        with open("temp_files/final_results_after_complete.csv", "w") as f:
+            csvwriter = csv.writer(f)
             csvwriter.writerow(["grid_size", "hour"] + ["run_" + str(x) for x in range(1, MULTIPLE_RUN + 1)])
-
-            mean_cv_score_dict = step_3(100, 121, 10, multiple_runs=MULTIPLE_RUN)
-
-            # csvwriter.writerow(["Repeat after all runs, same as above"])
-            for grid_size in mean_cv_score_dict:
-                csvwriter.writerow([grid_size] + mean_cv_score_dict[grid_size])
+            for grid_size, hour in mean_cv_score_dict:
+                csvwriter.writerow([grid_size, hour] + mean_cv_score_dict[grid_size, hour])
 
         print(round(time.time() - starttime, 2), " seconds")
 
@@ -240,17 +268,35 @@ if __name__ == "__main__":
         data = pandas.read_csv("temp_files/final_results.csv")
         print(pandas.read_csv("temp_files/final_results.csv"))
 
-        # invert all values (to get the mse )
-        data[["run_" + str(i) for i in range(1, MULTIPLE_RUN + 1)]] = -data[
-            ["run_" + str(i) for i in range(1, MULTIPLE_RUN + 1)]
-        ]
-        data["max"] = data[["run_" + str(i) for i in range(1, MULTIPLE_RUN + 1)]].max(axis=1)
-        data["min"] = data[["run_" + str(i) for i in range(1, MULTIPLE_RUN + 1)]].min(axis=1)
-        data["median"] = data[["run_" + str(i) for i in range(1, MULTIPLE_RUN + 1)]].median(axis=1)
+        data = data.dropna(subset=names_of_multiple_run_cols)
 
-        for col in ["min", "max", "median"]:
-            plt.plot(data["grid_size"], data[col], label=col)
-        plt.grid(True)
-        plt.legend()
-        plt.fill_between(data["grid_size"], data["min"], data["max"], color="yellow", alpha=0.4)
+        for col in names_of_multiple_run_cols:
+            print(col)
+            data = data[data.eval(col) != -99999]
+
+        # invert all values (to get the mse)
+        #  not needed if not using pipeline
+        # data[names_of_multiple_run_cols] = -data[names_of_multiple_run_cols]
+
+        for hour_ in range(24):
+            hourly_data = data[data.hour == hour_]
+            if hourly_data.shape[0] == 0:
+                continue
+            print(data.shape, hourly_data.shape)
+            plotting_dict = {}
+            plotting_dict["max"] = hourly_data[names_of_multiple_run_cols].max(axis=1)
+            plotting_dict["min"] = hourly_data[names_of_multiple_run_cols].min(axis=1)
+            plotting_dict["median"] = hourly_data[names_of_multiple_run_cols].median(axis=1)
+
+            for col in ["median"]:  # min", "max",
+                print(hourly_data["grid_size"])
+                print(plotting_dict[col])
+                plt.plot(hourly_data["grid_size"], plotting_dict[col], label=col + "- hour" + str(hour_))
+            plt.grid(True)
+            plt.xlabel("Scale")
+            plt.legend(fontsize=8, loc="upper right")
+            # plt.yscale("log")
+            # plt.fill_between(hourly_data["grid_size"], plotting_dict["min"], plotting_dict["max"], color="yellow", alpha=0.4)
+
         plt.show()
+        print(data)
