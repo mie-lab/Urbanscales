@@ -93,11 +93,11 @@ def create_bbox_to_CCT(
     list_of_dates = []
     with open("temp_files/combined_file.txt") as f:
         for row in f:
-            listed = row.strip().split("-")
+            listed = row.strip().split(";")
             bbox = eval(listed[0].strip())
             CCT = float(eval(listed[1].strip()))
             incident_start_hour = int(eval(listed[2].strip()))
-            incident_start_date = str(eval(listed[3].strip()))
+            incident_start_date = str((listed[3].strip()))
 
             if (bbox, incident_start_hour) in dict_bbox_to_CCT:
                 dict_bbox_to_CCT[bbox, incident_start_hour, incident_start_date].append(CCT)
@@ -105,6 +105,7 @@ def create_bbox_to_CCT(
                 dict_bbox_to_CCT[bbox, incident_start_hour, incident_start_date] = [CCT]
 
             list_of_dates.append(incident_start_date)
+    os.system("rm temp_files/*.t temp_files/*.pickle")
 
     unique_dates_list = list(set(list_of_dates))
     return dict_bbox_to_CCT, unique_dates_list
@@ -133,7 +134,7 @@ def helper_box_to_CCT(params):
         )
     else:
         try:
-            if np.random.rand() < 0.95:
+            if np.random.rand() < 0.99:
                 return
 
             with warnings.catch_warnings():
@@ -211,11 +212,11 @@ def helper_box_to_CCT(params):
             pandas_dt = pd.to_datetime(incident_data["start_time"][i]).tz_localize("utc").tz_convert("Singapore")
             f.write(
                 str(bbox)
-                + "-"
+                + ";"
                 + str(pd.to_timedelta(incident_data["lasting_time"][i]).total_seconds())
-                + "-"
+                + ";"
                 + str(pandas_dt.hour)
-                + "-"
+                + ";"
                 + str(pandas_dt._date_repr)
                 + "\n"
             )
