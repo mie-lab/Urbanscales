@@ -108,8 +108,9 @@ def auxiliary_func_G_for_curved_paths():
 
 # step 2
 def step_2(N, folder_path):
+    # dict_bbox_to_CCT[bbox, incident_start_hour, incident_start_date].append(CCT)
 
-    dict_bbox_to_CCT_and_start_time, unique_dates = create_bbox_to_CCT(
+    dict_bbox_hour_date_to_CCT, unique_dates = create_bbox_to_CCT(
         csv_file_name="combined_incidents_45_days.csv",
         read_OSM_tiles_dict_from_pickle=True,
         N=N,
@@ -122,36 +123,28 @@ def step_2(N, folder_path):
     with open(folder_path + "osm_tiles_stats_dict" + str(N) + ".pickle", "rb") as f:
         osm_tiles_stats_dict = pickle.load(f)
 
-    keys_bbox_list, vals_vector_array = osm_tiles_states_to_vectors(osm_tiles_stats_dict)
+    dict_bbox_to_vectors = osm_tiles_states_to_vectors(osm_tiles_stats_dict)
 
     X_t = {}
     Y_t = {}
-    for hour in range(24):
-        Y = []
-        X = []
-        count_present = 0
-        count_absent = 0
 
-        for date_ in unique_dates:
-            for i, bbox in enumerate(keys_bbox_list):
-                if (bbox, hour, date_) in dict_bbox_to_CCT_and_start_time:
+    for (bbox, hour, date) in dict_bbox_hour_date_to_CCT:
+        try:
+            if (hour) not in Y_t:
+                Y_t[hour] = {}
+                X_t[hour] = {}
+            if bbox not in Y_t[hour]:
+                Y_t[hour][bbox] = []
+                X_t[hour][bbox] = dict_bbox_to_vectors[bbox]
 
-                    Y.append(dict_bbox_to_CCT_and_start_time[bbox, hour, date_])
-                    X.append(vals_vector_array[i])
-                    count_present += 1
-                    # print(dict_bbox_to_CCT_and_start_time[key, hour])
+            Y_t[hour][bbox].append((date, dict_bbox_hour_date_to_CCT[(bbox, hour, date)]))
 
-                else:
-                    count_absent += 1
-
-            assert len(Y) == len(X)
-
-            if len(Y) >= 1:
-                X_t[hour, date_] = X
-                Y_t[hour, date_] = Y
-
-        print("2nd step: Count present in CCT file: @hour", hour, count_present)
-        print("2nd step: Count absent in CCT file: @hour", hour, count_absent)
+        except:
+            print("Something wrong in steps_combined.py ")
+            sys.exit()
+    print("Len ( X_t )", len(X_t))
+    print("Len ( Y_t )", len(Y_t))
+    assert len(Y_t) == len(X_t)
     return X_t, Y_t
 
 
@@ -186,7 +179,7 @@ def step_2(N, folder_path):
 #     return np.array(x), np.array(y)
 
 
-def incident_data_to_mean_of_hourly_max(X_t, Y_t, hour_):
+def incident_data_to_mean_of_hourly_max(X_t, Y_t, hour_param):
     """
     X_t[hour, date_] = X
     Y_t[hour, date_] = Y
@@ -202,29 +195,64 @@ def incident_data_to_mean_of_hourly_max(X_t, Y_t, hour_):
     :return:
     """
     list_of_dates = []
-    for h, d in X_t:
-        list_of_dates.append(d)
+    for key in Y_t:
+        for bbox in Y_t[key]:
+            list_of_dates.append(Y_t[key][bbox][0][0])  # 0 is for the date
     list_of_dates = list(set(list_of_dates))
 
+    # step - I: Max of the hour, day combination
+    temp2 = {}
     for date_ in list_of_dates:
-
         # max for each hour; for whole day; for this particular bbox
-        if (hour_, date_) in Y_t and len(Y_t[hour_, date_]) >= 1:
-            Y_t[hour_, date_] = max(Y_t[hour_, date_])
+        for hour_ in Y_t:  # and len(Y_t[hour_, bbox]) >= 1:
+            for bbox in Y_t[hour_]:
+                if (date_, hour_, bbox) in temp2:
+                    if date_ == Y_t[hour_][bbox][0]:
+                        temp2[(date_, hour_, bbox)].append(Y_t[hour_][bbox][0][1])
+                else:
+                    if date_ == Y_t[hour_][bbox][0]:
+                        temp2[(date_, hour_, bbox)] = [(Y_t[hour_][bbox][0][1])]
+    for key in temp2:
+        temp2[key] = max(temp2[key])
 
-    t = []
+    # step - II: Mean across dates
+    temp3 = {}
     for date_ in list_of_dates:
-        if (hour_, date_) in Y_t:
-            t.append(Y_t[hour_, date_])
+        # max for each hour; for whole day; for this particular bbox
+        for hour_ in Y_t:  # and len(Y_t[hour_, bbox]) >= 1:
+            for bbox in Y_t[hour_]:  # and len(Y_t[hour_, bbox]) >= 1:
+                if (hour_, bbox) in temp3:
+                    if date_ == Y_t[hour_][bbox][0][0]:
 
-    # mean across dates
-    success_status = True
+                        temp3[hour_, bbox].append(temp2[(date_, hour_, bbox)])
+                else:
+                    if date_ == Y_t[hour_][bbox][0][0]:
+                        temp3[hour_, bbox] = [(temp2[(date_, hour_, bbox)])]
+
+    for hour_ in temp3:
+        for bbox in temp3[hour_]:
+            temp3[hour_, bbox] = np.mean(temp3[hour_, bbox])
+
+    # convert to the nested dicts (same as original Y_t format)
+    Y_t = {}
+    for hour_, bbox in temp3:
+        if hour_ not in Y_t:
+            Y_t[hour_] = {}
+
+        if bbox in Y_t[hour_]:
+            Y_t[hour_][bbox] = temp3[hour_, bbox]
+
     assert len(Y_t) == len(X_t)
 
-    if len(t) >= 1:
-        Y_t[hour_] = np.mean(t)
-        X = np.array(X_t[hour_])
-        Y = np.array(Y_t[hour_])
+    if len(Y_t[hour_param]) >= 1:
+        xx = []
+        yy = []
+        for bbox in Y_t[hour_param]:
+            xx.append(X_t[hour_param][bbox])
+            yy.append(Y_t[hour_param][bbox])
+        X = np.array(xx)
+        Y = np.array(yy)
+        print("X.shape, Y.shape, @ hour_param\n", X.shape, Y.shape, hour_param)
     else:
         success_status = False
         X = None
@@ -280,7 +308,6 @@ def step_3(min_, max_, step_, multiple_runs=1, use_saved_vectors=False):
 
             # X, Y = step_2a_extend_the_vectors(X_t[hour], Y_t[hour])
             X, Y, success_status = incident_data_to_mean_of_hourly_max(X_t, Y_t, hour)
-
 
             if not success_status:
                 # implies data is missing for this hour

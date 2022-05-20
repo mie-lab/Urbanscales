@@ -221,7 +221,8 @@ def helper_box_to_CCT(params):
                 + str(pandas_dt._date_repr)
                 + "\n"
             )
-            do_nothing = True # debug pit stop
+            do_nothing = True  # debug pit stop
+
 
 if __name__ == "__main__":
 

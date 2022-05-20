@@ -168,7 +168,7 @@ def osm_tiles_states_to_vectors(osm_tiles_stats_dict):
 
     vals_vector_array = np.array(vals_vector_list)
     vals_vector_array = impute_with_mean(vals_vector_array)
-    return keys_bbox_list, vals_vector_array
+    return dict(zip(keys_bbox_list, vals_vector_array))
 
 
 if __name__ == "__main__":
