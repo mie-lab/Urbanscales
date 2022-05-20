@@ -144,8 +144,11 @@ def step_2(N, folder_path):
                 else:
                     count_absent += 1
 
-            X_t[hour, date_] = X
-            Y_t[hour, date_] = Y
+            assert len(Y) == len(X)
+
+            if len(Y) >= 1:
+                X_t[hour, date_] = X
+                Y_t[hour, date_] = Y
 
         print("2nd step: Count present in CCT file: @hour", hour, count_present)
         print("2nd step: Count absent in CCT file: @hour", hour, count_absent)
@@ -203,20 +206,31 @@ def incident_data_to_mean_of_hourly_max(X_t, Y_t, hour_):
         list_of_dates.append(d)
     list_of_dates = list(set(list_of_dates))
 
-
     for date_ in list_of_dates:
 
         # max for each hour; for whole day; for this particular bbox
-        Y_t[hour_, date_] = max(Y_t[date_, hour])
+        if (hour_, date_) in Y_t and len(Y_t[hour_, date_]) >= 1:
+            Y_t[hour_, date_] = max(Y_t[hour_, date_])
 
     t = []
     for date_ in list_of_dates:
-        t.append(Y_t[hour_, date_])
+        if (hour_, date_) in Y_t:
+            t.append(Y_t[hour_, date_])
 
     # mean across dates
-    Y_t[hour_] = np.mean(t)
+    success_status = True
+    assert len(Y_t) == len(X_t)
 
-    return np.array(X_t[hour_]), np.array(Y_t[hour_])
+    if len(t) >= 1:
+        Y_t[hour_] = np.mean(t)
+        X = np.array(X_t[hour_])
+        Y = np.array(Y_t[hour_])
+    else:
+        success_status = False
+        X = None
+        Y = None
+
+    return X, Y, success_status
 
 
 def step_2b_calculate_GOF(X, Y, model="regression"):
@@ -265,7 +279,13 @@ def step_3(min_, max_, step_, multiple_runs=1, use_saved_vectors=False):
         for hour in range(24):
 
             # X, Y = step_2a_extend_the_vectors(X_t[hour], Y_t[hour])
-            X, Y = incident_data_to_mean_of_hourly_max(X_t, Y_t, hour)
+            X, Y, success_status = incident_data_to_mean_of_hourly_max(X_t, Y_t, hour)
+
+
+            if not success_status:
+                # implies data is missing for this hour
+                continue
+
             mean_cv_score_dict[N, hour] = []
             for m in range(multiple_runs):
                 cv_score = step_2b_calculate_GOF(X, Y, "regression")
