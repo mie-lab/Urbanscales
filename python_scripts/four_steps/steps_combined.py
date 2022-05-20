@@ -10,7 +10,7 @@ from unittest.mock import ANY
 
 server_path = "/home/niskumar/WCS/python_scripts/network_to_elementary/"
 local_path = "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/"
-sys.path.insert(0, server_path)
+sys.path.insert(0, local_path)
 
 import time
 from sklearn.ensemble import RandomForestRegressor
@@ -207,11 +207,11 @@ def incident_data_to_mean_of_hourly_max(X_t, Y_t, hour_param):
         for hour_ in Y_t:  # and len(Y_t[hour_, bbox]) >= 1:
             for bbox in Y_t[hour_]:
                 if (date_, hour_, bbox) in temp2:
-                    if date_ == Y_t[hour_][bbox][0]:
-                        temp2[(date_, hour_, bbox)].append(Y_t[hour_][bbox][0][1])
+                    if date_ == Y_t[hour_][bbox][0][0]:
+                        temp2[(date_, hour_, bbox)].append(Y_t[hour_][bbox][0][1][0])
                 else:
-                    if date_ == Y_t[hour_][bbox][0]:
-                        temp2[(date_, hour_, bbox)] = [(Y_t[hour_][bbox][0][1])]
+                    if date_ == Y_t[hour_][bbox][0][0]:
+                        temp2[(date_, hour_, bbox)] = [Y_t[hour_][bbox][0][1][0]]
     for key in temp2:
         temp2[key] = max(temp2[key])
 
@@ -299,7 +299,7 @@ def step_3(min_, max_, step_, multiple_runs=1, use_saved_vectors=False):
             with open("temp_files/" + "X_t_Y_t_" + str(N) + ".pickle", "rb") as f:
                 X_t, Y_t = pickle.load(f)
         else:
-            X_t, Y_t = step_2(N, folder_path=server_path)
+            X_t, Y_t = step_2(N, folder_path=local_path)
 
             with open("temp_files/" + "X_t_Y_t_" + str(N) + ".pickle", "wb") as f:
                 pickle.dump((X_t, Y_t), f, protocol=pickle.HIGHEST_PROTOCOL)

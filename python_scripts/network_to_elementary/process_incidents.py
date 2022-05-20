@@ -12,7 +12,7 @@ from shapely.geometry import LineString
 
 local_path = "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary"
 server_path = "/home/niskumar/WCS/python_scripts/network_to_elementary"
-sys.path.insert(0, server_path)
+sys.path.insert(0, local_path)
 from osm_to_tiles import line_to_bbox_list
 
 
@@ -85,7 +85,7 @@ def create_bbox_to_CCT(
             )
         )
 
-    p = Pool(30)
+    p = Pool(4)
     p.map(helper_box_to_CCT, paramlist)
 
     os.system("cat temp_files/*.t > temp_files/combined_file.txt")
@@ -135,7 +135,7 @@ def helper_box_to_CCT(params):
         )
     else:
         try:
-            if np.random.rand() < 0.99:
+            if np.random.rand() < 0.9:
                 return
 
             with warnings.catch_warnings():
