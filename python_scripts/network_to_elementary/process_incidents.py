@@ -1,8 +1,13 @@
+import multiprocessing
 import os
 import pickle
 import sys
 import warnings
 from multiprocessing import Pool
+from tqdm.contrib.concurrent import process_map  # or thread_map
+import time
+from p_tqdm import p_map
+from smartprint import smartprint
 
 import networkx
 import numpy as np
@@ -12,7 +17,7 @@ from shapely.geometry import LineString
 
 local_path = "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary"
 server_path = "/home/niskumar/WCS/python_scripts/network_to_elementary"
-sys.path.insert(0, local_path)
+sys.path.insert(0, server_path)
 from osm_to_tiles import line_to_bbox_list
 
 
@@ -35,7 +40,6 @@ def create_bbox_to_CCT(
     """
     incident_data = pd.read_csv(folder_path + csv_file_name)
     print(incident_data.head())
-    os.system("rm temp_files/*.t temp_files/*.pickle")
     try:
         o_lat, o_lon, d_lat, d_lon = (
             incident_data["o_lat"].to_numpy(),
@@ -84,14 +88,24 @@ def create_bbox_to_CCT(
                 read_curved_paths_from_pickle,
             )
         )
+    if read_curved_paths_from_pickle:
+        os.system("rm temp_files/dict_*.t temp_files/combined_file.txt")
+    else:
+        os.system("rm temp_files/dict_*.t temp_files/curved_*.pickle temp_files/combined_file.txt")
 
-    p = Pool(4)
-    p.map(helper_box_to_CCT, paramlist)
+    # r = p_map(helper_box_to_CCT, paramlist, num_cpus=55)
+    # r = process_map(helper_box_to_CCT, paramlist, max_workers=45, chunksize=1)
+    with multiprocessing.Pool(75) as p:
+        # p = Pool(45)
+        p.map(helper_box_to_CCT, paramlist)
 
-    os.system("cat temp_files/*.t > temp_files/combined_file.txt")
+    # combine files from each thread to a single csv file
+    os.system("cat temp_files/dict_*.t > temp_files/combined_file.txt")
+
     dict_bbox_to_CCT = {}
     print(os.getcwd())
     list_of_dates = []
+
     with open("temp_files/combined_file.txt") as f:
         for row in f:
             listed = row.strip().split(";")
@@ -106,10 +120,38 @@ def create_bbox_to_CCT(
                 dict_bbox_to_CCT[bbox, incident_start_hour, incident_start_date] = [CCT]
 
             list_of_dates.append(incident_start_date)
-    os.system("rm temp_files/*.t temp_files/*.pickle")
 
     unique_dates_list = list(set(list_of_dates))
+
+    # retain only the maximum for each key
+    for key in dict_bbox_to_CCT:
+        dict_bbox_to_CCT[key] = max(dict_bbox_to_CCT[key])
+
+    dict_bbox_to_CCT = convert_bbox_to_CCT_new_format(dict_bbox_to_CCT, unique_dates_list)
+
     return dict_bbox_to_CCT, unique_dates_list
+
+
+def convert_bbox_to_CCT_new_format(dict_bbox_to_CCT, unique_dates_list):
+    """
+    key: bbox
+    val = 2D array ( 24 * len(unique_dates_list) )
+    :return:
+    """
+    dict_bbox_to_CCT_new = {}
+
+    for key in dict_bbox_to_CCT:
+        # initialise each matrix with -1
+        bbox, incident_start_hour, incident_start_date = key
+        dict_bbox_to_CCT_new[bbox] = pd.DataFrame(
+            np.random.rand(24, len(unique_dates_list)) * 0 - 1, columns=unique_dates_list
+        )
+
+    for key in dict_bbox_to_CCT:
+        bbox, incident_start_hour, incident_start_date = key
+        dict_bbox_to_CCT_new[bbox].iloc[incident_start_hour][incident_start_date] = dict_bbox_to_CCT[key]
+
+    return dict_bbox_to_CCT_new
 
 
 def helper_box_to_CCT(params):
@@ -135,8 +177,8 @@ def helper_box_to_CCT(params):
         )
     else:
         try:
-            if np.random.rand() < 0.9:
-                return
+            # if np.random.rand() < 0.8:
+            #     return
 
             with warnings.catch_warnings():
                 warnings.filterwarnings("ignore", message="Geometry is in a geographic CRS. Results from 'distance'")
@@ -183,7 +225,7 @@ def helper_box_to_CCT(params):
 
             assert len(XYcoord) % 2 == 0
 
-            picklefilename = "temp_files/" + str(i) + ".pickle"
+            picklefilename = "temp_files/curved_" + str(i) + ".pickle"
             if read_curved_paths_from_pickle:
                 with open(picklefilename, "rb") as handle:
                     i, route_linestring = pickle.load(handle)
@@ -209,7 +251,7 @@ def helper_box_to_CCT(params):
                 route_linestring=None,
             )
     for bbox in bbox_intersecting:
-        with open("temp_files/" + str(i) + ".t", "w") as f:
+        with open("temp_files/dict_" + str(i) + ".t", "w") as f:
             pandas_dt = pd.to_datetime(incident_data["start_time"][i]).tz_localize("utc").tz_convert("Singapore")
             f.write(
                 str(bbox)
@@ -221,7 +263,7 @@ def helper_box_to_CCT(params):
                 + str(pandas_dt._date_repr)
                 + "\n"
             )
-            do_nothing = True  # debug pit stop
+        do_nothing = True  # debug pit stop
 
 
 if __name__ == "__main__":
