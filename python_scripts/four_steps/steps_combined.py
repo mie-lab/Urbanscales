@@ -7,6 +7,7 @@ import pandas
 import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error
 from unittest.mock import ANY
+from smartprint import smartprint as sprint
 
 server_path = "/home/niskumar/WCS/python_scripts/network_to_elementary/"
 local_path = "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/"
@@ -130,7 +131,7 @@ def generate_bbox_CCT_from_file(N, folder_path):
 
 
 # step 2
-def step_2(N, folder_path, read_bbox_CCT_from_file):
+def step_2(N, folder_path, read_bbox_CCT_from_file, plot_bboxes_on_route=False):
 
     if read_bbox_CCT_from_file:
         with open(folder_path + "dict_bbox_hour_date_to_CCT" + str(N) + ".pickle", "rb") as f1:
@@ -145,29 +146,35 @@ def step_2(N, folder_path, read_bbox_CCT_from_file):
     with open(folder_path + "osm_tiles_stats_dict" + str(N) + ".pickle", "rb") as f3:
         osm_tiles_stats_dict = pickle.load(f3)
 
-    dict_bbox_to_vectors = osm_tiles_states_to_vectors(osm_tiles_stats_dict)
+    dict_bbox_to_vectors = osm_tiles_states_to_vectors(osm_tiles_stats_dict, verbose=False)
 
-    X_t = {}
-    Y_t = {}
+    X = []
+    Y = []
 
-    for (bbox, hour, date) in dict_bbox_hour_date_to_CCT:
-        try:
-            if (hour) not in Y_t:
-                Y_t[hour] = {}
-                X_t[hour] = {}
-            if bbox not in Y_t[hour]:
-                Y_t[hour][bbox] = []
-                X_t[hour][bbox] = dict_bbox_to_vectors[bbox]
+    # the bbox file might have more grids than the incidents,
+    # but it cannot be the other way round; Plus the remaining boxes
+    # should be present in both dictionaries, hence the assert statement below
+    # remaining implies the grids/ bboxes with at least one incident throughout the 45 days
+    assert len(set(set(dict_bbox_to_vectors.keys() - dict_bbox_hour_date_to_CCT.keys()))) == len(
+        dict_bbox_to_vectors
+    ) - len(dict_bbox_hour_date_to_CCT)
 
-            Y_t[hour][bbox].append((date, dict_bbox_hour_date_to_CCT[(bbox, hour, date)]))
+    for bbox in dict_bbox_hour_date_to_CCT:
+        X.append(dict_bbox_to_vectors[bbox])
+        Y.append(dict_bbox_hour_date_to_CCT[bbox])
 
-        except:
-            print("Something wrong in steps_combined.py ")
-            sys.exit()
-    print("Len ( X_t )", len(X_t))
-    print("Len ( Y_t )", len(Y_t))
-    assert len(Y_t) == len(X_t)
-    return X_t, Y_t
+    if plot_bboxes_on_route:
+        lon_centre = []
+        lat_centre = []
+        for bbox in dict_bbox_hour_date_to_CCT.keys():
+            lon_centre.append((bbox[1] + bbox[3])/2)
+            lat_centre.append((bbox[0] + bbox[2])/2)
+
+        plt.scatter(lon_centre, lat_centre, marker="s", s=100/N)
+        plt.show()
+
+    sprint(N, len(dict_bbox_to_vectors))
+    return X, Y
 
 
 # def step_2a_extend_the_vectors(X, Y, expand_type="duplicate"):
@@ -203,13 +210,7 @@ def step_2(N, folder_path, read_bbox_CCT_from_file):
 
 def incident_data_to_mean_of_hourly_max(X_t, Y_t, hour_param):
     """
-    X_t[hour, date_] = X
-    Y_t[hour, date_] = Y
-    where X is
-            Y.append(dict_bbox_to_CCT_and_start_time[bbox, hour, date_])
-            X.append(vals_vector_array[i])
-
-    In this function: X_t is vitually the same. All changes induced by
+    In this function: X_t does not change. All changes induced by
     this function is into the Y_t variable
 
     :param X_t:
@@ -311,7 +312,15 @@ def step_2b_calculate_GOF(X, Y, model="regression"):
         return -99999
 
 
-def step_3(min_, max_, step_, multiple_runs=1, use_saved_vectors=False, read_bbox_CCT_from_file=False):
+def step_3(
+    min_,
+    max_,
+    step_,
+    multiple_runs=1,
+    use_saved_vectors=False,
+    read_bbox_CCT_from_file=True,
+    plot_bboxes_on_route=False,
+):
     """
 
     :param min_:
@@ -322,104 +331,117 @@ def step_3(min_, max_, step_, multiple_runs=1, use_saved_vectors=False, read_bbo
     mean_cv_score_dict = {}
     for N in range(min_, max_, step_):
 
-        if use_saved_vectors:
-            with open("temp_files/" + "X_t_Y_t_" + str(N) + ".pickle", "rb") as f:
-                X_t, Y_t = pickle.load(f)
-        else:
-            X_t, Y_t = step_2(N, folder_path=server_path, read_bbox_CCT_from_file=read_bbox_CCT_from_file)
+        # if use_saved_vectors:
+        #     with open("temp_files/" + "X_t_Y_t_" + str(N) + ".pickle", "rb") as f:
+        #         X_t, Y_t = pickle.load(f)
+        # else:
+        X, Y = step_2(
+            N,
+            folder_path=server_path,
+            read_bbox_CCT_from_file=read_bbox_CCT_from_file,
+            plot_bboxes_on_route=plot_bboxes_on_route,
+        )
+        sprint(len(X), len(Y))
 
-            with open("temp_files/" + "X_t_Y_t_" + str(N) + ".pickle", "wb") as f:
-                pickle.dump((X_t, Y_t), f, protocol=pickle.HIGHEST_PROTOCOL)
+        # with open("temp_files/" + "X_t_Y_t_" + str(N) + ".pickle", "wb") as f:
+        #     pickle.dump((X_t, Y_t), f, protocol=pickle.HIGHEST_PROTOCOL)
 
         for hour in range(24):
 
             # X, Y = step_2a_extend_the_vectors(X_t[hour], Y_t[hour])
-            X, Y, success_status = incident_data_to_mean_of_hourly_max(X_t, Y_t, hour)
+            # X, Y, success_status = incident_data_to_mean_of_hourly_max(X_t, Y_t, hour)
+            #
+            # if not success_status:
+            #     # implies data is missing for this hour
+            #     continue
+            #
+            # mean_cv_score_dict[N, hour] = []
+            # for m in range(multiple_runs):
+            #     cv_score = step_2b_calculate_GOF(X, Y, "regression")
+            #     mean_cv_score_dict[N, hour].append(cv_score)
+            #
+            # with open("temp_files/final_results.csv", "a") as f:
+            #     csvwriter = csv.writer(f)
+            #     csvwriter.writerow([N, hour] + mean_cv_score_dict[N, hour] + list(X.shape) + list(Y.shape))
+            do_nothing = True
 
-            if not success_status:
-                # implies data is missing for this hour
-                continue
-
-            mean_cv_score_dict[N, hour] = []
-            for m in range(multiple_runs):
-                cv_score = step_2b_calculate_GOF(X, Y, "regression")
-                mean_cv_score_dict[N, hour].append(cv_score)
-
-            with open("temp_files/final_results.csv", "a") as f:
-                csvwriter = csv.writer(f)
-                csvwriter.writerow([N, hour] + mean_cv_score_dict[N, hour] + list(X.shape) + list(Y.shape))
-
-    return mean_cv_score_dict
-
-
-# if __name__ == "__main__":
-#     starttime = time.time()
-#
-#     RUN_MODE = "RUNNING"  # ["RUNNING", "PLOTTING"]:
-#     MULTIPLE_RUN = 10
-#     names_of_multiple_run_cols = ["run_" + str(i) for i in range(1, MULTIPLE_RUN + 1)]
-#
-#     if RUN_MODE == "RUNNING":
-#
-#         with open("temp_files/final_results.csv", "w") as f:
-#             csvwriter = csv.writer(f)
-#             csvwriter.writerow(
-#                 ["grid_size", "hour"]
-#                 + names_of_multiple_run_cols
-#                 + ["X_shape_0", "X_Shape_1", "Y_Shape_0", "Y_Shape_1"]
-#             )
-#
-#         mean_cv_score_dict = step_3(
-#             10, 150, 10, multiple_runs=MULTIPLE_RUN, use_saved_vectors=False, read_bbox_CCT_from_file=False
-#         )
-#
-#         # csvwriter.writerow(["Repeat after all runs, same as above"])
-#         with open("temp_files/final_results_after_complete.csv", "w") as f:
-#             csvwriter = csv.writer(f)
-#             csvwriter.writerow(["grid_size", "hour"] + ["run_" + str(x) for x in range(1, MULTIPLE_RUN + 1)])
-#             for grid_size, hour in mean_cv_score_dict:
-#                 csvwriter.writerow([grid_size, hour] + mean_cv_score_dict[grid_size, hour])
-#
-#         print(round(time.time() - starttime, 2), " seconds")
-#
-#     elif RUN_MODE == "PLOTTING":
-#         data = pandas.read_csv("temp_files/final_results.csv")
-#         print(pandas.read_csv("temp_files/final_results.csv"))
-#
-#         data = data.dropna(subset=names_of_multiple_run_cols)
-#
-#         for col in names_of_multiple_run_cols:
-#             print(col)
-#             data = data[data.eval(col) != -99999]
-#
-#         # invert all values (to get the mse)
-#         #  not needed if not using pipeline
-#         # data[names_of_multiple_run_cols] = -data[names_of_multiple_run_cols]
-#
-#         for hour_ in range(24):
-#             hourly_data = data[data.hour == hour_]
-#             if hourly_data.shape[0] == 0:
-#                 continue
-#             print(data.shape, hourly_data.shape)
-#             plotting_dict = {}
-#             plotting_dict["max"] = hourly_data[names_of_multiple_run_cols].max(axis=1)
-#             plotting_dict["min"] = hourly_data[names_of_multiple_run_cols].min(axis=1)
-#             plotting_dict["median"] = hourly_data[names_of_multiple_run_cols].median(axis=1)
-#
-#             for col in ["median"]:  # min", "max",
-#                 print(hourly_data["grid_size"])
-#                 print(plotting_dict[col])
-#                 plt.plot(hourly_data["grid_size"], plotting_dict[col], label=col + "- hour" + str(hour_))
-#             plt.grid(True)
-#             plt.xlabel("Scale")
-#             plt.legend(fontsize=8, loc="upper right")
-#             # plt.yscale("log")
-#             # plt.fill_between(hourly_data["grid_size"], plotting_dict["min"], plotting_dict["max"], color="yellow", alpha=0.4)
-#
-#         plt.show()
-#         print(data)
+    # return mean_cv_score_dict
 
 
 if __name__ == "__main__":
-    for N in range(10, 210, 10):
-        generate_bbox_CCT_from_file(N, folder_path=server_path)
+    starttime = time.time()
+
+    RUN_MODE = "RUNNING"  # ["RUNNING", "PLOTTING"]:
+    MULTIPLE_RUN = 10
+    names_of_multiple_run_cols = ["run_" + str(i) for i in range(1, MULTIPLE_RUN + 1)]
+
+    if RUN_MODE == "RUNNING":
+
+        with open("temp_files/final_results.csv", "w") as f:
+            csvwriter = csv.writer(f)
+            csvwriter.writerow(
+                ["grid_size", "hour"]
+                + names_of_multiple_run_cols
+                + ["X_shape_0", "X_Shape_1", "Y_Shape_0", "Y_Shape_1"]
+            )
+
+        mean_cv_score_dict = step_3(
+            10,
+            210,
+            10,
+            multiple_runs=MULTIPLE_RUN,
+            use_saved_vectors=False,
+            read_bbox_CCT_from_file=True,
+            plot_bboxes_on_route=True,
+        )
+
+        # csvwriter.writerow(["Repeat after all runs, same as above"])
+        # with open("temp_files/final_results_after_complete.csv", "w") as f:
+        #     csvwriter = csv.writer(f)
+        #     csvwriter.writerow(["grid_size", "hour"] + ["run_" + str(x) for x in range(1, MULTIPLE_RUN + 1)])
+        #     for grid_size, hour in mean_cv_score_dict:
+        #         csvwriter.writerow([grid_size, hour] + mean_cv_score_dict[grid_size, hour])
+
+        print(round(time.time() - starttime, 2), " seconds")
+
+    elif RUN_MODE == "PLOTTING":
+        data = pandas.read_csv("temp_files/final_results.csv")
+        print(pandas.read_csv("temp_files/final_results.csv"))
+
+        data = data.dropna(subset=names_of_multiple_run_cols)
+
+        for col in names_of_multiple_run_cols:
+            print(col)
+            data = data[data.eval(col) != -99999]
+
+        # invert all values (to get the mse)
+        #  not needed if not using pipeline
+        # data[names_of_multiple_run_cols] = -data[names_of_multiple_run_cols]
+
+        for hour_ in range(24):
+            hourly_data = data[data.hour == hour_]
+            if hourly_data.shape[0] == 0:
+                continue
+            print(data.shape, hourly_data.shape)
+            plotting_dict = {}
+            plotting_dict["max"] = hourly_data[names_of_multiple_run_cols].max(axis=1)
+            plotting_dict["min"] = hourly_data[names_of_multiple_run_cols].min(axis=1)
+            plotting_dict["median"] = hourly_data[names_of_multiple_run_cols].median(axis=1)
+
+            for col in ["median"]:  # min", "max",
+                print(hourly_data["grid_size"])
+                print(plotting_dict[col])
+                plt.plot(hourly_data["grid_size"], plotting_dict[col], label=col + "- hour" + str(hour_))
+            plt.grid(True)
+            plt.xlabel("Scale")
+            plt.legend(fontsize=8, loc="upper right")
+            # plt.yscale("log")
+            # plt.fill_between(hourly_data["grid_size"], plotting_dict["min"], plotting_dict["max"], color="yellow", alpha=0.4)
+
+        plt.show()
+        print(data)
+
+
+# if __name__ == "__main__":
+#     for N in range(10, 210, 10):
+#         generate_bbox_CCT_from_file(N, folder_path=server_path)

@@ -94,31 +94,33 @@ def get_gof_clustering(
     # print (clustering.labels_)
 
 
-def impute_with_mean(vals_vector_array):
-    print("Input features shape: ", vals_vector_array.shape)
-    print(
-        "Number of nan's:",
-        np.count_nonzero(np.isnan(vals_vector_array)),
-        "\n At the following locations ",
-        np.argwhere(np.isnan(vals_vector_array)),
-    )
-    print("we replace the missing values with the mean of that column")
+def impute_with_mean(vals_vector_array, verbose):
+    if verbose:
+        print("Input features shape: ", vals_vector_array.shape)
+        print(
+            "Number of nan's:",
+            np.count_nonzero(np.isnan(vals_vector_array)),
+            "\n At the following locations ",
+            np.argwhere(np.isnan(vals_vector_array)),
+        )
+        print("we replace the missing values with the mean of that column")
     nan_index = np.argwhere(np.isnan(vals_vector_array))
     impute_mean = np.nanmean(vals_vector_array[:, 10])
     vals_vector_array[nan_index] = impute_mean
 
-    print("After imputing\n")
-    print(
-        "Number of nan's:",
-        np.count_nonzero(np.isnan(vals_vector_array)),
-        "\n At the following locations ",
-        np.argwhere(np.isnan(vals_vector_array)),
-        "\n\n",
-    )
+    if verbose:
+        print("After imputing\n")
+        print(
+            "Number of nan's:",
+            np.count_nonzero(np.isnan(vals_vector_array)),
+            "\n At the following locations ",
+            np.argwhere(np.isnan(vals_vector_array)),
+            "\n\n",
+        )
     return vals_vector_array
 
 
-def osm_tiles_states_to_vectors(osm_tiles_stats_dict):
+def osm_tiles_states_to_vectors(osm_tiles_stats_dict, verbose):
     """
     {'n': 13,
     'm': 14,
@@ -135,6 +137,8 @@ def osm_tiles_states_to_vectors(osm_tiles_stats_dict):
      'street_length_avg': 65.09564285714285,
      'circuity_avg': 0.999997647629181,
      'self_loop_proportion': 0.0}
+
+     params: verbose
     """
 
     keys_bbox_list = []
@@ -167,7 +171,7 @@ def osm_tiles_states_to_vectors(osm_tiles_stats_dict):
         vals_vector_list.append(single_vector)
 
     vals_vector_array = np.array(vals_vector_list)
-    vals_vector_array = impute_with_mean(vals_vector_array)
+    vals_vector_array = impute_with_mean(vals_vector_array, verbose=verbose)
     return dict(zip(keys_bbox_list, vals_vector_array))
 
 
