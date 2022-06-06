@@ -4,11 +4,14 @@ import pickle
 import sys
 import warnings
 
+import matplotlib.pyplot as plt
 import networkx
 import numpy as np
 import pandas as pd
 import taxicab as tc
 from shapely.geometry import LineString
+from smartprint import smartprint as sprint
+from tqdm import tqdm
 
 local_path = "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary"
 server_path = "/home/niskumar/WCS/python_scripts/network_to_elementary"
@@ -24,6 +27,7 @@ def create_bbox_to_CCT(
     use_route_path=False,
     graph_with_edge_travel_time=None,
     read_curved_paths_from_pickle=False,
+    plotting_enabled=False,
 ):
     """
 
@@ -66,6 +70,7 @@ def create_bbox_to_CCT(
         sys.exit()
 
     paramlist = []
+    min_lon, max_lon, min_lat, max_lat = graph_with_edge_travel_time[1]
     for i in range(incident_data.shape[0]):
 
         paramlist.append(
@@ -78,9 +83,11 @@ def create_bbox_to_CCT(
                 d_lat,
                 d_lon,
                 use_route_path,
-                graph_with_edge_travel_time,
+                graph_with_edge_travel_time[0],
                 incident_data,
                 read_curved_paths_from_pickle,
+                plotting_enabled,
+                (min_lon, max_lon, min_lat, max_lat),
             )
         )
     if read_curved_paths_from_pickle:
@@ -90,9 +97,10 @@ def create_bbox_to_CCT(
 
     # r = p_map(helper_box_to_CCT, paramlist, num_cpus=55)
     # r = process_map(helper_box_to_CCT, paramlist, max_workers=45, chunksize=1)
-    with multiprocessing.Pool(75) as p:
+    with multiprocessing.Pool(35) as p:
         # p = Pool(45)
-        p.map(helper_box_to_CCT, paramlist)
+        tqdm(p.map(helper_box_to_CCT, paramlist), total=len(paramlist))
+        # p.map(helper_box_to_CCT, paramlist)
 
     # combine files from each thread to a single csv file
     os.system("cat temp_files/dict_*.t > temp_files/combined_file.txt")
@@ -162,6 +170,8 @@ def helper_box_to_CCT(params):
         graph_with_edge_travel_time,
         incident_data,
         read_curved_paths_from_pickle,
+        plotting_enabled,
+        (min_lon, max_lon, min_lat, max_lat),
     ) = params
     if not use_route_path:
         bbox_intersecting = line_to_bbox_list(
@@ -170,6 +180,19 @@ def helper_box_to_CCT(params):
             plotting_enabled=False,
             use_route_path=use_route_path,
         )
+        if plotting_enabled:
+            lat_list = []
+            lon_list = []
+            for lat1, lon1, lat2, lon2 in bbox_intersecting:
+                lat_list.append((lat1 + lat2) / 2)
+                lon_list.append((lon1 + lon2) / 2)
+            plt.scatter(lon_list, lat_list, s=0.5, color="blue")
+            plt.scatter(o_lon[i], o_lat[i], s=3, color="green")
+            plt.scatter(d_lon[i], d_lat[i], s=3, color="red")
+            plt.xlim(min_lon, max_lon)
+            plt.ylim(min_lat, max_lat)
+            plt.show()
+
     else:
         try:
             # if np.random.rand() < 0.8:
@@ -215,6 +238,14 @@ def helper_box_to_CCT(params):
             lon_list = x_main + list(x_first) + list(x_last)
             lat_list = y_main + list(y_first) + list(y_last)
 
+            if plotting_enabled:
+                plt.scatter(lon_list, lat_list, s=0.5, color="blue")
+                plt.scatter(lon_list[0], lat_list[0], s=3, color="green")
+                plt.scatter(lon_list[-1], lat_list[-1], s=3, color="red")
+                plt.xlim(min_lon, max_lon)
+                plt.ylim(min_lat, max_lat)
+                plt.show()
+
             XYcoord = (np.column_stack((lat_list, lon_list)).flatten()).tolist()
             # at this point, we should get lat, lon, lat, lon, ......  and so on
 
@@ -236,6 +267,7 @@ def helper_box_to_CCT(params):
                 use_route_path=use_route_path,
                 route_linestring=route_linestring,
             )
+
         except (UnboundLocalError, IndexError, networkx.exception.NetworkXNoPath, KeyError) as e:
             print("Route not found! Straight line used ")
             bbox_intersecting = line_to_bbox_list(
@@ -268,6 +300,7 @@ if __name__ == "__main__":
         read_from_pickle=True,
         N=50,
         folder_path="/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/",
+        plotting_enabled=True,
     )
 
     do_nothing = True

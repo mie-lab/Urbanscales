@@ -35,59 +35,68 @@ from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
+from smartprint import smartprint as sprint
 
 
 # step_1_osm_tiles_to_features( read_G_from_pickle=True, read_osm_tiles_stats_from_pickle=False, n_threads=7, N=50, plotting_enabled=True)
 
 
 def auxiliary_func_G_for_curved_paths():
+    sg_bbox_poly = [
+        [103.96078535200013, 1.39109935100015],
+        [103.98568769600007, 1.38544342700007],
+        [103.99952233200003, 1.38031647300005],
+        [104.00342858200003, 1.374172268000066],
+        [103.99187259200011, 1.354925848000036],
+        [103.97486412900014, 1.334458726000065],
+        [103.95435631600009, 1.318101304000052],
+        [103.93189537900008, 1.311468817000076],
+        [103.90723717500009, 1.308742580000114],
+        [103.88770592500003, 1.301255601000136],
+        [103.85271243600005, 1.277289130000085],
+        [103.84693444100009, 1.271918036000045],
+        [103.84408613400012, 1.268500067000034],
+        [103.83887780000003, 1.266262111000046],
+        [103.82601972700007, 1.264308986000089],
+        [103.80160566500007, 1.264797268000081],
+        [103.78956139400003, 1.26788971600007],
+        [103.78443444100003, 1.273871161000088],
+        [103.77588951900009, 1.287583726000108],
+        [103.75513756600003, 1.297105210000012],
+        [103.73015384200011, 1.302923895000063],
+        [103.70875084700003, 1.305243231000119],
+        [103.66529381600009, 1.304103908000087],
+        [103.6476343110001, 1.308417059000092],
+        [103.64039147200003, 1.322251695000091],
+        [103.64470462300005, 1.338039455000043],
+        [103.67457116000003, 1.38031647300005],
+        [103.67888431100005, 1.399237372000073],
+        [103.68384850400008, 1.40989817900001],
+        [103.69507897200009, 1.421332098000065],
+        [103.70834394600013, 1.429388739000089],
+        [103.7179468110001, 1.430975653000118],
+        [103.73975670700008, 1.428127346000082],
+        [103.76221764400009, 1.430975653000118],
+        [103.79004967500003, 1.444281317000048],
+        [103.80494225400008, 1.448635158000045],
+        [103.83155358200003, 1.447088934000092],
+        [103.85718834700009, 1.438706773000135],
+        [103.93246504000007, 1.401109117000132],
+        [103.96078535200013, 1.39109935100015],
+    ]
     geo = {
         "type": "Polygon",
-        "coordinates": [
-            [
-                [103.96078535200013, 1.39109935100015],
-                [103.98568769600007, 1.38544342700007],
-                [103.99952233200003, 1.38031647300005],
-                [104.00342858200003, 1.374172268000066],
-                [103.99187259200011, 1.354925848000036],
-                [103.97486412900014, 1.334458726000065],
-                [103.95435631600009, 1.318101304000052],
-                [103.93189537900008, 1.311468817000076],
-                [103.90723717500009, 1.308742580000114],
-                [103.88770592500003, 1.301255601000136],
-                [103.85271243600005, 1.277289130000085],
-                [103.84693444100009, 1.271918036000045],
-                [103.84408613400012, 1.268500067000034],
-                [103.83887780000003, 1.266262111000046],
-                [103.82601972700007, 1.264308986000089],
-                [103.80160566500007, 1.264797268000081],
-                [103.78956139400003, 1.26788971600007],
-                [103.78443444100003, 1.273871161000088],
-                [103.77588951900009, 1.287583726000108],
-                [103.75513756600003, 1.297105210000012],
-                [103.73015384200011, 1.302923895000063],
-                [103.70875084700003, 1.305243231000119],
-                [103.66529381600009, 1.304103908000087],
-                [103.6476343110001, 1.308417059000092],
-                [103.64039147200003, 1.322251695000091],
-                [103.64470462300005, 1.338039455000043],
-                [103.67457116000003, 1.38031647300005],
-                [103.67888431100005, 1.399237372000073],
-                [103.68384850400008, 1.40989817900001],
-                [103.69507897200009, 1.421332098000065],
-                [103.70834394600013, 1.429388739000089],
-                [103.7179468110001, 1.430975653000118],
-                [103.73975670700008, 1.428127346000082],
-                [103.76221764400009, 1.430975653000118],
-                [103.79004967500003, 1.444281317000048],
-                [103.80494225400008, 1.448635158000045],
-                [103.83155358200003, 1.447088934000092],
-                [103.85718834700009, 1.438706773000135],
-                [103.93246504000007, 1.401109117000132],
-                [103.96078535200013, 1.39109935100015],
-            ]
-        ],
+        "coordinates": [sg_bbox_poly],
     }
+
+    array_bbox_poly = np.array(sg_bbox_poly)
+    min_lon, max_lon, min_lat, max_lat = (
+        array_bbox_poly[:, 0].min(),
+        array_bbox_poly[:, 0].max(),
+        array_bbox_poly[:, 1].min(),
+        array_bbox_poly[:, 1].max(),
+    )
+
     poly = Polygon([tuple(l) for l in geo["coordinates"][0]])
 
     # G_proj = osm.project_graph(G)
@@ -104,10 +113,10 @@ def auxiliary_func_G_for_curved_paths():
 
     G = ox.speed.add_edge_speeds(G)
     G = ox.speed.add_edge_travel_times(G)
-    return G
+    return G, (min_lon, max_lon, min_lat, max_lat)
 
 
-def generate_bbox_CCT_from_file(N, folder_path):
+def generate_bbox_CCT_from_file(N, folder_path, generate_incidents_routes=False):
     """
 
     :param N:
@@ -122,8 +131,9 @@ def generate_bbox_CCT_from_file(N, folder_path):
         N=N,
         folder_path=folder_path,
         graph_with_edge_travel_time=auxiliary_func_G_for_curved_paths(),
-        use_route_path=True,
+        use_route_path=False,
         read_curved_paths_from_pickle=False,
+        plotting_enabled=generate_incidents_routes,
     )
     yahan_pahuch_Gaye = "True"
     with open(folder_path + "dict_bbox_hour_date_to_CCT" + str(N) + ".pickle", "wb") as f2:
@@ -131,16 +141,17 @@ def generate_bbox_CCT_from_file(N, folder_path):
 
 
 # step 2
-def step_2(N, folder_path, read_bbox_CCT_from_file, plot_bboxes_on_route=False):
+def step_2(N, folder_path, read_bbox_CCT_from_file, plot_bboxes_on_route=False, generate_incidents_routes=False):
+    if not read_bbox_CCT_from_file:
+        generate_bbox_CCT_from_file(N, folder_path, generate_incidents_routes)
 
-    if read_bbox_CCT_from_file:
         with open(folder_path + "dict_bbox_hour_date_to_CCT" + str(N) + ".pickle", "rb") as f1:
             dict_bbox_hour_date_to_CCT = pickle.load(f1)
-
-    elif read_bbox_CCT_from_file == False:
-        generate_bbox_CCT_from_file(N, folder_path, read_bbox_CCT_from_file)
+    elif read_bbox_CCT_from_file:
+        with open(folder_path + "dict_bbox_hour_date_to_CCT" + str(N) + ".pickle", "rb") as f1:
+            dict_bbox_hour_date_to_CCT = pickle.load(f1)
     else:
-        print("Something wrong in step 2;  Exiting execution")
+        print("Something wrong in step 2; Exiting execution")
         sys.exit()
 
     with open(folder_path + "osm_tiles_stats_dict" + str(N) + ".pickle", "rb") as f3:
@@ -167,13 +178,14 @@ def step_2(N, folder_path, read_bbox_CCT_from_file, plot_bboxes_on_route=False):
         lon_centre = []
         lat_centre = []
         for bbox in dict_bbox_hour_date_to_CCT.keys():
-            lon_centre.append((bbox[1] + bbox[3])/2)
-            lat_centre.append((bbox[0] + bbox[2])/2)
+            lon_centre.append((bbox[1] + bbox[3]) / 2)
+            lat_centre.append((bbox[0] + bbox[2]) / 2)
 
-        plt.scatter(lon_centre, lat_centre, marker="s", s=100/N)
+        plt.scatter(lon_centre, lat_centre, marker="s", s=100 / N)
         plt.show()
 
     sprint(N, len(dict_bbox_to_vectors))
+    sprint(len(X), len(Y))
     return X, Y
 
 
@@ -208,15 +220,16 @@ def step_2(N, folder_path, read_bbox_CCT_from_file, plot_bboxes_on_route=False):
 #     return np.array(x), np.array(y)
 
 
+"""
 def incident_data_to_mean_of_hourly_max(X_t, Y_t, hour_param):
-    """
-    In this function: X_t does not change. All changes induced by
-    this function is into the Y_t variable
-
-    :param X_t:
-    :param Y_t:
-    :return:
-    """
+    # 
+    # In this function: X_t does not change. All changes induced by
+    # this function is into the Y_t variable
+    # 
+    # :param X_t:
+    # :param Y_t:
+    # :return:
+    # 
     list_of_dates = []
     for key in Y_t:
         for bbox in Y_t[key]:
@@ -288,6 +301,8 @@ def incident_data_to_mean_of_hourly_max(X_t, Y_t, hour_param):
 
     return X, Y, success_status
 
+"""
+
 
 def step_2b_calculate_GOF(X, Y, model="regression"):
     try:
@@ -320,6 +335,7 @@ def step_3(
     use_saved_vectors=False,
     read_bbox_CCT_from_file=True,
     plot_bboxes_on_route=False,
+    generate_incidents_routes=False,
 ):
     """
 
@@ -340,8 +356,8 @@ def step_3(
             folder_path=server_path,
             read_bbox_CCT_from_file=read_bbox_CCT_from_file,
             plot_bboxes_on_route=plot_bboxes_on_route,
+            generate_incidents_routes=generate_incidents_routes,
         )
-        sprint(len(X), len(Y))
 
         # with open("temp_files/" + "X_t_Y_t_" + str(N) + ".pickle", "wb") as f:
         #     pickle.dump((X_t, Y_t), f, protocol=pickle.HIGHEST_PROTOCOL)
@@ -368,6 +384,8 @@ def step_3(
     # return mean_cv_score_dict
 
 
+"""
+
 if __name__ == "__main__":
     starttime = time.time()
 
@@ -386,13 +404,14 @@ if __name__ == "__main__":
             )
 
         mean_cv_score_dict = step_3(
-            10,
-            210,
+            30,
+            40,
             10,
             multiple_runs=MULTIPLE_RUN,
             use_saved_vectors=False,
-            read_bbox_CCT_from_file=True,
-            plot_bboxes_on_route=True,
+            read_bbox_CCT_from_file=False,
+            plot_bboxes_on_route=False,
+            generate_incidents_routes=True,
         )
 
         # csvwriter.writerow(["Repeat after all runs, same as above"])
@@ -440,8 +459,8 @@ if __name__ == "__main__":
 
         plt.show()
         print(data)
+"""
 
-
-# if __name__ == "__main__":
-#     for N in range(10, 210, 10):
-#         generate_bbox_CCT_from_file(N, folder_path=server_path)
+if __name__ == "__main__":
+    for N in range(30, 40, 10):
+        generate_bbox_CCT_from_file(N, folder_path=server_path, generate_incidents_routes=False)
