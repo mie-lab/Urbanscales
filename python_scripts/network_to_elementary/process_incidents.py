@@ -150,9 +150,14 @@ def convert_bbox_to_CCT_new_format(dict_bbox_to_CCT, unique_dates_list):
             np.random.rand(24, len(unique_dates_list)) * 0 - 1, columns=unique_dates_list
         )
 
+    list_of_bboxes = []
     for key in dict_bbox_to_CCT:
         bbox, incident_start_hour, incident_start_date = key
+        list_of_bboxes.append(bbox)
         dict_bbox_to_CCT_new[bbox].iloc[incident_start_hour][incident_start_date] = dict_bbox_to_CCT[key]
+
+    assert len(dict_bbox_to_CCT_new) == len(set(list_of_bboxes))
+
 
     return dict_bbox_to_CCT_new
 
