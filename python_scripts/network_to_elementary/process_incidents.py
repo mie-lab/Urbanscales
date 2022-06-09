@@ -42,9 +42,21 @@ def create_bbox_to_CCT(
 
     # we noticed some incidents had the same lat-lon locaiton
     # the overall number is small (~400 out of ~7900; see Issue #53 for details), so we just drop them
-    incident_data.drop(incident_data[incident_data["dist (km)"] ==0 ].index, inplace=True)
+    incident_data.drop(incident_data[incident_data["dist (km)"] == 0].index, inplace=True)
 
-    sprint("After removal", incident_data.shape)
+    # filter the lat, lons which lie outside the study region
+    min_lon, max_lon, min_lat, max_lat = graph_with_edge_travel_time[1]
+    incident_data.drop(incident_data[incident_data["o_lat"] > max_lat].index, inplace=True)
+    incident_data.drop(incident_data[incident_data["o_lon"] > max_lon].index, inplace=True)
+    incident_data.drop(incident_data[incident_data["d_lat"] > max_lat].index, inplace=True)
+    incident_data.drop(incident_data[incident_data["d_lon"] > max_lon].index, inplace=True)
+
+    incident_data.drop(incident_data[incident_data["o_lat"] < min_lat].index, inplace=True)
+    incident_data.drop(incident_data[incident_data["o_lon"] < min_lon].index, inplace=True)
+    incident_data.drop(incident_data[incident_data["d_lat"] < min_lat].index, inplace=True)
+    incident_data.drop(incident_data[incident_data["d_lon"] < min_lon].index, inplace=True)
+
+    sprint("After two rounds of removal", incident_data.shape)
 
     try:
         o_lat, o_lon, d_lat, d_lon = (
@@ -77,9 +89,6 @@ def create_bbox_to_CCT(
         sys.exit()
 
     paramlist = []
-
-    # only for keeping the boundary same in all plots
-    min_lon, max_lon, min_lat, max_lat = graph_with_edge_travel_time[1]
 
     for i in range(incident_data.shape[0]):
 
@@ -300,10 +309,11 @@ def helper_box_to_CCT(params):
             )
 
     try:
-        assert (len(bbox_intersecting) >= 1)
+        assert len(bbox_intersecting) >= 1
     except:
         debug_pitstop = True
         import time
+
         time.sleep(10000)
 
     for bbox in bbox_intersecting:

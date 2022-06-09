@@ -89,7 +89,6 @@ def line_to_bbox_list(bb_list, od_lat_lon_line, plotting_enabled=False, use_rout
 
     # od_lat_lon_line =  [o_lat[i], o_lon[i], d_lat[i], d_lon[i]] passed
 
-
     # bb_list: list of all bounding boxes (for each grid in the city)
     for bbox in bb_list:
 
@@ -114,7 +113,8 @@ def line_to_bbox_list(bb_list, od_lat_lon_line, plotting_enabled=False, use_rout
 
     if plotting_enabled:
         plt.savefig("line_to_bbox.png", dpi=300)
-        plt.plot([od_lat_lon_line[1], od_lat_lon_line[3]], [od_lat_lon_line[0], od_lat_lon_line[2]], color="blue")
+        plt.scatter(od_lat_lon_line[1], od_lat_lon_line[0], color="green", s=2)
+        plt.scatter(od_lat_lon_line[3], od_lat_lon_line[2], color="red", s=2)
         plt.show()
 
     return list_of_bbs
