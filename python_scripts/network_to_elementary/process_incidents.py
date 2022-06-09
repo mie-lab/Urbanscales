@@ -38,7 +38,14 @@ def create_bbox_to_CCT(
     :return:
     """
     incident_data = pd.read_csv(folder_path + csv_file_name)
-    print(incident_data.head())
+    sprint("Before removal", incident_data.shape)
+
+    # we noticed some incidents had the same lat-lon locaiton
+    # the overall number is small (~400 out of ~7900; see Issue #53 for details), so we just drop them
+    incident_data.drop(incident_data[incident_data["dist (km)"] ==0 ].index, inplace=True)
+
+    sprint("After removal", incident_data.shape)
+
     try:
         o_lat, o_lon, d_lat, d_lon = (
             incident_data["o_lat"].to_numpy(),
@@ -102,8 +109,8 @@ def create_bbox_to_CCT(
     # r = process_map(helper_box_to_CCT, paramlist, max_workers=45, chunksize=1)
     with multiprocessing.Pool(35) as p:
         # p = Pool(45)
-        tqdm(p.map(helper_box_to_CCT, paramlist), total=len(paramlist))
-        # p.map(helper_box_to_CCT, paramlist)
+        # tqdm(p.map(helper_box_to_CCT, paramlist), total=len(paramlist))
+        p.map(helper_box_to_CCT, paramlist)
 
     # combine files from each thread to a single csv file
     os.system("cat temp_files/dict_*.t > temp_files/combined_file.txt")
@@ -292,7 +299,12 @@ def helper_box_to_CCT(params):
                 route_linestring=None,
             )
 
-    assert (len(bbox_intersecting) >= 1)
+    try:
+        assert (len(bbox_intersecting) >= 1)
+    except:
+        debug_pitstop = True
+        import time
+        time.sleep(10000)
 
     for bbox in bbox_intersecting:
         with open("temp_files/dict_" + str(i) + ".t", "w") as f:
