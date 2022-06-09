@@ -3,7 +3,8 @@ import os
 import pickle
 import sys
 import warnings
-
+import csv
+import matplotlib.patches
 import matplotlib.pyplot as plt
 import networkx
 import numpy as np
@@ -113,16 +114,23 @@ def create_bbox_to_CCT(
         os.system("rm temp_files/dict_*.t temp_files/combined_file.txt")
     else:
         os.system("rm temp_files/dict_*.t temp_files/curved_*.pickle temp_files/combined_file.txt")
+        os.system("rm temp_files/false_ODs*.txt temp_files/true_ODs*.txt")
 
     # r = p_map(helper_box_to_CCT, paramlist, num_cpus=55)
     # r = process_map(helper_box_to_CCT, paramlist, max_workers=45, chunksize=1)
-    with multiprocessing.Pool(35) as p:
+    with multiprocessing.Pool(25) as p:
         # p = Pool(45)
         # tqdm(p.map(helper_box_to_CCT, paramlist), total=len(paramlist))
         p.map(helper_box_to_CCT, paramlist)
 
     # combine files from each thread to a single csv file
     os.system("cat temp_files/dict_*.t > temp_files/combined_file.txt")
+    os.system("cat temp_files/false_ODs*.txt > temp_files/combined_file_false_ODs")
+    os.system("cat temp_files/true_ODs*.txt > temp_files/combined_file_true_ODs")
+
+    plot_scatter_for_true_and_false_incidents(
+        "temp_files/combined_file_true_ODs", "temp_files/combined_file_false_ODs", bbox_list
+    )
 
     dict_bbox_to_CCT = {}
     print(os.getcwd())
@@ -153,6 +161,39 @@ def create_bbox_to_CCT(
     dict_bbox_to_CCT = convert_bbox_to_CCT_new_format(dict_bbox_to_CCT, unique_dates_list)
 
     return dict_bbox_to_CCT, unique_dates_list
+
+
+def plot_scatter_for_true_and_false_incidents(truefile, falsefile, bb_list):
+
+    # od_lat_lon_line =  [o_lat[i], o_lon[i], d_lat[i], d_lon[i]] passed
+
+    # bb_list: list of all bounding boxes (for each grid in the city)
+    for bbox in bb_list:
+        lat1, lon1, lat2, lon2 = bbox
+        centre_lon = 0.5 * (lon1 + lon2)
+        centre_lat = 0.5 * (lat1 + lat2)
+        plt.scatter(centre_lon, centre_lat, s=3, color="black")
+        # plt.gca().add_patch(
+        #     matplotlib.patches.Rectangle((lon1, lat1), lon2 - lon1, lat2 - lat1, lw=0.8, alpha=0.5, color="yellow")
+        # )
+
+    with open(truefile) as f:
+        for row in f:
+            o_lat, o_lon, d_lat, d_lon = row.strip().split(",")
+            o_lat, o_lon, d_lat, d_lon = [float(x) for x in [o_lat, o_lon, d_lat, d_lon]]
+            plt.scatter(o_lon, o_lat, color="green", s=2)
+            plt.scatter(d_lon, d_lat, color="green", s=2)
+
+    with open(falsefile) as f:
+        for row in f:
+            o_lat, o_lon, d_lat, d_lon = row.strip().split(",")
+            o_lat, o_lon, d_lat, d_lon = [float(x) for x in [o_lat, o_lon, d_lat, d_lon]]
+            plt.scatter(o_lon, o_lat, color="red", s=2)
+            plt.scatter(d_lon, d_lat, color="red", s=2)
+
+    plt.xticks([])
+    plt.yticks([])
+    plt.show()
 
 
 def convert_bbox_to_CCT_new_format(dict_bbox_to_CCT, unique_dates_list):
@@ -209,6 +250,7 @@ def helper_box_to_CCT(params):
             [o_lat[i], o_lon[i], d_lat[i], d_lon[i]],
             plotting_enabled=False,
             use_route_path=use_route_path,
+            gca_patch=False,
         )
         if plotting_enabled:
             lat_list = []
@@ -310,11 +352,16 @@ def helper_box_to_CCT(params):
 
     try:
         assert len(bbox_intersecting) >= 1
+        with open("temp_files/true_ODs" + str(i) + ".txt", "w") as f2:
+            csvwriter = csv.writer(f2)
+            csvwriter.writerow([o_lat[i], o_lon[i], d_lat[i], d_lon[i]])
+
     except:
         debug_pitstop = True
-        import time
-
-        time.sleep(10000)
+        warnings.warn("Some lines ignored: i value: " + str(i))
+        with open("temp_files/false_ODs" + str(i) + ".txt", "w") as f2:
+            csvwriter = csv.writer(f2)
+            csvwriter.writerow([o_lat[i], o_lon[i], d_lat[i], d_lon[i]])
 
     for bbox in bbox_intersecting:
         with open("temp_files/dict_" + str(i) + ".t", "w") as f:

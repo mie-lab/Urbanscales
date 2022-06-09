@@ -84,7 +84,19 @@ def is_bounding_box_on_line(bb, od_lat_lon_line, use_route_path=False, route_lin
     return polygon.intersection(linestring)
 
 
-def line_to_bbox_list(bb_list, od_lat_lon_line, plotting_enabled=False, use_route_path=False, route_linestring=False):
+def line_to_bbox_list(
+    bb_list, od_lat_lon_line, plotting_enabled=False, use_route_path=False, route_linestring=False, gca_patch=False
+):
+    """
+    gca_patch is super slow
+    :param bb_list:
+    :param od_lat_lon_line:
+    :param plotting_enabled:
+    :param use_route_path:
+    :param route_linestring:
+    :param gca_patch:
+    :return:
+    """
     list_of_bbs = []
 
     # od_lat_lon_line =  [o_lat[i], o_lon[i], d_lat[i], d_lon[i]] passed
@@ -107,14 +119,23 @@ def line_to_bbox_list(bb_list, od_lat_lon_line, plotting_enabled=False, use_rout
             centre_lon = 0.5 * (lon1 + lon2)
             centre_lat = 0.5 * (lat1 + lat2)
             plt.scatter(centre_lon, centre_lat, s=0.3, color="black")
-            plt.gca().add_patch(
-                matplotlib.patches.Rectangle((lon1, lat1), lon2 - lon1, lat2 - lat1, lw=0.8, alpha=0.5, color=color)
-            )
+            if gca_patch:
+                plt.gca().add_patch(
+                    matplotlib.patches.Rectangle((lon1, lat1), lon2 - lon1, lat2 - lat1, lw=0.8, alpha=0.5, color=color)
+                )
+
+    # # force to plot only the wrong cases
+    # plotting_enabled = len(list_of_bbs) == 0
 
     if plotting_enabled:
-        plt.savefig("line_to_bbox.png", dpi=300)
+        if len(list_of_bbs) >= 1:
+            title = "Pass"
+        else:
+            title = "Fail"
+        # plt.savefig("plot_incidents_locations/line_to_bbox"+str(np.random.rand() * 10000000 )+"+.png", dpi=300)
         plt.scatter(od_lat_lon_line[1], od_lat_lon_line[0], color="green", s=2)
         plt.scatter(od_lat_lon_line[3], od_lat_lon_line[2], color="red", s=2)
+        plt.title(title)
         plt.show()
 
     return list_of_bbs
