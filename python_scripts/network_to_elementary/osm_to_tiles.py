@@ -66,11 +66,14 @@ def split_poly_to_bb(poly: geometry.Polygon, n, plotting_enabled=False):
 def is_bounding_box_on_line(bb, od_lat_lon_line, use_route_path=False, route_linestring=None):
     """
     :param bb:
-    :param od_lat_lon_line:
+    :param od_lat_lon_line:  [o_lat[i], o_lon[i], d_lat[i], d_lon[i]]
     :param use_route_path:
     :param route_linestring:
     :return:
     """
+
+    # linestring created using O-D lat, lon
+    # polygon created using candidate bb
 
     if not use_route_path:
         linestring = LineString([(od_lat_lon_line[0], od_lat_lon_line[1]), (od_lat_lon_line[2], od_lat_lon_line[3])])
@@ -83,7 +86,14 @@ def is_bounding_box_on_line(bb, od_lat_lon_line, use_route_path=False, route_lin
 
 def line_to_bbox_list(bb_list, od_lat_lon_line, plotting_enabled=False, use_route_path=False, route_linestring=False):
     list_of_bbs = []
+
+    # od_lat_lon_line =  [o_lat[i], o_lon[i], d_lat[i], d_lon[i]] passed
+
+
+    # bb_list: list of all bounding boxes (for each grid in the city)
     for bbox in bb_list:
+
+        # Top-left bottom-right / vice-versa for each grid
         lat1, lon1, lat2, lon2 = bbox
 
         if is_bounding_box_on_line(

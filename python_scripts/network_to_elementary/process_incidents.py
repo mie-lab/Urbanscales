@@ -70,7 +70,10 @@ def create_bbox_to_CCT(
         sys.exit()
 
     paramlist = []
+
+    # only for keeping the boundary same in all plots
     min_lon, max_lon, min_lat, max_lat = graph_with_edge_travel_time[1]
+
     for i in range(incident_data.shape[0]):
 
         paramlist.append(
@@ -117,10 +120,11 @@ def create_bbox_to_CCT(
             incident_start_hour = int(eval(listed[2].strip()))
             incident_start_date = str((listed[3].strip()))
 
-            if (bbox, incident_start_hour) in dict_bbox_to_CCT:
-                dict_bbox_to_CCT[bbox, incident_start_hour, incident_start_date].append(CCT)
+            key = (bbox, incident_start_hour, incident_start_date)
+            if key in dict_bbox_to_CCT:
+                dict_bbox_to_CCT[key].append(CCT)
             else:
-                dict_bbox_to_CCT[bbox, incident_start_hour, incident_start_date] = [CCT]
+                dict_bbox_to_CCT[key] = [CCT]
 
             list_of_dates.append(incident_start_date)
 
@@ -158,6 +162,11 @@ def convert_bbox_to_CCT_new_format(dict_bbox_to_CCT, unique_dates_list):
 
     assert len(dict_bbox_to_CCT_new) == len(set(list_of_bboxes))
 
+    sprint(dict_bbox_to_CCT_new[list(dict_bbox_to_CCT_new.keys())[0]].shape)
+    sprint(len(dict_bbox_to_CCT_new))
+    sprint(len(dict_bbox_to_CCT))
+    # import time
+    # time.sleep(1000)
 
     return dict_bbox_to_CCT_new
 
@@ -198,7 +207,7 @@ def helper_box_to_CCT(params):
             plt.ylim(min_lat, max_lat)
             plt.show()
 
-    else:
+    elif use_route_path:
         try:
             # if np.random.rand() < 0.8:
             #     return
@@ -282,6 +291,9 @@ def helper_box_to_CCT(params):
                 use_route_path=False,
                 route_linestring=None,
             )
+
+    assert (len(bbox_intersecting) >= 1)
+
     for bbox in bbox_intersecting:
         with open("temp_files/dict_" + str(i) + ".t", "w") as f:
             pandas_dt = pd.to_datetime(incident_data["start_time"][i]).tz_localize("utc").tz_convert("Singapore")

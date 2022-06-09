@@ -116,7 +116,7 @@ def auxiliary_func_G_for_curved_paths():
     return G, (min_lon, max_lon, min_lat, max_lat)
 
 
-def generate_bbox_CCT_from_file(N, folder_path, generate_incidents_routes=False):
+def generate_bbox_CCT_from_file(N, folder_path, generate_incidents_routes=False, use_route_path=True):
     """
 
     :param N:
@@ -131,7 +131,7 @@ def generate_bbox_CCT_from_file(N, folder_path, generate_incidents_routes=False)
         N=N,
         folder_path=folder_path,
         graph_with_edge_travel_time=auxiliary_func_G_for_curved_paths(),
-        use_route_path=False,
+        use_route_path=use_route_path,
         read_curved_paths_from_pickle=False,
         plotting_enabled=generate_incidents_routes,
     )
@@ -462,5 +462,5 @@ if __name__ == "__main__":
 """
 
 if __name__ == "__main__":
-    for N in range(30, 40, 10):
-        generate_bbox_CCT_from_file(N, folder_path=server_path, generate_incidents_routes=False)
+    for N in [30]:# range(30, 0, 10):
+        generate_bbox_CCT_from_file(N, folder_path=server_path, use_route_path=False, generate_incidents_routes=False)
