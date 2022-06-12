@@ -1,5 +1,7 @@
 import os
 import pickle
+import time
+
 import matplotlib.pyplot as plt
 import pytest
 from smartprint import smartprint as sprint
@@ -34,7 +36,7 @@ def ssubset(base_N):
     """
     Issue #58 step 1
     """
-    splitted_N = base_N * 2
+    splitted_N = base_N * 4
     with open(
         "../python_scripts/network_to_elementary/" + "osm_tiles_stats_dict" + str(base_N) + ".pickle", "rb"
     ) as handle:
@@ -92,6 +94,12 @@ def ssubset(base_N):
         lat_list_2 = [round(float(i), R) for i in lat_list_2]
         lon_list_1 = [round(float(i), R) for i in lon_list_1]
         lon_list_2 = [round(float(i), R) for i in lon_list_2]
+
+        set_lat_1 = set(lat_list_1)
+        set_lat_2 = set(lat_list_2)
+        set_lon_1 = set(lon_list_1)
+        set_lon_2 = set(lon_list_2)
+
         plt.scatter(lon_list_1, lat_list_1, color="green", s=5, label="base")
         plt.scatter(lon_list_2, lat_list_2, color="red", s=2, label="split")
         points_1 = set(zip(lon_list_1, lat_list_1))
@@ -122,5 +130,6 @@ def ssubset(base_N):
 
 
 if __name__ == "__main__":
-    for N in [10]:  # , 10, 30]:
+    os.system("rm \*.png")
+    for N in [5]:  # , 10, 30]:
         ssubset(base_N=N)

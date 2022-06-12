@@ -57,6 +57,11 @@ def split_poly_to_bb(poly: geometry.Polygon, n, plotting_enabled=False, generate
             j += delta_y
         i += delta_x
 
+    # round off everything to 5 decimal points
+    for i in range(len(bbox_list)):
+        bbox_list[i] = tuple([round(xx, 5) for xx in bbox_list[i]])
+
+
     if plotting_enabled:
         for bbox in bbox_list:
             lat1, lon1, lat2, lon2 = bbox
