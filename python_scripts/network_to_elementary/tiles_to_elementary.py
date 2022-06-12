@@ -131,7 +131,7 @@ def get_stats_for_one_tile(input):
     return {bbox: stats}
 
 
-def tile_stats_to_images(output_path: str, list_of_dict_bbox_to_stats):
+def tile_stats_to_images(output_path: str, list_of_dict_bbox_to_stats, N):
     """
 
     :param output_path:
@@ -221,12 +221,18 @@ def tile_stats_to_images(output_path: str, list_of_dict_bbox_to_stats):
         plt.clim(0, maxVal)
         plt.colorbar()
         plt.gca().set_aspect(0.66)
-        plt.savefig(output_path + metric + ".png", dpi=300)
-        plt.show(block=False)
+        plt.savefig(output_path + metric + "_scale_" + str(N) + "+.png", dpi=300)
+        # plt.show(block=False)
 
 
 def step_1_osm_tiles_to_features(
-    read_G_from_pickle=True, read_osm_tiles_stats_from_pickle=False, n_threads=7, N=50, plotting_enabled=True
+    read_G_from_pickle=True,
+    read_osm_tiles_stats_from_pickle=False,
+    n_threads=7,
+    N=50,
+    plotting_enabled=True,
+    generate_for_perfect_fit=False,
+    base_N=-1,
 ):
     """
 
@@ -237,6 +243,12 @@ def step_1_osm_tiles_to_features(
     :param plotting_enabled:
     :return:
     """
+    if generate_for_perfect_fit:
+        # must be accompanied by the base value
+        if base_N == -1:
+            print("Fatal error in step_1_osm_tiles_to_features!\n Wrong argument combination provided")
+            sys.exit(0)
+
     if read_G_from_pickle:
         with open("G_OSM_extracted.pickle", "rb") as handle:
             G_OSM = pickle.load(handle)
@@ -247,7 +259,9 @@ def step_1_osm_tiles_to_features(
 
     G_OSM_dict, _error_ = get_OSM_tiles(
         osm_graph=G_OSM,
-        bbox_list=split_poly_to_bb(get_sg_poly(), N, plotting_enabled=False),
+        bbox_list=split_poly_to_bb(
+            get_sg_poly(), N, plotting_enabled=False, generate_for_perfect_fit=True, base_N=base_N
+        ),
         N=N,
         read_from_pickle=read_osm_tiles_stats_from_pickle,
     )
@@ -273,13 +287,25 @@ def step_1_osm_tiles_to_features(
             pickle.dump(osm_tiles_stats_dict, f, protocol=pickle.HIGHEST_PROTOCOL)
 
     if plotting_enabled:
-        tile_stats_to_images("output_images/tilestats/", osm_tiles_stats_dict)
+        tile_stats_to_images("output_images/tilestats/", osm_tiles_stats_dict, N)
 
 
-def generate_one_grid_size(N_iter):
+def generate_one_grid_size(N, generate_for_perfect_fit=False, base_N=-1):
+
+    if generate_for_perfect_fit:
+        # must be accompanied by the base value
+        if base_N == -1:
+            print("Fatal error in generate_one_grid_size!\n Wrong argument combination provided")
+            sys.exit(0)
 
     step_1_osm_tiles_to_features(
-        read_G_from_pickle=True, read_osm_tiles_stats_from_pickle=False, N=N_iter, plotting_enabled=False, n_threads=80
+        read_G_from_pickle=True,
+        read_osm_tiles_stats_from_pickle=False,
+        N=N,
+        plotting_enabled=False,
+        n_threads=7,
+        generate_for_perfect_fit=generate_for_perfect_fit,
+        base_N=base_N,
     )
 
 
@@ -287,7 +313,7 @@ if __name__ == "__main__":
     # with multiprocessing.Pool(10) as p:
     #     p.map(generate_one_grid_size, list(range(170, 300, 10)))
 
-    for scale in range(170, 300, 10):
-        generate_one_grid_size(scale)
+    for scale in [40]:  # :range(60, 120, 10):
+        generate_one_grid_size(N=scale, generate_for_perfect_fit=True, base_N=5)
 
     last_line = "dummy"

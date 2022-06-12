@@ -462,5 +462,5 @@ if __name__ == "__main__":
 """
 
 if __name__ == "__main__":
-    for N in [30]:# range(30, 0, 10):
+    for N in [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]:  # range(30, 0, 10):
         generate_bbox_CCT_from_file(N, folder_path=server_path, use_route_path=False, generate_incidents_routes=False)

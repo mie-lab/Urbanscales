@@ -60,7 +60,8 @@ def ssubset(base_N):
     plt.scatter(lon_list_1, lat_list_1, color="green", s=4, label="base")
     plt.scatter(lon_list_2, lat_list_2, color="red", s=1, label="split")
     plt.legend()
-    plt.show()
+    plt.savefig("plot1.png", dpi=400)
+    plt.show(block=False)
 
     # plot 2
     plt.scatter(lon_list_1, lat_list_1, color="green", s=5, label="base")
@@ -79,10 +80,12 @@ def ssubset(base_N):
         lon_list_common, lat_list_common, marker="s", color="yellow", s=10, label="matching", edgecolors=(0, 0, 0, 1)
     )
     plt.legend()
-    plt.show()
+    plt.savefig("plot2.png", dpi=400)
+    plt.show(block=False)
 
     # plot 3
     for R in [2, 3, 4, 5]:
+        plt.clf()
         lat_list_1, lon_list_1 = extract_lat_list_lon_list(base_N_osm_bbox_list)
         lat_list_2, lon_list_2 = extract_lat_list_lon_list(splitted_N_osm_bbox_list)
         lat_list_1 = [round(float(i), R) for i in lat_list_1]
@@ -112,11 +115,12 @@ def ssubset(base_N):
         )
         plt.legend()
         plt.title("rounding digits: " + str(R))
-        plt.show()
+        plt.savefig("rounding_" + str(R) + ".png", dpi=400)
+        plt.show(block=False)
 
     assert (set_lat_1 in set_lat_2) and (set_lon_1 in set_lon_2)
 
 
 if __name__ == "__main__":
-    for N in [5]:  # , 10, 30]:
+    for N in [10]:  # , 10, 30]:
         ssubset(base_N=N)

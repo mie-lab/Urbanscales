@@ -14,16 +14,22 @@ from pyproj import Geod
 from shapely.geometry import Point, LineString
 
 
-def split_poly_to_bb(poly: geometry.Polygon, n, plotting_enabled=False):
+def split_poly_to_bb(poly: geometry.Polygon, n, plotting_enabled=False, generate_for_perfect_fit=False, base_N=-1):
     """
     :param poly: shapely polygon
     :param n: ise used to create a list of bounding boxes; total
            number of such boxes = (n X (aspect_ratio * n) ); scaled_n is calculated in this function
     :return:
     """
+    if generate_for_perfect_fit:
+        # must be accompanied by the base value
+        if base_N == -1:
+            print("Fatal error in generate for perfect fit!\n wrong argument combination base_N not provided")
+            sys.exit(0)
+
     min_lon, min_lat, max_lon, max_lat = poly.bounds
 
-    bbox_list = []
+
     vertical = calculate_ground_distance(min_lat, min_lon, max_lat, min_lon)
     horizontal = calculate_ground_distance(min_lat, min_lon, min_lat, max_lon)
     print("vertical ", vertical // 1000, " km")
@@ -31,11 +37,25 @@ def split_poly_to_bb(poly: geometry.Polygon, n, plotting_enabled=False):
     aspect_ratio = vertical / horizontal
     print("Aspect ratio ", aspect_ratio)
 
-    delta_x = (max_lat - min_lat) / n
-    delta_y = (max_lon - min_lon) / (n / aspect_ratio)
-    for i in list(np.linspace(min_lat, max_lat, n, endpoint=False)):
-        for j in list(np.linspace(min_lon, max_lon, int(n / aspect_ratio) + 1, endpoint=False)):
+
+    if not generate_for_perfect_fit:
+        delta_x = (max_lat - min_lat) / n
+        delta_y = (max_lon - min_lon) / (n / aspect_ratio)
+
+    elif generate_for_perfect_fit:
+        delta_x = (max_lat - min_lat) / base_N
+        delta_y = (max_lon - min_lon) / (base_N / aspect_ratio)
+        delta_x /= (n / base_N)
+        delta_y /= (n / base_N)
+
+    bbox_list = []
+    i = min_lat
+    while i + delta_x <= max_lat:
+        j = min_lon
+        while j + delta_y <= max_lon:
             bbox_list.append((i, j, i + delta_x, j + delta_y))
+            j += delta_y
+        i += delta_x
 
     if plotting_enabled:
         for bbox in bbox_list:
