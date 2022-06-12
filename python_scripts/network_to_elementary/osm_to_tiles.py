@@ -29,14 +29,12 @@ def split_poly_to_bb(poly: geometry.Polygon, n, plotting_enabled=False, generate
 
     min_lon, min_lat, max_lon, max_lat = poly.bounds
 
-
     vertical = calculate_ground_distance(min_lat, min_lon, max_lat, min_lon)
     horizontal = calculate_ground_distance(min_lat, min_lon, min_lat, max_lon)
     print("vertical ", vertical // 1000, " km")
     print("horizontal ", horizontal // 1000, " km")
     aspect_ratio = vertical / horizontal
     print("Aspect ratio ", aspect_ratio)
-
 
     if not generate_for_perfect_fit:
         delta_x = (max_lat - min_lat) / n
@@ -45,8 +43,8 @@ def split_poly_to_bb(poly: geometry.Polygon, n, plotting_enabled=False, generate
     elif generate_for_perfect_fit:
         delta_x = (max_lat - min_lat) / base_N
         delta_y = (max_lon - min_lon) / (base_N / aspect_ratio)
-        delta_x /= (n / base_N)
-        delta_y /= (n / base_N)
+        delta_x /= n / base_N
+        delta_y /= n / base_N
 
     bbox_list = []
     i = min_lat
@@ -60,7 +58,6 @@ def split_poly_to_bb(poly: geometry.Polygon, n, plotting_enabled=False, generate
     # round off everything to 5 decimal points
     for i in range(len(bbox_list)):
         bbox_list[i] = tuple([round(xx, 5) for xx in bbox_list[i]])
-
 
     if plotting_enabled:
         for bbox in bbox_list:

@@ -313,7 +313,9 @@ if __name__ == "__main__":
     # with multiprocessing.Pool(10) as p:
     #     p.map(generate_one_grid_size, list(range(170, 300, 10)))
 
-    for scale in [5, 10, 20]:  # :range(60, 120, 10):
-        generate_one_grid_size(N=scale, generate_for_perfect_fit=True, base_N=5)
+    for base in [5, 6, 7, 8, 9]:
+        for i in range(5):  # :range(60, 120, 10):
+            scale = base * (2 ** i)
+            generate_one_grid_size(N=scale, generate_for_perfect_fit=True, base_N=5)
 
     last_line = "dummy"

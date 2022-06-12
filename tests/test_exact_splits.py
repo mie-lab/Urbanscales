@@ -6,18 +6,7 @@ import matplotlib.pyplot as plt
 import pytest
 from smartprint import smartprint as sprint
 
-
-def get_bbox(osm_tiles_stats_dict):
-    bbox_list = []
-    for keyval in osm_tiles_stats_dict:
-        try:
-            # need to fix this messy way to read dictionary @Nishant
-            key, val = list(keyval.keys())[0], list(keyval.values())[0]
-            assert val != "EMPTY_STATS"
-            bbox_list.append(key)
-        except:
-            continue
-    return bbox_list
+from python_scripts.network_to_elementary.create_input_for_merge import get_bbox
 
 
 def extract_lat_list_lon_list(bbox_list):
@@ -52,11 +41,6 @@ def ssubset(base_N):
 
     lat_list_1, lon_list_1 = extract_lat_list_lon_list(base_N_osm_bbox_list)
     lat_list_2, lon_list_2 = extract_lat_list_lon_list(splitted_N_osm_bbox_list)
-
-    set_lat_1 = set(lat_list_1)
-    set_lat_2 = set(lat_list_2)
-    set_lon_1 = set(lon_list_1)
-    set_lon_2 = set(lon_list_2)
 
     # plot 1
     plt.scatter(lon_list_1, lat_list_1, color="green", s=4, label="base")
