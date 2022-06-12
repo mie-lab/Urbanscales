@@ -25,7 +25,7 @@ def get_bbox_as_list_of_list(scale):
     for lat1, lon1, lat2, lon2 in bbox_list:
         # revert for homogeiniety in gdal
         bbox_lol.append([[lon1, lat1], [lon2, lat2]])
-    return bbox_list
+    return bbox_lol
 
 
 def create_hierarchy_dict(base_level, number_of_hierarchy):
@@ -68,7 +68,8 @@ def get_isl_and_seeds_bboxes_for_best_fit_hierarchy(bbox_list):
     island_1 = []
     island_2 = []
 
-    for lat1, lon1, lat2, lon2 in bbox_list:
+    for key in bbox_list:
+        [lon1, lat1], [lon2, lat2] = key
         bb_poly = geometry.Polygon(
             [
                 [lon1, lat1],
