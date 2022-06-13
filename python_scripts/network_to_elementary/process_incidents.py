@@ -118,19 +118,23 @@ def create_bbox_to_CCT(
 
     # r = p_map(helper_box_to_CCT, paramlist, num_cpus=55)
     # r = process_map(helper_box_to_CCT, paramlist, max_workers=45, chunksize=1)
-    with multiprocessing.Pool(25) as p:
-        # p = Pool(45)
-        # tqdm(p.map(helper_box_to_CCT, paramlist), total=len(paramlist))
+    with multiprocessing.Pool(45) as p:
+        #     # p = Pool(45)
+        #     tqdm(p.map(helper_box_to_CCT, paramlist), total=len(paramlist))
         p.map(helper_box_to_CCT, paramlist)
+
+    # for param in paramlist:
+    #     helper_box_to_CCT(param)
 
     # combine files from each thread to a single csv file
     os.system("cat temp_files/dict_*.t > temp_files/combined_file.txt")
     os.system("cat temp_files/false_ODs*.txt > temp_files/combined_file_false_ODs")
     os.system("cat temp_files/true_ODs*.txt > temp_files/combined_file_true_ODs")
 
-    plot_scatter_for_true_and_false_incidents(
-        "temp_files/combined_file_true_ODs", "temp_files/combined_file_false_ODs", bbox_list
-    )
+    if plotting_enabled:
+        plot_scatter_for_true_and_false_incidents(
+            "temp_files/combined_file_true_ODs", "temp_files/combined_file_false_ODs", bbox_list
+        )
 
     dict_bbox_to_CCT = {}
     print(os.getcwd())
@@ -358,6 +362,7 @@ def helper_box_to_CCT(params):
 
     except:
         debug_pitstop = True
+
         warnings.warn("Some lines ignored: i value: " + str(i))
         with open("temp_files/false_ODs" + str(i) + ".txt", "w") as f2:
             csvwriter = csv.writer(f2)

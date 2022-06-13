@@ -116,7 +116,7 @@ def auxiliary_func_G_for_curved_paths():
     return G, (min_lon, max_lon, min_lat, max_lat)
 
 
-def generate_bbox_CCT_from_file(N, folder_path, generate_incidents_routes=False, use_route_path=True):
+def generate_bbox_CCT_from_file(N, folder_path, plotting_enabled=False, use_route_path=True):
     """
 
     :param N:
@@ -133,7 +133,7 @@ def generate_bbox_CCT_from_file(N, folder_path, generate_incidents_routes=False,
         graph_with_edge_travel_time=auxiliary_func_G_for_curved_paths(),
         use_route_path=use_route_path,
         read_curved_paths_from_pickle=False,
-        plotting_enabled=generate_incidents_routes,
+        plotting_enabled=plotting_enabled,
     )
     yahan_pahuch_Gaye = "True"
     with open(folder_path + "dict_bbox_hour_date_to_CCT" + str(N) + ".pickle", "wb") as f2:
@@ -141,9 +141,29 @@ def generate_bbox_CCT_from_file(N, folder_path, generate_incidents_routes=False,
 
 
 # step 2
-def step_2(N, folder_path, read_bbox_CCT_from_file, plot_bboxes_on_route=False, generate_incidents_routes=False):
+def step_2(
+    N,
+    folder_path,
+    read_bbox_CCT_from_file,
+    plot_bboxes_on_route=False,
+    generate_incidents_routes=False,
+    method_for_single_statistic="mean",
+    timefilter=[5, 6, 7, 8],
+):
+    """
+
+    :param N:
+    :param folder_path:
+    :param read_bbox_CCT_from_file:
+    :param plot_bboxes_on_route:
+    :param generate_incidents_routes:
+    :param method_for_single_statistic:
+    :param timefilter: timefilter=[5,6,7,8] implies 6AM to 10AM, NOT 5AM TO 9AM; cuz of zero indexing; if timefilter
+                                            is -1, we can ignore the timefilter (bascially take all the 24 hours)
+    :return:
+    """
     if not read_bbox_CCT_from_file:
-        generate_bbox_CCT_from_file(N, folder_path, generate_incidents_routes)
+        generate_bbox_CCT_from_file(N, folder_path, generate_incidents_routes, use_route_path=False)
 
         with open(folder_path + "dict_bbox_hour_date_to_CCT" + str(N) + ".pickle", "rb") as f1:
             dict_bbox_hour_date_to_CCT = pickle.load(f1)
@@ -158,6 +178,21 @@ def step_2(N, folder_path, read_bbox_CCT_from_file, plot_bboxes_on_route=False, 
         osm_tiles_stats_dict = pickle.load(f3)
 
     dict_bbox_to_vectors = osm_tiles_states_to_vectors(osm_tiles_stats_dict, verbose=False)
+
+    for key in dict_bbox_hour_date_to_CCT:
+        array_24_x_dates = dict_bbox_hour_date_to_CCT[key]
+        if timefilter != -1:
+            assert (type(timefilter) == list) or type(timefilter) == tuple
+            assert max(timefilter) <= array_24_x_dates.shape[0]
+            assert array_24_x_dates.shape[0] == 24
+            array_24_x_dates = array_24_x_dates.to_numpy()
+            array_24_x_dates = array_24_x_dates[timefilter, :]
+
+        if method_for_single_statistic == "median_across_all":
+            dict_bbox_hour_date_to_CCT[key] = np.median(array_24_x_dates[array_24_x_dates != -1])
+        else:
+            print("Wrong parameter for method_for_single_statistic: ", method_for_single_statistic)
+            sys.exit(0)
 
     X = []
     Y = []
@@ -328,9 +363,7 @@ def step_2b_calculate_GOF(X, Y, model="regression"):
 
 
 def step_3(
-    min_,
-    max_,
-    step_,
+    N,
     multiple_runs=1,
     use_saved_vectors=False,
     read_bbox_CCT_from_file=True,
@@ -345,52 +378,51 @@ def step_3(
     :return:
     """
     mean_cv_score_dict = {}
-    for N in range(min_, max_, step_):
+    # for N in range(min_, max_, step_):
 
-        # if use_saved_vectors:
-        #     with open("temp_files/" + "X_t_Y_t_" + str(N) + ".pickle", "rb") as f:
-        #         X_t, Y_t = pickle.load(f)
-        # else:
-        X, Y = step_2(
-            N,
-            folder_path=server_path,
-            read_bbox_CCT_from_file=read_bbox_CCT_from_file,
-            plot_bboxes_on_route=plot_bboxes_on_route,
-            generate_incidents_routes=generate_incidents_routes,
-        )
+    # if use_saved_vectors:
+    #     with open("temp_files/" + "X_t_Y_t_" + str(N) + ".pickle", "rb") as f:
+    #         X_t, Y_t = pickle.load(f)
+    # else:
+    X, Y = step_2(
+        N,
+        folder_path=server_path,
+        read_bbox_CCT_from_file=read_bbox_CCT_from_file,
+        plot_bboxes_on_route=plot_bboxes_on_route,
+        generate_incidents_routes=generate_incidents_routes,
+        method_for_single_statistic="median_across_all",
+    )
 
-        # with open("temp_files/" + "X_t_Y_t_" + str(N) + ".pickle", "wb") as f:
-        #     pickle.dump((X_t, Y_t), f, protocol=pickle.HIGHEST_PROTOCOL)
+    # with open("temp_files/" + "X_t_Y_t_" + str(N) + ".pickle", "wb") as f:
+    #     pickle.dump((X_t, Y_t), f, protocol=pickle.HIGHEST_PROTOCOL)
 
-        for hour in range(24):
-
-            # X, Y = step_2a_extend_the_vectors(X_t[hour], Y_t[hour])
-            # X, Y, success_status = incident_data_to_mean_of_hourly_max(X_t, Y_t, hour)
-            #
-            # if not success_status:
-            #     # implies data is missing for this hour
-            #     continue
-            #
-            # mean_cv_score_dict[N, hour] = []
-            # for m in range(multiple_runs):
-            #     cv_score = step_2b_calculate_GOF(X, Y, "regression")
-            #     mean_cv_score_dict[N, hour].append(cv_score)
-            #
-            # with open("temp_files/final_results.csv", "a") as f:
-            #     csvwriter = csv.writer(f)
-            #     csvwriter.writerow([N, hour] + mean_cv_score_dict[N, hour] + list(X.shape) + list(Y.shape))
-            do_nothing = True
-
+    # for hour in range(24):
+    #
+    #     # X, Y = step_2a_extend_the_vectors(X_t[hour], Y_t[hour])
+    #     # X, Y, success_status = incident_data_to_mean_of_hourly_max(X_t, Y_t, hour)
+    #     #
+    #     # if not success_status:
+    #     #     # implies data is missing for this hour
+    #     #     continue
+    #     #
+    #     # mean_cv_score_dict[N, hour] = []
+    #     # for m in range(multiple_runs):
+    #     #     cv_score = step_2b_calculate_GOF(X, Y, "regression")
+    #     #     mean_cv_score_dict[N, hour].append(cv_score)
+    #     #
+    #     # with open("temp_files/final_results.csv", "a") as f:
+    #     #     csvwriter = csv.writer(f)
+    #     #     csvwriter.writerow([N, hour] + mean_cv_score_dict[N, hour] + list(X.shape) + list(Y.shape))
+    #     do_nothing = True
+    #
     # return mean_cv_score_dict
 
-
-"""
 
 if __name__ == "__main__":
     starttime = time.time()
 
     RUN_MODE = "RUNNING"  # ["RUNNING", "PLOTTING"]:
-    MULTIPLE_RUN = 10
+    MULTIPLE_RUN = 1
     names_of_multiple_run_cols = ["run_" + str(i) for i in range(1, MULTIPLE_RUN + 1)]
 
     if RUN_MODE == "RUNNING":
@@ -402,16 +434,14 @@ if __name__ == "__main__":
                 + names_of_multiple_run_cols
                 + ["X_shape_0", "X_Shape_1", "Y_Shape_0", "Y_Shape_1"]
             )
-
+        N = 5
         mean_cv_score_dict = step_3(
-            30,
-            40,
-            10,
+            N=N,
             multiple_runs=MULTIPLE_RUN,
             use_saved_vectors=False,
-            read_bbox_CCT_from_file=False,
+            read_bbox_CCT_from_file=True,
             plot_bboxes_on_route=False,
-            generate_incidents_routes=True,
+            generate_incidents_routes=False,
         )
 
         # csvwriter.writerow(["Repeat after all runs, same as above"])
@@ -459,8 +489,10 @@ if __name__ == "__main__":
 
         plt.show()
         print(data)
-"""
 
-if __name__ == "__main__":
-    for N in [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]:  # range(30, 0, 10):
-        generate_bbox_CCT_from_file(N, folder_path=server_path, use_route_path=False, generate_incidents_routes=False)
+# #
+# if __name__ == "__main__":
+#     for base in [5, 6, 7, 8, 9, 10]:
+#         for i in range(5):  # :range(60, 120, 10):
+#             scale = base * (2 ** i)
+#             generate_bbox_CCT_from_file(N=scale, folder_path=server_path, use_route_path=False, plotting_enabled=False)

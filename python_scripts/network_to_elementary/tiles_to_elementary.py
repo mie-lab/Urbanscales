@@ -303,7 +303,7 @@ def generate_one_grid_size(N, generate_for_perfect_fit=False, base_N=-1):
         read_osm_tiles_stats_from_pickle=False,
         N=N,
         plotting_enabled=False,
-        n_threads=7,
+        n_threads=35,
         generate_for_perfect_fit=generate_for_perfect_fit,
         base_N=base_N,
     )
@@ -313,9 +313,9 @@ if __name__ == "__main__":
     # with multiprocessing.Pool(10) as p:
     #     p.map(generate_one_grid_size, list(range(170, 300, 10)))
 
-    for base in [5, 6, 7, 8, 9]:
+    for base in [5, 6, 7, 8, 9, 10]:
         for i in range(5):  # :range(60, 120, 10):
             scale = base * (2 ** i)
-            generate_one_grid_size(N=scale, generate_for_perfect_fit=True, base_N=5)
+            generate_one_grid_size(N=scale, generate_for_perfect_fit=True, base_N=base)
 
     last_line = "dummy"
