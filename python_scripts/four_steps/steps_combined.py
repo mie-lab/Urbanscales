@@ -179,6 +179,7 @@ def step_2(
 
     dict_bbox_to_vectors = osm_tiles_states_to_vectors(osm_tiles_stats_dict, verbose=False)
 
+    dict_bbox_hour_date_to_CCT_copy = {}
     for key in dict_bbox_hour_date_to_CCT:
         array_24_x_dates = dict_bbox_hour_date_to_CCT[key]
         if timefilter != -1:
@@ -189,10 +190,16 @@ def step_2(
             array_24_x_dates = array_24_x_dates[timefilter, :]
 
         if method_for_single_statistic == "median_across_all":
-            dict_bbox_hour_date_to_CCT[key] = np.median(array_24_x_dates[array_24_x_dates != -1])
+            if np.count_nonzero(array_24_x_dates != -1) == 0:
+                # if empty slice in the line below, we just skip this one.
+                # if there is no value that is -1, we ignore this key
+                continue
+            dict_bbox_hour_date_to_CCT_copy[key] = np.median(array_24_x_dates[array_24_x_dates != -1])
         else:
             print("Wrong parameter for method_for_single_statistic: ", method_for_single_statistic)
             sys.exit(0)
+
+    dict_bbox_hour_date_to_CCT = dict_bbox_hour_date_to_CCT_copy
 
     X = []
     Y = []
@@ -221,122 +228,17 @@ def step_2(
 
     sprint(N, len(dict_bbox_to_vectors))
     sprint(len(X), len(Y))
+
+    # test homogeniety
+    shape = X[0].shape
+    assert len(X) == len(Y)
+    for row in X:
+        assert row.shape == shape
+
+    for row in Y:
+        assert isinstance(row, float)
+
     return X, Y
-
-
-# def step_2a_extend_the_vectors(X, Y, expand_type="duplicate"):
-#     """
-#     We need to create copies of incidents when several incidents happen in the
-#     same grid, Our first stab at this is to create multiple copies of the vector
-#
-#     :param X:
-#     :param Y:
-#     :param expand_type: "duplicate" or "max"
-#     :return:
-#     """
-#     y = []
-#     x = []
-#     for i in range(len(Y)):
-#         if expand_type == "duplicate":
-#             for j in range(len(Y[i])):  # Y is a list of lists
-#                 x.append(X[i])
-#                 y.append(Y[i][j])
-#         elif expand_type == "max":
-#             x.append(X[i])
-#             y.append(max(Y[i]))
-#         elif expand_type == "mean":
-#             x.append(X[i])
-#             y.append(np.mean(Y[i]))
-#         elif expand_type =="mean_across_days_of_max_of_hours":
-#             for j in range(24):
-#                 if X[i]
-#         else:
-#             sys.exit("Wrong input in expand_type\n func:step_2a_extend_the_vectors")
-#     return np.array(x), np.array(y)
-
-
-"""
-def incident_data_to_mean_of_hourly_max(X_t, Y_t, hour_param):
-    # 
-    # In this function: X_t does not change. All changes induced by
-    # this function is into the Y_t variable
-    # 
-    # :param X_t:
-    # :param Y_t:
-    # :return:
-    # 
-    list_of_dates = []
-    for key in Y_t:
-        for bbox in Y_t[key]:
-            list_of_dates.append(Y_t[key][bbox][0][0])  # 0 is for the date
-    list_of_dates = list(set(list_of_dates))
-
-    # step - I: Max of the hour, day combination
-    temp2 = {}
-    for date_ in list_of_dates:
-        # max for each hour; for whole day; for this particular bbox
-        for hour_ in Y_t:  # and len(Y_t[hour_, bbox]) >= 1:
-            for bbox in Y_t[hour_]:
-                if (date_, hour_, bbox) in temp2:
-                    if date_ == Y_t[hour_][bbox][0][0]:
-                        temp2[(date_, hour_, bbox)].append(Y_t[hour_][bbox][0][1][0])
-                else:
-                    if date_ == Y_t[hour_][bbox][0][0]:
-                        temp2[(date_, hour_, bbox)] = [Y_t[hour_][bbox][0][1][0]]
-
-    print("Lengths of temp2")
-    for key in temp2:
-        print(key, ":", len(temp2[key]))
-        temp2[key] = max(temp2[key])
-
-    # step - II: Mean across dates
-    temp3 = {}
-    for date_ in list_of_dates:
-        # max for each hour; for whole day; for this particular bbox
-        for hour_ in Y_t:  # and len(Y_t[hour_, bbox]) >= 1:
-            for bbox in Y_t[hour_]:  # and len(Y_t[hour_, bbox]) >= 1:
-                if (hour_, bbox) in temp3:
-                    if date_ == Y_t[hour_][bbox][0][0]:
-
-                        temp3[hour_, bbox].append(temp2[(date_, hour_, bbox)])
-                else:
-                    if date_ == Y_t[hour_][bbox][0][0]:
-                        temp3[hour_, bbox] = [(temp2[(date_, hour_, bbox)])]
-
-    print("Lengths of temp3")
-    for hour_, bbox in temp3:
-        print(hour_, bbox, ":", len(temp3[hour_, bbox]))
-        temp3[hour_, bbox] = np.mean(temp3[hour_, bbox])
-
-    # convert to the nested dicts (same as original Y_t format)
-    Y_t = {}
-    for hour_, bbox in temp3:
-        if hour_ not in Y_t:
-            Y_t[hour_] = {}
-
-        if bbox in Y_t[hour_]:
-            Y_t[hour_][bbox] = temp3[hour_, bbox]
-
-    assert len(Y_t) == len(X_t)
-
-    if hour_param in Y_t:
-        if len(Y_t[hour_param]) >= 1:
-            xx = []
-            yy = []
-            for bbox in Y_t[hour_param]:
-                xx.append(X_t[hour_param][bbox])
-                yy.append(Y_t[hour_param][bbox])
-            X = np.array(xx)
-            Y = np.array(yy)
-            print("X.shape, Y.shape, @ hour_param\n", X.shape, Y.shape, hour_param)
-    else:
-        success_status = False
-        X = None
-        Y = None
-
-    return X, Y, success_status
-
-"""
 
 
 def step_2b_calculate_GOF(X, Y, model="regression"):
@@ -363,7 +265,6 @@ def step_2b_calculate_GOF(X, Y, model="regression"):
 
 
 def step_3(
-    N,
     multiple_runs=1,
     use_saved_vectors=False,
     read_bbox_CCT_from_file=True,
@@ -384,37 +285,47 @@ def step_3(
     #     with open("temp_files/" + "X_t_Y_t_" + str(N) + ".pickle", "rb") as f:
     #         X_t, Y_t = pickle.load(f)
     # else:
-    X, Y = step_2(
-        N,
-        folder_path=server_path,
-        read_bbox_CCT_from_file=read_bbox_CCT_from_file,
-        plot_bboxes_on_route=plot_bboxes_on_route,
-        generate_incidents_routes=generate_incidents_routes,
-        method_for_single_statistic="median_across_all",
-    )
+    timefilter = [5, 6, 7, 8]
+    for base in [5]:  # [5, 6, 7, 8, 9, 10]
+        for i in range(5):  # :range(60, 120, 10):
+            scale = base * (2 ** i)
 
-    # with open("temp_files/" + "X_t_Y_t_" + str(N) + ".pickle", "wb") as f:
-    #     pickle.dump((X_t, Y_t), f, protocol=pickle.HIGHEST_PROTOCOL)
+            X, Y = step_2(
+                N=scale,
+                folder_path=server_path,
+                read_bbox_CCT_from_file=read_bbox_CCT_from_file,
+                plot_bboxes_on_route=plot_bboxes_on_route,
+                generate_incidents_routes=generate_incidents_routes,
+                method_for_single_statistic="median_across_all",
+                timefilter=timefilter,
+            )
 
-    # for hour in range(24):
+            # for hour in range(24):
+            #
+            # X, Y = step_2a_extend_the_vectors(X_t[hour], Y_t[hour])
+            # X, Y, success_status = incident_data_to_mean_of_hourly_max(X_t, Y_t, hour)
+
+            # if not success_status:
+            #     # implies data is missing for this hour
+            #     continue
+
+            mean_cv_score_dict[scale, tuple(timefilter)] = []
+            for m in range(multiple_runs):
+                cv_score = step_2b_calculate_GOF(X, Y, "regression")
+                mean_cv_score_dict[scale, tuple(timefilter)].append(cv_score)
+            mean_cv_score_dict[scale, tuple(timefilter)].append(np.mean(cv_score))
+
+    print("scale, tuple(timefilter), cvscores, mean_cvscores")
+
+    for key in mean_cv_score_dict:
+        print(key, mean_cv_score_dict[key])
+
     #
-    #     # X, Y = step_2a_extend_the_vectors(X_t[hour], Y_t[hour])
-    #     # X, Y, success_status = incident_data_to_mean_of_hourly_max(X_t, Y_t, hour)
-    #     #
-    #     # if not success_status:
-    #     #     # implies data is missing for this hour
-    #     #     continue
-    #     #
-    #     # mean_cv_score_dict[N, hour] = []
-    #     # for m in range(multiple_runs):
-    #     #     cv_score = step_2b_calculate_GOF(X, Y, "regression")
-    #     #     mean_cv_score_dict[N, hour].append(cv_score)
-    #     #
-    #     # with open("temp_files/final_results.csv", "a") as f:
-    #     #     csvwriter = csv.writer(f)
-    #     #     csvwriter.writerow([N, hour] + mean_cv_score_dict[N, hour] + list(X.shape) + list(Y.shape))
-    #     do_nothing = True
-    #
+    # with open("temp_files/final_results.csv", "a") as f:
+    #     csvwriter = csv.writer(f)
+    #     csvwriter.writerow([N, hour] + mean_cv_score_dict[N, hour] + list(X.shape) + list(Y.shape))
+    do_nothing = True
+
     # return mean_cv_score_dict
 
 
@@ -422,21 +333,20 @@ if __name__ == "__main__":
     starttime = time.time()
 
     RUN_MODE = "RUNNING"  # ["RUNNING", "PLOTTING"]:
-    MULTIPLE_RUN = 1
-    names_of_multiple_run_cols = ["run_" + str(i) for i in range(1, MULTIPLE_RUN + 1)]
+    MULTIPLE_RUN = 10
+    # names_of_multiple_run_cols = ["run_" + str(i) for i in range(1, MULTIPLE_RUN + 1)]
 
     if RUN_MODE == "RUNNING":
 
-        with open("temp_files/final_results.csv", "w") as f:
-            csvwriter = csv.writer(f)
-            csvwriter.writerow(
-                ["grid_size", "hour"]
-                + names_of_multiple_run_cols
-                + ["X_shape_0", "X_Shape_1", "Y_Shape_0", "Y_Shape_1"]
-            )
-        N = 5
+        # with open("temp_files/final_results.csv", "w") as f:
+        #     csvwriter = csv.writer(f)
+        #     csvwriter.writerow(
+        #         ["grid_size", "hour"]
+        #         + names_of_multiple_run_cols
+        #         + ["X_shape_0", "X_Shape_1", "Y_Shape_0", "Y_Shape_1"]
+        #     )
+
         mean_cv_score_dict = step_3(
-            N=N,
             multiple_runs=MULTIPLE_RUN,
             use_saved_vectors=False,
             read_bbox_CCT_from_file=True,
@@ -453,46 +363,46 @@ if __name__ == "__main__":
 
         print(round(time.time() - starttime, 2), " seconds")
 
-    elif RUN_MODE == "PLOTTING":
-        data = pandas.read_csv("temp_files/final_results.csv")
-        print(pandas.read_csv("temp_files/final_results.csv"))
+    # elif RUN_MODE == "PLOTTING":
+    #     data = pandas.read_csv("temp_files/final_results.csv")
+    #     print(pandas.read_csv("temp_files/final_results.csv"))
+    #
+    #     data = data.dropna(subset=names_of_multiple_run_cols)
+    #
+    #     for col in names_of_multiple_run_cols:
+    #         print(col)
+    #         data = data[data.eval(col) != -99999]
+    #
+    #     # invert all values (to get the mse)
+    #     #  not needed if not using pipeline
+    #     # data[names_of_multiple_run_cols] = -data[names_of_multiple_run_cols]
+    #
+    #     for hour_ in range(24):
+    #         hourly_data = data[data.hour == hour_]
+    #         if hourly_data.shape[0] == 0:
+    #             continue
+    #         print(data.shape, hourly_data.shape)
+    #         plotting_dict = {}
+    #         plotting_dict["max"] = hourly_data[names_of_multiple_run_cols].max(axis=1)
+    #         plotting_dict["min"] = hourly_data[names_of_multiple_run_cols].min(axis=1)
+    #         plotting_dict["median"] = hourly_data[names_of_multiple_run_cols].median(axis=1)
+    #
+    #         for col in ["median"]:  # min", "max",
+    #             print(hourly_data["grid_size"])
+    #             print(plotting_dict[col])
+    #             plt.plot(hourly_data["grid_size"], plotting_dict[col], label=col + "- hour" + str(hour_))
+    #         plt.grid(True)
+    #         plt.xlabel("Scale")
+    #         plt.legend(fontsize=8, loc="upper right")
+    #         # plt.yscale("log")
+    #         # plt.fill_between(hourly_data["grid_size"], plotting_dict["min"], plotting_dict["max"], color="yellow", alpha=0.4)
+    #
+    #     plt.show()
+    #     print(data)
 
-        data = data.dropna(subset=names_of_multiple_run_cols)
 
-        for col in names_of_multiple_run_cols:
-            print(col)
-            data = data[data.eval(col) != -99999]
-
-        # invert all values (to get the mse)
-        #  not needed if not using pipeline
-        # data[names_of_multiple_run_cols] = -data[names_of_multiple_run_cols]
-
-        for hour_ in range(24):
-            hourly_data = data[data.hour == hour_]
-            if hourly_data.shape[0] == 0:
-                continue
-            print(data.shape, hourly_data.shape)
-            plotting_dict = {}
-            plotting_dict["max"] = hourly_data[names_of_multiple_run_cols].max(axis=1)
-            plotting_dict["min"] = hourly_data[names_of_multiple_run_cols].min(axis=1)
-            plotting_dict["median"] = hourly_data[names_of_multiple_run_cols].median(axis=1)
-
-            for col in ["median"]:  # min", "max",
-                print(hourly_data["grid_size"])
-                print(plotting_dict[col])
-                plt.plot(hourly_data["grid_size"], plotting_dict[col], label=col + "- hour" + str(hour_))
-            plt.grid(True)
-            plt.xlabel("Scale")
-            plt.legend(fontsize=8, loc="upper right")
-            # plt.yscale("log")
-            # plt.fill_between(hourly_data["grid_size"], plotting_dict["min"], plotting_dict["max"], color="yellow", alpha=0.4)
-
-        plt.show()
-        print(data)
-
-# #
 # if __name__ == "__main__":
-#     for base in [5, 6, 7, 8, 9, 10]:
+#     for base in [6]: # [5, 6, 7, 8, 9, 10]
 #         for i in range(5):  # :range(60, 120, 10):
 #             scale = base * (2 ** i)
 #             generate_bbox_CCT_from_file(N=scale, folder_path=server_path, use_route_path=False, plotting_enabled=False)
