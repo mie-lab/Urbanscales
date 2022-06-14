@@ -41,6 +41,11 @@ def create_hierarchy_dict(base_level, number_of_hierarchy):
 
 
 def get_isl_and_seeds_bboxes_for_best_fit_hierarchy(bbox_list):
+    """
+
+    :param bbox_list:
+    :return:
+    """
     # two handmade polygons
     poly_1 = [
         [103.86955261230469, 1.3439853145503564],
@@ -97,7 +102,7 @@ def get_isl_and_seeds_bboxes_for_best_fit_hierarchy(bbox_list):
     dict_seeds = {}
 
     dict_seeds["island_1"] = island_1[int(len(island_1) * np.random.rand())]
-    dict_seeds["island_2"] = island_1[int(len(island_2) * np.random.rand())]
+    dict_seeds["island_2"] = island_2[int(len(island_2) * np.random.rand())]
 
     return dict_islands, dict_seeds
 

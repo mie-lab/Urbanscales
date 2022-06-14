@@ -176,6 +176,15 @@ def is_bounding_box_in_polygon(poly, bb):
 
 
 def is_point_in_bounding_box(lat, lon, bb):
+    """
+    Format of BB
+        lat_min, lon_min = [bb[0], bb[1]]
+        lat_max, lon_max = [bb[2], bb[3]]
+    :param lat:
+    :param lon:
+    :param bb:
+    :return:
+    """
     lat_min, lon_min = [bb[0], bb[1]]
     lat_max, lon_max = [bb[2], bb[3]]
 

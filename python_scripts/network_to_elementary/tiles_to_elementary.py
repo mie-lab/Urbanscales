@@ -111,11 +111,20 @@ def get_OSM_tiles(bbox_list, osm_graph, read_from_pickle, N):
 def get_stats_for_one_tile(input):
     """
 
-    :param input: tuple of osm, its corresponding bounding box
+    :param if called from this tiles_to_elementary,
+        input: tuple of osm, its corresponding bounding box
+
+            if called from yatao's code,
+            input: just the osm tile (basically the sub-graph of polygon)
     :return:
     """
-
-    osm, bbox = input
+    if len(input) == 2:
+        osm, bbox = input
+    elif len(input) == 1:
+        osm = input[0]
+    else:
+        print("Wrong input in length of variables\n in function get_stats_for_one_tile")
+        sys.exit(0)
 
     if osm == "EMPTY":
         stats = "EMPTY_STATS"
@@ -128,7 +137,12 @@ def get_stats_for_one_tile(input):
         except:
             print("stats = ox.basic_stats(osm): ", " ERROR\n Probably no edge in graph")
             stats = "EMPTY_STATS"
-    return {bbox: stats}
+    if len(input) == 2:
+        retval = {bbox: stats}
+    elif len(input) == 1:
+        retval = stats
+
+    return retval
 
 
 def tile_stats_to_images(output_path: str, list_of_dict_bbox_to_stats, N):
@@ -183,10 +197,8 @@ def tile_stats_to_images(output_path: str, list_of_dict_bbox_to_stats, N):
                 # # managing cases of value being dict/list
                 try:
                     iter(metric_stats)
-                    metric_stats = len(metric_stats)
                 except:
-                    # do nothing
-                    metric_stats = metric_stats
+                    metric_stats = len(metric_stats)
 
                 maxVal = max(maxVal, metric_stats)
 
@@ -303,17 +315,6 @@ def step_1_osm_tiles_to_features(
                         print(dict_2)
                         print("----------------")
                         assert repr(dict_1) == repr(dict_2)
-
-                        # if type(dict_1) is list and dict_1[0] == "EMPTY_STATS":
-                        #     # case: "EMPTY_STATS"
-                        #     assert dict_1[0] == dict_2[0]
-                        # else:
-                        #     for key in dict_1:
-                        #
-                        #         if type(dict_1[key]) is not dict:
-                        #             assert dict_1[key] == dict_2[key]
-                        #         # this is still not complete, because some values are dicts again!!!
-                        #         # but no need for overkill right now
 
         osm_tiles_stats_dict = osm_tiles_stats_dict_multithreaded
 
