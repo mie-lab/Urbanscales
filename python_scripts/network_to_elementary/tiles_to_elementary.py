@@ -277,11 +277,20 @@ def step_1_osm_tiles_to_features(
 
         # multithreaded
         pool = mp.Pool(n_threads)
-        osm_tiles_stats_dict = pool.map(get_stats_for_one_tile, inputs)
+        osm_tiles_stats_dict_multithreaded = pool.map(get_stats_for_one_tile, inputs)
 
         # single threaded
-        # for i in inputs:
-        #     osm_tiles_stats_dict[i] = f(i)
+        osm_tiles_stats_dict_single_threaded = {}
+        for i in range(len(inputs)):
+            osm_tiles_stats_dict_single_threaded[inputs[i][0]] = get_stats_for_one_tile(inputs[i])
+
+        assert set(list(osm_tiles_stats_dict_single_threaded.keys())) == set(
+            list(osm_tiles_stats_dict_multithreaded.keys())
+        )
+        for key in osm_tiles_stats_dict_single_threaded:
+            assert osm_tiles_stats_dict_multithreaded[key] == osm_tiles_stats_dict_single_threaded[key]
+
+        osm_tiles_stats_dict = osm_tiles_stats_dict_multithreaded
 
         with open("osm_tiles_stats_dict" + str(N) + ".pickle", "wb") as f:
             pickle.dump(osm_tiles_stats_dict, f, protocol=pickle.HIGHEST_PROTOCOL)
@@ -313,9 +322,13 @@ if __name__ == "__main__":
     # with multiprocessing.Pool(10) as p:
     #     p.map(generate_one_grid_size, list(range(170, 300, 10)))
 
-    for base in [5, 6, 7, 8, 9, 10]:
-        for i in range(5):  # :range(60, 120, 10):
-            scale = base * (2 ** i)
-            generate_one_grid_size(N=scale, generate_for_perfect_fit=True, base_N=base)
+    # for base in [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]:  # , 6, 7, 8, 9, 10]:
+    #     for i in range(5):  # :range(60, 120, 10):
+    #         scale = base * (2 ** i)
+    #         if scale > 150:
+    #             continue
+    #         generate_one_grid_size(N=scale, generate_for_perfect_fit=True, base_N=base)
+
+    generate_one_grid_size(N=17, generate_for_perfect_fit=True, base_N=9)
 
     last_line = "dummy"
