@@ -12,19 +12,25 @@ import random
 import numpy as np
 import shapely
 from osgeo import ogr, osr, gdal
+from scipy import spatial
 from tqdm import tqdm
 import geopandas as gp
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from shapely import geometry
 
 import osmnx as ox
-
-from python_scripts.network_to_elementary.get_sg_osm import get_sg_poly, is_point_in_bounding_box
-from python_scripts.network_to_elementary.osm_to_tiles import (
-    fetch_road_network_from_osm_database,
-)
-from python_scripts.network_to_elementary.tiles_to_elementary import get_box_to_nodelist_map, get_stats_for_one_tile
-
+#
+# from python_scripts.network_to_elementary.get_sg_osm import get_sg_poly
+# from python_scripts.network_to_elementary.osm_to_tiles import (
+#     fetch_road_network_from_osm_database,
+#     is_point_in_bounding_box,
+# )
+# from python_scripts.network_to_elementary.tiles_to_elementary import get_box_to_nodelist_map, get_stats_for_one_tile
+from python_scripts.network_to_elementary.get_sg_osm import get_sg_poly
+from python_scripts.network_to_elementary.osm_to_tiles import is_point_in_bounding_box, \
+    fetch_road_network_from_osm_database
+from python_scripts.network_to_elementary.tiles_to_elementary import get_stats_for_one_tile
 
 
 def from_ogr_to_shapely_plot(list_of_three_polys, seed_i, count):
@@ -43,7 +49,7 @@ def from_ogr_to_shapely_plot(list_of_three_polys, seed_i, count):
         ogr_geom_copy.SetMeasured(False)
 
         # Generating a new shapely geometry
-        shapely_geom = shapely.wkb.loads(ogr_geom_copy.ExportToIsoWkb())
+        shapely_geom = shapely.wkt.loads(ogr_geom_copy.ExportToWkt())
 
         if shapely_geom.type == 'Polygon':
             x, y = shapely_geom.exterior.xy
@@ -51,12 +57,12 @@ def from_ogr_to_shapely_plot(list_of_three_polys, seed_i, count):
         elif shapely_geom.type == 'MultiPolygon':
             for m in range(len(shapely_geom)):
                 _x, _y = shapely_geom[m].exterior.xy
-                if m==0:
+                if m == 0:
                     plt.plot(_x, _y, label=plt_set[i][0], color=plt_set[i][1], linestyle=plt_set[i][2])
                 else:
-                    plt.plot(_x, _y, label='_'+plt_set[i][0], color=plt_set[i][1], linestyle=plt_set[i][2])
+                    plt.plot(_x, _y, label='_' + plt_set[i][0], color=plt_set[i][1], linestyle=plt_set[i][2])
     plt.legend(loc='upper right')
-    plt.savefig("./urban_merge/epoch_"+ seed_i + str(count)+".png", dpi=300)
+    plt.savefig("./urban_merge/epoch_" + seed_i + str(count) + ".png", dpi=300)
 
 
 def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch):
@@ -75,7 +81,7 @@ def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch):
         ogr_geom_copy.SetMeasured(False)
 
         # Generating a new shapely geometry
-        shapely_geom = shapely.wkb.loads(ogr_geom_copy.ExportToIsoWkb())
+        shapely_geom = shapely.wkt.loads(ogr_geom_copy.ExportToWkt())
 
         if shapely_geom.type == 'Polygon':
             x, y = shapely_geom.exterior.xy
@@ -83,10 +89,10 @@ def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch):
         elif shapely_geom.type == 'MultiPolygon':
             for m in range(len(shapely_geom)):
                 _x, _y = shapely_geom[m].exterior.xy
-                if m==0:
+                if m == 0:
                     plt.plot(_x, _y, label=list(dict_merge)[i], color=colors_pad[i])
                 else:
-                    plt.plot(_x, _y, label='_'+list(dict_merge)[i], color=colors_pad[i])
+                    plt.plot(_x, _y, label='_' + list(dict_merge)[i], color=colors_pad[i])
     plt.legend(loc='upper right')
     plt.title('epoch: ' + str(epoch))
     plt.xlim(103.6, 104.1)
@@ -102,6 +108,7 @@ def read_shpfile_SGboundary(shpfile):
     while iFeature is not None:
         geometry_wkt = iFeature.GetGeometryRef()
     return geometry_wkt
+
 
 def is_point_in_polygon(lat, lon, gdal_poly):
     ogr_geom_copy = ogr.CreateGeometryFromWkb(gdal_poly.ExportToWkb())
@@ -133,24 +140,12 @@ def get_OSM_subgraph_in_poly(G_OSM, polygon_from_gdal):
 
     nodes_for_poly = []
     for node in G_OSM.nodes:
-        for bbox in polygon_as_bb_list:
-            # y is the lat, x is the lon (Out[20]: {'y': 1.2952316, 'x': 103.872544, 'street_count': 3})
-            lat, lon = G_OSM.nodes[node]["y"], G_OSM.nodes[node]["x"]
+        # y is the lat, x is the lon (Out[20]: {'y': 1.2952316, 'x': 103.872544, 'street_count': 3})
+        lat, lon = G_OSM.nodes[node]["y"], G_OSM.nodes[node]["x"]
 
-            # # format of bb in is_point_in_bounding_box:
-            # #     lat_min, lon_min = [bb[0], bb[1]]
-            # #     lat_max, lon_max = [bb[2], bb[3]]
-            # [BB1_lon1, BB1_lat1], [BB1_lon2, BB1_lat2] = bbox
-            #
-            # # reassign for existing is_point_in_bounding_box function
-            # lat_min = min(BB1_lat1, BB1_lat2)
-            # lat_max = max(BB1_lat1, BB1_lat2)
-            # lon_min = min(BB1_lon1, BB1_lon2)
-            # lon_max = max(BB1_lon1, BB1_lon2)
-
-            # if is_point_in_bounding_box(lat, lon, bb=[lat_min, lon_min, lat_max, lon_max]):
-            if is_point_in_polygon(lat, lon, polygon_from_gdal):
-                nodes_for_poly.append(node)
+        # if is_point_in_bounding_box(lat, lon, bb=[lat_min, lon_min, lat_max, lon_max]):
+        if is_point_in_polygon(lat, lon, polygon_from_gdal):
+            nodes_for_poly.append(node)
 
     subgraph = G_OSM.subgraph(nodes_for_poly).copy()
     return subgraph
@@ -159,28 +154,28 @@ def get_OSM_subgraph_in_poly(G_OSM, polygon_from_gdal):
 def convert_stats_to_vector(stats):
     single_vector = []
     for key_2 in (
-        "n",
-        "m",
-        "k_avg",
-        "edge_length_total",
-        "edge_length_avg",
-        "streets_per_node_avg",
-        "intersection_count",
-        "street_length_total",
-        "street_segment_count",
-        "street_length_avg",
-        "circuity_avg",
-        "self_loop_proportion",
+            "n",
+            "m",
+            "k_avg",
+            "edge_length_total",
+            "edge_length_avg",
+            "streets_per_node_avg",
+            "intersection_count",
+            "street_length_total",
+            "street_segment_count",
+            "street_length_avg",
+            "circuity_avg",
+            "self_loop_proportion",
     ):
         single_vector.append(stats[key_2])
     single_vector = np.array(single_vector)
 
-    assert single_vector.shape == (1, 12)
+    assert single_vector.shape == (12, )
     return single_vector
 
 
 def compute_local_criteria(
-    polygon_1, polygon_2, read_G_osm_from_pickle=True, bbox_to_points_map=None, a=0.5, b=0.5, loss_merge="sum"
+        polygon_1, polygon_2, read_G_osm_from_pickle=True, bbox_to_points_map=None, a=0.5, b=0.5, loss_merge="sum"
 ):
     """
     compute the local criteria between two neighbouring polygons
@@ -213,14 +208,15 @@ def compute_local_criteria(
             G_OSM = pickle.load(handle)
     else:
         G_OSM = fetch_road_network_from_osm_database(polygon=get_sg_poly(), network_type="drive", custom_filter=None)
-        # with open("G_OSM_extracted.pickle", "wb") as f:
-        #     # not needed
-        #     pickle.dump(G_OSM, f, protocol=pickle.HIGHEST_PROTOCOL)
+        with open("G_OSM_extracted.pickle", "wb") as f:
+            # not needed
+            pickle.dump(G_OSM, f, protocol=pickle.HIGHEST_PROTOCOL)
 
     stats_vector_1 = convert_stats_to_vector(get_stats_for_one_tile([get_OSM_subgraph_in_poly(G_OSM, polygon_1)]))
     stats_vector_2 = convert_stats_to_vector(get_stats_for_one_tile([get_OSM_subgraph_in_poly(G_OSM, polygon_2)]))
+    new_polygon = polygon_1.Union(polygon_2)
     stats_vector_combined = convert_stats_to_vector(
-        get_stats_for_one_tile([get_OSM_subgraph_in_poly(G_OSM, polygon_1 + polygon_2)])
+        get_stats_for_one_tile([get_OSM_subgraph_in_poly(G_OSM, new_polygon)])
     )
 
     # https://github.com/gboeing/osmnx/blob/997facb88ac566ccf79227a13b86f2db8642d04a/osmnx/stats.py#L339
@@ -241,7 +237,7 @@ def compute_local_criteria(
     return criteria_value
 
 
-def compute_local_criteria_random(polygon_1, polygon_2): #tbd
+def compute_local_criteria_random(polygon_1, polygon_2):  # tbd
     '''
     compute the local criteria between two neighbouring polygons
         Assume f = a*similarity + b*connectivity, where a and b are constants
@@ -324,7 +320,8 @@ def identify_bbox_usage_num(dict_bbox_select):
     return num
 
 
-def hierarchical_region_merging_oneseed(bbox_file, island_file, seed_file, merged_shpfile, criteria_thre):  # input_file is not used here
+def hierarchical_region_merging_oneseed(bbox_file, island_file, seed_file, merged_shpfile,
+                                        criteria_thre):  # input_file is not used here
     '''
     implement hierarchial region merging process for each tree, each region is limited by its boundary
 
@@ -338,7 +335,7 @@ def hierarchical_region_merging_oneseed(bbox_file, island_file, seed_file, merge
     # dict_bbox = {'hierarchy_1':[[]], 'hierarchy_2':[[]], 'hierarchy_3':[[]]}
     with open(bbox_file, 'rb') as handle1:
         dict_bbox = pickle.load(handle1)
-    
+
     # The keys of these three dictionaries are the same
     # read the list of bbox in each island in the best-fit hierarchy
     # dict_islands = {'island_1':[], 'island_2':[], 'island_3':[], 'island_4':[]}
@@ -350,12 +347,12 @@ def hierarchical_region_merging_oneseed(bbox_file, island_file, seed_file, merge
         dict_seeds = pickle.load(handle3)
     # store the merge result
     dict_merge = {}
-    
+
     # implement hierarchial region merge for each seed
     for seed_i in tqdm(dict_seeds, desc='Processing island'):
         seed_bh = dict_seeds[seed_i]
         island_bh = dict_islands[seed_i]
-        
+
         # merge the separate bbox in this island into a whole polygon
         whole_island = ogr.Geometry(ogr.wkbPolygon)
 
@@ -370,11 +367,11 @@ def hierarchical_region_merging_oneseed(bbox_file, island_file, seed_file, merge
             for bbox_i in bbox_eh:
                 # convert bbox_eh to ogr_string
                 bbox_ogr = bbox_ogr_polygon(bbox_i)
-                
+
                 if whole_island.Contains(bbox_ogr):
                     dict_bbox_select[bbox_ogr] = True
         print('total number:', len(dict_bbox_select))
-                    
+
         # begin region merging
         seed_zone = bbox_ogr_polygon(seed_bh)
         from_ogr_to_shapely_plot([whole_island, seed_zone], seed_i, "_" + str(0))
@@ -386,17 +383,17 @@ def hierarchical_region_merging_oneseed(bbox_file, island_file, seed_file, merge
             touch_count = 0
             # find all neibhouring bbox intersects with seed region, labeled as False
             for select_i in dict_bbox_select:
-                if dict_bbox_select[select_i]==True and seed_zone.Overlaps(select_i):
+                if dict_bbox_select[select_i] == True and seed_zone.Overlaps(select_i):
                     dict_bbox_select[select_i] = False
-            
+
             # find the minimum local_criteria and its bbox among all bboxes that it touches
             min_criteria = sys.maxsize
             min_merge_bbox = []
             _flag = False
             for select_i in dict_bbox_select:
-                if dict_bbox_select[select_i]==True and seed_zone.Touches(select_i):
+                if dict_bbox_select[select_i] == True and seed_zone.Touches(select_i):
                     touch_count += 1
-                    tmp_criteria = compute_local_criteria(seed_zone, select_i)
+                    tmp_criteria = compute_local_criteria(seed_zone, select_i, read_G_osm_from_pickle=False)
                     # if tmp_criteria is too large, indicate as false
                     if tmp_criteria > criteria_thre:
                         dict_bbox_select[select_i] = False
@@ -410,7 +407,7 @@ def hierarchical_region_merging_oneseed(bbox_file, island_file, seed_file, merge
             if _flag:
                 dict_bbox_select[min_merge_bbox] = False
                 seed_zone = seed_zone.Union(min_merge_bbox)
-                from_ogr_to_shapely_plot([whole_island, seed_zone], seed_i, "_"+ str(count))
+                from_ogr_to_shapely_plot([whole_island, seed_zone], seed_i, "_" + str(count))
                 print('Epcoh: {}. Available bbox: {}. Touch bbox: {}.'.
                       format(count, identify_bbox_usage_num(dict_bbox_select), touch_count))
             # stop iterating when no bbox touching with seed_zone
@@ -425,17 +422,17 @@ def hierarchical_region_merging_oneseed(bbox_file, island_file, seed_file, merge
     # output it as shapefile result
     os.environ['SHAPE_ENCODING'] = "utf-8"
     driver = ogr.GetDriverByName("ESRI Shapefile")
-    if os.access( merged_shpfile, os.F_OK ):
-        driver.DeleteDataSource( merged_shpfile )
+    if os.access(merged_shpfile, os.F_OK):
+        driver.DeleteDataSource(merged_shpfile)
     newds = driver.CreateDataSource(merged_shpfile)
     srs = osr.SpatialReference()
     srs.SetWellKnownGeogCS("WGS84")
-    layernew = newds.CreateLayer('line',srs,ogr.wkbPolygon)
-    
+    layernew = newds.CreateLayer('line', srs, ogr.wkbPolygon)
+
     field_PC = ogr.FieldDefn("island", ogr.OFTString)
     field_PC.SetWidth(30)
     layernew.CreateField(field_PC)
-    
+
     for i_zone in dict_merge:
         feat = ogr.Feature(layernew.GetLayerDefn())
         feat.SetGeometry(dict_merge[i_zone])
@@ -445,7 +442,8 @@ def hierarchical_region_merging_oneseed(bbox_file, island_file, seed_file, merge
     newds.Destroy()
 
 
-def hierarchical_region_merging_multiseeds(bbox_file, seed_file, merged_shpfile, criteria_thre):  # input_file is not used here
+def hierarchical_region_merging_multiseeds(bbox_file, seed_file, merged_shpfile,
+                                           criteria_thre):  # input_file is not used here
     '''
     implement hierarchial region merging process for each tree, multi-seeds growing together, no island boundary limitation
 
@@ -483,7 +481,9 @@ def hierarchical_region_merging_multiseeds(bbox_file, seed_file, merged_shpfile,
         seed_zone = dict_merge[seed_i]
         # find all neibhouring bbox Overlapping with seed region, labeled as False
         for select_i in dict_bbox_select:
-            if dict_bbox_select[select_i] == True and (seed_zone.Overlaps(select_i) or seed_zone.Crosses(select_i) or seed_zone.Contains(select_i) or seed_zone.Within(select_i)):
+            if dict_bbox_select[select_i] == True and (
+                    seed_zone.Overlaps(select_i) or seed_zone.Crosses(select_i) or seed_zone.Contains(
+                    select_i) or seed_zone.Within(select_i)):
                 dict_bbox_select[select_i] = False
 
     # implement hierarchial region merge
@@ -497,7 +497,9 @@ def hierarchical_region_merging_multiseeds(bbox_file, seed_file, merged_shpfile,
 
             # find all neibhouring bbox Overlapping with seed region, labeled as False
             for select_i in dict_bbox_select:
-                if dict_bbox_select[select_i] == True and (seed_zone.Overlaps(select_i) or seed_zone.Crosses(select_i) or seed_zone.Contains(select_i) or seed_zone.Within(select_i)):
+                if dict_bbox_select[select_i] == True and (
+                        seed_zone.Overlaps(select_i) or seed_zone.Crosses(select_i) or seed_zone.Contains(
+                        select_i) or seed_zone.Within(select_i)):
                     dict_bbox_select[select_i] = False
 
             # find the minimum local_criteria and its bbox among all bboxes that it touches
@@ -507,7 +509,7 @@ def hierarchical_region_merging_multiseeds(bbox_file, seed_file, merged_shpfile,
             for select_i in dict_bbox_select:
                 if dict_bbox_select[select_i] == True and seed_zone.Touches(select_i):
                     touch_count += 1
-                    tmp_criteria = compute_local_criteria(seed_zone, select_i)
+                    tmp_criteria = compute_local_criteria(seed_zone, select_i, read_G_osm_from_pickle=True)
                     # if tmp_criteria is too large, indicate as false
                     if tmp_criteria > criteria_thre:
                         dict_bbox_select[select_i] = False
@@ -526,7 +528,9 @@ def hierarchical_region_merging_multiseeds(bbox_file, seed_file, merged_shpfile,
 
             # find all neibhouring bbox Overlapping with seed region, labeled as False
             for select_i in dict_bbox_select:
-                if dict_bbox_select[select_i] == True and (seed_zone.Overlaps(select_i) or seed_zone.Crosses(select_i) or seed_zone.Contains(select_i) or seed_zone.Within(select_i)):
+                if dict_bbox_select[select_i] == True and (
+                        seed_zone.Overlaps(select_i) or seed_zone.Crosses(select_i) or seed_zone.Contains(
+                        select_i) or seed_zone.Within(select_i)):
                     dict_bbox_select[select_i] = False
 
         print('Epcoh: {}. Available bbox: {}. Touch bbox: {}.'.
@@ -561,18 +565,18 @@ def hierarchical_region_merging_multiseeds(bbox_file, seed_file, merged_shpfile,
     newds.Destroy()
 
 
-if __name__ == '__main__': 
+if __name__ == '__main__':
     print('test')
-    # os.environ['PROJ_LIB'] = r'C:\Users\yatzhang\Anaconda3\envs\trafficenv\Library\share\proj'
-    # os.environ['GDAL_DATA'] = r'C:\Users\yatzhang\Anaconda3\envs\trafficenv\Library\share'
-    
+    os.environ['PROJ_LIB'] = r'C:\Users\yatzhang\Anaconda3\envs\trafficenv\Library\share\proj'
+    os.environ['GDAL_DATA'] = r'C:\Users\yatzhang\Anaconda3\envs\trafficenv\Library\share'
+
     # hierarchical_region_merging_oneseed('./urban_merge/dict_bbox_5_.pickle',
     #                                     './urban_merge/dict_islands_2_.pickle',
     #                                     './urban_merge/dict_seeds_2_.pickle',
     #                                     './urban_merge/output.shp',
     #                                     0.75)
 
-    hierarchical_region_merging_multiseeds('/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/dict_bbox_5_.pickle',
-                                           '/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/dict_seeds_2_.pickle',
-                                           '/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/output.shp',
-                                           0.7)
+    hierarchical_region_merging_multiseeds('./urban_merge/dict_bbox_5_.pickle',
+                                           './urban_merge/dict_seeds_2_.pickle',
+                                           './urban_merge/output.shp',
+                                           0.9)
