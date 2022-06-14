@@ -299,7 +299,8 @@ def step_1_osm_tiles_to_features(
                         print("----------------")
                         dict_1 = list(osm_tiles_stats_dict_single_threaded[i].values())
                         dict_2 = list(osm_tiles_stats_dict_multithreaded[i].values())
-                        print(dict_1, dict_2)
+                        print(dict_1)
+                        print(dict_2)
                         print("----------------")
 
                         # if type(dict_1) is list and dict_1[0] == "EMPTY_STATS":
