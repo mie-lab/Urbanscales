@@ -19,10 +19,9 @@ import matplotlib.pyplot as plt
 
 import osmnx as ox
 
-from python_scripts.network_to_elementary.get_sg_osm import get_sg_poly
+from python_scripts.network_to_elementary.get_sg_osm import get_sg_poly, is_point_in_bounding_box
 from python_scripts.network_to_elementary.osm_to_tiles import (
     fetch_road_network_from_osm_database,
-    is_point_in_bounding_box,
 )
 from python_scripts.network_to_elementary.tiles_to_elementary import get_box_to_nodelist_map, get_stats_for_one_tile
 
@@ -104,7 +103,32 @@ def read_shpfile_SGboundary(shpfile):
         geometry_wkt = iFeature.GetGeometryRef()
     return geometry_wkt
 
-def get_OSM_subgraph_in_poly(G_OSM, polygon_as_bb_list):
+def is_point_in_polygon(lat, lon, gdal_poly):
+    ogr_geom_copy = ogr.CreateGeometryFromWkb(gdal_poly.ExportToWkb())
+
+    # Dropping the M-values
+    ogr_geom_copy.SetMeasured(False)
+
+    # Generating a new shapely geometry
+    shapely_geom = shapely.wkt.loads(ogr_geom_copy.ExportToWkt())
+
+
+    ###
+    ###
+    # polygon = [(-1571236.8349707182, 8989180.222117377), (1599362.9654156454, 8924317.946336618),
+    #            (-1653179.0745812152, 8922145.163675062), (-1626237.6614402141, 8986445.107619021)]
+    #
+    # Point_X = -1627875.474
+    # Point_Y = 8955472.968
+    #
+    # line = geometry.LineString(polygon)
+    # point = geometry.Point(Point_X, Point_Y)
+    # polygon = geometry.Polygon(line)
+    point = geometry.Point(lon, lat)
+    return (shapely_geom.contains(point))
+
+
+def get_OSM_subgraph_in_poly(G_OSM, polygon_from_gdal):
     # [[[BB1_lon1, BB1_lat1], [BB1_lon2, BB1_lat2]], [[BB2_lon1, BB2_lat1], .... ]
 
     nodes_for_poly = []
@@ -113,19 +137,21 @@ def get_OSM_subgraph_in_poly(G_OSM, polygon_as_bb_list):
             # y is the lat, x is the lon (Out[20]: {'y': 1.2952316, 'x': 103.872544, 'street_count': 3})
             lat, lon = G_OSM.nodes[node]["y"], G_OSM.nodes[node]["x"]
 
-            # format of bb in is_point_in_bounding_box:
-            #     lat_min, lon_min = [bb[0], bb[1]]
-            #     lat_max, lon_max = [bb[2], bb[3]]
-            [BB1_lon1, BB1_lat1], [BB1_lon2, BB1_lat2] = bbox
+            # # format of bb in is_point_in_bounding_box:
+            # #     lat_min, lon_min = [bb[0], bb[1]]
+            # #     lat_max, lon_max = [bb[2], bb[3]]
+            # [BB1_lon1, BB1_lat1], [BB1_lon2, BB1_lat2] = bbox
+            #
+            # # reassign for existing is_point_in_bounding_box function
+            # lat_min = min(BB1_lat1, BB1_lat2)
+            # lat_max = max(BB1_lat1, BB1_lat2)
+            # lon_min = min(BB1_lon1, BB1_lon2)
+            # lon_max = max(BB1_lon1, BB1_lon2)
 
-            # reassign for existing is_point_in_bounding_box function
-            lat_min = min(BB1_lat1, BB1_lat2)
-            lat_max = max(BB1_lat1, BB1_lat2)
-            lon_min = min(BB1_lon1, BB1_lon2)
-            lon_max = max(BB1_lon1, BB1_lon2)
-
-            if is_point_in_bounding_box(lat, lon, bb=[lat_min, lon_min, lat_max, lon_max]):
+            # if is_point_in_bounding_box(lat, lon, bb=[lat_min, lon_min, lat_max, lon_max]):
+            if is_point_in_polygon(lat, lon, polygon_from_gdal):
                 nodes_for_poly.append(node)
+
     subgraph = G_OSM.subgraph(nodes_for_poly).copy()
     return subgraph
 
@@ -537,8 +563,8 @@ def hierarchical_region_merging_multiseeds(bbox_file, seed_file, merged_shpfile,
 
 if __name__ == '__main__': 
     print('test')
-    os.environ['PROJ_LIB'] = r'C:\Users\yatzhang\Anaconda3\envs\trafficenv\Library\share\proj'
-    os.environ['GDAL_DATA'] = r'C:\Users\yatzhang\Anaconda3\envs\trafficenv\Library\share'
+    # os.environ['PROJ_LIB'] = r'C:\Users\yatzhang\Anaconda3\envs\trafficenv\Library\share\proj'
+    # os.environ['GDAL_DATA'] = r'C:\Users\yatzhang\Anaconda3\envs\trafficenv\Library\share'
     
     # hierarchical_region_merging_oneseed('./urban_merge/dict_bbox_5_.pickle',
     #                                     './urban_merge/dict_islands_2_.pickle',
@@ -546,7 +572,7 @@ if __name__ == '__main__':
     #                                     './urban_merge/output.shp',
     #                                     0.75)
 
-    hierarchical_region_merging_multiseeds('./urban_merge/dict_bbox_5_.pickle',
-                                           './urban_merge/dict_seeds_2_.pickle',
-                                           './urban_merge/output.shp',
-                                           1)
+    hierarchical_region_merging_multiseeds('/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/dict_bbox_5_.pickle',
+                                           '/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/dict_seeds_2_.pickle',
+                                           '/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/output.shp',
+                                           0.7)
