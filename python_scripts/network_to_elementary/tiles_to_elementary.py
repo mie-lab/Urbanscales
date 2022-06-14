@@ -302,6 +302,7 @@ def step_1_osm_tiles_to_features(
                         print(dict_1)
                         print(dict_2)
                         print("----------------")
+                        assert repr(dict_1) == repr(dict_2)
 
                         # if type(dict_1) is list and dict_1[0] == "EMPTY_STATS":
                         #     # case: "EMPTY_STATS"
