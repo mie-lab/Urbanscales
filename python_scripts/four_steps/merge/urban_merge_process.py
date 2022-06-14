@@ -17,6 +17,16 @@ import geopandas as gp
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
+import osmnx as ox
+
+from python_scripts.network_to_elementary.get_sg_osm import get_sg_poly
+from python_scripts.network_to_elementary.osm_to_tiles import (
+    fetch_road_network_from_osm_database,
+    is_point_in_bounding_box,
+)
+from python_scripts.network_to_elementary.tiles_to_elementary import get_box_to_nodelist_map, get_stats_for_one_tile
+
+
 
 def from_ogr_to_shapely_plot(list_of_three_polys, seed_i, count):
     # Creating a copy of the input OGR geometry. This is done in order to
@@ -94,27 +104,118 @@ def read_shpfile_SGboundary(shpfile):
         geometry_wkt = iFeature.GetGeometryRef()
     return geometry_wkt
 
+def get_OSM_subgraph_in_poly(G_OSM, polygon_as_bb_list):
+    # [[[BB1_lon1, BB1_lat1], [BB1_lon2, BB1_lat2]], [[BB2_lon1, BB2_lat1], .... ]
 
-def compute_feature_bbox(polygon):  #tbd
-    '''
-    compute the feature vectors of each polygon, including bbox and irregular polygon (merged version)
+    nodes_for_poly = []
+    for node in G_OSM.nodes:
+        for bbox in polygon_as_bb_list:
+            # y is the lat, x is the lon (Out[20]: {'y': 1.2952316, 'x': 103.872544, 'street_count': 3})
+            lat, lon = G_OSM.nodes[node]["y"], G_OSM.nodes[node]["x"]
+
+            # format of bb in is_point_in_bounding_box:
+            #     lat_min, lon_min = [bb[0], bb[1]]
+            #     lat_max, lon_max = [bb[2], bb[3]]
+            [BB1_lon1, BB1_lat1], [BB1_lon2, BB1_lat2] = bbox
+
+            # reassign for existing is_point_in_bounding_box function
+            lat_min = min(BB1_lat1, BB1_lat2)
+            lat_max = max(BB1_lat1, BB1_lat2)
+            lon_min = min(BB1_lon1, BB1_lon2)
+            lon_max = max(BB1_lon1, BB1_lon2)
+
+            if is_point_in_bounding_box(lat, lon, bb=[lat_min, lon_min, lat_max, lon_max]):
+                nodes_for_poly.append(node)
+    subgraph = G_OSM.subgraph(nodes_for_poly).copy()
+    return subgraph
+
+
+def convert_stats_to_vector(stats):
+    single_vector = []
+    for key_2 in (
+        "n",
+        "m",
+        "k_avg",
+        "edge_length_total",
+        "edge_length_avg",
+        "streets_per_node_avg",
+        "intersection_count",
+        "street_length_total",
+        "street_segment_count",
+        "street_length_avg",
+        "circuity_avg",
+        "self_loop_proportion",
+    ):
+        single_vector.append(stats[key_2])
+    single_vector = np.array(single_vector)
+
+    assert single_vector.shape == (1, 12)
+    return single_vector
+
+
+def compute_local_criteria(
+    polygon_1, polygon_2, read_G_osm_from_pickle=True, bbox_to_points_map=None, a=0.5, b=0.5, loss_merge="sum"
+):
+    """
+    compute the local criteria between two neighbouring polygons
+        Assume f = a*similarity + b*connectivity, where a and b are constants
+        similarity: distance of feature variable vectors between two polygons
+        connectivity: whether these two polygones are connected via OSM network
 
     Parameters
     ----------
-    polygon : TYPE
+    polygon_1 : @Nishant has assumed polygon1 and polygon2 to be a similar format as discussed before
+     (i.e. list of BBs)
+                # format of list_of_BBs;
+                # [[[BB1_lon1, BB1_lat1], [BB1_lon2, BB1_lat2]], [[BB2_lon1, BB2_lat1], ......... ]
+                polygon_1 is the seed zone
+                polygon_2 is being assessed for merging/ not merging
+    polygon_2 : TYPE
         DESCRIPTION.
+
+    loss_merge: default "sum"
 
     Returns
     -------
-    recompute_feature : list (float vector)
-        eight-dimensional feature variable vector
+    criteria_value : float
+        local criteria value between two polygons
+        the smaller, the better
 
-    '''
-    recompute_feature = 0
-    return recompute_feature
+    """
+    if read_G_osm_from_pickle:
+        with open("G_OSM_extracted.pickle", "rb") as handle:
+            G_OSM = pickle.load(handle)
+    else:
+        G_OSM = fetch_road_network_from_osm_database(polygon=get_sg_poly(), network_type="drive", custom_filter=None)
+        # with open("G_OSM_extracted.pickle", "wb") as f:
+        #     # not needed
+        #     pickle.dump(G_OSM, f, protocol=pickle.HIGHEST_PROTOCOL)
+
+    stats_vector_1 = convert_stats_to_vector(get_stats_for_one_tile([get_OSM_subgraph_in_poly(G_OSM, polygon_1)]))
+    stats_vector_2 = convert_stats_to_vector(get_stats_for_one_tile([get_OSM_subgraph_in_poly(G_OSM, polygon_2)]))
+    stats_vector_combined = convert_stats_to_vector(
+        get_stats_for_one_tile([get_OSM_subgraph_in_poly(G_OSM, polygon_1 + polygon_2)])
+    )
+
+    # https://github.com/gboeing/osmnx/blob/997facb88ac566ccf79227a13b86f2db8642d04a/osmnx/stats.py#L339
+    # m refers to edge count
+    edge_count_1 = stats_vector_1[1]
+    edge_count_2 = stats_vector_2[1]
+    edge_count_combined = stats_vector_combined[1]
+    new_edges = edge_count_combined - (edge_count_1 + edge_count_2)
+    if new_edges == 0:
+        return 1
+
+    f_sim = a * spatial.distance.cosine(stats_vector_1, stats_vector_2)
+    f_conn = b * (1 / new_edges)
+
+    if loss_merge == "sum":
+        criteria_value = f_sim + f_conn
+
+    return criteria_value
 
 
-def compute_local_criteria(polygon_1, polygon_2): #tbd
+def compute_local_criteria_random(polygon_1, polygon_2): #tbd
     '''
     compute the local criteria between two neighbouring polygons
         Assume f = a*similarity + b*connectivity, where a and b are constants
