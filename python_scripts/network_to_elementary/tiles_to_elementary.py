@@ -296,19 +296,22 @@ def step_1_osm_tiles_to_features(
                         list(osm_tiles_stats_dict_single_threaded[i].keys())[0]
                         == list(osm_tiles_stats_dict_multithreaded[i].keys())[0]
                     ):
+                        print("----------------")
                         dict_1 = list(osm_tiles_stats_dict_single_threaded[i].values())
                         dict_2 = list(osm_tiles_stats_dict_multithreaded[i].values())
+                        print(dict_1, dict_2)
+                        print("----------------")
 
-                        if type(dict_1) is list and dict_1[0] == "EMPTY_STATS":
-                            # case: "EMPTY_STATS"
-                            assert dict_1[0] == dict_2[0]
-                        else:
-                            for key in dict_1:
-                                print(dict_1)
-                                if type(dict_1[key]) is not dict:
-                                    assert dict_1[key] == dict_2[key]
-                                # this is still not complete, because some values are dicts again!!!
-                                # but no need for overkill right now
+                        # if type(dict_1) is list and dict_1[0] == "EMPTY_STATS":
+                        #     # case: "EMPTY_STATS"
+                        #     assert dict_1[0] == dict_2[0]
+                        # else:
+                        #     for key in dict_1:
+                        #
+                        #         if type(dict_1[key]) is not dict:
+                        #             assert dict_1[key] == dict_2[key]
+                        #         # this is still not complete, because some values are dicts again!!!
+                        #         # but no need for overkill right now
 
         osm_tiles_stats_dict = osm_tiles_stats_dict_multithreaded
 
