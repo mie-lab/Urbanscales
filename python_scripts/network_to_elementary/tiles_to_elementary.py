@@ -233,6 +233,7 @@ def step_1_osm_tiles_to_features(
     plotting_enabled=True,
     generate_for_perfect_fit=False,
     base_N=-1,
+    debug_multi_processing_error=False,
 ):
     """
 
@@ -280,15 +281,34 @@ def step_1_osm_tiles_to_features(
         osm_tiles_stats_dict_multithreaded = pool.map(get_stats_for_one_tile, inputs)
 
         # single threaded
-        osm_tiles_stats_dict_single_threaded = {}
+        osm_tiles_stats_dict_single_threaded = []
         for i in range(len(inputs)):
-            osm_tiles_stats_dict_single_threaded[inputs[i][0]] = get_stats_for_one_tile(inputs[i])
+            osm_tiles_stats_dict_single_threaded.append({inputs[i][1]: get_stats_for_one_tile(inputs[i])[inputs[i][1]]})
 
-        assert set(list(osm_tiles_stats_dict_single_threaded.keys())) == set(
-            list(osm_tiles_stats_dict_multithreaded.keys())
-        )
-        for key in osm_tiles_stats_dict_single_threaded:
-            assert osm_tiles_stats_dict_multithreaded[key] == osm_tiles_stats_dict_single_threaded[key]
+        if debug_multi_processing_error:
+            assert len(osm_tiles_stats_dict_single_threaded) == len(osm_tiles_stats_dict_multithreaded)
+            # osm_tiles_stats_dict_single_threaded and multi-threaded both are list of dicts with single value each
+
+            for i in range(len(osm_tiles_stats_dict_single_threaded)):
+
+                for j in range(len(osm_tiles_stats_dict_multithreaded)):
+                    if (
+                        list(osm_tiles_stats_dict_single_threaded[i].keys())[0]
+                        == list(osm_tiles_stats_dict_multithreaded[i].keys())[0]
+                    ):
+                        dict_1 = list(osm_tiles_stats_dict_single_threaded[i].values())
+                        dict_2 = list(osm_tiles_stats_dict_multithreaded[i].values())
+
+                        if type(dict_1) is list and dict_1[0] == "EMPTY_STATS":
+                            # case: "EMPTY_STATS"
+                            assert dict_1[0] == dict_2[0]
+                        else:
+                            for key in dict_1:
+                                print(dict_1)
+                                if type(dict_1[key]) is not dict:
+                                    assert dict_1[key] == dict_2[key]
+                                # this is still not complete, because some values are dicts again!!!
+                                # but no need for overkill right now
 
         osm_tiles_stats_dict = osm_tiles_stats_dict_multithreaded
 
@@ -315,6 +335,7 @@ def generate_one_grid_size(N, generate_for_perfect_fit=False, base_N=-1):
         n_threads=35,
         generate_for_perfect_fit=generate_for_perfect_fit,
         base_N=base_N,
+        debug_multi_processing_error=True,
     )
 
 
