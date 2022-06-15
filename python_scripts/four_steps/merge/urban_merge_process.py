@@ -9,6 +9,7 @@ import pickle
 import os, sys
 import random
 import time
+import multiprocessing as mp
 
 import networkx as nx
 
@@ -65,13 +66,13 @@ def from_ogr_to_shapely_plot(list_of_three_polys, seed_i, count):
     plt.savefig("merge_plots/epoch_" + seed_i + str(count) + ".png", dpi=300)
 
 
-def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch):
+def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre):
     # Creating a copy of the input OGR geometry. This is done in order to
     # ensure that when we drop the M-values, we are only doing so in a
     # local copy of the geometry, not in the actual original geometry.
     # ogr_geom_copy = ogr.CreateGeometryFromWkb(ogr_geom.ExportToIsoWkb())
     plt.clf()
-    plt_set = [["tomato", "dotted"]]
+    plt_set = [['tomato', 'dotted']]
     colors_pad = plt.cm.rainbow(np.linspace(0, 1, len(dict_merge)))
     for i in range(len(dict_merge)):
         poly = dict_merge[list(dict_merge)[i]]
@@ -83,21 +84,21 @@ def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch):
         # Generating a new shapely geometry
         shapely_geom = shapely.wkt.loads(ogr_geom_copy.ExportToWkt())
 
-        if shapely_geom.type == "Polygon":
+        if shapely_geom.type == 'Polygon':
             x, y = shapely_geom.exterior.xy
             plt.plot(x, y, label=list(dict_merge)[i], color=colors_pad[i])
-        elif shapely_geom.type == "MultiPolygon":
+        elif shapely_geom.type == 'MultiPolygon':
             for m in range(len(shapely_geom)):
                 _x, _y = shapely_geom[m].exterior.xy
-                if m == 0:
+                if m==0:
                     plt.plot(_x, _y, label=list(dict_merge)[i], color=colors_pad[i])
                 else:
-                    plt.plot(_x, _y, label="_" + list(dict_merge)[i], color=colors_pad[i])
-    plt.legend(loc="upper right")
-    plt.title("epoch: " + str(epoch))
+                    plt.plot(_x, _y, label='_'+list(dict_merge)[i], color=colors_pad[i])
+    plt.legend(loc='upper right')
+    plt.title('epoch: ' + str(epoch))
     plt.xlim(103.6, 104.1)
     plt.ylim(1.26, 1.45)
-    plt.savefig("merge_plots/epoch_" + str(epoch) + ".png", dpi=300)
+    plt.savefig("./urban_merge/thre" + str(criteria_thre) + "_epoch" + str(epoch) + ".png", dpi=300)
 
 
 def read_shpfile_SGboundary(shpfile):
@@ -662,7 +663,7 @@ def hierarchical_region_merging_multiseeds(
 
     # implement hierarchial region merge
     epoch = 0
-    from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch)
+    from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre)
     while identify_bbox_usage(dict_bbox_select):
         epoch += 1
         touch_count = 0
@@ -718,7 +719,7 @@ def hierarchical_region_merging_multiseeds(
                 epoch, identify_bbox_usage_num(dict_bbox_select), touch_count
             )
         )
-        from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch)
+        from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre)
         # stop iterating when no bbox touching with seed_zone
         if touch_count == 0:
             print(
@@ -751,6 +752,13 @@ def hierarchical_region_merging_multiseeds(
     newds.Destroy()
 
 
+def main_func(thre):
+    hierarchical_region_merging_multiseeds('./urban_merge/dict_bbox_5_.pickle',
+                                           './urban_merge/dict_seeds_2_.pickle',
+                                           './urban_merge/output_thre' + str(thre) + '.shp',
+                                           thre)
+    
+    
 if __name__ == "__main__":
     print("test")
     # os.environ['PROJ_LIB'] = r'C:\Users\yatzhang\Anaconda3\envs\trafficenv\Library\share\proj'
@@ -769,9 +777,13 @@ if __name__ == "__main__":
     os.system("rm bbox_to_OSM_nodes_map.pickle")
     os.system("rm save_vectors.csv")
 
-    hierarchical_region_merging_multiseeds(
-        "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/dict_bbox_5_.pickle",
-        "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/dict_seeds_5_.pickle",
-        "output.shp",
-        0.9,
-    )
+#     hierarchical_region_merging_multiseeds(
+#         "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/dict_bbox_5_.pickle",
+#         "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/dict_seeds_5_.pickle",
+#         "output.shp",
+#         0.9,
+#     )
+    
+    thre_list = [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.08, 0.05, 0.03, 0.01]
+    pool = mp.Pool(len(thre_list))
+    pool.map(main_func, thre_list)
