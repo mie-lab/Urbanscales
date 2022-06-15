@@ -361,10 +361,10 @@ def compute_local_criteria(
     )
     # This extra test needed because we have some extra bboxes (empty graphs in the get_OSM_subgraph_in_poly_fast (FAST))
     # function
-    if type(stats_vector_1) == str or type(stats_vector_1) == str or type(stats_vector_combined):
+    if type(stats_vector_1) == str or type(stats_vector_1) == str or type(stats_vector_combined) == str:
         # FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
         # disagreement between numpy as string comparison
-        if stats_vector_1 == "EMPTY_STATS" or stats_vector_2 == "EMPTY_STATS":
+        if stats_vector_1 == "EMPTY_STATS" or stats_vector_2 == "EMPTY_STATS" or stats_vector_combined == "EMPTY_STATS":
             return 1
 
     assert stats_vector_2.shape == stats_vector_2.shape == stats_vector_combined.shape == (12,)
