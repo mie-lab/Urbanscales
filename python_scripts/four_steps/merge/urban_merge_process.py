@@ -8,10 +8,12 @@ import copy
 import pickle
 import os, sys
 import random
+import networkx as nx
 
 print("Path: ", os.getcwd())
 sys.path.append("./")
 
+from smartprint import smartprint as sprint
 import numpy as np
 import shapely
 from osgeo import ogr, osr, gdal
@@ -125,7 +127,7 @@ def is_point_in_polygon(lat, lon, gdal_poly):
     # Generating a new shapely geometry
     shapely_geom = shapely.wkt.loads(ogr_geom_copy.ExportToWkt())
 
-    point = geometry.Point(lon, lat)
+    point = geometry.Point(lon, lat, 0)
     return shapely_geom.contains(point)
 
 
@@ -137,7 +139,6 @@ def get_OSM_subgraph_in_poly_fast(G_OSM, polygon_from_gdal):
     if os.path.isfile(bboxmap_file):
         with open(bboxmap_file, "rb") as handle1:
             bbox_to_nodes_map = pickle.load(handle1)
-        print("bbox_to_nodes_map file read from pickle ")
     else:
         print("bbox_to_nodes_map file NOT found; creating ...... ")
         max_lat = -1
@@ -156,10 +157,10 @@ def get_OSM_subgraph_in_poly_fast(G_OSM, polygon_from_gdal):
         delta_x = (max_lon - min_lon) / bbox_split
         delta_y = (max_lat - min_lat) / bbox_split
         bbox_list = []
-        i = min_lat
-        while i + delta_x <= max_lat:
-            j = min_lon
-            while j + delta_y <= max_lon:
+        i = min_lon
+        while i + delta_x <= max_lon:
+            j = min_lat
+            while j + delta_y <= max_lat:
                 bbox_list.append((i, j, i + delta_x, j + delta_y))
                 # (i, j, i + delta_x, j + delta_y) : lon_min, lat_min, lon_max, lat_max
                 #  lon_max should not be confused with glbal (throughout City poly) max_lat, max_lon above
@@ -211,9 +212,26 @@ def is_bounding_box_intersecting_polygon(polygon_gdal, bbox):
 
     # OR, NOT AND
     # because any corner point implies intersecting
-    return is_point_in_polygon(lat_min, lon_min, gdal_poly=polygon_gdal) or is_point_in_polygon(
+    # simple case when corner is inside polygon
+    if is_point_in_polygon(lat_min, lon_min, gdal_poly=polygon_gdal) or is_point_in_polygon(
         lat_max, lon_max, gdal_poly=polygon_gdal
-    )
+    ):
+        return True
+
+    else:
+        # complex case, when BB corner is not inside the polygon
+        bb_polygon = geometry.Polygon(
+            [[lon_min, lat_min], [lon_max, lat_min], [lon_max, lat_max], [lon_min, lat_max], [lon_min, lat_min]]
+        )
+        ogr_geom_copy = ogr.CreateGeometryFromWkb(polygon_gdal.ExportToWkb())
+
+        # Dropping the M-values
+        ogr_geom_copy.SetMeasured(False)
+
+        # Generating a new shapely geometry
+        polygon_gdal_shapely = shapely.wkt.loads(ogr_geom_copy.ExportToWkt())
+
+        return bb_polygon.intersects(polygon_gdal_shapely)
 
 
 def get_OSM_subgraph_in_poly(G_OSM, polygon_from_gdal):
@@ -233,8 +251,8 @@ def get_OSM_subgraph_in_poly(G_OSM, polygon_from_gdal):
 
 
 def convert_stats_to_vector(stats):
-    if stats =="EMPTY_STATS":
-        return  stats
+    if stats == "EMPTY_STATS":
+        return stats
     single_vector = []
     for key_2 in (
         "n",
@@ -258,7 +276,14 @@ def convert_stats_to_vector(stats):
 
 
 def compute_local_criteria(
-    polygon_1, polygon_2, read_G_osm_from_pickle=True, bbox_to_points_map=None, a=0.5, b=0.5, loss_merge="sum"
+    polygon_1,
+    polygon_2,
+    read_G_osm_from_pickle=True,
+    bbox_to_points_map=None,
+    a=0.5,
+    b=0.5,
+    loss_merge="sum",
+    debug_fast_function=False,
 ):
     """
     compute the local criteria between two neighbouring polygons
@@ -295,13 +320,27 @@ def compute_local_criteria(
             # not needed
             pickle.dump(G_OSM, f, protocol=4)
 
+    if debug_fast_function:
+        subgraph_1_slow = get_OSM_subgraph_in_poly(G_OSM, polygon_1)
+        subgraph_2_slow = get_OSM_subgraph_in_poly(G_OSM, polygon_2)
+        subgraph_1_fast = get_OSM_subgraph_in_poly_fast(G_OSM, polygon_1)
+        subgraph_2_fast = get_OSM_subgraph_in_poly_fast(G_OSM, polygon_2)
+
+        sprint(len(list(subgraph_1_fast.nodes)))
+        sprint(len(list(subgraph_1_slow.nodes)))
+        assert nx.is_isomorphic(subgraph_1_slow, subgraph_1_fast)
+        assert nx.is_isomorphic(subgraph_2_slow, subgraph_2_fast)
+
     stats_vector_1 = convert_stats_to_vector(get_stats_for_one_tile([get_OSM_subgraph_in_poly_fast(G_OSM, polygon_1)]))
     stats_vector_2 = convert_stats_to_vector(get_stats_for_one_tile([get_OSM_subgraph_in_poly_fast(G_OSM, polygon_2)]))
 
     # This extra test needed because we have some extra bboxes (empty graphs in the get_OSM_subgraph_in_poly_fast (FAST))
     # function
-    if stats_vector_1 == "EMPTY_STATS" or stats_vector_2 == "EMPTY_STATS":
-        return 1
+    if type(stats_vector_1) == str or type(stats_vector_1) == str:
+        # FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+        # disagreement between numpy as string comparison
+        if stats_vector_1 == "EMPTY_STATS" or stats_vector_2 == "EMPTY_STATS":
+            return 1
 
     new_polygon = polygon_1.Union(polygon_2)
     stats_vector_combined = convert_stats_to_vector(
