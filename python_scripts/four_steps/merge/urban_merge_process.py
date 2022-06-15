@@ -8,6 +8,8 @@ import copy
 import pickle
 import os, sys
 import random
+import time
+
 import networkx as nx
 
 print("Path: ", os.getcwd())
@@ -247,11 +249,12 @@ def get_OSM_subgraph_in_poly(G_OSM, polygon_from_gdal):
     # [[[BB1_lon1, BB1_lat1], [BB1_lon2, BB1_lat2]], [[BB2_lon1, BB2_lat1], .... ]
 
     nodes_for_subgraph = []
+
+    shapely_poly = convert_gdal_poly_to_shapely_poly(poly_gdal=polygon_from_gdal)
+
     for node in G_OSM.nodes:
         # y is the lat, x is the lon (Out[20]: {'y': 1.2952316, 'x': 103.872544, 'street_count': 3})
         lat, lon = G_OSM.nodes[node]["y"], G_OSM.nodes[node]["x"]
-
-        shapely_poly = convert_gdal_poly_to_shapely_poly(poly_gdal=polygon_from_gdal)
 
         # if is_point_in_bounding_box(lat, lon, bb=[lat_min, lon_min, lat_max, lon_max]):
         if is_point_in_polygon(lat, lon, shapely_poly=shapely_poly):
@@ -294,7 +297,7 @@ def compute_local_criteria(
     a=0.5,
     b=0.5,
     loss_merge="sum",
-    debug_fast_function=False,
+    debug_fast_function=True,
 ):
     """
     compute the local criteria between two neighbouring polygons
@@ -332,13 +335,20 @@ def compute_local_criteria(
             pickle.dump(G_OSM, f, protocol=4)
 
     if debug_fast_function:
+        starttime = time.time()
         subgraph_1_slow = get_OSM_subgraph_in_poly(G_OSM, polygon_1)
         subgraph_2_slow = get_OSM_subgraph_in_poly(G_OSM, polygon_2)
+        old_time = time.time() - starttime
+
+        starttime = time.time()
         subgraph_1_fast = get_OSM_subgraph_in_poly_fast(G_OSM, polygon_1)
         subgraph_2_fast = get_OSM_subgraph_in_poly_fast(G_OSM, polygon_2)
+        new_time = time.time() - starttime
 
-        sprint(len(list(subgraph_1_fast.nodes)))
-        sprint(len(list(subgraph_1_slow.nodes)))
+        print("Speed-up: ", old_time/new_time, "X faster")
+
+        # sprint(len(list(subgraph_1_fast.nodes)))
+        # sprint(len(list(subgraph_1_slow.nodes)))
         assert nx.is_isomorphic(subgraph_1_slow, subgraph_1_fast)
         assert nx.is_isomorphic(subgraph_2_slow, subgraph_2_fast)
 
