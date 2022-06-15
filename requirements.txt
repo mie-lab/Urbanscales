@@ -1,2 +1,5 @@
 osmnx
+shapely
+tqdm
 yellowbrick
+smartprint
