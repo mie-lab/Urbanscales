@@ -150,7 +150,7 @@ def convert_gdal_poly_to_shapely_poly(poly_gdal):
 def get_OSM_subgraph_in_poly_fast(G_OSM, polygon_from_gdal):
     # [[[BB1_lon1, BB1_lat1], [BB1_lon2, BB1_lat2]], [[BB2_lon1, BB2_lat1], .... ]
     bboxmap_file = "bbox_to_OSM_nodes_map.pickle"
-    bbox_split = 10
+    bbox_split = 32
 
     if os.path.isfile(bboxmap_file):
         with open(bboxmap_file, "rb") as handle1:
@@ -297,7 +297,7 @@ def compute_local_criteria(
     a=0.5,
     b=0.5,
     loss_merge="sum",
-    debug_fast_function=True,
+    debug=True,
 ):
     """
     compute the local criteria between two neighbouring polygons
@@ -334,7 +334,7 @@ def compute_local_criteria(
             # not needed
             pickle.dump(G_OSM, f, protocol=4)
 
-    if debug_fast_function:
+    if debug:
         starttime = time.time()
         subgraph_1_slow = get_OSM_subgraph_in_poly(G_OSM, polygon_1)
         subgraph_2_slow = get_OSM_subgraph_in_poly(G_OSM, polygon_2)
@@ -345,7 +345,7 @@ def compute_local_criteria(
         subgraph_2_fast = get_OSM_subgraph_in_poly_fast(G_OSM, polygon_2)
         new_time = time.time() - starttime
 
-        print("Speed-up: ", old_time/new_time, "X faster")
+        print("Speed-up: ", round(old_time / new_time, 2), "X faster")
 
         # sprint(len(list(subgraph_1_fast.nodes)))
         # sprint(len(list(subgraph_1_slow.nodes)))
@@ -375,6 +375,9 @@ def compute_local_criteria(
     edge_count_combined = stats_vector_combined[1]
     new_edges = edge_count_combined - (edge_count_1 + edge_count_2)
 
+    if debug:
+        sprint(edge_count_1, edge_count_2, edge_count_combined, new_edges)
+
     if new_edges == 0:
         return 1
 
@@ -382,6 +385,8 @@ def compute_local_criteria(
     f_conn = b * (1 / new_edges)
 
     if loss_merge == "sum":
+        if debug:
+            sprint(f_sim, f_conn)
         criteria_value = f_sim + f_conn
 
     return criteria_value
@@ -753,6 +758,8 @@ if __name__ == "__main__":
     os.chdir("/Users/nishant/Documents/GitHub/WCS/python_scripts/four_steps/merge")
     os.system("rm -rf merge_plots")
     os.system("mkdir merge_plots")
+    os.system("rm bbox_to_OSM_nodes_map.pickle")
+
     hierarchical_region_merging_multiseeds(
         "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/dict_bbox_5_.pickle",
         "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/dict_seeds_5_.pickle",
