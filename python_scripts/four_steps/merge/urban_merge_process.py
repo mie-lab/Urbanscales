@@ -297,7 +297,7 @@ def compute_local_criteria(
     a=0.5,
     b=0.5,
     loss_merge="sum",
-    debug=True,
+    debug=False,
 ):
     """
     compute the local criteria between two neighbouring polygons
@@ -355,24 +355,26 @@ def compute_local_criteria(
     stats_vector_1 = convert_stats_to_vector(get_stats_for_one_tile([get_OSM_subgraph_in_poly_fast(G_OSM, polygon_1)]))
     stats_vector_2 = convert_stats_to_vector(get_stats_for_one_tile([get_OSM_subgraph_in_poly_fast(G_OSM, polygon_2)]))
 
+    new_polygon = polygon_1.Union(polygon_2)
+    stats_vector_combined = convert_stats_to_vector(
+        get_stats_for_one_tile([get_OSM_subgraph_in_poly_fast(G_OSM, new_polygon)])
+    )
     # This extra test needed because we have some extra bboxes (empty graphs in the get_OSM_subgraph_in_poly_fast (FAST))
     # function
-    if type(stats_vector_1) == str or type(stats_vector_1) == str:
+    if type(stats_vector_1) == str or type(stats_vector_1) == str or type(stats_vector_combined):
         # FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
         # disagreement between numpy as string comparison
         if stats_vector_1 == "EMPTY_STATS" or stats_vector_2 == "EMPTY_STATS":
             return 1
 
-    new_polygon = polygon_1.Union(polygon_2)
-    stats_vector_combined = convert_stats_to_vector(
-        get_stats_for_one_tile([get_OSM_subgraph_in_poly_fast(G_OSM, new_polygon)])
-    )
+    assert stats_vector_2.shape == stats_vector_2.shape == stats_vector_combined.shape == (12,)
 
     # https://github.com/gboeing/osmnx/blob/997facb88ac566ccf79227a13b86f2db8642d04a/osmnx/stats.py#L339
     # m refers to edge count; It is the second value in our vector
     edge_count_1 = stats_vector_1[1]
     edge_count_2 = stats_vector_2[1]
     edge_count_combined = stats_vector_combined[1]
+
     new_edges = edge_count_combined - (edge_count_1 + edge_count_2)
 
     if debug:
