@@ -9,6 +9,7 @@ import pickle
 import os, sys
 import random
 import time
+import multiprocessing as mp
 
 import networkx as nx
 
@@ -745,6 +746,13 @@ def hierarchical_region_merging_multiseeds(
     newds.Destroy()
 
 
+def main_func(thre):
+    hierarchical_region_merging_multiseeds('./urban_merge/dict_bbox_5_.pickle',
+                                           './urban_merge/dict_seeds_2_.pickle',
+                                           './urban_merge/output_thre' + str(thre) + '.shp',
+                                           thre)
+    
+    
 if __name__ == "__main__":
     print("test")
     # os.environ['PROJ_LIB'] = r'C:\Users\yatzhang\Anaconda3\envs\trafficenv\Library\share\proj'
@@ -762,9 +770,13 @@ if __name__ == "__main__":
     os.system("mkdir merge_plots")
     os.system("rm bbox_to_OSM_nodes_map.pickle")
 
-    hierarchical_region_merging_multiseeds(
-        "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/dict_bbox_5_.pickle",
-        "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/dict_seeds_5_.pickle",
-        "output.shp",
-        0.9,
-    )
+#     hierarchical_region_merging_multiseeds(
+#         "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/dict_bbox_5_.pickle",
+#         "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/dict_seeds_5_.pickle",
+#         "output.shp",
+#         0.9,
+#     )
+    
+    thre_list = [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.08, 0.05, 0.03, 0.01]
+    pool = mp.Pool(len(thre_list))
+    pool.map(main_func, thre_list)
