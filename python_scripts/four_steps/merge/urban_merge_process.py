@@ -24,7 +24,7 @@ from tqdm import tqdm
 import matplotlib.pyplot as plt
 from shapely import geometry
 import os.path
-
+import csv
 from python_scripts.network_to_elementary.get_sg_osm import get_sg_poly
 from python_scripts.network_to_elementary.osm_to_tiles import (
     fetch_road_network_from_osm_database,
@@ -150,7 +150,7 @@ def convert_gdal_poly_to_shapely_poly(poly_gdal):
 def get_OSM_subgraph_in_poly_fast(G_OSM, polygon_from_gdal):
     # [[[BB1_lon1, BB1_lat1], [BB1_lon2, BB1_lat2]], [[BB2_lon1, BB2_lat1], .... ]
     bboxmap_file = "bbox_to_OSM_nodes_map.pickle"
-    bbox_split = 32
+    bbox_split = 8
 
     if os.path.isfile(bboxmap_file):
         with open(bboxmap_file, "rb") as handle1:
@@ -366,6 +366,12 @@ def compute_local_criteria(
         # disagreement between numpy as string comparison
         if stats_vector_1 == "EMPTY_STATS" or stats_vector_2 == "EMPTY_STATS" or stats_vector_combined == "EMPTY_STATS":
             return 1
+
+    with open("save_vectors.csv", "a") as f:
+        csvwriter = csv.writer(f)
+        csvwriter.writerow(stats_vector_1.flatten().tolist())
+        csvwriter.writerow(stats_vector_2.flatten().tolist())
+        csvwriter.writerow(stats_vector_combined.flatten().tolist())
 
     assert stats_vector_2.shape == stats_vector_2.shape == stats_vector_combined.shape == (12,)
 
@@ -761,6 +767,7 @@ if __name__ == "__main__":
     os.system("rm -rf merge_plots")
     os.system("mkdir merge_plots")
     os.system("rm bbox_to_OSM_nodes_map.pickle")
+    os.system("rm save_vectors.csv")
 
     hierarchical_region_merging_multiseeds(
         "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/dict_bbox_5_.pickle",

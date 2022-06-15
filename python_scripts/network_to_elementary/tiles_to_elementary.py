@@ -352,13 +352,39 @@ if __name__ == "__main__":
     # with multiprocessing.Pool(10) as p:
     #     p.map(generate_one_grid_size, list(range(170, 300, 10)))
 
-    # for base in [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]:  # , 6, 7, 8, 9, 10]:
-    #     for i in range(5):  # :range(60, 120, 10):
-    #         scale = base * (2 ** i)
-    #         if scale > 150:
-    #             continue
-    #         generate_one_grid_size(N=scale, generate_for_perfect_fit=True, base_N=base)
+    for base in [
+        2,
+        3,
+        5,
+        7,
+        11,
+        13,
+        17,
+        19,
+        23,
+        29,
+        31,
+        37,
+        41,
+        43,
+        47,
+        53,
+        59,
+        61,
+        67,
+        71,
+        73,
+        79,
+        83,
+        89,
+        97,
+    ]:  # , 6, 7, 8, 9, 10]:
+        for i in range(5):  # :range(60, 120, 10):
+            scale = base * (2 ** i)
+            if scale > 150:
+                continue
+            generate_one_grid_size(N=scale, generate_for_perfect_fit=True, base_N=base)
 
-    generate_one_grid_size(N=17, generate_for_perfect_fit=True, base_N=9)
+    # generate_one_grid_size(N=17, generate_for_perfect_fit=True, base_N=9)
 
     last_line = "dummy"
