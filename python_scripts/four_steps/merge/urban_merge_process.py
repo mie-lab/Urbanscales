@@ -108,7 +108,7 @@ def read_shpfile_SGboundary(shpfile):
     return geometry_wkt
 
 
-def is_point_in_polygon(lat, lon, gdal_poly):
+def is_point_in_polygon(lat, lon, shapely_poly):
     """
 
     Args:
@@ -119,16 +119,30 @@ def is_point_in_polygon(lat, lon, gdal_poly):
     Returns:
 
     """
-    ogr_geom_copy = ogr.CreateGeometryFromWkb(gdal_poly.ExportToWkb())
+
+    point = geometry.Point(lon, lat, 0)
+    return shapely_poly.contains(point)
+
+
+def convert_gdal_poly_to_shapely_poly(poly_gdal):
+    """
+
+    Args:
+        poly_gdal:
+
+    Returns:
+
+    """
+    # convert gdal to shapely polygon
+    ogr_geom_copy = ogr.CreateGeometryFromWkb(poly_gdal.ExportToWkb())
 
     # Dropping the M-values
     ogr_geom_copy.SetMeasured(False)
 
     # Generating a new shapely geometry
-    shapely_geom = shapely.wkt.loads(ogr_geom_copy.ExportToWkt())
+    shapely_polygon = shapely.wkt.loads(ogr_geom_copy.ExportToWkt())
 
-    point = geometry.Point(lon, lat, 0)
-    return shapely_geom.contains(point)
+    return shapely_polygon
 
 
 def get_OSM_subgraph_in_poly_fast(G_OSM, polygon_from_gdal):
@@ -187,8 +201,11 @@ def get_OSM_subgraph_in_poly_fast(G_OSM, polygon_from_gdal):
 
     # reduced search space
     nodes_for_subgraph = []
+
+    shapely_polygon = convert_gdal_poly_to_shapely_poly(polygon_from_gdal)
     for bbox in bbox_to_nodes_map:
-        if is_bounding_box_intersecting_polygon(polygon_from_gdal, bbox):
+        contains_result = is_bounding_box_intersecting_polygon(shapely_polygon, bbox)
+        if contains_result == "partial":
             # same order inside is_bounding_box_in_polygon
             # i.e. lon_min, lat_min, lon_max, lat_max = bbox
 
@@ -196,42 +213,34 @@ def get_OSM_subgraph_in_poly_fast(G_OSM, polygon_from_gdal):
                 lat, lon = G_OSM.nodes[node]["y"], G_OSM.nodes[node]["x"]
 
                 # if is_point_in_bounding_box(lat, lon, bb=[lat_min, lon_min, lat_max, lon_max]):
-                if is_point_in_polygon(lat, lon, polygon_from_gdal):
+                if is_point_in_polygon(lat, lon, shapely_polygon):
                     nodes_for_subgraph.append(node)
+
+        elif contains_result == "all":
+            # no need to check specific nodes; we can just add all of them
+            # and expand the list of nodes
+            nodes_for_subgraph = nodes_for_subgraph + bbox_to_nodes_map[bbox]
 
     subgraph = G_OSM.subgraph(nodes_for_subgraph).copy()
     return subgraph
 
 
-def is_bounding_box_intersecting_polygon(polygon_gdal, bbox):
+def is_bounding_box_intersecting_polygon(shapely_polygon, bbox):
     """
     lon_min, lat_min, lon_max, lat_max = bbox
     """
     lon_min, lat_min, lon_max, lat_max = bbox
-    # test for corner points (min, min) OR (max, max)
 
-    # OR, NOT AND
-    # because any corner point implies intersecting
-    # simple case when corner is inside polygon
-    if is_point_in_polygon(lat_min, lon_min, gdal_poly=polygon_gdal) or is_point_in_polygon(
-        lat_max, lon_max, gdal_poly=polygon_gdal
-    ):
-        return True
-
+    # complex case, when BB corner is not inside the polygon
+    bb_polygon = geometry.Polygon(
+        [[lon_min, lat_min], [lon_max, lat_min], [lon_max, lat_max], [lon_min, lat_max], [lon_min, lat_min]]
+    )
+    if shapely_polygon.contains(bb_polygon):
+        return "all"
+    elif bb_polygon.intersects(shapely_polygon):
+        return "partial"
     else:
-        # complex case, when BB corner is not inside the polygon
-        bb_polygon = geometry.Polygon(
-            [[lon_min, lat_min], [lon_max, lat_min], [lon_max, lat_max], [lon_min, lat_max], [lon_min, lat_min]]
-        )
-        ogr_geom_copy = ogr.CreateGeometryFromWkb(polygon_gdal.ExportToWkb())
-
-        # Dropping the M-values
-        ogr_geom_copy.SetMeasured(False)
-
-        # Generating a new shapely geometry
-        polygon_gdal_shapely = shapely.wkt.loads(ogr_geom_copy.ExportToWkt())
-
-        return bb_polygon.intersects(polygon_gdal_shapely)
+        return False
 
 
 def get_OSM_subgraph_in_poly(G_OSM, polygon_from_gdal):
@@ -242,8 +251,10 @@ def get_OSM_subgraph_in_poly(G_OSM, polygon_from_gdal):
         # y is the lat, x is the lon (Out[20]: {'y': 1.2952316, 'x': 103.872544, 'street_count': 3})
         lat, lon = G_OSM.nodes[node]["y"], G_OSM.nodes[node]["x"]
 
+        shapely_poly = convert_gdal_poly_to_shapely_poly(poly_gdal=polygon_from_gdal)
+
         # if is_point_in_bounding_box(lat, lon, bb=[lat_min, lon_min, lat_max, lon_max]):
-        if is_point_in_polygon(lat, lon, polygon_from_gdal):
+        if is_point_in_polygon(lat, lon, shapely_poly=shapely_poly):
             nodes_for_subgraph.append(node)
 
     subgraph = G_OSM.subgraph(nodes_for_subgraph).copy()
