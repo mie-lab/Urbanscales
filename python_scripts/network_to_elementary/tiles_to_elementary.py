@@ -2,12 +2,15 @@ import multiprocessing
 
 import numpy as np
 
-from get_sg_osm import get_sg_poly, get_poly_from_bbox
+from python_scripts.network_to_elementary.get_sg_osm import get_sg_poly
 from python_scripts.network_to_elementary.osm_to_tiles import (
     fetch_road_network_from_osm_database,
     split_poly_to_bb,
     is_point_in_bounding_box,
 )
+
+# from python_scripts.network_to_elementary.oget_sg_osm import get_sg_poly, get_poly_from_bbox
+
 import sys, os
 
 

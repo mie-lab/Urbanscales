@@ -165,7 +165,7 @@ def line_to_bbox_list(
 
 def is_bounding_box_in_polygon(poly, bb):
     """
-
+    lat1, lon1, lat2, lon2 = bb
     :param poly:
     :param point_b (2 points -> list of length 4):
     :return: True/False

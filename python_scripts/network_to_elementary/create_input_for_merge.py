@@ -109,9 +109,9 @@ def get_isl_and_seeds_bboxes_for_best_fit_hierarchy(bbox_list):
 
 if __name__ == "__main__":
     base_level = 5
-    dict_bbox = create_hierarchy_dict(base_level, 4)
+    dict_bbox = create_hierarchy_dict(base_level, 6)
 
-    best_fit_hierarchy = 2
+    best_fit_hierarchy = 5
     dict_islands, dict_seeds = get_isl_and_seeds_bboxes_for_best_fit_hierarchy(
         dict_bbox["hierarchy_" + str(best_fit_hierarchy)]
     )
