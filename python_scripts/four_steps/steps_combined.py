@@ -11,7 +11,7 @@ from smartprint import smartprint as sprint
 
 server_path = "/home/niskumar/WCS/python_scripts/network_to_elementary/"
 local_path = "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/"
-sys.path.insert(0, server_path)
+sys.path.insert(0, local_path)
 
 import time
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
@@ -140,6 +140,41 @@ def generate_bbox_CCT_from_file(N, folder_path, plotting_enabled=False, use_rout
         pickle.dump(dict_bbox_hour_date_to_CCT, f2, protocol=pickle.HIGHEST_PROTOCOL)
 
 
+def convert_to_single_statistic_by_removing_minus_1(
+    dict_bbox_hour_date_to_CCT, timefilter, method_for_single_statistic
+):
+    """
+
+    Args:
+        methdict_bbox_hour_date_to_CCT:
+        timefilter:
+        method_for_single_statistic:
+
+    Returns:
+
+    """
+    dict_bbox_hour_date_to_CCT_copy = {}
+    for key in dict_bbox_hour_date_to_CCT:
+        array_24_x_dates = dict_bbox_hour_date_to_CCT[key]
+        if timefilter != -1:
+            assert (type(timefilter) == list) or type(timefilter) == tuple
+            assert max(timefilter) <= array_24_x_dates.shape[0]
+            assert array_24_x_dates.shape[0] == 24
+            array_24_x_dates = array_24_x_dates.to_numpy()
+            array_24_x_dates = array_24_x_dates[timefilter, :]
+
+        if method_for_single_statistic == "median_across_all":
+            if np.count_nonzero(array_24_x_dates != -1) == 0:
+                # if empty slice in the line below, we just skip this one.
+                # if there is no value that is -1, we ignore this key
+                continue
+            dict_bbox_hour_date_to_CCT_copy[key] = np.median(array_24_x_dates[array_24_x_dates != -1])
+        else:
+            print("Wrong parameter for method_for_single_statistic: ", method_for_single_statistic)
+            sys.exit(0)
+    return dict_bbox_hour_date_to_CCT_copy
+
+
 # step 2
 def step_2(
     N,
@@ -147,7 +182,7 @@ def step_2(
     read_bbox_CCT_from_file,
     plot_bboxes_on_route=False,
     generate_incidents_routes=False,
-    method_for_single_statistic="mean",
+    method_for_single_statistic="median_across_all",
     timefilter=[5, 6, 7, 8],
 ):
     """
@@ -179,27 +214,9 @@ def step_2(
 
     dict_bbox_to_vectors = osm_tiles_states_to_vectors(osm_tiles_stats_dict, verbose=False)
 
-    dict_bbox_hour_date_to_CCT_copy = {}
-    for key in dict_bbox_hour_date_to_CCT:
-        array_24_x_dates = dict_bbox_hour_date_to_CCT[key]
-        if timefilter != -1:
-            assert (type(timefilter) == list) or type(timefilter) == tuple
-            assert max(timefilter) <= array_24_x_dates.shape[0]
-            assert array_24_x_dates.shape[0] == 24
-            array_24_x_dates = array_24_x_dates.to_numpy()
-            array_24_x_dates = array_24_x_dates[timefilter, :]
-
-        if method_for_single_statistic == "median_across_all":
-            if np.count_nonzero(array_24_x_dates != -1) == 0:
-                # if empty slice in the line below, we just skip this one.
-                # if there is no value that is -1, we ignore this key
-                continue
-            dict_bbox_hour_date_to_CCT_copy[key] = np.median(array_24_x_dates[array_24_x_dates != -1])
-        else:
-            print("Wrong parameter for method_for_single_statistic: ", method_for_single_statistic)
-            sys.exit(0)
-
-    dict_bbox_hour_date_to_CCT = dict_bbox_hour_date_to_CCT_copy
+    dict_bbox_hour_date_to_CCT = convert_to_single_statistic_by_removing_minus_1(
+        dict_bbox_hour_date_to_CCT, timefilter, method_for_single_statistic
+    )
 
     X = []
     Y = []
@@ -244,21 +261,25 @@ def step_2(
     return X, Y
 
 
-def step_2b_calculate_GOF(X, Y, model="regression"):
+def step_2b_calculate_GOF(X, Y, model=None):
+    if model == None:
+        print("model not passed; Exiting code!")
+        sys.exit(0)
+
     # try:
     X_train, X_test, y_train, y_test = train_test_split(X, Y, train_size=0.9, random_state=int(time.time()))
 
     # ('scaler', StandardScaler()),
     ("pca", PCA(n_components=8))
 
-    pipe = Pipeline([("scaler", StandardScaler()), ("pca", PCA(n_components=5)), ("LinR", LinearRegression())])
+    pipe = Pipeline([("scaler", StandardScaler()), ("LinR", model)])
     # The pipeline can be used as any other estimator
     # and avoids leaking the test set into the train set
     # print(pipe.fit(X_train, y_train))
     # print(pipe.score(X_test, y_test), " GoF measure")
 
-    pipe.fit(X, Y)
-    pipe.score(X, Y)
+    pipe.fit(X_train, y_train)
+    pipe.score(X_train, y_train)
 
     # scores = cross_val_score(pipe, X, Y, cv=7)
     # print("CV GoF measure: ", scores)
@@ -268,8 +289,8 @@ def step_2b_calculate_GOF(X, Y, model="regression"):
     # y_pred = pipe.predict(X_test)
     # return mean_squared_error(y_test, y_pred)
 
-    y_pred = pipe.predict(X)
-    return explained_variance_score(Y, y_pred)
+    y_pred = pipe.predict(X_test)
+    return mean_squared_error(y_test, y_pred)
 
     # except:
     #     print("Something wrong in model fitting")
@@ -298,35 +319,76 @@ def step_3(
     #     with open("temp_files/" + "X_t_Y_t_" + str(N) + ".pickle", "rb") as f:
     #         X_t, Y_t = pickle.load(f)
     # else:
-    timefilter = [5, 6, 7, 8]
-    X_len = {}
-    for base in [5, 6, 7]:  # [5, 6, 7, 8, 9, 10]
-        for i in range(6):  # :range(60, 120, 10):
-            scale = base * (2 ** i)
+    model_name = ["LR", "RF", "GBM"]
+    for m_i in range(3):
+        if model_name[m_i] == "LR":
+            model = LinearRegression()
+        elif model_name[m_i] == "RF":
+            model = RandomForestRegressor()
+        elif model_name[m_i] == "GBM":
+            model = GradientBoostingRegressor()
 
-            X, Y = step_2(
-                N=scale,
-                folder_path=server_path,
-                read_bbox_CCT_from_file=read_bbox_CCT_from_file,
-                plot_bboxes_on_route=plot_bboxes_on_route,
-                generate_incidents_routes=generate_incidents_routes,
-                method_for_single_statistic="median_across_all",
-                timefilter=timefilter,
-            )
-            X_len[scale] = len(X)
+        timefilter = [5, 6, 7, 8]
+        X_len = {}
+        for base in [5, 6, 7]:  # [5, 6, 7, 8, 9, 10]
+            for i in range(6):  # :range(60, 120, 10):
 
-            mean_cv_score_dict[scale, tuple(timefilter)] = []
-            for m in range(multiple_runs):
-                cv_score = step_2b_calculate_GOF(X, Y, "regression")
-                mean_cv_score_dict[scale, tuple(timefilter)].append(cv_score)
+                scale = base * (2 ** i)
+                if scale > 150:
+                    continue
 
-            # append the mean in the end
-            mean_cv_score_dict[scale, tuple(timefilter)].append(np.mean(cv_score))
+                X, Y = step_2(
+                    N=scale,
+                    folder_path=local_path,
+                    read_bbox_CCT_from_file=read_bbox_CCT_from_file,
+                    plot_bboxes_on_route=plot_bboxes_on_route,
+                    generate_incidents_routes=generate_incidents_routes,
+                    method_for_single_statistic="median_across_all",
+                    timefilter=timefilter,
+                )
+                X_len[scale] = len(X)
 
-        print("scale, tuple(timefilter), cvscores, mean_cvscores")
+                mean_cv_score_dict[scale, tuple(timefilter)] = []
+                for m in range(multiple_runs):
+                    cv_score = step_2b_calculate_GOF(X, Y, model=model)
+                    mean_cv_score_dict[scale, tuple(timefilter)].append(cv_score)
 
+                mean = np.mean(mean_cv_score_dict[scale, tuple(timefilter)])
+                std = np.std(mean_cv_score_dict[scale, tuple(timefilter)])
+
+                # append the mean in the end
+                mean_cv_score_dict[scale, tuple(timefilter)].append(mean)
+
+                # append std
+                mean_cv_score_dict[scale, tuple(timefilter)].append(std)
+
+            print("scale, number_of_data_points, mean_cvscores, mean_std")
+
+        x_axis = []
+        y_axis = []
+        z_axis = []
         for key in mean_cv_score_dict:
-            sprint(key[0], X_len[key[0]], mean_cv_score_dict[key][-1])
+            print(key[0], X_len[key[0]], mean_cv_score_dict[key][-2], mean_cv_score_dict[key][-1], sep=",")
+            x_axis.append(key[0])
+            y_axis.append(mean_cv_score_dict[key][-2])
+            z_axis.append(mean_cv_score_dict[key][-1])
+
+        xyz = zip(x_axis, y_axis, z_axis)
+        xyz = sorted(xyz, key=lambda x: x[0])
+        print(list(xyz))
+        x_list = []
+        y_list = []
+        z_list = []
+        for x, y, z in xyz:
+            x_list.append(x)
+            y_list.append(y)
+            z_list.append(z)
+        plt.plot(x_list, y_list, label=model_name[m_i] + "mean")
+        # plt.plot(x_list, z_list, label=model_name[m_i] + "std")
+    plt.legend()
+    plt.ylim(0, 0.05)
+    # plt.yscale("log")
+    plt.show()
 
     #
     # with open("temp_files/final_results.csv", "a") as f:
