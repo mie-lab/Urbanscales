@@ -148,7 +148,7 @@ def convert_gdal_poly_to_shapely_poly(poly_gdal):
 def get_OSM_subgraph_in_poly_fast(G_OSM, polygon_from_gdal):
     # [[[BB1_lon1, BB1_lat1], [BB1_lon2, BB1_lat2]], [[BB2_lon1, BB2_lat1], .... ]
     bboxmap_file = "bbox_to_OSM_nodes_map.pickle"
-    bbox_split = 50
+    bbox_split = 10
 
     if os.path.isfile(bboxmap_file):
         with open(bboxmap_file, "rb") as handle1:
@@ -204,7 +204,8 @@ def get_OSM_subgraph_in_poly_fast(G_OSM, polygon_from_gdal):
 
     shapely_polygon = convert_gdal_poly_to_shapely_poly(polygon_from_gdal)
     for bbox in bbox_to_nodes_map:
-        if is_bounding_box_intersecting_polygon(shapely_polygon, bbox):
+        contains_result = is_bounding_box_intersecting_polygon(shapely_polygon, bbox)
+        if contains_result == "partial":
             # same order inside is_bounding_box_in_polygon
             # i.e. lon_min, lat_min, lon_max, lat_max = bbox
 
@@ -215,6 +216,11 @@ def get_OSM_subgraph_in_poly_fast(G_OSM, polygon_from_gdal):
                 if is_point_in_polygon(lat, lon, shapely_polygon):
                     nodes_for_subgraph.append(node)
 
+        elif contains_result == "all":
+            # no need to check specific nodes; we can just add all of them
+            # and expand the list of nodes
+            nodes_for_subgraph = nodes_for_subgraph + bbox_to_nodes_map[bbox]
+
     subgraph = G_OSM.subgraph(nodes_for_subgraph).copy()
     return subgraph
 
@@ -224,23 +230,17 @@ def is_bounding_box_intersecting_polygon(shapely_polygon, bbox):
     lon_min, lat_min, lon_max, lat_max = bbox
     """
     lon_min, lat_min, lon_max, lat_max = bbox
-    # test for corner points (min, min) OR (max, max)
 
-    # OR, NOT AND
-    # because any corner point implies intersecting
-    # simple case when corner is inside polygon
-    if is_point_in_polygon(lat_min, lon_min, shapely_poly=shapely_polygon) or is_point_in_polygon(
-        lat_max, lon_max, shapely_poly=shapely_polygon
-    ):
-        return True
-
+    # complex case, when BB corner is not inside the polygon
+    bb_polygon = geometry.Polygon(
+        [[lon_min, lat_min], [lon_max, lat_min], [lon_max, lat_max], [lon_min, lat_max], [lon_min, lat_min]]
+    )
+    if shapely_polygon.contains(bb_polygon):
+        return "all"
+    elif bb_polygon.intersects(shapely_polygon):
+        return "partial"
     else:
-        # complex case, when BB corner is not inside the polygon
-        bb_polygon = geometry.Polygon(
-            [[lon_min, lat_min], [lon_max, lat_min], [lon_max, lat_max], [lon_min, lat_max], [lon_min, lat_min]]
-        )
-
-        return bb_polygon.intersects(shapely_polygon)
+        return False
 
 
 def get_OSM_subgraph_in_poly(G_OSM, polygon_from_gdal):
