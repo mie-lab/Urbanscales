@@ -34,6 +34,24 @@ from python_scripts.network_to_elementary.osm_to_tiles import (
 )
 from python_scripts.network_to_elementary.tiles_to_elementary import get_stats_for_one_tile
 
+#
+
+#
+global_map_of_polygon_to_features = {}
+
+bboxmap_file = "/Users/nishant/Documents/GitHub/WCS/python_scripts/four_steps/merge/bbox_to_OSM_nodes_map.pickle"
+bbox_split = 32
+with open(bboxmap_file, "rb") as handle1:
+    global_bbox_to_nodes_map = pickle.load(handle1)
+# with open(
+#     "/Users/nishant/Documents/GitHub/WCS/python_scripts/four_steps/merge/remap_parameters.pickle", "rb"
+# ) as handle1:
+#     global_remap_parameters = pickle.load(handle1)
+
+
+with open("G_OSM_extracted.pickle", "rb") as handle:
+    global_G_OSM = pickle.load(handle)
+
 
 def from_ogr_to_shapely_plot(list_of_three_polys, seed_i, count):
     # Creating a copy of the input OGR geometry. This is done in order to
@@ -72,7 +90,7 @@ def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre):
     # local copy of the geometry, not in the actual original geometry.
     # ogr_geom_copy = ogr.CreateGeometryFromWkb(ogr_geom.ExportToIsoWkb())
     plt.clf()
-    plt_set = [['tomato', 'dotted']]
+    plt_set = [["tomato", "dotted"]]
     colors_pad = plt.cm.rainbow(np.linspace(0, 1, len(dict_merge)))
     for i in range(len(dict_merge)):
         poly = dict_merge[list(dict_merge)[i]]
@@ -84,21 +102,21 @@ def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre):
         # Generating a new shapely geometry
         shapely_geom = shapely.wkt.loads(ogr_geom_copy.ExportToWkt())
 
-        if shapely_geom.type == 'Polygon':
+        if shapely_geom.type == "Polygon":
             x, y = shapely_geom.exterior.xy
             plt.plot(x, y, label=list(dict_merge)[i], color=colors_pad[i])
-        elif shapely_geom.type == 'MultiPolygon':
+        elif shapely_geom.type == "MultiPolygon":
             for m in range(len(shapely_geom)):
                 _x, _y = shapely_geom[m].exterior.xy
-                if m==0:
+                if m == 0:
                     plt.plot(_x, _y, label=list(dict_merge)[i], color=colors_pad[i])
                 else:
-                    plt.plot(_x, _y, label='_'+list(dict_merge)[i], color=colors_pad[i])
-    plt.legend(loc='upper right')
-    plt.title('epoch: ' + str(epoch))
+                    plt.plot(_x, _y, label="_" + list(dict_merge)[i], color=colors_pad[i])
+    plt.legend(loc="upper right")
+    plt.title("epoch: " + str(epoch))
     plt.xlim(103.6, 104.1)
     plt.ylim(1.26, 1.45)
-    plt.savefig("./urban_merge/thre" + str(criteria_thre) + "_epoch" + str(epoch) + ".png", dpi=300)
+    plt.savefig("thre" + str(criteria_thre) + "_epoch" + str(epoch) + ".png", dpi=300)
 
 
 def read_shpfile_SGboundary(shpfile):
@@ -150,12 +168,13 @@ def convert_gdal_poly_to_shapely_poly(poly_gdal):
 
 def get_OSM_subgraph_in_poly_fast(G_OSM, polygon_from_gdal):
     # [[[BB1_lon1, BB1_lat1], [BB1_lon2, BB1_lat2]], [[BB2_lon1, BB2_lat1], .... ]
-    bboxmap_file = "bbox_to_OSM_nodes_map.pickle"
-    bbox_split = 8
 
     if os.path.isfile(bboxmap_file):
-        with open(bboxmap_file, "rb") as handle1:
-            bbox_to_nodes_map = pickle.load(handle1)
+        # with open(bboxmap_file, "rb") as handle1:
+        #     bbox_to_nodes_map = pickle.load(handle1)
+        bbox_to_nodes_map = global_bbox_to_nodes_map
+        # remap_parameters = global_remap_parameters
+
     else:
         print("bbox_to_nodes_map file NOT found; creating ...... ")
         max_lat = -1
@@ -206,7 +225,21 @@ def get_OSM_subgraph_in_poly_fast(G_OSM, polygon_from_gdal):
     nodes_for_subgraph = []
 
     shapely_polygon = convert_gdal_poly_to_shapely_poly(polygon_from_gdal)
+
+    bounds = shapely_polygon.bounds
+    lon_min_poly, lat_min_poly, lon_max_poly, lat_max_poly = bounds
+
     for bbox in bbox_to_nodes_map:
+        lon_min, lat_min, lon_max, lat_max = bbox
+
+        #  first we reduce search space by reducing the polygon to BBox
+        # classic range overlap problem; we extend it to 2-D
+        if not (
+            (lon_min <= lon_max_poly and lon_min_poly <= lon_max)
+            and (lat_min <= lat_max_poly and lat_min_poly <= lat_max)
+        ):
+            continue
+
         contains_result = is_bounding_box_intersecting_polygon(shapely_polygon, bbox)
         if contains_result == "partial":
             # same order inside is_bounding_box_in_polygon
@@ -225,7 +258,7 @@ def get_OSM_subgraph_in_poly_fast(G_OSM, polygon_from_gdal):
             nodes_for_subgraph = nodes_for_subgraph + bbox_to_nodes_map[bbox]
 
     subgraph = G_OSM.subgraph(nodes_for_subgraph).copy()
-    return subgraph
+    return subgraph, nodes_for_subgraph
 
 
 def is_bounding_box_intersecting_polygon(shapely_polygon, bbox):
@@ -327,13 +360,16 @@ def compute_local_criteria(
 
     """
     if read_G_osm_from_pickle:
-        with open("G_OSM_extracted.pickle", "rb") as handle:
-            G_OSM = pickle.load(handle)
+        # with open("G_OSM_extracted.pickle", "rb") as handle:
+        #     G_OSM = pickle.load(handle)
+        G_OSM = global_G_OSM
     else:
         G_OSM = fetch_road_network_from_osm_database(polygon=get_sg_poly(), network_type="drive", custom_filter=None)
         with open("G_OSM_extracted.pickle", "wb") as f:
             # not needed
             pickle.dump(G_OSM, f, protocol=4)
+
+    global global_map_of_polygon_to_features
 
     if debug:
         starttime = time.time()
@@ -342,8 +378,8 @@ def compute_local_criteria(
         old_time = time.time() - starttime
 
         starttime = time.time()
-        subgraph_1_fast = get_OSM_subgraph_in_poly_fast(G_OSM, polygon_1)
-        subgraph_2_fast = get_OSM_subgraph_in_poly_fast(G_OSM, polygon_2)
+        subgraph_1_fast, _ = get_OSM_subgraph_in_poly_fast(G_OSM, polygon_1)
+        subgraph_2_fast, _ = get_OSM_subgraph_in_poly_fast(G_OSM, polygon_2)
         new_time = time.time() - starttime
 
         print("Speed-up: ", round(old_time / new_time, 2), "X faster")
@@ -353,26 +389,36 @@ def compute_local_criteria(
         assert nx.is_isomorphic(subgraph_1_slow, subgraph_1_fast)
         assert nx.is_isomorphic(subgraph_2_slow, subgraph_2_fast)
 
-    stats_vector_1 = convert_stats_to_vector(get_stats_for_one_tile([get_OSM_subgraph_in_poly_fast(G_OSM, polygon_1)]))
-    stats_vector_2 = convert_stats_to_vector(get_stats_for_one_tile([get_OSM_subgraph_in_poly_fast(G_OSM, polygon_2)]))
+    if polygon_1 in global_map_of_polygon_to_features:
+        stats_vector_1, nodes_1 = global_map_of_polygon_to_features[polygon_1]
+    else:
+        subgraph_1_fast, nodes_1 = get_OSM_subgraph_in_poly_fast(G_OSM, polygon_1)
+        stats_vector_1 = convert_stats_to_vector(get_stats_for_one_tile([subgraph_1_fast]))
+        global_map_of_polygon_to_features[polygon_1] = stats_vector_1, nodes_1
 
-    new_polygon = polygon_1.Union(polygon_2)
-    stats_vector_combined = convert_stats_to_vector(
-        get_stats_for_one_tile([get_OSM_subgraph_in_poly_fast(G_OSM, new_polygon)])
-    )
+    if polygon_2 in global_map_of_polygon_to_features:
+        stats_vector_2, nodes_2 = global_map_of_polygon_to_features[polygon_2]
+    else:
+        subgraph_2_fast, nodes_2 = get_OSM_subgraph_in_poly_fast(G_OSM, polygon_2)
+        stats_vector_2 = convert_stats_to_vector(get_stats_for_one_tile([subgraph_2_fast]))
+        global_map_of_polygon_to_features[polygon_2] = stats_vector_2, nodes_2
+
+    subgraph_combined = G_OSM.subgraph(nodes_1 + nodes_2).copy()
+    stats_vector_combined = convert_stats_to_vector(get_stats_for_one_tile([subgraph_combined]))
+
     # This extra test needed because we have some extra bboxes (empty graphs in the get_OSM_subgraph_in_poly_fast (FAST))
     # function
-    if type(stats_vector_1) == str or type(stats_vector_1) == str or type(stats_vector_combined) == str:
-        # FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-        # disagreement between numpy as string comparison
-        if stats_vector_1 == "EMPTY_STATS" or stats_vector_2 == "EMPTY_STATS" or stats_vector_combined == "EMPTY_STATS":
-            return 1
+    if type(stats_vector_1) == str or type(stats_vector_2) == str or type(stats_vector_combined) == str:
+        return 1  # 1 implies merge not going ahead
 
-    with open("save_vectors.csv", "a") as f:
-        csvwriter = csv.writer(f)
-        csvwriter.writerow(stats_vector_1.flatten().tolist())
-        csvwriter.writerow(stats_vector_2.flatten().tolist())
-        csvwriter.writerow(stats_vector_combined.flatten().tolist())
+    # FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+    # disagreement between numpy as string comparison
+
+    # with open("save_vectors.csv", "a") as f:
+    #     csvwriter = csv.writer(f)
+    #     csvwriter.writerow(stats_vector_1.flatten().tolist())
+    #     csvwriter.writerow(stats_vector_2.flatten().tolist())
+    #     csvwriter.writerow(stats_vector_combined.flatten().tolist())
 
     assert stats_vector_1.shape == stats_vector_2.shape == stats_vector_combined.shape == (12,)
 
@@ -614,7 +660,7 @@ def hierarchical_region_merging_oneseed(
 
 
 def output_epoch_shp(dict_merge, merged_shapefile, epoch):
-    tmp_shapefile = merged_shapefile[: -4] + '_epoch' + str(epoch) + '.shp'
+    tmp_shapefile = merged_shapefile[:-4] + "_epoch" + str(epoch) + ".shp"
 
     # output it as shapefile result
     os.environ["SHAPE_ENCODING"] = "utf-8"
@@ -637,8 +683,8 @@ def output_epoch_shp(dict_merge, merged_shapefile, epoch):
         layernew.CreateFeature(feat)
         feat.Destroy()
     newds.Destroy()
-    
-    
+
+
 def hierarchical_region_merging_multiseeds(
     bbox_file, seed_file, merged_shpfile, criteria_thre, shp_epoch
 ):  # input_file is not used here
@@ -715,7 +761,7 @@ def hierarchical_region_merging_multiseeds(
                     touch_count += 1
                     tmp_criteria = compute_local_criteria(seed_zone, select_i, read_G_osm_from_pickle=True)
                     # if tmp_criteria is too large, indicate as false
-                    if tmp_criteria > criteria_thre:
+                    if tmp_criteria >= criteria_thre:
                         dict_bbox_select[select_i] = False
                         continue
                     if tmp_criteria < min_criteria:
@@ -754,10 +800,10 @@ def hierarchical_region_merging_multiseeds(
                 )
             )
             break
-            
+
         if epoch % shp_epoch == 0:
             output_epoch_shp(dict_merge, merged_shpfile, epoch)
-            
+
     # output it as shapefile result
     os.environ["SHAPE_ENCODING"] = "utf-8"
     driver = ogr.GetDriverByName("ESRI Shapefile")
@@ -782,12 +828,11 @@ def hierarchical_region_merging_multiseeds(
 
 
 def main_func(thre):
-    hierarchical_region_merging_multiseeds('./urban_merge/dict_bbox_5_.pickle',
-                                           './urban_merge/dict_seeds_2_.pickle',
-                                           './urban_merge/output_thre' + str(thre) + '.shp',
-                                           thre, 10)
-    
-    
+    hierarchical_region_merging_multiseeds(
+        "dict_bbox_5_.pickle", "dict_seeds_2_.pickle", "output_thre" + str(thre) + ".shp", thre, 10
+    )
+
+
 if __name__ == "__main__":
     # np.seterr(divide='ignore', invalid='ignore')  # used to ignore runtime running
     # os.environ['PROJ_LIB'] = r'C:\Users\yatzhang\Anaconda3\envs\trafficenv\Library\share\proj'
@@ -809,9 +854,9 @@ if __name__ == "__main__":
     # single threads
     # thre = 0.75
     # Tip: the final parameter means to output shpfile every n epochs
-    # hierarchical_region_merging_multiseeds('./urban_merge/dict_bbox_5_.pickle',
-    #                                        './urban_merge/dict_seeds_2_.pickle',
-    #                                        './urban_merge/output_thre' + str(thre) + '.shp',
+    # hierarchical_region_merging_multiseeds('dict_bbox_5_.pickle',
+    #                                        'dict_seeds_2_.pickle',
+    #                                        'output_thre' + str(thre) + '.shp',
     #                                        thre, 10)
 
     # multi threads
