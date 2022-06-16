@@ -114,7 +114,68 @@ def get_isl_and_seeds_bboxes_for_best_fit_hierarchy(bbox_list):
     dict_seeds["island_1"] = island_1[int(len(island_1) * np.random.rand())]
     dict_seeds["island_2"] = island_2[int(len(island_2) * np.random.rand())]
 
-    return dict_islands, dict_seeds
+    return dict_islands, _  # the second return value used to be seeds, now we don't use it anymore.
+
+
+def convert_connected_components_to_seeds_dict(N):
+    (
+        indices,
+        delta_x,
+        delta_y,
+        min_lon,
+        min_lat,
+        max_lon,
+        max_lat,
+        labeled,
+        dict_bbox_hour_date_to_CCT,
+    ) = create_islands_two_methods(N)
+    #
+    dict_label_indices = {}
+    for i in range(a.shape[0]):
+        for j in range(a.shape[1]):
+            if a[i, j] in dict_label_indices:
+                dict_label_indices[labeled[i, j]].append((i, j))
+            else:
+                dict_label_indices[labeled[i, j]] = [(i, j)]
+
+    dict_label_lon_lat = {}
+    for key in dict_label_indices:
+        i, j = key
+        # inverse this formula:
+        # i = int((lon1 - min_lon) / delta_x);
+        # Some minor error introduced here due to rounding, but should not
+        # affect the results of split-merge/ merge
+
+        lon = i * delta_x + min_lon
+        lat = j * delta_y + min_lat
+
+        if dict_label_indices[i, j] in dict_label_lon_lat:
+            dict_label_lon_lat[labeled[i, j]].append((lon, lat))
+        else:
+            dict_label_lon_lat[labeled[i, j]] = [(lon, lat)]
+
+    # generate centroids for each compoent (each component is identified by a label)
+    seed_bbox_list = []
+    dict_seeds = {}
+    for key in dict_label_lon_lat:
+        lat_list = []
+        lon_list = []
+        for lon, lat in dict_label_lon_lat[key]:
+            lon_list.append(lon)
+            lat_list.append(lat)
+        centroid_lon = np.mean(lon_list)
+        centroid_lat = np.mean(lat_list)
+
+        for bbox in dict_bbox_hour_date_to_CCT:
+            lon1, lat1, lon2, lat2 = bbox
+            if lon1 < centroid_lon < lon2 and lat1 < centroid_lat < lat2:
+                seed_bbox_list.append([[[lon1, lat1], [lon2, lat2]]])
+                break
+
+    for i in range(len(seed_bbox_list)):
+        dict_seeds["island_" + str(i + 1)] = seed_bbox_list[i]
+
+    return dict_seeds
 
 
 def create_islands_two_methods(
@@ -232,8 +293,11 @@ def create_islands_two_methods(
         sprint(ncomponents)
         plt.show()
 
-        for row in labeled:
-            print(row)
+        sprint(a.shape[0] * a.shape[1])
+        sprint(indices.shape, indices.shape[0] * indices.shape[1])
+
+        # for row in labeled:
+        #     print(row)
 
         # sprint(labeled)
         # plt.hist(a.flatten(), 10)
@@ -242,23 +306,25 @@ def create_islands_two_methods(
         # plt.hist(labeled.flatten(), 10)
         # plt.show()
 
+        #  plot indices
+
+    return indices, delta_x, delta_y, min_lon, min_lat, max_lon, max_lat, labeled, dict_bbox_hour_date_to_CCT
+
 
 if __name__ == "__main__":
     base_level = 5
     dict_bbox = create_hierarchy_dict(base_level, 6)
 
     best_fit_hierarchy = 5
-    dict_islands, dict_seeds = get_isl_and_seeds_bboxes_for_best_fit_hierarchy(
-        dict_bbox["hierarchy_" + str(best_fit_hierarchy)]
-    )
+    dict_islands, _ = get_isl_and_seeds_bboxes_for_best_fit_hierarchy(dict_bbox["hierarchy_" + str(best_fit_hierarchy)])
 
     with open("dict_bbox_" + str(base_level) + "_.pickle", "wb") as f:
         pickle.dump(dict_bbox, f, protocol=4)
-    with open("dict_islands_" + str(best_fit_hierarchy) + "_.pickle", "wb") as f:
-        pickle.dump(dict_islands, f, protocol=4)
+    # with open("dict_islands_" + str(best_fit_hierarchy) + "_.pickle", "wb") as f:
+    #     pickle.dump(dict_islands, f, protocol=4)
+
+    dict_seeds = convert_connected_components_to_seeds_dict(80)
     with open("dict_seeds_" + str(best_fit_hierarchy) + "_.pickle", "wb") as f:
         pickle.dump(dict_seeds, f, protocol=4)
-
-    create_islands_two_methods(40)
 
     do_nothing = True
