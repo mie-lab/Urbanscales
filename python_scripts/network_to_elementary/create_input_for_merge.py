@@ -146,15 +146,20 @@ def convert_connected_components_to_seeds_dict(N, debug=False):
             if (i, j) not in map_index_to_lat_lon:
                 continue
 
-            lat, lon, _, _ = map_index_to_lat_lon[i, j]
+            lat_1, lon_1, lat_2, lon_2 = map_index_to_lat_lon[i, j]
 
             # lon = i * delta_x + min_lon
             # lat = j * delta_y + min_lat
 
+            mean_lat = (lat_1 + lat_2 )/ 2
+            mean_lon = (lon_1 + lon_2 )/ 2
+
             if labeled[i, j] in dict_label_lon_lat:
-                dict_label_lon_lat[labeled[i, j]].append((lon, lat))
+                dict_label_lon_lat[labeled[i, j]].append((mean_lon, mean_lat))
             else:
-                dict_label_lon_lat[labeled[i, j]] = [(lon, lat)]
+                dict_label_lon_lat[labeled[i, j]] = [(mean_lon, mean_lat)]
+
+
 
     # generate centroids for each component (each component is identified by a label)
     seed_bbox_list = []
@@ -169,23 +174,41 @@ def convert_connected_components_to_seeds_dict(N, debug=False):
         centroid_lat = np.mean(lat_list)
 
         if debug:
-            plt.clf()
-            plt.scatter(centroid_lon, centroid_lat, color="blue", s=1, label="centroid")
+            # plt.clf()
+            plt.scatter(centroid_lon, centroid_lat, color="blue", s=2, label="centroid")
 
+        flag = False
+        # ITERATE through all valid (OSM valid) bboxes in SG
         for bbox in dict_bbox_hour_date_to_CCT:
+
+            # get the boundaries of each bbox
             lat1, lon1, lat2, lon2 = bbox
 
             if debug:
                 plt.scatter(lon1, lat1, color="green", s=0.5)
                 plt.scatter(lon2, lat2, color="red", s=0.5)
 
+            # search for the bbox where the centroid lies
             if lon1 < centroid_lon < lon2 and lat1 < centroid_lat < lat2:
                 seed_bbox_list.append([[[lon1, lat1], [lon2, lat2]]])
+                flag = True
+
+
+
+        # # if it doesn't lie in anyone, we choose a bb at random
+        # if flag is False:
+        #     for val3 in dict_label_indices[key]:
+        #         i, j = val2
+        #         if (i, j) not in map_index_to_lat_lon:
+        #             continue
+        #
+        #         lat_1, lon_1, lat_2, lon_2 = map_index_to_lat_lon[i, j]
 
         if debug:
-            plt.savefig("debug_"+str(np.random.rand() * 10000) + ".png", dpi=300)
-            plt.legend()
-            plt.show()
+            if np.random.rand() < 0.1:
+                plt.savefig("debug_"+str(np.random.rand() * 10000) + ".png", dpi=300)
+                plt.legend()
+                plt.show()
 
     for i in range(len(seed_bbox_list)):
         dict_seeds["island_" + str(i + 1)] = seed_bbox_list[i]
@@ -309,6 +332,7 @@ def create_islands_two_methods(
 
         cmap = matplotlib.cm.get_cmap("nipy_spectral")
         plt.imshow(labeled, origin="lower", cmap=cmap)
+        plt.savefig("main_image_CC.png", dpi=300)
         sprint(ncomponents)
         plt.show()
 
