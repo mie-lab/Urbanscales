@@ -613,8 +613,34 @@ def hierarchical_region_merging_oneseed(
     newds.Destroy()
 
 
+def output_epoch_shp(dict_merge, merged_shapefile, epoch):
+    tmp_shapefile = merged_shapefile[: -4] + '_epoch' + str(epoch) + '.shp'
+
+    # output it as shapefile result
+    os.environ["SHAPE_ENCODING"] = "utf-8"
+    driver = ogr.GetDriverByName("ESRI Shapefile")
+    if os.access(tmp_shapefile, os.F_OK):
+        driver.DeleteDataSource(tmp_shapefile)
+    newds = driver.CreateDataSource(tmp_shapefile)
+    srs = osr.SpatialReference()
+    srs.SetWellKnownGeogCS("WGS84")
+    layernew = newds.CreateLayer("line", srs, ogr.wkbPolygon)
+
+    field_PC = ogr.FieldDefn("island", ogr.OFTString)
+    field_PC.SetWidth(30)
+    layernew.CreateField(field_PC)
+
+    for i_zone in dict_merge:
+        feat = ogr.Feature(layernew.GetLayerDefn())
+        feat.SetGeometry(dict_merge[i_zone])
+        feat.SetField("island", i_zone)
+        layernew.CreateFeature(feat)
+        feat.Destroy()
+    newds.Destroy()
+    
+    
 def hierarchical_region_merging_multiseeds(
-    bbox_file, seed_file, merged_shpfile, criteria_thre
+    bbox_file, seed_file, merged_shpfile, criteria_thre, shp_epoch
 ):  # input_file is not used here
     """
     implement hierarchial region merging process for each tree, multi-seeds growing together, no island boundary limitation
@@ -728,7 +754,10 @@ def hierarchical_region_merging_multiseeds(
                 )
             )
             break
-
+            
+        if epoch % shp_epoch == 0:
+            output_epoch_shp(dict_merge, merged_shpfile, epoch)
+            
     # output it as shapefile result
     os.environ["SHAPE_ENCODING"] = "utf-8"
     driver = ogr.GetDriverByName("ESRI Shapefile")
@@ -756,11 +785,11 @@ def main_func(thre):
     hierarchical_region_merging_multiseeds('./urban_merge/dict_bbox_5_.pickle',
                                            './urban_merge/dict_seeds_2_.pickle',
                                            './urban_merge/output_thre' + str(thre) + '.shp',
-                                           thre)
+                                           thre, 10)
     
     
 if __name__ == "__main__":
-    print("test")
+    # np.seterr(divide='ignore', invalid='ignore')  # used to ignore runtime running
     # os.environ['PROJ_LIB'] = r'C:\Users\yatzhang\Anaconda3\envs\trafficenv\Library\share\proj'
     # os.environ['GDAL_DATA'] = r'C:\Users\yatzhang\Anaconda3\envs\trafficenv\Library\share'
 
@@ -771,19 +800,21 @@ if __name__ == "__main__":
     #                                     0.75)
 
     # sys.path.append("/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/")
-    os.chdir("/Users/nishant/Documents/GitHub/WCS/python_scripts/four_steps/merge")
-    os.system("rm -rf merge_plots")
-    os.system("mkdir merge_plots")
-    os.system("rm bbox_to_OSM_nodes_map.pickle")
-    os.system("rm save_vectors.csv")
+    # os.chdir("/Users/nishant/Documents/GitHub/WCS/python_scripts/four_steps/merge")
+    # os.system("rm -rf merge_plots")
+    # os.system("mkdir merge_plots")
+    # os.system("rm bbox_to_OSM_nodes_map.pickle")
+    # os.system("rm save_vectors.csv")
 
-#     hierarchical_region_merging_multiseeds(
-#         "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/dict_bbox_5_.pickle",
-#         "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/dict_seeds_5_.pickle",
-#         "output.shp",
-#         0.9,
-#     )
-    
-    thre_list = [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.08, 0.05, 0.03, 0.01]
+    # single threads
+    # thre = 0.75
+    # Tip: the final parameter means to output shpfile every n epochs
+    # hierarchical_region_merging_multiseeds('./urban_merge/dict_bbox_5_.pickle',
+    #                                        './urban_merge/dict_seeds_2_.pickle',
+    #                                        './urban_merge/output_thre' + str(thre) + '.shp',
+    #                                        thre, 10)
+
+    # multi threads
+    thre_list = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.05, 0.01]
     pool = mp.Pool(len(thre_list))
     pool.map(main_func, thre_list)
