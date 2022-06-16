@@ -114,47 +114,54 @@ def get_isl_and_seeds_bboxes_for_best_fit_hierarchy(bbox_list):
     dict_seeds["island_1"] = island_1[int(len(island_1) * np.random.rand())]
     dict_seeds["island_2"] = island_2[int(len(island_2) * np.random.rand())]
 
-    return dict_islands, _  # the second return value used to be seeds, now we don't use it anymore.
+    return dict_islands, dict_seeds  # the second return value used to be seeds, now we don't use it anymore.
 
 
-def convert_connected_components_to_seeds_dict(N):
+def convert_connected_components_to_seeds_dict(N, debug=False):
     (
         indices,
         delta_x,
         delta_y,
-        min_lon,
         min_lat,
-        max_lon,
+        min_lon,
         max_lat,
+        max_lon,
         labeled,
         dict_bbox_hour_date_to_CCT,
+        map_index_to_lat_lon
     ) = create_islands_two_methods(N)
     #
     dict_label_indices = {}
-    for i in range(a.shape[0]):
-        for j in range(a.shape[1]):
-            if a[i, j] in dict_label_indices:
+    for i in range(labeled.shape[0]):
+        for j in range(labeled.shape[1]):
+            if labeled[i, j] in dict_label_indices:
                 dict_label_indices[labeled[i, j]].append((i, j))
             else:
                 dict_label_indices[labeled[i, j]] = [(i, j)]
 
     dict_label_lon_lat = {}
     for key in dict_label_indices:
-        i, j = key
-        # inverse this formula:
-        # i = int((lon1 - min_lon) / delta_x);
-        # Some minor error introduced here due to rounding, but should not
-        # affect the results of split-merge/ merge
+        for val2 in dict_label_indices[key]:
+            i, j = val2
+            if (i, j) not in map_index_to_lat_lon:
+                continue
 
-        lon = i * delta_x + min_lon
-        lat = j * delta_y + min_lat
+            lat_1, lon_1, lat_2, lon_2 = map_index_to_lat_lon[i, j]
 
-        if dict_label_indices[i, j] in dict_label_lon_lat:
-            dict_label_lon_lat[labeled[i, j]].append((lon, lat))
-        else:
-            dict_label_lon_lat[labeled[i, j]] = [(lon, lat)]
+            # lon = i * delta_x + min_lon
+            # lat = j * delta_y + min_lat
 
-    # generate centroids for each compoent (each component is identified by a label)
+            mean_lat = (lat_1 + lat_2 )/ 2
+            mean_lon = (lon_1 + lon_2 )/ 2
+
+            if labeled[i, j] in dict_label_lon_lat:
+                dict_label_lon_lat[labeled[i, j]].append((mean_lon, mean_lat))
+            else:
+                dict_label_lon_lat[labeled[i, j]] = [(mean_lon, mean_lat)]
+
+
+
+    # generate centroids for each component (each component is identified by a label)
     seed_bbox_list = []
     dict_seeds = {}
     for key in dict_label_lon_lat:
@@ -166,11 +173,42 @@ def convert_connected_components_to_seeds_dict(N):
         centroid_lon = np.mean(lon_list)
         centroid_lat = np.mean(lat_list)
 
+        if debug:
+            # plt.clf()
+            plt.scatter(centroid_lon, centroid_lat, color="blue", s=2, label="centroid")
+
+        flag = False
+        # ITERATE through all valid (OSM valid) bboxes in SG
         for bbox in dict_bbox_hour_date_to_CCT:
-            lon1, lat1, lon2, lat2 = bbox
+
+            # get the boundaries of each bbox
+            lat1, lon1, lat2, lon2 = bbox
+
+            if debug:
+                plt.scatter(lon1, lat1, color="green", s=0.5)
+                plt.scatter(lon2, lat2, color="red", s=0.5)
+
+            # search for the bbox where the centroid lies
             if lon1 < centroid_lon < lon2 and lat1 < centroid_lat < lat2:
                 seed_bbox_list.append([[[lon1, lat1], [lon2, lat2]]])
-                break
+                flag = True
+
+
+
+        # # if it doesn't lie in anyone, we choose a bb at random
+        # if flag is False:
+        #     for val3 in dict_label_indices[key]:
+        #         i, j = val2
+        #         if (i, j) not in map_index_to_lat_lon:
+        #             continue
+        #
+        #         lat_1, lon_1, lat_2, lon_2 = map_index_to_lat_lon[i, j]
+
+        if debug:
+            if np.random.rand() < 0.1:
+                plt.savefig("debug_"+str(np.random.rand() * 10000) + ".png", dpi=300)
+                plt.legend()
+                plt.show()
 
     for i in range(len(seed_bbox_list)):
         dict_seeds["island_" + str(i + 1)] = seed_bbox_list[i]
@@ -230,6 +268,8 @@ def create_islands_two_methods(
     if island_method == "conn_comp":
         a = np.random.rand(N, (int(N * 1.5))) * 0
 
+        map_index_to_lat_lon = {}
+
         lon1, lat1, lon2, lat2 = list(dict_bbox_hour_date_to_CCT.keys())[0]
         sprint(lon1, lat1, lon2, lat2)
         lon1, lat1, lon2, lat2 = list(dict_bbox_hour_date_to_CCT.keys())[1]
@@ -259,6 +299,8 @@ def create_islands_two_methods(
             lon1, lat1, lon2, lat2 = bbox
             sprint(int((lon1 - min_lon) / delta_x), int((lat1 - min_lat) / delta_y))
             a[int((lon1 - min_lon) / delta_x), int((lat1 - min_lat) / delta_y)] = 1
+            map_index_to_lat_lon[int((lon1 - min_lon) / delta_x), int((lat1 - min_lat) / delta_y)]  =lon1, lat1, lon2, lat2
+
 
         a = np.array(a, dtype=np.int)
         structure = np.ones((3, 3), dtype=np.int)
@@ -290,6 +332,7 @@ def create_islands_two_methods(
 
         cmap = matplotlib.cm.get_cmap("nipy_spectral")
         plt.imshow(labeled, origin="lower", cmap=cmap)
+        plt.savefig("main_image_CC.png", dpi=300)
         sprint(ncomponents)
         plt.show()
 
@@ -308,7 +351,7 @@ def create_islands_two_methods(
 
         #  plot indices
 
-    return indices, delta_x, delta_y, min_lon, min_lat, max_lon, max_lat, labeled, dict_bbox_hour_date_to_CCT
+    return indices, delta_x, delta_y, min_lon, min_lat, max_lon, max_lat, labeled, dict_bbox_hour_date_to_CCT, map_index_to_lat_lon
 
 
 if __name__ == "__main__":
@@ -328,4 +371,3 @@ if __name__ == "__main__":
         pickle.dump(dict_seeds, f, protocol=4)
 
     do_nothing = True
-
