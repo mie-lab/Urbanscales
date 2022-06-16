@@ -190,7 +190,7 @@ def convert_connected_components_to_seeds_dict(N, debug=False):
 
             # search for the bbox where the centroid lies
             if lon1 < centroid_lon < lon2 and lat1 < centroid_lat < lat2:
-                seed_bbox_list.append([[[lon1, lat1], [lon2, lat2]]])
+                seed_bbox_list.append([[lon1, lat1], [lon2, lat2]])
                 flag = True
 
 
