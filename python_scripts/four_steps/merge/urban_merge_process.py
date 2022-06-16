@@ -374,7 +374,7 @@ def compute_local_criteria(
         csvwriter.writerow(stats_vector_2.flatten().tolist())
         csvwriter.writerow(stats_vector_combined.flatten().tolist())
 
-    assert stats_vector_2.shape == stats_vector_2.shape == stats_vector_combined.shape == (12,)
+    assert stats_vector_1.shape == stats_vector_2.shape == stats_vector_combined.shape == (12,)
 
     # https://github.com/gboeing/osmnx/blob/997facb88ac566ccf79227a13b86f2db8642d04a/osmnx/stats.py#L339
     # m refers to edge count; It is the second value in our vector
