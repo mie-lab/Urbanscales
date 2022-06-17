@@ -43,15 +43,14 @@ bboxmap_file = "/Users/nishant/Documents/GitHub/WCS/python_scripts/four_steps/me
 bbox_split = 32
 with open(bboxmap_file, "rb") as handle1:
     global_bbox_to_nodes_map = pickle.load(handle1)
-# with open(
-#     "/Users/nishant/Documents/GitHub/WCS/python_scripts/four_steps/merge/remap_parameters.pickle", "rb"
-# ) as handle1:
-#     global_remap_parameters = pickle.load(handle1)
 
 
 with open("G_OSM_extracted.pickle", "rb") as handle:
     global_G_OSM = pickle.load(handle)
 
+
+means = np.array([2507.205311,4745.48239,3.323964347,470434.5476,86.78318726,2.497561,2156.193431,354369.9667,3566.963522,86.83845717,1.000000062,0.003754518])
+stds = np.array([2423.187613,4587.052383,0.832626468,466054.288,34.53542935,0.598464541,2076.314683,349919.1807,3441.744589,34.75293407,5.30583E-06,0.028030059])
 
 def from_ogr_to_shapely_plot(list_of_three_polys, seed_i, count):
     # Creating a copy of the input OGR geometry. This is done in order to
@@ -104,15 +103,19 @@ def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre):
 
         if shapely_geom.type == "Polygon":
             x, y = shapely_geom.exterior.xy
-            plt.plot(x, y, label=list(dict_merge)[i], color=colors_pad[i])
+            # plt.plot(x, y, label=list(dict_merge)[i],) #color=colors_pad[i])
+            plt.fill(x, y, label=list(dict_merge)[i], alpha=0.7) # , color=colors_pad[i])
+
         elif shapely_geom.type == "MultiPolygon":
-            for m in range(len(shapely_geom)):
-                _x, _y = shapely_geom[m].exterior.xy
+            for m in range(len(shapely_geom.geoms)):
+                _x, _y = shapely_geom.geoms[m].exterior.xy
                 if m == 0:
-                    plt.plot(_x, _y, label=list(dict_merge)[i], color=colors_pad[i])
+                    # plt.plot(_x, _y, label=list(dict_merge)[i], )#color=colors_pad[i])
+                    plt.fill(_x, _y, label=list(dict_merge)[i],alpha=0.7) # , color=colors_pad[i])
                 else:
-                    plt.plot(_x, _y, label="_" + list(dict_merge)[i], color=colors_pad[i])
-    plt.legend(loc="upper right")
+                    # plt.plot(_x, _y, label="_" + list(dict_merge)[i], )#color=colors_pad[i])
+                    plt.fill(_x, _y, label="_" + list(dict_merge)[i], alpha=0.7) # , color=colors_pad[i])
+    # plt.legend(loc="upper right", fontsize=4)
     plt.title("epoch: " + str(epoch))
     plt.xlim(103.6, 104.1)
     plt.ylim(1.26, 1.45)
@@ -411,6 +414,10 @@ def compute_local_criteria(
     if type(stats_vector_1) == str or type(stats_vector_2) == str or type(stats_vector_combined) == str:
         return 1  # 1 implies merge not going ahead
 
+    # add NaN filter 
+    if np.isnan(stats_vector_1).any() or np.isnan(stats_vector_2).any() or np.isnan(stats_vector_3).any():
+        return 1    
+
     # FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
     # disagreement between numpy as string comparison
 
@@ -436,8 +443,15 @@ def compute_local_criteria(
     if new_edges == 0:
         return 1
 
+    # normalise using the mean and variance for each column;
+    # the means and stds were computed using around 14K values during previous runs
+    stats_vector_1 = (stats_vector_1 - means) / stds
+    stats_vector_2 = (stats_vector_2 - means) / stds
+
+
     f_sim = a * spatial.distance.cosine(stats_vector_1, stats_vector_2)
     f_conn = b * (1 / new_edges)
+
 
     if loss_merge == "sum":
         if debug:
@@ -829,7 +843,7 @@ def hierarchical_region_merging_multiseeds(
 
 def main_func(thre):
     hierarchical_region_merging_multiseeds(
-        "dict_bbox_5_.pickle", "dict_seeds_2_.pickle", "output_thre" + str(thre) + ".shp", thre, 10
+        "dict_bbox_5_.pickle", "dict_seeds_5_.pickle", "output_thre" + str(thre) + ".shp", thre, 10
     )
 
 
@@ -844,10 +858,14 @@ if __name__ == "__main__":
     #                                     './urban_merge/output.shp',
     #                                     0.75)
 
-    # sys.path.append("/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/")
-    # os.chdir("/Users/nishant/Documents/GitHub/WCS/python_scripts/four_steps/merge")
-    # os.system("rm -rf merge_plots")
-    # os.system("mkdir merge_plots")
+
+
+    os.chdir("/Users/nishant/Documents/GitHub/WCS/python_scripts/four_steps/merge")
+    sys.path.append("/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/")
+    sys.path.append("/Users/nishant/Documents/GitHub/WCS/python_scripts/four_steps/merge")
+    sys.path.append("/Users/nishant/Documents/GitHub/WCS")
+    os.system("rm -rf merge_plots")
+    os.system("mkdir merge_plots")
     # os.system("rm bbox_to_OSM_nodes_map.pickle")
     # os.system("rm save_vectors.csv")
 
@@ -861,5 +879,6 @@ if __name__ == "__main__":
 
     # multi threads
     thre_list = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.05, 0.01]
-    pool = mp.Pool(len(thre_list))
+    pool = mp.Pool(6)
     pool.map(main_func, thre_list)
+    # main_func(0.7)
