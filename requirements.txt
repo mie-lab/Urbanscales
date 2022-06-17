@@ -1,5 +1,5 @@
-osmnx
-shapely
+osmnx==1.2.0
+shapely==1.8.2
 tqdm
 yellowbrick
 smartprint
