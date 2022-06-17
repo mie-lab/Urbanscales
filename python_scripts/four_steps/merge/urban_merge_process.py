@@ -415,7 +415,7 @@ def compute_local_criteria(
         return 1  # 1 implies merge not going ahead
 
     # add NaN filter 
-    if np.isnan(stats_vector_1).any() or np.isnan(stats_vector_2).any() or np.isnan(stats_vector_3).any():
+    if np.isnan(stats_vector_1).any() or np.isnan(stats_vector_2).any() or np.isnan(stats_vector_combined).any():
         return 1    
 
     # FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
