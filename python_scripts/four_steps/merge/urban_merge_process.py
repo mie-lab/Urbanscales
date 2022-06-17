@@ -427,6 +427,8 @@ def compute_local_criteria(
     #     csvwriter.writerow(stats_vector_2.flatten().tolist())
     #     csvwriter.writerow(stats_vector_combined.flatten().tolist())
 
+
+
     assert stats_vector_1.shape == stats_vector_2.shape == stats_vector_combined.shape == (12,)
 
     # https://github.com/gboeing/osmnx/blob/997facb88ac566ccf79227a13b86f2db8642d04a/osmnx/stats.py#L339
@@ -451,6 +453,11 @@ def compute_local_criteria(
 
     f_sim = a * spatial.distance.cosine(stats_vector_1, stats_vector_2)
     f_conn = b * (1 / new_edges)
+
+    with open("save_f_conn_f_sim.csv", "a") as f:
+        csvwriter = csv.writer(f)
+        csvwriter.writerow([f_conn, f_sim, f_conn/f_sim])
+
 
 
     if loss_merge == "sum":
@@ -867,7 +874,9 @@ if __name__ == "__main__":
     os.system("rm -rf merge_plots")
     os.system("mkdir merge_plots")
     # os.system("rm bbox_to_OSM_nodes_map.pickle")
-    # os.system("rm save_vectors.csv")
+    os.system("rm save_vectors.csv")
+    os.system("rm save_f_conn_f_sim.csv")
+
 
     # single threads
     # thre = 0.75
