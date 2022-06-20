@@ -12,6 +12,7 @@ from smartprint import smartprint as sprint
 server_path = "/home/niskumar/WCS/python_scripts/network_to_elementary/"
 local_path = "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/"
 sys.path.insert(0, local_path)
+sys.path.append("/Users/nishant/Documents/GitHub/WCS")
 
 import time
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
@@ -169,6 +170,12 @@ def convert_to_single_statistic_by_removing_minus_1(
                 # if there is no value that is -1, we ignore this key
                 continue
             dict_bbox_hour_date_to_CCT_copy[key] = np.median(array_24_x_dates[array_24_x_dates != -1])
+        elif method_for_single_statistic == "sum":
+            if np.count_nonzero(array_24_x_dates != -1) == 0:
+                # if empty slice in the line below, we just skip this one.
+                # if there is no value that is -1, we ignore this key
+                continue
+            dict_bbox_hour_date_to_CCT_copy[key] = np.sum(array_24_x_dates[array_24_x_dates != -1])
         else:
             print("Wrong parameter for method_for_single_statistic: ", method_for_single_statistic)
             sys.exit(0)
@@ -271,8 +278,8 @@ def step_2b_calculate_GOF(X, Y, model=None):
 
     # ('scaler', StandardScaler()),
     ("pca", PCA(n_components=8))
-
-    pipe = Pipeline([("scaler", StandardScaler()), ("LinR", model)])
+    # ("pca", PCA(n_components=12))
+    pipe = Pipeline([("scaler", StandardScaler()), ("pca", PCA(n_components=5)), ("LinR", model)])
     # The pipeline can be used as any other estimator
     # and avoids leaking the test set into the train set
     # print(pipe.fit(X_train, y_train))
@@ -320,21 +327,24 @@ def step_3(
     #         X_t, Y_t = pickle.load(f)
     # else:
     model_name = ["LR", "RF", "GBM"]
-    for m_i in range(3):
-        if model_name[m_i] == "LR":
-            model = LinearRegression()
-        elif model_name[m_i] == "RF":
-            model = RandomForestRegressor()
-        elif model_name[m_i] == "GBM":
-            model = GradientBoostingRegressor()
+    X_len = {}
+    X_len_multiple_plots = {}
+    for base in [5, 6, 7]:  # , 6, 7]:  # [5, 6, 7, 8, 9, 10]
+        for m_i in range(3):
+            if model_name[m_i] == "LR":
+                model = LinearRegression()
+            elif model_name[m_i] == "RF":
+                model = RandomForestRegressor()
+            elif model_name[m_i] == "GBM":
+                model = GradientBoostingRegressor()
 
-        timefilter = [5, 6, 7, 8]
-        X_len = {}
-        for base in [5, 6, 7]:  # [5, 6, 7, 8, 9, 10]
+            timefilter = [5, 6, 7, 8]
+            # X_len = {}
+
             for i in range(6):  # :range(60, 120, 10):
 
                 scale = base * (2 ** i)
-                if scale > 150:
+                if scale > 200:
                     continue
 
                 X, Y = step_2(
@@ -343,51 +353,82 @@ def step_3(
                     read_bbox_CCT_from_file=read_bbox_CCT_from_file,
                     plot_bboxes_on_route=plot_bboxes_on_route,
                     generate_incidents_routes=generate_incidents_routes,
-                    method_for_single_statistic="median_across_all",
+                    method_for_single_statistic="sum",
                     timefilter=timefilter,
                 )
                 X_len[scale] = len(X)
+                X_len_multiple_plots[scale, tuple(timefilter)] = len(X)
 
-                mean_cv_score_dict[scale, tuple(timefilter)] = []
+                mean_cv_score_dict[model_name[m_i], scale, tuple(timefilter)] = []
                 for m in range(multiple_runs):
                     cv_score = step_2b_calculate_GOF(X, Y, model=model)
-                    mean_cv_score_dict[scale, tuple(timefilter)].append(cv_score)
+                    mean_cv_score_dict[model_name[m_i], scale, tuple(timefilter)].append(cv_score)
 
-                mean = np.mean(mean_cv_score_dict[scale, tuple(timefilter)])
-                std = np.std(mean_cv_score_dict[scale, tuple(timefilter)])
+                mean = np.mean(mean_cv_score_dict[model_name[m_i], scale, tuple(timefilter)])
+                std = np.std(mean_cv_score_dict[model_name[m_i], scale, tuple(timefilter)])
 
                 # append the mean in the end
-                mean_cv_score_dict[scale, tuple(timefilter)].append(mean)
+                mean_cv_score_dict[model_name[m_i], scale, tuple(timefilter)].append(mean)
 
                 # append std
-                mean_cv_score_dict[scale, tuple(timefilter)].append(std)
+                mean_cv_score_dict[model_name[m_i], scale, tuple(timefilter)].append(std)
 
             print("scale, number_of_data_points, mean_cvscores, mean_std")
 
-        x_axis = []
-        y_axis = []
-        z_axis = []
-        for key in mean_cv_score_dict:
-            print(key[0], X_len[key[0]], mean_cv_score_dict[key][-2], mean_cv_score_dict[key][-1], sep=",")
-            x_axis.append(key[0])
-            y_axis.append(mean_cv_score_dict[key][-2])
-            z_axis.append(mean_cv_score_dict[key][-1])
+    plt.clf()
+    for base in [5, 6, 7]:  # , 6, 7]:  # [5, 6, 7, 8, 9, 10]
+        for m_i in range(3):
+            if model_name[m_i] == "LR":
+                model = LinearRegression()
+            elif model_name[m_i] == "RF":
+                model = RandomForestRegressor()
+            elif model_name[m_i] == "GBM":
+                model = GradientBoostingRegressor()
 
-        xyz = zip(x_axis, y_axis, z_axis)
-        xyz = sorted(xyz, key=lambda x: x[0])
-        print(list(xyz))
-        x_list = []
-        y_list = []
-        z_list = []
-        for x, y, z in xyz:
-            x_list.append(x)
-            y_list.append(y)
-            z_list.append(z)
-        plt.plot(x_list, y_list, label=model_name[m_i] + "mean")
+            timefilter = [5, 6, 7, 8]
+
+            x_axis = []
+            y_axis = []
+            z_axis = []
+
+            for i in range(6):  # :range(60, 120, 10):
+
+                scale = base * (2 ** i)
+                if scale > 200:
+                    continue
+
+                for key in mean_cv_score_dict:
+                    if key[1] != scale:
+                        continue
+                    if key[0] != model_name[m_i]:
+                        continue
+
+                    print(key[1], X_len_multiple_plots[key[1], key[2]], mean_cv_score_dict[key][-1], sep=",")
+                    x_axis.append(key[1])
+                    y_axis.append(mean_cv_score_dict[key][-2])
+                    z_axis.append(mean_cv_score_dict[key][-1])
+
+            xyz = zip(x_axis, y_axis, z_axis)
+            xyz = sorted(xyz, key=lambda x: x[0])
+            # print(list(xyz))
+            x_list = []
+            y_list = []
+            z_list = []
+            for x, y, z in xyz:
+                x_list.append(x)
+                y_list.append(y)
+                z_list.append(z)
+            plt.plot(x_list, y_list, label=model_name[m_i] + " base-" + str(base))
+
         # plt.plot(x_list, z_list, label=model_name[m_i] + "std")
-    plt.legend()
-    plt.ylim(0, 0.05)
-    # plt.yscale("log")
+    plt.legend(fontsize=10)
+    plt.ylabel("MSE")
+    plt.xlabel("Scale")
+    # plt.title("Base: "+str(base))
+    # plt.ylim(0, 0.012)
+    plt.yscale("log")
+    plt.savefig("All_bases_all_models_" + str(base) + ".png", dpi=300)
+
     plt.show()
 
     #
