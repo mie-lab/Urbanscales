@@ -13,11 +13,8 @@ import taxicab as tc
 from shapely.geometry import LineString
 from smartprint import smartprint as sprint
 from tqdm import tqdm
-
-local_path = "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary"
-server_path = "/home/niskumar/WCS/python_scripts/network_to_elementary"
-sys.path.insert(0, local_path)
-from osm_to_tiles import line_to_bbox_list
+from python_scripts.network_to_elementary.osm_to_tiles import line_to_bbox_list
+import config
 
 
 def create_bbox_to_CCT(
@@ -29,6 +26,7 @@ def create_bbox_to_CCT(
     graph_with_edge_travel_time=None,
     read_curved_paths_from_pickle=False,
     plotting_enabled=False,
+    suppress_warning=False
 ):
     """
 
@@ -108,6 +106,7 @@ def create_bbox_to_CCT(
                 read_curved_paths_from_pickle,
                 plotting_enabled,
                 (min_lon, max_lon, min_lat, max_lat),
+                suppress_warning
             )
         )
     if read_curved_paths_from_pickle:
@@ -247,6 +246,7 @@ def helper_box_to_CCT(params):
         read_curved_paths_from_pickle,
         plotting_enabled,
         (min_lon, max_lon, min_lat, max_lat),
+        suppress_warning
     ) = params
     if not use_route_path:
         bbox_intersecting = line_to_bbox_list(
@@ -363,7 +363,8 @@ def helper_box_to_CCT(params):
     except:
         debug_pitstop = True
 
-        warnings.warn("Some lines ignored: i value: " + str(i))
+        if not suppress_warning:
+            warnings.warn("Some lines ignored: i value: " + str(i))
         with open("temp_files/false_ODs" + str(i) + ".txt", "w") as f2:
             csvwriter = csv.writer(f2)
             csvwriter.writerow([o_lat[i], o_lon[i], d_lat[i], d_lon[i]])
@@ -390,7 +391,7 @@ if __name__ == "__main__":
         csv_file_name="combined_incidents_13_days.csv",
         read_from_pickle=True,
         N=50,
-        folder_path="/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/",
+        folder_path=intermediate_files_path,
         plotting_enabled=True,
     )
 

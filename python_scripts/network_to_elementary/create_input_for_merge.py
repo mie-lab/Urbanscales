@@ -4,14 +4,15 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 import os
-
-print(os.getcwd())
+print (os.getcwd())
+print ("Nishant")
+import config
 import sys
-
-sys.path.append("./")
 from python_scripts.four_steps.steps_combined import convert_to_single_statistic_by_removing_minus_1
 from smartprint import smartprint as sprint
 from scipy.ndimage.measurements import label
+
+
 
 
 def get_bbox(osm_tiles_stats_dict):
@@ -382,14 +383,14 @@ if __name__ == "__main__":
     best_fit_hierarchy = 5
     dict_islands, _ = get_isl_and_seeds_bboxes_for_best_fit_hierarchy(dict_bbox["hierarchy_" + str(best_fit_hierarchy)])
 
-    with open("dict_bbox_" + str(base_level) + "_.pickle", "wb") as f:
+    with open(config.intermediate_files_path+"dict_bbox_" + str(base_level) + "_.pickle", "wb") as f:
         pickle.dump(dict_bbox, f, protocol=4)
 
     dict_seeds, dict_islands_after_conn_comp = convert_connected_components_to_seeds_dict(80)
-    with open("dict_seeds_" + str(best_fit_hierarchy) + "_.pickle", "wb") as f:
+    with open(config.intermediate_files_path+"dict_seeds_" + str(best_fit_hierarchy) + "_.pickle", "wb") as f:
         pickle.dump(dict_seeds, f, protocol=4)
 
-    with open("dict_islands_" + str(best_fit_hierarchy) + "_.pickle", "wb") as f:
+    with open(config.intermediate_files_path+"dict_islands_" + str(best_fit_hierarchy) + "_.pickle", "wb") as f:
         pickle.dump(dict_islands_after_conn_comp, f, protocol=4)
 
     do_nothing = True

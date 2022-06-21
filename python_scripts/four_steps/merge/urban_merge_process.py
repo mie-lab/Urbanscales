@@ -4,6 +4,7 @@ Created on Thu Jun  9 16:39:45 2022
 
 @author: yatzhang
 """
+import config
 import copy
 import pickle
 import os, sys
@@ -11,12 +12,7 @@ import random
 import time
 import multiprocessing as mp
 import osmnx as ox
-
 import networkx as nx
-
-print("Path: ", os.getcwd())
-sys.path.append("./")
-
 from smartprint import smartprint as sprint
 import numpy as np
 import shapely
@@ -41,13 +37,13 @@ from python_scripts.network_to_elementary.tiles_to_elementary import get_stats_f
 #
 global_map_of_polygon_to_features = {}
 
-bboxmap_file = "/Users/nishant/Documents/GitHub/WCS/python_scripts/four_steps/merge/bbox_to_OSM_nodes_map.pickle"
+bboxmap_file = intermediate_files_path+ "bbox_to_OSM_nodes_map.pickle"
 bbox_split = 32
 with open(bboxmap_file, "rb") as handle1:
     global_bbox_to_nodes_map = pickle.load(handle1)
 
 
-with open("G_OSM_extracted.pickle", "rb") as handle:
+with open(intermediate_files_path+"G_OSM_extracted.pickle", "rb") as handle:
     global_G_OSM = pickle.load(handle)
 
 
@@ -866,7 +862,7 @@ def hierarchical_region_merging_multiseeds(
     # compute GoF for merged islands
     combined_dict = get_combined_bbox_dict(
         scales=[5, 10, 20, 40, 80],
-        folder_path="/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary",
+        folder_path=intermediate_files_path,
     )
     timefilter = [5, 6, 7, 8]
 

@@ -9,10 +9,7 @@ from sklearn.metrics import mean_squared_error, explained_variance_score
 from unittest.mock import ANY
 from smartprint import smartprint as sprint
 
-server_path = "/home/niskumar/WCS/python_scripts/network_to_elementary/"
-local_path = "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/"
-sys.path.insert(0, local_path)
-sys.path.append("/Users/nishant/Documents/GitHub/WCS")
+
 
 import time
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
@@ -30,9 +27,6 @@ import numpy as np
 import sys
 import osmnx as ox
 
-# import os
-# os.system("pip install -r requirements.txt")
-
 from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
@@ -40,10 +34,7 @@ from sklearn.pipeline import Pipeline
 from smartprint import smartprint as sprint
 
 
-# step_1_osm_tiles_to_features( read_G_from_pickle=True, read_osm_tiles_stats_from_pickle=False, n_threads=7, N=50, plotting_enabled=True)
-
-
-def auxiliary_func_G_for_curved_paths():
+def auxiliary_func_G_for_curved_paths(read_osm_from_file):
     sg_bbox_poly = [
         [103.96078535200013, 1.39109935100015],
         [103.98568769600007, 1.38544342700007],
@@ -98,27 +89,31 @@ def auxiliary_func_G_for_curved_paths():
         array_bbox_poly[:, 1].min(),
         array_bbox_poly[:, 1].max(),
     )
+    if read_osm_from_file:
+        with open("G_OSM_extracted.pickle", "rb") as f1:
+            G = pickle.load(f1)
+    else:
+        poly = Polygon([tuple(l) for l in geo["coordinates"][0]])
 
-    poly = Polygon([tuple(l) for l in geo["coordinates"][0]])
+        # G_proj = osm.project_graph(G)
+        # fig, ax = osm.plot_graph(G_proj)
+        # , "trunk","trunk_link", "motorway_link","primary","secondary"]
+        # custom_filter=["motorway", "motorway_link","motorway_junction","highway"],
 
-    # G_proj = osm.project_graph(G)
-    # fig, ax = osm.plot_graph(G_proj)
-    # , "trunk","trunk_link", "motorway_link","primary","secondary"]
-    # custom_filter=["motorway", "motorway_link","motorway_junction","highway"],
+        G = fetch_road_network_from_osm_database(
+            polygon=poly, network_type="drive", custom_filter='["highway"~"motorway|motorway_link|primary"]'
+        )
 
-    G = fetch_road_network_from_osm_database(
-        polygon=poly, network_type="drive", custom_filter='["highway"~"motorway|motorway_link|primary"]'
-    )
-
-    # orig = (1.34294, 103.74631)
-    # dest = (1.34499, 103.74022)
+        # orig = (1.34294, 103.74631)
+        # dest = (1.34499, 103.74022)
 
     G = ox.speed.add_edge_speeds(G)
     G = ox.speed.add_edge_travel_times(G)
+
     return G, (min_lon, max_lon, min_lat, max_lat)
 
 
-def generate_bbox_CCT_from_file(N, folder_path, plotting_enabled=False, use_route_path=True):
+def generate_bbox_CCT_from_file(N, plotting_enabled=False, use_route_path=True):
     """
 
     :param N:
@@ -132,14 +127,15 @@ def generate_bbox_CCT_from_file(N, folder_path, plotting_enabled=False, use_rout
         read_OSM_tiles_dict_from_pickle=True,
         N=N,
         folder_path=folder_path,
-        graph_with_edge_travel_time=auxiliary_func_G_for_curved_paths(),
+        graph_with_edge_travel_time=auxiliary_func_G_for_curved_paths(read_osm_from_file=True),
         use_route_path=use_route_path,
         read_curved_paths_from_pickle=False,
         plotting_enabled=plotting_enabled,
+        suppress_warning=True
     )
     yahan_pahuch_Gaye = "True"
     with open(folder_path + "dict_bbox_hour_date_to_CCT" + str(N) + ".pickle", "wb") as f2:
-        pickle.dump(dict_bbox_hour_date_to_CCT, f2, protocol=pickle.HIGHEST_PROTOCOL)
+        pickle.dump(dict_bbox_hour_date_to_CCT, f2, protocol=4)
 
 
 def convert_to_single_statistic_by_removing_minus_1(
@@ -351,7 +347,7 @@ def step_3(
 
                 X, Y = step_2(
                     N=scale,
-                    folder_path=local_path,
+                    folder_path=intermediate_files_path,
                     read_bbox_CCT_from_file=read_bbox_CCT_from_file,
                     plot_bboxes_on_route=plot_bboxes_on_route,
                     generate_incidents_routes=generate_incidents_routes,
@@ -439,7 +435,7 @@ def step_3(
 
     # return mean_cv_score_dict
 
-
+"""
 if __name__ == "__main__":
     starttime = time.time()
 
@@ -457,16 +453,15 @@ if __name__ == "__main__":
         )
 
         print(round(time.time() - starttime, 2), " seconds")
-
-
 """
+
 if __name__ == "__main__":
     for base in [2]: # [5, 6, 7, 8, 9, 10]
         for i in range(6):  # :range(60, 120, 10):
             scale = base * (2 ** i)
             
-            generate_bbox_CCT_from_file(N=scale, folder_path=server_path, use_route_path=False, plotting_enabled=False)
-"""
+            generate_bbox_CCT_from_file(N=scale, folder_path=outputfolder, use_route_path=False, plotting_enabled=False)
+
 
 
 # elif RUN_MODE == "PLOTTING":
