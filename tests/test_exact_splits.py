@@ -30,7 +30,6 @@ def ssubset(base_N):
         "../python_scripts/network_to_elementary/" + "osm_tiles_stats_dict" + str(base_N) + ".pickle", "rb"
     ) as handle:
         base_N_osm_bbox_list = get_bbox(pickle.load(handle))
-    sprint(os.getcwd())
     with open(
         "../python_scripts/network_to_elementary/" + "osm_tiles_stats_dict" + str(splitted_N) + ".pickle", "rb"
     ) as handle:

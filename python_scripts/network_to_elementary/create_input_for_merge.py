@@ -4,15 +4,18 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 import os
-print (os.getcwd())
-print ("Nishant")
+import os.path
 import config
-import sys
-from python_scripts.four_steps.steps_combined import convert_to_single_statistic_by_removing_minus_1
+
+from python_scripts.four_steps.steps_combined import (
+    convert_to_single_statistic_by_removing_minus_1,
+    auxiliary_func_G_for_curved_paths,
+)
 from smartprint import smartprint as sprint
 from scipy.ndimage.measurements import label
 
-
+from python_scripts.network_to_elementary.process_incidents import create_bbox_to_CCT
+from python_scripts.network_to_elementary.tiles_to_elementary import generate_one_grid_size
 
 
 def get_bbox(osm_tiles_stats_dict):
@@ -30,13 +33,17 @@ def get_bbox(osm_tiles_stats_dict):
 
 def get_bbox_as_list_of_list(scale):
     # extra step because by default we have list of tuples in the osm_tiles_stats_dict_XX.pickle files
-    with open(
-        "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/osm_tiles_stats_dict"
-        + str(scale)
-        + ".pickle",
-        "rb",
-    ) as handle:
-        bbox_list = get_bbox(pickle.load(handle))
+    osm_tiles_filename = config.intermediate_files_path + "osm_tiles_stats_dict" + str(scale) + ".pickle"
+    if os.path.isfile(osm_tiles_filename):
+        with open(
+            osm_tiles_filename,
+            "rb",
+        ) as handle:
+            bbox_list = get_bbox(pickle.load(handle))
+
+    else:
+        osm_tiles_stats_dict = generate_one_grid_size(N=scale, generate_for_perfect_fit=True, base_N=config.base)
+        bbox_list = get_bbox(osm_tiles_stats_dict)
 
     bbox_lol = []
     for lat1, lon1, lat2, lon2 in bbox_list:
@@ -244,13 +251,20 @@ def create_islands_two_methods(
     """
     assert island_method in ["conn_comp", "dbscan"]
 
-    with open(
-        "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/dict_bbox_hour_date_to_CCT"
-        + str(N)
-        + ".pickle",
-        "rb",
-    ) as f1:
-        dict_bbox_hour_date_to_CCT = pickle.load(f1)
+    fname = config.intermediate_files_path + "dict_bbox_hour_date_to_CCT" + str(N) + ".pickle"
+    if os.path.isfile(fname):
+        with open(fname, "rb") as f1:
+            dict_bbox_hour_date_to_CCT = pickle.load(f1)
+    else:
+        dict_bbox_hour_date_to_CCT, unique_dates = create_bbox_to_CCT(
+            csv_file_name=config.combined_incidents_file,
+            N=N,
+            folder_path=config.intermediate_files_path,
+            graph_with_edge_travel_time=auxiliary_func_G_for_curved_paths(read_osm_from_file=True),
+            use_route_path=config.use_route_path_curved,
+            plotting_enabled=config.plotting_enabled,
+            suppress_warning=True,
+        )
 
     dict_bbox_hour_date_to_CCT = convert_to_single_statistic_by_removing_minus_1(
         dict_bbox_hour_date_to_CCT, time_filter, method_for_single_statistic
@@ -343,7 +357,7 @@ def create_islands_two_methods(
 
         cmap = matplotlib.cm.get_cmap("nipy_spectral")
         plt.imshow(labeled, origin="lower", cmap=cmap)
-        plt.savefig("main_image_CC.png", dpi=300)
+        plt.savefig(config.outputfolder + "main_image_CC.png", dpi=300)
         sprint(ncomponents)
         plt.show()
 
@@ -377,20 +391,24 @@ def create_islands_two_methods(
 
 
 if __name__ == "__main__":
-    base_level = 5
-    dict_bbox = create_hierarchy_dict(base_level, 6)
+    base_level = config.base
+    dict_bbox = create_hierarchy_dict(base_level, config.hierarchies)
 
-    best_fit_hierarchy = 5
+    best_fit_hierarchy = config.best_fit_hierarchy
+
     dict_islands, _ = get_isl_and_seeds_bboxes_for_best_fit_hierarchy(dict_bbox["hierarchy_" + str(best_fit_hierarchy)])
 
-    with open(config.intermediate_files_path+"dict_bbox_" + str(base_level) + "_.pickle", "wb") as f:
+    with open(config.intermediate_files_path + "dict_bbox_" + str(base_level) + "_.pickle", "wb") as f:
         pickle.dump(dict_bbox, f, protocol=4)
 
-    dict_seeds, dict_islands_after_conn_comp = convert_connected_components_to_seeds_dict(80)
-    with open(config.intermediate_files_path+"dict_seeds_" + str(best_fit_hierarchy) + "_.pickle", "wb") as f:
+    # pow(best-1); because the indexing starts from 1
+    dict_seeds, dict_islands_after_conn_comp = convert_connected_components_to_seeds_dict(
+        base_level * (2 ** (best_fit_hierarchy - 1))
+    )
+    with open(config.intermediate_files_path + "dict_seeds_" + str(best_fit_hierarchy) + "_.pickle", "wb") as f:
         pickle.dump(dict_seeds, f, protocol=4)
 
-    with open(config.intermediate_files_path+"dict_islands_" + str(best_fit_hierarchy) + "_.pickle", "wb") as f:
+    with open(config.intermediate_files_path + "dict_islands_" + str(best_fit_hierarchy) + "_.pickle", "wb") as f:
         pickle.dump(dict_islands_after_conn_comp, f, protocol=4)
 
     do_nothing = True

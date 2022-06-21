@@ -1,46 +1,32 @@
-import multiprocessing
+import multiprocessing as mp
+import os
+import pickle
+import sys
 
-import numpy as np
-import sys, os
+import matplotlib
+import matplotlib.pyplot as plt
+import networkx as nx
+import osmnx as ox
+from osmnx import stats as osxstats
+from tqdm.auto import tqdm
 
-print("os.getcwd()", os.getcwd())
-sys.path.append("./")
+import config
+from python_scripts.four_steps.steps_combined import generate_bbox_CCT_from_file
 from python_scripts.network_to_elementary.get_sg_osm import get_sg_poly
 from python_scripts.network_to_elementary.osm_to_tiles import (
     fetch_road_network_from_osm_database,
     split_poly_to_bb,
     is_point_in_bounding_box,
 )
-from python_scripts.four_steps.steps_combined import generate_bbox_CCT_from_file
-
-server_path = "/home/niskumar/WCS/python_scripts/network_to_elementary/"
 
 
-# from python_scripts.network_to_elementary.oget_sg_osm import get_sg_poly, get_poly_from_bbox
-
-
-from multiprocessing import Pool
-from tqdm.auto import tqdm
-
-# from p_tqdm import p_map
-import multiprocessing as mp
-import matplotlib
-import matplotlib.pyplot as plt
-
-import networkx as nx
-import pickle
-from osmnx import truncate, utils_graph
-from osmnx import stats as osxstats
-import osmnx as ox
-
-
-def get_box_to_nodelist_map(G_osm: ox.graph, bbox_list, scale, N, read_from_pickle=False):
+def get_box_to_nodelist_map(G_osm: ox.graph, bbox_list, scale, N):
     """
     This funciton is O(n^2) it can be made faster using hashing
     (depending on need)
     """
-    filename = "bbox_to_points_map_" + str(scale) + ".pickle"
-    if read_from_pickle:
+    filename = config.intermediate_files_path + "bbox_to_points_map_" + str(scale) + ".pickle"
+    if os.path.isfile(filename):
         with open(filename, "rb") as handle:
             bbox_to_points_map = pickle.load(handle)
         return bbox_to_points_map
@@ -76,7 +62,7 @@ def get_box_to_nodelist_map(G_osm: ox.graph, bbox_list, scale, N, read_from_pick
         return bbox_to_points_map
 
 
-def get_OSM_tiles(bbox_list, osm_graph, read_from_pickle, N):
+def get_OSM_tiles(bbox_list, osm_graph, N):
     """
     :param bbox_list:
     :param osm_graph:
@@ -87,7 +73,10 @@ def get_OSM_tiles(bbox_list, osm_graph, read_from_pickle, N):
     non_empty_count = 0
 
     bbox_to_points_map = get_box_to_nodelist_map(
-        osm_graph, bbox_list=bbox_list, scale=len(bbox_list), N=N, read_from_pickle=read_from_pickle
+        osm_graph,
+        bbox_list=bbox_list,
+        scale=len(bbox_list),
+        N=N,
     )
 
     for bbox in bbox_list:
@@ -245,8 +234,6 @@ def tile_stats_to_images(output_path: str, list_of_dict_bbox_to_stats, N):
 
 
 def step_1_osm_tiles_to_features(
-    read_G_from_pickle=True,
-    read_osm_tiles_stats_from_pickle=False,
     n_threads=7,
     N=50,
     plotting_enabled=True,
@@ -269,12 +256,13 @@ def step_1_osm_tiles_to_features(
             print("Fatal error in step_1_osm_tiles_to_features!\n Wrong argument combination provided")
             sys.exit(0)
 
-    if read_G_from_pickle:
-        with open("G_OSM_extracted.pickle", "rb") as handle:
+    fname = config.intermediate_files_path + "G_OSM_extracted.pickle"
+    if os.path.isfile(fname):
+        with open(fname, "rb") as handle:
             G_OSM = pickle.load(handle)
     else:
         G_OSM = fetch_road_network_from_osm_database(polygon=get_sg_poly(), network_type="drive", custom_filter=None)
-        with open("G_OSM_extracted.pickle", "wb") as f:
+        with open(fname, "wb") as f:
             pickle.dump(G_OSM, f, protocol=4)
 
     G_OSM_dict, _error_ = get_OSM_tiles(
@@ -283,11 +271,11 @@ def step_1_osm_tiles_to_features(
             get_sg_poly(), N, plotting_enabled=False, generate_for_perfect_fit=True, base_N=base_N
         ),
         N=N,
-        read_from_pickle=read_osm_tiles_stats_from_pickle,
     )
 
-    if read_osm_tiles_stats_from_pickle:
-        with open("osm_tiles_stats_dict" + str(N) + ".pickle", "rb") as handle:
+    fname = config.intermediate_files_path + "osm_tiles_stats_dict" + str(N) + ".pickle"
+    if os.path.isfile(fname):
+        with open(fname, "rb") as handle:
             osm_tiles_stats_dict = pickle.load(handle)
 
     else:
@@ -325,11 +313,13 @@ def step_1_osm_tiles_to_features(
 
         osm_tiles_stats_dict = osm_tiles_stats_dict_multithreaded
 
-        with open("osm_tiles_stats_dict" + str(N) + ".pickle", "wb") as f:
+        with open(fname, "wb") as f:
             pickle.dump(osm_tiles_stats_dict, f, protocol=pickle.HIGHEST_PROTOCOL)
 
     if plotting_enabled:
         tile_stats_to_images("output_images/tilestats/", osm_tiles_stats_dict, N)
+
+    return osm_tiles_stats_dict
 
 
 def generate_one_grid_size(N, generate_for_perfect_fit=False, base_N=-1):
@@ -340,16 +330,15 @@ def generate_one_grid_size(N, generate_for_perfect_fit=False, base_N=-1):
             print("Fatal error in generate_one_grid_size!\n Wrong argument combination provided")
             sys.exit(0)
 
-    step_1_osm_tiles_to_features(
-        read_G_from_pickle=True,
-        read_osm_tiles_stats_from_pickle=False,
+    osm_tiles_stats_dict = step_1_osm_tiles_to_features(
         N=N,
         plotting_enabled=False,
-        n_threads=35,
+        n_threads=config.num_threads,
         generate_for_perfect_fit=generate_for_perfect_fit,
         base_N=base_N,
-        debug_multi_processing_error=True,
+        debug_multi_processing_error=False,
     )
+    return osm_tiles_stats_dict
 
 
 if __name__ == "__main__":
@@ -388,7 +377,9 @@ if __name__ == "__main__":
             if scale > 200:
                 continue
             generate_one_grid_size(N=scale, generate_for_perfect_fit=True, base_N=base)
-            generate_bbox_CCT_from_file(N=scale, folder_path=server_path, use_route_path=False, plotting_enabled=False)
+            generate_bbox_CCT_from_file(
+                N=scale, folder_path=config.intermediate_files_path, use_route_path=False, plotting_enabled=False
+            )
 
     # generate_one_grid_size(N=17, generate_for_perfect_fit=True, base_N=9)
 

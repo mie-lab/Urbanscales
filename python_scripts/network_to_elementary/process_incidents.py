@@ -13,20 +13,19 @@ import taxicab as tc
 from shapely.geometry import LineString
 from smartprint import smartprint as sprint
 from tqdm import tqdm
+
 from python_scripts.network_to_elementary.osm_to_tiles import line_to_bbox_list
 import config
 
 
 def create_bbox_to_CCT(
     csv_file_name,
-    read_OSM_tiles_dict_from_pickle=True,
     N=100,
     folder_path="",
     use_route_path=False,
     graph_with_edge_travel_time=None,
-    read_curved_paths_from_pickle=False,
-    plotting_enabled=False,
-    suppress_warning=False
+    plotting_enabled=config.plotting_enabled,
+    suppress_warning=False,
 ):
     """
 
@@ -68,9 +67,15 @@ def create_bbox_to_CCT(
         print("Header missing in pandas datafrme;\n to be specific the incidents.csv file")
         sys.exit()
 
-    if read_OSM_tiles_dict_from_pickle:
+    fname = config.intermediate_files_path + "osm_tiles_stats_dict" + str(N) + ".pickle"
+    if not os.path.isfile(fname):
+        print("This part has not been written yet")
+        print("Please use the previously saved dictionary to get BBs")
+        sys.exit()
+    elif os.path.isfile(fname):
+
         bbox_list = []
-        with open(folder_path + "osm_tiles_stats_dict" + str(N) + ".pickle", "rb") as handle:
+        with open(fname, "rb") as handle:
             osm_tiles_stats_dict = pickle.load(handle)
 
         for keyval in osm_tiles_stats_dict:
@@ -81,11 +86,6 @@ def create_bbox_to_CCT(
                 bbox_list.append(key)
             except:
                 continue
-
-    else:
-        print("This part has not been written yet")
-        print("Please use the previously saved dictionary to get BBs")
-        sys.exit()
 
     paramlist = []
 
@@ -103,43 +103,52 @@ def create_bbox_to_CCT(
                 use_route_path,
                 graph_with_edge_travel_time[0],
                 incident_data,
-                read_curved_paths_from_pickle,
+                config.use_route_path_curved,
                 plotting_enabled,
                 (min_lon, max_lon, min_lat, max_lat),
-                suppress_warning
+                suppress_warning,
             )
         )
-    if read_curved_paths_from_pickle:
-        os.system("rm temp_files/dict_*.t temp_files/combined_file.txt")
+    if config.use_route_path_curved:
+        os.system("rm " + config.temp_files + "dict_*.t " + config.temp_files + "combined_file.txt")
     else:
-        os.system("rm temp_files/dict_*.t temp_files/curved_*.pickle temp_files/combined_file.txt")
-        os.system("rm temp_files/false_ODs*.txt temp_files/true_ODs*.txt")
+        os.system(
+            "rm "
+            + config.temp_files
+            + "dict_*.t "
+            + config.temp_files
+            + "curved_*.pickle "
+            + config.temp_files
+            + "combined_file.txt"
+        )
+        os.system("rm " + config.temp_files + "false_ODs*.txt " + config.temp_files + "true_ODs*.txt")
 
     # r = p_map(helper_box_to_CCT, paramlist, num_cpus=55)
     # r = process_map(helper_box_to_CCT, paramlist, max_workers=45, chunksize=1)
-    with multiprocessing.Pool(45) as p:
-        #     # p = Pool(45)
-        #     tqdm(p.map(helper_box_to_CCT, paramlist), total=len(paramlist))
+    #     # p = Pool(45)
+    #     tqdm(p.map(helper_box_to_CCT, paramlist), total=len(paramlist))
+
+    with multiprocessing.Pool(config.num_threads) as p:
         p.map(helper_box_to_CCT, paramlist)
 
+    # single threaded for debug
     # for param in paramlist:
     #     helper_box_to_CCT(param)
 
     # combine files from each thread to a single csv file
-    os.system("cat temp_files/dict_*.t > temp_files/combined_file.txt")
-    os.system("cat temp_files/false_ODs*.txt > temp_files/combined_file_false_ODs")
-    os.system("cat temp_files/true_ODs*.txt > temp_files/combined_file_true_ODs")
+    os.system("cat " + config.temp_files + "dict_*.t > " + config.temp_files + "combined_file.txt")
+    os.system("cat " + config.temp_files + "false_ODs*.txt > " + config.temp_files + "combined_file_false_ODs")
+    os.system("cat " + config.temp_files + "true_ODs*.txt > " + config.temp_files + "combined_file_true_ODs")
 
     if plotting_enabled:
         plot_scatter_for_true_and_false_incidents(
-            "temp_files/combined_file_true_ODs", "temp_files/combined_file_false_ODs", bbox_list
+            config.temp_files + "combined_file_true_ODs", config.temp_files + "combined_file_false_ODs", bbox_list
         )
 
     dict_bbox_to_CCT = {}
-    print(os.getcwd())
     list_of_dates = []
 
-    with open("temp_files/combined_file.txt") as f:
+    with open(config.temp_files + "combined_file.txt") as f:
         for row in f:
             listed = row.strip().split(";")
             bbox = eval(listed[0].strip())
@@ -246,7 +255,7 @@ def helper_box_to_CCT(params):
         read_curved_paths_from_pickle,
         plotting_enabled,
         (min_lon, max_lon, min_lat, max_lat),
-        suppress_warning
+        suppress_warning,
     ) = params
     if not use_route_path:
         bbox_intersecting = line_to_bbox_list(
@@ -327,7 +336,7 @@ def helper_box_to_CCT(params):
 
             assert len(XYcoord) % 2 == 0
 
-            picklefilename = "temp_files/curved_" + str(i) + ".pickle"
+            picklefilename = config.temp_files + "curved_" + str(i) + ".pickle"
             if read_curved_paths_from_pickle:
                 with open(picklefilename, "rb") as handle:
                     i, route_linestring = pickle.load(handle)
@@ -356,7 +365,7 @@ def helper_box_to_CCT(params):
 
     try:
         assert len(bbox_intersecting) >= 1
-        with open("temp_files/true_ODs" + str(i) + ".txt", "w") as f2:
+        with open(config.temp_files + "true_ODs" + str(i) + ".txt", "w") as f2:
             csvwriter = csv.writer(f2)
             csvwriter.writerow([o_lat[i], o_lon[i], d_lat[i], d_lon[i]])
 
@@ -365,12 +374,13 @@ def helper_box_to_CCT(params):
 
         if not suppress_warning:
             warnings.warn("Some lines ignored: i value: " + str(i))
-        with open("temp_files/false_ODs" + str(i) + ".txt", "w") as f2:
+
+        with open(config.temp_files + "false_ODs" + str(i) + ".txt", "w") as f2:
             csvwriter = csv.writer(f2)
             csvwriter.writerow([o_lat[i], o_lon[i], d_lat[i], d_lon[i]])
 
     for bbox in bbox_intersecting:
-        with open("temp_files/dict_" + str(i) + ".t", "w") as f:
+        with open(config.temp_files + "dict_" + str(i) + ".t", "w") as f:
             pandas_dt = pd.to_datetime(incident_data["start_time"][i]).tz_localize("utc").tz_convert("Singapore")
             f.write(
                 str(bbox)
@@ -388,10 +398,10 @@ def helper_box_to_CCT(params):
 if __name__ == "__main__":
 
     dict_bbox_to_CCT = create_bbox_to_CCT(
-        csv_file_name="combined_incidents_13_days.csv",
+        csv_file_name="../../intermediate_files/combined_incidents_13_days.csv",
         read_from_pickle=True,
         N=50,
-        folder_path=intermediate_files_path,
+        folder_path=config.intermediate_files_path,
         plotting_enabled=True,
     )
 

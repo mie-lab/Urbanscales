@@ -29,22 +29,15 @@ from python_scripts.network_to_elementary.osm_to_tiles import (
     is_point_in_bounding_box,
     is_bounding_box_in_polygon,
 )
-from python_scripts.four_steps.steps_combined import convert_to_single_statistic_by_removing_minus_1
+from python_scripts.four_steps.steps_combined import (
+    convert_to_single_statistic_by_removing_minus_1,
+    generate_bbox_CCT_from_file,
+)
 from python_scripts.network_to_elementary.tiles_to_elementary import get_stats_for_one_tile
 
 #
 
 #
-global_map_of_polygon_to_features = {}
-
-bboxmap_file = intermediate_files_path+ "bbox_to_OSM_nodes_map.pickle"
-bbox_split = 32
-with open(bboxmap_file, "rb") as handle1:
-    global_bbox_to_nodes_map = pickle.load(handle1)
-
-
-with open(intermediate_files_path+"G_OSM_extracted.pickle", "rb") as handle:
-    global_G_OSM = pickle.load(handle)
 
 
 means = np.array(
@@ -122,10 +115,10 @@ def from_ogr_to_shapely_plot(list_of_three_polys, seed_i, count, convex_hull=Fal
                 else:
                     ax.plot(_x, _y, label="_" + plt_set[i][0], color=plt_set[i][1], linestyle=plt_set[i][2])
     ax.legend(loc="upper right")
-    fig.savefig("merge_plots/epoch_" + seed_i + str(count) + ".png", dpi=300)
+    fig.savefig(config.outputfolder + "merge_plots/epoch_" + seed_i + str(count) + ".png", dpi=300)
 
 
-def create_base_map(osmfilename="G_OSM_extracted.pickle"):
+def create_base_map(osmfilename=config.intermediate_files_path + "G_OSM_extracted.pickle"):
     with open(osmfilename, "rb") as handle:
         G = pickle.load(handle)
 
@@ -157,10 +150,13 @@ def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre, convex
     # ogr_geom_copy = ogr.CreateGeometryFromWkb(ogr_geom.ExportToIsoWkb())
     plt.clf()
     plt_set = [["tomato", "dotted"]]
-    colors_pad = plt.cm.rainbow(np.linspace(0, 1, len(dict_merge)))
+    colors_pad = plt.cm.Set3(np.linspace(0, 1, len(dict_merge)))
+
+    # shuffle the list of colors, so that nearby boxes are not perceptually similar colors
+    random.shuffle(colors_pad)
 
     if base_map_enabled:
-        fig, ax = create_base_map(osmfilename="G_OSM_extracted.pickle")
+        fig, ax = create_base_map(osmfilename=config.intermediate_files_path + "G_OSM_extracted.pickle")
     else:
         fig = plt.figure()
         ax = fig.add_subplot(111)
@@ -201,7 +197,7 @@ def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre, convex
     # plt.xlim(103.6, 104.1)
     # plt.ylim(1.26, 1.45)
     # plt.gca().set_aspect(21/56)
-    fig.savefig("merge_plots/thre" + str(criteria_thre) + "_epoch" + str(epoch) + ".png", dpi=300)
+    fig.savefig(config.outputfolder + "merge_plots/thre" + str(criteria_thre) + "_epoch" + str(epoch) + ".png", dpi=300)
 
 
 def read_shpfile_SGboundary(shpfile):
@@ -228,6 +224,53 @@ def is_point_in_polygon(lat, lon, shapely_poly):
 
     point = geometry.Point(lon, lat, 0)
     return shapely_poly.contains(point)
+
+
+def create_bboxmap_file(bboxmap_file, G_OSM):
+    print("bbox_to_nodes_map file NOT found; creating ...... ")
+    max_lat = -1
+    max_lon = -1
+    min_lat = 99999999999
+    min_lon = 99999999999
+    for node in G_OSM.nodes:
+        # y is the lat, x is the lon (Out[20]: {'y': 1.2952316, 'x': 103.872544, 'street_count': 3})
+        lat, lon = G_OSM.nodes[node]["y"], G_OSM.nodes[node]["x"]
+        min_lon = min(min_lon, lon)
+        max_lon = max(max_lon, lon)
+        min_lat = min(min_lat, lat)
+        max_lat = max(max_lat, lat)
+
+    # create list of bboxes
+    delta_x = (max_lon - min_lon) / bbox_split
+    delta_y = (max_lat - min_lat) / bbox_split
+    bbox_list = []
+    i = min_lon
+    while i + delta_x <= max_lon:
+        j = min_lat
+        while j + delta_y <= max_lat:
+            bbox_list.append((i, j, i + delta_x, j + delta_y))
+            # (i, j, i + delta_x, j + delta_y) : lon_min, lat_min, lon_max, lat_max
+            #  lon_max should not be confused with glbal (throughout City poly) max_lat, max_lon above
+
+            j += delta_y
+        i += delta_x
+
+    bbox_to_nodes_map = {}
+    for node in G_OSM.nodes:
+        # y is the lat, x is the lon (Out[20]: {'y': 1.2952316, 'x': 103.872544, 'street_count': 3})
+        lat, lon = G_OSM.nodes[node]["y"], G_OSM.nodes[node]["x"]
+        for bbox in bbox_list:
+            lon_min, lat_min, lon_max, lat_max = bbox
+            if is_point_in_bounding_box(lat, lon, [lat_min, lon_min, lat_max, lon_max]):
+                if bbox in bbox_to_nodes_map:
+                    bbox_to_nodes_map[bbox].append(node)
+                else:
+                    bbox_to_nodes_map[bbox] = [node]
+
+    with open(bboxmap_file, "wb") as f:
+        pickle.dump(bbox_to_nodes_map, f, protocol=4)
+
+    print("bbox_to_nodes_map file created! :)")
 
 
 def convert_gdal_poly_to_shapely_poly(poly_gdal):
@@ -261,50 +304,7 @@ def get_OSM_subgraph_in_poly_fast(G_OSM, polygon_from_gdal):
         # remap_parameters = global_remap_parameters
 
     else:
-        print("bbox_to_nodes_map file NOT found; creating ...... ")
-        max_lat = -1
-        max_lon = -1
-        min_lat = 99999999999
-        min_lon = 99999999999
-        for node in G_OSM.nodes:
-            # y is the lat, x is the lon (Out[20]: {'y': 1.2952316, 'x': 103.872544, 'street_count': 3})
-            lat, lon = G_OSM.nodes[node]["y"], G_OSM.nodes[node]["x"]
-            min_lon = min(min_lon, lon)
-            max_lon = max(max_lon, lon)
-            min_lat = min(min_lat, lat)
-            max_lat = max(max_lat, lat)
-
-        # create list of bboxes
-        delta_x = (max_lon - min_lon) / bbox_split
-        delta_y = (max_lat - min_lat) / bbox_split
-        bbox_list = []
-        i = min_lon
-        while i + delta_x <= max_lon:
-            j = min_lat
-            while j + delta_y <= max_lat:
-                bbox_list.append((i, j, i + delta_x, j + delta_y))
-                # (i, j, i + delta_x, j + delta_y) : lon_min, lat_min, lon_max, lat_max
-                #  lon_max should not be confused with glbal (throughout City poly) max_lat, max_lon above
-
-                j += delta_y
-            i += delta_x
-
-        bbox_to_nodes_map = {}
-        for node in G_OSM.nodes:
-            # y is the lat, x is the lon (Out[20]: {'y': 1.2952316, 'x': 103.872544, 'street_count': 3})
-            lat, lon = G_OSM.nodes[node]["y"], G_OSM.nodes[node]["x"]
-            for bbox in bbox_list:
-                lon_min, lat_min, lon_max, lat_max = bbox
-                if is_point_in_bounding_box(lat, lon, [lat_min, lon_min, lat_max, lon_max]):
-                    if bbox in bbox_to_nodes_map:
-                        bbox_to_nodes_map[bbox].append(node)
-                    else:
-                        bbox_to_nodes_map[bbox] = [node]
-
-        with open(bboxmap_file, "wb") as f:
-            pickle.dump(bbox_to_nodes_map, f, protocol=4)
-
-        print("bbox_to_nodes_map file created! :)")
+        create_bboxmap_file(bboxmap_file, G_OSM)
 
     # reduced search space
     nodes_for_subgraph = []
@@ -445,13 +445,10 @@ def compute_local_criteria(
 
     """
     if read_G_osm_from_pickle:
-        # with open("G_OSM_extracted.pickle", "rb") as handle:
-        #     G_OSM = pickle.load(handle)
         G_OSM = global_G_OSM
     else:
         G_OSM = fetch_road_network_from_osm_database(polygon=get_sg_poly(), network_type="drive", custom_filter=None)
-        with open("G_OSM_extracted.pickle", "wb") as f:
-            # not needed
+        with open(config.intermediate_files_path + "G_OSM_extracted.pickle", "wb") as f:
             pickle.dump(G_OSM, f, protocol=4)
 
     global global_map_of_polygon_to_features
@@ -559,9 +556,14 @@ def get_combined_bbox_dict(scales=[], folder_path=""):
 
     combined_dict = {}
     for scale in scales:
-        with open(folder_path + "/dict_bbox_hour_date_to_CCT" + str(scale) + ".pickle", "rb") as f1:
+        fname = folder_path + "dict_bbox_hour_date_to_CCT" + str(scale) + ".pickle"
+        if not os.path.isfile(fname):
+            generate_bbox_CCT_from_file(N=scale, use_route_path=config.use_route_path_curved)
+
+        with open(fname, "rb") as f1:
             dict_bbox_hour_date_to_CCT = pickle.load(f1)
-            combined_dict = {**combined_dict, **dict_bbox_hour_date_to_CCT}
+
+        combined_dict = {**combined_dict, **dict_bbox_hour_date_to_CCT}
 
     return combined_dict
 
@@ -861,8 +863,12 @@ def hierarchical_region_merging_multiseeds(
 
     # compute GoF for merged islands
     combined_dict = get_combined_bbox_dict(
-        scales=[5, 10, 20, 40, 80],
-        folder_path=intermediate_files_path,
+        scales=[
+            5,
+            10,
+            20,
+        ],
+        folder_path=config.intermediate_files_path,
     )
     timefilter = [5, 6, 7, 8]
 
@@ -949,7 +955,7 @@ def hierarchical_region_merging_multiseeds(
 
     # implement hierarchial region merge
     epoch = 0
-    # from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre)
+    from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre)
     while identify_bbox_usage(dict_bbox_select):
         epoch += 1
         touch_count = 0
@@ -1006,7 +1012,7 @@ def hierarchical_region_merging_multiseeds(
                 epoch, identify_bbox_usage_num(dict_bbox_select), touch_count
             )
         )
-        # from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre)
+        from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre)
         # stop iterating when no bbox touching with seed_zone
         if touch_count == 0:
             print(
@@ -1066,13 +1072,28 @@ def hierarchical_region_merging_multiseeds(
 
 def main_func(thre):
     hierarchical_region_merging_multiseeds(
-        "dict_bbox_5_.pickle",
-        "dict_islands_5_.pickle",
-        "dict_seeds_5_.pickle",
-        "output_thre" + str(thre) + ".shp",
+        config.intermediate_files_path + "dict_bbox_" + str(config.base) + "_.pickle",
+        config.intermediate_files_path + "dict_islands_" + str(config.best_fit_hierarchy) + "_.pickle",
+        config.intermediate_files_path + "dict_seeds_" + str(config.best_fit_hierarchy) + "_.pickle",
+        config.outputfolder + "output_thre" + str(thre) + ".shp",
         thre,
         10,
     )
+
+
+global_map_of_polygon_to_features = {}
+
+with open(config.intermediate_files_path + "G_OSM_extracted.pickle", "rb") as handle:
+    global_G_OSM = pickle.load(handle)
+
+bboxmap_file = config.intermediate_files_path + "bbox_to_OSM_nodes_map.pickle"
+bbox_split = config.bbox_split_for_merge_optimisation
+
+if os.path.isfile(bboxmap_file):
+    with open(bboxmap_file, "rb") as handle1:
+        global_bbox_to_nodes_map = pickle.load(handle1)
+else:
+    create_bboxmap_file(bboxmap_file, global_G_OSM)
 
 
 if __name__ == "__main__":
@@ -1086,15 +1107,11 @@ if __name__ == "__main__":
     #                                     './urban_merge/output.shp',
     #                                     0.75)
 
-    os.chdir("/Users/nishant/Documents/GitHub/WCS/python_scripts/four_steps/merge")
-    sys.path.append("/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/")
-    sys.path.append("/Users/nishant/Documents/GitHub/WCS/python_scripts/four_steps/merge")
-    sys.path.append("/Users/nishant/Documents/GitHub/WCS")
-    os.system("rm -rf merge_plots")
-    os.system("mkdir merge_plots")
-    # os.system("rm bbox_to_OSM_nodes_map.pickle")
-    os.system("rm save_vectors.csv")
-    os.system("rm save_f_conn_f_sim.csv")
+    os.system("rm -rf " + config.outputfolder + "merge_plots")
+    os.system("mkdir " + config.outputfolder + "merge_plots")
+
+    os.system("rm " + config.outputfolder + "save_vectors.csv")
+    os.system("rm " + config.outputfolder + "save_f_conn_f_sim.csv")
 
     # single threads
     # thre = 0.75
@@ -1108,4 +1125,4 @@ if __name__ == "__main__":
     thre_list = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.05, 0.01]
     # pool = mp.Pool(7)
     # pool.map(main_func, thre_list)
-    main_func(0.7)
+    main_func(0.9)

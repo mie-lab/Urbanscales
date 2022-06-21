@@ -10,12 +10,12 @@ from unittest.mock import ANY
 from smartprint import smartprint as sprint
 
 
-
 import time
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.model_selection import cross_val_score
 from sklearn.decomposition import PCA
 
+import config
 from python_scripts.network_to_elementary.elf_to_clusters import osm_tiles_states_to_vectors
 from python_scripts.network_to_elementary.osm_to_tiles import fetch_road_network_from_osm_database
 from python_scripts.network_to_elementary.process_incidents import create_bbox_to_CCT
@@ -89,8 +89,10 @@ def auxiliary_func_G_for_curved_paths(read_osm_from_file):
         array_bbox_poly[:, 1].min(),
         array_bbox_poly[:, 1].max(),
     )
-    if read_osm_from_file:
-        with open("G_OSM_extracted.pickle", "rb") as f1:
+
+    fname_osm = config.intermediate_files_path + "G_OSM_extracted.pickle"
+    if os.path.isfile(fname_osm):
+        with open(fname_osm, "rb") as f1:
             G = pickle.load(f1)
     else:
         poly = Polygon([tuple(l) for l in geo["coordinates"][0]])
@@ -99,10 +101,11 @@ def auxiliary_func_G_for_curved_paths(read_osm_from_file):
         # fig, ax = osm.plot_graph(G_proj)
         # , "trunk","trunk_link", "motorway_link","primary","secondary"]
         # custom_filter=["motorway", "motorway_link","motorway_junction","highway"],
+        # '["highway"~"motorway|motorway_link|primary"]'
 
-        G = fetch_road_network_from_osm_database(
-            polygon=poly, network_type="drive", custom_filter='["highway"~"motorway|motorway_link|primary"]'
-        )
+        G = fetch_road_network_from_osm_database(polygon=poly, network_type="drive", custom_filter=None)
+        with open(fname_osm, "wb") as f2:
+            pickle.dump(G, f2, protocol=4)
 
         # orig = (1.34294, 103.74631)
         # dest = (1.34499, 103.74022)
@@ -113,7 +116,7 @@ def auxiliary_func_G_for_curved_paths(read_osm_from_file):
     return G, (min_lon, max_lon, min_lat, max_lat)
 
 
-def generate_bbox_CCT_from_file(N, plotting_enabled=False, use_route_path=True):
+def generate_bbox_CCT_from_file(N, use_route_path=True):
     """
 
     :param N:
@@ -123,18 +126,16 @@ def generate_bbox_CCT_from_file(N, plotting_enabled=False, use_route_path=True):
     """
     # Shape:     # dict_bbox_to_CCT[bbox, incident_start_hour, incident_start_date].append(CCT)
     dict_bbox_hour_date_to_CCT, unique_dates = create_bbox_to_CCT(
-        csv_file_name="combined_incidents_45_days.csv",
-        read_OSM_tiles_dict_from_pickle=True,
+        csv_file_name=config.combined_incidents_file,
         N=N,
-        folder_path=folder_path,
+        folder_path=config.intermediate_files_path,
         graph_with_edge_travel_time=auxiliary_func_G_for_curved_paths(read_osm_from_file=True),
         use_route_path=use_route_path,
-        read_curved_paths_from_pickle=False,
-        plotting_enabled=plotting_enabled,
-        suppress_warning=True
+        plotting_enabled=config.plotting_enabled,
+        suppress_warning=True,
     )
     yahan_pahuch_Gaye = "True"
-    with open(folder_path + "dict_bbox_hour_date_to_CCT" + str(N) + ".pickle", "wb") as f2:
+    with open(config.intermediate_files_path + "dict_bbox_hour_date_to_CCT" + str(N) + ".pickle", "wb") as f2:
         pickle.dump(dict_bbox_hour_date_to_CCT, f2, protocol=4)
 
 
@@ -326,7 +327,11 @@ def step_3(
     model_name = ["LR", "RF", "GBM"]
     X_len = {}
     X_len_multiple_plots = {}
-    for base in [5, 6, 7]:  # , 6, 7]:  # [5, 6, 7, 8, 9, 10]
+
+    base_list = [5]
+    hierarchy_max = 3
+
+    for base in base_list:  # , 6, 7]:  # , 6, 7]:  # [5, 6, 7, 8, 9, 10]
         for m_i in range(3):
             if model_name[m_i] == "LR":
                 model = LinearRegression()
@@ -339,7 +344,7 @@ def step_3(
             timefilter = [5, 6, 7, 8, 9]
             # X_len = {}
 
-            for i in range(6):  # :range(60, 120, 10):
+            for i in range(hierarchy_max):  # :range(60, 120, 10):
 
                 scale = base * (2 ** i)
                 if scale > 200:
@@ -347,7 +352,7 @@ def step_3(
 
                 X, Y = step_2(
                     N=scale,
-                    folder_path=intermediate_files_path,
+                    folder_path=config.intermediate_files_path,
                     read_bbox_CCT_from_file=read_bbox_CCT_from_file,
                     plot_bboxes_on_route=plot_bboxes_on_route,
                     generate_incidents_routes=generate_incidents_routes,
@@ -374,7 +379,7 @@ def step_3(
             print("scale, number_of_data_points, mean_cvscores, mean_std")
 
     plt.clf()
-    for base in [5, 6, 7]:  # , 6, 7]:  # [5, 6, 7, 8, 9, 10]
+    for base in base_list:  # , 6, 7]:  # [5, 6, 7, 8, 9, 10]
         for m_i in range(3):
             if model_name[m_i] == "LR":
                 model = LinearRegression()
@@ -387,7 +392,7 @@ def step_3(
             y_axis = []
             z_axis = []
 
-            for i in range(6):  # :range(60, 120, 10):
+            for i in range(hierarchy_max):  # :range(60, 120, 10):
 
                 scale = base * (2 ** i)
                 if scale > 200:
@@ -423,7 +428,7 @@ def step_3(
     # plt.title("Base: "+str(base))
     # plt.ylim(0, 0.012)
     plt.yscale("log")
-    plt.savefig("All_bases_all_models_" + str(base) + ".png", dpi=300)
+    plt.savefig(config.outputfolder + "All_bases_all_models_" + str(base) + ".png", dpi=300)
 
     plt.show()
 
@@ -435,7 +440,7 @@ def step_3(
 
     # return mean_cv_score_dict
 
-"""
+
 if __name__ == "__main__":
     starttime = time.time()
 
@@ -453,16 +458,15 @@ if __name__ == "__main__":
         )
 
         print(round(time.time() - starttime, 2), " seconds")
+
 """
-
 if __name__ == "__main__":
-    for base in [2]: # [5, 6, 7, 8, 9, 10]
-        for i in range(6):  # :range(60, 120, 10):
+    for base in [5]:  # [5, 6, 7, 8, 9, 10]
+        for i in range(3):  # :range(60, 120, 10):
             scale = base * (2 ** i)
-            
-            generate_bbox_CCT_from_file(N=scale, folder_path=outputfolder, use_route_path=False, plotting_enabled=False)
 
-
+            generate_bbox_CCT_from_file(N=scale, use_route_path=False)
+"""
 
 # elif RUN_MODE == "PLOTTING":
 #     data = pandas.read_csv("temp_files/final_results.csv")
