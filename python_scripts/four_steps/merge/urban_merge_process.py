@@ -805,12 +805,18 @@ def hierarchical_region_merging_multiseeds(
     with open(seed_file, "rb") as handle3:
         dict_seeds = pickle.load(handle3)
 
+    dict_merge_details = {}
+
     print(dict_seeds)
+
     # store the merge result
     dict_merge = copy.deepcopy(dict_seeds)
+    dict_merge_details = copy.deepcopy(dict_seeds)
+
     for seed_i in dict_merge:
         seed_bh = dict_merge[seed_i]
         dict_merge[seed_i] = bbox_ogr_polygon(seed_bh)
+        dict_merge_details[seed_i] = bbox_ogr_polygon(seed_bh)
 
     # identify all bbox in multi-hierarchies
     dict_bbox_select = {}  # bbox: flag
@@ -876,6 +882,7 @@ def hierarchical_region_merging_multiseeds(
                 seed_zone = seed_zone.Union(min_merge_bbox)
             # merge result
             dict_merge[seed_i] = seed_zone
+            dict_merge_details[seed_i].append(min_merge_bbox)
 
             # find all neibhouring bbox Overlapping with seed region, labeled as False
             for select_i in dict_bbox_select:
