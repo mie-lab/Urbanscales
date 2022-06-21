@@ -152,9 +152,6 @@ def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre, convex
     plt_set = [["tomato", "dotted"]]
     colors_pad = plt.cm.Set3(np.linspace(0, 1, len(dict_merge)))
 
-    # shuffle the list of colors, so that nearby boxes are not perceptually similar colors
-    random.shuffle(colors_pad)
-
     if base_map_enabled:
         fig, ax = create_base_map(osmfilename=config.intermediate_files_path + "G_OSM_extracted.pickle")
     else:
