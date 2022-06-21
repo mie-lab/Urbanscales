@@ -10,6 +10,7 @@ import os, sys
 import random
 import time
 import multiprocessing as mp
+import osmnx as ox
 
 import networkx as nx
 
@@ -49,16 +50,50 @@ with open("G_OSM_extracted.pickle", "rb") as handle:
     global_G_OSM = pickle.load(handle)
 
 
-means = np.array([2507.205311,4745.48239,3.323964347,470434.5476,86.78318726,2.497561,2156.193431,354369.9667,3566.963522,86.83845717,1.000000062,0.003754518])
-stds = np.array([2423.187613,4587.052383,0.832626468,466054.288,34.53542935,0.598464541,2076.314683,349919.1807,3441.744589,34.75293407,5.30583E-06,0.028030059])
+means = np.array(
+    [
+        2507.205311,
+        4745.48239,
+        3.323964347,
+        470434.5476,
+        86.78318726,
+        2.497561,
+        2156.193431,
+        354369.9667,
+        3566.963522,
+        86.83845717,
+        1.000000062,
+        0.003754518,
+    ]
+)
+stds = np.array(
+    [
+        2423.187613,
+        4587.052383,
+        0.832626468,
+        466054.288,
+        34.53542935,
+        0.598464541,
+        2076.314683,
+        349919.1807,
+        3441.744589,
+        34.75293407,
+        5.30583e-06,
+        0.028030059,
+    ]
+)
 
-def from_ogr_to_shapely_plot(list_of_three_polys, seed_i, count):
+
+def from_ogr_to_shapely_plot(list_of_three_polys, seed_i, count, convex_hull=False):
     # Creating a copy of the input OGR geometry. This is done in order to
     # ensure that when we drop the M-values, we are only doing so in a
     # local copy of the geometry, not in the actual original geometry.
     # ogr_geom_copy = ogr.CreateGeometryFromWkb(ogr_geom.ExportToIsoWkb())
     plt.clf()
     plt_set = [[seed_i, "deepskyblue", "solid"], ["epoch" + count, "tomato", "dotted"]]
+
+    fig, ax = create_base_map(osmfilename="G_OSM.pickle")
+
     for i in range(len(list_of_three_polys)):
         poly = list_of_three_polys[i]
         ogr_geom_copy = ogr.CreateGeometryFromWkb(poly.ExportToWkb())
@@ -69,21 +104,56 @@ def from_ogr_to_shapely_plot(list_of_three_polys, seed_i, count):
         # Generating a new shapely geometry
         shapely_geom = shapely.wkt.loads(ogr_geom_copy.ExportToWkt())
 
+        # ax.scatter(103.82668627004688, 1.3534468386817158, s=10)
+        # fig.savefig("with_basemap2.png", dpi=300)
+
         if shapely_geom.type == "Polygon":
             x, y = shapely_geom.exterior.xy
-            plt.plot(x, y, label=plt_set[i][0], color=plt_set[i][1], linestyle=plt_set[i][2])
+            if convex_hull:
+                x, y = shapely_geom.convex_hull.exterior.coords.xy
+
+            ax.plot(x, y, label=plt_set[i][0], color=plt_set[i][1], linestyle=plt_set[i][2])
         elif shapely_geom.type == "MultiPolygon":
             for m in range(len(shapely_geom)):
                 _x, _y = shapely_geom[m].exterior.xy
+
+                if convex_hull:
+                    _x, _y = shapely_geom[m].convex_hull.exterior.coords.xy
+
                 if m == 0:
-                    plt.plot(_x, _y, label=plt_set[i][0], color=plt_set[i][1], linestyle=plt_set[i][2])
+                    ax.plot(_x, _y, label=plt_set[i][0], color=plt_set[i][1], linestyle=plt_set[i][2])
                 else:
-                    plt.plot(_x, _y, label="_" + plt_set[i][0], color=plt_set[i][1], linestyle=plt_set[i][2])
-    plt.legend(loc="upper right")
-    plt.savefig("merge_plots/epoch_" + seed_i + str(count) + ".png", dpi=300)
+                    ax.plot(_x, _y, label="_" + plt_set[i][0], color=plt_set[i][1], linestyle=plt_set[i][2])
+    ax.legend(loc="upper right")
+    fig.savefig("merge_plots/epoch_" + seed_i + str(count) + ".png", dpi=300)
 
 
-def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre):
+def create_base_map(osmfilename="G_OSM_extracted.pickle"):
+    with open(osmfilename, "rb") as handle:
+        G = pickle.load(handle)
+
+    fig, ax = ox.plot.plot_graph(
+        G,
+        ax=None,
+        figsize=(12, 8),
+        bgcolor="white",
+        node_color="black",
+        node_size=0.1,
+        node_alpha=None,
+        node_edgecolor="none",
+        node_zorder=1,
+        edge_color="black",
+        edge_linewidth=0.1,
+        edge_alpha=None,
+        show=True,
+        close=False,
+        save=False,
+        bbox=None,
+    )
+    return fig, ax
+
+
+def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre, convex_hull=False):
     # Creating a copy of the input OGR geometry. This is done in order to
     # ensure that when we drop the M-values, we are only doing so in a
     # local copy of the geometry, not in the actual original geometry.
@@ -91,6 +161,9 @@ def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre):
     plt.clf()
     plt_set = [["tomato", "dotted"]]
     colors_pad = plt.cm.rainbow(np.linspace(0, 1, len(dict_merge)))
+
+    fig, ax = create_base_map(osmfilename="G_OSM_extracted.pickle")
+
     for i in range(len(dict_merge)):
         poly = dict_merge[list(dict_merge)[i]]
         ogr_geom_copy = ogr.CreateGeometryFromWkb(poly.ExportToWkb())
@@ -103,23 +176,31 @@ def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre):
 
         if shapely_geom.type == "Polygon":
             x, y = shapely_geom.exterior.xy
+            if convex_hull:
+                x, y = shapely_geom.convex_hull.exterior.coords.xy
+
             # plt.plot(x, y, label=list(dict_merge)[i],) #color=colors_pad[i])
-            plt.fill(x, y, label=list(dict_merge)[i], alpha=0.7) # , color=colors_pad[i])
+            ax.fill(x, y, label=list(dict_merge)[i], alpha=0.7, color=colors_pad[i])
 
         elif shapely_geom.type == "MultiPolygon":
             for m in range(len(shapely_geom.geoms)):
                 _x, _y = shapely_geom.geoms[m].exterior.xy
+
+                if convex_hull:
+                    _x, _y = shapely_geom.geoms[m].convex_hull.exterior.coords.xy
+
                 if m == 0:
-                    # plt.plot(_x, _y, label=list(dict_merge)[i], )#color=colors_pad[i])
-                    plt.fill(_x, _y, label=list(dict_merge)[i],alpha=0.7) # , color=colors_pad[i])
+                    # ax.plot(_x, _y, label=list(dict_merge)[i], color=colors_pad[i])
+                    ax.fill(_x, _y, label=list(dict_merge)[i], alpha=0.7, color=colors_pad[i])
                 else:
-                    # plt.plot(_x, _y, label="_" + list(dict_merge)[i], )#color=colors_pad[i])
-                    plt.fill(_x, _y, label="_" + list(dict_merge)[i], alpha=0.7) # , color=colors_pad[i])
+                    # ax.plot(_x, _y, label="_" + list(dict_merge)[i], color=colors_pad[i])
+                    ax.fill(_x, _y, label="_" + list(dict_merge)[i], alpha=0.7, color=colors_pad[i])
     # plt.legend(loc="upper right", fontsize=4)
-    plt.title("epoch: " + str(epoch))
-    plt.xlim(103.6, 104.1)
-    plt.ylim(1.26, 1.45)
-    plt.savefig("thre" + str(criteria_thre) + "_epoch" + str(epoch) + ".png", dpi=300)
+    # plt.title("epoch: " + str(epoch))
+    # plt.xlim(103.6, 104.1)
+    # plt.ylim(1.26, 1.45)
+    # plt.gca().set_aspect(21/56)
+    fig.savefig("merge_plots/thre" + str(criteria_thre) + "_epoch" + str(epoch) + ".png", dpi=300)
 
 
 def read_shpfile_SGboundary(shpfile):
@@ -414,9 +495,9 @@ def compute_local_criteria(
     if type(stats_vector_1) == str or type(stats_vector_2) == str or type(stats_vector_combined) == str:
         return 1  # 1 implies merge not going ahead
 
-    # add NaN filter 
+    # add NaN filter
     if np.isnan(stats_vector_1).any() or np.isnan(stats_vector_2).any() or np.isnan(stats_vector_combined).any():
-        return 1    
+        return 1
 
     # FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
     # disagreement between numpy as string comparison
@@ -426,8 +507,6 @@ def compute_local_criteria(
     #     csvwriter.writerow(stats_vector_1.flatten().tolist())
     #     csvwriter.writerow(stats_vector_2.flatten().tolist())
     #     csvwriter.writerow(stats_vector_combined.flatten().tolist())
-
-
 
     assert stats_vector_1.shape == stats_vector_2.shape == stats_vector_combined.shape == (12,)
 
@@ -450,15 +529,15 @@ def compute_local_criteria(
     stats_vector_1 = (stats_vector_1 - means) / stds
     stats_vector_2 = (stats_vector_2 - means) / stds
 
-
+    ###########################
+    # a = 0
+    a = 0.75
     f_sim = a * spatial.distance.cosine(stats_vector_1, stats_vector_2)
     f_conn = b * (1 / new_edges)
 
     with open("save_f_conn_f_sim.csv", "a") as f:
         csvwriter = csv.writer(f)
-        csvwriter.writerow([f_conn, f_sim, f_conn/f_sim])
-
-
+        csvwriter.writerow([f_conn, f_sim, f_conn / f_sim])
 
     if loss_merge == "sum":
         if debug:
@@ -725,6 +804,7 @@ def hierarchical_region_merging_multiseeds(
     # The keys of two dictionaries are the same
     with open(seed_file, "rb") as handle3:
         dict_seeds = pickle.load(handle3)
+
     print(dict_seeds)
     # store the merge result
     dict_merge = copy.deepcopy(dict_seeds)
@@ -865,8 +945,6 @@ if __name__ == "__main__":
     #                                     './urban_merge/output.shp',
     #                                     0.75)
 
-
-
     os.chdir("/Users/nishant/Documents/GitHub/WCS/python_scripts/four_steps/merge")
     sys.path.append("/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary/")
     sys.path.append("/Users/nishant/Documents/GitHub/WCS/python_scripts/four_steps/merge")
@@ -877,7 +955,6 @@ if __name__ == "__main__":
     os.system("rm save_vectors.csv")
     os.system("rm save_f_conn_f_sim.csv")
 
-
     # single threads
     # thre = 0.75
     # Tip: the final parameter means to output shpfile every n epochs
@@ -887,7 +964,7 @@ if __name__ == "__main__":
     #                                        thre, 10)
 
     # multi threads
-    thre_list = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.05, 0.01]
-    pool = mp.Pool(6)
-    pool.map(main_func, thre_list)
-    # main_func(0.7)
+    thre_list = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.05, 0.01]
+    # pool = mp.Pool(7)
+    # pool.map(main_func, thre_list)
+    main_func(0.9)
