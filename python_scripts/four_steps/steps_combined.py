@@ -280,7 +280,7 @@ def step_2b_calculate_GOF(X, Y, model=None):
     # ('scaler', StandardScaler()),
     ("pca", PCA(n_components=8))
     # ("pca", PCA(n_components=12))
-    pipe = Pipeline([("scaler", StandardScaler()), ("pca", PCA(n_components=8)), ("LinR", model)])
+    pipe = Pipeline([("scaler", StandardScaler()), ("pca", PCA(n_components=5)), ("LinR", model)])
     # The pipeline can be used as any other estimator
     # and avoids leaking the test set into the train set
     # print(pipe.fit(X_train, y_train))
@@ -339,7 +339,8 @@ def step_3(
             elif model_name[m_i] == "GBM":
                 model = GradientBoostingRegressor()
 
-            timefilter = list(range(0, 24))  #  [5, 6, 7, 8]
+            # timefilter = list(range(0, 24))  #  [5, 6, 7, 8]
+            timefilter = [5, 6, 7, 8, 9]
             # X_len = {}
 
             for i in range(6):  # :range(60, 120, 10):

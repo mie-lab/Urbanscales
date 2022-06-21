@@ -852,7 +852,7 @@ def output_epoch_shp(dict_merge, merged_shapefile, epoch):
 
 
 def hierarchical_region_merging_multiseeds(
-    bbox_file, seed_file, merged_shpfile, criteria_thre, shp_epoch
+    bbox_file, island_file, seed_file, merged_shpfile, criteria_thre, shp_epoch
 ):  # input_file is not used here
     """
     implement hierarchial region merging process for each tree, multi-seeds growing together, no island boundary limitation
@@ -863,9 +863,56 @@ def hierarchical_region_merging_multiseeds(
 
     """
 
+    # compute GoF for merged islands
+    combined_dict = get_combined_bbox_dict(
+        scales=[5, 10, 20, 40, 80],
+        folder_path="/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary",
+    )
+    timefilter = [5, 6, 7, 8]
+
     # read bbox_file, a set of bbox file in multi-hierarchies
     with open(bbox_file, "rb") as handle1:
         dict_bbox = pickle.load(handle1)
+
+    with open(island_file, "rb") as handle2:
+        dict_islands_details_test = pickle.load(handle2)
+
+    # merge island bboxes
+    dict_islands = {}
+    dict_islands_details = {}
+    for seed_i in dict_islands_details_test:
+        one_island = dict_islands_details_test[seed_i]
+        one_island_ogr = []
+        whole_island = ogr.Geometry(ogr.wkbPolygon)
+        for bbox_i in one_island:
+            bbox_ogr = bbox_ogr_polygon(bbox_i)
+            one_island_ogr.append(bbox_ogr)
+            whole_island = whole_island.Union(bbox_ogr)
+        dict_islands[seed_i] = whole_island
+        dict_islands_details[seed_i] = one_island_ogr
+
+    X = []
+    Y = []
+    for seed_i in dict_islands_details:
+
+        stats = get_single_X_for_polygon(dict_islands[seed_i], global_G_OSM)
+        if type(stats) == str and stats == "EMPTY_STATS":
+            continue
+        Y.append(
+            get_single_Y_for_polygon(
+                combined_dict,
+                timefilter=timefilter,
+                polygon_bbox_list=dict_islands_details[seed_i],
+                method_for_single_statistic="sum",
+            )
+        )
+        X.append((get_single_X_for_polygon(dict_islands[seed_i], global_G_OSM)).flatten().tolist())
+    print(X)
+    X = np.array(X)
+    Y = np.array(Y)
+    print(X.shape, Y.shape)
+    with open("islands_X_Y", "wb") as f:
+        pickle.dump([X, Y], f, protocol=4)
 
     # The keys of two dictionaries are the same
     with open(seed_file, "rb") as handle3:
@@ -978,20 +1025,20 @@ def hierarchical_region_merging_multiseeds(
 
     # output it as shapefile result
 
-    # compute GoF for merged islands
-    combined_dict = get_combined_bbox_dict(
-        scales=[5, 10, 20, 40, 80],
-        folder_path="/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary",
-    )
-    timefilter = [5, 6, 7, 8]
     method_for_single_statistic = "sum"
     X = []
     Y = []
 
     for seed_i in dict_merge_details:
-        Y.append(get_single_Y_for_polygon(combined_dict, timefilter=timefilter, polygon_bbox_list=dict_merge_details[seed_i], method_for_single_statistic="sum"))
+        Y.append(
+            get_single_Y_for_polygon(
+                combined_dict,
+                timefilter=timefilter,
+                polygon_bbox_list=dict_merge_details[seed_i],
+                method_for_single_statistic="sum",
+            )
+        )
         X.append(get_single_X_for_polygon(dict_merge[seed_i], global_G_OSM))
-
 
     X = np.array(X)
     Y = np.array(Y)
@@ -1023,7 +1070,12 @@ def hierarchical_region_merging_multiseeds(
 
 def main_func(thre):
     hierarchical_region_merging_multiseeds(
-        "dict_bbox_5_.pickle", "dict_seeds_5_.pickle", "output_thre" + str(thre) + ".shp", thre, 10
+        "dict_bbox_5_.pickle",
+        "dict_islands_5_.pickle",
+        "dict_seeds_5_.pickle",
+        "output_thre" + str(thre) + ".shp",
+        thre,
+        10,
     )
 
 
@@ -1060,4 +1112,4 @@ if __name__ == "__main__":
     thre_list = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.05, 0.01]
     # pool = mp.Pool(7)
     # pool.map(main_func, thre_list)
-    main_func(0.0)
+    main_func(0.7)

@@ -3,6 +3,12 @@ from shapely import geometry
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
+import os
+
+print(os.getcwd())
+import sys
+
+sys.path.append("./")
 from python_scripts.four_steps.steps_combined import convert_to_single_statistic_by_removing_minus_1
 from smartprint import smartprint as sprint
 from scipy.ndimage.measurements import label
@@ -140,13 +146,17 @@ def convert_connected_components_to_seeds_dict(N, debug=False):
                 dict_label_indices[labeled[i, j]] = [(i, j)]
 
     dict_label_lon_lat = {}
+    dict_islands_after_conn_comp = {}
     for key in dict_label_indices:
+        dict_islands_after_conn_comp[key] = []
+
         for val2 in dict_label_indices[key]:
             i, j = val2
             if (i, j) not in map_index_to_lat_lon:
                 continue
 
             lat_1, lon_1, lat_2, lon_2 = map_index_to_lat_lon[i, j]
+            dict_islands_after_conn_comp[key].append([[lon_1, lat_1], [lon_2, lat_2]])
 
             # lon = i * delta_x + min_lon
             # lat = j * delta_y + min_lat
@@ -209,7 +219,7 @@ def convert_connected_components_to_seeds_dict(N, debug=False):
     for i in range(len(seed_bbox_list)):
         dict_seeds["island_" + str(i + 1)] = seed_bbox_list[i]
 
-    return dict_seeds
+    return dict_seeds, dict_islands_after_conn_comp
 
 
 def create_islands_two_methods(
@@ -374,11 +384,12 @@ if __name__ == "__main__":
 
     with open("dict_bbox_" + str(base_level) + "_.pickle", "wb") as f:
         pickle.dump(dict_bbox, f, protocol=4)
-    # with open("dict_islands_" + str(best_fit_hierarchy) + "_.pickle", "wb") as f:
-    #     pickle.dump(dict_islands, f, protocol=4)
 
-    dict_seeds = convert_connected_components_to_seeds_dict(80)
+    dict_seeds, dict_islands_after_conn_comp = convert_connected_components_to_seeds_dict(80)
     with open("dict_seeds_" + str(best_fit_hierarchy) + "_.pickle", "wb") as f:
         pickle.dump(dict_seeds, f, protocol=4)
+
+    with open("dict_islands_" + str(best_fit_hierarchy) + "_.pickle", "wb") as f:
+        pickle.dump(dict_islands_after_conn_comp, f, protocol=4)
 
     do_nothing = True
