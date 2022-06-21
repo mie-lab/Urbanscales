@@ -33,7 +33,7 @@ from python_scripts.network_to_elementary.osm_to_tiles import (
     is_point_in_bounding_box,
     is_bounding_box_in_polygon,
 )
-from pytho_scripts.four_steps.steps_combined.py import convert_to_single_statistic_by_removing_minus_1
+from python_scripts.four_steps.steps_combined import convert_to_single_statistic_by_removing_minus_1
 from python_scripts.network_to_elementary.tiles_to_elementary import get_stats_for_one_tile
 
 #
@@ -154,7 +154,7 @@ def create_base_map(osmfilename="G_OSM_extracted.pickle"):
     return fig, ax
 
 
-def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre, convex_hull=False):
+def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre, convex_hull=False, base_map_enabled=False):
     # Creating a copy of the input OGR geometry. This is done in order to
     # ensure that when we drop the M-values, we are only doing so in a
     # local copy of the geometry, not in the actual original geometry.
@@ -163,7 +163,11 @@ def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre, convex
     plt_set = [["tomato", "dotted"]]
     colors_pad = plt.cm.rainbow(np.linspace(0, 1, len(dict_merge)))
 
-    fig, ax = create_base_map(osmfilename="G_OSM_extracted.pickle")
+    if base_map_enabled:
+        fig, ax = create_base_map(osmfilename="G_OSM_extracted.pickle")
+    else:
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
 
     for i in range(len(dict_merge)):
         poly = dict_merge[list(dict_merge)[i]]
@@ -559,29 +563,50 @@ def get_combined_bbox_dict(scales=[], folder_path=""):
 
     combined_dict = {}
     for scale in scales:
-        with open(folder_path + "dict_bbox_hour_date_to_CCT" + str(scale) + ".pickle", "rb") as f1:
+        with open(folder_path + "/dict_bbox_hour_date_to_CCT" + str(scale) + ".pickle", "rb") as f1:
             dict_bbox_hour_date_to_CCT = pickle.load(f1)
             combined_dict = {**combined_dict, **dict_bbox_hour_date_to_CCT}
 
     return combined_dict
 
 
-def get_single_Y_for_polygon(combined_dict, polygon, timefilter, method_for_single_statistic):
+def get_single_Y_for_polygon(combined_dict, polygon_bbox_list, timefilter, method_for_single_statistic):
+    """
+    combined_dict, polygon, timefilter, method_for_single_statistic
+    """
+
     # polygon must be a list of bboxes
-    # if not, convert it to a list of bboxes
 
-    polysubset_dict = [combined_dict[bbox] for bbox in polygon]
+    polygon_list_of_bbox = []
+    for bbox_wkt in polygon_bbox_list:
+        if bbox_wkt == []:
+            continue
+        shapely_geom = shapely.wkt.loads(bbox_wkt.ExportToWkt())
+        lat_list = shapely_geom.exterior.xy[1]
+        lon_list = shapely_geom.exterior.xy[0]
+        key = min(lat_list), min(lon_list), max(lat_list), max(lon_list)
+        polygon_list_of_bbox.append(key)
 
-    y_Value = convert_to_single_statistic_by_removing_minus_1(
+    # polysubset_dict = [combined_dict[bbox] for bbox in polygon_list_of_bbox]
+
+    polysubset_dict = {}
+    for key in polygon_list_of_bbox:
+        if key in combined_dict:
+            polysubset_dict[key] = combined_dict[key]
+
+    polysubset_dict_k_bbox_value_scalar = convert_to_single_statistic_by_removing_minus_1(
         dict_bbox_hour_date_to_CCT=polysubset_dict,
         timefilter=timefilter,
         method_for_single_statistic=method_for_single_statistic,
     )
 
-    return np.sum(y_Value)
+    return np.sum(list(polysubset_dict_k_bbox_value_scalar.values()))
 
 
-def get_single_X_for_polygon(combined_dict, polygon_from_gdal, timefilter, method_for_single_statistic):
+def get_single_X_for_polygon(polygon_from_gdal, G_OSM):
+    """
+    polygon_from_gdal, G_OSM
+    """
     subgraph = get_OSM_subgraph_in_poly(G_OSM, polygon_from_gdal)
     X = convert_stats_to_vector(get_stats_for_one_tile([subgraph]))
 
@@ -881,7 +906,7 @@ def hierarchical_region_merging_multiseeds(
 
     # implement hierarchial region merge
     epoch = 0
-    from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre)
+    # from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre)
     while identify_bbox_usage(dict_bbox_select):
         epoch += 1
         touch_count = 0
@@ -934,15 +959,15 @@ def hierarchical_region_merging_multiseeds(
                     dict_bbox_select[select_i] = False
 
         print(
-            "Epcoh: {}. Available bbox: {}. Touch bbox: {}.".format(
+            "Epoch: {}. Available bbox: {}. Touch bbox: {}.".format(
                 epoch, identify_bbox_usage_num(dict_bbox_select), touch_count
             )
         )
-        from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre)
+        # from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre)
         # stop iterating when no bbox touching with seed_zone
         if touch_count == 0:
             print(
-                "Epcoh: {}. Available bbox: {}. Touch bbox: {}.".format(
+                "Epoch: {}. Available bbox: {}. Touch bbox: {}.".format(
                     epoch, identify_bbox_usage_num(dict_bbox_select), touch_count
                 )
             )
@@ -952,6 +977,28 @@ def hierarchical_region_merging_multiseeds(
             output_epoch_shp(dict_merge, merged_shpfile, epoch)
 
     # output it as shapefile result
+
+    # compute GoF for merged islands
+    combined_dict = get_combined_bbox_dict(
+        scales=[5, 10, 20, 40, 80],
+        folder_path="/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary",
+    )
+    timefilter = [5, 6, 7, 8]
+    method_for_single_statistic = "sum"
+    X = []
+    Y = []
+
+    for seed_i in dict_merge_details:
+        Y.append(get_single_Y_for_polygon(combined_dict, timefilter=timefilter, polygon_bbox_list=dict_merge_details[seed_i], method_for_single_statistic="sum"))
+        X.append(get_single_X_for_polygon(dict_merge[seed_i], global_G_OSM))
+
+
+    X = np.array(X)
+    Y = np.array(Y)
+    print(X.shape, Y.shape)
+    with open("post_merge_X_Y", "wb") as f:
+        pickle.dump([X, Y], f, protocol=4)
+
     os.environ["SHAPE_ENCODING"] = "utf-8"
     driver = ogr.GetDriverByName("ESRI Shapefile")
     if os.access(merged_shpfile, os.F_OK):
@@ -1013,4 +1060,4 @@ if __name__ == "__main__":
     thre_list = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.05, 0.01]
     # pool = mp.Pool(7)
     # pool.map(main_func, thre_list)
-    main_func(0.9)
+    main_func(0.0)
