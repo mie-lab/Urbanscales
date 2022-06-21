@@ -16,7 +16,7 @@ from tqdm import tqdm
 
 local_path = "/Users/nishant/Documents/GitHub/WCS/python_scripts/network_to_elementary"
 server_path = "/home/niskumar/WCS/python_scripts/network_to_elementary"
-sys.path.insert(0, server_path)
+sys.path.insert(0, local_path)
 from osm_to_tiles import line_to_bbox_list
 
 

@@ -1,20 +1,24 @@
 import multiprocessing
 
 import numpy as np
+import sys, os
 
+print("os.getcwd()", os.getcwd())
+sys.path.append("./")
 from python_scripts.network_to_elementary.get_sg_osm import get_sg_poly
 from python_scripts.network_to_elementary.osm_to_tiles import (
     fetch_road_network_from_osm_database,
     split_poly_to_bb,
     is_point_in_bounding_box,
 )
+from python_scripts.four_steps.steps_combined import generate_bbox_CCT_from_file
+
+server_path = "/home/niskumar/WCS/python_scripts/network_to_elementary/"
+
 
 # from python_scripts.network_to_elementary.oget_sg_osm import get_sg_poly, get_poly_from_bbox
 
-import sys, os
 
-
-import os
 from multiprocessing import Pool
 from tqdm.auto import tqdm
 
@@ -22,7 +26,7 @@ from tqdm.auto import tqdm
 import multiprocessing as mp
 import matplotlib
 import matplotlib.pyplot as plt
-import os
+
 import networkx as nx
 import pickle
 from osmnx import truncate, utils_graph
@@ -271,7 +275,7 @@ def step_1_osm_tiles_to_features(
     else:
         G_OSM = fetch_road_network_from_osm_database(polygon=get_sg_poly(), network_type="drive", custom_filter=None)
         with open("G_OSM_extracted.pickle", "wb") as f:
-            pickle.dump(G_OSM, f, protocol=pickle.HIGHEST_PROTOCOL)
+            pickle.dump(G_OSM, f, protocol=4)
 
     G_OSM_dict, _error_ = get_OSM_tiles(
         osm_graph=G_OSM,
@@ -352,38 +356,39 @@ if __name__ == "__main__":
     # with multiprocessing.Pool(10) as p:
     #     p.map(generate_one_grid_size, list(range(170, 300, 10)))
 
-    for base in [
-        2,
-        3,
-        5,
-        7,
-        11,
-        13,
-        17,
-        19,
-        23,
-        29,
-        31,
-        37,
-        41,
-        43,
-        47,
-        53,
-        59,
-        61,
-        67,
-        71,
-        73,
-        79,
-        83,
-        89,
-        97,
-    ]:  # , 6, 7, 8, 9, 10]:
-        for i in range(5):  # :range(60, 120, 10):
+    for base in [2]:
+        #     2,
+        #     3,
+        #     5,
+        #     7,
+        #     11,
+        #     13,
+        #     17,
+        #     19,
+        #     23,
+        #     29,
+        #     31,
+        #     37,
+        #     41,
+        #     43,
+        #     47,
+        #     53,
+        #     59,
+        #     61,
+        #     67,
+        #     71,
+        #     73,
+        #     79,
+        #     83,
+        #     89,
+        #     97,
+        # ]:  # , 6, 7, 8, 9, 10]:
+        for i in range(8):  # :range(60, 120, 10):
             scale = base * (2 ** i)
-            if scale > 150:
+            if scale > 200:
                 continue
             generate_one_grid_size(N=scale, generate_for_perfect_fit=True, base_N=base)
+            generate_bbox_CCT_from_file(N=scale, folder_path=server_path, use_route_path=False, plotting_enabled=False)
 
     # generate_one_grid_size(N=17, generate_for_perfect_fit=True, base_N=9)
 

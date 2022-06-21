@@ -22,7 +22,8 @@ from sklearn.decomposition import PCA
 from python_scripts.network_to_elementary.elf_to_clusters import osm_tiles_states_to_vectors
 from python_scripts.network_to_elementary.osm_to_tiles import fetch_road_network_from_osm_database
 from python_scripts.network_to_elementary.process_incidents import create_bbox_to_CCT
-from python_scripts.network_to_elementary.tiles_to_elementary import step_1_osm_tiles_to_features
+
+# from python_scripts.network_to_elementary.tiles_to_elementary import step_1_osm_tiles_to_features
 import pickle
 from shapely.geometry import Polygon
 import numpy as np
@@ -279,7 +280,7 @@ def step_2b_calculate_GOF(X, Y, model=None):
     # ('scaler', StandardScaler()),
     ("pca", PCA(n_components=8))
     # ("pca", PCA(n_components=12))
-    pipe = Pipeline([("scaler", StandardScaler()), ("pca", PCA(n_components=5)), ("LinR", model)])
+    pipe = Pipeline([("scaler", StandardScaler()), ("pca", PCA(n_components=8)), ("LinR", model)])
     # The pipeline can be used as any other estimator
     # and avoids leaking the test set into the train set
     # print(pipe.fit(X_train, y_train))
@@ -338,7 +339,7 @@ def step_3(
             elif model_name[m_i] == "GBM":
                 model = GradientBoostingRegressor()
 
-            timefilter = [5, 6, 7, 8]
+            timefilter = list(range(0, 24))  #  [5, 6, 7, 8]
             # X_len = {}
 
             for i in range(6):  # :range(60, 120, 10):
@@ -353,7 +354,7 @@ def step_3(
                     read_bbox_CCT_from_file=read_bbox_CCT_from_file,
                     plot_bboxes_on_route=plot_bboxes_on_route,
                     generate_incidents_routes=generate_incidents_routes,
-                    method_for_single_statistic="sum",
+                    method_for_single_statistic="median_across_all",
                     timefilter=timefilter,
                 )
                 X_len[scale] = len(X)
@@ -384,8 +385,6 @@ def step_3(
                 model = RandomForestRegressor()
             elif model_name[m_i] == "GBM":
                 model = GradientBoostingRegressor()
-
-            timefilter = [5, 6, 7, 8]
 
             x_axis = []
             y_axis = []
@@ -461,9 +460,10 @@ if __name__ == "__main__":
 
 """
 if __name__ == "__main__":
-    for base in [7]: # [5, 6, 7, 8, 9, 10]
+    for base in [2]: # [5, 6, 7, 8, 9, 10]
         for i in range(6):  # :range(60, 120, 10):
             scale = base * (2 ** i)
+            
             generate_bbox_CCT_from_file(N=scale, folder_path=server_path, use_route_path=False, plotting_enabled=False)
 """
 

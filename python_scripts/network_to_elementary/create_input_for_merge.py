@@ -128,7 +128,7 @@ def convert_connected_components_to_seeds_dict(N, debug=False):
         max_lon,
         labeled,
         dict_bbox_hour_date_to_CCT,
-        map_index_to_lat_lon
+        map_index_to_lat_lon,
     ) = create_islands_two_methods(N)
     #
     dict_label_indices = {}
@@ -151,15 +151,13 @@ def convert_connected_components_to_seeds_dict(N, debug=False):
             # lon = i * delta_x + min_lon
             # lat = j * delta_y + min_lat
 
-            mean_lat = (lat_1 + lat_2 )/ 2
-            mean_lon = (lon_1 + lon_2 )/ 2
+            mean_lat = (lat_1 + lat_2) / 2
+            mean_lon = (lon_1 + lon_2) / 2
 
             if labeled[i, j] in dict_label_lon_lat:
                 dict_label_lon_lat[labeled[i, j]].append((mean_lon, mean_lat))
             else:
                 dict_label_lon_lat[labeled[i, j]] = [(mean_lon, mean_lat)]
-
-
 
     # generate centroids for each component (each component is identified by a label)
     seed_bbox_list = []
@@ -193,8 +191,6 @@ def convert_connected_components_to_seeds_dict(N, debug=False):
                 seed_bbox_list.append([[lon1, lat1], [lon2, lat2]])
                 flag = True
 
-
-
         # # if it doesn't lie in anyone, we choose a bb at random
         # if flag is False:
         #     for val3 in dict_label_indices[key]:
@@ -206,7 +202,7 @@ def convert_connected_components_to_seeds_dict(N, debug=False):
 
         if debug:
             if np.random.rand() < 0.1:
-                plt.savefig("debug_"+str(np.random.rand() * 10000) + ".png", dpi=300)
+                plt.savefig("debug_" + str(np.random.rand() * 10000) + ".png", dpi=300)
                 plt.legend()
                 plt.show()
 
@@ -299,8 +295,12 @@ def create_islands_two_methods(
             lon1, lat1, lon2, lat2 = bbox
             sprint(int((lon1 - min_lon) / delta_x), int((lat1 - min_lat) / delta_y))
             a[int((lon1 - min_lon) / delta_x), int((lat1 - min_lat) / delta_y)] = 1
-            map_index_to_lat_lon[int((lon1 - min_lon) / delta_x), int((lat1 - min_lat) / delta_y)]  =lon1, lat1, lon2, lat2
-
+            map_index_to_lat_lon[int((lon1 - min_lon) / delta_x), int((lat1 - min_lat) / delta_y)] = (
+                lon1,
+                lat1,
+                lon2,
+                lat2,
+            )
 
         a = np.array(a, dtype=np.int)
         structure = np.ones((3, 3), dtype=np.int)
@@ -351,7 +351,18 @@ def create_islands_two_methods(
 
         #  plot indices
 
-    return indices, delta_x, delta_y, min_lon, min_lat, max_lon, max_lat, labeled, dict_bbox_hour_date_to_CCT, map_index_to_lat_lon
+    return (
+        indices,
+        delta_x,
+        delta_y,
+        min_lon,
+        min_lat,
+        max_lon,
+        max_lat,
+        labeled,
+        dict_bbox_hour_date_to_CCT,
+        map_index_to_lat_lon,
+    )
 
 
 if __name__ == "__main__":
