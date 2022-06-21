@@ -33,6 +33,7 @@ from python_scripts.network_to_elementary.osm_to_tiles import (
     is_point_in_bounding_box,
     is_bounding_box_in_polygon,
 )
+from pytho_scripts.four_steps.steps_combined.py import convert_to_single_statistic_by_removing_minus_1
 from python_scripts.network_to_elementary.tiles_to_elementary import get_stats_for_one_tile
 
 #
@@ -545,6 +546,46 @@ def compute_local_criteria(
         criteria_value = f_sim + f_conn
 
     return criteria_value
+
+
+def get_combined_bbox_dict(scales=[], folder_path=""):
+    """
+    creates a single dictionary with key = bbox
+    from all bbox, hour, date to CCT
+    """
+    if len(scales) == 0:
+        print("Scale list is empty; Wrong input; exiting code")
+        sys.exit(0)
+
+    combined_dict = {}
+    for scale in scales:
+        with open(folder_path + "dict_bbox_hour_date_to_CCT" + str(scale) + ".pickle", "rb") as f1:
+            dict_bbox_hour_date_to_CCT = pickle.load(f1)
+            combined_dict = {**combined_dict, **dict_bbox_hour_date_to_CCT}
+
+    return combined_dict
+
+
+def get_single_Y_for_polygon(combined_dict, polygon, timefilter, method_for_single_statistic):
+    # polygon must be a list of bboxes
+    # if not, convert it to a list of bboxes
+
+    polysubset_dict = [combined_dict[bbox] for bbox in polygon]
+
+    y_Value = convert_to_single_statistic_by_removing_minus_1(
+        dict_bbox_hour_date_to_CCT=polysubset_dict,
+        timefilter=timefilter,
+        method_for_single_statistic=method_for_single_statistic,
+    )
+
+    return np.sum(y_Value)
+
+
+def get_single_X_for_polygon(combined_dict, polygon_from_gdal, timefilter, method_for_single_statistic):
+    subgraph = get_OSM_subgraph_in_poly(G_OSM, polygon_from_gdal)
+    X = convert_stats_to_vector(get_stats_for_one_tile([subgraph]))
+
+    return X
 
 
 def compute_local_criteria_random(polygon_1, polygon_2):  # tbd
