@@ -17,4 +17,4 @@ use_route_path_curved = False
 plotting_enabled = False
 
 bbox_split_for_merge_optimisation = 8
-color_levels = 89
+reorder_dict_for_better_viz = True

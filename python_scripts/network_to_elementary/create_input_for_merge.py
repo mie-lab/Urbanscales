@@ -1,4 +1,6 @@
 import pickle
+import random
+
 from shapely import geometry
 import numpy as np
 import matplotlib
@@ -390,6 +392,17 @@ def create_islands_two_methods(
     )
 
 
+def reorder_dict(dict_):
+    if config.reorder_dict_for_better_viz:
+        list_ = list(dict_.items())
+        random.shuffle(list_)
+        dict_ = dict(list_)
+
+    # in place modification does not work;
+    # so, we had to return this;
+    return dict_
+
+
 if __name__ == "__main__":
     base_level = config.base
     dict_bbox = create_hierarchy_dict(base_level, config.hierarchies)
@@ -406,9 +419,9 @@ if __name__ == "__main__":
         base_level * (2 ** (best_fit_hierarchy - 1))
     )
     with open(config.intermediate_files_path + "dict_seeds_" + str(best_fit_hierarchy) + "_.pickle", "wb") as f:
-        pickle.dump(dict_seeds, f, protocol=4)
+        pickle.dump(reorder_dict(dict_seeds), f, protocol=4)
 
     with open(config.intermediate_files_path + "dict_islands_" + str(best_fit_hierarchy) + "_.pickle", "wb") as f:
-        pickle.dump(dict_islands_after_conn_comp, f, protocol=4)
+        pickle.dump(reorder_dict(dict_islands_after_conn_comp), f, protocol=4)
 
     do_nothing = True

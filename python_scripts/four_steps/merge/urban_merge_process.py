@@ -4,34 +4,35 @@ Created on Thu Jun  9 16:39:45 2022
 
 @author: yatzhang
 """
-import config
 import copy
-import pickle
-import os, sys
-import random
-import time
-import multiprocessing as mp
-import osmnx as ox
-import networkx as nx
-from smartprint import smartprint as sprint
-import numpy as np
-import shapely
-from osgeo import ogr, osr, gdal
-from scipy import spatial
-from tqdm import tqdm
-import matplotlib.pyplot as plt
-from shapely import geometry
-import os.path
 import csv
+import os
+import os.path
+import pickle
+import random
+import sys
+import time
+
+import matplotlib.pyplot as plt
+import networkx as nx
+import numpy as np
+import osmnx as ox
+import shapely
+from osgeo import ogr, osr
+from scipy import spatial
+from shapely import geometry
+from smartprint import smartprint as sprint
+from tqdm import tqdm
+
+import config
+from python_scripts.four_steps.steps_combined import (
+    convert_to_single_statistic_by_removing_minus_1,
+    generate_bbox_CCT_from_file,
+)
 from python_scripts.network_to_elementary.get_sg_osm import get_sg_poly
 from python_scripts.network_to_elementary.osm_to_tiles import (
     fetch_road_network_from_osm_database,
     is_point_in_bounding_box,
-    is_bounding_box_in_polygon,
-)
-from python_scripts.four_steps.steps_combined import (
-    convert_to_single_statistic_by_removing_minus_1,
-    generate_bbox_CCT_from_file,
 )
 from python_scripts.network_to_elementary.tiles_to_elementary import get_stats_for_one_tile
 
@@ -150,7 +151,7 @@ def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre, convex
     # ogr_geom_copy = ogr.CreateGeometryFromWkb(ogr_geom.ExportToIsoWkb())
     plt.clf()
     plt_set = [["tomato", "dotted"]]
-    colors_pad = plt.cm.rainbow(np.linspace(0, 1, config.color_levels))
+    colors_pad = plt.cm.rainbow(np.linspace(0, 1, len(dict_merge)))
 
     if base_map_enabled:
         fig, ax = create_base_map(osmfilename=config.intermediate_files_path + "G_OSM_extracted.pickle")
@@ -722,6 +723,7 @@ def hierarchical_region_merging_oneseed(
     # dict_seeds = {'island_1':[], 'island_2':[], 'island_3':[], 'island_4':[]}
     with open(seed_file, "rb") as handle3:
         dict_seeds = pickle.load(handle3)
+
     # store the merge result
     dict_merge = {}
 
@@ -786,14 +788,14 @@ def hierarchical_region_merging_oneseed(
                 seed_zone = seed_zone.Union(min_merge_bbox)
                 from_ogr_to_shapely_plot([whole_island, seed_zone], seed_i, "_" + str(count))
                 print(
-                    "Epcoh: {}. Available bbox: {}. Touch bbox: {}.".format(
+                    "Epoch: {}. Available bbox: {}. Touch bbox: {}.".format(
                         count, identify_bbox_usage_num(dict_bbox_select), touch_count
                     )
                 )
             # stop iterating when no bbox touching with seed_zone
             if touch_count == 0:
                 print(
-                    "Epcoh: {}. Available bbox: {}. Touch bbox: {}.".format(
+                    "Epoch: {}. Available bbox: {}. Touch bbox: {}.".format(
                         count, identify_bbox_usage_num(dict_bbox_select), touch_count
                     )
                 )
