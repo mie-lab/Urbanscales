@@ -13,6 +13,8 @@ import geopandas as gpd
 from pyproj import Geod
 from shapely.geometry import Point, LineString
 
+import config
+
 
 def split_poly_to_bb(poly: geometry.Polygon, n, plotting_enabled=False, generate_for_perfect_fit=False, base_N=-1):
     """
@@ -211,7 +213,7 @@ def fetch_road_network_from_osm_database(
     polygon=None,
     dist=1000,
     network_type="drive",
-    custom_filter=None,
+    custom_filter=config.custom_filter,
     plotting_with_road_names=False,
     plotting_enabled=False,
     speed_and_travel_time_needed=True,
@@ -238,11 +240,11 @@ def fetch_road_network_from_osm_database(
         G = ox.graph_from_point((lat, lon), dist=dist, network_type=network_type)
     elif named_location != None:
         G = ox.graph_from_address(
-            address=named_location, dist=dist, network_type=network_type, custom_filter='["highway"~"motorway"]'
+            address=named_location, dist=dist, network_type=network_type, custom_filter=config.custom_filter
         )
     elif polygon != None:
         try:
-            G = ox.graph_from_polygon(polygon, network_type=network_type, custom_filter=custom_filter)
+            G = ox.graph_from_polygon(polygon, network_type=network_type, custom_filter=config.custom_filter)
         except:
             if not empty_allowed:
                 print("OSM returned empty json")
@@ -415,12 +417,8 @@ if __name__ == "__main__":
 
     # G_proj = osm.project_graph(G)
     # fig, ax = osm.plot_graph(G_proj)
-    # , "trunk","trunk_link", "motorway_link","primary","secondary"]
-    # custom_filter=["motorway", "motorway_link","motorway_junction","highway"],
 
-    G_OSM = fetch_road_network_from_osm_database(
-        polygon=poly, network_type="drive", custom_filter='["highway"~"motorway|motorway_link|primary"]'
-    )
+    G_OSM = fetch_road_network_from_osm_database(polygon=poly, network_type="drive", custom_filter=config.custom_filter)
 
     # test_point in polygon
     min_lat = 1.14

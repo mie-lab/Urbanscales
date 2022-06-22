@@ -99,11 +99,8 @@ def auxiliary_func_G_for_curved_paths(read_osm_from_file):
 
         # G_proj = osm.project_graph(G)
         # fig, ax = osm.plot_graph(G_proj)
-        # , "trunk","trunk_link", "motorway_link","primary","secondary"]
-        # custom_filter=["motorway", "motorway_link","motorway_junction","highway"],
-        # '["highway"~"motorway|motorway_link|primary"]'
 
-        G = fetch_road_network_from_osm_database(polygon=poly, network_type="drive", custom_filter=None)
+        G = fetch_road_network_from_osm_database(polygon=poly, network_type="drive", custom_filter=config.custom_filter)
         with open(fname_osm, "wb") as f2:
             pickle.dump(G, f2, protocol=4)
 

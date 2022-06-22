@@ -444,7 +444,9 @@ def compute_local_criteria(
     if read_G_osm_from_pickle:
         G_OSM = global_G_OSM
     else:
-        G_OSM = fetch_road_network_from_osm_database(polygon=get_sg_poly(), network_type="drive", custom_filter=None)
+        G_OSM = fetch_road_network_from_osm_database(
+            polygon=get_sg_poly(), network_type="drive", custom_filter=config.custom_filter
+        )
         with open(config.intermediate_files_path + "G_OSM_extracted.pickle", "wb") as f:
             pickle.dump(G_OSM, f, protocol=4)
 

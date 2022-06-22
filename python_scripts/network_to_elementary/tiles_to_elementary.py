@@ -261,7 +261,9 @@ def step_1_osm_tiles_to_features(
         with open(fname, "rb") as handle:
             G_OSM = pickle.load(handle)
     else:
-        G_OSM = fetch_road_network_from_osm_database(polygon=get_sg_poly(), network_type="drive", custom_filter=None)
+        G_OSM = fetch_road_network_from_osm_database(
+            polygon=get_sg_poly(), network_type="drive", custom_filter=config.custom_filter
+        )
         with open(fname, "wb") as f:
             pickle.dump(G_OSM, f, protocol=4)
 
