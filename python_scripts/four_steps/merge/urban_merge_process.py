@@ -877,6 +877,11 @@ def hierarchical_region_merging_multiseeds(
     with open(island_file, "rb") as handle2:
         dict_islands_details_test = pickle.load(handle2)
 
+    # The keys of two dictionaries are the same
+    with open(seed_file, "rb") as handle3:
+        dict_seeds = pickle.load(handle3)
+
+
     # merge island bboxes
     dict_islands = {}
     dict_islands_details = {}
@@ -893,10 +898,12 @@ def hierarchical_region_merging_multiseeds(
 
     X = []
     Y = []
+
     for seed_i in dict_islands_details:
 
         stats = get_single_X_for_polygon(dict_islands[seed_i], global_G_OSM)
         if type(stats) == str and stats == "EMPTY_STATS":
+            del dict_seeds[seed_i]
             continue
         Y.append(
             get_single_Y_for_polygon(
@@ -914,9 +921,6 @@ def hierarchical_region_merging_multiseeds(
     with open(config.outputfolder + "islands_X_Y", "wb") as f:
         pickle.dump([X, Y], f, protocol=4)
 
-    # The keys of two dictionaries are the same
-    with open(seed_file, "rb") as handle3:
-        dict_seeds = pickle.load(handle3)
 
     print(dict_seeds)
 
@@ -1123,4 +1127,4 @@ if __name__ == "__main__":
     thre_list = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.05, 0.01]
     # pool = mp.Pool(7)
     # pool.map(main_func, thre_list)
-    main_func(0.9)
+    main_func(0.4)

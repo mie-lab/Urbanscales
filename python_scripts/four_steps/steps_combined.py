@@ -395,6 +395,7 @@ def step_3(
 
 
     plt.clf()
+    pickle_all_results = {}
     for base in base_list:  # , 6, 7]:  # [5, 6, 7, 8, 9, 10]
         for m_i in range(3):
             if model_name[m_i] == "LR":
@@ -436,17 +437,19 @@ def step_3(
                 y_list.append(y)
                 z_list.append(z)
             plt.plot(x_list, y_list, label=model_name[m_i] + " base-" + str(base))
+            pickle_all_results[model_name[m_i] + " base-" + str(base)] = {"x_list":x_list, "y_list":y_list}
 
         # plt.plot(x_list, z_list, label=model_name[m_i] + "std")
-    plt.legend(fontsize=10)
-    plt.ylabel("MSE")
-    plt.xlabel("Scale")
-    # plt.title("Base: "+str(base))
-    # plt.ylim(0, 0.012)
-    # plt.yscale("log")
-    plt.savefig(config.outputfolder + "All_bases_all_models_" + str(base) + ".png", dpi=300)
+        plt.legend(fontsize=10)
+        plt.ylabel("MSE")
+        plt.xlabel("Scale")
+        # plt.title("Base: "+str(base))
+        # plt.ylim(0, 0.012)
+        # plt.yscale("log")
+        plt.savefig(config.outputfolder + "All_bases_all_models_" + str(base) + ".png", dpi=300)
 
-    plt.show()
+
+    # plt.show()
 
     #
     # with open("temp_files/final_results.csv", "a") as f:
@@ -455,6 +458,9 @@ def step_3(
     do_nothing = True
 
     # return mean_cv_score_dict
+
+    with open(config.outputfolder + "pickle_all_GoF_results.pickle", "wb") as f2:
+        pickle.dump(pickle_all_results, f2, protocol=4)
 
 
 if __name__ == "__main__":

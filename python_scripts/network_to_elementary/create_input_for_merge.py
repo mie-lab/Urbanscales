@@ -229,6 +229,13 @@ def convert_connected_components_to_seeds_dict(N, debug=False):
     for i in range(len(seed_bbox_list)):
         dict_seeds["island_" + str(i + 1)] = seed_bbox_list[i]
 
+    keys_to_delete_boundary_islands = []
+    for key in dict_islands_after_conn_comp:
+        if key not in dict_seeds:
+            keys_to_delete_boundary_islands.append(key)
+    for key in keys_to_delete_boundary_islands:
+        del dict_islands_after_conn_comp[key]
+
     return dict_seeds, dict_islands_after_conn_comp
 
 
