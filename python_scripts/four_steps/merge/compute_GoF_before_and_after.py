@@ -14,7 +14,6 @@ from smartprint import smartprint as sprint
 import config
 
 
-
 def compute_GoF_from_file(filename):
     with open(filename, "rb") as f:
         [X, Y] = pickle.load(f)
@@ -25,16 +24,16 @@ def compute_GoF_from_file(filename):
     # ("pca", PCA(n_components=12))
 
     # if "post_merge" in filename:
-    Y = Y/ np.max(Y)
+    Y = Y / np.max(Y)
 
-    pipe = Pipeline([("scaler", StandardScaler()),("pca", PCA(n_components=2)), ("LinR", LinearRegression())])
+    pipe = Pipeline([("scaler", StandardScaler()), ("pca", PCA(n_components=2)), ("LinR", LinearRegression())])
     # The pipeline can be used as any other estimator
     # and avoids leaking the test set into the train set
     # print(pipe.fit(X_train, y_train))
     # print(pipe.score(X_test, y_test), " GoF measure")
 
     # Y = Y / 7200 #
-    sprint (X.shape, Y.shape)
+    sprint(X.shape, Y.shape)
 
     X = remove_nans(X)
 
@@ -62,8 +61,8 @@ def remove_nans(X):
 
 
 if __name__ == "__main__":
-    print ("Before merge")
-    print ("MSE: ", compute_GoF_from_file(config.outputfolder + "islands_X_Y"))
+    print("Before merge")
+    print("MSE: ", compute_GoF_from_file(config.outputfolder + "islands_X_Y"))
 
-    print ("After merge")
-    print ( "MSE: ", compute_GoF_from_file(config.outputfolder + "post_merge_X_Y"))
+    print("After merge")
+    print("MSE: ", compute_GoF_from_file(config.outputfolder + "post_merge_X_Y"))

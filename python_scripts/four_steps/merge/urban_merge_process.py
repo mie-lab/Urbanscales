@@ -83,7 +83,7 @@ def from_ogr_to_shapely_plot(list_of_three_polys, seed_i, count, convex_hull=Fal
     plt.clf()
     plt_set = [[seed_i, "deepskyblue", "solid"], ["epoch" + count, "tomato", "dotted"]]
 
-    fig, ax = create_base_map(osmfilename=config.intermediate_files_path+"G_OSM_extracted.pickle")
+    fig, ax = create_base_map(osmfilename=config.intermediate_files_path + "G_OSM_extracted.pickle")
 
     for i in range(len(list_of_three_polys)):
         poly = list_of_three_polys[i]
@@ -881,7 +881,6 @@ def hierarchical_region_merging_multiseeds(
     with open(seed_file, "rb") as handle3:
         dict_seeds = pickle.load(handle3)
 
-
     # merge island bboxes
     dict_islands = {}
     dict_islands_details = {}
@@ -920,7 +919,6 @@ def hierarchical_region_merging_multiseeds(
     print(X.shape, Y.shape)
     with open(config.outputfolder + "islands_X_Y", "wb") as f:
         pickle.dump([X, Y], f, protocol=4)
-
 
     print(dict_seeds)
 

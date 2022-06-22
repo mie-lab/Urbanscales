@@ -1,5 +1,6 @@
 # First, a uniform segmentation of the urban space into spatial grids is done and eight graph-based features are extracted for each grid.
 import os
+
 # from python_scripts.network_to_elementary.tiles_to_elementary import step_1_osm_tiles_to_features
 import pickle
 import sys
@@ -200,8 +201,6 @@ def step_2(
         with open(folder_path + "dict_bbox_hour_date_to_CCT" + str(N) + ".pickle", "rb") as f1:
             dict_bbox_hour_date_to_CCT = pickle.load(f1)
 
-
-
     else:
         print("Something wrong in step 2; Exiting execution")
         sys.exit()
@@ -234,7 +233,7 @@ def step_2(
     Y = np.array(Y)
     max_Y = np.max(Y)
     # Y = [y / 7200 for y in Y]
-    Y = Y/max_Y
+    Y = Y / max_Y
 
     if plot_bboxes_on_route:
         lon_centre = []
@@ -274,12 +273,10 @@ def step_2b_calculate_GOF(X, Y, model=None):
     X_test = X
     y_test = Y
 
-
     # ('scaler', StandardScaler()),
     ("pca", PCA(n_components=8))
     # ("pca", PCA(n_components=12))
     pipe = Pipeline([("scaler", StandardScaler()), ("pca", PCA(n_components=2)), ("LinR", model)])
-
 
     # The pipeline can be used as any other estimator
     # and avoids leaking the test set into the train set
@@ -373,8 +370,8 @@ def step_3(
                     pca = PCA().fit(X)
                     plt.plot(np.cumsum(pca.explained_variance_ratio_), label="Scale" + str(scale))
                     plt.grid()
-                    plt.xlabel('number of components')
-                    plt.ylabel('cumulative explained variance')
+                    plt.xlabel("number of components")
+                    plt.ylabel("cumulative explained variance")
                     plt.legend()
                     plt.savefig(config.outputfolder + "PCA_variance_scale" + str(scale) + ".png", dpi=300)
                     print("scale, number_of_data_points, mean_cvscores, mean_std")
@@ -391,8 +388,6 @@ def step_3(
 
                 # append std
                 mean_cv_score_dict[model_name[m_i], scale, tuple(timefilter)].append(std)
-
-
 
     plt.clf()
     pickle_all_results = {}
@@ -437,7 +432,7 @@ def step_3(
                 y_list.append(y)
                 z_list.append(z)
             plt.plot(x_list, y_list, label=model_name[m_i] + " base-" + str(base))
-            pickle_all_results[model_name[m_i] + " base-" + str(base)] = {"x_list":x_list, "y_list":y_list}
+            pickle_all_results[model_name[m_i] + " base-" + str(base)] = {"x_list": x_list, "y_list": y_list}
 
         # plt.plot(x_list, z_list, label=model_name[m_i] + "std")
         plt.legend(fontsize=10)
@@ -448,6 +443,8 @@ def step_3(
         # plt.yscale("log")
         plt.savefig(config.outputfolder + "All_bases_all_models_" + str(base) + ".png", dpi=300)
 
+        with open(config.outputfolder + "pickle_all_GoF_results" + str(base) + ".pickle", "wb") as f2:
+            pickle.dump(pickle_all_results, f2, protocol=4)
 
     # plt.show()
 
