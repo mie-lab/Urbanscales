@@ -399,7 +399,6 @@ if __name__ == "__main__":
 
     dict_bbox_to_CCT = create_bbox_to_CCT(
         csv_file_name="../../intermediate_files/combined_incidents_13_days.csv",
-        read_from_pickle=True,
         N=50,
         folder_path=config.intermediate_files_path,
         plotting_enabled=True,
