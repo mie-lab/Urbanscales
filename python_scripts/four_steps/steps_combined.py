@@ -267,12 +267,20 @@ def step_2b_calculate_GOF(X, Y, model=None):
         sys.exit(0)
 
     # try:
-    X_train, X_test, y_train, y_test = train_test_split(X, Y, train_size=0.9, random_state=int(time.time()))
+    # X_train, X_test, y_train, y_test = train_test_split(X, Y, train_size=0.9, random_state=int(time.time()))
+
+    X_train = X
+    y_train = Y
+    X_test = X
+    y_test = Y
+
 
     # ('scaler', StandardScaler()),
     ("pca", PCA(n_components=8))
     # ("pca", PCA(n_components=12))
-    pipe = Pipeline([("scaler", StandardScaler()), ("pca", PCA(n_components=5)), ("LinR", model)])
+    pipe = Pipeline([("scaler", StandardScaler()), ("pca", PCA(n_components=2)), ("LinR", model)])
+
+
     # The pipeline can be used as any other estimator
     # and avoids leaking the test set into the train set
     # print(pipe.fit(X_train, y_train))
@@ -358,6 +366,19 @@ def step_3(
                 X_len_multiple_plots[scale, tuple(timefilter)] = len(X)
 
                 mean_cv_score_dict[model_name[m_i], scale, tuple(timefilter)] = []
+
+                # no need to plot for different models, they are the same plot
+                if m_i == 0:
+                    X = np.array(X)
+                    pca = PCA().fit(X)
+                    plt.plot(np.cumsum(pca.explained_variance_ratio_), label="Scale" + str(scale))
+                    plt.grid()
+                    plt.xlabel('number of components')
+                    plt.ylabel('cumulative explained variance')
+                    plt.legend()
+                    plt.savefig(config.outputfolder + "PCA_variance_scale" + str(scale) + ".png", dpi=300)
+                    print("scale, number_of_data_points, mean_cvscores, mean_std")
+
                 for m in range(multiple_runs):
                     cv_score = step_2b_calculate_GOF(X, Y, model=model)
                     mean_cv_score_dict[model_name[m_i], scale, tuple(timefilter)].append(cv_score)
@@ -371,7 +392,7 @@ def step_3(
                 # append std
                 mean_cv_score_dict[model_name[m_i], scale, tuple(timefilter)].append(std)
 
-            print("scale, number_of_data_points, mean_cvscores, mean_std")
+
 
     plt.clf()
     for base in base_list:  # , 6, 7]:  # [5, 6, 7, 8, 9, 10]
@@ -422,7 +443,7 @@ def step_3(
     plt.xlabel("Scale")
     # plt.title("Base: "+str(base))
     # plt.ylim(0, 0.012)
-    plt.yscale("log")
+    # plt.yscale("log")
     plt.savefig(config.outputfolder + "All_bases_all_models_" + str(base) + ".png", dpi=300)
 
     plt.show()
@@ -440,7 +461,7 @@ if __name__ == "__main__":
     starttime = time.time()
 
     RUN_MODE = "RUNNING"  # ["RUNNING", "PLOTTING"]:
-    MULTIPLE_RUN = 10
+    MULTIPLE_RUN = 1
 
     if RUN_MODE == "RUNNING":
 
