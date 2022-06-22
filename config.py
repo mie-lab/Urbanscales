@@ -18,3 +18,6 @@ plotting_enabled = False
 
 bbox_split_for_merge_optimisation = 8
 reorder_dict_for_better_viz = True
+
+merge_param_a = 0.75
+merge_param_b = 0.5

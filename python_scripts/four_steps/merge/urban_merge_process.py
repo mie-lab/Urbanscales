@@ -413,9 +413,6 @@ def compute_local_criteria(
     polygon_1,
     polygon_2,
     read_G_osm_from_pickle=True,
-    bbox_to_points_map=None,
-    a=0.5,
-    b=0.5,
     loss_merge="sum",
     debug=False,
 ):
@@ -531,8 +528,9 @@ def compute_local_criteria(
     stats_vector_2 = (stats_vector_2 - means) / stds
 
     ###########################
-    # a = 0
-    a = 0.75
+    a = config.merge_param_a
+    b = config.merge_param_b
+
     f_sim = a * spatial.distance.cosine(stats_vector_1, stats_vector_2)
     f_conn = b * (1 / new_edges)
 
