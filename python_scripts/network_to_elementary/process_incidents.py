@@ -343,7 +343,7 @@ def helper_box_to_CCT(params):
             else:
                 route_linestring = LineString(list(zip(XYcoord[0::2], XYcoord[1::2])))
                 with open(picklefilename, "wb") as f:
-                    pickle.dump((i, route_linestring), f, protocol=pickle.HIGHEST_PROTOCOL)
+                    pickle.dump((i, route_linestring), f, protocol=4)
 
             bbox_intersecting = line_to_bbox_list(
                 bbox_list,

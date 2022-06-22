@@ -57,7 +57,7 @@ def get_box_to_nodelist_map(G_osm: ox.graph, bbox_list, scale, N):
                         bbox_to_points_map[bbox] = [node]
 
         with open(filename, "wb") as f:
-            pickle.dump(bbox_to_points_map, f, protocol=pickle.HIGHEST_PROTOCOL)
+            pickle.dump(bbox_to_points_map, f, protocol=4)
 
         return bbox_to_points_map
 
@@ -316,7 +316,7 @@ def step_1_osm_tiles_to_features(
         osm_tiles_stats_dict = osm_tiles_stats_dict_multithreaded
 
         with open(fname, "wb") as f:
-            pickle.dump(osm_tiles_stats_dict, f, protocol=pickle.HIGHEST_PROTOCOL)
+            pickle.dump(osm_tiles_stats_dict, f, protocol=4)
 
     if plotting_enabled:
         tile_stats_to_images("output_images/tilestats/", osm_tiles_stats_dict, N)
