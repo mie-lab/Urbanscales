@@ -1,37 +1,27 @@
 # First, a uniform segmentation of the urban space into spatial grids is done and eight graph-based features are extracted for each grid.
 import os
-
+# from python_scripts.network_to_elementary.tiles_to_elementary import step_1_osm_tiles_to_features
+import pickle
 import sys
-import csv
-import pandas
-import matplotlib.pyplot as plt
-from sklearn.metrics import mean_squared_error, explained_variance_score
-from unittest.mock import ANY
-from smartprint import smartprint as sprint
-
-
 import time
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-from sklearn.model_selection import cross_val_score
+
+import matplotlib.pyplot as plt
+import numpy as np
+import osmnx as ox
+from shapely.geometry import Polygon
 from sklearn.decomposition import PCA
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from smartprint import smartprint as sprint
 
 import config
 from python_scripts.network_to_elementary.elf_to_clusters import osm_tiles_states_to_vectors
 from python_scripts.network_to_elementary.osm_to_tiles import fetch_road_network_from_osm_database
 from python_scripts.network_to_elementary.process_incidents import create_bbox_to_CCT
-
-# from python_scripts.network_to_elementary.tiles_to_elementary import step_1_osm_tiles_to_features
-import pickle
-from shapely.geometry import Polygon
-import numpy as np
-import sys
-import osmnx as ox
-
-from sklearn.linear_model import LinearRegression, LogisticRegression
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split
-from sklearn.pipeline import Pipeline
-from smartprint import smartprint as sprint
 
 
 def auxiliary_func_G_for_curved_paths(read_osm_from_file):
@@ -205,8 +195,13 @@ def step_2(
         with open(folder_path + "dict_bbox_hour_date_to_CCT" + str(N) + ".pickle", "rb") as f1:
             dict_bbox_hour_date_to_CCT = pickle.load(f1)
     elif read_bbox_CCT_from_file:
+        if not os.path.isfile(folder_path + "dict_bbox_hour_date_to_CCT" + str(N) + ".pickle"):
+            generate_bbox_CCT_from_file(N, use_route_path=config.use_route_path_curved)
         with open(folder_path + "dict_bbox_hour_date_to_CCT" + str(N) + ".pickle", "rb") as f1:
             dict_bbox_hour_date_to_CCT = pickle.load(f1)
+
+
+
     else:
         print("Something wrong in step 2; Exiting execution")
         sys.exit()
@@ -236,7 +231,10 @@ def step_2(
         Y.append(dict_bbox_hour_date_to_CCT[bbox])
 
     # normalise Y; hard code to 2 hours
-    Y = [y / 7200 for y in Y]
+    Y = np.array(Y)
+    max_Y = np.max(Y)
+    # Y = [y / 7200 for y in Y]
+    Y = Y/max_Y
 
     if plot_bboxes_on_route:
         lon_centre = []
@@ -326,7 +324,7 @@ def step_3(
     X_len_multiple_plots = {}
 
     base_list = [5]
-    hierarchy_max = 3
+    hierarchy_max = 7
 
     for base in base_list:  # , 6, 7]:  # , 6, 7]:  # [5, 6, 7, 8, 9, 10]
         for m_i in range(3):
@@ -353,7 +351,7 @@ def step_3(
                     read_bbox_CCT_from_file=read_bbox_CCT_from_file,
                     plot_bboxes_on_route=plot_bboxes_on_route,
                     generate_incidents_routes=generate_incidents_routes,
-                    method_for_single_statistic="median_across_all",
+                    method_for_single_statistic="sum",
                     timefilter=timefilter,
                 )
                 X_len[scale] = len(X)

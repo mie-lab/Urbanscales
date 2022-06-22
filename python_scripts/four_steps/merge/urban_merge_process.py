@@ -83,7 +83,7 @@ def from_ogr_to_shapely_plot(list_of_three_polys, seed_i, count, convex_hull=Fal
     plt.clf()
     plt_set = [[seed_i, "deepskyblue", "solid"], ["epoch" + count, "tomato", "dotted"]]
 
-    fig, ax = create_base_map(osmfilename="G_OSM.pickle")
+    fig, ax = create_base_map(osmfilename=config.intermediate_files_path+"G_OSM_extracted.pickle")
 
     for i in range(len(list_of_three_polys)):
         poly = list_of_three_polys[i]
@@ -144,7 +144,7 @@ def create_base_map(osmfilename=config.intermediate_files_path + "G_OSM_extracte
     return fig, ax
 
 
-def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre, convex_hull=False, base_map_enabled=False):
+def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre, convex_hull=False, base_map_enabled=True):
     # Creating a copy of the input OGR geometry. This is done in order to
     # ensure that when we drop the M-values, we are only doing so in a
     # local copy of the geometry, not in the actual original geometry.
@@ -865,11 +865,7 @@ def hierarchical_region_merging_multiseeds(
 
     # compute GoF for merged islands
     combined_dict = get_combined_bbox_dict(
-        scales=[
-            5,
-            10,
-            20,
-        ],
+        scales=[(config.base * (2 ** i)) for i in range(config.hierarchies)],
         folder_path=config.intermediate_files_path,
     )
     timefilter = [5, 6, 7, 8]
