@@ -191,7 +191,7 @@ def step_2(
     :return:
     """
     if not read_bbox_CCT_from_file:
-        generate_bbox_CCT_from_file(N, folder_path, generate_incidents_routes, use_route_path=False)
+        generate_bbox_CCT_from_file(N, use_route_path=False)
 
         with open(folder_path + "dict_bbox_hour_date_to_CCT" + str(N) + ".pickle", "rb") as f1:
             dict_bbox_hour_date_to_CCT = pickle.load(f1)
@@ -328,8 +328,8 @@ def step_3(
     X_len = {}
     X_len_multiple_plots = {}
 
-    base_list = [5]
-    hierarchy_max = 7
+    base_list = config.base_list
+    hierarchy_max = config.hierarchies
 
     for base in base_list:  # , 6, 7]:  # , 6, 7]:  # [5, 6, 7, 8, 9, 10]
         for m_i in range(3):
@@ -435,7 +435,7 @@ def step_3(
             pickle_all_results[model_name[m_i] + " base-" + str(base)] = {"x_list": x_list, "y_list": y_list}
 
         # plt.plot(x_list, z_list, label=model_name[m_i] + "std")
-        plt.legend(fontsize=10)
+        plt.legend(fontsize=9)
         plt.ylabel("MSE")
         plt.xlabel("Scale")
         # plt.title("Base: "+str(base))

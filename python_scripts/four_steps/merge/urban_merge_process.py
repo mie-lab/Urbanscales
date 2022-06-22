@@ -534,7 +534,7 @@ def compute_local_criteria(
     f_sim = a * spatial.distance.cosine(stats_vector_1, stats_vector_2)
     f_conn = b * (1 / new_edges)
 
-    with open("save_f_conn_f_sim.csv", "a") as f:
+    with open(config.outputfolder + "save_f_conn_f_sim.csv", "a") as f:
         csvwriter = csv.writer(f)
         csvwriter.writerow([f_conn, f_sim, f_conn / f_sim])
 
@@ -865,7 +865,7 @@ def hierarchical_region_merging_multiseeds(
 
     # compute GoF for merged islands
     combined_dict = get_combined_bbox_dict(
-        scales=[(config.base * (2 ** i)) for i in range(config.hierarchies)],
+        scales=[(config.base_for_merge * (2 ** i)) for i in range(config.hierarchies)],
         folder_path=config.intermediate_files_path,
     )
     timefilter = [5, 6, 7, 8]
@@ -1072,7 +1072,7 @@ def hierarchical_region_merging_multiseeds(
 
 def main_func(thre):
     hierarchical_region_merging_multiseeds(
-        config.intermediate_files_path + "dict_bbox_" + str(config.base) + "_.pickle",
+        config.intermediate_files_path + "dict_bbox_" + str(config.base_for_merge) + "_.pickle",
         config.intermediate_files_path + "dict_islands_" + str(config.best_fit_hierarchy) + "_.pickle",
         config.intermediate_files_path + "dict_seeds_" + str(config.best_fit_hierarchy) + "_.pickle",
         config.outputfolder + "output_thre" + str(thre) + ".shp",
@@ -1122,7 +1122,12 @@ if __name__ == "__main__":
     #                                        thre, 10)
 
     # multi threads
-    thre_list = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.05, 0.01]
-    # pool = mp.Pool(7)
-    # pool.map(main_func, thre_list)
-    main_func(0.4)
+    thre_list = config.thresh_list
+
+    if config.run_multiple_thresholds:
+        import multiprocessing as mp
+
+        pool = mp.Pool(config.num_threads)
+        pool.map(main_func, thre_list)
+    else:
+        main_func(config.single_threshold)

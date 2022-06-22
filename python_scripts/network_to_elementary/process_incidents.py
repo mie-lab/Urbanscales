@@ -1,3 +1,4 @@
+import math
 import multiprocessing
 import os
 import pickle
@@ -16,6 +17,12 @@ from tqdm import tqdm
 
 from python_scripts.network_to_elementary.osm_to_tiles import line_to_bbox_list
 import config
+
+
+def base_from_N(N):
+    if N <= 2 or N % 2 != 0:
+        return N
+    return base_from_N(N // 2)
 
 
 def create_bbox_to_CCT(
@@ -69,23 +76,35 @@ def create_bbox_to_CCT(
 
     fname = config.intermediate_files_path + "osm_tiles_stats_dict" + str(N) + ".pickle"
     if not os.path.isfile(fname):
-        print("This part has not been written yet")
-        print("Please use the previously saved dictionary to get BBs")
-        sys.exit()
-    elif os.path.isfile(fname):
+        # importing here so that we avoid the circular imports error;
+        # this is to-do, should be removed at a later stage
+        from python_scripts.network_to_elementary.tiles_to_elementary import (
+            step_1_osm_tiles_to_features as step_1_osm_tiles_to_features,
+        )
 
-        bbox_list = []
-        with open(fname, "rb") as handle:
-            osm_tiles_stats_dict = pickle.load(handle)
+        _ = step_1_osm_tiles_to_features(
+            N=N,
+            plotting_enabled=False,
+            n_threads=config.num_threads,
+            generate_for_perfect_fit=True,
+            base_N=base_from_N(N),
+            debug_multi_processing_error=False,
+        )
 
-        for keyval in osm_tiles_stats_dict:
-            try:
-                # need to fix this messy way to read dictionary @Nishant
-                key, val = list(keyval.keys())[0], list(keyval.values())[0]
-                assert val != "EMPTY_STATS"
-                bbox_list.append(key)
-            except:
-                continue
+        # sys.exit()
+
+    bbox_list = []
+    with open(fname, "rb") as handle:
+        osm_tiles_stats_dict = pickle.load(handle)
+
+    for keyval in osm_tiles_stats_dict:
+        try:
+            # need to fix this messy way to read dictionary @Nishant
+            key, val = list(keyval.keys())[0], list(keyval.values())[0]
+            assert val != "EMPTY_STATS"
+            bbox_list.append(key)
+        except:
+            continue
 
     paramlist = []
 

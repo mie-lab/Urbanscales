@@ -44,7 +44,7 @@ def get_bbox_as_list_of_list(scale):
             bbox_list = get_bbox(pickle.load(handle))
 
     else:
-        osm_tiles_stats_dict = generate_one_grid_size(N=scale, generate_for_perfect_fit=True, base_N=config.base)
+        osm_tiles_stats_dict = generate_one_grid_size(N=scale, generate_for_perfect_fit=True)
         bbox_list = get_bbox(osm_tiles_stats_dict)
 
     bbox_lol = []
@@ -158,7 +158,7 @@ def convert_connected_components_to_seeds_dict(N, debug=False):
     dict_label_lon_lat = {}
     dict_islands_after_conn_comp = {}
     for key in dict_label_indices:
-        dict_islands_after_conn_comp[key] = []
+        dict_islands_after_conn_comp["island_" + str(key + 1)] = []
 
         for val2 in dict_label_indices[key]:
             i, j = val2
@@ -166,7 +166,7 @@ def convert_connected_components_to_seeds_dict(N, debug=False):
                 continue
 
             lat_1, lon_1, lat_2, lon_2 = map_index_to_lat_lon[i, j]
-            dict_islands_after_conn_comp[key].append([[lon_1, lat_1], [lon_2, lat_2]])
+            dict_islands_after_conn_comp["island_" + str(key + 1)].append([[lon_1, lat_1], [lon_2, lat_2]])
 
             # lon = i * delta_x + min_lon
             # lat = j * delta_y + min_lat
@@ -209,6 +209,7 @@ def convert_connected_components_to_seeds_dict(N, debug=False):
             # search for the bbox where the centroid lies
             if lon1 < centroid_lon < lon2 and lat1 < centroid_lat < lat2:
                 seed_bbox_list.append([[lon1, lat1], [lon2, lat2]])
+                dict_seeds["island_" + str(key + 1)] = [[lon1, lat1], [lon2, lat2]]
                 flag = True
 
         # # if it doesn't lie in anyone, we choose a bb at random
@@ -226,8 +227,8 @@ def convert_connected_components_to_seeds_dict(N, debug=False):
                 plt.legend()
                 plt.show()
 
-    for i in range(len(seed_bbox_list)):
-        dict_seeds["island_" + str(i + 1)] = seed_bbox_list[i]
+    # for i in range(len(seed_bbox_list)):
+    #     dict_seeds["island_" + str(i + 1)] = seed_bbox_list[i]
 
     keys_to_delete_boundary_islands = []
     for key in dict_islands_after_conn_comp:
@@ -411,7 +412,7 @@ def reorder_dict(dict_):
 
 
 if __name__ == "__main__":
-    base_level = config.base
+    base_level = config.base_for_merge
     dict_bbox = create_hierarchy_dict(base_level, config.hierarchies)
 
     best_fit_hierarchy = config.best_fit_hierarchy

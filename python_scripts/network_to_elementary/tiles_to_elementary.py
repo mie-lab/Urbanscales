@@ -237,8 +237,8 @@ def step_1_osm_tiles_to_features(
     n_threads=7,
     N=50,
     plotting_enabled=True,
-    generate_for_perfect_fit=False,
     base_N=-1,
+    generate_for_perfect_fit=False,
     debug_multi_processing_error=False,
 ):
     """
@@ -324,20 +324,22 @@ def step_1_osm_tiles_to_features(
     return osm_tiles_stats_dict
 
 
-def generate_one_grid_size(N, generate_for_perfect_fit=False, base_N=-1):
+def generate_one_grid_size(N, generate_for_perfect_fit=True):
 
-    if generate_for_perfect_fit:
-        # must be accompanied by the base value
-        if base_N == -1:
-            print("Fatal error in generate_one_grid_size!\n Wrong argument combination provided")
-            sys.exit(0)
+    # if generate_for_perfect_fit:
+    #     # must be accompanied by the base value
+    #     if base_N == -1:
+    #         print("Fatal error in generate_one_grid_size!\n Wrong argument combination provided")
+    #         sys.exit(0)
+
+    from python_scripts.network_to_elementary.process_incidents import base_from_N
 
     osm_tiles_stats_dict = step_1_osm_tiles_to_features(
         N=N,
         plotting_enabled=False,
         n_threads=config.num_threads,
         generate_for_perfect_fit=generate_for_perfect_fit,
-        base_N=base_N,
+        base_N=base_from_N(N),
         debug_multi_processing_error=False,
     )
     return osm_tiles_stats_dict
@@ -347,34 +349,8 @@ if __name__ == "__main__":
     # with multiprocessing.Pool(10) as p:
     #     p.map(generate_one_grid_size, list(range(170, 300, 10)))
 
-    for base in [2]:
-        #     2,
-        #     3,
-        #     5,
-        #     7,
-        #     11,
-        #     13,
-        #     17,
-        #     19,
-        #     23,
-        #     29,
-        #     31,
-        #     37,
-        #     41,
-        #     43,
-        #     47,
-        #     53,
-        #     59,
-        #     61,
-        #     67,
-        #     71,
-        #     73,
-        #     79,
-        #     83,
-        #     89,
-        #     97,
-        # ]:  # , 6, 7, 8, 9, 10]:
-        for i in range(8):  # :range(60, 120, 10):
+    for base in config.base_list:
+        for i in range(config.hierarchies):  # :range(60, 120, 10):
             scale = base * (2 ** i)
             if scale > 200:
                 continue

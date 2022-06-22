@@ -26,7 +26,9 @@ def compute_GoF_from_file(filename):
     # if "post_merge" in filename:
     Y = Y / np.max(Y)
 
-    pipe = Pipeline([("scaler", StandardScaler()), ("pca", PCA(n_components=2)), ("LinR", LinearRegression())])
+    pipe = Pipeline(
+        [("scaler", StandardScaler()), ("pca", PCA(n_components=config.pca_components)), ("LinR", LinearRegression())]
+    )
     # The pipeline can be used as any other estimator
     # and avoids leaking the test set into the train set
     # print(pipe.fit(X_train, y_train))
