@@ -150,7 +150,7 @@ def from_ogr_to_shapely_plot_multiseeds(dict_merge, epoch, criteria_thre, convex
     # ogr_geom_copy = ogr.CreateGeometryFromWkb(ogr_geom.ExportToIsoWkb())
     plt.clf()
     plt_set = [["tomato", "dotted"]]
-    colors_pad = plt.cm.Set3(np.linspace(0, 1, len(dict_merge)))
+    colors_pad = plt.cm.rainbow(np.linspace(0, 1, config.color_levels))
 
     if base_map_enabled:
         fig, ax = create_base_map(osmfilename=config.intermediate_files_path + "G_OSM_extracted.pickle")
@@ -266,6 +266,9 @@ def create_bboxmap_file(bboxmap_file, G_OSM):
 
     with open(bboxmap_file, "wb") as f:
         pickle.dump(bbox_to_nodes_map, f, protocol=4)
+
+    global global_bbox_to_nodes_map
+    global_bbox_to_nodes_map = bbox_to_nodes_map
 
     print("bbox_to_nodes_map file created! :)")
 
@@ -912,7 +915,7 @@ def hierarchical_region_merging_multiseeds(
     X = np.array(X)
     Y = np.array(Y)
     print(X.shape, Y.shape)
-    with open("islands_X_Y", "wb") as f:
+    with open(config.outputfolder + "islands_X_Y", "wb") as f:
         pickle.dump([X, Y], f, protocol=4)
 
     # The keys of two dictionaries are the same
@@ -1044,7 +1047,7 @@ def hierarchical_region_merging_multiseeds(
     X = np.array(X)
     Y = np.array(Y)
     print(X.shape, Y.shape)
-    with open("post_merge_X_Y", "wb") as f:
+    with open(config.outputfolder + "post_merge_X_Y", "wb") as f:
         pickle.dump([X, Y], f, protocol=4)
 
     os.environ["SHAPE_ENCODING"] = "utf-8"
