@@ -12,10 +12,10 @@ os.makedirs(os.path.join(config.intermediate_files_path, "multiple_cities"), exi
 os.makedirs(os.path.join(config.intermediate_files_path, "multiple_cities"), exist_ok=True)
 os.makedirs(os.path.join(config.intermediate_files_path, "multiple_cities"), exist_ok=True)
 os.makedirs(os.path.join(config.intermediate_files_path + "multiple_cities", "raw_graphs_from_OSM"), exist_ok=True)
-os.remove(os.path.join(config.intermediate_files_path, "multiple_cities", "node_count.txt"), exist_ok=True)
+os.remove(os.path.join(config.intermediate_files_path, "multiple_cities", "node_count.txt"))
 
 # do not delete this
-os.makedirs(os.path.join("output_folder", "multiple_cities", "raw_graphs_from_OSM_pickles"))
+os.makedirs(os.path.join("output_folder", "multiple_cities", "raw_graphs_from_OSM_pickles"), exist_ok=True)
 
 
 def check_available_cities():
