@@ -8,9 +8,9 @@ from shapely.geometry import Polygon
 import pickle
 import config
 
-os.system("mkdir " + config.outputfolder + "multiple_cities")
-os.system("mkdir " + config.outputfolder + "multiple_cities/raw_graphs_from_OSM")
-os.system("rm " + config.outputfolder + "multiple_cities/node_count.txt")
+os.system("mkdir " + config.intermediate_files_path + "multiple_cities")
+os.system("mkdir " + config.intermediate_files_path + "multiple_cities/raw_graphs_from_OSM")
+os.system("rm " + config.intermediate_files_path + "multiple_cities/node_count.txt")
 
 # do not delete this
 os.system("mkdir output_folder/multiple_cities/raw_graphs_from_OSM_pickles")
@@ -31,7 +31,7 @@ def check_available_cities():
         "Zurich",
     ]
     for city in city_list:
-        filename = config.outputfolder + "multiple_cities/raw_graphs_from_OSM_pickles/" + city + ".pickle"
+        filename = config.intermediate_files_path + "multiple_cities/raw_graphs_from_OSM_pickles/" + city + ".pickle"
         import time
 
         if os.path.isfile(filename):
@@ -60,12 +60,12 @@ def check_available_cities():
 
         sprint(city, len(list(G.nodes)), len(list(G.edges)))
 
-        with open(config.outputfolder + "multiple_cities/node_count.txt", "a") as f:
+        with open(config.intermediate_files_path + "multiple_cities/node_count.txt", "a") as f:
             sprint(city, len(list(G.nodes)), len(list(G.edges)), file=f)
 
         if config.plotting_enabled:
             fig, ax = ox.plot_graph(G, edge_linewidth=0.1, node_size=1)
-            fig.savefig(config.outputfolder + "multiple_cities/raw_graphs_from_OSM/"+city+".png", dpi=300)
+            fig.savefig(config.intermediate_files_path + "multiple_cities/raw_graphs_from_OSM/"+city+".png", dpi=300)
             plt.show(block=False)
 
 
