@@ -8,12 +8,14 @@ from shapely.geometry import Polygon
 import pickle
 import config
 
-os.system("mkdir " + config.intermediate_files_path + "multiple_cities")
-os.system("mkdir " + config.intermediate_files_path + "multiple_cities/raw_graphs_from_OSM")
-os.system("rm " + config.intermediate_files_path + "multiple_cities/node_count.txt")
+os.makedirs(os.path.join(config.intermediate_files_path, "multiple_cities"), exist_ok=True)
+os.makedirs(os.path.join(config.intermediate_files_path, "multiple_cities"), exist_ok=True)
+os.makedirs(os.path.join(config.intermediate_files_path, "multiple_cities"), exist_ok=True)
+os.makedirs(os.path.join(config.intermediate_files_path + "multiple_cities", "raw_graphs_from_OSM"), exist_ok=True)
+os.remove(os.path.join(config.intermediate_files_path, "multiple_cities", "node_count.txt"), exist_ok=True)
 
 # do not delete this
-os.system("mkdir output_folder/multiple_cities/raw_graphs_from_OSM_pickles")
+os.makedirs(os.path.join("output_folder", "multiple_cities", "raw_graphs_from_OSM_pickles"))
 
 
 def check_available_cities():
@@ -65,7 +67,9 @@ def check_available_cities():
 
         if config.plotting_enabled:
             fig, ax = ox.plot_graph(G, edge_linewidth=0.1, node_size=1)
-            fig.savefig(config.intermediate_files_path + "multiple_cities/raw_graphs_from_OSM/"+city+".png", dpi=300)
+            fig.savefig(
+                config.intermediate_files_path + "multiple_cities/raw_graphs_from_OSM/" + city + ".png", dpi=300
+            )
             plt.show(block=False)
 
 
