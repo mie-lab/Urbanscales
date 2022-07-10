@@ -1,9 +1,21 @@
+import os
 import sys
 import networkx as nx
 from osmnx import stats as osxstats
 import osmnx as ox
-
+import pandas as pd
 import config
+
+
+def read_speed_files():
+    rid_speed_jf = pd.read_csv(os.path.join(config.data_folder, config.var_jf))
+    rid_speed_ci = pd.read_csv(os.path.join(config.data_folder, config.var_ci))
+    rid_speed_linestring = pd.read_csv(os.path.join(config.data_folder, config.road_linestring))
+
+    merged_jf = pd.merge(rid_speed_jf, rid_speed_linestring, on="NID", how="inner")
+    merged_ci = pd.merge(rid_speed_ci, rid_speed_linestring, on="NID", how="inner")
+
+    return {"JF": merged_jf, "CI": merged_ci}
 
 
 def get_stats_for_one_tile(input):

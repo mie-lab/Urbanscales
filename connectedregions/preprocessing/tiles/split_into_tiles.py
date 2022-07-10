@@ -1,23 +1,100 @@
-import multiprocessing as mp
 import os
 import pickle
 import sys
-
 import matplotlib
 import matplotlib.pyplot as plt
 import networkx as nx
 import osmnx as ox
-from osmnx import stats as osxstats
 from tqdm.auto import tqdm
-
+from shapely import geometry
 import config
-from python_scripts.four_steps.steps_combined import generate_bbox_CCT_from_file
-from python_scripts.network_to_elementary.get_sg_osm import get_sg_poly
-from python_scripts.network_to_elementary.osm_to_tiles import (
-    fetch_road_network_from_osm_database,
-    split_poly_to_bb,
-    is_point_in_bounding_box,
+
+from multiprocessing import pool as mp
+
+from connectedregions.analysis.feature_extraction.static_features.network_features.graph_features import (
+    get_stats_for_one_tile,
 )
+from connectedregions.preprocessing.osm.OSM_cities import (
+    download_OSM_for_cities,
+    get_poly_from_list_of_coords,
+    get_poly,
+)
+from connectedregions.preprocessing.tiles.helper_files import (
+    is_bounding_box_in_polygon,
+    is_point_in_bounding_box,
+    calculate_ground_distance,
+)
+
+
+def split_poly_to_bb(poly: geometry.Polygon, n, plotting_enabled=False, generate_for_perfect_fit=False, base_N=-1):
+    """
+    :param poly: shapely polygon
+    :param n: ise used to create a list of bounding boxes; total
+           number of such boxes = (n X (aspect_ratio * n) ); scaled_n is calculated in this function
+    :return:
+    """
+    if generate_for_perfect_fit:
+        # must be accompanied by the base value
+        if base_N == -1:
+            print("Fatal error in generate for perfect fit!\n wrong argument combination base_N not provided")
+            sys.exit(0)
+
+    min_lon, min_lat, max_lon, max_lat = poly.bounds
+
+    vertical = calculate_ground_distance(min_lat, min_lon, max_lat, min_lon)
+    horizontal = calculate_ground_distance(min_lat, min_lon, min_lat, max_lon)
+    print("vertical ", vertical // 1000, " km")
+    print("horizontal ", horizontal // 1000, " km")
+    aspect_ratio = vertical / horizontal
+    print("Aspect ratio ", aspect_ratio)
+
+    if not generate_for_perfect_fit:
+        delta_x = (max_lat - min_lat) / n
+        delta_y = (max_lon - min_lon) / (n / aspect_ratio)
+
+    elif generate_for_perfect_fit:
+        delta_x = (max_lat - min_lat) / base_N
+        delta_y = (max_lon - min_lon) / (base_N / aspect_ratio)
+        delta_x /= n / base_N
+        delta_y /= n / base_N
+
+    bbox_list = []
+    i = min_lat
+    while i + delta_x <= max_lat:
+        j = min_lon
+        while j + delta_y <= max_lon:
+            bbox_list.append((i, j, i + delta_x, j + delta_y))
+            j += delta_y
+        i += delta_x
+
+    # round off everything to 5 decimal points
+    for i in range(len(bbox_list)):
+        bbox_list[i] = tuple([round(xx, 5) for xx in bbox_list[i]])
+
+    if plotting_enabled:
+        for bbox in bbox_list:
+            lat1, lon1, lat2, lon2 = bbox
+            centre_lon = 0.5 * (lon1 + lon2)
+            centre_lat = 0.5 * (lat1 + lat2)
+            plt.scatter(centre_lon, centre_lat, s=0.3, color="red")
+
+            # plot rectangle
+            if is_bounding_box_in_polygon(poly, bbox):
+                color = "green"
+            else:
+                color = "red"
+            plt.gca().add_patch(
+                matplotlib.patches.Rectangle((lon1, lat1), lon2 - lon1, lat2 - lat1, lw=0.8, alpha=0.5, color=color)
+            )
+
+        plt.xlim([min_lon, max_lon])
+        plt.ylim([min_lat, max_lat])
+        plt.xlabel("latitude")
+        plt.ylabel("longitude")
+        plt.savefig("output_images/network_graphs/bbox_inside_polygoin.png", dpi=400)
+        plt.show(block=False)
+
+    return bbox_list
 
 
 def get_box_to_nodelist_map(G_osm: ox.graph, bbox_list, scale, N):
@@ -25,7 +102,7 @@ def get_box_to_nodelist_map(G_osm: ox.graph, bbox_list, scale, N):
     This funciton is O(n^2) it can be made faster using hashing
     (depending on need)
     """
-    filename = config.intermediate_files_path + "bbox_to_points_map_" + str(scale) + ".pickle"
+    filename = os.path.join(config.intermediate_files_path, "bbox_to_points_map_" + str(scale) + ".pickle")
     if os.path.isfile(filename):
         with open(filename, "rb") as handle:
             bbox_to_points_map = pickle.load(handle)
@@ -102,43 +179,6 @@ def get_OSM_tiles(bbox_list, osm_graph, N):
     return osm_graph_tiles, percentage_of_empty_graphs
 
     # '["highway"~"motorway|motorway_link|primary"]'
-
-
-def get_stats_for_one_tile(input):
-    """
-
-    :param if called from this tiles_to_elementary,
-        input: tuple of osm, its corresponding bounding box
-
-            if called from yatao's code,
-            input: just the osm tile (basically the sub-graph of polygon)
-    :return:
-    """
-    if len(input) == 2:
-        osm, bbox = input
-    elif len(input) == 1:
-        osm = input[0]
-    else:
-        print("Wrong input in length of variables\n in function get_stats_for_one_tile")
-        sys.exit(0)
-
-    if osm == "EMPTY":
-        stats = "EMPTY_STATS"
-
-    else:
-        spn = osxstats.count_streets_per_node(osm)
-        nx.set_node_attributes(osm, values=spn, name="street_count")
-        try:
-            stats = ox.basic_stats(osm)
-        except:
-            print("stats = ox.basic_stats(osm): ", " ERROR\n Probably no edge in graph")
-            stats = "EMPTY_STATS"
-    if len(input) == 2:
-        retval = {bbox: stats}
-    elif len(input) == 1:
-        retval = stats
-
-    return retval
 
 
 def tile_stats_to_images(output_path: str, list_of_dict_bbox_to_stats, N):
@@ -230,17 +270,12 @@ def tile_stats_to_images(output_path: str, list_of_dict_bbox_to_stats, N):
         plt.clim(0, maxVal)
         plt.colorbar()
         plt.gca().set_aspect(0.66)
-        plt.savefig(config.outputfolder + metric + "_scale_" + str(N) + "+.png", dpi=300)
+        plt.savefig(os.path.join(config.outputfolder, metric + "_scale_" + str(N) + ".png"), dpi=300)
         # plt.show(block=False)
 
 
 def step_1_osm_tiles_to_features(
-    n_threads=7,
-    N=50,
-    plotting_enabled=True,
-    base_N=-1,
-    generate_for_perfect_fit=False,
-    debug_multi_processing_error=False,
+    single_city, N=50, base_N=-1, generate_for_perfect_fit=False, debug_multi_processing_error=None
 ):
     """
 
@@ -257,26 +292,22 @@ def step_1_osm_tiles_to_features(
             print("Fatal error in step_1_osm_tiles_to_features!\n Wrong argument combination provided")
             sys.exit(0)
 
-    fname = config.intermediate_files_path + "G_OSM_extracted.pickle"
+    fname = os.path.join(
+        config.intermediate_files_path, "multiple_cities", "raw_graphs_from_OSM_pickles", single_city + ".pickle"
+    )
     if os.path.isfile(fname):
         with open(fname, "rb") as handle:
             G_OSM = pickle.load(handle)
     else:
-        G_OSM = fetch_road_network_from_osm_database(
-            polygon=get_sg_poly(), network_type="drive", custom_filter=config.custom_filter
-        )
-        with open(fname, "wb") as f:
-            pickle.dump(G_OSM, f, protocol=4)
+        download_OSM_for_cities()
 
     G_OSM_dict, _error_ = get_OSM_tiles(
         osm_graph=G_OSM,
-        bbox_list=split_poly_to_bb(
-            get_sg_poly(), N, plotting_enabled=False, generate_for_perfect_fit=True, base_N=base_N
-        ),
-        N=N,
+        bbox_list=split_poly_to_bb(get_poly_from_list_of_coords(get_poly(single_city)), n=N),
+        N=base_N,
     )
 
-    fname = config.intermediate_files_path + "osm_tiles_stats_dict" + str(N) + ".pickle"
+    fname = os.path.join(config.intermediate_files_path, "osm_tiles_stats_dict" + str(N) + ".pickle")
     if os.path.isfile(fname):
         with open(fname, "rb") as handle:
             osm_tiles_stats_dict = pickle.load(handle)
@@ -287,7 +318,7 @@ def step_1_osm_tiles_to_features(
             inputs.append((G_OSM_dict[osm_tile], osm_tile))
 
         # multithreaded
-        pool = mp.Pool(n_threads)
+        pool = mp.Pool(config.num_threads)
         osm_tiles_stats_dict_multithreaded = pool.map(get_stats_for_one_tile, inputs)
 
         # single threaded
@@ -319,26 +350,22 @@ def step_1_osm_tiles_to_features(
         with open(fname, "wb") as f:
             pickle.dump(osm_tiles_stats_dict, f, protocol=4)
 
-    if plotting_enabled:
-        tile_stats_to_images("output_images/tilestats/", osm_tiles_stats_dict, N)
+    if config.plotting_enabled:
+        tile_stats_to_images(os.path.join(config.outputfolder + "output_images", "tilestats"), osm_tiles_stats_dict, N)
 
     return osm_tiles_stats_dict
 
 
-def generate_one_grid_size(N, generate_for_perfect_fit=True):
+def base_from_N(N):
+    if N <= 2 or N % 2 != 0:
+        return N
+    return base_from_N(N // 2)
 
-    # if generate_for_perfect_fit:
-    #     # must be accompanied by the base value
-    #     if base_N == -1:
-    #         print("Fatal error in generate_one_grid_size!\n Wrong argument combination provided")
-    #         sys.exit(0)
 
-    from python_scripts.network_to_elementary.process_incidents import base_from_N
-
+def generate_tiles_for_one_N(single_city, N, generate_for_perfect_fit=True):
     osm_tiles_stats_dict = step_1_osm_tiles_to_features(
+        single_city=single_city,
         N=N,
-        plotting_enabled=True,
-        n_threads=config.num_threads,
         generate_for_perfect_fit=generate_for_perfect_fit,
         base_N=base_from_N(N),
         debug_multi_processing_error=False,
@@ -350,16 +377,11 @@ if __name__ == "__main__":
     # with multiprocessing.Pool(10) as p:
     #     p.map(generate_one_grid_size, list(range(170, 300, 10)))
 
-    # for base in config.base_list:
-    #     for i in range(config.hierarchies):  # :range(60, 120, 10):
-    #         scale = base * (2 ** i)
-    #         if scale > 200:
-    #             continue
-    #         generate_one_grid_size(N=scale, generate_for_perfect_fit=True, base_N=base)
-    #         generate_bbox_CCT_from_file(
-    #             N=scale, folder_path=config.intermediate_files_path, use_route_path=False, plotting_enabled=False
-    #         )
+    for base in config.base_list:
+        for i in range(config.hierarchies):  # :range(60, 120, 10):
+            scale = base * (2 ** i)
+            if scale > 120:
+                continue
+            generate_tiles_for_one_N(single_city="Singapore", N=scale, generate_for_perfect_fit=True)
 
-    # generate_one_grid_size(N=17, generate_for_perfect_fit=True, base_N=9)
-    generate_one_grid_size(N=15, generate_for_perfect_fit=True)
     last_line = "dummy"
