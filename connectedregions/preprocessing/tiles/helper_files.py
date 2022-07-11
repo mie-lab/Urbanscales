@@ -164,6 +164,41 @@ def line_to_bbox_list(
 
     return list_of_bbs
 
+def is_bounding_box_intersecting_polygon(shapely_polygon, bbox):
+    """
+    lon_min, lat_min, lon_max, lat_max = bbox
+    """
+    lon_min, lat_min, lon_max, lat_max = bbox
+
+    # complex case, when BB corner is not inside the polygon
+    bb_polygon = geometry.Polygon(
+        [[lon_min, lat_min], [lon_max, lat_min], [lon_max, lat_max], [lon_min, lat_max], [lon_min, lat_min]]
+    )
+    if shapely_polygon.contains(bb_polygon):
+        return "all"
+    elif bb_polygon.intersects(shapely_polygon):
+        return "partial"
+    else:
+        return False
+
+def is_bounding_box_intersecting_linestring(shapely_linestring, bbox):
+    """
+
+    Args:
+        shapely_linestring:
+        bbox:     format must satisfy:  lon_min, lat_min, lon_max, lat_max = bbox
+
+    Returns:
+
+    """
+    lon_min, lat_min, lon_max, lat_max = bbox
+
+    # complex case, when BB corner is not inside the polygon
+    bb_polygon = geometry.Polygon(
+        [[lon_min, lat_min], [lon_max, lat_min], [lon_max, lat_max], [lon_min, lat_max], [lon_min, lat_min]]
+    )
+    return bb_polygon.intersects(shapely_linestring)
+
 
 def is_bounding_box_in_polygon(poly, bb):
     """
