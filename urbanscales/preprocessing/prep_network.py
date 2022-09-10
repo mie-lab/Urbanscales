@@ -1,0 +1,126 @@
+import ntpath
+import os
+import warnings
+import networkx as nx
+
+from shapely import geometry
+from urbanscales.io.road_network import RoadNetwork
+from urbanscales.preprocessing.tile import Tile
+from geopy.distance import geodesic
+from smartprint import smartprint as sprint
+import osmnx as ox
+import config
+import pickle
+from tqdm import tqdm
+
+
+class Scale:
+    def __init__(self, RoadNetwork, scale):
+        self.RoadNetwork = RoadNetwork
+        self.scale = scale
+        self.tiles = None
+        self.set_bbox_sub_G_map()
+
+
+    def set_bbox_sub_G_map(self, save_to_pickle=True):
+        fname = os.path.join("network", self.RoadNetwork.city_name, "_scale_" + str(self.scale) + ".pkl")
+        if os.path.exists(fname):
+            # do nothing
+            return
+
+        self._set_list_of_bbox()
+        self.dict_bbox_to_subgraph = {}
+
+        empty_bboxes = []
+        for i in tqdm(range(len(self.list_of_bbox)), desc=" Creating dict.. "):
+            key = self.list_of_bbox[i]
+
+            N, S, E, W = key
+            try:
+                self.dict_bbox_to_subgraph[key] = Tile(ox.truncate.truncate_graph_bbox(self.RoadNetwork.G_osm, N, S, E, W))
+
+            except (ValueError, nx.exception.NetworkXPointlessConcept) :
+                warnings.warn("ValueError at i: " + str(i))
+                print ("ValueError at i: " + str(i))
+                empty_bboxes.append(key)
+                continue
+
+        sprint(len(self.list_of_bbox))
+        self.list_of_bbox = list(set(self.list_of_bbox) - set(empty_bboxes))
+        sprint(len(self.list_of_bbox))
+
+        if not os.path.exists(fname):
+            with open(fname, "wb") as f:
+                pickle.dump(self, f, protocol=config.pickle_protocol)
+
+    def get_object_at_scale(cityname, scale):
+        fname = os.path.join("network", cityname, "_scale_" + str(scale) + ".pkl")
+        if os.path.exists(fname):
+            with open(fname, "rb") as f:
+                obj = pickle.load(f)
+        return obj
+
+    def _set_list_of_bbox(self):
+        self.list_of_bbox = []
+
+        # X: lon
+        # Y: Lat
+
+        self._helper_compute_deltas()
+
+        srn = self.RoadNetwork
+        self.delta_x
+
+        start_y = srn.min_y
+        num_tiles = int((srn.max_y - srn.min_y) / self.delta_y * int((srn.max_x - srn.min_x) / self.delta_x))
+        pbar = tqdm(total=num_tiles)
+
+        while start_y + self.delta_y <= srn.max_y:
+            start_x = srn.min_x
+            while start_x + self.delta_x <= srn.max_x:
+                # bbox_poly = geometry.box(start_x, start_x + self.delta_x, start_y, start_y + self.delta_y, ccw=True)
+
+                N = start_y + self.delta_y
+                S = start_y
+                E = start_x + self.delta_x
+                W = start_x
+                # self.dict_bbox_to_subgraph[(N,S,E,W)] = ox.truncate.truncate_graph_bbox(srn.G_osm, N, S, E, W)
+                self.list_of_bbox.append((N, S, E, W))
+                pbar.update(1)
+
+                start_x += self.delta_x
+
+            start_y += self.delta_y
+
+        # osmnx.truncate.truncate_graph_polygon
+
+        debug_stop = 2
+
+    def _helper_compute_deltas(self):
+        srn = self.RoadNetwork
+        diagonal = geodesic((srn.max_y, srn.max_x), ((srn.min_y, srn.min_x))).meters
+        y_edge_1 = geodesic((srn.max_y, srn.max_x), ((srn.min_y, srn.max_x))).meters
+        x_edge_1 = geodesic((srn.max_y, srn.max_x), ((srn.max_y, srn.min_x))).meters
+        y_edge_2 = geodesic((srn.min_y, srn.max_x), ((srn.max_y, srn.max_x))).meters
+        x_edge_2 = geodesic((srn.min_y, srn.max_x), ((srn.min_y, srn.min_x))).meters
+
+        # assert < 0.1 % error in distance computation
+        assert (((y_edge_1 ** 2 + x_edge_1 ** 2) ** 0.5 - diagonal) / diagonal * 100) < 0.1
+        assert ((y_edge_1 - y_edge_2) / y_edge_1 * 100) < 0.1
+        assert ((x_edge_1 - x_edge_2) / x_edge_1 * 100) < 0.1
+
+        self.x_edge = (x_edge_1 + x_edge_2) / 2
+        self.y_edge = (y_edge_1 + y_edge_2) / 2
+        self.aspect_y_by_x = self.y_edge / self.x_edge
+
+        self.delta_y = (srn.max_y - srn.min_y) / self.scale
+        self.delta_x = (srn.max_x - srn.min_x) / self.scale * self.aspect_y_by_x
+
+
+if __name__ == "__main__":
+
+    for seed in [2, 3]: # , 4, 5, 6, 7]:
+        for depth in range(2, 3):
+            Scale(RoadNetwork("Singapore"), seed**depth)
+            loaded_scale = Scale.get_object_at_scale(cityname="Singapore", scale=seed**depth)
+    debug_stop = 1

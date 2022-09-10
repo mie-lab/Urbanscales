@@ -17,11 +17,25 @@ class RoadNetwork:
         self.G_osm = None
         self.osm_pickle = "_OSM.pkl"
 
-        if not os.path.isdir(os.path.join("network", self.city_name)):
-            if not os.path.isdir("network"):
-                os.mkdir("network")
-            os.mkdir(os.path.join("network", self.city_name))
-        self.graph_features = None
+        fname = os.path.join("network", self.city_name, "_road_network_object.pkl")
+        if os.path.exists(fname):
+            with open(fname, "rb") as f:
+                temp = pickle.load(f)
+                self.G_osm = temp.G_osm
+                self.graph_features = temp.graph_features
+                self.min_x, self.max_x, self.min_y, self.max_y = temp.min_x, temp.max_x, temp.min_y, temp.max_y
+        else:
+
+            if not os.path.isdir(os.path.join("network", self.city_name)):
+                if not os.path.isdir("network"):
+                    os.mkdir("network")
+                os.mkdir(os.path.join("network", self.city_name))
+            self.G_osm = self.get_osm_from_place()
+            self.graph_features = self.set_graph_features()
+            self.set_boundaries_x_y()
+
+            with open(fname, "wb") as f:
+                pickle.dump(self, f, protocol=config.pickle_protocol)
 
     def get_osm_from_place(self):
         if self.G_osm == None:
@@ -78,6 +92,17 @@ class RoadNetwork:
         )
         plt.savefig(os.path.join("network", self.city_name, "_base_osm.png"), dpi=300)
 
+    def set_boundaries_x_y(self):
+        min_x = 99999999
+        min_y = 99999999
+        max_x = -99999999
+        max_y = -99999999
+        for node in list(self.G_osm.nodes._nodes.values()):
+            min_x, max_x = min(min_x, node["x"]), max(max_x, node["x"])
+            min_y, max_y = min(min_y, node["y"]), max(max_y, node["y"])
+        print(min_x, max_x, min_y, max_y)
+        self.min_x, self.max_x, self.min_y, self.max_y = (min_x, max_x, min_y, max_y)
+
 
 if __name__ == "__main__":
 
@@ -105,8 +130,9 @@ if __name__ == "__main__":
             rn.get_osm_from_place()
             rn.plot_basemap()
 
-            features = tile.Tile(rn.G_osm).get_stats_for_tile()
-            list_of_values = [city]
-            for key in list_of_graph_features:
-                list_of_values.append(features[key])
-            csvwriter.writerow(list_of_values)
+            if config.rn_compute_graph_features:
+                features = tile.Tile(rn.G_osm).get_stats_for_tile()
+                list_of_values = [city]
+                for key in list_of_graph_features:
+                    list_of_values.append(features[key])
+                csvwriter.writerow(list_of_values)

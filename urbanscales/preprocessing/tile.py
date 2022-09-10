@@ -14,7 +14,7 @@ class Tile:
             warnings.warn("Allowing empty graph tile")
             self.G = None
         self.G = G
-        self.features = None
+        self.set_stats_for_tile()
 
     def get_stats_for_tile(self):
         return ox.stats.basic_stats(self.G)
