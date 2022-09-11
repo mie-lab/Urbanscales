@@ -1,7 +1,7 @@
 import copy
 import os
 import pickle
-
+import shapely.wkt
 import numpy as np
 import shapely.ops
 import config
@@ -41,25 +41,26 @@ class ScaleJF:
             "network", self.Scale.RoadNetwork.city_name, "_scale_" + str(self.Scale.scale) + "_prep_speed.pkl"
         )
         if os.path.exists(fname):
-            # @P/A Ask
-            self.bbox_segment_map = copy.deepcopy((self.get_object_at_scale(self.Scale.RoadNetwork.city_name, self.Scale.scale)).bbox_segment_map)
+            # @P/A Ask 2
+            self.bbox_segment_map = copy.deepcopy((ScaleJF.get_object_at_scale(self.Scale.RoadNetwork.city_name, self.Scale.scale)).bbox_segment_map)
             return
         else:
             pbar = tqdm(
                 total=len(self.SpeedData.NID_road_segment_map) * len(self.Scale.dict_bbox_to_subgraph),
                 desc="Setting bbox Segment map...",
             )
-            for seg_id in self.SpeedData.NID_road_segment_map:
-                seg_poly = (self.SpeedData.NID_road_segment_map[seg_id])
-                # seg_poly = shapely.ops.transform(lambda x, y, z=None: (x, y), seg_poly)
+            for segment in self.SpeedData.segment_jf_map:
+
+                seg_poly = shapely.wkt.loads(segment)
+
                 for bbox in self.Scale.dict_bbox_to_subgraph.keys():
                     N, S, E, W = bbox
                     bbox_shapely = shapely.geometry.box(W, S, E, N, ccw=True)
                     if seg_poly.intersection(bbox_shapely):
                         if bbox in self.bbox_segment_map:
-                            self.bbox_segment_map[bbox].append(Segment.seg_hash(seg_poly))
+                            self.bbox_segment_map[bbox].append(segment)
                         else:
-                            self.bbox_segment_map[bbox] = [Segment.seg_hash(seg_poly)]
+                            self.bbox_segment_map[bbox] = [segment]
 
                     pbar.update(1)
             sprint(len(self.bbox_segment_map))
@@ -83,7 +84,7 @@ class ScaleJF:
             self.bbox_jf_map[bbox] = agg_func(val)
             pbar.update(1)
 
-    def get_object_at_scale(self, cityname, scale):
+    def get_object_at_scale(cityname, scale):
         """
 
         Args:
@@ -103,5 +104,5 @@ if __name__ == "__main__":
     sd = SpeedData.get_object("Singapore")
     scl = Scale.get_object_at_scale("Singapore", 9)
     scl_jf = ScaleJF(scl, sd, tod=7)
-    # scl_jf = ScaleJF.get_object_at_scale("Singapore", 9)
+    scl_jf = ScaleJF.get_object_at_scale("Singapore", 9,)
     debug_stop = 2

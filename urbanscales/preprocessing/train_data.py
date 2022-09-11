@@ -24,4 +24,4 @@ class TrainDataVectors:
         sd = SpeedData.get_object(self.city_name)
         scl = Scale.get_object_at_scale(self.city_name, self.scale)
         # scl_jf = ScaleJF(scl, sd )
-        scl_jf = ScaleJF.get_object_at_scale(self.city_name, self.scale)
+        scl_jf = ScaleJF.get_object_at_scale(self.city_name, self.scale, tod)
