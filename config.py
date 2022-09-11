@@ -23,6 +23,15 @@ rn_plotting_enabled = False
 rn_compute_graph_features = False
 
 
+####################################
+######   Speed Data Class   ########
+####################################
+sd_base_folder_path = "speed_data"
+sd_seg_file_path_within_city = "segments.csv"
+sd_jf_file_path_within_city = "jf.csv"
+
+
+
 intermediate_files_path = "/Users/nishant/Documents/GitHub/WCS/intermediate_files/"
 outputfolder = "/Users/nishant/Documents/GitHub/WCS/output_folder/"
 temp_files = "/Users/nishant/Documents/GitHub/WCS/temp_files/"
