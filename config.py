@@ -24,12 +24,26 @@ rn_compute_graph_features = False
 
 
 ####################################
+#########   Scale Class   ##########
+####################################
+scl_n_jobs_parallel = 5
+
+
+####################################
 ######   Speed Data Class   ########
 ####################################
 sd_base_folder_path = "speed_data"
 sd_seg_file_path_within_city = "segments.csv"
 sd_jf_file_path_within_city = "jf.csv"
+sd_temporal_combination_method = "mean"
+assert sd_temporal_combination_method in ["mean", "max"]
 
+
+####################################
+######   PreProcess Speed   ########
+####################################
+ps_spatial_combination_method = "mean"
+assert ps_spatial_combination_method in ["mean", "max"]
 
 
 intermediate_files_path = "/Users/nishant/Documents/GitHub/WCS/intermediate_files/"

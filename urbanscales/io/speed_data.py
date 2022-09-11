@@ -1,4 +1,7 @@
+import pickle
 import sys
+
+import numpy as np
 
 import config
 import os
@@ -7,10 +10,11 @@ from shapely import geometry
 import pandas as pd
 import copy
 from tqdm import tqdm
+from smartprint import smartprint as sprint
+
 
 class SpeedData:
-
-    def __init__(self, city_name,time_gran_minutes_raw, time_gran_minutes_target):
+    def __init__(self, city_name, time_gran_minutes_raw, time_gran_minutes_target):
         """
 
         Args:
@@ -28,10 +32,8 @@ class SpeedData:
         self.nid_jf_map = {}
         self.segment_jf_map = {}
 
-
         self.set_road_segments()
         self.set_segment_jf_map()
-
 
     def set_road_segments(self):
         if not os.path.exists(os.path.join(config.sd_base_folder_path, self.city_name)):
@@ -39,20 +41,22 @@ class SpeedData:
                 os.mkdir(config.sd_base_folder_path)
             os.mkdir(os.path.join(config.sd_base_folder_path, self.city_name))
 
-
-        if not os.path.exists(os.path.join(config.sd_base_folder_path, self.city_name, config.sd_seg_file_path_within_city)):
+        if not os.path.exists(
+            os.path.join(config.sd_base_folder_path, self.city_name, config.sd_seg_file_path_within_city)
+        ):
             raise Exception("Error in here data; data file SEG missing")
 
         df = pd.read_csv(os.path.join(config.sd_base_folder_path, self.city_name, config.sd_seg_file_path_within_city))
-        df = df[['NID', 'Linestring']].copy()
+        df = df[["NID", "Linestring"]].copy()
         self.road_segments = SegmentList(df.Linestring.to_list()).list_of_linestrings
         self.NIDs = df.NID.to_list()
         self.NID_road_segment_map = dict(zip(self.NIDs, self.road_segments))
         debug_stop = True
 
-
     def set_segment_jf_map(self):
-        if not os.path.exists(os.path.join(config.sd_base_folder_path, self.city_name, config.sd_jf_file_path_within_city)):
+        if not os.path.exists(
+            os.path.join(config.sd_base_folder_path, self.city_name, config.sd_jf_file_path_within_city)
+        ):
             raise Exception("Error in here data; data file JF missing")
         """
         NID	2022-02-28T23:59:27	2022-03-01T00:01:27	2022-03-01T00:03:27	2022-03-01T00:05:27
@@ -66,19 +70,62 @@ class SpeedData:
 
         assert self.road_segments is not None, "list_of_linestrings not set"
 
+        self.num_timesteps_in_data = 0
+
         for i in tqdm(range(len(self.NIDs)), desc=" Reading JF file"):
             seg_nid = self.NIDs[i]
-            jf_list = df.loc[df['NID'] == seg_nid].values.flatten().tolist()
+            jf_list = df.loc[df["NID"] == seg_nid].values.flatten().tolist()
 
-            # pending: To-do
-            # do something to scale the jf_list here
+            jf_list = self._aggregation(jf_list, self.time_gran_minutes_target // self.time_gran_minutes_raw)
+            if self.num_timesteps_in_data == 0:
+                self.num_timesteps_in_data = len(jf_list)
+            else:
+                # all segments should have the same number of time steps in data
+                assert self.num_timesteps_in_data == len(jf_list)
 
             self.nid_jf_map[seg_nid] = copy.deepcopy(jf_list)
             self.segment_jf_map[hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy(jf_list)
 
-        debug_stop = 2
+        fname = os.path.join("network", self.city_name, "_speed_data_object.pkl")
+        if not os.path.exists(fname):
+            with open(fname, "wb") as f:
+                pickle.dump(self, f, protocol=config.pickle_protocol)
 
+    def get_object(cityname):
+        """
 
+        Args:
+            scale:
+
+        Returns: (Saved) Object of this class (Scale)
+
+        """
+        fname = os.path.join("network", cityname, "_speed_data_object.pkl")
+        if os.path.exists(fname):
+            with open(fname, "rb") as f:
+                obj = pickle.load(f)
+        return obj
+
+    def _aggregation(self, jf_list, combine_how_many_t_steps):
+        """
+
+        Args:
+            jf_list:
+            combine_how_many_t_steps:
+
+        Returns:
+            shortened JF list
+
+        """
+        if config.sd_temporal_combination_method == "mean":
+            agg_func = np.mean
+        elif config.sd_temporal_combination_method == "max":
+            agg_func = np.max
+
+        a = []
+        for i in range(0, len(jf_list), combine_how_many_t_steps):
+            a.append(agg_func(jf_list[i : i + combine_how_many_t_steps]))
+        return a
 
 
 class Segment:
@@ -92,7 +139,10 @@ class Segment:
         """
         self.polygon = shapely.wkt.loads(linestring)
 
-    def seg_hash(self, shapely_poly):
+    def get_shapely_poly(self):
+        return self.polygon
+
+    def seg_hash(shapely_poly):
         """
 
         Args:
@@ -105,8 +155,12 @@ class Segment:
             hash
 
         """
-        assert isinstance(shapely_poly, str) or isinstance(shapely_poly, geometry.Polygon)
-        if isinstance(shapely_poly, geometry.Polygon):
+        assert (
+            isinstance(shapely_poly, str)
+            or isinstance(shapely_poly, geometry.Polygon)
+            or isinstance(shapely_poly, geometry.MultiLineString)
+        )
+        if isinstance(shapely_poly, geometry.Polygon) or isinstance(shapely_poly, geometry.MultiLineString):
             return hash(shapely_poly.wkt)
         else:
             return hash(shapely_poly)
@@ -125,5 +179,5 @@ class SegmentList:
 
 
 if __name__ == "__main__":
-    sd = SpeedData("Singapore", 10, 10)
-
+    sd = SpeedData("Singapore", 2, 10)
+    sprint(sd.num_timesteps_in_data)
