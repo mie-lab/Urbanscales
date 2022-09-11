@@ -51,7 +51,7 @@ class SpeedData:
         self.road_segments = SegmentList(df.Linestring.to_list()).list_of_linestrings
         self.NIDs = df.NID.to_list()
         self.NID_road_segment_map = dict(zip(self.NIDs, self.road_segments))
-        debug_stop = True
+        debug_stop = 2
 
     def set_segment_jf_map(self):
         if not os.path.exists(
@@ -84,7 +84,7 @@ class SpeedData:
                 assert self.num_timesteps_in_data == len(jf_list)
 
             self.nid_jf_map[seg_nid] = copy.deepcopy(jf_list)
-            self.segment_jf_map[hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy(jf_list)
+            self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy(jf_list)
 
         fname = os.path.join("network", self.city_name, "_speed_data_object.pkl")
         if not os.path.exists(fname):
@@ -104,7 +104,12 @@ class SpeedData:
         if os.path.exists(fname):
             with open(fname, "rb") as f:
                 obj = pickle.load(f)
-        return obj
+        try:
+            return obj
+        except UnboundLocalError:
+            print ("Error in get_object(), probably due to speed data not \
+                           processed; existing execution")
+            sys.exit()
 
     def _aggregation(self, jf_list, combine_how_many_t_steps):
         """
@@ -137,10 +142,10 @@ class Segment:
                         MULTILINESTRING ((103.81404 1.32806 0,103.81401 ....... 103.81363 1.32444 0,103.81353 1.32388 0
                         ,103.81344 1.32346 0))
         """
-        self.polygon = shapely.wkt.loads(linestring)
+        self.line_string = shapely.wkt.loads(linestring)
 
-    def get_shapely_poly(self):
-        return self.polygon
+    def get_shapely_linestring(self):
+        return self.line_string
 
     def seg_hash(shapely_poly):
         """
@@ -157,13 +162,14 @@ class Segment:
         """
         assert (
             isinstance(shapely_poly, str)
-            or isinstance(shapely_poly, geometry.Polygon)
             or isinstance(shapely_poly, geometry.MultiLineString)
+            or isinstance(shapely_poly, Segment)
         )
         if isinstance(shapely_poly, geometry.Polygon) or isinstance(shapely_poly, geometry.MultiLineString):
-            return hash(shapely_poly.wkt)
-        else:
-            return hash(shapely_poly)
+            return (shapely_poly.wkt)
+        elif isinstance(shapely_poly, Segment):
+            return (shapely_poly.line_string.wkt)
+
 
 
 class SegmentList:
