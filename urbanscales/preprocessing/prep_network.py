@@ -66,6 +66,8 @@ class Scale:
         if os.path.exists(fname):
             with open(fname, "rb") as f:
                 obj = pickle.load(f)
+        else:
+            raise Exception(fname + " not present ")
         return obj
 
     def _set_list_of_bbox(self):

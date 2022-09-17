@@ -14,6 +14,18 @@ from smartprint import smartprint as sprint
 
 
 class SpeedData:
+    """
+    self.city_name = city_name
+    self.time_gran_minutes_raw = time_gran_minutes_raw
+    self.time_gran_minutes_target = time_gran_minutes_target
+
+    self.road_segments = None
+    self.NIDs = None
+    self.NID_road_segment_map = {}
+    self.nid_jf_map = {}
+    self.segment_jf_map = {}
+    """
+
     def __init__(self, city_name, time_gran_minutes_raw, time_gran_minutes_target):
         """
 
@@ -103,13 +115,21 @@ class SpeedData:
         fname = os.path.join("network", cityname, "_speed_data_object.pkl")
         if os.path.exists(fname):
             with open(fname, "rb") as f:
+                # try:
                 obj = pickle.load(f)
-        try:
-            return obj
-        except UnboundLocalError:
-            print ("Error in get_object(), probably due to speed data not \
-                           processed; existing execution")
-            sys.exit()
+                return obj
+                # except AttributeError:
+                #     raise Exception("Something wrong with speed data object pickle, run again after deleting\
+                #                     the pickle file _speed_data_object.pkl and run speed_data.py again")
+
+        # try:
+        #     return obj
+        # except UnboundLocalError:
+        #     print(
+        #         "Error in get_object(), probably due to speed data not \
+        #                    processed; existing execution"
+        #     )
+        #     sys.exit()
 
     def _aggregation(self, jf_list, combine_how_many_t_steps):
         """
@@ -166,10 +186,9 @@ class Segment:
             or isinstance(shapely_poly, Segment)
         )
         if isinstance(shapely_poly, geometry.Polygon) or isinstance(shapely_poly, geometry.MultiLineString):
-            return (shapely_poly.wkt)
+            return shapely_poly.wkt
         elif isinstance(shapely_poly, Segment):
-            return (shapely_poly.line_string.wkt)
-
+            return shapely_poly.line_string.wkt
 
 
 class SegmentList:
@@ -186,4 +205,5 @@ class SegmentList:
 
 if __name__ == "__main__":
     sd = SpeedData("Singapore", 2, 10)
+    sd = SpeedData.get_object("Singapore")
     sprint(sd.num_timesteps_in_data)

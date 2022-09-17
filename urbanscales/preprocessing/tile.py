@@ -19,6 +19,31 @@ class Tile:
     def get_stats_for_tile(self):
         return ox.stats.basic_stats(self.G)
 
+    def get_vector_of_features(self):
+        X = []
+        stats = self.get_stats_for_tile()
+        for key in [
+            "circuity_avg",
+            "edge_length_avg",
+            "intersection_count",
+            "k_avg",
+            "m",
+            "n",
+            "self_loop_proportion",
+            "street_length_avg",
+            "street_segment_count",
+            "streets_per_node_avg",
+        ]:
+            X.append(stats[key])
+
+        for key in ["streets_per_node_counts", "streets_per_node_proportions"]:
+            for i in range(6):
+                if i in stats[key]:
+                    X.append(stats[key][i])
+                else:
+                    X.append(0)
+        return X
+
     def set_stats_for_tile(self):
         self.features = self.get_stats_for_tile()
 
