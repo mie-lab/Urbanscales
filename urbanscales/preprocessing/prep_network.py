@@ -44,7 +44,9 @@ class Scale:
         for key in self.dict_bbox_to_subgraph:
             if self.dict_bbox_to_subgraph[key] == "Empty":
                 empty_bboxes.append(key)
-                del self.dict_bbox_to_subgraph[key]
+
+        for key in empty_bboxes:
+            del self.dict_bbox_to_subgraph[key]
 
         self.list_of_bbox = list(set(self.list_of_bbox) - set(empty_bboxes))
         sprint(len(self.list_of_bbox))
@@ -145,7 +147,7 @@ class Scale:
 if __name__ == "__main__":
 
     for seed in [2, 3]:  # , 4, 5, 6, 7]:
-        for depth in range(2, 3):
+        for depth in range(2, 4):
             Scale(RoadNetwork("Singapore"), seed ** depth)
             loaded_scale = Scale.get_object_at_scale(cityname="Singapore", scale=seed ** depth)
     debug_stop = 1

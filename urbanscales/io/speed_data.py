@@ -204,6 +204,11 @@ class SegmentList:
 
 
 if __name__ == "__main__":
-    sd = SpeedData("Singapore", 2, 10)
-    sd = SpeedData.get_object("Singapore")
+    # sd = SpeedData("Singapore", 2, 10)
+    # sd = SpeedData.get_object("Singapore")
+    # sprint(sd.num_timesteps_in_data)
+    # for seed in [2, 3]:  # , 4, 5, 6, 7]:
+    #     for depth in range(2, 4):
+    sd = SpeedData("Singapore", 2, 60)
     sprint(sd.num_timesteps_in_data)
+    debug_stop = 1

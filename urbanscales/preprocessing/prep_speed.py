@@ -124,9 +124,13 @@ class ScaleJF:
 
 
 if __name__ == "__main__":
-    sd = SpeedData.get_object("Singapore")
-    scl = Scale.get_object_at_scale("Singapore", 9)
+
     # scl_jf = ScaleJF(scl, sd, tod=7)
-    ScaleJF.preprocess_different_tods([45], scl, sd)
+    # sprint(sd.num_timesteps_in_data)
+    sd = SpeedData.get_object("Singapore")
+    for seed in [2, 3]:  # , 4, 5, 6, 7]:
+        for depth in range(2, 4):
+            scl = Scale.get_object_at_scale("Singapore", seed ** depth)
+            ScaleJF.preprocess_different_tods(range(24), scl, sd)
     # scl_jf = ScaleJF.get_object("Singapore", 9, tod)
     debug_stop = 2

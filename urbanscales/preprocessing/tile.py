@@ -44,6 +44,26 @@ class Tile:
                     X.append(0)
         return X
 
+    def get_feature_names(self) -> list(str):
+        f = [
+            "circuity_avg",
+            "edge_length_avg",
+            "intersection_count",
+            "k_avg",
+            "m",
+            "n",
+            "self_loop_proportion",
+            "street_length_avg",
+            "street_segment_count",
+            "streets_per_node_avg",
+        ]
+        f = (
+            f
+            + ["streets_per_node_counts_" + str(i) for i in range(6)]
+            + ["streets_per_node_proportions" + str(i) for i in range(6)]
+        )
+        return f
+
     def set_stats_for_tile(self):
         self.features = self.get_stats_for_tile()
 
