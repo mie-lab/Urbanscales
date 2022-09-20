@@ -3,3 +3,7 @@ shapely==1.8.2
 tqdm
 yellowbrick
 smartprint
+taxicab
+jupyterlab
+geopy==2.2.0
+# multiprocess==0.70.13
