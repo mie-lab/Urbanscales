@@ -12,6 +12,7 @@ from shapely.geometry import shape
 import numpy as np
 from shapely.geometry.polygon import Polygon
 import time
+from shapely.ops import unary_union
 
 
 class RoadNetwork:
@@ -22,6 +23,11 @@ class RoadNetwork:
         """
         self.rn_fname = os.path.join("network", cityname, config.rn_post_fix_road_network_object_file)
         self.osm_pickle = "_OSM_pickle"
+        if config.rn_delete_existing_pickled_objects:
+            try:
+                os.remove(self.rn_fname)
+            except OSError:
+                pass
 
         if os.path.exists(self.rn_fname):
             with open(self.rn_fname, "rb") as f:
@@ -137,9 +143,13 @@ class RoadNetwork:
         fname = os.path.join(config.network_folder,config.rn_prefix_geojson_files+self.city_name.lower()+config.rn_postfix_geojson_files)
         with open(fname) as f:
             geojs = geojson.load(f)
-        # features = geojs['features'][0]
-        # shapelyPoly: Polygon = shape(geojs["features"][0])
-        x, y = shape(geojs["features"][0]["geometry"]).convex_hull.boundary.xy
+
+        # x, y = shape(geojs["features"][0]["geometry"]).convex_hull.boundary.xy
+        list_of_geoms = []
+        for i in range(len(geojs["features"])):
+            list_of_geoms.append(shape(geojs["features"][i]["geometry"]))
+        x, y = unary_union(list_of_geoms).convex_hull.boundary.xy
+
         x = x.tolist(); y = y.tolist()
         x = list(np.array(x).astype(float))
         y = list(np.array(y).astype(float))

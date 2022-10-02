@@ -23,13 +23,14 @@ rn_city_wise_bboxes = {
 }
 rn_master_list_of_cities = list(rn_city_wise_bboxes.keys())
 
-rn_do_not_filter_list = ["Zurich"]
+rn_do_not_filter_list = [] # ["Zurich"]
 rn_plotting_enabled = True
 rn_compute_graph_features = True
 rn_prefix_geojson_files = "gdam_410_"
 rn_postfix_geojson_files = ".geojson"
 rn_post_fix_road_network_object_file = "_road_network_object_small.pkl"
 rn_base_map_filename = "_base_osm_truncated.png"
+rn_delete_existing_pickled_objects = True
 
 
 
