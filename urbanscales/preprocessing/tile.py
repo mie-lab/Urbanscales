@@ -13,8 +13,14 @@ class Tile:
         if not isinstance(G, nx.MultiDiGraph):
             warnings.warn("Allowing empty graph tile")
             self.G = None
+
         self.G = G
-        self.set_stats_for_tile()
+
+        if self.G is not None:
+            # cuz we use some functions of this class for
+            # other purposes as well; For example, for empty
+            # graphs as well to simply view the list of features
+            self.set_stats_for_tile()
 
     def get_stats_for_tile(self):
         return ox.stats.basic_stats(self.G)
@@ -44,7 +50,7 @@ class Tile:
                     X.append(0)
         return X
 
-    def get_feature_names(self) -> list(str):
+    def get_feature_names(self):
         f = [
             "circuity_avg",
             "edge_length_avg",
