@@ -9,28 +9,28 @@ network_folder = "network"
 
 # format: city,location, N, E, S, W
 rn_city_wise_bboxes = {
-    "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
-    "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
-    "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
-    "Auckland": [-35.6984, 175.9032, -37.3645, 173.8963],
-    "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
-    "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
-    "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
-    "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
-    "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
-    "London": [51.28676, -0.510375, 51.691874, 0.334015],
-    "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],
+#     "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
+#     "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
+#     "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
+#     "Auckland": [-35.6984, 175.9032, -37.3645, 173.8963],
+#     "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
+#     "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
+#     "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
+#     "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
+#     "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
+#     "London": [51.28676, -0.510375, 51.691874, 0.334015],
+#     "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],
+    "TokyoCore":[35.0721, 139.1704, 35.9707, 140.5547],
 }
 rn_master_list_of_cities = list(rn_city_wise_bboxes.keys())
 
 rn_do_not_filter_list = [] # ["Zurich"]
 rn_plotting_enabled = True
-rn_compute_graph_features = True
 rn_prefix_geojson_files = "gdam_410_"
 rn_postfix_geojson_files = ".geojson"
 rn_post_fix_road_network_object_file = "_road_network_object_small.pkl"
 rn_base_map_filename = "_base_osm_truncated.png"
-rn_delete_existing_pickled_objects = True
+rn_delete_existing_pickled_objects = False
 
 
 

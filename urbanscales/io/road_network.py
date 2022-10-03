@@ -101,6 +101,13 @@ class RoadNetwork:
         assert self.G_osm is not None
         self.graph_features = Tile(self.G_osm).set_stats_for_tile()
 
+    def get_graph_features_as_list(self):
+        list_of_graph_features = Tile(None).get_list_of_features()
+        list_of_values = [city]
+        for key in list_of_graph_features:
+            list_of_values.append(self.graph_features[key])
+        return list_of_values
+
     def plot_basemap(self):
         if not config.rn_plotting_enabled:
             return
@@ -174,13 +181,14 @@ class RoadNetwork:
 
 if __name__ == "__main__":
 
-    list_of_graph_features = Tile(None).get_list_of_features()
+
 
     if not os.path.exists("network"):
         os.mkdir("network")
 
     with open(os.path.join("network", "all_cities_graph_features.csv"), "w") as f:
         csvwriter = csv.writer(f)
+        list_of_graph_features = Tile(None).get_list_of_features()
         csvwriter.writerow(["city"] + list_of_graph_features)
 
         for city in config.rn_master_list_of_cities:
@@ -191,13 +199,7 @@ if __name__ == "__main__":
 
             rn = RoadNetwork(city)
             rn.plot_basemap()
-
-            if config.rn_compute_graph_features:
-                features = Tile(rn.G_osm).get_stats_for_tile()
-                list_of_values = [city]
-                for key in list_of_graph_features:
-                    list_of_values.append(features[key])
-                csvwriter.writerow(list_of_values)
+            csvwriter.writerow(rn.get_graph_features_as_list())
 
             sprint (city)
             sprint(time.time() - starttime)

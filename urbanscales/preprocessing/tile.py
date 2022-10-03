@@ -72,6 +72,7 @@ class Tile:
 
     def set_stats_for_tile(self):
         self.features = self.get_stats_for_tile()
+        return self.features
 
     def get_list_of_features(self):
         point = 40.70443736361541, -73.93851957710785
