@@ -22,7 +22,7 @@ class RoadNetwork:
         mode_of_retreival = "place"/"bbox"
         """
         self.rn_fname = os.path.join("network", cityname, config.rn_post_fix_road_network_object_file)
-        self.osm_pickle = "_OSM_pickle"
+        self.osm_pickle = "_OSM_pickle_extra_small"
         if config.rn_delete_existing_pickled_objects:
             try:
                 os.remove(self.rn_fname)
@@ -37,6 +37,12 @@ class RoadNetwork:
         else:
             self.city_name = cityname
             self.N, self.E, self.S, self.W = config.rn_city_wise_bboxes[cityname]
+
+            sprint(self.N, self.E, self.S, self.W)
+            if config.rn_percentage_of_city_area != 100:
+                self.filter_a_patch_from_road_network(config.rn_percentage_of_city_area)
+            sprint(self.N, self.E, self.S, self.W)
+
             self.G_osm = None
 
             assert mode_of_retreival.lower() in ["place", "bbox"]
@@ -46,8 +52,10 @@ class RoadNetwork:
                 self.set_get_osm = self.get_osm_from_bbox
 
             self.set_get_osm()
-            if self.city_name not in config.rn_do_not_filter_list:
-                self.filter_OSM()
+
+            if not config.rn_do_not_filter:
+                if self.city_name not in config.rn_do_not_filter_list:
+                    self.filter_OSM()
             self.set_graph_features()
             self.set_boundaries_x_y()
             self.save_road_network_object()
@@ -131,9 +139,8 @@ class RoadNetwork:
             save=True,
             bbox=None,
             filepath=filepath,
-            dpi =300
+            dpi=300,
         )
-
 
     def set_boundaries_x_y(self):
         min_x = 99999999
@@ -147,7 +154,10 @@ class RoadNetwork:
         self.min_x, self.max_x, self.min_y, self.max_y = (min_x, max_x, min_y, max_y)
 
     def get_geojson_file_to_single_polygon(self):
-        fname = os.path.join(config.network_folder,config.rn_prefix_geojson_files+self.city_name.lower()+config.rn_postfix_geojson_files)
+        fname = os.path.join(
+            config.network_folder,
+            config.rn_prefix_geojson_files + self.city_name.lower() + config.rn_postfix_geojson_files,
+        )
         with open(fname) as f:
             geojs = geojson.load(f)
 
@@ -157,31 +167,49 @@ class RoadNetwork:
             list_of_geoms.append(shape(geojs["features"][i]["geometry"]))
         x, y = unary_union(list_of_geoms).convex_hull.boundary.xy
 
-        x = x.tolist(); y = y.tolist()
+        x = x.tolist()
+        y = y.tolist()
         x = list(np.array(x).astype(float))
         y = list(np.array(y).astype(float))
 
-        plt.plot(x,y)
-        plt.savefig(os.path.join(config.network_folder, self.city_name,"polygon_convex.png"), dpi=300)
+        plt.plot(x, y)
+        plt.savefig(os.path.join(config.network_folder, self.city_name, "polygon_convex.png"), dpi=300)
 
-        convex_hull_poly = Polygon([[p[0], p[1]] for p in zip(x,y)])
+        convex_hull_poly = Polygon([[p[0], p[1]] for p in zip(x, y)])
 
         return convex_hull_poly
-
 
     def filter_OSM(self):
         try:
             self.G_osm = ox.truncate.truncate_graph_polygon(self.G_osm, self.get_geojson_file_to_single_polygon())
         except ValueError:
-            with open("ERROR_getting_smaller_network.txt","a") as f:
+            with open("ERROR_getting_smaller_network.txt", "a") as f:
                 csvwriter = csv.writer(f)
                 csvwriter.writerow([self.city_name, "Reverting_to_bigger_network"])
-
         return self.G_osm
 
+    def filter_a_patch_from_road_network(self, percentage):
+        """
+        Choose a patch from the centre
+        Args:
+            percentage: % of length (width or height) of the overall bbox
+
+        Returns:
+            None; updates the object with new boundaries
+        """
+        ns = self.N - self.S
+        ns_center = self.S + ns / 2
+        ew = self.E - self.W
+        ew_center = self.W + ew / 2
+
+        self.N = ns_center + ns * 0.5 * (percentage / 100)
+        self.S = ns_center - ns * 0.5 * (percentage / 100)
+
+        self.E = ew_center + ew * 0.5 * (percentage / 100)
+        self.W = ew_center - ew * 0.5 * (percentage / 100)
+
+
 if __name__ == "__main__":
-
-
 
     if not os.path.exists("network"):
         os.mkdir("network")
@@ -197,9 +225,10 @@ if __name__ == "__main__":
 
             starttime = time.time()
 
-            rn = RoadNetwork(city)
+            rn = RoadNetwork(city, "bbox")
             rn.plot_basemap()
+
             csvwriter.writerow(rn.get_graph_features_as_list())
 
-            sprint (city)
+            sprint(city)
             sprint(time.time() - starttime)

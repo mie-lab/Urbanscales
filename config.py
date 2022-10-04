@@ -20,18 +20,25 @@ rn_city_wise_bboxes = {
     "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
     "London": [51.28676, -0.510375, 51.691874, 0.334015],
     "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],
-    "TokyoCore":[35.0721, 139.1704, 35.9707, 140.5547],
+    "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
 }
 rn_master_list_of_cities = list(rn_city_wise_bboxes.keys())
 
-rn_do_not_filter_list = [] # ["Zurich"]
-rn_plotting_enabled = True
+rn_do_not_filter_list = []  # ["Zurich"]
+rn_do_not_filter = True
+if rn_do_not_filter:
+    assert len(rn_do_not_filter_list) == 0
+
+rn_plotting_enabled = False
 rn_prefix_geojson_files = "gdam_410_"
 rn_postfix_geojson_files = ".geojson"
-rn_post_fix_road_network_object_file = "_road_network_object_small.pkl"
+rn_post_fix_road_network_object_file = "_road_network_object_extra_small.pkl"
 rn_base_map_filename = "_base_osm_truncated.png"
 rn_delete_existing_pickled_objects = False
 
+rn_percentage_of_city_area = 10
+if rn_percentage_of_city_area != 100:
+    assert rn_post_fix_road_network_object_file == "_road_network_object_extra_small.pkl"
 
 
 ####################################
