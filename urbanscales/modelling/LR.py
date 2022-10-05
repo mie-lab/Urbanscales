@@ -8,7 +8,7 @@ from smartprint import smartprint as sprint
 
 class LinearRegression:
     def __init__(self, cityname, scale, tod):
-        obj = TrainDataVectors.get_object(cityname, scale, tod)
+        obj = TrainDataVectors(cityname, scale, tod)
         self.X, self.Y = obj.X, obj.Y
         self.compute_score()
 

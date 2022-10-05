@@ -6,6 +6,7 @@ import time
 import numpy as np
 
 import config
+from urbanscales.io.road_network import RoadNetwork
 from urbanscales.io.speed_data import SpeedData
 from urbanscales.preprocessing.prep_network import Scale
 from urbanscales.preprocessing.prep_speed import ScaleJF
@@ -44,8 +45,9 @@ class TrainDataVectors:
             self.set_X_and_Y()
 
     def set_X_and_Y(self):
-        sd = SpeedData.get_object(self.city_name)
-        scl = Scale.get_object_at_scale(self.city_name, self.scale)
+        # sd = SpeedData(self.city_name, c)
+        rn = RoadNetwork.get_object(self.city_name)
+        scl = Scale.get_object(self.city_name, self.scale)
         # scl_jf = ScaleJF(scl, sd )
         scl_jf = ScaleJF.get_object(self.city_name, self.scale, self.tod)
         assert isinstance(scl_jf, ScaleJF)

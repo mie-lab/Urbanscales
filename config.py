@@ -19,8 +19,8 @@ rn_city_wise_bboxes = {
     "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
     "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
     "London": [51.28676, -0.510375, 51.691874, 0.334015],
-    "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],
-    "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
+    # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
+    # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
 }
 rn_master_list_of_cities = list(rn_city_wise_bboxes.keys())
 
@@ -45,6 +45,12 @@ if rn_percentage_of_city_area != 100:
 #########   Scale Class   ##########
 ####################################
 scl_n_jobs_parallel = 5
+scl_master_list_of_cities = rn_master_list_of_cities
+scl_list_of_depths = [3]
+scl_list_of_seeds = [2]
+
+scl_ignore_assertions = rn_percentage_of_city_area == 100  # if True, the assertions are ignored
+scl_delete_existing_pickle_objects = False
 
 
 ####################################
@@ -53,8 +59,11 @@ scl_n_jobs_parallel = 5
 sd_base_folder_path = "speed_data"
 sd_seg_file_path_within_city = "segments.csv"
 sd_jf_file_path_within_city = "jf.csv"
+sd_raw_speed_data_gran = 10
+sd_target_speed_data_gran = 60
 sd_temporal_combination_method = "mean"
 assert sd_temporal_combination_method in ["mean", "max"]
+sd_delete_existing_pickle_objects = False
 
 
 ####################################
@@ -62,6 +71,16 @@ assert sd_temporal_combination_method in ["mean", "max"]
 ####################################
 ps_spatial_combination_method = "mean"
 assert ps_spatial_combination_method in ["mean", "max"]
+ps_tod_list = [8]  # list(range(24))
+assert isinstance(ps_tod_list, list)
+ps_delete_existing_pickle_objects = False
+
+
+####################################
+##### TRAIN DATA Class configs #####
+####################################
+td_delete_existing_pickle_objects = False
+td_tod_list = ps_tod_list
 
 
 intermediate_files_path = "/Users/nishant/Documents/GitHub/WCS/intermediate_files/"

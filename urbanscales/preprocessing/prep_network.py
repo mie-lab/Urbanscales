@@ -66,23 +66,7 @@ class Scale:
             with open(fname, "wb") as f:
                 pickle.dump(self, f, protocol=config.pickle_protocol)
 
-    @staticmethod
-    def get_object_at_scale(cityname, scale):
-        """
 
-        Args:
-            scale:
-
-        Returns: (Saved) Object of this class (Scale)
-
-        """
-        fname = os.path.join("network", cityname, "_scale_" + str(scale) + ".pkl")
-        if os.path.exists(fname):
-            with open(fname, "rb") as f:
-                obj = pickle.load(f)
-        else:
-            raise Exception(fname + " not present \n Run speed_data.py before running this function")
-        return obj
 
     def _set_list_of_bbox(self):
         self.list_of_bbox = []
@@ -165,8 +149,25 @@ class Scale:
                 for depth in config.scl_list_of_depths:
                     Scale(RoadNetwork(city), seed ** depth)
                     sprint(city, seed, depth)
-                    loaded_scale = Scale.get_object_at_scale(cityname="Singapore", scale=seed ** depth)
+                    loaded_scale = Scale.get_object(cityname=city, scale=seed ** depth)
 
+    @staticmethod
+    def get_object(cityname, scale):
+        """
+
+        Args:
+            scale:
+
+        Returns: (Saved) Object of this class (Scale)
+
+        """
+        fname = os.path.join("network", cityname, "_scale_" + str(scale) + ".pkl")
+        if os.path.exists(fname):
+            with open(fname, "rb") as f:
+                obj = pickle.load(f)
+        else:
+            raise Exception(fname + " not present \n Run speed_data.py before running this function")
+        return obj
 
 if __name__ == "__main__":
     Scale.generate_scales_for_all_cities()

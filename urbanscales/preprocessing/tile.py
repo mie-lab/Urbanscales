@@ -50,7 +50,8 @@ class Tile:
                     X.append(0)
         return X
 
-    def get_feature_names(self):
+    @staticmethod
+    def get_feature_names():
         f = [
             "circuity_avg",
             "edge_length_avg",

@@ -117,24 +117,24 @@ class SpeedData:
             with open(fname, "wb") as f:
                 pickle.dump(self, f, protocol=config.pickle_protocol)
 
-    def get_object(cityname):
-        """
-
-        Args:
-            scale:
-
-        Returns: (Saved) Object of this class (Scale)
-
-        """
-        fname = os.path.join("network", cityname, "_speed_data_object.pkl")
-        if os.path.exists(fname):
-            with open(fname, "rb") as f:
-                # try:
-                obj = pickle.load(f)
-                return obj
-                # except AttributeError:
-                #     raise Exception("Something wrong with speed data object pickle, run again after deleting\
-                #                     the pickle file _speed_data_object.pkl and run speed_data.py again")
+    # def get_object(cityname):
+    #     """
+    #
+    #     Args:
+    #         scale:
+    #
+    #     Returns: (Saved) Object of this class (Scale)
+    #
+    #     """
+    #     fname = os.path.join("network", cityname, "_speed_data_object.pkl")
+    #     if os.path.exists(fname):
+    #         with open(fname, "rb") as f:
+    #             # try:
+    #             obj = pickle.load(f)
+    #             return obj
+    #             # except AttributeError:
+    #             #     raise Exception("Something wrong with speed data object pickle, run again after deleting\
+    #             #                     the pickle file _speed_data_object.pkl and run speed_data.py again")
 
         # try:
         #     return obj

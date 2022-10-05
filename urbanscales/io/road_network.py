@@ -15,6 +15,7 @@ import time
 from shapely.ops import unary_union
 
 
+
 class RoadNetwork:
     def __init__(self, cityname, mode_of_retreival="bbox"):
         """
@@ -31,6 +32,7 @@ class RoadNetwork:
 
         if os.path.exists(self.rn_fname):
             with open(self.rn_fname, "rb") as f:
+                # temp = copy.deepcopy(pickle.load(f))
                 temp = copy.deepcopy(pickle.load(f))
                 self.__dict__.update(temp.__dict__)
 
@@ -231,6 +233,11 @@ class RoadNetwork:
                 csvwriter.writerow(rn.get_graph_features_as_list())
 
                 sprint(time.time() - starttime)
+
+    @staticmethod
+    def get_object(city):
+        rn = RoadNetwork(city)
+        return rn
 
 
 if __name__ == "__main__":
