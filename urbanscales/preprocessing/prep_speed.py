@@ -8,7 +8,7 @@ import shapely.wkt
 import numpy as np
 import shapely.ops
 import config
-from prep_network import Scale
+from urbanscales.preprocessing.prep_network import Scale
 from urbanscales.io.road_network import RoadNetwork
 from urbanscales.io.speed_data import SpeedData, Segment
 from tqdm import tqdm

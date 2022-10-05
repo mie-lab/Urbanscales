@@ -75,13 +75,14 @@ class TrainDataVectors:
 
         debug_stop = 2
 
+    @staticmethod
     def get_object(cityname, scale, tod):
         fname = os.path.join("network", cityname, "_scale_" + str(scale) + "_train_data_" + str(tod) + ".pkl")
         assert os.path.exists(fname)
         with open(fname, "rb") as f:
             obj = pickle.load(f)
-        nparrayX = np.array(obj.X)
-        nparrayY = np.array(obj.Y)
+        nparrayX = np.array(obj["X"])
+        nparrayY = np.array(obj["Y"])
 
         obj.X = pd.DataFrame(data=nparrayX, columns=Tile.get_feature_names())
         obj.Y = pd.DataFrame(data=nparrayY)
