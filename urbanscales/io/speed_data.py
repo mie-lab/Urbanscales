@@ -1,5 +1,7 @@
+import glob
 import pickle
 import sys
+import time
 
 import numpy as np
 
@@ -11,6 +13,7 @@ import pandas as pd
 import copy
 from tqdm import tqdm
 from smartprint import smartprint as sprint
+import shutil
 
 
 class SpeedData:
@@ -34,18 +37,29 @@ class SpeedData:
             time_gran_minutes_raw:
             time_gran_minutes_target:
         """
-        self.city_name = city_name
-        self.time_gran_minutes_raw = time_gran_minutes_raw
-        self.time_gran_minutes_target = time_gran_minutes_target
 
-        self.road_segments = None
-        self.NIDs = None
-        self.NID_road_segment_map = {}
-        self.nid_jf_map = {}
-        self.segment_jf_map = {}
+        fname = os.path.join("network", city_name, "_speed_data_object.pkl")
+        if config.sd_delete_existing_pickle_objects:
+            if os.path.exists(fname):
+                os.remove(fname)
 
-        self.set_road_segments()
-        self.set_segment_jf_map()
+        if os.path.exists(fname):
+            with open(fname, "rb") as f:
+                temp = copy.deepcopy(pickle.load(f))
+                self.__dict__.update(temp.__dict__)
+        else:
+            self.city_name = city_name
+            self.time_gran_minutes_raw = time_gran_minutes_raw
+            self.time_gran_minutes_target = time_gran_minutes_target
+
+            self.road_segments = None
+            self.NIDs = None
+            self.NID_road_segment_map = {}
+            self.nid_jf_map = {}
+            self.segment_jf_map = {}
+
+            self.set_road_segments()
+            self.set_segment_jf_map()
 
     def set_road_segments(self):
         if not os.path.exists(os.path.join(config.sd_base_folder_path, self.city_name)):
@@ -152,6 +166,37 @@ class SpeedData:
             a.append(agg_func(jf_list[i : i + combine_how_many_t_steps]))
         return a
 
+    @staticmethod
+    def organise_files_into_folders_all_cities(root_path):
+        for city in config.scl_master_list_of_cities:
+            if not os.path.exists(os.path.join(root_path, city)):
+                os.mkdir(os.path.join(root_path, city))
+
+            for filename in glob.glob(os.path.join(root_path, "*")):
+                if city in filename:
+                    if "linestring" in filename:
+                        shutil.move(
+                            os.path.join(filename),
+                            os.path.join(root_path, city, config.sd_seg_file_path_within_city),
+                        )
+                    if "jf" in filename:
+                        shutil.move(
+                            os.path.join(filename),
+                            os.path.join(root_path, city, config.sd_jf_file_path_within_city),
+                        )
+
+    @staticmethod
+    def preprocess_speed_data_for_all_cities():
+        SpeedData.organise_files_into_folders_all_cities(config.sd_base_folder_path)
+        for city in config.scl_master_list_of_cities:
+            for seed in config.scl_list_of_seeds:
+                for depth in config.scl_list_of_depths:
+                    sprint(city, seed, depth)
+                    startime = time.time()
+                    sd = SpeedData(city, config.sd_raw_speed_data_gran, config.sd_target_speed_data_gran)
+                    sprint(sd.num_timesteps_in_data)
+                    sprint(time.time() - startime)
+
 
 class Segment:
     def __init__(self, linestring):
@@ -204,11 +249,4 @@ class SegmentList:
 
 
 if __name__ == "__main__":
-    # sd = SpeedData("Singapore", 2, 10)
-    # sd = SpeedData.get_object("Singapore")
-    # sprint(sd.num_timesteps_in_data)
-    # for seed in [2, 3]:  # , 4, 5, 6, 7]:
-    #     for depth in range(2, 4):
-    sd = SpeedData("Singapore", 2, 60)
-    sprint(sd.num_timesteps_in_data)
-    debug_stop = 1
+    SpeedData.preprocess_speed_data_for_all_cities()

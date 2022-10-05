@@ -1,3 +1,4 @@
+import copy
 import os
 import pickle
 import time
@@ -17,9 +18,19 @@ from urbanscales.preprocessing.tile import Tile
 
 class Scale:
     def __init__(self, RoadNetwork, scale):
-        self.RoadNetwork = RoadNetwork
-        self.scale = scale
-        self.set_bbox_sub_G_map()
+        fname = os.path.join("network", RoadNetwork.city_name, "_scale_" + str(scale) + ".pkl")
+        if config.scl_delete_existing_pickle_objects:
+            if os.path.exists(fname):
+                os.remove(fname)
+
+        if os.path.exists(fname):
+            with open(fname, "rb") as f:
+                temp = copy.deepcopy(pickle.load(f))
+                self.__dict__.update(temp.__dict__)
+        else:
+            self.RoadNetwork = RoadNetwork
+            self.scale = scale
+            self.set_bbox_sub_G_map()
 
     def set_bbox_sub_G_map(self, save_to_pickle=True):
         fname = os.path.join("network", self.RoadNetwork.city_name, "_scale_" + str(self.scale) + ".pkl")
@@ -55,6 +66,7 @@ class Scale:
             with open(fname, "wb") as f:
                 pickle.dump(self, f, protocol=config.pickle_protocol)
 
+    @staticmethod
     def get_object_at_scale(cityname, scale):
         """
 
@@ -69,7 +81,7 @@ class Scale:
             with open(fname, "rb") as f:
                 obj = pickle.load(f)
         else:
-            raise Exception(fname + " not present ")
+            raise Exception(fname + " not present \n Run speed_data.py before running this function")
         return obj
 
     def _set_list_of_bbox(self):
@@ -114,10 +126,13 @@ class Scale:
         y_edge_2 = geodesic((srn.min_y, srn.max_x), ((srn.max_y, srn.max_x))).meters
         x_edge_2 = geodesic((srn.min_y, srn.max_x), ((srn.min_y, srn.min_x))).meters
 
-        # assert < 0.1 % error in distance computation
-        assert (((y_edge_1 ** 2 + x_edge_1 ** 2) ** 0.5 - diagonal) / diagonal * 100) < 0.1
-        assert ((y_edge_1 - y_edge_2) / y_edge_1 * 100) < 0.1
-        assert ((x_edge_1 - x_edge_2) / x_edge_1 * 100) < 0.1
+        if config.scl_ignore_assertions:
+            # the assertions can be ignored while running small patches
+
+            # assert < 0.1 % error in distance computation
+            assert (((y_edge_1 ** 2 + x_edge_1 ** 2) ** 0.5 - diagonal) / diagonal * 100) < 0.1
+            assert ((y_edge_1 - y_edge_2) / y_edge_1 * 100) < 0.1
+            assert ((x_edge_1 - x_edge_2) / x_edge_1 * 100) < 0.1
 
         self.x_edge = (x_edge_1 + x_edge_2) / 2
         self.y_edge = (y_edge_1 + y_edge_2) / 2
@@ -143,11 +158,16 @@ class Scale:
             return (key, "Empty")
         return (key, tile)
 
+    @staticmethod
+    def generate_scales_for_all_cities():
+        for city in config.scl_master_list_of_cities:
+            for seed in config.scl_list_of_seeds:
+                for depth in config.scl_list_of_depths:
+                    Scale(RoadNetwork(city), seed ** depth)
+                    sprint(city, seed, depth)
+                    loaded_scale = Scale.get_object_at_scale(cityname="Singapore", scale=seed ** depth)
+
 
 if __name__ == "__main__":
-
-    for seed in [2, 3]:  # , 4, 5, 6, 7]:
-        for depth in range(2, 4):
-            Scale(RoadNetwork("Singapore"), seed ** depth)
-            loaded_scale = Scale.get_object_at_scale(cityname="Singapore", scale=seed ** depth)
+    Scale.generate_scales_for_all_cities()
     debug_stop = 1

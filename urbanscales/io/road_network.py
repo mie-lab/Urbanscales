@@ -111,7 +111,7 @@ class RoadNetwork:
 
     def get_graph_features_as_list(self):
         list_of_graph_features = Tile(None).get_list_of_features()
-        list_of_values = [city]
+        list_of_values = [self.city_name]
         for key in list_of_graph_features:
             list_of_values.append(self.graph_features[key])
         return list_of_values
@@ -208,27 +208,30 @@ class RoadNetwork:
         self.E = ew_center + ew * 0.5 * (percentage / 100)
         self.W = ew_center - ew * 0.5 * (percentage / 100)
 
+    @staticmethod
+    def generate_road_nw_object_for_all_cities():
+        if not os.path.exists("network"):
+            os.mkdir("network")
+
+        with open(os.path.join("network", "all_cities_graph_features.csv"), "w") as f:
+            csvwriter = csv.writer(f)
+            list_of_graph_features = Tile(None).get_list_of_features()
+            csvwriter.writerow(["city"] + list_of_graph_features)
+
+            for city in config.rn_master_list_of_cities:
+                if not os.path.exists(os.path.join("network", city)):
+                    os.mkdir(os.path.join("network", city))
+
+                starttime = time.time()
+
+                sprint(city)
+                rn = RoadNetwork(city, "bbox")
+                rn.plot_basemap()
+
+                csvwriter.writerow(rn.get_graph_features_as_list())
+
+                sprint(time.time() - starttime)
+
 
 if __name__ == "__main__":
-
-    if not os.path.exists("network"):
-        os.mkdir("network")
-
-    with open(os.path.join("network", "all_cities_graph_features.csv"), "w") as f:
-        csvwriter = csv.writer(f)
-        list_of_graph_features = Tile(None).get_list_of_features()
-        csvwriter.writerow(["city"] + list_of_graph_features)
-
-        for city in config.rn_master_list_of_cities:
-            if not os.path.exists(os.path.join("network", city)):
-                os.mkdir(os.path.join("network", city))
-
-            starttime = time.time()
-
-            rn = RoadNetwork(city, "bbox")
-            rn.plot_basemap()
-
-            csvwriter.writerow(rn.get_graph_features_as_list())
-
-            sprint(city)
-            sprint(time.time() - starttime)
+    RoadNetwork.generate_road_nw_object_for_all_cities()

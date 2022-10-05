@@ -1,5 +1,7 @@
+import copy
 import os
 import pickle
+import time
 
 import numpy as np
 
@@ -9,6 +11,7 @@ from urbanscales.preprocessing.prep_network import Scale
 from urbanscales.preprocessing.prep_speed import ScaleJF
 from urbanscales.preprocessing.tile import Tile
 import pandas as pd
+from smartprint import smartprint as sprint
 
 from urbanscales.io.speed_data import Segment  # this line if not present gives
 
@@ -23,13 +26,22 @@ class TrainDataVectors:
             city_name & scale: Trivial
             tod: single number based on granularity
         """
-        self.X = []
-        self.Y = []
-        self.tod = tod
-        self.city_name = city_name
-        self.scale = scale
+        fname = os.path.join("network", city_name, "_scale_" + str(scale) + "_train_data_" + str(tod) + ".pkl")
+        if config.td_delete_existing_pickle_objects:
+            if os.path.exists(fname):
+                os.remove(fname)
 
-        self.set_X_and_Y()
+        if os.path.exists(fname):
+            with open(fname, "rb") as f:
+                temp = copy.deepcopy(pickle.load(f))
+                self.__dict__.update(temp.__dict__)
+        else:
+            self.X = []
+            self.Y = []
+            self.tod = tod
+            self.city_name = city_name
+            self.scale = scale
+            self.set_X_and_Y()
 
     def set_X_and_Y(self):
         sd = SpeedData.get_object(self.city_name)
@@ -76,14 +88,17 @@ class TrainDataVectors:
 
         return obj
 
+    @staticmethod
+    def compute_training_data_for_all_cities():
+        for city in config.scl_master_list_of_cities:
+            for seed in config.scl_list_of_seeds:
+                for depth in config.scl_list_of_depths:
+                    for tod in config.td_tod_list:
+                        startime = time.time()
+                        TrainDataVectors(city, seed ** depth, tod)
+                        sprint(time.time() - startime)
+                        sprint(city, seed, depth, tod)
+
 
 if __name__ == "__main__":
-    # td = TrainDataVectors("Singapore", 3 ** 2, 3600 * 7 // 600)
-    # sg = SpeedData.get_object("Singapore")
-    for tod in range(24):
-        for seed in [2, 3]:  # , 4, 5, 6, 7]:
-            for depth in range(2, 4):
-                TrainDataVectors("Singapore", seed ** depth, tod)
-    debug_stop = 1
-
-    debug_stop = 3
+    TrainDataVectors.compute_training_data_for_all_cities()

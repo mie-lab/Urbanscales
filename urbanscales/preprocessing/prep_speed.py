@@ -1,6 +1,9 @@
 import copy
 import os
 import pickle
+import sys
+import time
+
 import shapely.wkt
 import numpy as np
 import shapely.ops
@@ -24,14 +27,24 @@ class ScaleJF:
 
     def __init__(self, scale: Scale, speed_data: SpeedData, tod: int):
         assert scale.RoadNetwork.city_name == speed_data.city_name
-        self.bbox_segment_map = {}
-        self.bbox_jf_map = {}
-        self.Scale = scale
-        self.SpeedData = speed_data
-        self.tod = tod
+        fname = os.path.join("network", scale.RoadNetwork.city_name, "_scale_" + str(scale) + "_prep_speed" + ".pkl")
+        if config.ps_delete_existing_pickle_objects:
+            if os.path.exists(fname):
+                os.remove(fname)
 
-        self.set_bbox_segment_map()
-        self.set_bbox_jf_map()
+        if os.path.exists(fname):
+            with open(fname, "rb") as f:
+                temp = copy.deepcopy(pickle.load(f))
+                self.__dict__.update(temp.__dict__)
+
+        else:
+            self.bbox_segment_map = {}
+            self.bbox_jf_map = {}
+            self.Scale = scale
+            self.SpeedData = speed_data
+            self.tod = tod
+            self.set_bbox_segment_map()
+            self.set_bbox_jf_map()
 
     def set_bbox_segment_map(self):
         # Step 1: iterate over segments
@@ -47,8 +60,9 @@ class ScaleJF:
             )
             return
         else:
+            count_ = len(self.SpeedData.NID_road_segment_map) * len(self.Scale.dict_bbox_to_subgraph)
             pbar = tqdm(
-                total=len(self.SpeedData.NID_road_segment_map) * len(self.Scale.dict_bbox_to_subgraph),
+                total=count_,
                 desc="Setting bbox Segment map...",
             )
             for segment in self.SpeedData.segment_jf_map:
@@ -101,8 +115,12 @@ class ScaleJF:
         fname = os.path.join("network", cityname, "_scale_" + str(scale) + "_prep_speed" + ".pkl")
         if os.path.exists(fname):
             # ScaleJF.preprocess_different_tods([tod], Scale.get_object_at_scale(cityname, scale), SpeedData.get_object(cityname))
-            with open(fname, "rb") as f:
-                obj = pickle.load(f)
+            try:
+                with open(fname, "rb") as f:
+                    obj = pickle.load(f)
+            except EOFError:
+                sprint(fname)
+                raise Exception("Error! Corrupted pickle file:\n Filename:  " + fname)
         else:
             raise Exception("Error! trying to read file that does not exist: Filename: " + fname)
 
@@ -122,15 +140,22 @@ class ScaleJF:
                 # with open(fname, "rb") as f:
                 #     obj = pickle.load(f)
 
+    @staticmethod
+    def connect_speed_and_nw_data_for_all_cities():
+        for city in config.scl_master_list_of_cities:
+            for seed in config.scl_list_of_seeds:
+                for depth in config.scl_list_of_depths:
+                    sprint(city, seed, depth)
+                    startime = time.time()
+
+                    sd = SpeedData.get_object(city)
+                    scl = Scale.get_object_at_scale(city, seed ** depth)
+                    ScaleJF.preprocess_different_tods(config.ps_tod_list, scl, sd)
+
+                    sprint(time.time() - startime)
+
 
 if __name__ == "__main__":
+    ScaleJF.connect_speed_and_nw_data_for_all_cities()
 
-    # scl_jf = ScaleJF(scl, sd, tod=7)
-    # sprint(sd.num_timesteps_in_data)
-    sd = SpeedData.get_object("Singapore")
-    for seed in [2, 3]:  # , 4, 5, 6, 7]:
-        for depth in range(2, 4):
-            scl = Scale.get_object_at_scale("Singapore", seed ** depth)
-            ScaleJF.preprocess_different_tods(range(24), scl, sd)
-    # scl_jf = ScaleJF.get_object("Singapore", 9, tod)
     debug_stop = 2
