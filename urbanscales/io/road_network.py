@@ -13,7 +13,16 @@ import numpy as np
 from shapely.geometry.polygon import Polygon
 import time
 from shapely.ops import unary_union
+import pickle
 
+# All custom unpicklers are due to SO user Pankaj Saini's answer:  https://stackoverflow.com/a/51397373/3896008
+
+
+class CustomUnpicklerRoadNetwork(pickle.Unpickler):
+    def find_class(self, module, name):
+        if name == "RoadNetwork":
+            return RoadNetwork
+        return super().find_class(module, name)
 
 
 class RoadNetwork:
@@ -33,7 +42,7 @@ class RoadNetwork:
         if os.path.exists(self.rn_fname):
             with open(self.rn_fname, "rb") as f:
                 # temp = copy.deepcopy(pickle.load(f))
-                temp = copy.deepcopy(pickle.load(f))
+                temp = copy.deepcopy(CustomUnpicklerRoadNetwork(open(self.rn_fname, "rb")).load())
                 self.__dict__.update(temp.__dict__)
 
         else:

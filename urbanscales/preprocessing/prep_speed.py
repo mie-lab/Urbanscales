@@ -15,6 +15,19 @@ from tqdm import tqdm
 from smartprint import smartprint as sprint
 import shapely.geometry
 
+import pickle
+
+# All custom unpicklers are due to SO user Pankaj Saini's answer:  https://stackoverflow.com/a/51397373/3896008
+class CustomUnpicklerScaleJF(pickle.Unpickler):
+    def find_class(self, module, name):
+        if name == "ScaleJF":
+            return ScaleJF
+        if name == "Scale":
+            from urbanscales.preprocessing.prep_network import Scale
+
+            return Scale
+        return super().find_class(module, name)
+
 
 class ScaleJF:
     """
@@ -116,8 +129,7 @@ class ScaleJF:
         if os.path.exists(fname):
             # ScaleJF.preprocess_different_tods([tod], Scale.get_object_at_scale(cityname, scale), SpeedData.get_object(cityname))
             try:
-                with open(fname, "rb") as f:
-                    obj = pickle.load(f)
+                obj = CustomUnpicklerScaleJF(open(fname, "rb")).load()
             except EOFError:
                 sprint(fname)
                 raise Exception("Error! Corrupted pickle file:\n Filename:  " + fname)

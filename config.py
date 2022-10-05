@@ -79,7 +79,7 @@ ps_delete_existing_pickle_objects = False
 ####################################
 ##### TRAIN DATA Class configs #####
 ####################################
-td_delete_existing_pickle_objects = False
+td_delete_existing_pickle_objects = True
 td_tod_list = ps_tod_list
 
 

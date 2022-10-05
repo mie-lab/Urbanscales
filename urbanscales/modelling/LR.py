@@ -6,7 +6,7 @@ import time
 from smartprint import smartprint as sprint
 
 
-class LinearRegression:
+class LR:
     def __init__(self, cityname, scale, tod):
         obj = TrainDataVectors(cityname, scale, tod)
         self.X, self.Y = obj.X, obj.Y
@@ -22,11 +22,11 @@ class LinearRegression:
             for seed in config.scl_list_of_seeds:
                 for depth in config.scl_list_of_depths:
                     for tod in config.td_tod_list:
-                        startime = time.time()
-                        sprint(LinearRegression(city, seed ** depth, tod).score)
-                        sprint(time.time() - startime)
                         sprint(city, seed, depth, tod)
+                        startime = time.time()
+                        sprint(LR(city, seed ** depth, tod).score)
+                        sprint(time.time() - startime)
 
 
 if __name__ == "__main__":
-    LinearRegression.compute_scores_for_all_cities()
+    LR.compute_scores_for_all_cities()

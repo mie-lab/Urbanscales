@@ -14,9 +14,18 @@ from urbanscales.preprocessing.tile import Tile
 import pandas as pd
 from smartprint import smartprint as sprint
 
-from urbanscales.io.speed_data import Segment  # this line if not present gives
+# from urbanscales.io.speed_data import Segment  # this line if not present gives
+# # an error while depickling a file.
 
-# an error while depickling a file.
+# All custom unpicklers are due to SO user Pankaj Saini's answer:  https://stackoverflow.com/a/51397373/3896008
+class CustomUnpicklerTrainDataVectors(pickle.Unpickler):
+    def find_class(self, module, name):
+        # if name == 'ScaleJF':
+        #     return ScaleJF
+        # if name == "Scale":
+        #     from urbanscales.preprocessing.prep_network import Scale
+        #     return Scale
+        return super().find_class(module, name)
 
 
 class TrainDataVectors:
@@ -33,9 +42,9 @@ class TrainDataVectors:
                 os.remove(fname)
 
         if os.path.exists(fname):
-            with open(fname, "rb") as f:
-                temp = copy.deepcopy(pickle.load(f))
-                self.__dict__.update(temp.__dict__)
+            # with open(fname, "rb") as f:
+            temp = copy.deepcopy(CustomUnpicklerTrainDataVectors(open(fname, "rb")).load())
+            self.__dict__.update(temp.__dict__)
         else:
             self.X = []
             self.Y = []
@@ -71,25 +80,30 @@ class TrainDataVectors:
             "network", scl.RoadNetwork.city_name, "_scale_" + str(scl.scale) + "_train_data_" + str(self.tod) + ".pkl"
         )
         if not os.path.exists(fname):
+            nparrayX = np.array(self.X)
+            nparrayY = np.array(self.Y)
+
+            self.X = pd.DataFrame(data=nparrayX, columns=Tile.get_feature_names())
+            self.Y = pd.DataFrame(data=nparrayY)
             with open(fname, "wb") as f:
-                pickle.dump({"X": self.X, "Y": self.Y}, f, protocol=config.pickle_protocol)
+                pickle.dump(self, f, protocol=config.pickle_protocol)
                 print("Pickle saved! ")
 
         debug_stop = 2
 
-    @staticmethod
-    def get_object(cityname, scale, tod):
-        fname = os.path.join("network", cityname, "_scale_" + str(scale) + "_train_data_" + str(tod) + ".pkl")
-        assert os.path.exists(fname)
-        with open(fname, "rb") as f:
-            obj = pickle.load(f)
-        nparrayX = np.array(obj["X"])
-        nparrayY = np.array(obj["Y"])
-
-        obj.X = pd.DataFrame(data=nparrayX, columns=Tile.get_feature_names())
-        obj.Y = pd.DataFrame(data=nparrayY)
-
-        return obj
+    # @staticmethod
+    # def get_object(cityname, scale, tod):
+    #     fname = os.path.join("network", cityname, "_scale_" + str(scale) + "_train_data_" + str(tod) + ".pkl")
+    #     assert os.path.exists(fname)
+    #     with open(fname, "rb") as f:
+    #         obj = pickle.load(f)
+    #     nparrayX = np.array(obj.X)
+    #     nparrayY = np.array(obj.Y)
+    #
+    #     obj.X = pd.DataFrame(data=nparrayX, columns=Tile.get_feature_names())
+    #     obj.Y = pd.DataFrame(data=nparrayY)
+    #
+    #     return obj
 
     @staticmethod
     def compute_training_data_for_all_cities():

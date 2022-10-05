@@ -15,6 +15,15 @@ import config
 from urbanscales.io.road_network import RoadNetwork
 from urbanscales.preprocessing.tile import Tile
 
+import pickle
+
+# All custom unpicklers are due to SO user Pankaj Saini's answer:  https://stackoverflow.com/a/51397373/3896008
+class CustomUnpicklerScale(pickle.Unpickler):
+    def find_class(self, module, name):
+        if name == "Scale":
+            return Scale
+        return super().find_class(module, name)
+
 
 class Scale:
     def __init__(self, RoadNetwork, scale):
@@ -65,8 +74,6 @@ class Scale:
         if not os.path.exists(fname):
             with open(fname, "wb") as f:
                 pickle.dump(self, f, protocol=config.pickle_protocol)
-
-
 
     def _set_list_of_bbox(self):
         self.list_of_bbox = []
@@ -163,11 +170,11 @@ class Scale:
         """
         fname = os.path.join("network", cityname, "_scale_" + str(scale) + ".pkl")
         if os.path.exists(fname):
-            with open(fname, "rb") as f:
-                obj = pickle.load(f)
+            obj = CustomUnpicklerScale(open(fname, "rb")).load()
         else:
             raise Exception(fname + " not present \n Run speed_data.py before running this function")
         return obj
+
 
 if __name__ == "__main__":
     Scale.generate_scales_for_all_cities()

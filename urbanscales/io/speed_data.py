@@ -136,14 +136,14 @@ class SpeedData:
     #             #     raise Exception("Something wrong with speed data object pickle, run again after deleting\
     #             #                     the pickle file _speed_data_object.pkl and run speed_data.py again")
 
-        # try:
-        #     return obj
-        # except UnboundLocalError:
-        #     print(
-        #         "Error in get_object(), probably due to speed data not \
-        #                    processed; existing execution"
-        #     )
-        #     sys.exit()
+    # try:
+    #     return obj
+    # except UnboundLocalError:
+    #     print(
+    #         "Error in get_object(), probably due to speed data not \
+    #                    processed; existing execution"
+    #     )
+    #     sys.exit()
 
     def _aggregation(self, jf_list, combine_how_many_t_steps):
         """
