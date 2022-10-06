@@ -51,6 +51,7 @@ class TrainDataVectors:
             self.tod = tod
             self.city_name = city_name
             self.scale = scale
+            self.empty_train_data = True
             self.set_X_and_Y()
 
     def set_X_and_Y(self):
@@ -83,11 +84,20 @@ class TrainDataVectors:
             nparrayX = np.array(self.X)
             nparrayY = np.array(self.Y)
 
-            self.X = pd.DataFrame(data=nparrayX, columns=Tile.get_feature_names())
-            self.Y = pd.DataFrame(data=nparrayY)
-            with open(fname, "wb") as f:
-                pickle.dump(self, f, protocol=config.pickle_protocol)
-                print("Pickle saved! ")
+            if not nparrayX.size == 0:
+                self.empty_train_data = False
+
+                self.X = pd.DataFrame(data=nparrayX, columns=Tile.get_feature_names())
+                self.Y = pd.DataFrame(data=nparrayY)
+
+                self.X, self.Y = TrainDataVectors.filter_infs(self.X, self.Y)
+
+                with open(fname, "wb") as f:
+                    pickle.dump(self, f, protocol=config.pickle_protocol)
+                    print("Pickle saved! ")
+            elif nparrayX.size == 0:
+                print ("\n\n")
+                print(self.city_name, " has emtpy train data...skipping\n\n")
 
         debug_stop = 2
 
@@ -104,6 +114,35 @@ class TrainDataVectors:
     #     obj.Y = pd.DataFrame(data=nparrayY)
     #
     #     return obj
+
+    @staticmethod
+    def filter_infs(df1, df2):
+        """
+
+        Args:
+            df1, df2: Pandas dataframe
+            refer to X and Y respectively
+
+        Returns: dataframe with rows removed
+
+        """
+        initial_numrows = df1.shape[0]
+
+        df2 = df2[np.isfinite(df1).all(1)]
+        df1 = df1[np.isfinite(df1).all(1)]
+
+        final_numrows = df1.shape[0]
+        if initial_numrows != final_numrows:
+            print(
+                "Number & percentage of rows removed ",
+                initial_numrows - final_numrows,
+                (final_numrows - initial_numrows) / initial_numrows * 100,
+                "%",
+            )
+
+
+
+        return df1, df2
 
     @staticmethod
     def compute_training_data_for_all_cities():

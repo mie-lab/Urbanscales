@@ -9,8 +9,17 @@ from smartprint import smartprint as sprint
 class LR:
     def __init__(self, cityname, scale, tod):
         obj = TrainDataVectors(cityname, scale, tod)
-        self.X, self.Y = obj.X, obj.Y
-        self.compute_score()
+
+        self.empty_train_data = True
+
+        if not obj.empty_train_data:
+            self.empty_train_data = False
+            self.X, self.Y = obj.X, obj.Y
+            self.compute_score()
+        else:
+            print("Missing train data")
+            self.empty_train_data = True
+            pass
 
     def compute_score(self):
         reg = LinearRegression().fit(self.X, self.Y)
@@ -24,7 +33,9 @@ class LR:
                     for tod in config.td_tod_list:
                         sprint(city, seed, depth, tod)
                         startime = time.time()
-                        sprint(LR(city, seed ** depth, tod).score)
+                        lr_object = LR(city, seed ** depth, tod)
+                        if not lr_object.empty_train_data:
+                            sprint(lr_object.score)
                         sprint(time.time() - startime)
 
 
