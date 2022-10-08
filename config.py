@@ -1,4 +1,5 @@
 pickle_protocol = 5
+CV_splits = 5
 
 
 network_folder = "network"
@@ -32,13 +33,20 @@ if rn_do_not_filter:
 rn_plotting_enabled = False
 rn_prefix_geojson_files = "gdam_410_"
 rn_postfix_geojson_files = ".geojson"
-rn_post_fix_road_network_object_file = "_road_network_object_extra_small.pkl"
+rn_post_fix_road_network_object_file = "_road_network_object_square.pkl"
 rn_base_map_filename = "_base_osm_truncated.png"
-rn_delete_existing_pickled_objects = False
+rn_delete_existing_pickled_objects = True
+rn_add_edge_speed_and_tt = True
 
-rn_percentage_of_city_area = 10
+rn_percentage_of_city_area = 100
 if rn_percentage_of_city_area != 100:
     assert rn_post_fix_road_network_object_file == "_road_network_object_extra_small.pkl"
+
+rn_square_from_city_centre = 10  # 10 implies 10X10 sq.km.
+if rn_square_from_city_centre != -1:
+    assert rn_percentage_of_city_area == 100  # we cannot have two filtering techniques
+    # basically it is not needed
+    assert rn_post_fix_road_network_object_file == "_road_network_object_square.pkl"
 
 
 ####################################
@@ -51,6 +59,14 @@ scl_list_of_seeds = [2]
 
 scl_ignore_assertions = rn_percentage_of_city_area == 100  # if True, the assertions are ignored
 scl_delete_existing_pickle_objects = False
+
+
+####################################
+######## Tile Class configs ########
+####################################
+tls_betweenness_features = True
+tls_number_of_lanes = True
+tls_add_edge_speed_and_tt = rn_add_edge_speed_and_tt
 
 
 ####################################
@@ -79,8 +95,9 @@ ps_delete_existing_pickle_objects = False
 ####################################
 ##### TRAIN DATA Class configs #####
 ####################################
-td_delete_existing_pickle_objects = True
+td_delete_existing_pickle_objects = False
 td_tod_list = ps_tod_list
+td_standard_scaler = True
 
 
 intermediate_files_path = "/Users/nishant/Documents/GitHub/WCS/intermediate_files/"

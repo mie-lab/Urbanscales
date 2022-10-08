@@ -4,10 +4,10 @@ import pickle
 import time
 
 import numpy as np
+from sklearn.preprocessing import StandardScaler
 
 import config
 from urbanscales.io.road_network import RoadNetwork
-from urbanscales.io.speed_data import SpeedData
 from urbanscales.preprocessing.prep_network import Scale
 from urbanscales.preprocessing.prep_speed import ScaleJF
 from urbanscales.preprocessing.tile import Tile
@@ -20,11 +20,6 @@ from smartprint import smartprint as sprint
 # All custom unpicklers are due to SO user Pankaj Saini's answer:  https://stackoverflow.com/a/51397373/3896008
 class CustomUnpicklerTrainDataVectors(pickle.Unpickler):
     def find_class(self, module, name):
-        # if name == 'ScaleJF':
-        #     return ScaleJF
-        # if name == "Scale":
-        #     from urbanscales.preprocessing.prep_network import Scale
-        #     return Scale
         return super().find_class(module, name)
 
 
@@ -45,6 +40,10 @@ class TrainDataVectors:
             # with open(fname, "rb") as f:
             temp = copy.deepcopy(CustomUnpicklerTrainDataVectors(open(fname, "rb")).load())
             self.__dict__.update(temp.__dict__)
+            nparrayX = np.array(self.X)
+            nparrayY = np.array(self.Y)
+            sprint(nparrayX.size, nparrayY.size)
+
         else:
             self.X = []
             self.Y = []
@@ -84,20 +83,23 @@ class TrainDataVectors:
             nparrayX = np.array(self.X)
             nparrayY = np.array(self.Y)
 
-            if not nparrayX.size == 0:
+            if not nparrayY.size < 30:  # we ignore cases with less than 100 data points
                 self.empty_train_data = False
 
                 self.X = pd.DataFrame(data=nparrayX, columns=Tile.get_feature_names())
                 self.Y = pd.DataFrame(data=nparrayY)
 
                 self.X, self.Y = TrainDataVectors.filter_infs(self.X, self.Y)
+                if config.td_standard_scaler:
+                    scaler = StandardScaler()
+                    self.X = scaler.transform(self.X)
 
                 with open(fname, "wb") as f:
                     pickle.dump(self, f, protocol=config.pickle_protocol)
                     print("Pickle saved! ")
-            elif nparrayX.size == 0:
-                print ("\n\n")
-                print(self.city_name, " has emtpy train data...skipping\n\n")
+            else:
+                print("\n\n")
+                print(self.city_name, " has less than 30 data points...skipping\n\n")
 
         debug_stop = 2
 
@@ -139,8 +141,6 @@ class TrainDataVectors:
                 (final_numrows - initial_numrows) / initial_numrows * 100,
                 "%",
             )
-
-
 
         return df1, df2
 

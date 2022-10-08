@@ -1,3 +1,5 @@
+from sklearn.model_selection import cross_val_score
+
 import config
 from urbanscales.preprocessing.train_data import TrainDataVectors
 import numpy as np
@@ -23,7 +25,7 @@ class LR:
 
     def compute_score(self):
         reg = LinearRegression().fit(self.X, self.Y)
-        self.score = reg.score(self.X, self.Y)
+        self.cv_scores = cross_val_score(reg, self.X, self.Y, cv=config.CV_splits)
 
     @staticmethod
     def compute_scores_for_all_cities():
@@ -35,8 +37,8 @@ class LR:
                         startime = time.time()
                         lr_object = LR(city, seed ** depth, tod)
                         if not lr_object.empty_train_data:
-                            sprint(lr_object.score)
-                        sprint(time.time() - startime)
+                            sprint(np.mean(lr_object.cv_scores))
+                        # sprint(time.time() - startime)
 
 
 if __name__ == "__main__":

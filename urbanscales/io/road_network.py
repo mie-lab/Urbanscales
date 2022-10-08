@@ -4,6 +4,10 @@ import pickle
 import copy
 import osmnx as ox
 import config
+import matplotlib
+
+matplotlib.use("TkAgg")
+import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt
 from smartprint import smartprint as sprint
 from urbanscales.preprocessing.tile import Tile
@@ -14,6 +18,7 @@ from shapely.geometry.polygon import Polygon
 import time
 from shapely.ops import unary_union
 import pickle
+import geopy.distance as gpy_dist
 
 # All custom unpicklers are due to SO user Pankaj Saini's answer:  https://stackoverflow.com/a/51397373/3896008
 
@@ -52,6 +57,10 @@ class RoadNetwork:
             sprint(self.N, self.E, self.S, self.W)
             if config.rn_percentage_of_city_area != 100:
                 self.filter_a_patch_from_road_network(config.rn_percentage_of_city_area)
+
+            if config.rn_square_from_city_centre != -1:
+                self.filter_a_square_from_road_network(config.rn_square_from_city_centre)
+
             sprint(self.N, self.E, self.S, self.W)
 
             self.G_osm = None
@@ -67,8 +76,12 @@ class RoadNetwork:
             if not config.rn_do_not_filter:
                 if self.city_name not in config.rn_do_not_filter_list:
                     self.filter_OSM()
+
             self.set_graph_features()
             self.set_boundaries_x_y()
+            if config.rn_add_edge_speed_and_tt:
+                self.G_osm = ox.speed.add_edge_speeds(self.G_osm)
+                self.G_osm = ox.speed.add_edge_travel_times(self.G_osm)
             self.save_road_network_object()
 
     def save_road_network_object(self):
@@ -86,8 +99,6 @@ class RoadNetwork:
                 with open(fname, "wb") as f:
                     pickle.dump(self.G_osm, f, protocol=config.pickle_protocol)
         return self.G_osm
-        # G = ox.speed.add_edge_speeds(G)
-        # G = ox.speed.add_edge_travel_times(G)
 
     def get_osm_from_bbox(self):
         if self.G_osm == None:
@@ -218,6 +229,37 @@ class RoadNetwork:
 
         self.E = ew_center + ew * 0.5 * (percentage / 100)
         self.W = ew_center - ew * 0.5 * (percentage / 100)
+
+    def filter_a_square_from_road_network(self, square_side_in_kms):
+        NE_corner = np.array((self.N, self.E))
+        SW_corner = np.array((self.S, self.W))
+
+        centre = (NE_corner + SW_corner) / 2
+        half_diag_len = gpy_dist.geodesic(NE_corner, SW_corner).km / 2
+        half_square_diag_len = pow(2, 0.5) * square_side_in_kms / 2
+        ratio = half_square_diag_len / half_diag_len / 2
+        new_NE_corner = centre + ratio * (NE_corner - SW_corner)
+        new_SW_corner = centre - ratio * (NE_corner - SW_corner)
+
+        plt.clf()
+        plt.scatter(NE_corner[1], NE_corner[0], 5, "r", label="Original NE")  # inverted order for x,y
+        plt.scatter(SW_corner[1], SW_corner[0], 5, "r", label="Original SW", alpha=0.2)  # inverted order for x,y
+        plt.scatter(new_NE_corner[1], new_NE_corner[0], 5, "b", label="New NE")  # inverted order for x,y
+        plt.scatter(new_SW_corner[1], new_SW_corner[0], 5, "b", label="New SW", alpha=0.2)  # inverted order for x,y
+        plt.scatter(centre[1], centre[0], 5, "g", label="Centre")
+        plt.legend()
+        plt.savefig(os.path.join(config.network_folder, self.city_name + "_boundaries_test.png"), dpi=300)
+
+        self.N, self.E = new_NE_corner[0], new_NE_corner[1]
+        self.S, self.W = new_SW_corner[0], new_SW_corner[1]
+
+        sprint(gpy_dist.geodesic((self.N, self.E), (self.S, self.W)).km / pow(2, 0.5))
+
+        # assert less than 2% error
+        assert (gpy_dist.geodesic((self.N, self.E), (self.S, self.W)).km / pow(2, 0.5) - square_side_in_kms) /  \
+               square_side_in_kms <= 2/100
+
+
 
     @staticmethod
     def generate_road_nw_object_for_all_cities():
