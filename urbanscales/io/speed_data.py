@@ -63,6 +63,11 @@ class SpeedData:
             self.set_segment_jf_map()
 
     def set_road_segments(self):
+
+        # this chdir might not be needed;
+        # tgere was some trouble with paths in my case.
+        os.chdir(config.home_folder_path)
+
         if not os.path.exists(os.path.join(config.sd_base_folder_path, self.city_name)):
             if not os.path.exists(config.sd_base_folder_path):
                 os.mkdir(config.sd_base_folder_path)

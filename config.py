@@ -7,6 +7,8 @@ network_folder = "network"
 warnings_folder = "warnings"
 results_folder = "results"
 
+home_folder_path = "/Users/nishant/Documents/GitHub/WCS"
+
 master_delete_all = True  # (one of [True, False, -1])
 
 ####################################
@@ -96,7 +98,7 @@ ps_spatial_combination_method = "mean"
 assert ps_spatial_combination_method in ["mean", "max"]
 ps_tod_list = [8]  # list(range(24))
 assert isinstance(ps_tod_list, list)
-ps_delete_existing_pickle_objects = False
+ps_delete_existing_pickle_objects = True
 
 
 ####################################
