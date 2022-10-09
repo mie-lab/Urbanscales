@@ -47,6 +47,7 @@ class SpeedData:
             with open(fname, "rb") as f:
                 temp = copy.deepcopy(pickle.load(f))
                 self.__dict__.update(temp.__dict__)
+                print("Read from pickle")
         else:
             self.city_name = city_name
             self.time_gran_minutes_raw = time_gran_minutes_raw

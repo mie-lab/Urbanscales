@@ -1,6 +1,8 @@
 import copy
+import csv
 import os
 import pickle
+import sys
 import time
 import warnings
 
@@ -39,6 +41,12 @@ class Scale:
         else:
             self.RoadNetwork = RoadNetwork
             self.scale = scale
+            self.tile_area = (config.rn_square_from_city_centre ** 2) / (scale ** 2)
+
+            # the following assert ensures that the scale * scale gives the correct number of tiles
+            # as this is valid only if our city is a square
+            assert config.rn_square_from_city_centre != -1 and config.rn_percentage_of_city_area == 100
+
             self.set_bbox_sub_G_map()
 
     def set_bbox_sub_G_map(self, save_to_pickle=True):
@@ -58,7 +66,7 @@ class Scale:
         self.dict_bbox_to_subgraph = dict(list_of_tuples)
         print(time.time() - starttime, "seconds using", config.scl_n_jobs_parallel, "threads")
 
-        sprint(len(self.list_of_bbox))
+        sprint("Before ", len(self.list_of_bbox))
 
         empty_bboxes = []
         for key in self.dict_bbox_to_subgraph:
@@ -69,7 +77,7 @@ class Scale:
             del self.dict_bbox_to_subgraph[key]
 
         self.list_of_bbox = list(set(self.list_of_bbox) - set(empty_bboxes))
-        sprint(len(self.list_of_bbox))
+        sprint("After ", len(self.list_of_bbox))
 
         if not os.path.exists(fname):
             with open(fname, "wb") as f:
@@ -117,13 +125,17 @@ class Scale:
         y_edge_2 = geodesic((srn.min_y, srn.max_x), ((srn.max_y, srn.max_x))).meters
         x_edge_2 = geodesic((srn.min_y, srn.max_x), ((srn.min_y, srn.min_x))).meters
 
-        if config.scl_ignore_assertions:
-            # the assertions can be ignored while running small patches
-
-            # assert < 0.1 % error in distance computation
-            assert (((y_edge_1 ** 2 + x_edge_1 ** 2) ** 0.5 - diagonal) / diagonal * 100) < 0.1
-            assert ((y_edge_1 - y_edge_2) / y_edge_1 * 100) < 0.1
-            assert ((x_edge_1 - x_edge_2) / x_edge_1 * 100) < 0.1
+        # assert < 0.1 % error in distance computation
+        err = config.scl_error_percentage_tolerance
+        try:
+            assert (((y_edge_1 ** 2 + x_edge_1 ** 2) ** 0.5 - diagonal) / diagonal * 100) < err
+            assert ((y_edge_1 - y_edge_2) / y_edge_1 * 100) < err
+            assert ((x_edge_1 - x_edge_2) / x_edge_1 * 100) < err
+        except:
+            sprint((((y_edge_1 ** 2 + x_edge_1 ** 2) ** 0.5 - diagonal) / diagonal * 100))
+            sprint((y_edge_1 - y_edge_2) / y_edge_1 * 100)
+            sprint((x_edge_1 - x_edge_2) / x_edge_1 * 100)
+            sys.exit(0)
 
         self.x_edge = (x_edge_1 + x_edge_2) / 2
         self.y_edge = (y_edge_1 + y_edge_2) / 2
@@ -136,13 +148,22 @@ class Scale:
         key = self.list_of_bbox[i]
 
         N, S, E, W = key
+        if not os.path.exists(config.warnings_folder):
+            os.mkdir(config.warnings_folder)
         try:
-            tile = Tile(ox.truncate.truncate_graph_bbox(self.RoadNetwork.G_osm, N, S, E, W))
+            tile = Tile(ox.truncate.truncate_graph_bbox(self.RoadNetwork.G_osm, N, S, E, W), self.tile_area)
             # self.dict_bbox_to_subgraph[key] =
-
+            if config.verbose >= 2:
+                with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
+                    csvwriter = csv.writer(f)
+                    csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
         except (ValueError, nx.exception.NetworkXPointlessConcept):
-            warnings.warn("ValueError at i: " + str(i))
-            print("ValueError at i: " + str(i))
+            # warnings.warn("ValueError at i: " + str(i))
+            # print("ValueError at i: " + str(i))
+            if config.verbose >= 1:
+                with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
+                    csvwriter = csv.writer(f)
+                    csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
             # self.dict_bbox_to_subgraph[key] = "Empty"
             # empty_bboxes.append(key)
             # continue

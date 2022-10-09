@@ -160,8 +160,8 @@ class ScaleJF:
                     sprint(city, seed, depth)
                     startime = time.time()
 
-                    sd = SpeedData.get_object(city)
-                    scl = Scale.get_object_at_scale(city, seed ** depth)
+                    sd = SpeedData(city, config.sd_raw_speed_data_gran, config.sd_target_speed_data_gran)
+                    scl = Scale(RoadNetwork(city), seed ** depth)
                     ScaleJF.preprocess_different_tods(config.ps_tod_list, scl, sd)
 
                     sprint(time.time() - startime)

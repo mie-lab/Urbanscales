@@ -1,8 +1,12 @@
 pickle_protocol = 5
 CV_splits = 5
 
+verbose = 2
 
 network_folder = "network"
+warnings_folder = "warnings"
+results_folder = "results"
+
 
 ####################################
 ######   ROAD NETWORK Class   ######
@@ -35,8 +39,9 @@ rn_prefix_geojson_files = "gdam_410_"
 rn_postfix_geojson_files = ".geojson"
 rn_post_fix_road_network_object_file = "_road_network_object_square.pkl"
 rn_base_map_filename = "_base_osm_truncated.png"
-rn_delete_existing_pickled_objects = True
+rn_compute_full_city_features = False
 rn_add_edge_speed_and_tt = True
+rn_delete_existing_pickled_objects = False
 
 rn_percentage_of_city_area = 100
 if rn_percentage_of_city_area != 100:
@@ -57,7 +62,7 @@ scl_master_list_of_cities = rn_master_list_of_cities
 scl_list_of_depths = [3]
 scl_list_of_seeds = [2]
 
-scl_ignore_assertions = rn_percentage_of_city_area == 100  # if True, the assertions are ignored
+scl_error_percentage_tolerance = 0.2
 scl_delete_existing_pickle_objects = False
 
 
@@ -67,6 +72,7 @@ scl_delete_existing_pickle_objects = False
 tls_betweenness_features = True
 tls_number_of_lanes = True
 tls_add_edge_speed_and_tt = rn_add_edge_speed_and_tt
+tls_missing_lanes_default_value = 2
 
 
 ####################################
@@ -98,6 +104,10 @@ ps_delete_existing_pickle_objects = False
 td_delete_existing_pickle_objects = False
 td_tod_list = ps_tod_list
 td_standard_scaler = True
+
+# speed and tt code not working; so we set them to 1;
+# @TO-DO: Need to populate the function
+td_dummy_speed_and_tt = True
 
 
 intermediate_files_path = "/Users/nishant/Documents/GitHub/WCS/intermediate_files/"
@@ -141,7 +151,7 @@ city_list = [
 ]
 
 
-num_threads = 7
+num_threads = 1
 hierarchies = 5
 best_fit_hierarchy = 5
 base_for_merge = 6

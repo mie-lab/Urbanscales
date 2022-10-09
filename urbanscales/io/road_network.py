@@ -77,7 +77,9 @@ class RoadNetwork:
                 if self.city_name not in config.rn_do_not_filter_list:
                     self.filter_OSM()
 
-            self.set_graph_features()
+            if config.rn_compute_full_city_features:
+                self.set_graph_features()
+
             self.set_boundaries_x_y()
             if config.rn_add_edge_speed_and_tt:
                 self.G_osm = ox.speed.add_edge_speeds(self.G_osm)
@@ -132,7 +134,8 @@ class RoadNetwork:
         self.graph_features = Tile(self.G_osm).set_stats_for_tile()
 
     def get_graph_features_as_list(self):
-        list_of_graph_features = Tile(None).get_list_of_features()
+        assert config.rn_square_from_city_centre != -1
+        list_of_graph_features = Tile(None, config.rn_square_from_city_centre ** 2).get_list_of_features()
         list_of_values = [self.city_name]
         for key in list_of_graph_features:
             list_of_values.append(self.graph_features[key])
@@ -256,24 +259,25 @@ class RoadNetwork:
         sprint(gpy_dist.geodesic((self.N, self.E), (self.S, self.W)).km / pow(2, 0.5))
 
         # assert less than 2% error
-        assert (gpy_dist.geodesic((self.N, self.E), (self.S, self.W)).km / pow(2, 0.5) - square_side_in_kms) /  \
-               square_side_in_kms <= 2/100
-
-
+        assert (
+            gpy_dist.geodesic((self.N, self.E), (self.S, self.W)).km / pow(2, 0.5) - square_side_in_kms
+        ) / square_side_in_kms <= 2 / 100
 
     @staticmethod
     def generate_road_nw_object_for_all_cities():
-        if not os.path.exists("network"):
-            os.mkdir("network")
+        if not os.path.exists(config.network_folder):
+            os.mkdir(config.network_folder)
 
         with open(os.path.join("network", "all_cities_graph_features.csv"), "w") as f:
             csvwriter = csv.writer(f)
-            list_of_graph_features = Tile(None).get_list_of_features()
+            # if config.rn_compute_full_city_features:
+            assert config.rn_square_from_city_centre != -1
+            list_of_graph_features = Tile(None, config.rn_square_from_city_centre ** 2).get_list_of_features()
             csvwriter.writerow(["city"] + list_of_graph_features)
 
             for city in config.rn_master_list_of_cities:
-                if not os.path.exists(os.path.join("network", city)):
-                    os.mkdir(os.path.join("network", city))
+                if not os.path.exists(os.path.join(config.network_folder, city)):
+                    os.mkdir(os.path.join(config.network_folder, city))
 
                 starttime = time.time()
 
@@ -281,7 +285,8 @@ class RoadNetwork:
                 rn = RoadNetwork(city, "bbox")
                 rn.plot_basemap()
 
-                csvwriter.writerow(rn.get_graph_features_as_list())
+                if config.rn_compute_full_city_features:
+                    csvwriter.writerow(rn.get_graph_features_as_list())
 
                 sprint(time.time() - starttime)
 

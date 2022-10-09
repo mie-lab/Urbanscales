@@ -92,7 +92,7 @@ class TrainDataVectors:
                 self.X, self.Y = TrainDataVectors.filter_infs(self.X, self.Y)
                 if config.td_standard_scaler:
                     scaler = StandardScaler()
-                    self.X = scaler.transform(self.X)
+                    self.X = scaler.fit_transform(self.X)
 
                 with open(fname, "wb") as f:
                     pickle.dump(self, f, protocol=config.pickle_protocol)

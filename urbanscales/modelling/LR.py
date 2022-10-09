@@ -1,3 +1,6 @@
+import csv
+import os
+
 from sklearn.model_selection import cross_val_score
 
 import config
@@ -29,6 +32,10 @@ class LR:
 
     @staticmethod
     def compute_scores_for_all_cities():
+        with open(os.path.join(config.results_folder, "_LR_Scores.csv"), "w") as f:
+            csvwriter = csv.writer(f)
+            csvwriter.writerow(["city", "seed", "depth", "tod", "np.mean(lr_object.cv_scores)"])
+
         for city in config.scl_master_list_of_cities:
             for seed in config.scl_list_of_seeds:
                 for depth in config.scl_list_of_depths:
@@ -38,6 +45,9 @@ class LR:
                         lr_object = LR(city, seed ** depth, tod)
                         if not lr_object.empty_train_data:
                             sprint(np.mean(lr_object.cv_scores))
+                            with open(os.path.join(config.results_folder, "_LR_Scores.csv"), "a") as f:
+                                csvwriter = csv.writer(f)
+                                csvwriter.writerow([city, seed, depth, tod, np.mean(lr_object.cv_scores)])
                         # sprint(time.time() - startime)
 
 
