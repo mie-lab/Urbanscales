@@ -7,6 +7,7 @@ network_folder = "network"
 warnings_folder = "warnings"
 results_folder = "results"
 
+master_delete_all = True  # (one of [True, False, -1])
 
 ####################################
 ######   ROAD NETWORK Class   ######
@@ -16,14 +17,14 @@ results_folder = "results"
 rn_city_wise_bboxes = {
     "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
     "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
-    "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
-    "Auckland": [-35.6984, 175.9032, -37.3645, 173.8963],
-    "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
-    "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
-    "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
+    # "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
+    # "Auckland": [-35.6984, 175.9032, -37.3645, 173.8963],
+    # "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
+    # "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
+    # "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
     "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
-    "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
-    "London": [51.28676, -0.510375, 51.691874, 0.334015],
+    # "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
+    # "London": [51.28676, -0.510375, 51.691874, 0.334015],
     # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
     # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
 }
@@ -47,7 +48,7 @@ rn_percentage_of_city_area = 100
 if rn_percentage_of_city_area != 100:
     assert rn_post_fix_road_network_object_file == "_road_network_object_extra_small.pkl"
 
-rn_square_from_city_centre = 10  # 10 implies 10X10 sq.km.
+rn_square_from_city_centre = 15  # 10 implies 10X10 sq.km.
 if rn_square_from_city_centre != -1:
     assert rn_percentage_of_city_area == 100  # we cannot have two filtering techniques
     # basically it is not needed
@@ -59,8 +60,8 @@ if rn_square_from_city_centre != -1:
 ####################################
 scl_n_jobs_parallel = 5
 scl_master_list_of_cities = rn_master_list_of_cities
-scl_list_of_depths = [3]
-scl_list_of_seeds = [2]
+scl_list_of_depths = [1]
+scl_list_of_seeds = [5, 10, 15, 20, 25]
 
 scl_error_percentage_tolerance = 0.2
 scl_delete_existing_pickle_objects = False
@@ -108,6 +109,14 @@ td_standard_scaler = True
 # speed and tt code not working; so we set them to 1;
 # @TO-DO: Need to populate the function
 td_dummy_speed_and_tt = True
+
+
+if master_delete_all != -1:
+    td_delete_existing_pickle_object = (
+        sps_delete_existing_pickle_object
+    ) = (
+        ssd_delete_existing_pickle_objects
+    ) = scl_delete_existing_pickle_objects = rn_delete_existing_pickled_objects = master_delete_all
 
 
 intermediate_files_path = "/Users/nishant/Documents/GitHub/WCS/intermediate_files/"
