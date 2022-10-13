@@ -9,7 +9,8 @@ results_folder = "results"
 
 home_folder_path = "/Users/nishant/Documents/GitHub/WCS"
 
-master_delete_all = True  # (one of [True, False, -1])
+master_delete_all = -1  # (one of [True, False, -1])
+# -1 implies this master_config_is_not_being_used
 
 ####################################
 ######   ROAD NETWORK Class   ######
@@ -74,7 +75,12 @@ scl_delete_existing_pickle_objects = False
 ####################################
 tls_betweenness_features = True
 tls_number_of_lanes = True
-tls_add_edge_speed_and_tt = rn_add_edge_speed_and_tt
+tls_add_edge_speed_and_tt = False
+
+if tls_add_edge_speed_and_tt == True:
+    # the data must be present in the road network to begin with
+    assert rn_add_edge_speed_and_tt == True
+
 tls_missing_lanes_default_value = 2
 
 
@@ -88,7 +94,9 @@ sd_raw_speed_data_gran = 10
 sd_target_speed_data_gran = 60
 sd_temporal_combination_method = "mean"
 assert sd_temporal_combination_method in ["mean", "max"]
-sd_delete_existing_pickle_objects = False
+sd_start_datetime_str = "2022-07-31T18:04:05Z"
+sd_end_datetime_str = "2022-07-31T18:20:05Z"
+sd_delete_existing_pickle_objects = True
 
 
 ####################################
@@ -104,13 +112,10 @@ ps_delete_existing_pickle_objects = True
 ####################################
 ##### TRAIN DATA Class configs #####
 ####################################
-td_delete_existing_pickle_objects = False
+td_delete_existing_pickle_objects = True
 td_tod_list = ps_tod_list
 td_standard_scaler = True
-
-# speed and tt code not working; so we set them to 1;
-# @TO-DO: Need to populate the function
-td_dummy_speed_and_tt = True
+td_viz_y_hist = True
 
 
 if master_delete_all != -1:

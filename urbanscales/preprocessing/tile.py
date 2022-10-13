@@ -110,16 +110,10 @@ class Tile:
             self.set_number_of_lanes()
             X.append(self.mean_lanes)
         if config.tls_add_edge_speed_and_tt:
-            if config.td_dummy_speed_and_tt:
-                # dummy data to get the pipeline running
-                # both set to 1
-                X.append(1)
-                X.append(1)
-            else:
-                self.set_average_edge_speed()
-                X.append(self.mean_speed)
-                self.set_average_tt()
-                X.append(self.mean_tt)
+            self.set_average_edge_speed()
+            X.append(self.mean_speed)
+            self.set_average_tt()
+            X.append(self.mean_tt)
         return X
 
     @staticmethod

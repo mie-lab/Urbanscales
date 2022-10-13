@@ -100,13 +100,28 @@ class SpeedData:
         """
         df = pd.read_csv(os.path.join(config.sd_base_folder_path, self.city_name, config.sd_jf_file_path_within_city))
 
+        # column strings converted to datetime headers for comparing with range
+        datetime_header = pd.to_datetime(df.columns[1:])
+
         assert self.road_segments is not None, "list_of_linestrings not set"
 
         self.num_timesteps_in_data = 0
 
         for i in tqdm(range(len(self.NIDs)), desc=" Reading JF file"):
             seg_nid = self.NIDs[i]
-            jf_list = df.loc[df["NID"] == seg_nid].values.flatten().tolist()
+
+            jf_list = (
+                (
+                    df.loc[df["NID"] == seg_nid][
+                        df.columns[1:][
+                            (datetime_header >= pd.to_datetime(config.sd_start_datetime_str))
+                            & (datetime_header <= pd.to_datetime(config.sd_end_datetime_str))
+                        ]
+                    ]
+                )
+                .values.flatten()
+                .tolist()
+            )
 
             jf_list = self._aggregation(jf_list, self.time_gran_minutes_target // self.time_gran_minutes_raw)
             if self.num_timesteps_in_data == 0:

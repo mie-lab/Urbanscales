@@ -4,6 +4,7 @@ import pickle
 import time
 
 import numpy as np
+from matplotlib import pyplot as plt
 from sklearn.preprocessing import StandardScaler
 
 import config
@@ -103,6 +104,26 @@ class TrainDataVectors:
 
         debug_stop = 2
 
+    def viz_y_hist(self):
+        plt.clf()
+        if isinstance(self.Y, list):
+            # case when number of data points less than 30; Training data not generated.
+            return
+
+        plt.hist(self.Y.to_numpy().flatten(), bins=list(np.arange(0, 11, 0.3)))
+        ttl = (
+            self.city_name
+            + "_tod-"
+            + str(self.tod)
+            + "_scale"
+            + str(self.scale)
+            + "_agg-"
+            + config.sd_temporal_combination_method
+            + config.ps_spatial_combination_method
+        )
+        plt.title(ttl)
+        plt.savefig(os.path.join(config.sd_base_folder_path, ttl + ".png"), dpi=300)
+
     # @staticmethod
     # def get_object(cityname, scale, tod):
     #     fname = os.path.join("network", cityname, "_scale_" + str(scale) + "_train_data_" + str(tod) + ".pkl")
@@ -151,10 +172,16 @@ class TrainDataVectors:
                 for depth in config.scl_list_of_depths:
                     for tod in config.td_tod_list:
                         startime = time.time()
-                        TrainDataVectors(city, seed ** depth, tod)
+                        tdv = TrainDataVectors(city, seed ** depth, tod)
+                        if config.td_viz_y_hist == True:
+                            tdv.viz_y_hist()
                         sprint(time.time() - startime)
                         sprint(city, seed, depth, tod)
 
 
 if __name__ == "__main__":
+    # this chdir might not be needed;
+    # tgere was some trouble with paths in my case.
+    os.chdir(config.home_folder_path)
+
     TrainDataVectors.compute_training_data_for_all_cities()
