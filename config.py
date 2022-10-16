@@ -111,7 +111,6 @@ assert sd_temporal_combination_method in ["mean", "max"]
 sd_start_datetime_str = "2022-07-31T18:04:05"
 sd_end_datetime_str = "2022-07-31T18:20:05"
 sd_delete_existing_pickle_objects = True
-sd_data_collection_timezone = "GMT"
 
 
 ####################################
