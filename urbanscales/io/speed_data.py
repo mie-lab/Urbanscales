@@ -101,7 +101,7 @@ class SpeedData:
         df = pd.read_csv(os.path.join(config.sd_base_folder_path, self.city_name, config.sd_jf_file_path_within_city))
 
         # column strings converted to datetime headers for comparing with range
-        datetime_header = pd.to_datetime(df.columns[1:])
+        datetime_header = pd.to_datetime(df.columns[1:]).tz_convert(config.rn_city_wise_tz_code[self.city_name])
 
         assert self.road_segments is not None, "list_of_linestrings not set"
 
@@ -114,8 +114,18 @@ class SpeedData:
                 (
                     df.loc[df["NID"] == seg_nid][
                         df.columns[1:][
-                            (datetime_header >= pd.to_datetime(config.sd_start_datetime_str))
-                            & (datetime_header <= pd.to_datetime(config.sd_end_datetime_str))
+                            (
+                                datetime_header
+                                >= pd.to_datetime(config.sd_start_datetime_str).tz_localize(
+                                    config.rn_city_wise_tz_code[self.city_name]
+                                )
+                            )
+                            & (
+                                datetime_header
+                                <= pd.to_datetime(config.sd_end_datetime_str).tz_localize(
+                                    config.rn_city_wise_tz_code[self.city_name]
+                                )
+                            )
                         ]
                     ]
                 )

@@ -31,6 +31,20 @@ rn_city_wise_bboxes = {
     # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
     # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
 }
+rn_city_wise_tz_code = {
+    "Singapore": "Asia/Singapore",
+    "Zurich": "Europe/Zurich",
+    "Mumbai": "Asia/Kolkata",
+    "Auckland": "Pacific/Auckland",
+    "Istanbul": "Europe/Istanbul",
+    "MexicoCity": "America/Mexico_City",
+    "Bogota": "America/Bogota",
+    "NewYorkCity": "America/New_York",
+    "Capetown": "Africa/Johannesburg",
+    "London": "Europe/London",
+    "Tokyo": "Asia/Tokyo"
+    # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
+}
 rn_master_list_of_cities = list(rn_city_wise_bboxes.keys())
 
 rn_do_not_filter_list = []  # ["Zurich"]
@@ -94,9 +108,10 @@ sd_raw_speed_data_gran = 10
 sd_target_speed_data_gran = 60
 sd_temporal_combination_method = "mean"
 assert sd_temporal_combination_method in ["mean", "max"]
-sd_start_datetime_str = "2022-07-31T18:04:05Z"
-sd_end_datetime_str = "2022-07-31T18:20:05Z"
+sd_start_datetime_str = "2022-07-31T18:04:05"
+sd_end_datetime_str = "2022-07-31T18:20:05"
 sd_delete_existing_pickle_objects = True
+sd_data_collection_timezone = "GMT"
 
 
 ####################################
