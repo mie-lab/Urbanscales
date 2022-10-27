@@ -108,7 +108,12 @@ class ScaleJF:
         for bbox in self.bbox_segment_map:
             val = []
             for segment in self.bbox_segment_map[bbox]:
-                val.append(self.SpeedData.segment_jf_map[segment][self.tod])
+                try:
+                    val.append(self.SpeedData.segment_jf_map[segment][self.tod])
+                except:
+                    debug_stop =True
+                    sprint ("Error in segment_jf_map; length ", len(self.SpeedData.segment_jf_map[segment]))
+                    sys.exit(0)
 
             if config.ps_spatial_combination_method == "mean":
                 agg_func = np.mean

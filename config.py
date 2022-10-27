@@ -12,6 +12,17 @@ home_folder_path = "/Users/nishant/Documents/GitHub/WCS"
 master_delete_all = -1  # (one of [True, False, -1])
 # -1 implies this master_config_is_not_being_used
 
+
+####################################
+######  DELETE FILES CONFIG ########
+####################################
+rn_delete_existing_pickled_objects = False
+scl_delete_existing_pickle_objects = False
+sd_delete_existing_pickle_objects = False
+ps_delete_existing_pickle_objects = False
+td_delete_existing_pickle_objects = False
+
+
 ####################################
 ######   ROAD NETWORK Class   ######
 ####################################
@@ -59,7 +70,6 @@ rn_post_fix_road_network_object_file = "_road_network_object_square.pkl"
 rn_base_map_filename = "_base_osm_truncated.png"
 rn_compute_full_city_features = False
 rn_add_edge_speed_and_tt = True
-rn_delete_existing_pickled_objects = False
 
 rn_percentage_of_city_area = 100
 if rn_percentage_of_city_area != 100:
@@ -81,7 +91,7 @@ scl_list_of_depths = [1]
 scl_list_of_seeds = [5, 10, 15, 20, 25]
 
 scl_error_percentage_tolerance = 0.2
-scl_delete_existing_pickle_objects = False
+
 
 
 ####################################
@@ -109,8 +119,8 @@ sd_target_speed_data_gran = 60
 sd_temporal_combination_method = "mean"
 assert sd_temporal_combination_method in ["mean", "max"]
 sd_start_datetime_str = "2022-07-31T18:04:05"
-sd_end_datetime_str = "2022-07-31T18:20:05"
-sd_delete_existing_pickle_objects = True
+sd_end_datetime_str = "2022-08-03T18:20:05"
+
 
 
 ####################################
@@ -118,19 +128,18 @@ sd_delete_existing_pickle_objects = True
 ####################################
 ps_spatial_combination_method = "mean"
 assert ps_spatial_combination_method in ["mean", "max"]
-ps_tod_list = [8]  # list(range(24))
+ps_tod_list = [7,8]  # list(range(24))
 assert isinstance(ps_tod_list, list)
-ps_delete_existing_pickle_objects = True
+
 
 
 ####################################
 ##### TRAIN DATA Class configs #####
 ####################################
-td_delete_existing_pickle_objects = True
 td_tod_list = ps_tod_list
 td_standard_scaler = True
 td_viz_y_hist = True
-
+td_combine_tods_overwrite_othertods = [6,7,8,9]
 
 if master_delete_all != -1:
     td_delete_existing_pickle_object = (

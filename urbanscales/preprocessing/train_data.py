@@ -43,7 +43,7 @@ class TrainDataVectors:
             self.__dict__.update(temp.__dict__)
             nparrayX = np.array(self.X)
             nparrayY = np.array(self.Y)
-            sprint(nparrayX.size, nparrayY.size)
+            sprint(nparrayX.shape, nparrayY.shape)
 
         else:
             self.X = []
@@ -54,28 +54,31 @@ class TrainDataVectors:
             self.empty_train_data = True
             self.set_X_and_Y()
 
+
     def set_X_and_Y(self):
         # sd = SpeedData(self.city_name, c)
-        rn = RoadNetwork.get_object(self.city_name)
+        # rn = RoadNetwork.get_object(self.city_name)
         scl = Scale.get_object(self.city_name, self.scale)
         # scl_jf = ScaleJF(scl, sd )
-        scl_jf = ScaleJF.get_object(self.city_name, self.scale, self.tod)
-        assert isinstance(scl_jf, ScaleJF)
-        for bbox in scl_jf.bbox_segment_map:
-            # assert bbox in scl_jf.bbox_jf_map
-            assert isinstance(scl, Scale)
-            subg = scl.dict_bbox_to_subgraph[bbox]
-            if isinstance(subg, str):
-                if subg == "Empty":
-                    # we skip creating X and Y for this empty tile
-                    # which does not have any roads OR
-                    # is outside the scope of the administrative area
-                    continue
 
-            assert isinstance(subg, Tile)
+        for tod_ in config.td_combine_tods_overwrite_othertods:
+            scl_jf = ScaleJF.get_object(self.city_name, self.scale, tod_)
+            assert isinstance(scl_jf, ScaleJF)
+            for bbox in scl_jf.bbox_segment_map:
+                # assert bbox in scl_jf.bbox_jf_map
+                assert isinstance(scl, Scale)
+                subg = scl.dict_bbox_to_subgraph[bbox]
+                if isinstance(subg, str):
+                    if subg == "Empty":
+                        # we skip creating X and Y for this empty tile
+                        # which does not have any roads OR
+                        # is outside the scope of the administrative area
+                        continue
 
-            self.X.append(subg.get_vector_of_features())
-            self.Y.append(scl_jf.bbox_jf_map[bbox])
+                assert isinstance(subg, Tile)
+
+                self.X.append(subg.get_vector_of_features())
+                self.Y.append(scl_jf.bbox_jf_map[bbox])
 
         fname = os.path.join(
             "network", scl.RoadNetwork.city_name, "_scale_" + str(scl.scale) + "_train_data_" + str(self.tod) + ".pkl"
@@ -95,9 +98,12 @@ class TrainDataVectors:
                     scaler = StandardScaler()
                     self.X = scaler.fit_transform(self.X)
 
+                self.Y = self.Y.values.reshape(self.Y.shape[0],)
+
                 with open(fname, "wb") as f:
                     pickle.dump(self, f, protocol=config.pickle_protocol)
                     print("Pickle saved! ")
+
             else:
                 print("\n\n")
                 print(self.city_name, " has less than 30 data points...skipping\n\n")
