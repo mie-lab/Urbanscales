@@ -111,8 +111,8 @@ class ScaleJF:
                 try:
                     val.append(self.SpeedData.segment_jf_map[segment][self.tod])
                 except:
-                    debug_stop =True
-                    sprint ("Error in segment_jf_map; length ", len(self.SpeedData.segment_jf_map[segment]))
+                    debug_stop = True
+                    sprint("Error in segment_jf_map; length ", len(self.SpeedData.segment_jf_map[segment]))
                     sys.exit(0)
 
             if config.ps_spatial_combination_method == "mean":

@@ -14,6 +14,7 @@ from urbanscales.preprocessing.prep_speed import ScaleJF
 from urbanscales.preprocessing.tile import Tile
 import pandas as pd
 from smartprint import smartprint as sprint
+from slugify import slugify
 
 # from urbanscales.io.speed_data import Segment  # this line if not present gives
 # # an error while depickling a file.
@@ -54,7 +55,6 @@ class TrainDataVectors:
             self.empty_train_data = True
             self.set_X_and_Y()
 
-
     def set_X_and_Y(self):
         # sd = SpeedData(self.city_name, c)
         # rn = RoadNetwork.get_object(self.city_name)
@@ -94,11 +94,41 @@ class TrainDataVectors:
                 self.Y = pd.DataFrame(data=nparrayY)
 
                 self.X, self.Y = TrainDataVectors.filter_infs(self.X, self.Y)
+                if config.td_plot_raw_variance_before_scaling:
+                    df = pd.DataFrame(self.X, columns=Tile.get_feature_names())
+                    df.var().to_csv(
+                        os.path.join(
+                            config.results_folder,
+                            slugify(
+                                "pre-norm-feat-variance-" + self.city_name + "-" + str(self.scale) + "-" + str(self.tod)
+                            ),
+                        )
+                        + ".csv"
+                    )
+
                 if config.td_standard_scaler:
                     scaler = StandardScaler()
                     self.X = scaler.fit_transform(self.X)
 
-                self.Y = self.Y.values.reshape(self.Y.shape[0],)
+                    df = pd.DataFrame(self.X, columns=Tile.get_feature_names())
+                    df.var().to_csv(
+                        os.path.join(
+                            config.results_folder,
+                            slugify(
+                                "post-norm-feat-variance-"
+                                + self.city_name
+                                + "-"
+                                + str(self.scale)
+                                + "-"
+                                + str(self.tod)
+                            ),
+                        )
+                        + ".csv"
+                    )
+
+                self.Y = self.Y.values.reshape(
+                    self.Y.shape[0],
+                )
 
                 with open(fname, "wb") as f:
                     pickle.dump(self, f, protocol=config.pickle_protocol)

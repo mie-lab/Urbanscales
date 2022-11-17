@@ -61,7 +61,7 @@ class Scale:
         inputs = list(range(len(self.list_of_bbox)))
         starttime = time.time()
         list_of_tuples = process_map(
-            self._helper_create_dict_in_parallel, inputs, max_workers=config.scl_n_jobs_parallel
+            self._helper_create_dict_in_parallel, inputs, max_workers=config.scl_n_jobs_parallel, chunksize=1
         )
         self.dict_bbox_to_subgraph = dict(list_of_tuples)
         print(time.time() - starttime, "seconds using", config.scl_n_jobs_parallel, "threads")

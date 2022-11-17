@@ -10,6 +10,7 @@ import os
 import config
 import csv
 from smartprint import smartprint as sprint
+from slugify import slugify
 
 
 class Tile:
@@ -142,7 +143,7 @@ class Tile:
         if config.tls_add_edge_speed_and_tt:
             f.append("mean_speed")
             f.append("mean_tt")
-        return f
+        return [slugify(x) for x in f]
 
     def set_stats_for_tile(self):
         self.basic_features = self.get_stats_for_tile()
@@ -153,7 +154,7 @@ class Tile:
         dist = 300
         G = ox.graph_from_point(point, dist=dist, network_type="drive")
         tile = Tile(G, 0.3 * 0.3)  #  since distance = 300 m in this dummy case
-        return list(((tile.get_stats_for_tile().keys())))
+        return [slugify(x) for x in list(((tile.get_stats_for_tile().keys())))]
         # def savefig
 
 
