@@ -106,29 +106,7 @@ class TrainDataVectors:
                         + ".csv"
                     )
 
-                if config.td_standard_scaler:
-                    scaler = StandardScaler()
-                    self.X = scaler.fit_transform(self.X)
-
-                    df = pd.DataFrame(self.X, columns=Tile.get_feature_names())
-                    df.var().to_csv(
-                        os.path.join(
-                            config.results_folder,
-                            slugify(
-                                "post-norm-feat-variance-"
-                                + self.city_name
-                                + "-"
-                                + str(self.scale)
-                                + "-"
-                                + str(self.tod)
-                            ),
-                        )
-                        + ".csv"
-                    )
-
-                self.Y = self.Y.values.reshape(
-                    self.Y.shape[0],
-                )
+                self.Y = self.Y.values.reshape(self.Y.shape[0])
 
                 with open(fname, "wb") as f:
                     pickle.dump(self, f, protocol=config.pickle_protocol)

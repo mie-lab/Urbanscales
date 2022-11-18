@@ -193,7 +193,7 @@ class Scale:
         if os.path.exists(fname):
             obj = CustomUnpicklerScale(open(fname, "rb")).load()
         else:
-            raise Exception(fname + " not present \n Run speed_data.py before running this function")
+            raise Exception(fname + " not present \n Run speed_data.py and prep_speed.py before running this function")
         return obj
 
 
