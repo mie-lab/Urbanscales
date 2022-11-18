@@ -1,5 +1,6 @@
 import csv
 import os
+import shutil
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -42,6 +43,10 @@ class Pipeline:
             self.X = pd.DataFrame(self.X, columns=Tile.get_feature_names())
             # self.Y = pd.DataFrame(self.Y, columns=["JF"])
 
+            if len(config.td_drop_feature_lists) > 0:
+                for feat in config.td_drop_feature_lists:
+                    self.X.drop(feat, axis=1, inplace=True)
+
             self.compute_score()
         else:
             print("Missing train data")
@@ -49,46 +54,26 @@ class Pipeline:
             pass
 
     def plot_CORR(self, df, i):
-        fig = px.imshow(df.corr())
-        # fig.show()
-        # plt.clf()
-        # plt.tight_layout()
-
-        fig.write_image(
-            os.path.join(
-                config.results_folder,
-                slugify(
-                    "corrplot-"
-                    + config.model
-                    + self.cityname
-                    + "-"
-                    + str(self.scale)
-                    + "-"
-                    + str(self.tod)
-                    + "-counter"
-                    + str(i + 1)
-                ),
+        for corr_type in ["pearson", "kendall", "spearman"]:
+            fig = px.imshow(df.corr(method=corr_type))
+            fig.write_image(
+                os.path.join(
+                    config.results_folder,
+                    slugify(
+                        corr_type
+                        + "-corr-"
+                        + config.model
+                        + self.cityname
+                        + "-"
+                        + str(self.scale)
+                        + "-"
+                        + str(self.tod)
+                        + "-counter"
+                        + str(i + 1)
+                    ),
+                )
+                + ".png",
             )
-            + ".png",
-        )
-        # plt.savefig(
-        #     os.path.join(
-        #         config.results_folder,
-        #         slugify(
-        #             "corrplot-"
-        #             + config.model
-        #             + self.cityname
-        #             + "-"
-        #             + str(self.scale)
-        #             + "-"
-        #             + str(self.tod)
-        #             + "-counter"
-        #             + str(i + 1)
-        #         ),
-        #     )
-        #     + ".png",
-        #     dpi=300,
-        # )
 
     def plot_FI(self, reg, i, x, y):
         plt.clf()
@@ -150,11 +135,9 @@ class Pipeline:
             ).tolist()
 
             if config.ppl_plot_FI:
-                self.plot_FI(
-                    reg[-1], i, pd.DataFrame(x, columns=Tile.get_feature_names()), pd.DataFrame(y, columns=["Y"])
-                )
+                self.plot_FI(reg[-1], i, pd.DataFrame(x, columns=self.X.columns), pd.DataFrame(y, columns=["Y"]))
             if config.ppl_plot_corr:
-                df_temp = pd.DataFrame(x, columns=Tile.get_feature_names())
+                df_temp = pd.DataFrame(x, columns=self.X.columns)
                 df_temp["Y"] = y.flatten().tolist()
                 self.plot_CORR(df_temp, i)
 
@@ -201,4 +184,7 @@ class Pipeline:
 
 
 if __name__ == "__main__":
+    shutil.rmtree(config.results_folder)
+    os.mkdir(config.results_folder)
+
     Pipeline.compute_scores_for_all_cities()
