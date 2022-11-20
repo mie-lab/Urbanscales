@@ -13,8 +13,8 @@ master_delete_all = -1  # (one of [True, False, -1])
 # -1 implies this master_config_is_not_being_used
 
 
-model = "GBM"
-assert model in ["RFR", "LR", "GBM"]
+model = "LASSO"
+assert model in ["RFR", "LR", "GBM", "LASSO", "RIDGE"]
 
 
 ####################################
@@ -28,12 +28,20 @@ td_delete_existing_pickle_objects = False
 
 
 #####################################
-##############  RFR  ################
+##############  PLOTS  ################
 #####################################
 ppl_smallest_sample = 400
-ppl_plot_FI = True
+ppl_plot_FI = False
 ppl_CV_splits = 7
 ppl_plot_corr = True
+ppl_hist = True
+ppl_hist_bins = 10
+ppl_scaling_for_EDA = (
+    2  # 0: None; 1: Divide by Max; 2: StandardScaler(); 3: Divide by max; followed by StandardScaler()
+)
+assert ppl_scaling_for_EDA in [0, 1, 2, 3]
+
+ppl_feature_importance_via_coefficients = True
 
 
 ####################################
@@ -147,14 +155,14 @@ assert isinstance(ps_tod_list, list)
 ##### TRAIN DATA Class configs #####
 ####################################
 td_tod_list = ps_tod_list
-td_standard_scaler = False
+td_standard_scaler = True
 td_min_max_scaler = True
 td_plot_raw_variance_before_scaling = True
 td_viz_y_hist = True
 td_combine_tods_overwrite_othertods = [6, 7, 8, 9]  ## 🧨 What is this variable must be clarified!
 ## maybe we should simply remove this
 td_drop_feature_lists = ["streets-per-node-proportions0", "streets-per-node-counts-0"]
-
+td_drop_collinear_features = True
 
 if master_delete_all != -1:
     td_delete_existing_pickle_object = (
