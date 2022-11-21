@@ -1,11 +1,13 @@
 import csv
 import os
 import shutil
+import sys
 
 import matplotlib.pyplot as plt
 import pandas as pd
+from matplotlib.pyplot import cm
 from sklearn import preprocessing
-from sklearn.model_selection import cross_val_score, RepeatedKFold
+from sklearn.model_selection import cross_val_score, RepeatedKFold, GridSearchCV, BaseCrossValidator
 from sklearn.pipeline import make_pipeline
 
 import config
@@ -54,7 +56,7 @@ class Pipeline:
             pass
 
     def plot_CORR(self, df, i):
-        for corr_type in ["pearson", "kendall", "spearman"]:
+        for corr_type in config.ppl_list_of_correlations:
             fig = px.imshow(
                 df.corr(method=corr_type),
                 title=slugify(
@@ -93,20 +95,28 @@ class Pipeline:
                 + ".png",
             )
 
-    def feature_importance_via_coefficients(self, x, y, i):
-        ridge = RidgeCV(alphas=np.logspace(-6, 6, num=5)).fit(x, y)
+    def feature_importance_via_ridge_coefficients(self, x, y, i):
+        ridge = RidgeCV(alphas=[1e-3, 1e-2, 1e-1, 1, 2, 5, 10]).fit(x, y)
         importance = np.abs(ridge.coef_)
+
+        color = cm.rainbow(np.linspace(0, 1, (self.X.shape[1])))
+        colorlist = []
+        for j in range(self.X.shape[1]):
+            colorlist.append(color[j])
+
         plt.clf()
-        plt.bar(height=importance, x=self.X.columns)
+        plt.bar(height=importance, x=self.X.columns, color=colorlist)
+        plt.ylim(0, 1)
+
         plt.title("Feature importances via coefficients")
-        # plt.xticks(rotation=45)
+        plt.xticks(rotation=90, fontsize=7)
         plt.tight_layout()
         # plt.show()
         plt.savefig(
             os.path.join(
                 config.results_folder,
                 slugify(
-                    "-FI-via-coeff-"
+                    "-FI-via-ridge_coeff-"
                     + self.cityname
                     + "-"
                     + str(self.scale)
@@ -118,6 +128,52 @@ class Pipeline:
             ),
             dpi=300,
         )
+
+    def feature_importance_via_NL_models(self, x, y, i):
+        for model_ in config.ppl_list_of_NL_models:
+            if model_ == "RFR":
+                model = RandomForestRegressor()
+            elif model_ == "GBM":
+                model = GradientBoostingRegressor()
+            param_grid = {
+                "n_estimators": [30, 40, 50, 100, 200],
+            }
+
+            model = GridSearchCV(model, param_grid=param_grid, cv=config.ppl_CV_splits)
+            model.fit(x, y)
+
+            importance = model.best_estimator_.feature_importances_
+
+            color = cm.rainbow(np.linspace(0, 1, (self.X.shape[1])))
+            colorlist = []
+            for j in range(self.X.shape[1]):
+                colorlist.append(color[j])
+
+            plt.clf()
+            plt.bar(height=importance, x=self.X.columns, color=colorlist)
+            plt.ylim(0, 1)
+
+            plt.title("Feature importances via importance " + model_)
+            plt.xticks(rotation=90, fontsize=7)
+            plt.tight_layout()
+            # plt.show()
+            plt.savefig(
+                os.path.join(
+                    config.results_folder,
+                    slugify(
+                        "-FI-via_-"
+                        + model_
+                        + self.cityname
+                        + "-"
+                        + str(self.scale)
+                        + "-"
+                        + str(self.tod)
+                        + "-counter"
+                        + str(i + 1)
+                    ),
+                ),
+                dpi=300,
+            )
 
     def scale_x(self, x):
         x_trans = np.array(x)
@@ -176,7 +232,7 @@ class Pipeline:
 
         sprint(self.X.shape, self.Y.shape)
 
-        for i in range(self.X.shape[0] // config.ppl_smallest_sample * 1):
+        for i in range(self.X.shape[0] // config.ppl_smallest_sample * 2):
             x = []
             y = []
             for j in range(self.X.shape[0]):
@@ -220,7 +276,11 @@ class Pipeline:
                 df_temp["Y"] = y.flatten().tolist()
                 self.plot_hist(df_temp, i)
             if config.ppl_feature_importance_via_coefficients:
-                self.feature_importance_via_coefficients(self.scale_x(x), y, i)
+                self.feature_importance_via_ridge_coefficients(self.scale_x(x), y, i)
+            if config.ppl_feature_importance_via_NL_models:
+                self.feature_importance_via_NL_models(self.scale_x(x), y, i)
+
+        self.small_X_num_datapoints = x.shape[0]
 
     @staticmethod
     def compute_scores_for_all_cities():
@@ -233,6 +293,7 @@ class Pipeline:
                     "depth",
                     "tod",
                     "#datapoints",
+                    "#datapoints-train-sample",
                     "np.mean(lr_object.cv_scores)",
                     "np.mean(lr_object.cv_scores_QWK)",
                 ]
@@ -257,6 +318,7 @@ class Pipeline:
                                         depth,
                                         tod,
                                         lr_object.X.shape,
+                                        lr_object.small_X_num_datapoints,
                                         np.mean(lr_object.cv_scores_default),
                                         np.mean(lr_object.cv_scores_QWK),
                                     ]

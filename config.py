@@ -13,7 +13,7 @@ master_delete_all = -1  # (one of [True, False, -1])
 # -1 implies this master_config_is_not_being_used
 
 
-model = "LASSO"
+model = "RFR"
 assert model in ["RFR", "LR", "GBM", "LASSO", "RIDGE"]
 
 
@@ -41,8 +41,19 @@ ppl_scaling_for_EDA = (
 )
 assert ppl_scaling_for_EDA in [0, 1, 2, 3]
 
-ppl_feature_importance_via_coefficients = True
+ppl_feature_importance_via_coefficients = False
+if ppl_feature_importance_via_coefficients:
+    assert model in ["LR", "RIDGE", "LASSO"]
 
+ppl_feature_importance_via_NL_models = True
+if ppl_feature_importance_via_NL_models:
+    assert model in ["RFR", "GBM"]
+
+ppl_list_of_NL_models = ["RFR", "GBM"]
+
+assert ppl_feature_importance_via_NL_models != ppl_feature_importance_via_coefficients
+
+ppl_list_of_correlations = ["pearson"]  # , "kendall", "spearman"]
 
 ####################################
 ######   ROAD NETWORK Class   ######
@@ -161,7 +172,12 @@ td_plot_raw_variance_before_scaling = True
 td_viz_y_hist = True
 td_combine_tods_overwrite_othertods = [6, 7, 8, 9]  ## 🧨 What is this variable must be clarified!
 ## maybe we should simply remove this
-td_drop_feature_lists = ["streets-per-node-proportions0", "streets-per-node-counts-0"]
+td_drop_feature_lists = [
+    "streets-per-node-proportions0",
+    "streets-per-node-counts-0",
+    "streets-per-node-counts-1",
+    "streets-per-node-proportions1",
+]
 td_drop_collinear_features = True
 
 if master_delete_all != -1:
