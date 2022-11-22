@@ -24,7 +24,7 @@ rn_delete_existing_pickled_objects = False
 scl_delete_existing_pickle_objects = False
 sd_delete_existing_pickle_objects = False
 ps_delete_existing_pickle_objects = False
-td_delete_existing_pickle_objects = False
+td_delete_existing_pickle_objects = True
 
 
 #####################################
@@ -105,9 +105,9 @@ rn_add_edge_speed_and_tt = True
 
 rn_percentage_of_city_area = 100
 if rn_percentage_of_city_area != 100:
-    assert rn_post_fix_road_network_object_file == "_road_network_object_extra_small.pkl"
+    assert rn_post_fix_road_network_object_file == "_road_network_object_small.pkl"
 
-rn_square_from_city_centre = 15  # 10 implies 10X10 sq.km.
+rn_square_from_city_centre = 40  # 15 implies 15X15 sq.km.
 if rn_square_from_city_centre != -1:
     assert rn_percentage_of_city_area == 100  # we cannot have two filtering techniques
     # basically it is not needed
@@ -120,7 +120,7 @@ if rn_square_from_city_centre != -1:
 scl_n_jobs_parallel = 5
 scl_master_list_of_cities = rn_master_list_of_cities
 scl_list_of_depths = [1]
-scl_list_of_seeds = [10, 15, 20, 25, 30]  # , 35, 40, 45, 50, 55, 60, 65, 70, 80, 85, 90, 95, 100, 120]
+scl_list_of_seeds = [15, 30, 80]  # , 35, 40, 45, 50, 55, 60, 65, 70, 80, 85, 90, 95, 100, 120]
 
 scl_error_percentage_tolerance = 0.2
 
