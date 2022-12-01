@@ -77,11 +77,13 @@ class VizSpatial:
                 save=False,
                 bbox=None,
             )
-            plt.scatter(long_list, lat_list, marker="s", c=colorlist, cmap="viridis", alpha=0.7)
+            plt.scatter(
+                long_list, lat_list, marker="s", c=colorlist, cmap="viridis", alpha=0.7, s=max(20 * 30 // self.scale, 8)
+            )
             plt.colorbar().set_label(valid_feature)
             plt.xlabel("longitude of bbox centre", fontsize=12)
             plt.ylabel("latitude of bbox centre", fontsize=12)
-            plt.title( (self.cityname + "-" + str(self.scale) + "-" + valid_feature))
+            plt.title((self.cityname + "-" + str(self.scale) + "-" + valid_feature))
             if not os.path.exists(os.path.join(config.results_folder, "spatial-dist")):
                 os.mkdir(os.path.join(config.results_folder, "spatial-dist"))
             plt.savefig(
@@ -96,10 +98,11 @@ class VizSpatial:
     @staticmethod
     def generate_spatial_plots_for_all_cities():
         for city in config.scl_master_list_of_cities:
-            for seed in config.scl_list_of_seeds:
+            for seed in config.scl_list_of_seeds[::-1]:
                 for depth in config.scl_list_of_depths:
                     for tod in config.td_tod_list:
                         VizSpatial(city, seed ** depth, tod)
+
 
 if __name__ == "__main__":
     VizSpatial.generate_spatial_plots_for_all_cities()

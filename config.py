@@ -120,7 +120,10 @@ if rn_square_from_city_centre != -1:
 scl_n_jobs_parallel = 5
 scl_master_list_of_cities = rn_master_list_of_cities
 scl_list_of_depths = [1]
-scl_list_of_seeds = [15, 30, 80]  # , 35, 40, 45, 50, 55, 60, 65, 70, 80, 85, 90, 95, 100, 120]
+scl_list_of_seeds = [
+    15,
+    # 30,
+]  # 80]  # , 35, 40, 45, 50, 55, 60, 65, 70, 80, 85, 90, 95, 100, 120]
 
 scl_error_percentage_tolerance = 0.2
 

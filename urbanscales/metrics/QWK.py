@@ -8,17 +8,14 @@ class QWK:
         """
         List of predictions; default n_classes=10
         Can be JF/CI or class labels if predicting bin number
-        The metric converts the regression values into 10 bins to compute QWK
-        Order doesn't matter since
+        The metric converts the regression values into 10 labels to compute QWK
         Args:
             actual_y:
             predicted_y:
         """
-        bins = np.arange(0, 10, 10 / n_classes)
-        actual_y, _ = np.histogram(actual_y, bins=bins)
-        predicted_y, _ = np.histogram(predicted_y, bins=bins)
-        sprint(actual_y)
-        sprint(predicted_y)
+        actual_y = np.array(np.array(actual_y).reshape(-1, 1), "int")
+        predicted_y = np.array(np.array(predicted_y).reshape(-1, 1), "int")
+
         self.val = cohen_kappa_score(actual_y, predicted_y, weights="quadratic")
 
 

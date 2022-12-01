@@ -7,7 +7,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.pyplot import cm
 from sklearn import preprocessing
-from sklearn.model_selection import cross_val_score, RepeatedKFold, GridSearchCV, BaseCrossValidator
+from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import cross_val_score, RepeatedKFold, GridSearchCV, BaseCrossValidator, train_test_split
 from sklearn.pipeline import make_pipeline
 
 import config
@@ -30,8 +31,10 @@ from sklearn.preprocessing import FunctionTransformer, StandardScaler
 class Pipeline:
     def __init__(self, cityname, scale, tod):
         self.cityname, self.scale, self.tod = cityname, scale, tod
+        self.scores_default = []
         self.cv_scores_default = []
         self.cv_scores_QWK = []
+        self.scores_QWK = []
 
         obj = TrainDataVectors(cityname, scale, tod)
 
@@ -236,12 +239,15 @@ class Pipeline:
             x = []
             y = []
             for j in range(self.X.shape[0]):
-                if np.random.rand() < config.ppl_smallest_sample / self.X.shape[0]:
+                if np.random.rand() < config.ppl_smallest_sample * (1.33) / self.X.shape[0]:
                     x.append(self.X.to_numpy()[j, :])
                     y.append(self.Y[j])
             x = np.array(x)
             y = np.array(y)
+
             sprint(x.shape, y.shape)
+            X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.33, random_state=42)
+            sprint(X_train.shape, y_train.shape, X_test.shape, y_test.shape)
 
             reg = make_pipeline()
             if config.td_min_max_scaler:
@@ -260,27 +266,36 @@ class Pipeline:
             elif config.model == "LASSO":
                 reg.steps.append(["lasso", Lasso()])
 
-            self.cv_scores_default += (cross_val_score(reg, x, y, cv=config.ppl_CV_splits)).tolist()
-            self.cv_scores_QWK += (
-                cross_val_score(reg, x, y, cv=config.ppl_CV_splits, scoring=custom_scoring_QWK)
-            ).tolist()
+            # self.cv_scores_default += (cross_val_score(reg, x, y, cv=config.ppl_CV_splits)).tolist()
+            # self.cv_scores_QWK += (
+            #     cross_val_score(reg, x, y, cv=config.ppl_CV_splits, scoring=custom_scoring_QWK)
+            # ).tolist()
 
             if config.ppl_plot_FI:
-                self.plot_FI(reg[-1], i, pd.DataFrame(x, columns=self.X.columns), pd.DataFrame(y, columns=["Y"]))
+                self.plot_FI(
+                    reg[-1], i, pd.DataFrame(X_train, columns=self.X.columns), pd.DataFrame(y_train, columns=["Y"])
+                )
             if config.ppl_plot_corr:
-                df_temp = pd.DataFrame(self.scale_x(x), columns=self.X.columns)
-                df_temp["Y"] = y.flatten().tolist()
+                df_temp = pd.DataFrame(self.scale_x(X_train), columns=self.X.columns)
+                df_temp["Y"] = y_train.flatten().tolist()
                 self.plot_CORR(df_temp, i)
             if config.ppl_hist:
-                df_temp = pd.DataFrame(self.scale_x(x), columns=self.X.columns)
-                df_temp["Y"] = y.flatten().tolist()
+                df_temp = pd.DataFrame(self.scale_x(X_train), columns=self.X.columns)
+                df_temp["Y"] = y_train.flatten().tolist()
                 self.plot_hist(df_temp, i)
             if config.ppl_feature_importance_via_coefficients:
-                self.feature_importance_via_ridge_coefficients(self.scale_x(x), y, i)
+                self.feature_importance_via_ridge_coefficients(self.scale_x(X_train), y_train, i)
             if config.ppl_feature_importance_via_NL_models:
-                self.feature_importance_via_NL_models(self.scale_x(x), y, i)
+                self.feature_importance_via_NL_models(self.scale_x(X_train), y_train, i)
 
-        self.small_X_num_datapoints = x.shape[0]
+            trained_model = reg.fit(X_train, y_train)
+            y_test_predicted = trained_model.predict(X_test)
+            y_test_GT = y_test
+
+            self.scores_QWK.append(QWK(y_test_GT, y_test_predicted).val)
+            self.scores_default.append(mean_squared_error(y_test_GT, y_test_predicted))
+
+        self.small_X_num_datapoints = X_train.shape[0]
 
     @staticmethod
     def compute_scores_for_all_cities():
@@ -319,8 +334,8 @@ class Pipeline:
                                         tod,
                                         lr_object.X.shape,
                                         lr_object.small_X_num_datapoints,
-                                        np.mean(lr_object.cv_scores_default),
-                                        np.mean(lr_object.cv_scores_QWK),
+                                        np.mean(lr_object.scores_default),
+                                        np.mean(lr_object.scores_QWK),
                                     ]
                                 )
                         # sprint(time.time() - startime)

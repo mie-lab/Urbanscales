@@ -3,6 +3,9 @@ import csv
 import os
 import pickle
 import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
+
 import time
 import warnings
 
