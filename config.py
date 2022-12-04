@@ -1,13 +1,25 @@
+import os
+
 pickle_protocol = 5
 
 
 verbose = 2
+debug_ = True
 
 network_folder = "network"
 warnings_folder = "warnings"
 results_folder = "results"
 
-home_folder_path = "/Users/nishant/Documents/GitHub/WCS"
+BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"
+BASE_FOLDER_server = "/usr1/nishant/WCS"
+
+cur_dir = os.getcwd()
+if cur_dir.split("/")[1] == "usr1":
+    BASE_FOLDER = BASE_FOLDER_server
+elif cur_dir.split("/")[1] == "Users":
+    BASE_FOLDER = BASE_FOLDER_local
+
+home_folder_path = BASE_FOLDER
 
 master_delete_all = -1  # (one of [True, False, -1])
 # -1 implies this master_config_is_not_being_used
@@ -113,7 +125,6 @@ if rn_square_from_city_centre != -1:
     # basically it is not needed
     assert rn_post_fix_road_network_object_file == "_road_network_object_square.pkl"
 
-
 ####################################
 #########   Scale Class   ##########
 ####################################
@@ -121,9 +132,16 @@ scl_n_jobs_parallel = 5
 scl_master_list_of_cities = rn_master_list_of_cities
 scl_list_of_depths = [1]
 scl_list_of_seeds = [
-    15,
+    # 15,
     # 30,
-]  # 80]  # , 35, 40, 45, 50, 55, 60, 65, 70, 80, 85, 90, 95, 100, 120]
+    # 50,
+    # 60,
+    # 80,
+    # 110,
+    130,
+    # 150,
+    # 170
+]  # 40, 45, 50, 55, 60, 65, 70, 80, 85, 90, 95, 100, 120]
 
 scl_error_percentage_tolerance = 0.2
 

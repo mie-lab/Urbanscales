@@ -1,8 +1,11 @@
 import copy
 import csv
+import multiprocessing
 import os
 import pickle
 import sys
+import numpy as np
+from multiprocessing import Pool
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 
@@ -63,9 +66,37 @@ class Scale:
 
         inputs = list(range(len(self.list_of_bbox)))
         starttime = time.time()
-        list_of_tuples = process_map(
-            self._helper_create_dict_in_parallel, inputs, max_workers=config.scl_n_jobs_parallel, chunksize=1
-        )
+        if not os.path.exists(config.warnings_folder):
+            os.mkdir(config.warnings_folder)
+
+        # list_of_tuples = process_map(
+        #     self._helper_create_dict_in_parallel, self.list_of_bbox, max_workers=config.scl_n_jobs_parallel, chunksize=11
+        # )
+
+        if config.debug_:
+            os.system("rm -rf temp && mkdir temp")
+
+        if config.scl_n_jobs_parallel > 1:
+            # pool = multiprocessing.Pool(processes=config.scl_n_jobs_parallel)
+            # list_of_tuples = list(
+            #     tqdm(
+            #         pool.imap_unordered(self._helper_create_dict_in_parallel, self.list_of_bbox),
+            #         total=len(self.list_of_bbox),
+            #         desc="Processing in paralel",
+            #     )
+            # )
+            with Pool(config.scl_n_jobs_parallel) as p:
+                list_of_tuples = p.map(self._helper_create_dict_in_parallel, list(self.list_of_bbox))
+        elif config.scl_n_jobs_parallel == 1:
+            # single threaded
+            list_of_tuples = []
+            for i in tqdm(range(len(inputs)), desc="Single threaded performance "):  # input_ in inputs:
+                input_ = self.list_of_bbox[i]
+                k, v = self._helper_create_dict_in_parallel(input_)
+                list_of_tuples.append((k, v))
+        else:
+            raise Exception("Wrong number of threads specified in config file.")
+
         self.dict_bbox_to_subgraph = dict(list_of_tuples)
         print(time.time() - starttime, "seconds using", config.scl_n_jobs_parallel, "threads")
 
@@ -147,31 +178,53 @@ class Scale:
         self.delta_y = (srn.max_y - srn.min_y) / self.scale
         self.delta_x = (srn.max_x - srn.min_x) / self.scale * self.aspect_y_by_x
 
-    def _helper_create_dict_in_parallel(self, i):
-        key = self.list_of_bbox[i]
+    def _helper_create_dict_in_parallel_new(self, bbox):
 
-        N, S, E, W = key
-        if not os.path.exists(config.warnings_folder):
-            os.mkdir(config.warnings_folder)
+        N, S, E, W = bbox
+
         try:
             tile = Tile(ox.truncate.truncate_graph_bbox(self.RoadNetwork.G_osm, N, S, E, W), self.tile_area)
-            # self.dict_bbox_to_subgraph[key] =
-            if config.verbose >= 2:
-                with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
-                    csvwriter = csv.writer(f)
-                    csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
+            # if config.verbose >= 2:
+            #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
+            #         csvwriter = csv.writer(f)
+            #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
         except (ValueError, nx.exception.NetworkXPointlessConcept):
-            # warnings.warn("ValueError at i: " + str(i))
-            # print("ValueError at i: " + str(i))
-            if config.verbose >= 1:
-                with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
-                    csvwriter = csv.writer(f)
-                    csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
-            # self.dict_bbox_to_subgraph[key] = "Empty"
-            # empty_bboxes.append(key)
-            # continue
+            # if config.verbose >= 1:
+            #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
+            #         csvwriter = csv.writer(f)
+            #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
+            return (bbox, "Empty")
+        return (bbox, tile)
+
+    def create_file_marker(self):
+        with open("temp/temp" + str(int(np.random.rand() * 10000000)) + ".txt", "w") as f:
+            f.write("Done")
+
+    def _helper_create_dict_in_parallel(self, key):
+        # key = self.list_of_bbox[i]
+
+        N, S, E, W = key
+
+        try:
+            tile = Tile(ox.truncate.truncate_graph_bbox(self.RoadNetwork.G_osm, N, S, E, W), self.tile_area)
+            # if config.verbose >= 2:
+            #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
+            #         csvwriter = csv.writer(f)
+            #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
+        except (ValueError, nx.exception.NetworkXPointlessConcept):
+            # if config.verbose >= 1:
+            #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
+            #         csvwriter = csv.writer(f)
+            #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
+            if config.debug_:
+                self.create_file_marker()
             return (key, "Empty")
+            # pass
+
+        if config.debug_:
+            self.create_file_marker()
         return (key, tile)
+        # pass
 
     @staticmethod
     def generate_scales_for_all_cities():
