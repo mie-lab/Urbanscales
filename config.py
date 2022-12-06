@@ -132,12 +132,12 @@ scl_n_jobs_parallel = 5
 scl_master_list_of_cities = rn_master_list_of_cities
 scl_list_of_depths = [1]
 scl_list_of_seeds = [
-    # 15,
-    # 30,
-    # 50,
-    # 60,
-    # 80,
-    # 110,
+    15,
+    30,
+    50,
+    60,
+    80,
+    110,
     130,
     # 150,
     # 170

@@ -3,6 +3,9 @@ import os
 import shutil
 import sys
 
+import matplotlib
+matplotlib.use('TKAgg')
+
 import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.pyplot import cm
@@ -152,7 +155,7 @@ class Pipeline:
             for j in range(self.X.shape[1]):
                 colorlist.append(color[j])
 
-            plt.clf()
+            # plt.clf()
             plt.bar(height=importance, x=self.X.columns, color=colorlist)
             plt.ylim(0, 1)
 
