@@ -61,7 +61,7 @@ class TrainDataVectors:
         scl = Scale.get_object(self.city_name, self.scale)
         # scl_jf = ScaleJF(scl, sd )
 
-        for tod_ in config.td_combine_tods_overwrite_othertods:
+        for tod_ in config.td_tod_list:
             scl_jf = ScaleJF.get_object(self.city_name, self.scale, tod_)
             assert isinstance(scl_jf, ScaleJF)
             for bbox in scl_jf.bbox_segment_map:

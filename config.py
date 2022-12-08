@@ -191,7 +191,7 @@ td_standard_scaler = True
 td_min_max_scaler = True
 td_plot_raw_variance_before_scaling = True
 td_viz_y_hist = True
-td_combine_tods_overwrite_othertods = [6, 7, 8, 9]  ## 🧨 What is this variable must be clarified!
+
 ## maybe we should simply remove this
 td_drop_feature_lists = [
     "streets-per-node-proportions0",
