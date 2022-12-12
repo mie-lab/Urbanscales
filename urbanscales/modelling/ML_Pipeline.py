@@ -4,7 +4,7 @@ import shutil
 import sys
 
 import matplotlib
-matplotlib.use('TKAgg')
+# matplotlib.use('TKAgg')
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -38,6 +38,8 @@ class Pipeline:
         self.cv_scores_default = []
         self.cv_scores_QWK = []
         self.scores_QWK = []
+        self.num_test_data_points = []
+        self.num_train_data_points = []
 
         obj = TrainDataVectors(cityname, scale, tod)
 
@@ -238,11 +240,19 @@ class Pipeline:
 
         sprint(self.X.shape, self.Y.shape)
 
-        for i in range(self.X.shape[0] // config.ppl_smallest_sample * 2):
+        range_ = max(self.X.shape[0] // config.ppl_smallest_sample, 1) * 2
+        if config.ppl_use_all:
+            # Run with full data 7 times
+            range_ = 7
+
+        for i in range(range_):
             x = []
             y = []
             for j in range(self.X.shape[0]):
-                if np.random.rand() < config.ppl_smallest_sample * (1.33) / self.X.shape[0]:
+                # sampling without replacement to avoid target leakage
+                if ((np.random.rand() < config.ppl_smallest_sample * (1.33) / self.X.shape[0]) and not config.ppl_use_all) \
+                        or\
+                        config.ppl_use_all:
                     x.append(self.X.to_numpy()[j, :])
                     y.append(self.Y[j])
             x = np.array(x)
@@ -251,6 +261,10 @@ class Pipeline:
             sprint(x.shape, y.shape)
             X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.33, random_state=42)
             sprint(X_train.shape, y_train.shape, X_test.shape, y_test.shape)
+
+            self.num_train_data_points.append(X_train.shape[0])
+            self.num_test_data_points.append(X_test.shape[0])
+
 
             reg = make_pipeline()
             if config.td_min_max_scaler:
@@ -298,7 +312,6 @@ class Pipeline:
             self.scores_QWK.append(QWK(y_test_GT, y_test_predicted).val)
             self.scores_default.append(mean_squared_error(y_test_GT, y_test_predicted))
 
-        self.small_X_num_datapoints = X_train.shape[0]
 
     @staticmethod
     def compute_scores_for_all_cities():
@@ -311,9 +324,13 @@ class Pipeline:
                     "depth",
                     "tod",
                     "#datapoints",
-                    "#datapoints-train-sample",
+                    "#datapoints-train-sample-mean",
+                    "#datapoints-test-sample-mean",
                     "np.mean(lr_object.cv_scores)",
+                    "np.std(lr_object.cv_scores)",
                     "np.mean(lr_object.cv_scores_QWK)",
+                    "np.std(lr_object.cv_scores_QWK)",
+                    "num_splits"
                 ]
             )
 
@@ -336,9 +353,13 @@ class Pipeline:
                                         depth,
                                         tod,
                                         lr_object.X.shape,
-                                        lr_object.small_X_num_datapoints,
+                                        np.mean(lr_object.num_train_data_points),
+                                        np.mean(lr_object.num_test_data_points),
                                         np.mean(lr_object.scores_default),
+                                        np.std(lr_object.scores_default),
                                         np.mean(lr_object.scores_QWK),
+                                        np.std(lr_object.scores_QWK),
+                                        len(lr_object.scores_QWK)
                                     ]
                                 )
                         # sprint(time.time() - startime)

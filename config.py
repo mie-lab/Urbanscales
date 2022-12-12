@@ -11,10 +11,10 @@ warnings_folder = "warnings"
 results_folder = "results"
 
 BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"
-BASE_FOLDER_server = "/usr1/nishant/WCS"
+BASE_FOLDER_server = "/home/niskumar/WCS"
 
 cur_dir = os.getcwd()
-if cur_dir.split("/")[1] == "usr1":
+if cur_dir.split("/")[1] == "home":
     BASE_FOLDER = BASE_FOLDER_server
 elif cur_dir.split("/")[1] == "Users":
     BASE_FOLDER = BASE_FOLDER_local
@@ -42,11 +42,15 @@ td_delete_existing_pickle_objects = True
 #####################################
 ##############  PLOTS  ################
 #####################################
-ppl_smallest_sample = 400
+ppl_smallest_sample = -1
+ppl_use_all = True
+if ppl_use_all:
+    assert ppl_smallest_sample == -1
+
 ppl_plot_FI = False
 ppl_CV_splits = 7
-ppl_plot_corr = True
-ppl_hist = True
+ppl_plot_corr = False
+ppl_hist = False
 ppl_hist_bins = 10
 ppl_scaling_for_EDA = (
     2  # 0: None; 1: Divide by Max; 2: StandardScaler(); 3: Divide by max; followed by StandardScaler()
@@ -57,13 +61,14 @@ ppl_feature_importance_via_coefficients = False
 if ppl_feature_importance_via_coefficients:
     assert model in ["LR", "RIDGE", "LASSO"]
 
-ppl_feature_importance_via_NL_models = True
+ppl_feature_importance_via_NL_models = False
 if ppl_feature_importance_via_NL_models:
     assert model in ["RFR", "GBM"]
 
 ppl_list_of_NL_models = ["RFR", "GBM"]
 
-assert ppl_feature_importance_via_NL_models != ppl_feature_importance_via_coefficients
+assert (ppl_feature_importance_via_NL_models != ppl_feature_importance_via_coefficients) or\
+       (ppl_feature_importance_via_coefficients == False and ppl_feature_importance_via_NL_models == False)
 
 ppl_list_of_correlations = ["pearson"]  # , "kendall", "spearman"]
 
@@ -131,17 +136,18 @@ if rn_square_from_city_centre != -1:
 scl_n_jobs_parallel = 5
 scl_master_list_of_cities = rn_master_list_of_cities
 scl_list_of_depths = [1]
-scl_list_of_seeds = [
-    15,
-    30,
-    50,
-    60,
-    80,
-    110,
-    130,
-    # 150,
-    # 170
-]  # 40, 45, 50, 55, 60, 65, 70, 80, 85, 90, 95, 100, 120]
+# scl_list_of_seeds = [
+#     15,
+#     30,
+#     50,
+#     60,
+#     80,
+#     110,
+#     130,
+#     # 150,
+#     # 170
+# ]  # 40, 45, 50, 55, 60, 65, 70, 80, 85, 90, 95, 100, 120]
+scl_list_of_seeds = list(range(15, 250, 5))
 
 scl_error_percentage_tolerance = 0.2
 
