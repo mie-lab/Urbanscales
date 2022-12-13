@@ -6,7 +6,7 @@ import osmnx as ox
 import config
 import matplotlib
 
-matplotlib.use("TkAgg")
+# matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt
 from smartprint import smartprint as sprint
