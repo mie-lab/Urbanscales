@@ -35,7 +35,7 @@ class CustomUnpicklerScale(pickle.Unpickler):
 
 class Scale:
     def __init__(self, RoadNetwork, scale):
-        fname = os.path.join("network", RoadNetwork.city_name, "_scale_" + str(scale) + ".pkl")
+        fname = os.path.join(config.network_folder, RoadNetwork.city_name, "_scale_" + str(scale) + ".pkl")
         if config.scl_delete_existing_pickle_objects:
             if os.path.exists(fname):
                 os.remove(fname)
@@ -56,7 +56,7 @@ class Scale:
             self.set_bbox_sub_G_map()
 
     def set_bbox_sub_G_map(self, save_to_pickle=True):
-        fname = os.path.join("network", self.RoadNetwork.city_name, "_scale_" + str(self.scale) + ".pkl")
+        fname = os.path.join(config.network_folder, self.RoadNetwork.city_name, "_scale_" + str(self.scale) + ".pkl")
         if os.path.exists(fname):
             # do nothing
             return
@@ -245,7 +245,7 @@ class Scale:
         Returns: (Saved) Object of this class (Scale)
 
         """
-        fname = os.path.join("network", cityname, "_scale_" + str(scale) + ".pkl")
+        fname = os.path.join(config.network_folder, cityname, "_scale_" + str(scale) + ".pkl")
         if os.path.exists(fname):
             obj = CustomUnpicklerScale(open(fname, "rb")).load()
         else:

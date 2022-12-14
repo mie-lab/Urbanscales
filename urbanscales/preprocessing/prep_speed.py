@@ -44,7 +44,7 @@ class ScaleJF:
     def __init__(self, scale: Scale, speed_data: SpeedData, tod: int):
         assert scale.RoadNetwork.city_name == speed_data.city_name
         fname = os.path.join(
-            "network", scale.RoadNetwork.city_name, "_scale_" + str(scale) + "_prep_speed_" + str(tod) + ".pkl"
+            config.network_folder, scale.RoadNetwork.city_name, "_scale_" + str(scale) + "_prep_speed_" + str(tod) + ".pkl"
         )
         if config.ps_delete_existing_pickle_objects:
             if os.path.exists(fname):
@@ -69,7 +69,7 @@ class ScaleJF:
         # Step 2: iterate over bboxes
         # Then within the loop populate the dict if both are intersecting
         fname = os.path.join(
-            "network",
+            config.network_folder,
             self.Scale.RoadNetwork.city_name,
             "_scale_" + str(self.Scale.scale) + "_prep_speed_" + str(self.tod) + ".pkl",
         )
@@ -139,7 +139,7 @@ class ScaleJF:
         Returns: (Saved) Object of this class (Scale)
 
         """
-        fname = os.path.join("network", cityname, "_scale_" + str(scale) + "_prep_speed_" + str(tod) + ".pkl")
+        fname = os.path.join(config.network_folder, cityname, "_scale_" + str(scale) + "_prep_speed_" + str(tod) + ".pkl")
         if os.path.exists(fname):
             # ScaleJF.preprocess_different_tods([tod], Scale.get_object_at_scale(cityname, scale), SpeedData.get_object(cityname))
             try:
@@ -158,7 +158,7 @@ class ScaleJF:
         for tod in tqdm(range_element, desc="Processing for different ToDs"):
             scl_jf = ScaleJF(scl, sd, tod=tod)
             fname = os.path.join(
-                "network", scl.RoadNetwork.city_name, "_scale_" + str(scl.scale) + "_prep_speed_" + str(tod) + ".pkl"
+                config.network_folder, scl.RoadNetwork.city_name, "_scale_" + str(scl.scale) + "_prep_speed_" + str(tod) + ".pkl"
             )
             with open(fname, "wb") as f:
                 pickle.dump(scl_jf, f, protocol=config.pickle_protocol)

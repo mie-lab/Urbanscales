@@ -33,7 +33,7 @@ class TrainDataVectors:
             city_name & scale: Trivial
             tod: single number based on granularity
         """
-        fname = os.path.join("network", city_name, "_scale_" + str(scale) + "_train_data_" + str(tod) + ".pkl")
+        fname = os.path.join(config.network_folder, city_name, "_scale_" + str(scale) + "_train_data_" + str(tod) + ".pkl")
         if config.td_delete_existing_pickle_objects:
             if os.path.exists(fname):
                 os.remove(fname)
@@ -81,7 +81,7 @@ class TrainDataVectors:
                 self.Y.append(scl_jf.bbox_jf_map[bbox])
 
         fname = os.path.join(
-            "network", scl.RoadNetwork.city_name, "_scale_" + str(scl.scale) + "_train_data_" + str(self.tod) + ".pkl"
+            config.network_folder, scl.RoadNetwork.city_name, "_scale_" + str(scl.scale) + "_train_data_" + str(self.tod) + ".pkl"
         )
         if not os.path.exists(fname):
             nparrayX = np.array(self.X)

@@ -38,7 +38,7 @@ class SpeedData:
             time_gran_minutes_target:
         """
 
-        fname = os.path.join("network", city_name, "_speed_data_object.pkl")
+        fname = os.path.join(config.network_folder, city_name, "_speed_data_object.pkl")
         if config.sd_delete_existing_pickle_objects:
             if os.path.exists(fname):
                 os.remove(fname)
@@ -143,7 +143,7 @@ class SpeedData:
             self.nid_jf_map[seg_nid] = copy.deepcopy(jf_list)
             self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy(jf_list)
 
-        fname = os.path.join("network", self.city_name, "_speed_data_object.pkl")
+        fname = os.path.join(config.network_folder, self.city_name, "_speed_data_object.pkl")
         if not os.path.exists(fname):
             with open(fname, "wb") as f:
                 pickle.dump(self, f, protocol=config.pickle_protocol)
