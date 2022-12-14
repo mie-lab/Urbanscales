@@ -228,11 +228,41 @@ class Pipeline:
     def plot_FI_for_trained_model(self, model, X, Y, marker, plot_counter):
         assert marker in ["train", "val"]
         r = permutation_importance(model, X, Y, n_repeats=30)
-        fi_dict = dict(zip(self.X.columns, r.importances_mean.tolist()))
-        list_of_tuples = sorted(fi_dict.items(), key=lambda kv: kv[1], reverse=True)
+        colorlist = [
+            "#e6194B",
+            "#3cb44b",
+            "#ffe119",
+            "#4363d8",
+            "#f58231",
+            "#911eb4",
+            "#42d4f4",
+            "#f032e6",
+            "#bfef45",
+            "#fabed4",
+            "#469990",
+            "#dcbeff",
+            "#9A6324",
+            "#fffac8",
+            "#800000",
+            "#aaffc3",
+            "#808000",
+            "#ffd8b1",
+            "#000075",
+            "#a9a9a9",
+            "#ffffff",
+            "#776600",
+        ]
+        fi_dict = dict(zip(self.X.columns, zip(r.importances_mean.tolist(), colorlist)))
+        list_of_tuples = sorted(fi_dict.items(), key=lambda kv: kv[1][0], reverse=True)
         plt.clf()
-        plt.bar([x[0] for x in list_of_tuples], [x[1] for x in list_of_tuples], width=0.5, color="blue")
-        plt.xticks(rotation=90, fontsize=6)
+
+        column_names_sorted = [x[0] for x in list_of_tuples]
+        importance_heights_sorted = [x[1][0] for x in list_of_tuples]
+        colorlist_sorted = [x[1][1] for x in list_of_tuples]
+
+        plt.bar(column_names_sorted, importance_heights_sorted, width=0.5, color=colorlist_sorted)
+        plt.xticks(rotation=90, fontsize=8)
+        plt.tight_layout()
         plt.savefig(
             os.path.join(
                 config.results_folder,
