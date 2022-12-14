@@ -4,6 +4,7 @@ import shutil
 import sys
 
 import matplotlib
+
 # matplotlib.use('TKAgg')
 
 import matplotlib.pyplot as plt
@@ -29,14 +30,13 @@ from yellowbrick.model_selection import FeatureImportances
 from slugify import slugify
 import plotly.express as px
 from sklearn.preprocessing import FunctionTransformer, StandardScaler
+from sklearn.inspection import permutation_importance
 
 
 class Pipeline:
     def __init__(self, cityname, scale, tod):
         self.cityname, self.scale, self.tod = cityname, scale, tod
-        self.scores_default = []
-        self.cv_scores_default = []
-        self.cv_scores_QWK = []
+        self.scores_MSE = []
         self.scores_QWK = []
         self.num_test_data_points = []
         self.num_train_data_points = []
@@ -63,21 +63,12 @@ class Pipeline:
             self.empty_train_data = True
             pass
 
-    def plot_CORR(self, df, i):
+    def plot_CORR(self, df):
         for corr_type in config.ppl_list_of_correlations:
             fig = px.imshow(
                 df.corr(method=corr_type),
                 title=slugify(
-                    corr_type
-                    + "-corr-"
-                    + config.model
-                    + self.cityname
-                    + "-"
-                    + str(self.scale)
-                    + "-"
-                    + str(self.tod)
-                    + "-counter"
-                    + str(i + 1)
+                    corr_type + "-corr-" + config.model + self.cityname + "-" + str(self.scale) + "-" + str(self.tod)
                 ),
                 width=1200,
                 height=1200,
@@ -96,8 +87,6 @@ class Pipeline:
                         + str(self.scale)
                         + "-"
                         + str(self.tod)
-                        + "-counter"
-                        + str(i + 1)
                     ),
                 )
                 + ".png",
@@ -236,9 +225,43 @@ class Pipeline:
             dpi=300,
         )
 
-    def compute_score(self):
+    def plot_FI_for_trained_model(self, model, X, Y, marker, plot_counter):
+        assert marker in ["train", "val"]
+        r = permutation_importance(model, X, Y, n_repeats=30)
+        fi_dict = dict(zip(self.X.columns, r.importances_mean.tolist()))
+        list_of_tuples = sorted(fi_dict.items(), key=lambda kv: kv[1], reverse=True)
+        plt.clf()
+        plt.bar([x[0] for x in list_of_tuples], [x[1] for x in list_of_tuples], width=0.5, color="blue")
+        plt.xticks(rotation=90, fontsize=6)
+        plt.savefig(
+            os.path.join(
+                config.results_folder,
+                slugify(
+                    "feat-imp-"
+                    + config.model
+                    + self.cityname
+                    + "-"
+                    + str(self.scale)
+                    + "-"
+                    + str(self.tod)
+                    + "-"
+                    + marker
+                    + "-counter"
+                    + str(plot_counter)
+                ),
+            )
+            + ".png",
+            dpi=300,
+        )
 
+        return
+
+    def compute_score(self):
         sprint(self.X.shape, self.Y.shape)
+        if config.ppl_plot_corr:
+            df_temp = pd.DataFrame(self.scale_x(self.X), columns=self.X.columns)
+            df_temp["Y"] = self.Y.flatten().tolist()
+            self.plot_CORR(df_temp)
 
         range_ = max(self.X.shape[0] // config.ppl_smallest_sample, 1) * 2
         if config.ppl_use_all:
@@ -250,9 +273,10 @@ class Pipeline:
             y = []
             for j in range(self.X.shape[0]):
                 # sampling without replacement to avoid target leakage
-                if ((np.random.rand() < config.ppl_smallest_sample * (1.33) / self.X.shape[0]) and not config.ppl_use_all) \
-                        or\
-                        config.ppl_use_all:
+                if (
+                    (np.random.rand() < config.ppl_smallest_sample * (1.33) / self.X.shape[0])
+                    and not config.ppl_use_all
+                ) or config.ppl_use_all:
                     x.append(self.X.to_numpy()[j, :])
                     y.append(self.Y[j])
             x = np.array(x)
@@ -265,12 +289,14 @@ class Pipeline:
             self.num_train_data_points.append(X_train.shape[0])
             self.num_test_data_points.append(X_test.shape[0])
 
+            if config.td_min_max_scaler:
+                X_train = preprocessing.MinMaxScaler().fit_transform(X_train)
+                X_test = preprocessing.MinMaxScaler().fit_transform(X_test)
+            if config.td_standard_scaler:
+                X_train = preprocessing.StandardScaler().fit_transform(X_train)
+                X_test = preprocessing.StandardScaler().fit_transform(X_test)
 
             reg = make_pipeline()
-            if config.td_min_max_scaler:
-                reg.steps.append(["minmax_scaler", preprocessing.MinMaxScaler()])
-            if config.td_standard_scaler:
-                reg.steps.append(["standard_scaler", preprocessing.StandardScaler()])
 
             if config.model == "RFR":
                 reg.steps.append(["rfr", RandomForestRegressor()])
@@ -283,35 +309,30 @@ class Pipeline:
             elif config.model == "LASSO":
                 reg.steps.append(["lasso", Lasso()])
 
-            # self.cv_scores_default += (cross_val_score(reg, x, y, cv=config.ppl_CV_splits)).tolist()
-            # self.cv_scores_QWK += (
-            #     cross_val_score(reg, x, y, cv=config.ppl_CV_splits, scoring=custom_scoring_QWK)
-            # ).tolist()
+            # if config.ppl_hist:
+            #     df_temp = pd.DataFrame(self.scale_x(X_train), columns=self.X.columns)
+            #     df_temp["Y"] = y_train.flatten().tolist()
+            #     self.plot_hist(df_temp, i)
+            #
+            # if config.ppl_feature_importance_via_coefficients:
+            #     self.feature_importance_via_ridge_coefficients(self.scale_x(X_train), y_train, i)
+            # if config.ppl_feature_importance_via_NL_models:
+            #     self.feature_importance_via_NL_models(self.scale_x(X_train), y_train, i)
 
-            if config.ppl_plot_FI:
-                self.plot_FI(
-                    reg[-1], i, pd.DataFrame(X_train, columns=self.X.columns), pd.DataFrame(y_train, columns=["Y"])
-                )
-            if config.ppl_plot_corr:
-                df_temp = pd.DataFrame(self.scale_x(X_train), columns=self.X.columns)
-                df_temp["Y"] = y_train.flatten().tolist()
-                self.plot_CORR(df_temp, i)
-            if config.ppl_hist:
-                df_temp = pd.DataFrame(self.scale_x(X_train), columns=self.X.columns)
-                df_temp["Y"] = y_train.flatten().tolist()
-                self.plot_hist(df_temp, i)
-            if config.ppl_feature_importance_via_coefficients:
-                self.feature_importance_via_ridge_coefficients(self.scale_x(X_train), y_train, i)
-            if config.ppl_feature_importance_via_NL_models:
-                self.feature_importance_via_NL_models(self.scale_x(X_train), y_train, i)
-
-            trained_model = reg.fit(X_train, y_train)
-            y_test_predicted = trained_model.predict(X_test)
+            trained_model = reg.fit(pd.DataFrame(X_train, columns=self.X.columns), y_train)
+            y_test_predicted = trained_model.predict(pd.DataFrame(X_test, columns=self.X.columns))
             y_test_GT = y_test
 
-            self.scores_QWK.append(QWK(y_test_GT, y_test_predicted).val)
-            self.scores_default.append(mean_squared_error(y_test_GT, y_test_predicted))
+            if config.ppl_plot_FI:
+                self.plot_FI_for_trained_model(
+                    trained_model, pd.DataFrame(X_train, columns=self.X.columns), y_train, "train", i
+                )
+                self.plot_FI_for_trained_model(
+                    trained_model, pd.DataFrame(X_test, columns=self.X.columns), y_test, "val", i
+                )
 
+            self.scores_QWK.append(QWK(y_test_GT, y_test_predicted).val)
+            self.scores_MSE.append(mean_squared_error(y_test_GT, y_test_predicted))
 
     @staticmethod
     def compute_scores_for_all_cities():
@@ -326,11 +347,11 @@ class Pipeline:
                     "#datapoints",
                     "#datapoints-train-sample-mean",
                     "#datapoints-test-sample-mean",
-                    "np.mean(lr_object.cv_scores)",
-                    "np.std(lr_object.cv_scores)",
-                    "np.mean(lr_object.cv_scores_QWK)",
-                    "np.std(lr_object.cv_scores_QWK)",
-                    "num_splits"
+                    "np.mean(lr_object.scores_MSE)",
+                    "np.std(lr_object.scores_MSE)",
+                    "np.mean(lr_object.scores_QWK)",
+                    "np.std(lr_object.scores_QWK)",
+                    "num_splits",
                 ]
             )
 
@@ -342,7 +363,7 @@ class Pipeline:
                         startime = time.time()
                         lr_object = Pipeline(city, seed ** depth, tod)
                         if not lr_object.empty_train_data:
-                            sprint(np.mean(lr_object.cv_scores_default), np.mean(lr_object.cv_scores_QWK))
+                            sprint(np.mean(lr_object.scores_MSE), np.mean(lr_object.scores_QWK))
 
                             with open(os.path.join(config.results_folder, config.model + "_Scores.csv"), "a") as f:
                                 csvwriter = csv.writer(f)
@@ -355,11 +376,11 @@ class Pipeline:
                                         lr_object.X.shape,
                                         np.mean(lr_object.num_train_data_points),
                                         np.mean(lr_object.num_test_data_points),
-                                        np.mean(lr_object.scores_default),
-                                        np.std(lr_object.scores_default),
+                                        np.mean(lr_object.scores_MSE),
+                                        np.std(lr_object.scores_MSE),
                                         np.mean(lr_object.scores_QWK),
                                         np.std(lr_object.scores_QWK),
-                                        len(lr_object.scores_QWK)
+                                        len(lr_object.scores_QWK),
                                     ]
                                 )
                         # sprint(time.time() - startime)

@@ -47,9 +47,9 @@ ppl_use_all = True
 if ppl_use_all:
     assert ppl_smallest_sample == -1
 
-ppl_plot_FI = False
+ppl_plot_FI = True
 ppl_CV_splits = 7
-ppl_plot_corr = False
+ppl_plot_corr = True
 ppl_hist = False
 ppl_hist_bins = 10
 ppl_scaling_for_EDA = (
@@ -67,8 +67,9 @@ if ppl_feature_importance_via_NL_models:
 
 ppl_list_of_NL_models = ["RFR", "GBM"]
 
-assert (ppl_feature_importance_via_NL_models != ppl_feature_importance_via_coefficients) or\
-       (ppl_feature_importance_via_coefficients == False and ppl_feature_importance_via_NL_models == False)
+assert (ppl_feature_importance_via_NL_models != ppl_feature_importance_via_coefficients) or (
+    ppl_feature_importance_via_coefficients == False and ppl_feature_importance_via_NL_models == False
+)
 
 ppl_list_of_correlations = ["pearson"]  # , "kendall", "spearman"]
 
@@ -79,15 +80,15 @@ ppl_list_of_correlations = ["pearson"]  # , "kendall", "spearman"]
 # format: city,location, N, E, S, W
 rn_city_wise_bboxes = {
     "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
-    "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
-    "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
+    ### "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
+    ### "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
     # "Auckland": [-35.6984, 175.9032, -37.3645, 173.8963],
-    "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
+    ### "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
     # "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
     # "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
-    "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
+    ### "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
     # "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
-    "London": [51.28676, -0.510375, 51.691874, 0.334015],
+    ### "London": [51.28676, -0.510375, 51.691874, 0.334015],
     # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
     # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
 }
@@ -133,7 +134,7 @@ if rn_square_from_city_centre != -1:
 ####################################
 #########   Scale Class   ##########
 ####################################
-scl_n_jobs_parallel = 5
+scl_n_jobs_parallel = 70
 scl_master_list_of_cities = rn_master_list_of_cities
 scl_list_of_depths = [1]
 # scl_list_of_seeds = [
@@ -183,7 +184,7 @@ sd_end_datetime_str = "2022-08-03T18:20:05"
 ####################################
 ######   PreProcess Speed   ########
 ####################################
-ps_spatial_combination_method = "max"
+ps_spatial_combination_method = "mean"
 assert ps_spatial_combination_method in ["mean", "max"]
 ps_tod_list = [6]  # list(range(24))
 assert isinstance(ps_tod_list, list)
@@ -194,7 +195,7 @@ assert isinstance(ps_tod_list, list)
 ####################################
 td_tod_list = ps_tod_list
 td_standard_scaler = True
-td_min_max_scaler = True
+td_min_max_scaler = False
 td_plot_raw_variance_before_scaling = True
 td_viz_y_hist = True
 

@@ -43,7 +43,9 @@ class ScaleJF:
 
     def __init__(self, scale: Scale, speed_data: SpeedData, tod: int):
         assert scale.RoadNetwork.city_name == speed_data.city_name
-        fname = os.path.join("network", scale.RoadNetwork.city_name, "_scale_" + str(scale) + "_prep_speed_" + str(tod) + ".pkl")
+        fname = os.path.join(
+            "network", scale.RoadNetwork.city_name, "_scale_" + str(scale) + "_prep_speed_" + str(tod) + ".pkl"
+        )
         if config.ps_delete_existing_pickle_objects:
             if os.path.exists(fname):
                 os.remove(fname)
@@ -67,7 +69,10 @@ class ScaleJF:
         # Step 2: iterate over bboxes
         # Then within the loop populate the dict if both are intersecting
         fname = os.path.join(
-            "network", self.Scale.RoadNetwork.city_name, "_scale_" + str(self.Scale.scale) + "_prep_speed_" + str(self.tod) + ".pkl")
+            "network",
+            self.Scale.RoadNetwork.city_name,
+            "_scale_" + str(self.Scale.scale) + "_prep_speed_" + str(self.tod) + ".pkl",
+        )
 
         if os.path.exists(fname):
             # @P/A Ask 2
