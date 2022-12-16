@@ -417,7 +417,8 @@ class Pipeline:
 
 
 if __name__ == "__main__":
-    shutil.rmtree(config.results_folder)
-    os.mkdir(config.results_folder)
+    if os.path.exists(config.results_folder):
+        shutil.rmtree(config.results_folder)
 
+    os.mkdir(config.results_folder)
     Pipeline.compute_scores_for_all_cities()

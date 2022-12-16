@@ -6,9 +6,9 @@ pickle_protocol = 5
 verbose = 2
 debug_ = True
 
-network_folder = "network"
+network_folder = "network-tmean-smean"
 warnings_folder = "warnings"
-results_folder = "results"
+results_folder = "results_RFR_small_data"
 
 BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"
 BASE_FOLDER_server = "/home/niskumar/WCS"
@@ -42,8 +42,8 @@ td_delete_existing_pickle_objects = True
 #####################################
 ##############  PLOTS  ################
 #####################################
-ppl_smallest_sample = -1
-ppl_use_all = True
+ppl_smallest_sample = 316
+ppl_use_all = False
 if ppl_use_all:
     assert ppl_smallest_sample == -1
 
@@ -80,15 +80,15 @@ ppl_list_of_correlations = ["pearson"]  # , "kendall", "spearman"]
 # format: city,location, N, E, S, W
 rn_city_wise_bboxes = {
     "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
-    ### "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
-    ### "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
+    "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
+    "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
     # "Auckland": [-35.6984, 175.9032, -37.3645, 173.8963],
-    ### "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
+    "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
     # "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
     # "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
-    ### "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
+    "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
     # "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
-    ### "London": [51.28676, -0.510375, 51.691874, 0.334015],
+    "London": [51.28676, -0.510375, 51.691874, 0.334015],
     # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
     # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
 }
@@ -202,9 +202,15 @@ td_viz_y_hist = True
 ## maybe we should simply remove this
 td_drop_feature_lists = [
     "streets-per-node-proportions0",
-    "streets-per-node-counts-0",
-    "streets-per-node-counts-1",
     "streets-per-node-proportions1",
+    "streets-per-node-proportions3",
+    "streets-per-node-proportions4",
+    "streets-per-node-proportions5",
+    "edge-length-avg",
+    "street-segment-count",
+    "streets-per-node-counts-0"
+
+
 ]
 td_drop_collinear_features = True
 
