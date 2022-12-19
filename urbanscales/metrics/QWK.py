@@ -2,7 +2,6 @@ import numpy as np
 from sklearn.metrics import cohen_kappa_score
 from smartprint import smartprint as sprint
 
-
 class QWK:
     def __init__(self, actual_y, predicted_y, n_classes=10):
         """

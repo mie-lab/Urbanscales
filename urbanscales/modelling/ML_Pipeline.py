@@ -353,6 +353,12 @@ class Pipeline:
             y_test_predicted = trained_model.predict(pd.DataFrame(X_test, columns=self.X.columns))
             y_test_GT = y_test
 
+            if config.ppl_hist:
+                plt.hist(y_test_GT, bins=10, color="green", alpha=0.5, label="actual")
+                plt.hist(y_test_predicted, bins=10, color="blue", alpha=0.5, label="predicted")
+                plt.legend()
+                plt.savefig(os.path.join(config.results_folder, self.cityname, str(self.scale), "counter", str(i)))
+
             if config.ppl_plot_FI:
                 self.plot_FI_for_trained_model(
                     trained_model, pd.DataFrame(X_train, columns=self.X.columns), y_train, "train", i
@@ -370,6 +376,7 @@ class Pipeline:
             csvwriter = csv.writer(f)
             csvwriter.writerow(
                 [
+                    "model",
                     "city",
                     "seed",
                     "depth",
@@ -399,6 +406,7 @@ class Pipeline:
                                 csvwriter = csv.writer(f)
                                 csvwriter.writerow(
                                     [
+                                        config.model,
                                         city,
                                         seed,
                                         depth,
