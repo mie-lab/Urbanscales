@@ -36,8 +36,8 @@ from sklearn.inspection import permutation_importance
 class Pipeline:
     def __init__(self, cityname, scale, tod):
         self.cityname, self.scale, self.tod = cityname, scale, tod
-        self.scores_MSE = []
-        self.scores_QWK = []
+        self.scores_MSE = {}
+        self.scores_QWK = {}
         self.num_test_data_points = []
         self.num_train_data_points = []
 
@@ -67,9 +67,7 @@ class Pipeline:
         for corr_type in config.ppl_list_of_correlations:
             fig = px.imshow(
                 df.corr(method=corr_type),
-                title=slugify(
-                    corr_type + "-corr-" + config.model + self.cityname + "-" + str(self.scale) + "-" + str(self.tod)
-                ),
+                title=slugify(corr_type + "-corr-" + self.cityname + "-" + str(self.scale) + "-" + str(self.tod)),
                 width=1200,
                 height=1200,
             )
@@ -78,16 +76,7 @@ class Pipeline:
             fig.write_image(
                 os.path.join(
                     config.results_folder,
-                    slugify(
-                        corr_type
-                        + "-corr-"
-                        + config.model
-                        + self.cityname
-                        + "-"
-                        + str(self.scale)
-                        + "-"
-                        + str(self.tod)
-                    ),
+                    slugify(corr_type + "-corr-" + self.cityname + "-" + str(self.scale) + "-" + str(self.tod)),
                 )
                 + ".png",
             )
@@ -126,51 +115,51 @@ class Pipeline:
             dpi=300,
         )
 
-    def feature_importance_via_NL_models(self, x, y, i):
-        for model_ in config.ppl_list_of_NL_models:
-            if model_ == "RFR":
-                model = RandomForestRegressor()
-            elif model_ == "GBM":
-                model = GradientBoostingRegressor()
-            param_grid = {
-                "n_estimators": [30, 40, 50, 100, 200],
-            }
-
-            model = GridSearchCV(model, param_grid=param_grid, cv=config.ppl_CV_splits)
-            model.fit(x, y)
-
-            importance = model.best_estimator_.feature_importances_
-
-            color = cm.rainbow(np.linspace(0, 1, (self.X.shape[1])))
-            colorlist = []
-            for j in range(self.X.shape[1]):
-                colorlist.append(color[j])
-
-            # plt.clf()
-            plt.bar(height=importance, x=self.X.columns, color=colorlist)
-            plt.ylim(0, 1)
-
-            plt.title("Feature importances via importance " + model_)
-            plt.xticks(rotation=90, fontsize=7)
-            plt.tight_layout()
-            # plt.show()
-            plt.savefig(
-                os.path.join(
-                    config.results_folder,
-                    slugify(
-                        "-FI-via_-"
-                        + model_
-                        + self.cityname
-                        + "-"
-                        + str(self.scale)
-                        + "-"
-                        + str(self.tod)
-                        + "-counter"
-                        + str(i + 1)
-                    ),
-                ),
-                dpi=300,
-            )
+    # def feature_importance_via_NL_models(self, x, y, i):
+    #     for model_ in config.ppl_list_of_NL_models:
+    #         if model_ == "RFR":
+    #             model = RandomForestRegressor()
+    #         elif model_ == "GBM":
+    #             model = GradientBoostingRegressor()
+    #         param_grid = {
+    #             "n_estimators": [30, 40, 50, 100, 200],
+    #         }
+    #
+    #         model = GridSearchCV(model, param_grid=param_grid, cv=config.ppl_CV_splits)
+    #         model.fit(x, y)
+    #
+    #         importance = model.best_estimator_.feature_importances_
+    #
+    #         color = cm.rainbow(np.linspace(0, 1, (self.X.shape[1])))
+    #         colorlist = []
+    #         for j in range(self.X.shape[1]):
+    #             colorlist.append(color[j])
+    #
+    #         # plt.clf()
+    #         plt.bar(height=importance, x=self.X.columns, color=colorlist)
+    #         plt.ylim(0, 1)
+    #
+    #         plt.title("Feature importances via importance " + model_)
+    #         plt.xticks(rotation=90, fontsize=7)
+    #         plt.tight_layout()
+    #         # plt.show()
+    #         plt.savefig(
+    #             os.path.join(
+    #                 config.results_folder,
+    #                 slugify(
+    #                     "-FI-via_-"
+    #                     + model_
+    #                     + self.cityname
+    #                     + "-"
+    #                     + str(self.scale)
+    #                     + "-"
+    #                     + str(self.tod)
+    #                     + "-counter"
+    #                     + str(i + 1)
+    #                 ),
+    #             ),
+    #             dpi=300,
+    #         )
 
     def scale_x(self, x):
         x_trans = np.array(x)
@@ -199,33 +188,7 @@ class Pipeline:
             dpi=300,
         )
 
-    def plot_FI(self, reg, i, x, y):
-        plt.clf()
-        viz = FeatureImportances(reg, labels=Tile.get_feature_names(), color=["blue"] * self.X.shape[1])
-        # , colormap="viridis"
-
-        viz.fit(x, y)
-        plt.tight_layout()
-        plt.savefig(
-            os.path.join(
-                config.results_folder,
-                slugify(
-                    "feat-imp-"
-                    + config.model
-                    + self.cityname
-                    + "-"
-                    + str(self.scale)
-                    + "-"
-                    + str(self.tod)
-                    + "-counter"
-                    + str(i + 1)
-                ),
-            )
-            + ".png",
-            dpi=300,
-        )
-
-    def plot_FI_for_trained_model(self, model, X, Y, marker, plot_counter):
+    def plot_FI_for_trained_model(self, model, X, Y, marker, plot_counter, model_string):
         assert marker in ["train", "val"]
         r = permutation_importance(model, X, Y, n_repeats=30)
         colorlist = [
@@ -268,13 +231,13 @@ class Pipeline:
                 config.results_folder,
                 slugify(
                     "feat-imp-"
-                    + config.model
                     + self.cityname
                     + "-"
                     + str(self.scale)
                     + "-"
                     + str(self.tod)
                     + "-"
+                    + model_string
                     + marker
                     + "-counter"
                     + str(plot_counter)
@@ -313,6 +276,7 @@ class Pipeline:
             y = np.array(y)
 
             sprint(x.shape, y.shape)
+
             X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.33, random_state=42)
             sprint(X_train.shape, y_train.shape, X_test.shape, y_test.shape)
 
@@ -326,53 +290,46 @@ class Pipeline:
                 X_train = preprocessing.StandardScaler().fit_transform(X_train)
                 X_test = preprocessing.StandardScaler().fit_transform(X_test)
 
-            reg = make_pipeline()
+            for ml_model in config.ppl_list_of_NL_models + config.ppl_list_of_baselines:
+                reg = make_pipeline()
+                reg.steps.append([ml_model, eval(ml_model)])
 
-            if config.model == "RFR":
-                reg.steps.append(["rfr", RandomForestRegressor()])
-            elif config.model == "LR":
-                reg.steps.append(["lr", LinearRegression()])
-            elif config.model == "GBM":
-                reg.steps.append(["gbm", GradientBoostingRegressor()])
-            elif config.model == "RIDGE":
-                reg.steps.append(["ridge", Ridge()])
-            elif config.model == "LASSO":
-                reg.steps.append(["lasso", Lasso()])
+                trained_model = reg.fit(pd.DataFrame(X_train, columns=self.X.columns), y_train)
+                y_test_predicted = trained_model.predict(pd.DataFrame(X_test, columns=self.X.columns))
+                y_test_GT = y_test
 
-            # if config.ppl_hist:
-            #     df_temp = pd.DataFrame(self.scale_x(X_train), columns=self.X.columns)
-            #     df_temp["Y"] = y_train.flatten().tolist()
-            #     self.plot_hist(df_temp, i)
-            #
-            # if config.ppl_feature_importance_via_coefficients:
-            #     self.feature_importance_via_ridge_coefficients(self.scale_x(X_train), y_train, i)
-            # if config.ppl_feature_importance_via_NL_models:
-            #     self.feature_importance_via_NL_models(self.scale_x(X_train), y_train, i)
+                if config.ppl_hist:
+                    plt.hist(y_test_GT, bins=10, color="green", alpha=0.5, label="actual")
+                    plt.hist(y_test_predicted, bins=10, color="blue", alpha=0.5, label="predicted")
+                    plt.legend()
+                    plt.savefig(os.path.join(config.results_folder, self.cityname, str(self.scale), "counter", str(i)))
 
-            trained_model = reg.fit(pd.DataFrame(X_train, columns=self.X.columns), y_train)
-            y_test_predicted = trained_model.predict(pd.DataFrame(X_test, columns=self.X.columns))
-            y_test_GT = y_test
+                if config.ppl_plot_FI:
+                    self.plot_FI_for_trained_model(
+                        trained_model,
+                        pd.DataFrame(X_train, columns=self.X.columns),
+                        y_train,
+                        "train",
+                        i,
+                        slugify(ml_model),
+                    )
+                    self.plot_FI_for_trained_model(
+                        trained_model, pd.DataFrame(X_test, columns=self.X.columns), y_test, "val", i, slugify(ml_model)
+                    )
 
-            if config.ppl_hist:
-                plt.hist(y_test_GT, bins=10, color="green", alpha=0.5, label="actual")
-                plt.hist(y_test_predicted, bins=10, color="blue", alpha=0.5, label="predicted")
-                plt.legend()
-                plt.savefig(os.path.join(config.results_folder, self.cityname, str(self.scale), "counter", str(i)))
+                if ml_model in self.scores_QWK:
+                    self.scores_QWK[ml_model].append(QWK(y_test_GT, y_test_predicted).val)
+                else:
+                    self.scores_QWK[ml_model] = [(QWK(y_test_GT, y_test_predicted).val)]
 
-            if config.ppl_plot_FI:
-                self.plot_FI_for_trained_model(
-                    trained_model, pd.DataFrame(X_train, columns=self.X.columns), y_train, "train", i
-                )
-                self.plot_FI_for_trained_model(
-                    trained_model, pd.DataFrame(X_test, columns=self.X.columns), y_test, "val", i
-                )
-
-            self.scores_QWK.append(QWK(y_test_GT, y_test_predicted).val)
-            self.scores_MSE.append(mean_squared_error(y_test_GT, y_test_predicted))
+                if ml_model in self.scores_MSE:
+                    self.scores_MSE[ml_model].append(mean_squared_error(y_test_GT, y_test_predicted))
+                else:
+                    self.scores_MSE[ml_model] = [(mean_squared_error(y_test_GT, y_test_predicted))]
 
     @staticmethod
     def compute_scores_for_all_cities():
-        with open(os.path.join(config.results_folder, config.model + "_Scores.csv"), "w") as f:
+        with open(os.path.join(config.results_folder, "_Scores.csv"), "w") as f:
             csvwriter = csv.writer(f)
             csvwriter.writerow(
                 [
@@ -391,37 +348,41 @@ class Pipeline:
                     "num_splits",
                 ]
             )
+        list_of_models = config.ppl_list_of_NL_models + config.ppl_list_of_baselines
 
         for city in config.scl_master_list_of_cities:
             for seed in config.scl_list_of_seeds:
                 for depth in config.scl_list_of_depths:
                     for tod in config.td_tod_list:
-                        sprint(city, seed, depth, tod)
-                        startime = time.time()
-                        lr_object = Pipeline(city, seed ** depth, tod)
-                        if not lr_object.empty_train_data:
-                            sprint(np.mean(lr_object.scores_MSE), np.mean(lr_object.scores_QWK))
-
-                            with open(os.path.join(config.results_folder, config.model + "_Scores.csv"), "a") as f:
-                                csvwriter = csv.writer(f)
-                                csvwriter.writerow(
-                                    [
-                                        config.model,
-                                        city,
-                                        seed,
-                                        depth,
-                                        tod,
-                                        lr_object.X.shape,
-                                        np.mean(lr_object.num_train_data_points),
-                                        np.mean(lr_object.num_test_data_points),
-                                        np.mean(lr_object.scores_MSE),
-                                        np.std(lr_object.scores_MSE),
-                                        np.mean(lr_object.scores_QWK),
-                                        np.std(lr_object.scores_QWK),
-                                        len(lr_object.scores_QWK),
-                                    ]
+                        for model in list_of_models:
+                            sprint(city, seed, depth, tod, model)
+                            startime = time.time()
+                            lr_object = Pipeline(city, seed ** depth, tod)
+                            if not lr_object.empty_train_data:
+                                sprint(
+                                    model, np.mean(lr_object.scores_MSE[model]), np.mean(lr_object.scores_QWK[model])
                                 )
-                        # sprint(time.time() - startime)
+
+                                with open(os.path.join(config.results_folder, "_Scores.csv"), "a") as f:
+                                    csvwriter = csv.writer(f)
+                                    csvwriter.writerow(
+                                        [
+                                            slugify(model),
+                                            city,
+                                            seed,
+                                            depth,
+                                            tod,
+                                            lr_object.X.shape,
+                                            np.mean(lr_object.num_train_data_points),
+                                            np.mean(lr_object.num_test_data_points),
+                                            np.mean(lr_object.scores_MSE[model]),
+                                            np.std(lr_object.scores_MSE[model]),
+                                            np.mean(lr_object.scores_QWK[model]),
+                                            np.std(lr_object.scores_QWK[model]),
+                                            len(lr_object.scores_QWK[model]),
+                                        ]
+                                    )
+                        sprint(time.time() - startime)
 
 
 if __name__ == "__main__":

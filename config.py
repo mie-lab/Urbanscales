@@ -7,10 +7,6 @@ verbose = 2
 debug_ = True
 
 
-model = "LR"
-assert model in ["RFR", "LR", "GBM", "LASSO", "RIDGE"]
-
-
 BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"
 BASE_FOLDER_server = "/home/niskumar/WCS"
 
@@ -53,20 +49,21 @@ ppl_scaling_for_EDA = (
     2  # 0: None; 1: Divide by Max; 2: StandardScaler(); 3: Divide by max; followed by StandardScaler()
 )
 assert ppl_scaling_for_EDA in [0, 1, 2, 3]
+ppl_list_of_baselines = ["Lasso()", "LinearRegression()", "Ridge()"]
 
-ppl_feature_importance_via_coefficients = False
-if ppl_feature_importance_via_coefficients:
-    assert model in ["LR", "RIDGE", "LASSO"]
+# ppl_feature_importance_via_coefficients = False
+# if ppl_feature_importance_via_coefficients:
+#     assert model in ["LR", "RIDGE", "LASSO"]
 
 ppl_feature_importance_via_NL_models = False
-if ppl_feature_importance_via_NL_models:
-    assert model in ["RFR", "GBM"]
+# if ppl_feature_importance_via_NL_models:
+#     assert model in ["RFR", "GBM"]
 
-ppl_list_of_NL_models = ["RFR", "GBM"]
+ppl_list_of_NL_models = ["RandomForestRegressor()", "GradientBoostingRegressor()"]
 
-assert (ppl_feature_importance_via_NL_models != ppl_feature_importance_via_coefficients) or (
-    ppl_feature_importance_via_coefficients == False and ppl_feature_importance_via_NL_models == False
-)
+# assert (ppl_feature_importance_via_NL_models != ppl_feature_importance_via_coefficients) or (
+#     ppl_feature_importance_via_coefficients == False and ppl_feature_importance_via_NL_models == False
+# )
 
 ppl_list_of_correlations = ["pearson"]  # , "kendall", "spearman"]
 
@@ -220,11 +217,9 @@ if master_delete_all != -1:
     ) = scl_delete_existing_pickle_objects = rn_delete_existing_pickled_objects = master_delete_all
 
 
-network_folder = "network-tmax-smax"
+network_folder = "network"  # -tmax-smax"
 warnings_folder = "warnings"
-results_folder = (
-    "results_" + model + "_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data"
-)
+results_folder = "results_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data"
 
 
 intermediate_files_path = "/Users/nishant/Documents/GitHub/WCS/intermediate_files/"
