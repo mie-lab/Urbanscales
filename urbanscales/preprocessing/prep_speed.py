@@ -3,6 +3,7 @@ import os
 import pickle
 import sys
 import time
+from multiprocessing import Pool
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 
@@ -173,18 +174,26 @@ class ScaleJF:
                 #     obj = pickle.load(f)
 
     @staticmethod
+    def helper_parallel(params):
+        city, seed, depth = params
+        sd = SpeedData(city, config.sd_raw_speed_data_gran, config.sd_target_speed_data_gran)
+        scl = Scale(RoadNetwork(city), seed ** depth)
+        ScaleJF.preprocess_different_tods(config.ps_tod_list, scl, sd)
+
+    @staticmethod
     def connect_speed_and_nw_data_for_all_cities():
+        list_of_parallel_items = []
         for city in config.scl_master_list_of_cities:
             for seed in config.scl_list_of_seeds:
                 for depth in config.scl_list_of_depths:
-                    sprint(city, seed, depth)
-                    startime = time.time()
+                    list_of_parallel_items.append((city, seed, depth))
 
-                    sd = SpeedData(city, config.sd_raw_speed_data_gran, config.sd_target_speed_data_gran)
-                    scl = Scale(RoadNetwork(city), seed ** depth)
-                    ScaleJF.preprocess_different_tods(config.ps_tod_list, scl, sd)
-
-                    sprint(time.time() - startime)
+        if config.ppl_parallel_overall > 1:
+            p = Pool(config.ppl_parallel_overall)
+            print(p.map(ScaleJF.helper_parallel, list_of_parallel_items))
+        else:
+            for params in list_of_parallel_items:
+                ScaleJF.helper_parallel(params)
 
 
 if __name__ == "__main__":

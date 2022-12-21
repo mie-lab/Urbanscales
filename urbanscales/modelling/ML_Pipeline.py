@@ -1,5 +1,6 @@
 import csv
 import os
+import pickle
 import shutil
 import sys
 
@@ -7,6 +8,7 @@ import matplotlib
 
 # matplotlib.use('TKAgg')
 
+from multiprocessing import Pool
 import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.pyplot import cm
@@ -175,21 +177,38 @@ class Pipeline:
             x_trans = StandardScaler().fit_transform(x_trans)
         return x_trans
 
-    def plot_hist(self, df, i):
-        df.hist(bins=config.ppl_hist_bins)
-        plt.tight_layout()
-        plt.savefig(
-            os.path.join(
-                config.results_folder,
-                slugify(
-                    "-hist-" + self.cityname + "-" + str(self.scale) + "-" + str(self.tod) + "-counter" + str(i + 1)
-                ),
-            ),
-            dpi=300,
-        )
+    # def plot_hist(self, df, i):
+    #     plt.clf()
+    #     df.hist(bins=config.ppl_hist_bins)
+    #     plt.tight_layout()
+    #     plt.savefig(
+    #         os.path.join(
+    #             config.results_folder,
+    #             slugify(
+    #                 "-hist-" + self.cityname + "-" + str(self.scale) + "-" + str(self.tod) + "-counter" + str(i + 1)
+    #             ),
+    #         ),
+    #         dpi=300,
+    #     )
 
     def plot_FI_for_trained_model(self, model, X, Y, marker, plot_counter, model_string):
         assert marker in ["train", "val"]
+        fname = os.path.join(
+            config.results_folder,
+            slugify(
+                "feat-imp-"
+                + self.cityname
+                + "-"
+                + str(self.scale)
+                + "-"
+                + str(self.tod)
+                + "-"
+                + model_string
+                + marker
+                + "-counter"
+                + str(plot_counter)
+            ),
+        )
         r = permutation_importance(model, X, Y, n_repeats=30)
         colorlist = [
             "#e6194B",
@@ -216,6 +235,11 @@ class Pipeline:
             "#776600",
         ]
         fi_dict = dict(zip(self.X.columns, zip(r.importances_mean.tolist(), colorlist)))
+
+        with open(fname + ".pkl", "wb") as f:
+            pickle.dump(fi_dict, f, protocol=config.pickle_protocol)
+            print("Pickle of feature importance saved! ")
+
         list_of_tuples = sorted(fi_dict.items(), key=lambda kv: kv[1][0], reverse=True)
         plt.clf()
 
@@ -226,26 +250,7 @@ class Pipeline:
         plt.bar(column_names_sorted, importance_heights_sorted, width=0.5, color=colorlist_sorted)
         plt.xticks(rotation=90, fontsize=8)
         plt.tight_layout()
-        plt.savefig(
-            os.path.join(
-                config.results_folder,
-                slugify(
-                    "feat-imp-"
-                    + self.cityname
-                    + "-"
-                    + str(self.scale)
-                    + "-"
-                    + str(self.tod)
-                    + "-"
-                    + model_string
-                    + marker
-                    + "-counter"
-                    + str(plot_counter)
-                ),
-            )
-            + ".png",
-            dpi=300,
-        )
+        plt.savefig(fname + ".png", dpi=300)
 
         return
 
@@ -275,9 +280,9 @@ class Pipeline:
             x = np.array(x)
             y = np.array(y)
 
-            sprint(x.shape, y.shape)
+            print("x.shape, y.shape", x.shape, y.shape)
 
-            X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.33, random_state=42)
+            X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.33)
             sprint(X_train.shape, y_train.shape, X_test.shape, y_test.shape)
 
             self.num_train_data_points.append(X_train.shape[0])
@@ -299,10 +304,16 @@ class Pipeline:
                 y_test_GT = y_test
 
                 if config.ppl_hist:
+                    plt.clf()
                     plt.hist(y_test_GT, bins=10, color="green", alpha=0.5, label="actual")
                     plt.hist(y_test_predicted, bins=10, color="blue", alpha=0.5, label="predicted")
                     plt.legend()
-                    plt.savefig(os.path.join(config.results_folder, self.cityname, str(self.scale), "counter", str(i)))
+                    plt.savefig(
+                        os.path.join(
+                            config.results_folder,
+                            self.cityname + str(self.scale) + slugify(ml_model) + "counter" + str(i) + ".png",
+                        )
+                    )
 
                 if config.ppl_plot_FI:
                     self.plot_FI_for_trained_model(
@@ -316,6 +327,7 @@ class Pipeline:
                     self.plot_FI_for_trained_model(
                         trained_model, pd.DataFrame(X_test, columns=self.X.columns), y_test, "val", i, slugify(ml_model)
                     )
+                    plt.clf()
 
                 if ml_model in self.scores_QWK:
                     self.scores_QWK[ml_model].append(QWK(y_test_GT, y_test_predicted).val)
@@ -328,8 +340,36 @@ class Pipeline:
                     self.scores_MSE[ml_model] = [(mean_squared_error(y_test_GT, y_test_predicted))]
 
     @staticmethod
+    def parfunc(params):
+        city, seed, depth, tod, model = params
+        lr_object = Pipeline(city, seed ** depth, tod)
+        if not lr_object.empty_train_data:
+            sprint(model, np.mean(lr_object.scores_MSE[model]), np.mean(lr_object.scores_QWK[model]))
+            with open(
+                os.path.join(config.results_folder, "_Scores-" + str(int(np.random.rand() * 100000000)) + ".csv"), "a"
+            ) as f:
+                csvwriter = csv.writer(f)
+                csvwriter.writerow(
+                    [
+                        slugify(model),
+                        city,
+                        seed,
+                        depth,
+                        tod,
+                        lr_object.X.shape,
+                        np.mean(lr_object.num_train_data_points),
+                        np.mean(lr_object.num_test_data_points),
+                        np.mean(lr_object.scores_MSE[model]),
+                        np.std(lr_object.scores_MSE[model]),
+                        np.mean(lr_object.scores_QWK[model]),
+                        np.std(lr_object.scores_QWK[model]),
+                        len(lr_object.scores_QWK[model]),
+                    ]
+                )
+
+    @staticmethod
     def compute_scores_for_all_cities():
-        with open(os.path.join(config.results_folder, "_Scores.csv"), "w") as f:
+        with open(os.path.join(config.results_folder, "_Scores_header.csv"), "w") as f:
             csvwriter = csv.writer(f)
             csvwriter.writerow(
                 [
@@ -350,44 +390,26 @@ class Pipeline:
             )
         list_of_models = config.ppl_list_of_NL_models + config.ppl_list_of_baselines
 
+        list_of_params_parallel = []
         for city in config.scl_master_list_of_cities:
             for seed in config.scl_list_of_seeds:
                 for depth in config.scl_list_of_depths:
                     for tod in config.td_tod_list:
                         for model in list_of_models:
-                            sprint(city, seed, depth, tod, model)
-                            startime = time.time()
-                            lr_object = Pipeline(city, seed ** depth, tod)
-                            if not lr_object.empty_train_data:
-                                sprint(
-                                    model, np.mean(lr_object.scores_MSE[model]), np.mean(lr_object.scores_QWK[model])
-                                )
+                            list_of_params_parallel.append((city, seed, depth, tod, model))
 
-                                with open(os.path.join(config.results_folder, "_Scores.csv"), "a") as f:
-                                    csvwriter = csv.writer(f)
-                                    csvwriter.writerow(
-                                        [
-                                            slugify(model),
-                                            city,
-                                            seed,
-                                            depth,
-                                            tod,
-                                            lr_object.X.shape,
-                                            np.mean(lr_object.num_train_data_points),
-                                            np.mean(lr_object.num_test_data_points),
-                                            np.mean(lr_object.scores_MSE[model]),
-                                            np.std(lr_object.scores_MSE[model]),
-                                            np.mean(lr_object.scores_QWK[model]),
-                                            np.std(lr_object.scores_QWK[model]),
-                                            len(lr_object.scores_QWK[model]),
-                                        ]
-                                    )
-                        sprint(time.time() - startime)
+        if config.ppl_parallel_overall > 1:
+            pool = Pool(config.ppl_parallel_overall)
+            print(pool.map(Pipeline.parfunc, list_of_params_parallel))
+        else:
+            for params in list_of_params_parallel:
+                Pipeline.parfunc(params)
 
 
 if __name__ == "__main__":
-    if os.path.exists(config.results_folder):
+    if config.delete_results_folder and os.path.exists(config.results_folder):
         shutil.rmtree(config.results_folder)
+    if not os.path.exists(config.results_folder):
+        os.mkdir(config.results_folder)
 
-    os.mkdir(config.results_folder)
     Pipeline.compute_scores_for_all_cities()

@@ -73,8 +73,10 @@ class Scale:
         #     self._helper_create_dict_in_parallel, self.list_of_bbox, max_workers=config.scl_n_jobs_parallel, chunksize=11
         # )
 
-        if config.debug_:
-            os.system("rm -rf temp && mkdir temp")
+        if config.ppl_parallel_overall > 1:
+            if config.scl_n_jobs_parallel > 1:
+                print("Remove one level of parallelisation")
+                raise Exception("AssertionError: daemonic processes are not allowed to have children")
 
         if config.scl_n_jobs_parallel > 1:
             # pool = multiprocessing.Pool(processes=config.scl_n_jobs_parallel)
@@ -196,9 +198,9 @@ class Scale:
             return (bbox, "Empty")
         return (bbox, tile)
 
-    def create_file_marker(self):
-        with open("temp/temp" + str(int(np.random.rand() * 10000000)) + ".txt", "w") as f:
-            f.write("Done")
+    # def create_file_marker(self):
+    #     with open("temp/temp" + str(int(np.random.rand() * 10000000)) + ".txt", "w") as f:
+    #         f.write("Done")
 
     def _helper_create_dict_in_parallel(self, key):
         # key = self.list_of_bbox[i]
@@ -216,13 +218,10 @@ class Scale:
             #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
             #         csvwriter = csv.writer(f)
             #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
-            if config.debug_:
-                self.create_file_marker()
+
             return (key, "Empty")
             # pass
 
-        if config.debug_:
-            self.create_file_marker()
         return (key, tile)
         # pass
 
