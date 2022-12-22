@@ -90,11 +90,11 @@ class ScaleJF:
                 desc="Setting bbox Segment map...",
             )
             for segment in self.SpeedData.segment_jf_map:
-                print("Inside loop 1")
+                # print("Inside loop 1")
                 seg_poly = shapely.wkt.loads(segment)
 
                 for bbox in self.Scale.dict_bbox_to_subgraph.keys():
-                    print("                   Inside loop 2")
+                    # print("                   Inside loop 2")
                     N, S, E, W = bbox
                     bbox_shapely = shapely.geometry.box(W, S, E, N, ccw=True)
                     if seg_poly.intersection(bbox_shapely):

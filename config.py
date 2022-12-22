@@ -4,12 +4,11 @@ pickle_protocol = 5
 
 
 verbose = 2
-debug_ = True
 
 
 BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"
 BASE_FOLDER_server = "/home/niskumar/WCS"
-
+delete_results_folder = True
 cur_dir = os.getcwd()
 if cur_dir.split("/")[1] == "home":
     BASE_FOLDER = BASE_FOLDER_server
@@ -39,11 +38,11 @@ ppl_smallest_sample = -1
 ppl_use_all = True
 if ppl_use_all:
     assert ppl_smallest_sample == -1
-
+ppl_parallel_overall = 1
 ppl_plot_FI = True
 ppl_CV_splits = 7
 ppl_plot_corr = True
-ppl_hist = False
+ppl_hist = True
 ppl_hist_bins = 10
 ppl_scaling_for_EDA = (
     2  # 0: None; 1: Divide by Max; 2: StandardScaler(); 3: Divide by max; followed by StandardScaler()
@@ -65,7 +64,7 @@ ppl_list_of_NL_models = ["RandomForestRegressor()", "GradientBoostingRegressor()
 #     ppl_feature_importance_via_coefficients == False and ppl_feature_importance_via_NL_models == False
 # )
 
-ppl_list_of_correlations = ["pearson"]  # , "kendall", "spearman"]
+ppl_list_of_correlations = ["pearson", "spearman"]  # , "kendall", "spearman"]
 
 ####################################
 ######   ROAD NETWORK Class   ######
@@ -74,15 +73,15 @@ ppl_list_of_correlations = ["pearson"]  # , "kendall", "spearman"]
 # format: city,location, N, E, S, W
 rn_city_wise_bboxes = {
     "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
-    "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
-    "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
-    "Auckland": [-35.6984, 175.9032, -37.3645, 173.8963],
-    "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
-    "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
-    "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
-    "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
-    "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
-    "London": [51.28676, -0.510375, 51.691874, 0.334015],
+    # "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
+    # "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
+    # "Auckland": [-35.6984, 175.9032, -37.3645, 173.8963],
+    # "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
+    # "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
+    # "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
+    # "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
+    # "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
+    # "London": [51.28676, -0.510375, 51.691874, 0.334015],
     # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
     # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
 }
@@ -107,7 +106,7 @@ rn_do_not_filter = True
 if rn_do_not_filter:
     assert len(rn_do_not_filter_list) == 0
 
-rn_plotting_enabled = False
+rn_plotting_enabled = True
 rn_prefix_geojson_files = "gdam_410_"
 rn_postfix_geojson_files = ".geojson"
 rn_post_fix_road_network_object_file = "_road_network_object_square.pkl"
@@ -129,7 +128,7 @@ if rn_square_from_city_centre != -1:
 #########   Scale Class   ##########
 ####################################
 if BASE_FOLDER == BASE_FOLDER_server:
-    scl_n_jobs_parallel = 15
+    scl_n_jobs_parallel = 90
 else:
     scl_n_jobs_parallel = 7
 scl_master_list_of_cities = rn_master_list_of_cities
@@ -145,7 +144,16 @@ scl_list_of_depths = [1]
 #     # 150,
 #     # 170
 # ]  # 40, 45, 50, 55, 60, 65, 70, 80, 85, 90, 95, 100, 120]
-scl_list_of_seeds = list(range(15, 350, 10))
+
+# test_small
+# scl_list_of_seeds = list(range(5, 15, 1))
+
+# forward
+# scl_list_of_seeds = list(range(5, 350, 10))
+
+# backward
+scl_list_of_seeds = list(range(345, 120, -10))
+
 
 scl_error_percentage_tolerance = 0.2
 
@@ -219,7 +227,7 @@ if master_delete_all != -1:
 
 network_folder = "network"  # -tmax-smax"
 warnings_folder = "warnings"
-results_folder = "results_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data"
+results_folder = "results_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi"
 
 
 intermediate_files_path = "/Users/nishant/Documents/GitHub/WCS/intermediate_files/"
@@ -249,18 +257,18 @@ custom_filter = None  # '["highway"~"motorway|motorway_link|primary"]'
 #'["highway"~"motorway"]'
 
 
-city_list = [
-    "Auckland",
-    "Bogota",
-    "Cape Town",
-    "Istanbul",
-    "London",
-    "Mexico City",
-    "Mumbai",
-    "New York City",
-    "Singapore",
-    "Zurich",
-]
+# city_list = [
+#     "Auckland",
+#     "Bogota",
+#     "Cape Town",
+#     "Istanbul",
+#     "London",
+#     "Mexico City",
+#     "Mumbai",
+#     "New York City",
+#     "Singapore",
+#     "Zurich",
+# ]
 
 
 num_threads = 1

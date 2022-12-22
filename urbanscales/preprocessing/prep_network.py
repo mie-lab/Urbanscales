@@ -1,11 +1,14 @@
+import asyncio
 import copy
 import csv
+import glob
 import multiprocessing
 import os
 import pickle
 import sys
 import numpy as np
 from multiprocessing import Pool
+import threading
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 
@@ -55,12 +58,18 @@ class Scale:
 
             self.set_bbox_sub_G_map()
 
+    def keep_counting(self):
+        while True:
+            count = len(glob.glob("temp/temp-" + self.RoadNetwork.city_name + str(self.scale) + "*.marker"))
+            assert self.list_of_bbox[0][-1] == len(self.list_of_bbox)
+            print("Counting files every second .. ", count, " out of ", self.list_of_bbox[0][-1])
+            time.sleep(1)
+
     def set_bbox_sub_G_map(self, save_to_pickle=True):
         fname = os.path.join(config.network_folder, self.RoadNetwork.city_name, "_scale_" + str(self.scale) + ".pkl")
         if os.path.exists(fname):
             # do nothing
             return
-
         self._set_list_of_bbox()
         self.dict_bbox_to_subgraph = {}
 
@@ -69,31 +78,31 @@ class Scale:
         if not os.path.exists(config.warnings_folder):
             os.mkdir(config.warnings_folder)
 
-        # list_of_tuples = process_map(
-        #     self._helper_create_dict_in_parallel, self.list_of_bbox, max_workers=config.scl_n_jobs_parallel, chunksize=11
-        # )
-
         if config.ppl_parallel_overall > 1:
             if config.scl_n_jobs_parallel > 1:
                 print("Remove one level of parallelisation")
                 raise Exception("AssertionError: daemonic processes are not allowed to have children")
 
         if config.scl_n_jobs_parallel > 1:
-            # pool = multiprocessing.Pool(processes=config.scl_n_jobs_parallel)
-            # list_of_tuples = list(
-            #     tqdm(
-            #         pool.imap_unordered(self._helper_create_dict_in_parallel, self.list_of_bbox),
-            #         total=len(self.list_of_bbox),
-            #         desc="Processing in paralel",
-            #     )
-            # )
+            print("Processing in parallel: ")
+
+            filecounter = threading.Thread(target=self.keep_counting)
+            filecounter.start()
+
+            print("File counter running in background")
             with Pool(config.scl_n_jobs_parallel) as p:
                 list_of_tuples = p.map(self._helper_create_dict_in_parallel, list(self.list_of_bbox))
+
+            filecounter.join()
+
         elif config.scl_n_jobs_parallel == 1:
             # single threaded
             list_of_tuples = []
-            for i in tqdm(range(len(inputs)), desc="Single threaded performance "):  # input_ in inputs:
-                input_ = self.list_of_bbox[i]
+            for i in tqdm(
+                range(len(inputs)),
+                desc="Single threaded performance " + self.scale.RoadNetwork.city_name + self.scale.scale,
+            ):  # input_ in inputs:
+                input_, _ = self.list_of_bbox[i]
                 k, v = self._helper_create_dict_in_parallel(input_)
                 list_of_tuples.append((k, v))
         else:
@@ -144,7 +153,7 @@ class Scale:
                 E = start_x + self.delta_x
                 W = start_x
                 # self.dict_bbox_to_subgraph[(N,S,E,W)] = ox.truncate.truncate_graph_bbox(srn.G_osm, N, S, E, W)
-                self.list_of_bbox.append((N, S, E, W))
+                self.list_of_bbox.append([N, S, E, W])
                 pbar.update(1)
 
                 start_x += self.delta_x
@@ -152,6 +161,9 @@ class Scale:
             start_y += self.delta_y
 
         debug_stop = 2
+        len_ = len(self.list_of_bbox)
+        for i in range(len_):
+            self.list_of_bbox[i] = tuple(self.list_of_bbox[i] + [len_])
 
     def _helper_compute_deltas(self):
         srn = self.RoadNetwork
@@ -180,33 +192,21 @@ class Scale:
         self.delta_y = (srn.max_y - srn.min_y) / self.scale
         self.delta_x = (srn.max_x - srn.min_x) / self.scale * self.aspect_y_by_x
 
-    def _helper_create_dict_in_parallel_new(self, bbox):
-
-        N, S, E, W = bbox
-
-        try:
-            tile = Tile(ox.truncate.truncate_graph_bbox(self.RoadNetwork.G_osm, N, S, E, W), self.tile_area)
-            # if config.verbose >= 2:
-            #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
-            #         csvwriter = csv.writer(f)
-            #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
-        except (ValueError, nx.exception.NetworkXPointlessConcept):
-            # if config.verbose >= 1:
-            #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
-            #         csvwriter = csv.writer(f)
-            #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
-            return (bbox, "Empty")
-        return (bbox, tile)
-
-    # def create_file_marker(self):
-    #     with open("temp/temp" + str(int(np.random.rand() * 10000000)) + ".txt", "w") as f:
-    #         f.write("Done")
+    def create_file_marker(self):
+        with open(
+            "temp/temp-"
+            + self.RoadNetwork.city_name
+            + str(self.scale)
+            + "-"
+            + str(int(np.random.rand() * 10000000))
+            + ".marker",
+            "w",
+        ) as f:
+            f.write("Done")
 
     def _helper_create_dict_in_parallel(self, key):
-        # key = self.list_of_bbox[i]
-
-        N, S, E, W = key
-
+        self.create_file_marker()
+        N, S, E, W, total = key
         try:
             tile = Tile(ox.truncate.truncate_graph_bbox(self.RoadNetwork.G_osm, N, S, E, W), self.tile_area)
             # if config.verbose >= 2:
