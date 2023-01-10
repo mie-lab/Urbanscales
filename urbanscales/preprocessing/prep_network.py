@@ -219,21 +219,24 @@ class Scale:
             f.write("Done")
 
     def keep_counting(self):
-        while self.keep_countin_state:
-            count = len(
-                glob.glob(
-                    os.path.join(
-                        config.BASE_FOLDER,
-                        "temp",
-                        self.RoadNetwork.city_name,
-                        ("temp-" + self.RoadNetwork.city_name + str(self.scale) + "*.marker"),
+        oldcount = 0
+        with tqdm(total=self.list_of_bbox[0][-1], desc="Couting files ") as pbar:
+            while self.keep_countin_state:
+                count = len(
+                    glob.glob(
+                        os.path.join(
+                            config.BASE_FOLDER,
+                            "temp",
+                            self.RoadNetwork.city_name,
+                            ("temp-" + self.RoadNetwork.city_name + str(self.scale) + "*.marker"),
+                        )
                     )
                 )
-            )
-            assert self.list_of_bbox[0][-1] == len(self.list_of_bbox)
-            if config.scl_temp_file_counter:
-                print("Counting files every second .. ", count, " out of ", self.list_of_bbox[0][-1])
-            time.sleep(1)
+                assert self.list_of_bbox[0][-1] == len(self.list_of_bbox)
+                if config.scl_temp_file_counter:
+                    pbar.update(count-oldcount)
+                time.sleep(1)
+                oldcount = count
 
     def _helper_create_dict_in_parallel(self, key):
         if config.scl_temp_file_counter:

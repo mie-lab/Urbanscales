@@ -26,7 +26,7 @@ master_delete_all = -1  # (one of [True, False, -1])
 ####################################
 rn_delete_existing_pickled_objects = False
 scl_delete_existing_pickle_objects = False
-sd_delete_existing_pickle_objects = False
+sd_delete_existing_pickle_objects = True
 ps_delete_existing_pickle_objects = False
 td_delete_existing_pickle_objects = True
 
@@ -147,7 +147,7 @@ scl_list_of_depths = [1]
 # ]  # 40, 45, 50, 55, 60, 65, 70, 80, 85, 90, 95, 100, 120]
 
 # test_small
-scl_list_of_seeds = list(range(5, 15, 5))
+scl_list_of_seeds = list(range(50, 55, 5))
 
 # forward
 # scl_list_of_seeds = list(range(5, 350, 10))
