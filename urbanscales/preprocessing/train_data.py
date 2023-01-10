@@ -13,7 +13,8 @@ from urbanscales.preprocessing.prep_network import Scale
 from urbanscales.preprocessing.prep_speed import ScaleJF
 from urbanscales.preprocessing.tile import Tile
 import pandas as pd
-from smartprint import smartprint as sprint
+
+# from smartprint import smartprint as sprint
 from slugify import slugify
 
 # from urbanscales.io.speed_data import Segment  # this line if not present gives
@@ -49,7 +50,7 @@ class TrainDataVectors:
             self.__dict__.update(temp.__dict__)
             nparrayX = np.array(self.X)
             nparrayY = np.array(self.Y)
-            sprint(nparrayX.shape, nparrayY.shape)
+            print(nparrayX.shape, nparrayY.shape)
 
         else:
             self.X = []
@@ -198,8 +199,8 @@ class TrainDataVectors:
                         tdv = TrainDataVectors(city, seed ** depth, tod)
                         if config.td_viz_y_hist == True:
                             tdv.viz_y_hist()
-                        sprint(time.time() - startime)
-                        sprint(city, seed, depth, tod)
+                        print(time.time() - startime)
+                        print(city, seed, depth, tod)
 
 
 if __name__ == "__main__":

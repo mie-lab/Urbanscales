@@ -16,7 +16,8 @@ from urbanscales.preprocessing.prep_network import Scale
 from urbanscales.io.road_network import RoadNetwork
 from urbanscales.io.speed_data import SpeedData, Segment
 from tqdm import tqdm
-from smartprint import smartprint as sprint
+
+# from smartprint import smartprint as sprint
 import shapely.geometry
 
 import pickle
@@ -97,7 +98,9 @@ class ScaleJF:
 
                 for bbox in self.Scale.dict_bbox_to_subgraph.keys():
                     # print("                   Inside loop 2")
-                    N, S, E, W = bbox
+
+                    N, S, E, W, _unused_len = bbox
+
                     bbox_shapely = shapely.geometry.box(W, S, E, N, ccw=True)
                     if seg_poly.intersection(bbox_shapely):
                         if bbox in self.bbox_segment_map:
@@ -106,7 +109,7 @@ class ScaleJF:
                             self.bbox_segment_map[bbox] = [segment]
 
                     pbar.update(1)
-            sprint(len(self.bbox_segment_map))
+            print(len(self.bbox_segment_map))
 
             with open(fname, "wb") as f:
                 pickle.dump(self, f, protocol=config.pickle_protocol)
@@ -125,7 +128,7 @@ class ScaleJF:
                     val.append(self.SpeedData.segment_jf_map[segment][self.tod])
                 except:
                     debug_stop = True
-                    # sprint("Error in segment_jf_map; length ", len(self.SpeedData.segment_jf_map[segment]))
+                    # print ("Error in segment_jf_map; length ", len(self.SpeedData.segment_jf_map[segment]))
                     sys.exit(0)
 
             if config.ps_spatial_combination_method == "mean":
@@ -155,7 +158,7 @@ class ScaleJF:
             try:
                 obj = CustomUnpicklerScaleJF(open(fname, "rb")).load()
             except EOFError:
-                sprint(fname)
+                print(fname)
                 raise Exception("Error! Corrupted pickle file:\n Filename:  " + fname)
         else:
             raise Exception("Error! trying to read file that does not exist: Filename: " + fname)

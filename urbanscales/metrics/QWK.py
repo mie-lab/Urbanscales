@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.metrics import cohen_kappa_score
-from smartprint import smartprint as sprint
+
+# from smartprint import smartprint as sprint
 
 
 class QWK:
@@ -27,11 +28,11 @@ def custom_scoring_QWK(reg, x, y):
 if __name__ == "__main__":
     a = (np.random.rand(100, 1) * 10).flatten().tolist()
     b = (np.random.rand(100, 1) * 10 + 3).flatten().tolist()
-    sprint(QWK(a, b).val)
-    sprint(QWK(b, a).val)
+    print(QWK(a, b).val)
+    print(QWK(b, a).val)
 
-    sprint(QWK(a, a).val)
-    sprint(QWK(b, b).val)
+    print(QWK(a, a).val)
+    print(QWK(b, b).val)
 
     assert QWK(b, a).val == QWK(b, a).val
     assert QWK(a, a).val == 1

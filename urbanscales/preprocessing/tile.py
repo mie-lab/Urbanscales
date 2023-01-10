@@ -9,7 +9,8 @@ import osmnx as ox
 import os
 import config
 import csv
-from smartprint import smartprint as sprint
+
+# from smartprint import smartprint as sprint
 from slugify import slugify
 
 

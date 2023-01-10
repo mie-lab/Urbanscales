@@ -19,7 +19,8 @@ import warnings
 import networkx as nx
 import osmnx as ox
 from geopy.distance import geodesic
-from smartprint import smartprint as sprint
+
+# from smartprint import smartprint as sprint
 from tqdm import tqdm
 from tqdm.contrib.concurrent import process_map
 
@@ -117,7 +118,7 @@ class Scale:
         self.dict_bbox_to_subgraph = dict(list_of_tuples)
         print(time.time() - starttime, "seconds using", config.scl_n_jobs_parallel, "threads")
 
-        sprint("Before removing empty bboxes", len(self.list_of_bbox))
+        print("Before removing empty bboxes", len(self.list_of_bbox))
 
         empty_bboxes = []
         for key in self.dict_bbox_to_subgraph:
@@ -128,7 +129,7 @@ class Scale:
             del self.dict_bbox_to_subgraph[key]
 
         self.list_of_bbox = list(set(self.list_of_bbox) - set(empty_bboxes))
-        sprint("After removing empty bboxes", len(self.list_of_bbox))
+        print("After removing empty bboxes", len(self.list_of_bbox))
 
         if not os.path.exists(fname):
             with open(fname, "wb") as f:
@@ -186,9 +187,9 @@ class Scale:
             assert ((y_edge_1 - y_edge_2) / y_edge_1 * 100) < err
             assert ((x_edge_1 - x_edge_2) / x_edge_1 * 100) < err
         except:
-            sprint((((y_edge_1 ** 2 + x_edge_1 ** 2) ** 0.5 - diagonal) / diagonal * 100))
-            sprint((y_edge_1 - y_edge_2) / y_edge_1 * 100)
-            sprint((x_edge_1 - x_edge_2) / x_edge_1 * 100)
+            print((((y_edge_1 ** 2 + x_edge_1 ** 2) ** 0.5 - diagonal) / diagonal * 100))
+            print((y_edge_1 - y_edge_2) / y_edge_1 * 100)
+            print((x_edge_1 - x_edge_2) / x_edge_1 * 100)
             sys.exit(0)
 
         self.x_edge = (x_edge_1 + x_edge_2) / 2
@@ -262,7 +263,7 @@ class Scale:
             for seed in config.scl_list_of_seeds:
                 for depth in config.scl_list_of_depths:
                     Scale(RoadNetwork(city), seed ** depth)
-                    sprint(city, seed, depth)
+                    print(city, seed, depth)
                     loaded_scale = Scale.get_object(cityname=city, scale=seed ** depth)
 
     @staticmethod

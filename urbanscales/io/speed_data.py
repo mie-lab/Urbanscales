@@ -12,7 +12,8 @@ from shapely import geometry
 import pandas as pd
 import copy
 from tqdm import tqdm
-from smartprint import smartprint as sprint
+
+# from smartprint import smartprint as sprint
 import shutil
 
 
@@ -47,7 +48,7 @@ class SpeedData:
             with open(fname, "rb") as f:
                 temp = copy.deepcopy(pickle.load(f))
                 self.__dict__.update(temp.__dict__)
-                print("Read from pickle")
+                print("Read speed data object from pickle")
         else:
             self.city_name = city_name
             self.time_gran_minutes_raw = time_gran_minutes_raw
@@ -222,11 +223,11 @@ class SpeedData:
         for city in config.scl_master_list_of_cities:
             for seed in config.scl_list_of_seeds:
                 for depth in config.scl_list_of_depths:
-                    sprint(city, seed, depth)
+                    print(city, seed, depth)
                     startime = time.time()
                     sd = SpeedData(city, config.sd_raw_speed_data_gran, config.sd_target_speed_data_gran)
-                    sprint(sd.num_timesteps_in_data)
-                    sprint(time.time() - startime)
+                    print(sd.num_timesteps_in_data)
+                    print(time.time() - startime)
 
 
 class Segment:

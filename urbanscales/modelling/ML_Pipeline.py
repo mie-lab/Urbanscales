@@ -25,7 +25,8 @@ import numpy as np
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.linear_model import LinearRegression, Lasso, Ridge, RidgeCV
 import time
-from smartprint import smartprint as sprint
+
+# from smartprint import smartprint as sprint
 from sklearn.ensemble import RandomForestClassifier
 from yellowbrick.datasets import load_occupancy
 from yellowbrick.model_selection import FeatureImportances
@@ -198,7 +199,7 @@ class Pipeline:
         return
 
     def compute_score(self):
-        sprint(self.X.shape, self.Y.shape)
+        print(self.X.shape, self.Y.shape)
         if config.ppl_plot_corr:
             df_temp = pd.DataFrame(self.scale_x(self.X), columns=self.X.columns)
             df_temp["Y"] = self.Y.flatten().tolist()
@@ -226,7 +227,7 @@ class Pipeline:
             print("x.shape, y.shape", x.shape, y.shape)
 
             X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.33)
-            sprint(X_train.shape, y_train.shape, X_test.shape, y_test.shape)
+            print(X_train.shape, y_train.shape, X_test.shape, y_test.shape)
 
             self.num_train_data_points.append(X_train.shape[0])
             self.num_test_data_points.append(X_test.shape[0])
@@ -288,7 +289,7 @@ class Pipeline:
         city, seed, depth, tod, model = params
         lr_object = Pipeline(city, seed ** depth, tod)
         if not lr_object.empty_train_data:
-            sprint(model, np.mean(lr_object.scores_MSE[model]), np.mean(lr_object.scores_QWK[model]))
+            print(model, np.mean(lr_object.scores_MSE[model]), np.mean(lr_object.scores_QWK[model]))
             with open(
                 os.path.join(
                     config.BASE_FOLDER,

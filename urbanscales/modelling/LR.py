@@ -8,7 +8,8 @@ from urbanscales.preprocessing.train_data import TrainDataVectors
 import numpy as np
 from sklearn.linear_model import LinearRegression
 import time
-from smartprint import smartprint as sprint
+
+# from smartprint import smartprint as sprint
 
 
 class LR:
@@ -40,17 +41,17 @@ class LR:
             for seed in config.scl_list_of_seeds:
                 for depth in config.scl_list_of_depths:
                     for tod in config.td_tod_list:
-                        sprint(city, seed, depth, tod)
+                        print(city, seed, depth, tod)
                         startime = time.time()
                         lr_object = LR(city, seed ** depth, tod)
                         if not lr_object.empty_train_data:
-                            sprint(np.mean(lr_object.cv_scores))
+                            print(np.mean(lr_object.cv_scores))
                             with open(
                                 os.path.join(config.BASE_FOLDER, config.results_folder, "_LR_Scores.csv"), "a"
                             ) as f:
                                 csvwriter = csv.writer(f)
                                 csvwriter.writerow([city, seed, depth, tod, np.mean(lr_object.cv_scores)])
-                        # sprint(time.time() - startime)
+                        # print (time.time() - startime)
 
 
 if __name__ == "__main__":

@@ -9,7 +9,8 @@ import matplotlib
 # matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt
-from smartprint import smartprint as sprint
+
+# from smartprint import smartprint as sprint
 from urbanscales.preprocessing.tile import Tile
 import geojson
 from shapely.geometry import shape
@@ -56,14 +57,14 @@ class RoadNetwork:
             self.city_name = cityname
             self.N, self.E, self.S, self.W = config.rn_city_wise_bboxes[cityname]
 
-            sprint(self.N, self.E, self.S, self.W)
+            print(self.N, self.E, self.S, self.W)
             if config.rn_percentage_of_city_area != 100:
                 self.filter_a_patch_from_road_network(config.rn_percentage_of_city_area)
 
             if config.rn_square_from_city_centre != -1:
                 self.filter_a_square_from_road_network(config.rn_square_from_city_centre)
 
-            sprint(self.N, self.E, self.S, self.W)
+            print(self.N, self.E, self.S, self.W)
 
             self.G_osm = None
 
@@ -263,7 +264,7 @@ class RoadNetwork:
         self.N, self.E = new_NE_corner[0], new_NE_corner[1]
         self.S, self.W = new_SW_corner[0], new_SW_corner[1]
 
-        sprint(gpy_dist.geodesic((self.N, self.E), (self.S, self.W)).km / pow(2, 0.5))
+        print(gpy_dist.geodesic((self.N, self.E), (self.S, self.W)).km / pow(2, 0.5))
 
         # assert less than 2% error
         assert (
@@ -288,14 +289,14 @@ class RoadNetwork:
 
                 starttime = time.time()
 
-                sprint(city)
+                print(city)
                 rn = RoadNetwork(city, "bbox")
                 rn.plot_basemap()
 
                 if config.rn_compute_full_city_features:
                     csvwriter.writerow(rn.get_graph_features_as_list())
 
-                sprint(time.time() - starttime)
+                print(time.time() - starttime)
 
     @staticmethod
     def get_object(city):
