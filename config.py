@@ -130,7 +130,8 @@ if rn_square_from_city_centre != -1:
 if BASE_FOLDER == BASE_FOLDER_server:
     scl_n_jobs_parallel = 90
 else:
-    scl_n_jobs_parallel = 7
+    scl_n_jobs_parallel = 5
+scl_temp_file_counter = True
 scl_master_list_of_cities = rn_master_list_of_cities
 scl_list_of_depths = [1]
 # scl_list_of_seeds = [
@@ -146,13 +147,13 @@ scl_list_of_depths = [1]
 # ]  # 40, 45, 50, 55, 60, 65, 70, 80, 85, 90, 95, 100, 120]
 
 # test_small
-# scl_list_of_seeds = list(range(5, 15, 1))
+scl_list_of_seeds = list(range(5, 15, 5))
 
 # forward
 # scl_list_of_seeds = list(range(5, 350, 10))
 
 # backward
-scl_list_of_seeds = list(range(345, 120, -10))
+# scl_list_of_seeds = list(range(345, 120, -10))
 
 
 scl_error_percentage_tolerance = 0.2

@@ -84,10 +84,11 @@ class VizSpatial:
             plt.xlabel("longitude of bbox centre", fontsize=12)
             plt.ylabel("latitude of bbox centre", fontsize=12)
             plt.title((self.cityname + "-" + str(self.scale) + "-" + valid_feature))
-            if not os.path.exists(os.path.join(config.results_folder, "spatial-dist")):
-                os.mkdir(os.path.join(config.results_folder, "spatial-dist"))
+            if not os.path.exists(os.path.join(config.BASE_FOLDER, config.results_folder, "spatial-dist")):
+                os.mkdir(os.path.join(config.BASE_FOLDER, config.results_folder, "spatial-dist"))
             plt.savefig(
                 os.path.join(
+                    config.BASE_FOLDER,
                     config.results_folder,
                     "spatial-dist",
                     (self.cityname + "-" + str(self.scale) + "-" + valid_feature) + ".png",
@@ -98,7 +99,7 @@ class VizSpatial:
     @staticmethod
     def generate_spatial_plots_for_all_cities():
         for city in config.scl_master_list_of_cities:
-            for seed in config.scl_list_of_seeds[::-1]:
+            for seed in config.scl_list_of_seeds:
                 for depth in config.scl_list_of_depths:
                     for tod in config.td_tod_list:
                         VizSpatial(city, seed ** depth, tod)

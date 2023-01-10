@@ -5,6 +5,7 @@ import glob
 import multiprocessing
 import os
 import pickle
+import shutil
 import sys
 import numpy as np
 from multiprocessing import Pool
@@ -38,7 +39,9 @@ class CustomUnpicklerScale(pickle.Unpickler):
 
 class Scale:
     def __init__(self, RoadNetwork, scale):
-        fname = os.path.join(config.network_folder, RoadNetwork.city_name, "_scale_" + str(scale) + ".pkl")
+        fname = os.path.join(
+            config.BASE_FOLDER, config.network_folder, RoadNetwork.city_name, "_scale_" + str(scale) + ".pkl"
+        )
         if config.scl_delete_existing_pickle_objects:
             if os.path.exists(fname):
                 os.remove(fname)
@@ -58,15 +61,10 @@ class Scale:
 
             self.set_bbox_sub_G_map()
 
-    def keep_counting(self):
-        while True:
-            count = len(glob.glob("temp/temp-" + self.RoadNetwork.city_name + str(self.scale) + "*.marker"))
-            assert self.list_of_bbox[0][-1] == len(self.list_of_bbox)
-            print("Counting files every second .. ", count, " out of ", self.list_of_bbox[0][-1])
-            time.sleep(1)
-
     def set_bbox_sub_G_map(self, save_to_pickle=True):
-        fname = os.path.join(config.network_folder, self.RoadNetwork.city_name, "_scale_" + str(self.scale) + ".pkl")
+        fname = os.path.join(
+            config.BASE_FOLDER, config.network_folder, self.RoadNetwork.city_name, "_scale_" + str(self.scale) + ".pkl"
+        )
         if os.path.exists(fname):
             # do nothing
             return
@@ -86,14 +84,22 @@ class Scale:
         if config.scl_n_jobs_parallel > 1:
             print("Processing in parallel: ")
 
+            print("File counter running in background; clearing temp files")
+            print("Cleaning temp files folder")
+            shutil.rmtree(os.path.join(config.BASE_FOLDER, "temp", self.RoadNetwork.city_name), ignore_errors=True)
+            os.mkdir(os.path.join(config.BASE_FOLDER, "temp", self.RoadNetwork.city_name))
+            print("Cleaned the temp folder")
+
+            stop_background_thread = threading.Event()
+
+            self.keep_countin_state = True
             filecounter = threading.Thread(target=self.keep_counting)
             filecounter.start()
 
-            print("File counter running in background")
             with Pool(config.scl_n_jobs_parallel) as p:
                 list_of_tuples = p.map(self._helper_create_dict_in_parallel, list(self.list_of_bbox))
-
-            filecounter.join()
+            self.keep_countin_state = False
+            stop_background_thread.clear()
 
         elif config.scl_n_jobs_parallel == 1:
             # single threaded
@@ -111,7 +117,7 @@ class Scale:
         self.dict_bbox_to_subgraph = dict(list_of_tuples)
         print(time.time() - starttime, "seconds using", config.scl_n_jobs_parallel, "threads")
 
-        sprint("Before ", len(self.list_of_bbox))
+        sprint("Before removing empty bboxes", len(self.list_of_bbox))
 
         empty_bboxes = []
         for key in self.dict_bbox_to_subgraph:
@@ -122,7 +128,7 @@ class Scale:
             del self.dict_bbox_to_subgraph[key]
 
         self.list_of_bbox = list(set(self.list_of_bbox) - set(empty_bboxes))
-        sprint("After ", len(self.list_of_bbox))
+        sprint("After removing empty bboxes", len(self.list_of_bbox))
 
         if not os.path.exists(fname):
             with open(fname, "wb") as f:
@@ -194,18 +200,43 @@ class Scale:
 
     def create_file_marker(self):
         with open(
-            "temp/temp-"
-            + self.RoadNetwork.city_name
-            + str(self.scale)
-            + "-"
-            + str(int(np.random.rand() * 10000000))
-            + ".marker",
+            os.path.join(
+                config.BASE_FOLDER,
+                "temp",
+                self.RoadNetwork.city_name,
+                (
+                    "temp-"
+                    + self.RoadNetwork.city_name
+                    + str(self.scale)
+                    + "-"
+                    + str(int(np.random.rand() * 10000000))
+                    + ".marker"
+                ),
+            ),
             "w",
         ) as f:
             f.write("Done")
 
+    def keep_counting(self):
+        while self.keep_countin_state:
+            count = len(
+                glob.glob(
+                    os.path.join(
+                        config.BASE_FOLDER,
+                        "temp",
+                        self.RoadNetwork.city_name,
+                        ("temp-" + self.RoadNetwork.city_name + str(self.scale) + "*.marker"),
+                    )
+                )
+            )
+            assert self.list_of_bbox[0][-1] == len(self.list_of_bbox)
+            if config.scl_temp_file_counter:
+                print("Counting files every second .. ", count, " out of ", self.list_of_bbox[0][-1])
+            time.sleep(1)
+
     def _helper_create_dict_in_parallel(self, key):
-        self.create_file_marker()
+        if config.scl_temp_file_counter:
+            self.create_file_marker()
         N, S, E, W, total = key
         try:
             tile = Tile(ox.truncate.truncate_graph_bbox(self.RoadNetwork.G_osm, N, S, E, W), self.tile_area)
@@ -244,7 +275,7 @@ class Scale:
         Returns: (Saved) Object of this class (Scale)
 
         """
-        fname = os.path.join(config.network_folder, cityname, "_scale_" + str(scale) + ".pkl")
+        fname = os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "_scale_" + str(scale) + ".pkl")
         if os.path.exists(fname):
             obj = CustomUnpicklerScale(open(fname, "rb")).load()
         else:

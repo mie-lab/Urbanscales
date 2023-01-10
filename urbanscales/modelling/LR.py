@@ -32,7 +32,7 @@ class LR:
 
     @staticmethod
     def compute_scores_for_all_cities():
-        with open(os.path.join(config.results_folder, "_LR_Scores.csv"), "w") as f:
+        with open(os.path.join(config.BASE_FOLDER, config.results_folder, "_LR_Scores.csv"), "w") as f:
             csvwriter = csv.writer(f)
             csvwriter.writerow(["city", "seed", "depth", "tod", "np.mean(lr_object.cv_scores)"])
 
@@ -45,7 +45,9 @@ class LR:
                         lr_object = LR(city, seed ** depth, tod)
                         if not lr_object.empty_train_data:
                             sprint(np.mean(lr_object.cv_scores))
-                            with open(os.path.join(config.results_folder, "_LR_Scores.csv"), "a") as f:
+                            with open(
+                                os.path.join(config.BASE_FOLDER, config.results_folder, "_LR_Scores.csv"), "a"
+                            ) as f:
                                 csvwriter = csv.writer(f)
                                 csvwriter.writerow([city, seed, depth, tod, np.mean(lr_object.cv_scores)])
                         # sprint(time.time() - startime)

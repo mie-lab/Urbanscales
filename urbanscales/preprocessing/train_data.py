@@ -34,7 +34,10 @@ class TrainDataVectors:
             tod: single number based on granularity
         """
         fname = os.path.join(
-            config.network_folder, city_name, "_scale_" + str(scale) + "_train_data_" + str(tod) + ".pkl"
+            config.BASE_FOLDER,
+            config.network_folder,
+            city_name,
+            "_scale_" + str(scale) + "_train_data_" + str(tod) + ".pkl",
         )
         if config.td_delete_existing_pickle_objects:
             if os.path.exists(fname):
@@ -83,6 +86,7 @@ class TrainDataVectors:
                 self.Y.append(scl_jf.bbox_jf_map[bbox])
 
         fname = os.path.join(
+            config.BASE_FOLDER,
             config.network_folder,
             scl.RoadNetwork.city_name,
             "_scale_" + str(scl.scale) + "_train_data_" + str(self.tod) + ".pkl",
@@ -102,6 +106,7 @@ class TrainDataVectors:
                     df = pd.DataFrame(self.X, columns=Tile.get_feature_names())
                     df.var().to_csv(
                         os.path.join(
+                            config.BASE_FOLDER,
                             config.results_folder,
                             slugify(
                                 "pre-norm-feat-variance-" + self.city_name + "-" + str(self.scale) + "-" + str(self.tod)

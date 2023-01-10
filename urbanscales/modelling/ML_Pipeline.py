@@ -77,6 +77,7 @@ class Pipeline:
 
             fig.write_image(
                 os.path.join(
+                    config.BASE_FOLDER,
                     config.results_folder,
                     slugify(corr_type + "-corr-" + self.cityname + "-" + str(self.scale) + "-" + str(self.tod)),
                 )
@@ -102,6 +103,7 @@ class Pipeline:
         # plt.show()
         plt.savefig(
             os.path.join(
+                config.BASE_FOLDER,
                 config.results_folder,
                 slugify(
                     "-FI-via-ridge_coeff-"
@@ -117,52 +119,6 @@ class Pipeline:
             dpi=300,
         )
 
-    # def feature_importance_via_NL_models(self, x, y, i):
-    #     for model_ in config.ppl_list_of_NL_models:
-    #         if model_ == "RFR":
-    #             model = RandomForestRegressor()
-    #         elif model_ == "GBM":
-    #             model = GradientBoostingRegressor()
-    #         param_grid = {
-    #             "n_estimators": [30, 40, 50, 100, 200],
-    #         }
-    #
-    #         model = GridSearchCV(model, param_grid=param_grid, cv=config.ppl_CV_splits)
-    #         model.fit(x, y)
-    #
-    #         importance = model.best_estimator_.feature_importances_
-    #
-    #         color = cm.rainbow(np.linspace(0, 1, (self.X.shape[1])))
-    #         colorlist = []
-    #         for j in range(self.X.shape[1]):
-    #             colorlist.append(color[j])
-    #
-    #         # plt.clf()
-    #         plt.bar(height=importance, x=self.X.columns, color=colorlist)
-    #         plt.ylim(0, 1)
-    #
-    #         plt.title("Feature importances via importance " + model_)
-    #         plt.xticks(rotation=90, fontsize=7)
-    #         plt.tight_layout()
-    #         # plt.show()
-    #         plt.savefig(
-    #             os.path.join(
-    #                 config.results_folder,
-    #                 slugify(
-    #                     "-FI-via_-"
-    #                     + model_
-    #                     + self.cityname
-    #                     + "-"
-    #                     + str(self.scale)
-    #                     + "-"
-    #                     + str(self.tod)
-    #                     + "-counter"
-    #                     + str(i + 1)
-    #                 ),
-    #             ),
-    #             dpi=300,
-    #         )
-
     def scale_x(self, x):
         x_trans = np.array(x)
         # 0: None; 1: Divide by Max; 2: StandardScaler(); 3: Divide by max; followed by StandardScaler()
@@ -177,23 +133,10 @@ class Pipeline:
             x_trans = StandardScaler().fit_transform(x_trans)
         return x_trans
 
-    # def plot_hist(self, df, i):
-    #     plt.clf()
-    #     df.hist(bins=config.ppl_hist_bins)
-    #     plt.tight_layout()
-    #     plt.savefig(
-    #         os.path.join(
-    #             config.results_folder,
-    #             slugify(
-    #                 "-hist-" + self.cityname + "-" + str(self.scale) + "-" + str(self.tod) + "-counter" + str(i + 1)
-    #             ),
-    #         ),
-    #         dpi=300,
-    #     )
-
     def plot_FI_for_trained_model(self, model, X, Y, marker, plot_counter, model_string):
         assert marker in ["train", "val"]
         fname = os.path.join(
+            config.BASE_FOLDER,
             config.results_folder,
             slugify(
                 "feat-imp-"
@@ -310,6 +253,7 @@ class Pipeline:
                     plt.legend()
                     plt.savefig(
                         os.path.join(
+                            config.BASE_FOLDER,
                             config.results_folder,
                             self.cityname + str(self.scale) + slugify(ml_model) + "counter" + str(i) + ".png",
                         )
@@ -346,7 +290,12 @@ class Pipeline:
         if not lr_object.empty_train_data:
             sprint(model, np.mean(lr_object.scores_MSE[model]), np.mean(lr_object.scores_QWK[model]))
             with open(
-                os.path.join(config.results_folder, "_Scores-" + str(int(np.random.rand() * 100000000)) + ".csv"), "a"
+                os.path.join(
+                    config.BASE_FOLDER,
+                    config.results_folder,
+                    "_Scores-" + str(int(np.random.rand() * 100000000)) + ".csv",
+                ),
+                "a",
             ) as f:
                 csvwriter = csv.writer(f)
                 csvwriter.writerow(
@@ -369,7 +318,7 @@ class Pipeline:
 
     @staticmethod
     def compute_scores_for_all_cities():
-        with open(os.path.join(config.results_folder, "_Scores_header.csv"), "w") as f:
+        with open(os.path.join(config.BASE_FOLDER, config.results_folder, "_Scores_header.csv"), "w") as f:
             csvwriter = csv.writer(f)
             csvwriter.writerow(
                 [
@@ -407,9 +356,9 @@ class Pipeline:
 
 
 if __name__ == "__main__":
-    if config.delete_results_folder and os.path.exists(config.results_folder):
-        shutil.rmtree(config.results_folder)
-    if not os.path.exists(config.results_folder):
-        os.mkdir(config.results_folder)
+    if config.delete_results_folder and os.path.exists(os.path.join(config.BASE_FOLDER, config.results_folder)):
+        shutil.rmtree(os.path.join(config.BASE_FOLDER, config.results_folder))
+    if not os.path.exists(os.path.join(config.BASE_FOLDER, config.results_folder)):
+        os.mkdir(os.path.join(config.BASE_FOLDER, config.results_folder))
 
     Pipeline.compute_scores_for_all_cities()

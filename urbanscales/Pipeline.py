@@ -11,8 +11,8 @@ from urbanscales.preprocessing.prep_network import Scale
 from urbanscales.preprocessing.prep_speed import ScaleJF
 from urbanscales.preprocessing.train_data import TrainDataVectors
 
-os.system("rm -rf " + config.results_folder)
-os.system("mkdir " + config.results_folder)
+os.system("rm -rf " + config.BASE_FOLDER + config.results_folder)
+os.system("mkdir " + config.BASE_FOLDER + config.results_folder)
 
 
 if config.rn_delete_existing_pickled_objects:

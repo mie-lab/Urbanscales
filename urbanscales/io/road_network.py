@@ -36,7 +36,9 @@ class RoadNetwork:
         Example: SG = RoadNetwork("Singapore")
         mode_of_retreival = "place"/"bbox"
         """
-        self.rn_fname = os.path.join(config.network_folder, cityname, config.rn_post_fix_road_network_object_file)
+        self.rn_fname = os.path.join(
+            config.BASE_FOLDER, config.network_folder, cityname, config.rn_post_fix_road_network_object_file
+        )
         self.osm_pickle = "_OSM_pickle_extra_small"
         if config.rn_delete_existing_pickled_objects:
             try:
@@ -92,7 +94,7 @@ class RoadNetwork:
 
     def get_osm_from_place(self):
         if self.G_osm == None:
-            fname = os.path.join(config.network_folder, self.city_name, self.osm_pickle)
+            fname = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, self.osm_pickle)
             if os.path.isfile(fname):
                 with open(fname, "rb") as f1:
                     self.G_osm = pickle.load(f1)
@@ -104,7 +106,7 @@ class RoadNetwork:
 
     def get_osm_from_bbox(self):
         if self.G_osm == None:
-            fname = os.path.join(config.network_folder, self.city_name, self.osm_pickle)
+            fname = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, self.osm_pickle)
             if os.path.isfile(fname):
                 with open(fname, "rb") as f1:
                     self.G_osm = pickle.load(f1)
@@ -119,7 +121,7 @@ class RoadNetwork:
         return self.G_osm
 
     def get_osm_from_address(self):
-        fname = os.path.join(config.network_folder, self.city_name, self.osm_pickle)
+        fname = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, self.osm_pickle)
         if os.path.isfile(fname):
             with open(fname, "rb") as f1:
                 self.G_osm = pickle.load(f1)
@@ -145,7 +147,7 @@ class RoadNetwork:
         if not config.rn_plotting_enabled:
             return
 
-        filepath = os.path.join(config.network_folder, self.city_name, config.rn_base_map_filename)
+        filepath = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, config.rn_base_map_filename)
         ox.plot.plot_graph(
             self.G_osm,
             ax=None,
@@ -180,6 +182,7 @@ class RoadNetwork:
 
     def get_geojson_file_to_single_polygon(self):
         fname = os.path.join(
+            config.BASE_FOLDER,
             config.network_folder,
             config.rn_prefix_geojson_files + self.city_name.lower() + config.rn_postfix_geojson_files,
         )
@@ -198,7 +201,9 @@ class RoadNetwork:
         y = list(np.array(y).astype(float))
 
         plt.plot(x, y)
-        plt.savefig(os.path.join(config.network_folder, self.city_name, "polygon_convex.png"), dpi=300)
+        plt.savefig(
+            os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, "polygon_convex.png"), dpi=300
+        )
 
         convex_hull_poly = Polygon([[p[0], p[1]] for p in zip(x, y)])
 
@@ -251,7 +256,9 @@ class RoadNetwork:
         plt.scatter(new_SW_corner[1], new_SW_corner[0], 5, "b", label="New SW", alpha=0.2)  # inverted order for x,y
         plt.scatter(centre[1], centre[0], 5, "g", label="Centre")
         plt.legend()
-        plt.savefig(os.path.join(config.network_folder, self.city_name + "_boundaries_test.png"), dpi=300)
+        plt.savefig(
+            os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name + "_boundaries_test.png"), dpi=300
+        )
 
         self.N, self.E = new_NE_corner[0], new_NE_corner[1]
         self.S, self.W = new_SW_corner[0], new_SW_corner[1]
@@ -265,10 +272,10 @@ class RoadNetwork:
 
     @staticmethod
     def generate_road_nw_object_for_all_cities():
-        if not os.path.exists(config.network_folder):
-            os.mkdir(config.network_folder)
+        if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder)):
+            os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder))
 
-        with open(os.path.join(config.network_folder, "all_cities_graph_features.csv"), "w") as f:
+        with open(os.path.join(config.BASE_FOLDER, config.network_folder, "all_cities_graph_features.csv"), "w") as f:
             csvwriter = csv.writer(f)
             # if config.rn_compute_full_city_features:
             assert config.rn_square_from_city_centre != -1
@@ -276,8 +283,8 @@ class RoadNetwork:
             csvwriter.writerow(["city"] + list_of_graph_features)
 
             for city in config.rn_master_list_of_cities:
-                if not os.path.exists(os.path.join(config.network_folder, city)):
-                    os.mkdir(os.path.join(config.network_folder, city))
+                if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, city)):
+                    os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, city))
 
                 starttime = time.time()
 
