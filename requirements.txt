@@ -3,7 +3,7 @@ shapely==1.8.2
 tqdm
 yellowbrick
 smartprint
-taxicab
+# taxicab
 jupyterlab
 geopy==2.2.0
 geojson==2.5.0
@@ -12,3 +12,4 @@ python-slugify==6.1.2
 plotly==5.11.0
 # multiprocess==0.70.13
 kaleido==0.2.1
+earthpy==0.9.4
