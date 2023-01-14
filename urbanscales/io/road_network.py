@@ -10,7 +10,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt
 
-# from smartprint import smartprint as sprint
+from smartprint import smartprint as sprint
 from urbanscales.preprocessing.tile import Tile
 import geojson
 from shapely.geometry import shape
@@ -57,14 +57,14 @@ class RoadNetwork:
             self.city_name = cityname
             self.N, self.E, self.S, self.W = config.rn_city_wise_bboxes[cityname]
 
-            print(self.N, self.E, self.S, self.W)
+            sprint(self.N, self.E, self.S, self.W)
             if config.rn_percentage_of_city_area != 100:
                 self.filter_a_patch_from_road_network(config.rn_percentage_of_city_area)
 
             if config.rn_square_from_city_centre != -1:
                 self.filter_a_square_from_road_network(config.rn_square_from_city_centre)
 
-            print(self.N, self.E, self.S, self.W)
+            sprint(self.N, self.E, self.S, self.W)
 
             self.G_osm = None
 
@@ -100,7 +100,9 @@ class RoadNetwork:
                 with open(fname, "rb") as f1:
                     self.G_osm = pickle.load(f1)
             else:
-                self.G_osm = ox.graph_from_place(self.city_name, network_type="drive")
+                self.G_osm = ox.graph_from_place(
+                    self.city_name, network_type="drive", simplify=config.rn_simplify, retain_all=True
+                )
                 with open(fname, "wb") as f:
                     pickle.dump(self.G_osm, f, protocol=config.pickle_protocol)
         return self.G_osm
@@ -108,13 +110,13 @@ class RoadNetwork:
     def get_osm_from_bbox(self):
         if self.G_osm == None:
             fname = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, self.osm_pickle)
-            if os.path.isfile(fname):
+            if os.path.isfile(fname) and not config.rn_delete_existing_pickled_objects:
                 with open(fname, "rb") as f1:
                     self.G_osm = pickle.load(f1)
             else:
 
                 self.G_osm = ox.graph_from_bbox(
-                    self.N, self.S, self.E, self.W, network_type="drive", simplify=True, retain_all=False
+                    self.N, self.S, self.E, self.W, network_type="drive", simplify=config.rn_simplify, retain_all=True
                 )
 
                 with open(fname, "wb") as f:
@@ -123,7 +125,7 @@ class RoadNetwork:
 
     def get_osm_from_address(self):
         fname = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, self.osm_pickle)
-        if os.path.isfile(fname):
+        if os.path.isfile(fname) and not config.rn_delete_existing_pickled_objects:
             with open(fname, "rb") as f1:
                 self.G_osm = pickle.load(f1)
         else:
@@ -264,7 +266,7 @@ class RoadNetwork:
         self.N, self.E = new_NE_corner[0], new_NE_corner[1]
         self.S, self.W = new_SW_corner[0], new_SW_corner[1]
 
-        print(gpy_dist.geodesic((self.N, self.E), (self.S, self.W)).km / pow(2, 0.5))
+        sprint(gpy_dist.geodesic((self.N, self.E), (self.S, self.W)).km / pow(2, 0.5))
 
         # assert less than 2% error
         assert (

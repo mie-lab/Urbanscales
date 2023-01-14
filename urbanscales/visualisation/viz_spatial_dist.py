@@ -1,9 +1,10 @@
 import os
 
+import sys
+
 import config
 from urbanscales.preprocessing.prep_network import Scale
 import matplotlib as matpl
-import matplotlib.patches as ptch
 import matplotlib.pyplot as plt
 import osmnx as ox
 from tqdm import tqdm
@@ -92,7 +93,7 @@ class VizSpatial:
             fig, ax = ox.plot.plot_graph(
                 self.scl.RoadNetwork.G_osm,
                 ax=None,
-                figsize=(12, 12),
+                figsize=(10, 10),
                 bgcolor="white",
                 node_color="black",
                 node_size=0.1,
@@ -115,12 +116,15 @@ class VizSpatial:
                 # Params of plt.Rectange: (xy, width, height, ..)
                 # The rectangle extends from xy[0] to xy[0] + width in x-direction and from xy[1]
                 # to xy[1] + height in y-direction.
+
+                feature_max = feature_max + sys.float_info.epsilon
                 rect = plt.Rectangle(
                     xy,
                     widthlist[xy_index],
                     heighlist[xy_index],
-                    color=cmap((feature_val_list[xy_index] - feature_min) / feature_max),
+                    facecolor=cmap((feature_val_list[xy_index] - feature_min) / feature_max),
                     alpha=0.7,
+                    edgecolor=None,
                 )
 
                 ax.add_patch(rect)
@@ -131,7 +135,7 @@ class VizSpatial:
 
             plt.xlabel("longitude of bbox centre", fontsize=12)
             plt.ylabel("latitude of bbox centre", fontsize=12)
-            plt.title((self.cityname + "-" + str(self.scale) + "-" + valid_feature))
+            plt.title((self.cityname + "-" + str(self.scale) + "-" + valid_feature) + ".count." + str(len(long_list)))
             print("Saving image!")
             if not os.path.exists(os.path.join(config.BASE_FOLDER, config.results_folder, "spatial-dist")):
                 os.mkdir(os.path.join(config.BASE_FOLDER, config.results_folder, "spatial-dist"))

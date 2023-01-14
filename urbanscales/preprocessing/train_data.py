@@ -75,7 +75,7 @@ class TrainDataVectors:
                 assert isinstance(scl, Scale)
                 subg = scl.dict_bbox_to_subgraph[bbox]
                 if isinstance(subg, str):
-                    if subg == "Empty":
+                    if subg == config.rn_no_stats_marker:
                         # we skip creating X and Y for this empty tile
                         # which does not have any roads OR
                         # is outside the scope of the administrative area

@@ -10,6 +10,9 @@ import sys
 import numpy as np
 from multiprocessing import Pool
 import threading
+from osmnx import utils_graph
+
+from matplotlib import pyplot as plt
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 
@@ -97,6 +100,8 @@ class Scale:
             filecounter = threading.Thread(target=self.keep_counting)
             filecounter.start()
 
+            N, S, E, W = 1.51316,            104.135278,            1.130361,            103.566667
+            self.nk_truncate_graph_bbox(self.RoadNetwork.G_osm, N, S, E, W)
             with Pool(config.scl_n_jobs_parallel) as p:
                 list_of_tuples = p.map(self._helper_create_dict_in_parallel, list(self.list_of_bbox))
             self.keep_countin_state = False
@@ -122,7 +127,7 @@ class Scale:
 
         empty_bboxes = []
         for key in self.dict_bbox_to_subgraph:
-            if self.dict_bbox_to_subgraph[key] == "Empty":
+            if self.dict_bbox_to_subgraph[key] == config.rn_no_stats_marker:
                 empty_bboxes.append(key)
 
         for key in empty_bboxes:
@@ -220,7 +225,7 @@ class Scale:
 
     def keep_counting(self):
         oldcount = 0
-        with tqdm(total=self.list_of_bbox[0][-1], desc="Couting files ") as pbar:
+        with tqdm(total=self.list_of_bbox[0][-1], desc="Counting files ") as pbar:
             while self.keep_countin_state:
                 count = len(
                     glob.glob(
@@ -234,7 +239,7 @@ class Scale:
                 )
                 assert self.list_of_bbox[0][-1] == len(self.list_of_bbox)
                 if config.scl_temp_file_counter:
-                    pbar.update(count-oldcount)
+                    pbar.update(count - oldcount)
                 time.sleep(1)
                 oldcount = count
 
@@ -242,23 +247,87 @@ class Scale:
         if config.scl_temp_file_counter:
             self.create_file_marker()
         N, S, E, W, total = key
+
+        def debug_by_plotting_bboxes(color, small_G=None):
+
+
+            fig, ax = ox.plot.plot_graph(
+                self.RoadNetwork.G_osm,
+                ax=None,
+                figsize=(10, 10),
+                bgcolor="white",
+                node_color="red",
+                node_size=5,
+                node_alpha=None,
+                node_edgecolor="none",
+                node_zorder=1,
+                edge_color="black",
+                edge_linewidth=0.1,
+                edge_alpha=None,
+                show=False,
+                close=False,
+                save=False,
+                bbox=None,
+            )
+            # if color == "green":
+            #     ox.plot.plot_graph(
+            #     small_G,
+            #     ax=ax,
+            #     bgcolor="white",
+            #     node_color="green",
+            #     node_size=10,
+            #     node_alpha=None,
+            #     node_edgecolor="none",
+            #     node_zorder=1,
+            #     edge_color="black",
+            #     edge_linewidth=0.1,
+            #     edge_alpha=None,
+            #     show=False,
+            #     close=False,
+            #     save=False,
+            #     bbox=None,
+            # )
+            rect = plt.Rectangle((W, S), E - W, N - S, facecolor=color, alpha=0.3, edgecolor=None)
+            ax.add_patch(rect)
+            plt.savefig(
+                os.path.join(config.BASE_FOLDER, config.results_folder, "empty_tiles", self.RoadNetwork.city_name)
+                + str(self.scale)
+                + color
+                + str(int(np.random.rand() * 100000000))
+                + ".png"
+            )
+            # plt.show()
+
         try:
-            tile = Tile(ox.truncate.truncate_graph_bbox(self.RoadNetwork.G_osm, N, S, E, W), self.tile_area)
+            self.nk_truncate_graph_bbox(self.RoadNetwork.G_osm, N, S, E, W)
+            tile = Tile(
+                ox.truncate.truncate_graph_bbox(self.RoadNetwork.G_osm, N, S, E, W, retain_all=True, truncate_by_edge=False,), self.tile_area
+            )
             # if config.verbose >= 2:
             #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
             #         csvwriter = csv.writer(f)
             #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
-        except (ValueError, nx.exception.NetworkXPointlessConcept):
+            debug_by_plotting_bboxes("green", tile.G)
+        except (ValueError):#
             # if config.verbose >= 1:
             #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
             #         csvwriter = csv.writer(f)
             #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
 
-            return (key, "Empty")
+            debug_by_plotting_bboxes("red")
+            return (key, config.rn_no_stats_marker)
+        except nx.exception.NetworkXPointlessConcept:
+            debug_by_plotting_bboxes("blue")
+            return (key, config.rn_no_stats_marker)
             # pass
-
         return (key, tile)
         # pass
+
+    @staticmethod
+    def nk_truncate_graph_bbox(G, N, S, E, W ):
+        gs_nodes, gs_edges = utils_graph.graph_to_gdfs(G)[["geometry"]]
+        dummy_stop = 1
+
 
     @staticmethod
     def generate_scales_for_all_cities():

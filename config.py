@@ -24,10 +24,10 @@ master_delete_all = -1  # (one of [True, False, -1])
 ####################################
 ######  DELETE FILES CONFIG ########
 ####################################
-rn_delete_existing_pickled_objects = False
-scl_delete_existing_pickle_objects = False
+rn_delete_existing_pickled_objects = True
+scl_delete_existing_pickle_objects = True
 sd_delete_existing_pickle_objects = True
-ps_delete_existing_pickle_objects = False
+ps_delete_existing_pickle_objects = True
 td_delete_existing_pickle_objects = True
 
 
@@ -113,22 +113,24 @@ rn_post_fix_road_network_object_file = "_road_network_object_square.pkl"
 rn_base_map_filename = "_base_osm_truncated.png"
 rn_compute_full_city_features = False
 rn_add_edge_speed_and_tt = True
+rn_no_stats_marker = "Empty"
 
 rn_percentage_of_city_area = 100
 if rn_percentage_of_city_area != 100:
     assert rn_post_fix_road_network_object_file == "_road_network_object_small.pkl"
 
-rn_square_from_city_centre = 40  # 15 implies 15X15 sq.km.
+rn_square_from_city_centre = 0.5  # 15 implies 15X15 sq.km.
 if rn_square_from_city_centre != -1:
     assert rn_percentage_of_city_area == 100  # we cannot have two filtering techniques
     # basically it is not needed
     assert rn_post_fix_road_network_object_file == "_road_network_object_square.pkl"
+rn_simplify = False
 
 ####################################
 #########   Scale Class   ##########
 ####################################
 if BASE_FOLDER == BASE_FOLDER_server:
-    scl_n_jobs_parallel = 90
+    scl_n_jobs_parallel = 28
 else:
     scl_n_jobs_parallel = 5
 scl_temp_file_counter = True
@@ -147,7 +149,7 @@ scl_list_of_depths = [1]
 # ]  # 40, 45, 50, 55, 60, 65, 70, 80, 85, 90, 95, 100, 120]
 
 # test_small
-scl_list_of_seeds = list(range(50, 55, 5))
+scl_list_of_seeds = list(range(25, 30, 20))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 
 # forward
 # scl_list_of_seeds = list(range(5, 350, 10))
@@ -226,7 +228,7 @@ if master_delete_all != -1:
     ) = scl_delete_existing_pickle_objects = rn_delete_existing_pickled_objects = master_delete_all
 
 
-network_folder = "network"  # -tmax-smax"
+network_folder = "network-tmax-smax"
 warnings_folder = "warnings"
 results_folder = "results_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi"
 
