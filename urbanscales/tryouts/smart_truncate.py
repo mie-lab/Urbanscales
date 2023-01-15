@@ -19,8 +19,11 @@ from shapely.ops import nearest_points
 
 N, S, E, W = 1.3235381983186159, 1.319982801681384, \
                            103.85361309942331 , 103.84833190057668,
-graph = ox.graph_from_bbox(N, S, E, W, \
-                           network_type='drive')
+# graph = ox.graph_from_bbox(N, S, E, W, \
+#                            network_type='drive')
+
+graph = ox.graph_from_point((N, E), dist=500)
+
 nodes= ox.graph_to_gdfs(graph, nodes=True, edges=False)
 edges= ox.graph_to_gdfs(graph, edges=True, nodes=False)
 fig, ax = ox.plot.plot_graph(
@@ -91,8 +94,6 @@ for bbox_line in bbox_lines:
 
             x = np.round(int_list[-1].xy[0][0], 7)
             y = np.round(int_list[-1].xy[1][0], 7)
-            
-            new_node = [y, x, 3, np.nan, Point(x,y)]
 
             u = gs_edges.index[i][0]
             v = gs_edges.index[i][1]
@@ -111,6 +112,8 @@ for bbox_line in bbox_lines:
             poly_ = shapely.geometry.box(*bbox, ccw=True)
 
             # a small buffer polygon is used to remove precision errors in shapely split
+            # buffer idea borrowed from user: atkat12's SO answer
+            # https://stackoverflow.com/a/50194810/3896008
             buff = Point(x,y).buffer(0.0001)
             split_parts = split(a[0], buff)
             if len(split_parts) == 2:
@@ -119,7 +122,8 @@ for bbox_line in bbox_lines:
                 first_seg, buff_seg_unused, last_seg = split_parts
             else:
                 print ("Error in splitting; >3 or <2 splits found ")
-                sys.exit(0)
+                raise Exception
+
 
             line_with_interpolated_point = LineString(list(first_seg.coords) + list(Point(x,y).coords) + list(last_seg.coords))
             firstLineString, secondLineString = split(line_with_interpolated_point, Point(x, y))
@@ -138,7 +142,7 @@ for bbox_line in bbox_lines:
                 print ("Both linestrings must not be exactly equal; The probability of that happening "
                        "is close to zero. Exiting execution")
                 print ("Inside custom truncate function")
-                sys.exit(0)
+                raise Exception
 
             # similarly we find which out of u and v are inside and
             # outside the bbox respectively
@@ -148,30 +152,49 @@ for bbox_line in bbox_lines:
             elif not poly_.contains(Point(gs_nodes.loc[v].x, gs_nodes.loc[v].y)) and poly_.contains(Point(gs_nodes.loc[u].x, gs_nodes.loc[u].y)):
                 inside_node = u
                 outside_node = v
-            else:
-                print ("Both nodes (Original U and V) must not be inside the poly")
+            elif not poly_.contains(Point(gs_nodes.loc[v].x, gs_nodes.loc[v].y)) and not poly_.contains(Point(gs_nodes.loc[u].x, gs_nodes.loc[u].y))
+                print ("Both nodes (Original U and V) must not be outside the poly")
                 print ("Inside custom truncate function (determing the right node inside)")
-                sys.exit(0)
+                raise Exception("Error")
 
 
             e = gs_edges.iloc[i]
-            osmid, oneway, lanes, name, highway, maxspeed, reversed, length, geomet_unused = list(e)
-            if isinstance(osmid, list):
-                osmid.append(-9999) # Since we wish our new edge to have a unique id
-            elif isinstance(osmid, int): # some osmid are list, some are int
-                osmid = [osmid, -9999]
+            e_dict = {}
+            for col in list(gs_edges.columns):
+                e_dict[col] = eval("e." + col)
 
-            gs_edges.loc[inside_node, v_dash, key] = list((osmid, oneway, lanes, name, highway, maxspeed, reversed, length, inside_linestring))
+            # we retain all values in the dummy edges except osmid and the geometry (linestring)
+            if isinstance(e_dict["osmid"], list):
+                e_dict["osmid"].append(-9999) # Since we wish our new edge to have a unique id
+            elif isinstance(e_dict["osmid"], int): # some osmid are list, some are int
+                e_dict["osmid"] = [e_dict["osmid"], -9999]
+            e_dict["geometry"] = inside_linestring
+            gs_edges.loc[inside_node, v_dash, key] = [eval("e." + col) for col in list(gs_edges.columns)]
 
-            osmid, oneway, lanes, name, highway, maxspeed, reversed, length, geomet_unused = list(e)
-            if isinstance(osmid, list):
-                osmid.append(-9999) # Since we wish our new edge to have a unique id
-            elif isinstance(osmid, int): # some osmid are list, some are int
-                osmid = [osmid, -9999]
+            # we retain all values in the dummy edges except osmid and the geometry (linestring)
+            if isinstance(e_dict["osmid"], list):
+                e_dict["osmid"].append(9999) # Since we wish our new edge to have a unique id
+            elif isinstance(e_dict["osmid"], int): # some osmid are list, some are int
+                e_dict["osmid"] = [e_dict["osmid"], 9999]  # We use +9999 for outside and -9999 for inside
+            e_dict["geometry"] = outside_linestring
+            gs_edges.loc[v_dash, outside_node, key] = [eval("e." + col) for col in list(gs_edges.columns)]
 
-            gs_edges.loc[v_dash, outside_node, key] = list((osmid, oneway, lanes, name, highway, maxspeed, reversed, length, outside_linestring))
+            n = gs_nodes.iloc[0] # choose any node, say the first one
+            n_dict = {}
+            for col in list(gs_nodes.columns):
+                n_dict[col] = eval("n." + col)
 
-            gs_nodes.loc[v_dash] = new_node
+            # we retain all values in the dummy node except u, x, and the geometry
+            n_dict["geometry"] = Point(x, y)
+            n_dict["x"] = x
+            n_dict["y"] = y
+
+            gs_nodes.loc[v_dash] = [eval("n." + col) for col in list(gs_nodes.columns)]
+
+            # Delete the older long-continuous edge to avoid overlapping
+            # gs_edges.drop(gs_edges.loc[u, v, key], inplace=True)
+
+
 
 
             # gs_nodes = gs_nodes.append(pd.Series(new_row, index=gs_nodes.columns\
