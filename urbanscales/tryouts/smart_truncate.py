@@ -1,12 +1,11 @@
 import sys
-
 import numpy as np
 import osmnx as ox
 import matplotlib.pyplot as plt
 from shapely.ops import split
 from itertools import chain
 import shapely
-
+import time
 import pandas as pd
 from shapely.geometry import Point, LineString
 import osmnx as ox
@@ -19,10 +18,10 @@ from shapely.ops import nearest_points
 
 N, S, E, W = 1.3235381983186159, 1.319982801681384, \
                            103.85361309942331 , 103.84833190057668,
-# graph = ox.graph_from_bbox(N, S, E, W, \
-#                            network_type='drive')
+graph = ox.graph_from_bbox(N, S, E, W, \
+                           network_type='drive')
 
-graph = ox.graph_from_point((N, E), dist=500)
+# graph = ox.graph_from_point((N, E), dist=500)
 
 nodes= ox.graph_to_gdfs(graph, nodes=True, edges=False)
 edges= ox.graph_to_gdfs(graph, edges=True, nodes=False)
@@ -81,19 +80,23 @@ bbox_lines = [
 
 
 int_list = []
+edges_to_delete = []
 for bbox_line in bbox_lines:
     for i in range(gs_edges.shape[0]):
         a = (pd.Series(gs_edges[["geometry"]].iloc[i]))
 
         intersection = a[0].intersection(bbox_line)
         int_list.append(intersection)
+
         if intersection.wkt != "LINESTRING EMPTY":
             print (intersection)
 #             ox.utils_geo.interpolate_points(gs_edges, dist)
-            plt.scatter(*intersection.xy, s=30, color="black")
+#             plt.scatter(*intersection.xy, s=30, color="black")
 
-            x = np.round(int_list[-1].xy[0][0], 7)
-            y = np.round(int_list[-1].xy[1][0], 7)
+            # x = np.round(int_list[-1].xy[0][0], 7)
+            # y = np.round(int_list[-1].xy[1][0], 7)
+            x, y = intersection.xy[0][0], intersection.xy[1][0]
+            plt.scatter(x, y, s=30, color="black")
 
             u = gs_edges.index[i][0]
             v = gs_edges.index[i][1]
@@ -102,11 +105,7 @@ for bbox_line in bbox_lines:
             assert u in list(gs_nodes.index) and v in list(gs_nodes.index)
 
             # create an id for the new node
-            v_dash = 10000000000 + int( np.random.rand()*100000000)
-
-            all_points_coords = chain(a[0].coords, Point(x,y).coords)
-            all_points = map(Point, all_points_coords)
-            new_line = LineString(sorted(all_points, key=a[0].project))
+            v_dash = 10000000000000 + int( np.random.rand()*100000000)
 
             bbox = (W,S,E,N)
             poly_ = shapely.geometry.box(*bbox, ccw=True)
@@ -127,6 +126,10 @@ for bbox_line in bbox_lines:
 
             line_with_interpolated_point = LineString(list(first_seg.coords) + list(Point(x,y).coords) + list(last_seg.coords))
             firstLineString, secondLineString = split(line_with_interpolated_point, Point(x, y))
+
+            # plt.plot(*firstLineString.xy, "green")
+            # plt.plot(*secondLineString.xy, "blue")
+            # plt.show()
 
             # now we need to figure out which linestring is inside, which is outside the bbox in question
             # so that we can choose the correct end points of the edge to be split
@@ -152,11 +155,11 @@ for bbox_line in bbox_lines:
             elif not poly_.contains(Point(gs_nodes.loc[v].x, gs_nodes.loc[v].y)) and poly_.contains(Point(gs_nodes.loc[u].x, gs_nodes.loc[u].y)):
                 inside_node = u
                 outside_node = v
-            elif not poly_.contains(Point(gs_nodes.loc[v].x, gs_nodes.loc[v].y)) and not poly_.contains(Point(gs_nodes.loc[u].x, gs_nodes.loc[u].y))
-                print ("Both nodes (Original U and V) must not be outside the poly")
-                print ("Inside custom truncate function (determing the right node inside)")
-                raise Exception("Error")
-
+            else:
+                print (poly_.contains(Point(gs_nodes.loc[v].x, gs_nodes.loc[v].y)), poly_.contains(Point(gs_nodes.loc[u].x, gs_nodes.loc[u].y)) )
+                time.sleep(1)
+                continue
+                # ignore the more complicated cases
 
             e = gs_edges.iloc[i]
             e_dict = {}
@@ -169,15 +172,16 @@ for bbox_line in bbox_lines:
             elif isinstance(e_dict["osmid"], int): # some osmid are list, some are int
                 e_dict["osmid"] = [e_dict["osmid"], -9999]
             e_dict["geometry"] = inside_linestring
-            gs_edges.loc[inside_node, v_dash, key] = [eval("e." + col) for col in list(gs_edges.columns)]
+            gs_edges.loc[inside_node, v_dash, key] = e_dict
 
+            # ## no need to create an edge for the outside; We can just add an extra edge inside the box,
             # we retain all values in the dummy edges except osmid and the geometry (linestring)
             if isinstance(e_dict["osmid"], list):
                 e_dict["osmid"].append(9999) # Since we wish our new edge to have a unique id
             elif isinstance(e_dict["osmid"], int): # some osmid are list, some are int
                 e_dict["osmid"] = [e_dict["osmid"], 9999]  # We use +9999 for outside and -9999 for inside
             e_dict["geometry"] = outside_linestring
-            gs_edges.loc[v_dash, outside_node, key] = [eval("e." + col) for col in list(gs_edges.columns)]
+            gs_edges.loc[v_dash, outside_node, key] = e_dict
 
             n = gs_nodes.iloc[0] # choose any node, say the first one
             n_dict = {}
@@ -189,28 +193,39 @@ for bbox_line in bbox_lines:
             n_dict["x"] = x
             n_dict["y"] = y
 
-            gs_nodes.loc[v_dash] = [eval("n." + col) for col in list(gs_nodes.columns)]
+            gs_nodes.loc[v_dash] = n_dict
 
-            # Delete the older long-continuous edge to avoid overlapping
-            # gs_edges.drop(gs_edges.loc[u, v, key], inplace=True)
+            # delete the original node
+            edges_to_delete.append((u,v,key))
 
-
-
-
-            # gs_nodes = gs_nodes.append(pd.Series(new_row, index=gs_nodes.columns\
-            #                           [:len(new_row)]), ignore_index=True)
-
-
-
-            # add the new node
 
 
         plt.plot(*(a[0]).xy, color="red")
         plt.plot(*(bbox_line.xy), color="green")
+
+for edge in edges_to_delete:
+    gs_edges.drop(edge, inplace=True)
+
 plt.gca().set_aspect('equal')
 plt.savefig("urbanscales/tryouts/Interpolated.png", dpi=600)
 plt.show()
 
+for i in range(5, 18):
+    plt.plot(((pd.Series(gs_edges[["geometry"]].iloc[-i]))[0].xy[0]),
+             ((pd.Series(gs_edges[["geometry"]].iloc[-i]))[0].xy[1]), color="black")
+for i in range(1, 5):
+    plt.plot(((pd.Series(gs_edges[["geometry"]].iloc[-i]))[0].xy[0]),
+             ((pd.Series(gs_edges[["geometry"]].iloc[-i]))[0].xy[1]))
+
+plt.plot(*poly_.exterior.xy, color="green")
+for i in range(1, 5):
+    # plt.scatter(gs_nodes.iloc[-i].geometry.xy[0], gs_nodes.iloc[-i].geometry.xy[1], s=20, color="blue")
+    print (gs_nodes.iloc[-i].x, gs_nodes.iloc[-i].y)
+    plt.scatter(gs_nodes.iloc[-i].x, gs_nodes.iloc[-i].y, s=20, color="blue")
+
+plt.gca().set_aspect('equal')
+plt.savefig("urbanscales/tryouts/differently_colored_edges.png", dpi=600)
+plt.show()
 
 fig, ax = ox.plot.plot_graph(
                 G,
@@ -262,7 +277,7 @@ plt.show()
 
 
 
-g_truncated = ox.truncate.truncate_graph_bbox(graph,N, S, E, W, truncate_by_edge=False)
+g_truncated = ox.truncate.truncate_graph_bbox(graph, N, S, E, W, truncate_by_edge=False)
 ox.plot_graph(g_truncated, save=True, filepath="urbanscales/tryouts/trunacted_old.png", dpi=600)
 
 
