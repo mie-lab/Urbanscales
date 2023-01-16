@@ -1,7 +1,8 @@
 import time
-
+import geopandas as gpd
 import matplotlib.pyplot as plt
 import numpy as np
+from shapely.geometry import Polygon, LineString, Point
 import osmnx as ox
 import pandas as pd
 import shapely
@@ -10,6 +11,7 @@ from shapely.geometry import Point
 from shapely.geometry import Point, LineString
 from shapely.ops import split
 from smartprint import smartprint as sprint
+import config
 
 N, S, E, W = (
     1.3235381983186159,
@@ -59,6 +61,7 @@ gs_nodes, gs_edges = utils_graph.graph_to_gdfs(G)
 sprint(gs_nodes.shape)
 
 
+
 E = W_ + width
 W = W_
 S = S_
@@ -68,7 +71,32 @@ bbox_lines = [
     LineString([Point(E, S), Point(E, N)]),
     LineString([Point(E, N), Point(W, N)]),
     LineString([Point(W, N), Point(W, S)]),
+    LineString([Point(W, S), Point(E, S)]),
 ]
+
+bbox_poly_series = gpd.GeoSeries(
+    [
+        Polygon([(W,S), (E, S), (E, N), (W, N)]),
+    ],
+)
+edges_series = gpd.GeoSeries(
+    (gs_edges[["geometry"]].geometry.to_list()),
+    index=range(1, gs_edges.shape[0] + 1),
+)
+
+if config.DEBUG:
+    for i in range((edges_series.shape[0])):
+        plt.plot(edges_series.iloc[i].xy[0], edges_series.iloc[i].xy[1], color="black")
+    inter_list = edges_series.intersection(bbox_poly_series[0]).to_list()
+    retained_inter_list = []
+    for i in range(len(inter_list)):
+        if inter_list[i].wkt != "LINESTRING EMPTY":
+            plt.plot(inter_list[i].xy[0], inter_list[i].xy[1])
+            retained_inter_list.append(inter_list[i])
+    plt.plot(bbox_poly_series[0].exterior.xy[0], bbox_poly_series[0].exterior.xy[1])
+    plt.gca().set_aspect("equal")
+    plt.show()
+
 
 old_num_edges = gs_edges.shape[0]
 old_num_nodes = gs_nodes.shape[0]
