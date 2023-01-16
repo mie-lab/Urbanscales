@@ -77,7 +77,8 @@ bbox_lines = [
               LineString([Point(W,N), Point(W,S)]), \
              ]
 
-
+old_num_edges = gs_edges.shape[0]
+old_num_nodes = gs_nodes.shape[0]
 
 int_list = []
 edges_to_delete = []
@@ -196,24 +197,30 @@ for bbox_line in bbox_lines:
             gs_nodes.loc[v_dash] = n_dict
 
             # delete the original node
-            edges_to_delete.append((u,v,key))
+            # edges_to_delete.append((u,v,key))
 
 
 
         plt.plot(*(a[0]).xy, color="red")
         plt.plot(*(bbox_line.xy), color="green")
 
+
+new_num_nodes = gs_nodes.shape[0]
+
 for edge in edges_to_delete:
     gs_edges.drop(edge, inplace=True)
+
+# each new node must induce two new edges if considering inside and outside both, otherwise 1
+# assert (new_num_nodes - old_num_nodes) * 1 + old_num_edges - len(edges_to_delete) == gs_edges.shape[0]
 
 plt.gca().set_aspect('equal')
 plt.savefig("urbanscales/tryouts/Interpolated.png", dpi=600)
 plt.show()
 
-for i in range(5, 18):
+for i in range(old_num_edges, gs_edges.shape[0]):
     plt.plot(((pd.Series(gs_edges[["geometry"]].iloc[-i]))[0].xy[0]),
              ((pd.Series(gs_edges[["geometry"]].iloc[-i]))[0].xy[1]), color="black")
-for i in range(1, 5):
+for i in range(1, old_num_edges):
     plt.plot(((pd.Series(gs_edges[["geometry"]].iloc[-i]))[0].xy[0]),
              ((pd.Series(gs_edges[["geometry"]].iloc[-i]))[0].xy[1]))
 
