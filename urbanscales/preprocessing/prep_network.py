@@ -100,7 +100,7 @@ class Scale:
             filecounter = threading.Thread(target=self.keep_counting)
             filecounter.start()
 
-            N, S, E, W = 1.51316,            104.135278,            1.130361,            103.566667
+            N, S, E, W = 1.51316, 104.135278, 1.130361, 103.566667
             self.nk_truncate_graph_bbox(self.RoadNetwork.G_osm, N, S, E, W)
             with Pool(config.scl_n_jobs_parallel) as p:
                 list_of_tuples = p.map(self._helper_create_dict_in_parallel, list(self.list_of_bbox))
@@ -250,7 +250,6 @@ class Scale:
 
         def debug_by_plotting_bboxes(color, small_G=None):
 
-
             fig, ax = ox.plot.plot_graph(
                 self.RoadNetwork.G_osm,
                 ax=None,
@@ -301,14 +300,23 @@ class Scale:
         try:
             self.nk_truncate_graph_bbox(self.RoadNetwork.G_osm, N, S, E, W)
             tile = Tile(
-                ox.truncate.truncate_graph_bbox(self.RoadNetwork.G_osm, N, S, E, W, retain_all=True, truncate_by_edge=False,), self.tile_area
+                ox.truncate.truncate_graph_bbox(
+                    self.RoadNetwork.G_osm,
+                    N,
+                    S,
+                    E,
+                    W,
+                    retain_all=True,
+                    truncate_by_edge=False,
+                ),
+                self.tile_area,
             )
             # if config.verbose >= 2:
             #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
             #         csvwriter = csv.writer(f)
             #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
             debug_by_plotting_bboxes("green", tile.G)
-        except (ValueError):#
+        except (ValueError):  #
             # if config.verbose >= 1:
             #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
             #         csvwriter = csv.writer(f)
@@ -324,10 +332,9 @@ class Scale:
         # pass
 
     @staticmethod
-    def nk_truncate_graph_bbox(G, N, S, E, W ):
+    def nk_truncate_graph_bbox(G, N, S, E, W):
         gs_nodes, gs_edges = utils_graph.graph_to_gdfs(G)[["geometry"]]
         dummy_stop = 1
-
 
     @staticmethod
     def generate_scales_for_all_cities():
