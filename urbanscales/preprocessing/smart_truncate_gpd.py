@@ -4,6 +4,7 @@ import osmnx as ox
 from osmnx import utils_graph
 from shapely.errors import ShapelyDeprecationWarning
 import warnings
+
 warnings.filterwarnings("ignore", category=ShapelyDeprecationWarning)
 from shapely.geometry import Point
 from shapely.geometry import Polygon
@@ -141,8 +142,48 @@ def smart_truncate(graph, N, S, E, W, get_subgraph=True, get_features=False, sca
             edge_indices_to_drop.append((u, v, key))
 
         elif not Point(u_x, u_y).within(bbox_poly) and not Point(v_x, v_y).within(bbox_poly):
-            print("Both outside, case not handled")
-            raise Exception("Both end points of linestring outside the bbox; Case not implemented")
+            if config.DEBUG:
+                print("U inside; V outside")
+            # no nodes to retain
+            # nodes_to_retain.append(u)
+
+            linestring_x, linestring_y = intersecting_edges_series_filtered.iloc[i].xy
+            first_point = Point(linestring_x[0], linestring_y[0])
+            last_point = Point(linestring_x[-1], linestring_y[-1])
+
+            # For this case, the edge passes through the bbox
+            # The intersection points should touch the bbox
+            try:
+                assert (first_point.touches(bbox_poly)) and (last_point.touches(bbox_poly))
+            except:
+                raise Exception("Passing through egde, error")
+
+            # we must create a dummy node for outside point
+            id1 = int(np.random.rand() * -100000000000000)
+
+            # Format of each node row:
+            # [1.3223464, 103.8527412, 3, nan, <shapely.geometry.point.Point at 0x134a7eb90>]
+            outside_point = first_point
+            new_node_data = [outside_point.y, outside_point.x, street_count_dummy, highway_dummy, outside_point]
+            gs_nodes.loc[id1] = new_node_data
+
+            nodes_to_retain.append(id1)
+
+
+            id2 = int(np.random.rand() * -100000000000000)
+            outside_point = last_point
+            new_node_data = [outside_point.y, outside_point.x, street_count_dummy, highway_dummy, outside_point]
+            gs_nodes.loc[id2] = new_node_data
+
+            nodes_to_retain.append(id2)
+
+            # Now, we know u is inside and v is outside, (v is replaced by our dummy node)
+            # Updating the index in pandas is not possible,
+            # So, we insert a copy of the edge at u,v,key into the dataframe
+            # And then delete the old edge
+            gs_edges_intersecting.loc[(id1, id2, key)] = gs_edges_intersecting.loc[(u, v, key)]
+            # gs_edges_intersecting.drop((u, v, key), inplace=True)
+            edge_indices_to_drop.append((u, v, key))
 
     if config.rn_plotting_for_truncated_graphs:
         plt.show()

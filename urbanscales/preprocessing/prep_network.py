@@ -11,6 +11,7 @@ import numpy as np
 from multiprocessing import Pool
 import threading
 from osmnx import utils_graph
+from urbanscales.preprocessing.smart_truncate_gpd import smart_truncate
 
 from matplotlib import pyplot as plt
 
@@ -100,8 +101,6 @@ class Scale:
             filecounter = threading.Thread(target=self.keep_counting)
             filecounter.start()
 
-            N, S, E, W = 1.51316, 104.135278, 1.130361, 103.566667
-            self.nk_truncate_graph_bbox(self.RoadNetwork.G_osm, N, S, E, W)
             with Pool(config.scl_n_jobs_parallel) as p:
                 list_of_tuples = p.map(self._helper_create_dict_in_parallel, list(self.list_of_bbox))
             self.keep_countin_state = False
@@ -298,17 +297,9 @@ class Scale:
             # plt.show()
 
         try:
-            self.nk_truncate_graph_bbox(self.RoadNetwork.G_osm, N, S, E, W)
+            truncated_graph = smart_truncate(self.RoadNetwork.G_osm, N, S, E, W)
             tile = Tile(
-                ox.truncate.truncate_graph_bbox(
-                    self.RoadNetwork.G_osm,
-                    N,
-                    S,
-                    E,
-                    W,
-                    retain_all=True,
-                    truncate_by_edge=False,
-                ),
+                truncated_graph,
                 self.tile_area,
             )
             # if config.verbose >= 2:
@@ -316,7 +307,7 @@ class Scale:
             #         csvwriter = csv.writer(f)
             #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
             debug_by_plotting_bboxes("green", tile.G)
-        except (ValueError):  #
+        except (ValueError, Exception):  #
             # if config.verbose >= 1:
             #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
             #         csvwriter = csv.writer(f)
@@ -330,11 +321,6 @@ class Scale:
             # pass
         return (key, tile)
         # pass
-
-    @staticmethod
-    def nk_truncate_graph_bbox(G, N, S, E, W):
-        gs_nodes, gs_edges = utils_graph.graph_to_gdfs(G)[["geometry"]]
-        dummy_stop = 1
 
     @staticmethod
     def generate_scales_for_all_cities():
