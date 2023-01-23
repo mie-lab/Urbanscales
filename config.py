@@ -5,6 +5,8 @@ pickle_protocol = 5
 
 verbose = 2
 
+DEBUG = False
+
 
 BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"
 BASE_FOLDER_server = "/home/niskumar/WCS"
@@ -107,6 +109,7 @@ if rn_do_not_filter:
     assert len(rn_do_not_filter_list) == 0
 
 rn_plotting_enabled = True
+rn_plotting_for_truncated_graphs = False
 rn_prefix_geojson_files = "gdam_410_"
 rn_postfix_geojson_files = ".geojson"
 rn_post_fix_road_network_object_file = "_road_network_object_square.pkl"
