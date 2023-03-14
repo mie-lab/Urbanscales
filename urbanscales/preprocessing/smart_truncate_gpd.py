@@ -3,6 +3,7 @@ import os.path
 import matplotlib.pyplot as plt
 import numpy as np
 import osmnx as ox
+import pandas as pd
 from osmnx import utils_graph
 from shapely.errors import ShapelyDeprecationWarning
 from tqdm import tqdm
@@ -20,9 +21,14 @@ from smartprint import smartprint as sprint
 import time
 from line_profiler_pycharm import profile
 
+global_dummies = list(set((np.random.rand(100000) * 100000000000).astype("int").tolist()))
+# list.sort(global_dummies)
+
 
 @profile
-def smart_truncate(graph, N, S, E, W, get_subgraph=True, get_features=False, scale=-1):
+def smart_truncate(graph, gs_nodes, gs_edges, N, S, E, W, get_subgraph=True, get_features=False, scale=-1):
+    gs_nodes, gs_edges = gdf.GeoDataFrame(gs_nodes), gdf.GeoDataFrame(gs_edges)
+
     starttime = time.time()
 
     if config.rn_plotting_for_truncated_graphs:
@@ -38,13 +44,31 @@ def smart_truncate(graph, N, S, E, W, get_subgraph=True, get_features=False, sca
         assert not config.rn_plotting_for_truncated_graphs  # the plotting is only for debugging
 
     try:
-        gs_nodes, gs_edges = smart_truncate.gs_nodes_gs_edges
-        print("Try pass")
+        count_dummies = smart_truncate.count_dummies
+        smart_truncate.count_dummies += 1
     except AttributeError:
-        smart_truncate.gs_nodes_gs_edges = utils_graph.graph_to_gdfs(graph)
-        gs_nodes, gs_edges = smart_truncate.gs_nodes_gs_edges
-        print("Try fail, values recomputed")
+        count_dummies = 0
+        smart_truncate.count_dummies = 0
 
+    # try:
+    #     gs_nodes, gs_edges = smart_truncate.gs_nodes_gs_edges
+    #     # print("Try pass")
+    # except AttributeError:
+    #     smart_truncate.gs_nodes_gs_edges = utils_graph.graph_to_gdfs(graph)
+    #     gs_nodes, gs_edges = smart_truncate.gs_nodes_gs_edges
+    # print("Try fail, values recomputed")
+
+    # global_dummies = list(range(gs_nodes.index.max()+1, gs_nodes.index.max() + 10000))
+    # for insert_placeholders in tqdm(range(100), desc="creating placeholders"):
+    #     # sprint (global_dummies[insert_placeholders])
+    #     gs_nodes.loc[global_dummies[insert_placeholders]] = 0 # [1, 1, 1, 1, 1, 1]
+
+    # for insert_placeholders in tqdm(range(100), desc="creating placeholders known indices"):
+    #     # sprint (global_dummies[insert_placeholders])
+    #     gs_nodes.loc[gs_nodes.index[0]] = 0 # [1, 1, 1, 1, 1, 1]
+
+    to_add_in_gs_nodes = []
+    to_add_in_gs_nodes_indices = []
     bbox_poly = Polygon([(W, S), (E, S), (E, N), (W, N)])
     intersecting_edges_series = gs_edges.intersection(bbox_poly)
     intersecting_edges_series_filtered = intersecting_edges_series[~intersecting_edges_series.geometry.is_empty]
@@ -68,8 +92,8 @@ def smart_truncate(graph, N, S, E, W, get_subgraph=True, get_features=False, sca
 
     edge_indices_to_drop = []
 
-    for i in tqdm(range(intersecting_edges_series_filtered.shape[0]), desc="edges iterate: "):
-        # for i in range(intersecting_edges_series_filtered.shape[0]):
+    # for i in tqdm(range(intersecting_edges_series_filtered.shape[0]), desc="edges iterate: "):
+    for i in range(intersecting_edges_series_filtered.shape[0]):
         # Step-1: Get the edge properties from the original edge dataframe
         gs_edges_intersecting["geometry"].iloc[i] = intersecting_edges_series_filtered.iloc[i]
         u, v, key = gs_edges_intersecting.index[i]
@@ -107,14 +131,17 @@ def smart_truncate(graph, N, S, E, W, get_subgraph=True, get_features=False, sca
                 raise Exception("Not implemented; Wrong case found")
 
             # we must create a dummy node for outside point
-            id = int(np.random.rand() * -100000000000000)
+            id = global_dummies[count_dummies]  # int(np.random.rand() * -100000000000000)
+            count_dummies += 1
 
             # Format of each node row:
             # [1.3223464, 103.8527412, 3, nan, <shapely.geometry.point.Point at 0x134a7eb90>]
             new_node_data = [outside_point.y, outside_point.x, street_count_dummy, highway_dummy, outside_point]
             if "ref" in gs_nodes.columns:
                 new_node_data[4:4] = [np.nan]
-            gs_nodes.loc[id] = new_node_data
+            # gs_nodes.loc[id] = new_node_data
+            to_add_in_gs_nodes.append(new_node_data)
+            to_add_in_gs_nodes_indices.append(id)
 
             nodes_to_retain.append(id)
 
@@ -141,14 +168,20 @@ def smart_truncate(graph, N, S, E, W, get_subgraph=True, get_features=False, sca
                 raise Exception("Not implemented; Wrong case found")
 
             # we must create a dummy node for outside point
-            id = int(np.random.rand() * -100000000000000)
+            id = global_dummies[count_dummies]  # int(np.random.rand() * -100000000000000)
+            count_dummies += 1
 
             # Format of each node row:
             # [1.3223464, 103.8527412, 3, nan, <shapely.geometry.point.Point at 0x134a7eb90>]
             new_node_data = [outside_point.y, outside_point.x, street_count_dummy, highway_dummy, outside_point]
             if "ref" in gs_nodes.columns:
                 new_node_data[4:4] = [np.nan]
-            gs_nodes.loc[id] = new_node_data
+            # gs_nodes.loc[id] = new_node_data
+            to_add_in_gs_nodes.append(new_node_data)
+            to_add_in_gs_nodes_indices.append(id)
+
+            # for ki in tqdm(range(100), desc="loc insert"):
+            #     gs_nodes.loc[id + ki] = new_node_data
 
             nodes_to_retain.append(id)
 
@@ -179,7 +212,8 @@ def smart_truncate(graph, N, S, E, W, get_subgraph=True, get_features=False, sca
                 raise Exception("Passing through egde, error")
 
             # we must create a dummy node for outside point
-            id1 = int(np.random.rand() * -100000000000000)
+            id1 = global_dummies[count_dummies]  # int(np.random.rand() * -100000000000000)
+            count_dummies += 1
 
             # Format of each node row:
             # [1.3223464, 103.8527412, 3, nan, <shapely.geometry.point.Point at 0x134a7eb90>]
@@ -187,16 +221,22 @@ def smart_truncate(graph, N, S, E, W, get_subgraph=True, get_features=False, sca
             new_node_data = [outside_point.y, outside_point.x, street_count_dummy, highway_dummy, outside_point]
             if "ref" in gs_nodes.columns:
                 new_node_data[4:4] = [np.nan]
-            gs_nodes.loc[id1] = new_node_data
+            # gs_nodes.loc[id1] = new_node_data
+            to_add_in_gs_nodes.append(new_node_data)
+            to_add_in_gs_nodes_indices.append(id1)
 
             nodes_to_retain.append(id1)
 
-            id2 = int(np.random.rand() * -100000000000000)
+            id2 = global_dummies[count_dummies]  # int(np.random.rand() * -100000000000000)
+            count_dummies += 1
+
             outside_point = last_point
             new_node_data = [outside_point.y, outside_point.x, street_count_dummy, highway_dummy, outside_point]
             if "ref" in gs_nodes.columns:
                 new_node_data[4:4] = [np.nan]
-            gs_nodes.loc[id2] = new_node_data
+            # gs_nodes.loc[id2] = new_node_data
+            to_add_in_gs_nodes.append(new_node_data)
+            to_add_in_gs_nodes_indices.append(id2)
 
             nodes_to_retain.append(id2)
 
@@ -212,6 +252,10 @@ def smart_truncate(graph, N, S, E, W, get_subgraph=True, get_features=False, sca
     #     plt.savefig(os.path.join(config.BASE_FOLDER, config.results_folder, "_debug_trunc" + str(int(np.random.rand() *1000000)) + ".png"))
     #     # plt.show()
     #     plt.clf()
+
+    gs_nodes = gs_nodes.reindex(index=gs_nodes.index.append(pd.Index(to_add_in_gs_nodes_indices)))
+    for index, dummy_node_data in enumerate(to_add_in_gs_nodes_indices):
+        gs_nodes.loc[index] = dummy_node_data
 
     intersecting_nodes = gs_nodes[gs_nodes.index.isin((set(nodes_to_retain)))]
     intersecting_edges = gs_edges_intersecting[~gs_edges_intersecting.index.isin((set(edge_indices_to_drop)))]
@@ -252,6 +296,7 @@ def smart_truncate(graph, N, S, E, W, get_subgraph=True, get_features=False, sca
         plt.show()
 
     print("Time taken in smart_truncate_gpd call: ", (time.time() - starttime), " seconds")
+    smart_truncate.count_dummies = count_dummies
     if get_features:
         t = Tile((g_truncated), (config.rn_square_from_city_centre ** 2) / (scale ** 2))
         return t.get_vector_of_features()
@@ -304,7 +349,7 @@ if __name__ == "__main__":
     E = W + w * 0.1
     sprint(N, S, E, W)
 
-    for i in range(5):
+    for i in range(2):
         truncated_graph = smart_truncate(
             graph,
             N,

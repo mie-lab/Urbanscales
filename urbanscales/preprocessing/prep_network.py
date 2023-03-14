@@ -304,7 +304,8 @@ class Scale:
             # plt.show()
 
         try:
-            truncated_graph = smart_truncate(self.RoadNetwork.G_osm, N, S, E, W)
+            gs_nodes, gs_edges = utils_graph.graph_to_gdfs(graph)
+            truncated_graph = smart_truncate(self.RoadNetwork.G_osm, gs_nodes, gs_edges, N, S, E, W)
             tile = Tile(
                 truncated_graph,
                 self.tile_area,
@@ -313,8 +314,8 @@ class Scale:
             #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
             #         csvwriter = csv.writer(f)
             #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
-            # if config.DEBUG:
-            debug_by_plotting_bboxes("green", tile.G)
+            if config.DEBUG:
+                debug_by_plotting_bboxes("green", tile.G)
         except (ValueError, Exception):  #
             # if config.verbose >= 1:
             #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
