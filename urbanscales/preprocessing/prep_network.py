@@ -14,6 +14,7 @@ from osmnx import utils_graph
 from urbanscales.preprocessing.smart_truncate_gpd import smart_truncate
 
 from matplotlib import pyplot as plt
+from line_profiler_pycharm import profile
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 
@@ -87,10 +88,10 @@ class Scale:
                 raise Exception("AssertionError: daemonic processes are not allowed to have children")
 
         if config.scl_n_jobs_parallel > 1:
-            print("Processing in parallel: ")
+            print("Processing in parallel using ", str(config.scl_n_jobs_parallel), "threads")
 
             print("File counter running in background; clearing temp files")
-            print("Cleaning temp files folder")
+            print("Cleaning temp files and temp folder")
             shutil.rmtree(os.path.join(config.BASE_FOLDER, "temp", self.RoadNetwork.city_name), ignore_errors=True)
             os.mkdir(os.path.join(config.BASE_FOLDER, "temp", self.RoadNetwork.city_name))
             print("Cleaned the temp folder")
@@ -108,14 +109,18 @@ class Scale:
 
         elif config.scl_n_jobs_parallel == 1:
             # single threaded
-            list_of_tuples = []
-            for i in tqdm(
-                range(len(inputs)),
-                desc="Single threaded performance " + self.scale.RoadNetwork.city_name + self.scale.scale,
-            ):  # input_ in inputs:
-                input_, _ = self.list_of_bbox[i]
-                k, v = self._helper_create_dict_in_parallel(input_)
-                list_of_tuples.append((k, v))
+            raise Exception(
+                "The single threaded version is not working at the moment \n due to changes in "
+                " the format of list_of_bbox"
+            )
+            # list_of_tuples = []
+            # for i in tqdm(
+            #     range(len(inputs)),
+            #     desc="Single threaded performance " + self.RoadNetwork.city_name + str(self.scale),
+            # ):  # input_ in inputs:
+            #     input_, _ = self.list_of_bbox[i]
+            #     k, v = self._helper_create_dict_in_parallel(input_)
+            #     list_of_tuples.append((k, v))
         else:
             raise Exception("Wrong number of threads specified in config file.")
 
@@ -242,6 +247,7 @@ class Scale:
                 time.sleep(1)
                 oldcount = count
 
+    @profile
     def _helper_create_dict_in_parallel(self, key):
         if config.scl_temp_file_counter:
             self.create_file_marker()
@@ -285,14 +291,15 @@ class Scale:
             #     save=False,
             #     bbox=None,
             # )
-            rect = plt.Rectangle((W, S), E - W, N - S, facecolor=color, alpha=0.3, edgecolor=None)
+            rect = plt.Rectangle((W, S), E - W, N - S, facecolor=color, alpha=0.3, edgecolor="black")
             ax.add_patch(rect)
             plt.savefig(
                 os.path.join(config.BASE_FOLDER, config.results_folder, "empty_tiles", self.RoadNetwork.city_name)
                 + str(self.scale)
                 + color
                 + str(int(np.random.rand() * 100000000))
-                + ".png"
+                + ".png",
+                dpi=1000,
             )
             # plt.show()
 
@@ -306,6 +313,7 @@ class Scale:
             #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
             #         csvwriter = csv.writer(f)
             #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
+            # if config.DEBUG:
             debug_by_plotting_bboxes("green", tile.G)
         except (ValueError, Exception):  #
             # if config.verbose >= 1:
@@ -313,10 +321,12 @@ class Scale:
             #         csvwriter = csv.writer(f)
             #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
 
-            debug_by_plotting_bboxes("red")
+            if config.DEBUG:
+                debug_by_plotting_bboxes("red")
             return (key, config.rn_no_stats_marker)
         except nx.exception.NetworkXPointlessConcept:
-            debug_by_plotting_bboxes("blue")
+            if config.DEBUG:
+                debug_by_plotting_bboxes("blue")
             return (key, config.rn_no_stats_marker)
             # pass
         return (key, tile)

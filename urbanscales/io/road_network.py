@@ -110,6 +110,13 @@ class RoadNetwork:
     def get_osm_from_bbox(self):
         if self.G_osm == None:
             fname = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, self.osm_pickle)
+
+            # create the directory structure if it doesn't exists
+            if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name)):
+                if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder)):
+                    os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder))
+                os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name))
+
             if os.path.isfile(fname) and not config.rn_delete_existing_pickled_objects:
                 with open(fname, "rb") as f1:
                     self.G_osm = pickle.load(f1)
@@ -125,6 +132,13 @@ class RoadNetwork:
 
     def get_osm_from_address(self):
         fname = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, self.osm_pickle)
+
+        # create the directory structure if it doesn't exists
+        if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name)):
+            if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder)):
+                os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder))
+            os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name))
+
         if os.path.isfile(fname) and not config.rn_delete_existing_pickled_objects:
             with open(fname, "rb") as f1:
                 self.G_osm = pickle.load(f1)
