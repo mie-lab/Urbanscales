@@ -65,8 +65,9 @@ class Scale:
             # as this is valid only if our city is a square
             assert config.rn_square_from_city_centre != -1 and config.rn_percentage_of_city_area == 100
 
-            self.set_bbox_sub_G_map()
+            # self.set_bbox_sub_G_map()
 
+    @profile
     def set_bbox_sub_G_map(self, save_to_pickle=True):
         fname = os.path.join(
             config.BASE_FOLDER, config.network_folder, self.RoadNetwork.city_name, "_scale_" + str(self.scale) + ".pkl"
@@ -88,10 +89,10 @@ class Scale:
                 raise Exception("AssertionError: daemonic processes are not allowed to have children")
 
         if config.scl_n_jobs_parallel > 1:
-            print("Processing in parallel using ", str(config.scl_n_jobs_parallel), "threads")
+            print("Processing in parallel: ")
 
             print("File counter running in background; clearing temp files")
-            print("Cleaning temp files and temp folder")
+            print("Cleaning temp files folder")
             shutil.rmtree(os.path.join(config.BASE_FOLDER, "temp", self.RoadNetwork.city_name), ignore_errors=True)
             os.mkdir(os.path.join(config.BASE_FOLDER, "temp", self.RoadNetwork.city_name))
             print("Cleaned the temp folder")
@@ -109,18 +110,14 @@ class Scale:
 
         elif config.scl_n_jobs_parallel == 1:
             # single threaded
-            raise Exception(
-                "The single threaded version is not working at the moment \n due to changes in "
-                " the format of list_of_bbox"
-            )
-            # list_of_tuples = []
-            # for i in tqdm(
-            #     range(len(inputs)),
-            #     desc="Single threaded performance " + self.RoadNetwork.city_name + str(self.scale),
-            # ):  # input_ in inputs:
-            #     input_, _ = self.list_of_bbox[i]
-            #     k, v = self._helper_create_dict_in_parallel(input_)
-            #     list_of_tuples.append((k, v))
+            list_of_tuples = []
+            for i in tqdm(
+                range(len(inputs)),
+                desc="Single threaded performance " + self.scale.RoadNetwork.city_name + self.scale.scale,
+            ):  # input_ in inputs:
+                input_, _ = self.list_of_bbox[i]
+                k, v = self._helper_create_dict_in_parallel(input_)
+                list_of_tuples.append((k, v))
         else:
             raise Exception("Wrong number of threads specified in config file.")
 
@@ -291,21 +288,22 @@ class Scale:
             #     save=False,
             #     bbox=None,
             # )
-            rect = plt.Rectangle((W, S), E - W, N - S, facecolor=color, alpha=0.3, edgecolor="black")
+            rect = plt.Rectangle((W, S), E - W, N - S, facecolor=color, alpha=0.3, edgecolor=None)
             ax.add_patch(rect)
             plt.savefig(
                 os.path.join(config.BASE_FOLDER, config.results_folder, "empty_tiles", self.RoadNetwork.city_name)
                 + str(self.scale)
                 + color
                 + str(int(np.random.rand() * 100000000))
-                + ".png",
-                dpi=1000,
+                + ".png"
             )
             # plt.show()
 
         try:
-            gs_nodes, gs_edges = utils_graph.graph_to_gdfs(graph)
-            truncated_graph = smart_truncate(self.RoadNetwork.G_osm, gs_nodes, gs_edges, N, S, E, W)
+
+            truncated_graph = smart_truncate(
+                self.RoadNetwork.G_osm, self.RoadNetwork.G_OSM_nodes, self.RoadNetwork.G_OSM_edges, N, S, E, W
+            )
             tile = Tile(
                 truncated_graph,
                 self.tile_area,
@@ -321,7 +319,6 @@ class Scale:
             #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
             #         csvwriter = csv.writer(f)
             #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
-
             if config.DEBUG:
                 debug_by_plotting_bboxes("red")
             return (key, config.rn_no_stats_marker)

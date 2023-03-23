@@ -3,6 +3,8 @@ import os.path
 import pickle
 import copy
 import osmnx as ox
+from osmnx import utils_graph
+
 import config
 import matplotlib
 
@@ -75,6 +77,8 @@ class RoadNetwork:
                 self.set_get_osm = self.get_osm_from_bbox
 
             self.set_get_osm()
+
+            self.G_OSM_nodes, self.G_OSM_edges = utils_graph.graph_to_gdfs(self.G_osm)
 
             if not config.rn_do_not_filter:
                 if self.city_name not in config.rn_do_not_filter_list:

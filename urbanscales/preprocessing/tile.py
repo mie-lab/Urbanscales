@@ -30,7 +30,7 @@ class Tile:
         self.G = G
 
         if self.G is not None:
-            # cuz we use some functions of this class for
+            # because we use some functions of this class for
             # other purposes as well; For example, for empty
             # graphs as well to simply view the list of features
             self.set_stats_for_tile()

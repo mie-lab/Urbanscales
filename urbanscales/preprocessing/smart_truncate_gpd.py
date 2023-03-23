@@ -1,74 +1,69 @@
 import os.path
-
+import pickle
+import sys
+import time
+import shapely
 import matplotlib.pyplot as plt
 import numpy as np
 import osmnx as ox
 import pandas as pd
 from osmnx import utils_graph
 from shapely.errors import ShapelyDeprecationWarning
-from tqdm import tqdm
-
 import warnings
+from urbanscales.io.road_network import RoadNetwork
 
+import networkx
 
 warnings.filterwarnings("ignore", category=ShapelyDeprecationWarning)
+
 from shapely.geometry import Point
 from shapely.geometry import Polygon
 import config
 import geopandas as gdf
 from urbanscales.preprocessing.tile import Tile
 from smartprint import smartprint as sprint
-import time
-from line_profiler_pycharm import profile
 
-global_dummies = list(set((np.random.rand(100000) * 100000000000).astype("int").tolist()))
-# list.sort(global_dummies)
+from line_profiler_pycharm import profile
 
 
 @profile
-def smart_truncate(graph, gs_nodes, gs_edges, N, S, E, W, get_subgraph=True, get_features=False, scale=-1):
-    gs_nodes, gs_edges = gdf.GeoDataFrame(gs_nodes), gdf.GeoDataFrame(gs_edges)
+def smart_truncate(
+    graph, gs_nodes, gs_edges, N, S, E, W, get_subgraph=True, get_features=False, scale=-1, legacy=False
+):
+    ss = time.time()
+    """
 
-    starttime = time.time()
+    Args:
+        graph:
+        gs_nodes:
+        gs_edges:
+        N:
+        S:
+        E:
+        W:
+        get_subgraph:
+        get_features:
+        scale:
+        legacy: If True, revertes back to the more inefficient code; which is easier to debug
+
+    Returns:
+
+    """
+    gs_nodes, gs_edges = gdf.GeoDataFrame(gs_nodes), gdf.GeoDataFrame(gs_edges)
+    # graph = gdf.GeoDataFrame(graph)
 
     if config.rn_plotting_for_truncated_graphs:
         plt.gca().set_aspect("equal")
-        upto_9_colors = "bgrcmykw"
 
-        nodes_orig = ox.graph_to_gdfs(graph, nodes=True, edges=False)
-        edges_orig = ox.graph_to_gdfs(graph, edges=True, nodes=False)
+    if config.rn_plotting_for_truncated_graphs:
+        nodes_orig = gs_nodes
+        edges_orig = gs_edges
 
     assert get_subgraph != get_features
     if get_features:
         assert scale != -1
         assert not config.rn_plotting_for_truncated_graphs  # the plotting is only for debugging
 
-    try:
-        count_dummies = smart_truncate.count_dummies
-        smart_truncate.count_dummies += 1
-    except AttributeError:
-        count_dummies = 0
-        smart_truncate.count_dummies = 0
-
-    # try:
-    #     gs_nodes, gs_edges = smart_truncate.gs_nodes_gs_edges
-    #     # print("Try pass")
-    # except AttributeError:
-    #     smart_truncate.gs_nodes_gs_edges = utils_graph.graph_to_gdfs(graph)
-    #     gs_nodes, gs_edges = smart_truncate.gs_nodes_gs_edges
-    # print("Try fail, values recomputed")
-
-    # global_dummies = list(range(gs_nodes.index.max()+1, gs_nodes.index.max() + 10000))
-    # for insert_placeholders in tqdm(range(100), desc="creating placeholders"):
-    #     # sprint (global_dummies[insert_placeholders])
-    #     gs_nodes.loc[global_dummies[insert_placeholders]] = 0 # [1, 1, 1, 1, 1, 1]
-
-    # for insert_placeholders in tqdm(range(100), desc="creating placeholders known indices"):
-    #     # sprint (global_dummies[insert_placeholders])
-    #     gs_nodes.loc[gs_nodes.index[0]] = 0 # [1, 1, 1, 1, 1, 1]
-
-    to_add_in_gs_nodes = []
-    to_add_in_gs_nodes_indices = []
     bbox_poly = Polygon([(W, S), (E, S), (E, N), (W, N)])
     intersecting_edges_series = gs_edges.intersection(bbox_poly)
     intersecting_edges_series_filtered = intersecting_edges_series[~intersecting_edges_series.geometry.is_empty]
@@ -92,19 +87,26 @@ def smart_truncate(graph, gs_nodes, gs_edges, N, S, E, W, get_subgraph=True, get
 
     edge_indices_to_drop = []
 
-    # for i in tqdm(range(intersecting_edges_series_filtered.shape[0]), desc="edges iterate: "):
+    dict_gs_nodes_insert = {}
+    dict_gs_edges_intersecting = {}
+
     for i in range(intersecting_edges_series_filtered.shape[0]):
         # Step-1: Get the edge properties from the original edge dataframe
         gs_edges_intersecting["geometry"].iloc[i] = intersecting_edges_series_filtered.iloc[i]
         u, v, key = gs_edges_intersecting.index[i]
 
-        if config.DEBUG_TRUNCATE:
+        if config.DEBUG:
             sprint(gs_edges_intersecting.index)
             sprint(u, v, key, i)
 
-        if config.rn_plotting_for_truncated_graphs:
-            plt.plot(*gs_edges.loc[u, v, key].geometry.xy, color=upto_9_colors[i])
-            plt.plot(*intersecting_edges_series_filtered.iloc[i].xy, color=upto_9_colors[i], linewidth=5, alpha=0.4)
+        if isinstance(intersecting_edges_series_filtered.iloc[i], shapely.geometry.LineString) or isinstance(
+            intersecting_edges_series_filtered.iloc[i], shapely.geometry.Point
+        ):
+            if config.rn_plotting_for_truncated_graphs:
+                plt.plot(*gs_edges.loc[u, v, key].geometry.xy)  # , color=upto_9_colors[i])
+                plt.plot(
+                    *intersecting_edges_series_filtered.iloc[i].xy, linewidth=5, alpha=0.4
+                )  # color=upto_9_colors[i],
 
         u_x, u_y, v_x, v_y = gs_nodes.loc[u].x, gs_nodes.loc[u].y, gs_nodes.loc[v].x, gs_nodes.loc[v].y
 
@@ -112,15 +114,29 @@ def smart_truncate(graph, gs_nodes, gs_edges, N, S, E, W, get_subgraph=True, get
         if Point(u_x, u_y).within(bbox_poly) and Point(v_x, v_y).within(bbox_poly):
             nodes_to_retain.append(u)
             nodes_to_retain.append(v)
-            if config.DEBUG_TRUNCATE:
+            if config.DEBUG:
                 print("Both inside")
             # no need to update the u and v for this edge
 
         elif Point(u_x, u_y).within(bbox_poly) and not Point(v_x, v_y).within(bbox_poly):
-            if config.DEBUG_TRUNCATE:
+            if config.DEBUG:
                 print("U inside; V outside")
             nodes_to_retain.append(u)
-            linestring_x, linestring_y = intersecting_edges_series_filtered.iloc[i].xy
+            if isinstance(intersecting_edges_series_filtered.iloc[i], shapely.geometry.LineString) or isinstance(
+                intersecting_edges_series_filtered.iloc[i], shapely.geometry.Point
+            ):
+                linestring_x, linestring_y = intersecting_edges_series_filtered.iloc[i].xy
+            elif isinstance(intersecting_edges_series_filtered.iloc[i], shapely.geometry.MultiLineString):
+                xy_linestring = (
+                    intersecting_edges_series_filtered.iloc[i]
+                    .wkt.replace("MULTIL", "L")
+                    .replace("),", ",")
+                    .replace(", (", ",")
+                    .replace("((", "(")
+                    .replace("))", ")")
+                )
+                linestring_x, linestring_y = shapely.wkt.loads(xy_linestring).xy
+
             first_point = Point(linestring_x[0], linestring_y[0])
             last_point = Point(linestring_x[-1], linestring_y[-1])
             if first_point.within(bbox_poly) and not last_point.within(bbox_poly):
@@ -131,17 +147,18 @@ def smart_truncate(graph, gs_nodes, gs_edges, N, S, E, W, get_subgraph=True, get
                 raise Exception("Not implemented; Wrong case found")
 
             # we must create a dummy node for outside point
-            id = global_dummies[count_dummies]  # int(np.random.rand() * -100000000000000)
-            count_dummies += 1
+            id = int(np.random.rand() * -100000000000000)
 
             # Format of each node row:
             # [1.3223464, 103.8527412, 3, nan, <shapely.geometry.point.Point at 0x134a7eb90>]
             new_node_data = [outside_point.y, outside_point.x, street_count_dummy, highway_dummy, outside_point]
             if "ref" in gs_nodes.columns:
                 new_node_data[4:4] = [np.nan]
-            # gs_nodes.loc[id] = new_node_data
-            to_add_in_gs_nodes.append(new_node_data)
-            to_add_in_gs_nodes_indices.append(id)
+
+            if legacy:
+                gs_nodes.loc[id] = new_node_data
+
+            dict_gs_nodes_insert[id] = new_node_data
 
             nodes_to_retain.append(id)
 
@@ -149,15 +166,37 @@ def smart_truncate(graph, gs_nodes, gs_edges, N, S, E, W, get_subgraph=True, get
             # Updating the index in pandas is not possible,
             # So, we insert a copy of the edge at u,v,key into the dataframe
             # And then delete the old edge
-            gs_edges_intersecting.loc[(u, id, key)] = gs_edges_intersecting.loc[(u, v, key)]
-            # gs_edges_intersecting.drop((u, v, key), inplace=True)
+
+            if legacy:
+                gs_edges_intersecting.loc[(u, id, key)] = gs_edges_intersecting.loc[(u, v, key)]
+
+            dict_gs_edges_intersecting[(u, id, key)] = gs_edges_intersecting.loc[(u, v, key)]
+
             edge_indices_to_drop.append((u, v, key))
 
         elif not Point(u_x, u_y).within(bbox_poly) and Point(v_x, v_y).within(bbox_poly):
-            if config.DEBUG_TRUNCATE:
+            if config.DEBUG:
                 print("U outside; V inside")
             nodes_to_retain.append(v)
-            linestring_x, linestring_y = intersecting_edges_series_filtered.iloc[i].xy
+
+            if isinstance(intersecting_edges_series_filtered.iloc[i], shapely.geometry.LineString) or isinstance(
+                intersecting_edges_series_filtered.iloc[i], shapely.geometry.Point
+            ):
+                linestring_x, linestring_y = intersecting_edges_series_filtered.iloc[i].xy
+            elif isinstance(intersecting_edges_series_filtered.iloc[i], shapely.geometry.MultiLineString):
+                # convert multi line string to linestring
+                xy_linestring = (
+                    intersecting_edges_series_filtered.iloc[i]
+                    .wkt.replace("MULTIL", "L")
+                    .replace("),", ",")
+                    .replace(", (", ",")
+                    .replace("((", "(")
+                    .replace("))", ")")
+                )
+                linestring_x, linestring_y = shapely.wkt.loads(xy_linestring).xy
+            else:
+                raise Exception("Some other type of geometry present")
+
             first_point = Point(linestring_x[0], linestring_y[0])
             last_point = Point(linestring_x[-1], linestring_y[-1])
             if first_point.within(bbox_poly) and not last_point.within(bbox_poly):
@@ -168,20 +207,18 @@ def smart_truncate(graph, gs_nodes, gs_edges, N, S, E, W, get_subgraph=True, get
                 raise Exception("Not implemented; Wrong case found")
 
             # we must create a dummy node for outside point
-            id = global_dummies[count_dummies]  # int(np.random.rand() * -100000000000000)
-            count_dummies += 1
+            id = int(np.random.rand() * -100000000000000)
 
             # Format of each node row:
             # [1.3223464, 103.8527412, 3, nan, <shapely.geometry.point.Point at 0x134a7eb90>]
             new_node_data = [outside_point.y, outside_point.x, street_count_dummy, highway_dummy, outside_point]
             if "ref" in gs_nodes.columns:
                 new_node_data[4:4] = [np.nan]
-            # gs_nodes.loc[id] = new_node_data
-            to_add_in_gs_nodes.append(new_node_data)
-            to_add_in_gs_nodes_indices.append(id)
 
-            # for ki in tqdm(range(100), desc="loc insert"):
-            #     gs_nodes.loc[id + ki] = new_node_data
+            if legacy:
+                gs_nodes.loc[id] = new_node_data
+
+            dict_gs_nodes_insert[id] = new_node_data
 
             nodes_to_retain.append(id)
 
@@ -189,18 +226,39 @@ def smart_truncate(graph, gs_nodes, gs_edges, N, S, E, W, get_subgraph=True, get
             # Updating the index in pandas is not possible,
             # So, we insert a copy of the edge at u,v,key into the dataframe
             # And then delete the old edge
-            gs_edges_intersecting.loc[(id, v, key)] = gs_edges_intersecting.loc[(u, v, key)]
-            if config.DEBUG_TRUNCATE:
+
+            if legacy:
+                gs_edges_intersecting.loc[(id, v, key)] = gs_edges_intersecting.loc[(u, v, key)]
+
+            dict_gs_edges_intersecting[(id, v, key)] = gs_edges_intersecting.loc[(u, v, key)]
+
+            if config.DEBUG:
                 sprint((id, v, key))
             edge_indices_to_drop.append((u, v, key))
 
         elif not Point(u_x, u_y).within(bbox_poly) and not Point(v_x, v_y).within(bbox_poly):
-            if config.DEBUG_TRUNCATE:
-                print("U inside; V outside")
+            if config.DEBUG:
+                print("U outside; V outside")
             # no nodes to retain
-            # nodes_to_retain.append(u)
 
-            linestring_x, linestring_y = intersecting_edges_series_filtered.iloc[i].xy
+            if isinstance(intersecting_edges_series_filtered.iloc[i], shapely.geometry.LineString) or isinstance(
+                intersecting_edges_series_filtered.iloc[i], shapely.geometry.Point
+            ):
+                linestring_x, linestring_y = intersecting_edges_series_filtered.iloc[i].xy
+            elif isinstance(intersecting_edges_series_filtered.iloc[i], shapely.geometry.MultiLineString):
+                # convert multi line string to linestring
+                xy_linestring = (
+                    intersecting_edges_series_filtered.iloc[i]
+                    .wkt.replace("MULTIL", "L")
+                    .replace("),", ",")
+                    .replace(", (", ",")
+                    .replace("((", "(")
+                    .replace("))", ")")
+                )
+                linestring_x, linestring_y = shapely.wkt.loads(xy_linestring).xy
+            else:
+                raise Exception("Some other type of geometry present")
+
             first_point = Point(linestring_x[0], linestring_y[0])
             last_point = Point(linestring_x[-1], linestring_y[-1])
 
@@ -212,8 +270,7 @@ def smart_truncate(graph, gs_nodes, gs_edges, N, S, E, W, get_subgraph=True, get
                 raise Exception("Passing through egde, error")
 
             # we must create a dummy node for outside point
-            id1 = global_dummies[count_dummies]  # int(np.random.rand() * -100000000000000)
-            count_dummies += 1
+            id1 = int(np.random.rand() * -100000000000000)
 
             # Format of each node row:
             # [1.3223464, 103.8527412, 3, nan, <shapely.geometry.point.Point at 0x134a7eb90>]
@@ -221,22 +278,24 @@ def smart_truncate(graph, gs_nodes, gs_edges, N, S, E, W, get_subgraph=True, get
             new_node_data = [outside_point.y, outside_point.x, street_count_dummy, highway_dummy, outside_point]
             if "ref" in gs_nodes.columns:
                 new_node_data[4:4] = [np.nan]
-            # gs_nodes.loc[id1] = new_node_data
-            to_add_in_gs_nodes.append(new_node_data)
-            to_add_in_gs_nodes_indices.append(id1)
+
+            if legacy:
+                gs_nodes.loc[id1] = new_node_data
+
+            dict_gs_nodes_insert[id1] = new_node_data
 
             nodes_to_retain.append(id1)
 
-            id2 = global_dummies[count_dummies]  # int(np.random.rand() * -100000000000000)
-            count_dummies += 1
-
+            id2 = int(np.random.rand() * -100000000000000)
             outside_point = last_point
             new_node_data = [outside_point.y, outside_point.x, street_count_dummy, highway_dummy, outside_point]
             if "ref" in gs_nodes.columns:
                 new_node_data[4:4] = [np.nan]
-            # gs_nodes.loc[id2] = new_node_data
-            to_add_in_gs_nodes.append(new_node_data)
-            to_add_in_gs_nodes_indices.append(id2)
+
+            if legacy:
+                gs_nodes.loc[id2] = new_node_data
+
+            dict_gs_nodes_insert[id2] = new_node_data
 
             nodes_to_retain.append(id2)
 
@@ -244,21 +303,32 @@ def smart_truncate(graph, gs_nodes, gs_edges, N, S, E, W, get_subgraph=True, get
             # Updating the index in pandas is not possible,
             # So, we insert a copy of the edge at u,v,key into the dataframe
             # And then delete the old edge
-            gs_edges_intersecting.loc[(id1, id2, key)] = gs_edges_intersecting.loc[(u, v, key)]
-            # gs_edges_intersecting.drop((u, v, key), inplace=True)
+
+            if legacy:
+                gs_edges_intersecting.loc[(id1, id2, key)] = gs_edges_intersecting.loc[(u, v, key)]
+
+            dict_gs_edges_intersecting[(id1, id2, key)] = gs_edges_intersecting.loc[(u, v, key)]
+
             edge_indices_to_drop.append((u, v, key))
 
+    if not legacy:
+        # bulk insert 1
+        if len(dict_gs_nodes_insert) > 0:
+            df_dictionary = pd.DataFrame(dict_gs_nodes_insert).T
+            df_dictionary.columns = gs_nodes.columns
+            gs_nodes = pd.concat([gs_nodes, df_dictionary], join="outer")
+
+        # bulk insert 2
+        if len(dict_gs_edges_intersecting) > 0:
+            df_dictionary = pd.DataFrame(dict_gs_edges_intersecting).T
+            df_dictionary.columns = gs_edges_intersecting.columns
+            gs_edges_intersecting = pd.concat([gs_edges_intersecting, df_dictionary], join="outer")
+
     # if config.rn_plotting_for_truncated_graphs:
-    #     plt.savefig(os.path.join(config.BASE_FOLDER, config.results_folder, "_debug_trunc" + str(int(np.random.rand() *1000000)) + ".png"))
-    #     # plt.show()
-    #     plt.clf()
+    #     plt.show()
 
-    gs_nodes = gs_nodes.reindex(index=gs_nodes.index.append(pd.Index(to_add_in_gs_nodes_indices)))
-    for index, dummy_node_data in enumerate(to_add_in_gs_nodes_indices):
-        gs_nodes.loc[index] = dummy_node_data
-
-    intersecting_nodes = gs_nodes[gs_nodes.index.isin((set(nodes_to_retain)))]
-    intersecting_edges = gs_edges_intersecting[~gs_edges_intersecting.index.isin((set(edge_indices_to_drop)))]
+    intersecting_nodes = gs_nodes[gs_nodes.index.isin(list(set(nodes_to_retain)))]
+    intersecting_edges = gs_edges_intersecting[~gs_edges_intersecting.index.isin(list(set(edge_indices_to_drop)))]
 
     graph_attrs = {"crs": "epsg:4326", "simplified": True}
     g_truncated = ox.graph_from_gdfs(intersecting_nodes, intersecting_edges, graph_attrs)
@@ -283,20 +353,43 @@ def smart_truncate(graph, gs_nodes, gs_edges, N, S, E, W, get_subgraph=True, get
         )
         plt.title("Truncated graph")
         plt.gca().set_aspect("equal")
-        plt.savefig("urbanscales/tryouts/g_truncated_new.png", dpi=600)
-        plt.show()
+        plot_num = int(np.random.rand() * 100000000000000)
+        plt.savefig("urbanscales/tryouts/smart_truncated_plots/g_truncated_new" + str(plot_num) + ".png", dpi=600)
+        # plt.show()
 
         orig_graph = ox.graph_from_gdfs(nodes_orig, edges_orig, graph_attrs)
 
+        plt.clf()
         g_truncated_old = ox.truncate.truncate_graph_bbox(orig_graph, N, S, E, W, truncate_by_edge=False)
-        fig, ax = ox.plot_graph(g_truncated_old, save=True, filepath="urbanscales/tryouts/truncated_old.png", dpi=600)
+        fig, ax = ox.plot.plot_graph(
+            g_truncated_old,
+            ax=None,
+            figsize=(10, 10),
+            bgcolor="white",
+            node_color="red",
+            node_size=5,
+            node_alpha=None,
+            node_edgecolor="none",
+            node_zorder=1,
+            edge_color="black",
+            edge_linewidth=0.1,
+            edge_alpha=None,
+            show=False,
+            close=False,
+            save=False,
+            bbox=None,
+        )
+
         plt.title("Truncated graph old")
         plt.gca().set_aspect("equal")
-        plt.savefig("urbanscales/tryouts/g_truncated_old.png", dpi=600)
-        plt.show()
+        plt.savefig("urbanscales/tryouts/smart_truncated_plots/g_truncated_old" + str(plot_num) + ".png", dpi=600)
+        # plt.show()
 
-    print("Time taken in smart_truncate_gpd call: ", (time.time() - starttime), " seconds")
-    smart_truncate.count_dummies = count_dummies
+    if networkx.is_empty(g_truncated):
+        print("Null graph returned")
+        return "NULL_GRAPH"
+
+    print("Inside the function: ", time.time() - ss)
     if get_features:
         t = Tile((g_truncated), (config.rn_square_from_city_centre ** 2) / (scale ** 2))
         return t.get_vector_of_features()
@@ -305,53 +398,133 @@ def smart_truncate(graph, gs_nodes, gs_edges, N, S, E, W, get_subgraph=True, get
 
 
 if __name__ == "__main__":
-    # N, S, E, W = (
-    #     1.3235381983186159,
-    #     1.319982801681384,
-    #     103.85361309942331,
-    #     103.84833190057668,
-    # )
+    """
+    for scale in [0.01, 0.02, 0.05, 0.1, 0.2, 0.25, 0.4, 0.5, 0.6]:
+        for legacy in [True, False]:
 
-    # graph = ox.graph_from_bbox(N, S, E, W, network_type="drive")
-    # sprint(N, S, E, W)
-    #
-    # h = N - S
-    # w = E - W
-    # S = S + h * 0.5
-    # W = W + w * 0.5
-    # N = S + h * 0.4
-    # E = W + w * 0.4
-    # sprint(N, S, E, W)
 
-    # for multiple_calls in range(100):
-    #     graph = smart_truncate(
-    #         graph,
-    #         N,
-    #         S,
-    #         E,
-    #         W,
-    #         get_features=False,
-    #         get_subgraph=True,
-    #         scale=25,
-    #     )
+            N, S, E, W = (
+                1.3695873752225538,
+                1.3132978779946807,
+                103.84008497795305,
+                103.88540358018281,
+            )
 
-    # The imports moved here to avoid circular import
-    from urbanscales.io.road_network import RoadNetwork
+            graph = ox.graph_from_bbox(N, S, E, W, network_type="drive")
+            # sprint(N, S, E, W)
 
-    rn = RoadNetwork("Singapore")
-    graph = rn.G_osm
-    N, S, E, W = rn.max_y, rn.min_y, rn.max_x, rn.min_x
-    h = N - S
-    w = E - W
-    S = S + h * 0.1
-    W = W + w * 0.1
-    N = S + h * 0.1
-    E = W + w * 0.1
-    sprint(N, S, E, W)
+            h = N - S
+            w = E - W
+            S = S + h * scale
+            W = W + w * scale
+            N = S + h * scale
+            E = W + w * scale
+            # sprint(N, S, E, W)
 
-    for i in range(2):
-        truncated_graph = smart_truncate(
+            gs_nodes, gs_edges = utils_graph.graph_to_gdfs(graph)
+
+            starttime = time.time()
+            for repeat in range(10):
+                graph = smart_truncate(
+                    graph, gs_nodes, gs_edges, N, S, E, W, get_features=True, get_subgraph=False, scale=25, legacy=legacy
+                )
+
+            debug_pitstop = True
+
+            sprint(scale, legacy,  (time.time() - starttime)/10)
+    """
+
+    list_of_bbox = [
+        (1.2897639799999998, 1.2684322, 103.79295100109655, 103.7717563, 35),
+        (1.2897639799999998, 1.2684322, 103.8141457021931, 103.79295100109655, 35),
+        (1.2897639799999998, 1.2684322, 103.83534040328965, 103.8141457021931, 35),
+        (1.2897639799999998, 1.2684322, 103.8565351043862, 103.83534040328965, 35),
+        (1.2897639799999998, 1.2684322, 103.87772980548274, 103.8565351043862, 35),
+        (1.2897639799999998, 1.2684322, 103.89892450657929, 103.87772980548274, 35),
+        (1.2897639799999998, 1.2684322, 103.92011920767584, 103.89892450657929, 35),
+        (1.3110957599999997, 1.2897639799999998, 103.79295100109655, 103.7717563, 35),
+        (1.3110957599999997, 1.2897639799999998, 103.8141457021931, 103.79295100109655, 35),
+        (1.3110957599999997, 1.2897639799999998, 103.83534040328965, 103.8141457021931, 35),
+        (1.3110957599999997, 1.2897639799999998, 103.8565351043862, 103.83534040328965, 35),
+        (1.3110957599999997, 1.2897639799999998, 103.87772980548274, 103.8565351043862, 35),
+        (1.3110957599999997, 1.2897639799999998, 103.89892450657929, 103.87772980548274, 35),
+        (1.3110957599999997, 1.2897639799999998, 103.92011920767584, 103.89892450657929, 35),
+        (1.3324275399999996, 1.3110957599999997, 103.79295100109655, 103.7717563, 35),
+        (1.3324275399999996, 1.3110957599999997, 103.8141457021931, 103.79295100109655, 35),
+        (1.3324275399999996, 1.3110957599999997, 103.83534040328965, 103.8141457021931, 35),
+        (1.3324275399999996, 1.3110957599999997, 103.8565351043862, 103.83534040328965, 35),
+        (1.3324275399999996, 1.3110957599999997, 103.87772980548274, 103.8565351043862, 35),
+        (1.3324275399999996, 1.3110957599999997, 103.89892450657929, 103.87772980548274, 35),
+        (1.3324275399999996, 1.3110957599999997, 103.92011920767584, 103.89892450657929, 35),
+        (1.3537593199999995, 1.3324275399999996, 103.79295100109655, 103.7717563, 35),
+        (1.3537593199999995, 1.3324275399999996, 103.8141457021931, 103.79295100109655, 35),
+        (1.3537593199999995, 1.3324275399999996, 103.83534040328965, 103.8141457021931, 35),
+        (1.3537593199999995, 1.3324275399999996, 103.8565351043862, 103.83534040328965, 35),
+        (1.3537593199999995, 1.3324275399999996, 103.87772980548274, 103.8565351043862, 35),
+        (1.3537593199999995, 1.3324275399999996, 103.89892450657929, 103.87772980548274, 35),
+        (1.3537593199999995, 1.3324275399999996, 103.92011920767584, 103.89892450657929, 35),
+        (1.3750910999999995, 1.3537593199999995, 103.79295100109655, 103.7717563, 35),
+        (1.3750910999999995, 1.3537593199999995, 103.8141457021931, 103.79295100109655, 35),
+        (1.3750910999999995, 1.3537593199999995, 103.83534040328965, 103.8141457021931, 35),
+        (1.3750910999999995, 1.3537593199999995, 103.8565351043862, 103.83534040328965, 35),
+        (1.3750910999999995, 1.3537593199999995, 103.87772980548274, 103.8565351043862, 35),
+        (1.3750910999999995, 1.3537593199999995, 103.89892450657929, 103.87772980548274, 35),
+        (1.3750910999999995, 1.3537593199999995, 103.92011920767584, 103.89892450657929, 35),
+    ]
+
+    N, S, E, W = (1.4701, 1.1667, 104.0386, 103.5940)  # Singapore limits
+
+    import pickle
+
+    fname = os.path.join(config.osmnx_cache_folder, "test_pickle.pkl")
+    if not os.path.exists(fname):
+        ss = time.time()
+        graph = ox.graph_from_bbox(N, S, E, W, network_type="drive")
+        sprint(time.time() - ss, ox.settings.use_cache)
+
+        ss = time.time()
+        with open(fname, "wb") as f:
+            pickle.dump(graph, f, protocol=config.pickle_protocol)
+        print("Pickle write time: ", time.time() - ss)
+
+    elif os.path.exists(fname):
+        ss = time.time()
+        with open(fname, "rb") as f:
+            graph = pickle.load(f)
+        print("Pickle read time: ", time.time() - ss)
+
+    gs_edges, gs_nodes = utils_graph.graph_to_gdfs(graph, edges=True, nodes=False), utils_graph.graph_to_gdfs(
+        graph, edges=False, nodes=True
+    )
+
+    for count, NSEW in enumerate(list_of_bbox):
+        # # scl = Scale(RoadNetwork("Singapore"), 5)
+        # # pickle.dump(scl, open('scl.pkl', 'wb'))
+        # scl = pickle.load(open('scl.pkl', 'rb'))
+
+        N, S, E, W, _ = NSEW
+
+        # print ("Unoptimised code:", sep="")
+        # graph = smart_truncate(
+        #     graph,
+        #     gs_nodes,
+        #     gs_edges,
+        #     N,
+        #     S,
+        #     E,
+        #     W,
+        #     get_features=False,
+        #     get_subgraph=True,
+        #     scale=25,
+        #     legacy=True,
+        # )
+        print(count)
+
+        print("Optimised code:          ", sep="")
+        graph = smart_truncate(
             graph,
+            gs_nodes,
+            gs_edges,
             N,
             S,
             E,
@@ -359,6 +532,5 @@ if __name__ == "__main__":
             get_features=False,
             get_subgraph=True,
             scale=25,
+            legacy=False,
         )
-
-    debug_pitstop = True
