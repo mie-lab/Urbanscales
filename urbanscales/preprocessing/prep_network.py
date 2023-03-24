@@ -7,6 +7,8 @@ import os
 import pickle
 import shutil
 import sys
+
+import networkx
 import numpy as np
 from multiprocessing import Pool
 import threading
@@ -304,17 +306,20 @@ class Scale:
             truncated_graph = smart_truncate(
                 self.RoadNetwork.G_osm, self.RoadNetwork.G_OSM_nodes, self.RoadNetwork.G_OSM_edges, N, S, E, W
             )
-            tile = Tile(
-                truncated_graph,
-                self.tile_area,
-            )
+            if not isinstance(truncated_graph, networkx.MultiDiGraph):
+                if truncated_graph == config.rn_no_stats_marker:
+                    raise ValueError
+                else:
+                    raise Exception("Unknown Error; Not Null passed")
+
+            tile = Tile(truncated_graph, self.tile_area)
             # if config.verbose >= 2:
             #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
             #         csvwriter = csv.writer(f)
             #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
             if config.DEBUG:
                 debug_by_plotting_bboxes("green", tile.G)
-        except (ValueError, Exception):  #
+        except (ValueError):  #
             # if config.verbose >= 1:
             #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
             #         csvwriter = csv.writer(f)

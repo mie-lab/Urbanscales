@@ -65,7 +65,16 @@ def smart_truncate(
         assert not config.rn_plotting_for_truncated_graphs  # the plotting is only for debugging
 
     bbox_poly = Polygon([(W, S), (E, S), (E, N), (W, N)])
+    h = N - S
+    w = E - W
+
+    # reduce the search space; Add 25% on each side (N-S and E-W)
+    if not legacy:
+        gs_edges = gs_edges.cx[W - h / 4 : E + h / 4, S - w / 4 : N + w / 4]
+
     intersecting_edges_series = gs_edges.intersection(bbox_poly)
+
+    # intersecting_edges_series = intersecting_edges_series_1
     intersecting_edges_series_filtered = intersecting_edges_series[~intersecting_edges_series.geometry.is_empty]
 
     # if an edge is found in the intersection, it can have only two possibilities
@@ -333,34 +342,45 @@ def smart_truncate(
     graph_attrs = {"crs": "epsg:4326", "simplified": True}
     g_truncated = ox.graph_from_gdfs(intersecting_nodes, intersecting_edges, graph_attrs)
     if config.rn_plotting_for_truncated_graphs:
-        fig, ax = ox.plot.plot_graph(
-            g_truncated,
-            ax=None,
-            figsize=(10, 10),
-            bgcolor="white",
-            node_color="red",
-            node_size=5,
-            node_alpha=None,
-            node_edgecolor="none",
-            node_zorder=1,
-            edge_color="black",
-            edge_linewidth=0.1,
-            edge_alpha=None,
-            show=False,
-            close=False,
-            save=False,
-            bbox=None,
-        )
+        try:
+            fig, ax = ox.plot.plot_graph(
+                g_truncated,
+                ax=None,
+                figsize=(10, 10),
+                bgcolor="white",
+                node_color="red",
+                node_size=5,
+                node_alpha=None,
+                node_edgecolor="none",
+                node_zorder=1,
+                edge_color="black",
+                edge_linewidth=0.1,
+                edge_alpha=None,
+                show=False,
+                close=False,
+                save=False,
+                bbox=None,
+            )
+        except ValueError("graph contains no edges"):
+            return config.rn_no_stats_marker
         plt.title("Truncated graph")
         plt.gca().set_aspect("equal")
         plot_num = int(np.random.rand() * 100000000000000)
-        plt.savefig("urbanscales/tryouts/smart_truncated_plots/g_truncated_new" + str(plot_num) + ".png", dpi=600)
-        # plt.show()
+        plt.savefig(
+            os.path.join(
+                config.BASE_FOLDER,
+                "urbanscales/tryouts/smart_truncated_plots/g_truncated_new_" + str(plot_num) + ".png",
+            ),
+            dpi=600,
+        )  # plt.show()
 
         orig_graph = ox.graph_from_gdfs(nodes_orig, edges_orig, graph_attrs)
 
         plt.clf()
-        g_truncated_old = ox.truncate.truncate_graph_bbox(orig_graph, N, S, E, W, truncate_by_edge=False)
+        try:
+            g_truncated_old = ox.truncate.truncate_graph_bbox(orig_graph, N, S, E, W, truncate_by_edge=False)
+        except networkx.exception.NetworkXPointlessConcept:
+            return config.rn_no_stats_marker
         fig, ax = ox.plot.plot_graph(
             g_truncated_old,
             ax=None,
@@ -382,12 +402,18 @@ def smart_truncate(
 
         plt.title("Truncated graph old")
         plt.gca().set_aspect("equal")
-        plt.savefig("urbanscales/tryouts/smart_truncated_plots/g_truncated_old" + str(plot_num) + ".png", dpi=600)
+        plt.savefig(
+            os.path.join(
+                config.BASE_FOLDER,
+                "urbanscales/tryouts/smart_truncated_plots/g_truncated_old_" + str(plot_num) + ".png",
+            ),
+            dpi=600,
+        )
         # plt.show()
 
     if networkx.is_empty(g_truncated):
         print("Null graph returned")
-        return "NULL_GRAPH"
+        return config.rn_no_stats_marker
 
     print("Inside the function: ", time.time() - ss)
     if get_features:
@@ -433,6 +459,8 @@ if __name__ == "__main__":
 
             sprint(scale, legacy,  (time.time() - starttime)/10)
     """
+    sprint(os.getcwd())
+    os.system("rm urbanscales/tryouts/smart_truncated_plots/*.png")
 
     list_of_bbox = [
         (1.2897639799999998, 1.2684322, 103.79295100109655, 103.7717563, 35),
@@ -518,9 +546,9 @@ if __name__ == "__main__":
         #     scale=25,
         #     legacy=True,
         # )
-        print(count)
+        sprint(count)
 
-        print("Optimised code:          ", sep="")
+        print("     Optimised code: ", sep="")
         graph = smart_truncate(
             graph,
             gs_nodes,

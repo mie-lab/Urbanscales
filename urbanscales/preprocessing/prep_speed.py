@@ -31,7 +31,7 @@ class CustomUnpicklerScaleJF(pickle.Unpickler):
             from urbanscales.preprocessing.prep_network import Scale
 
             return Scale
-        return super().find_class(module, name)
+        return super().find_class(module, namprepe)
 
 
 class ScaleJF:
