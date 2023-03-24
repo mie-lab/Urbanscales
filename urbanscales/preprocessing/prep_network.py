@@ -67,7 +67,7 @@ class Scale:
             # as this is valid only if our city is a square
             assert config.rn_square_from_city_centre != -1 and config.rn_percentage_of_city_area == 100
 
-            # self.set_bbox_sub_G_map()
+            self.set_bbox_sub_G_map()
 
     @profile
     def set_bbox_sub_G_map(self, save_to_pickle=True):

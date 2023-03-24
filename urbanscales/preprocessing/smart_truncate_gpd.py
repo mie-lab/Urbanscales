@@ -361,7 +361,7 @@ def smart_truncate(
                 save=False,
                 bbox=None,
             )
-        except ValueError("graph contains no edges"):
+        except ValueError:
             return config.rn_no_stats_marker
         plt.title("Truncated graph")
         plt.gca().set_aspect("equal")
