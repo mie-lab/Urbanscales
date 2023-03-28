@@ -11,7 +11,7 @@ from osmnx import utils_graph
 from shapely.errors import ShapelyDeprecationWarning
 import warnings
 from urbanscales.io.road_network import RoadNetwork
-
+import logging
 import networkx
 
 warnings.filterwarnings("ignore", category=ShapelyDeprecationWarning)
@@ -19,6 +19,9 @@ warnings.filterwarnings("ignore", category=ShapelyDeprecationWarning)
 from shapely.geometry import Point
 from shapely.geometry import Polygon
 import config
+
+logging.basicConfig(filename=config.log_file)
+
 import geopandas as gdf
 from urbanscales.preprocessing.tile import Tile
 from smartprint import smartprint as sprint
@@ -135,6 +138,10 @@ def smart_truncate(
                 intersecting_edges_series_filtered.iloc[i], shapely.geometry.Point
             ):
                 linestring_x, linestring_y = intersecting_edges_series_filtered.iloc[i].xy
+
+                logging.basicConfig(filename=config.log_file, encoding='utf-8', level=logging.DEBUG)
+                logging.debug('Standard Case')
+
             elif isinstance(intersecting_edges_series_filtered.iloc[i], shapely.geometry.MultiLineString):
                 xy_linestring = (
                     intersecting_edges_series_filtered.iloc[i]
@@ -145,6 +152,9 @@ def smart_truncate(
                     .replace("))", ")")
                 )
                 linestring_x, linestring_y = shapely.wkt.loads(xy_linestring).xy
+
+                logging.basicConfig(filename=config.log_file, encoding='utf-8', level=logging.DEBUG)
+                logging.debug('.............................Multiline Case')
 
             first_point = Point(linestring_x[0], linestring_y[0])
             last_point = Point(linestring_x[-1], linestring_y[-1])
@@ -192,6 +202,10 @@ def smart_truncate(
                 intersecting_edges_series_filtered.iloc[i], shapely.geometry.Point
             ):
                 linestring_x, linestring_y = intersecting_edges_series_filtered.iloc[i].xy
+
+                logging.basicConfig(filename=config.log_file, encoding='utf-8', level=logging.DEBUG)
+                logging.debug('Standard case')
+
             elif isinstance(intersecting_edges_series_filtered.iloc[i], shapely.geometry.MultiLineString):
                 # convert multi line string to linestring
                 xy_linestring = (
@@ -202,7 +216,11 @@ def smart_truncate(
                     .replace("((", "(")
                     .replace("))", ")")
                 )
+                logging.basicConfig(filename=config.log_file, encoding='utf-8', level=logging.DEBUG)
+                logging.debug('................. Multiline Case')
+
                 linestring_x, linestring_y = shapely.wkt.loads(xy_linestring).xy
+
             else:
                 raise Exception("Some other type of geometry present")
 
@@ -254,6 +272,10 @@ def smart_truncate(
                 intersecting_edges_series_filtered.iloc[i], shapely.geometry.Point
             ):
                 linestring_x, linestring_y = intersecting_edges_series_filtered.iloc[i].xy
+
+                logging.basicConfig(filename=config.log_file, encoding='utf-8', level=logging.DEBUG)
+                logging.debug('Standard Case')
+
             elif isinstance(intersecting_edges_series_filtered.iloc[i], shapely.geometry.MultiLineString):
                 # convert multi line string to linestring
                 xy_linestring = (
@@ -264,6 +286,9 @@ def smart_truncate(
                     .replace("((", "(")
                     .replace("))", ")")
                 )
+                logging.basicConfig(filename=config.log_file, encoding='utf-8', level=logging.DEBUG)
+                logging.debug('.............................Multiline Case')
+
                 linestring_x, linestring_y = shapely.wkt.loads(xy_linestring).xy
             else:
                 raise Exception("Some other type of geometry present")
@@ -415,7 +440,9 @@ def smart_truncate(
         print("Null graph returned")
         return config.rn_no_stats_marker
 
-    print("Inside the function: ", time.time() - ss)
+    if config.DEBUG:
+        print("Inside the function: ", time.time() - ss)
+
     if get_features:
         t = Tile((g_truncated), (config.rn_square_from_city_centre ** 2) / (scale ** 2))
         return t.get_vector_of_features()
@@ -457,6 +484,7 @@ if __name__ == "__main__":
 
             debug_pitstop = True
 
+            sprint(scale, legacy,  (time.time() - starttime)/10)
             sprint(scale, legacy,  (time.time() - starttime)/10)
     """
     sprint(os.getcwd())

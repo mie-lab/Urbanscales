@@ -56,8 +56,10 @@ class Scale:
 
         if os.path.exists(fname):
             with open(fname, "rb") as f:
+                ss = time.time()
                 temp = copy.deepcopy(pickle.load(f))
                 self.__dict__.update(temp.__dict__)
+                print("Scale pickle loading time: ", time.time() - ss)
         else:
             self.RoadNetwork = RoadNetwork
             self.scale = scale
@@ -358,7 +360,10 @@ class Scale:
         if os.path.exists(fname):
             obj = CustomUnpicklerScale(open(fname, "rb")).load()
         else:
-            raise Exception(fname + " not present \n Run speed_data.py and prep_speed.py before running this function")
+            raise Exception(
+                fname
+                + " not present \n Run prep_network.py, speed_data.py and prep_speed.py before running this function"
+            )
         return obj
 
 

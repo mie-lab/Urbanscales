@@ -134,7 +134,7 @@ class TrainDataVectors:
             # case when number of data points less than 30; Training data not generated.
             return
 
-        plt.hist(self.Y.to_numpy().flatten(), bins=list(np.arange(0, 11, 0.3)))
+        plt.hist(self.Y.flatten(), bins=list(np.arange(0, 11, 0.3)))
         ttl = (
             self.city_name
             + "_tod-"

@@ -52,8 +52,10 @@ class RoadNetwork:
         if os.path.exists(self.rn_fname):
             with open(self.rn_fname, "rb") as f:
                 # temp = copy.deepcopy(pickle.load(f))
+                ss = time.time()
                 temp = copy.deepcopy(CustomUnpicklerRoadNetwork(open(self.rn_fname, "rb")).load())
                 self.__dict__.update(temp.__dict__)
+                print("Road network loading time: ", time.time() - ss)
 
         else:
             self.city_name = cityname
