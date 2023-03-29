@@ -139,8 +139,9 @@ def smart_truncate(
             ):
                 linestring_x, linestring_y = intersecting_edges_series_filtered.iloc[i].xy
 
-                logging.basicConfig(filename=config.log_file, encoding='utf-8', level=logging.DEBUG)
-                logging.debug('Standard Case')
+                if config.LOGGING_ENABLED:
+                    with open(config.log_file, "a") as f:
+                        f.write('Standard case\n')
 
             elif isinstance(intersecting_edges_series_filtered.iloc[i], shapely.geometry.MultiLineString):
                 xy_linestring = (
@@ -151,10 +152,12 @@ def smart_truncate(
                     .replace("((", "(")
                     .replace("))", ")")
                 )
+                if config.LOGGING_ENABLED:
+                    with open(config.log_file, "a") as f:
+                        f.write('..................Multiline Case\n')
+
                 linestring_x, linestring_y = shapely.wkt.loads(xy_linestring).xy
 
-                logging.basicConfig(filename=config.log_file, encoding='utf-8', level=logging.DEBUG)
-                logging.debug('.............................Multiline Case')
 
             first_point = Point(linestring_x[0], linestring_y[0])
             last_point = Point(linestring_x[-1], linestring_y[-1])
@@ -203,8 +206,9 @@ def smart_truncate(
             ):
                 linestring_x, linestring_y = intersecting_edges_series_filtered.iloc[i].xy
 
-                logging.basicConfig(filename=config.log_file, encoding='utf-8', level=logging.DEBUG)
-                logging.debug('Standard case')
+                if config.LOGGING_ENABLED:
+                    with open(config.log_file, "a") as f:
+                        f.write('Standard case\n')
 
             elif isinstance(intersecting_edges_series_filtered.iloc[i], shapely.geometry.MultiLineString):
                 # convert multi line string to linestring
@@ -216,8 +220,9 @@ def smart_truncate(
                     .replace("((", "(")
                     .replace("))", ")")
                 )
-                logging.basicConfig(filename=config.log_file, encoding='utf-8', level=logging.DEBUG)
-                logging.debug('................. Multiline Case')
+                if config.LOGGING_ENABLED:
+                    with open(config.log_file, "a") as f:
+                        f.write('..................Multiline Case\n')
 
                 linestring_x, linestring_y = shapely.wkt.loads(xy_linestring).xy
 
@@ -273,8 +278,9 @@ def smart_truncate(
             ):
                 linestring_x, linestring_y = intersecting_edges_series_filtered.iloc[i].xy
 
-                logging.basicConfig(filename=config.log_file, encoding='utf-8', level=logging.DEBUG)
-                logging.debug('Standard Case')
+                if config.LOGGING_ENABLED:
+                    with open(config.log_file, "a") as f:
+                        f.write('Standard Case\n')
 
             elif isinstance(intersecting_edges_series_filtered.iloc[i], shapely.geometry.MultiLineString):
                 # convert multi line string to linestring
@@ -286,10 +292,13 @@ def smart_truncate(
                     .replace("((", "(")
                     .replace("))", ")")
                 )
-                logging.basicConfig(filename=config.log_file, encoding='utf-8', level=logging.DEBUG)
-                logging.debug('.............................Multiline Case')
+
+                if config.LOGGING_ENABLED:
+                    with open(config.log_file, "a") as f:
+                        f.write('..................Multiline Case\n')
 
                 linestring_x, linestring_y = shapely.wkt.loads(xy_linestring).xy
+
             else:
                 raise Exception("Some other type of geometry present")
 
