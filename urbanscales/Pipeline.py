@@ -1,5 +1,7 @@
 import os
 import shutil
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
 
 import config
 import urbanscales

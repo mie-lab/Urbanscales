@@ -5,6 +5,9 @@ import time
 
 import numpy as np
 
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
+
 import config
 import os
 import shapely.wkt

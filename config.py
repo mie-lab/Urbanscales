@@ -1,4 +1,5 @@
 import os
+import osmnx as ox
 
 pickle_protocol = 5
 
@@ -6,31 +7,42 @@ pickle_protocol = 5
 verbose = 2
 
 DEBUG = False
-
+DEBUG_TRUNCATE = False
 
 BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"
 BASE_FOLDER_server = "/home/niskumar/WCS"
 delete_results_folder = True
 cur_dir = os.getcwd()
+RUNNING_ON_LOCAL = True
+RUNNING_ON_SERVER = False
 if cur_dir.split("/")[1] == "home":
     BASE_FOLDER = BASE_FOLDER_server
+    RUNNING_ON_LOCAL = False
+    RUNNING_ON_SERVER = True
+
 elif cur_dir.split("/")[1] == "Users":
     BASE_FOLDER = BASE_FOLDER_local
+    RUNNING_ON_LOCAL = True
+    RUNNING_ON_SERVER = False
 
 home_folder_path = BASE_FOLDER
 
-master_delete_all = -1  # (one of [True, False, -1])
-# -1 implies this master_config_is_not_being_used
+osmnx_cache_folder = os.path.join(BASE_FOLDER, "cache_osmnx")
+log_file = os.path.join(BASE_FOLDER, "log-main.txt")
+LOGGING_ENABLED = False
 
+
+ox.settings.use_cache = True
+ox.settings.cache_folder = osmnx_cache_folder
 
 ####################################
 ######  DELETE FILES CONFIG ########
 ####################################
-rn_delete_existing_pickled_objects = True
-scl_delete_existing_pickle_objects = True
-sd_delete_existing_pickle_objects = True
-ps_delete_existing_pickle_objects = True
-td_delete_existing_pickle_objects = True
+rn_delete_existing_pickled_objects = False
+scl_delete_existing_pickle_objects = False
+sd_delete_existing_pickle_objects = False
+ps_delete_existing_pickle_objects = False
+td_delete_existing_pickle_objects = False
 
 
 #####################################
@@ -75,17 +87,17 @@ ppl_list_of_correlations = ["pearson", "spearman"]  # , "kendall", "spearman"]
 # format: city,location, N, E, S, W
 rn_city_wise_bboxes = {
     "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
-    # "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
-    # "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
-    # "Auckland": [-35.6984, 175.9032, -37.3645, 173.8963],
-    # "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
-    # "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
-    # "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
-    # "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
-    # "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
-    # "London": [51.28676, -0.510375, 51.691874, 0.334015],
+    "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
+    "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
+    "Auckland": [-35.6984, 175.9032, -37.3645, 173.8963],
+    "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
+    "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
+    "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
+    "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
+    "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
+    "London": [51.28676, -0.510375, 51.691874, 0.334015],
     # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
-    # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
+    "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
 }
 rn_city_wise_tz_code = {
     "Singapore": "Asia/Singapore",
@@ -122,7 +134,7 @@ rn_percentage_of_city_area = 100
 if rn_percentage_of_city_area != 100:
     assert rn_post_fix_road_network_object_file == "_road_network_object_small.pkl"
 
-rn_square_from_city_centre = 0.5  # 15 implies 15X15 sq.km.
+rn_square_from_city_centre = 15  # 15 implies 15X15 sq.km.
 if rn_square_from_city_centre != -1:
     assert rn_percentage_of_city_area == 100  # we cannot have two filtering techniques
     # basically it is not needed
@@ -133,9 +145,9 @@ rn_simplify = False
 #########   Scale Class   ##########
 ####################################
 if BASE_FOLDER == BASE_FOLDER_server:
-    scl_n_jobs_parallel = 28
+    scl_n_jobs_parallel = 50
 else:
-    scl_n_jobs_parallel = 5
+    scl_n_jobs_parallel = 7
 scl_temp_file_counter = True
 scl_master_list_of_cities = rn_master_list_of_cities
 scl_list_of_depths = [1]
@@ -152,8 +164,10 @@ scl_list_of_depths = [1]
 # ]  # 40, 45, 50, 55, 60, 65, 70, 80, 85, 90, 95, 100, 120]
 
 # test_small
-scl_list_of_seeds = list(range(25, 30, 20))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
-
+if RUNNING_ON_LOCAL:
+    scl_list_of_seeds = list(range(5, 6, 10))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+elif RUNNING_ON_SERVER:
+    scl_list_of_seeds = list(range(5, 500, 10))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 # forward
 # scl_list_of_seeds = list(range(5, 350, 10))
 
@@ -223,87 +237,6 @@ td_drop_feature_lists = [
 ]
 td_drop_collinear_features = True
 
-if master_delete_all != -1:
-    td_delete_existing_pickle_object = (
-        sps_delete_existing_pickle_object
-    ) = (
-        ssd_delete_existing_pickle_objects
-    ) = scl_delete_existing_pickle_objects = rn_delete_existing_pickled_objects = master_delete_all
-
-
 network_folder = "network-tmax-smax"
 warnings_folder = "warnings"
 results_folder = "results_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi"
-
-
-intermediate_files_path = "/Users/nishant/Documents/GitHub/WCS/intermediate_files/"
-outputfolder = "/Users/nishant/Documents/GitHub/WCS/output_folder/"
-temp_files = "/Users/nishant/Documents/GitHub/WCS/temp_files/"
-multiple_cities_graphs = (
-    "/Users/nishant/Documents/GitHub/WCS/intermediate_files/multiple_cities/raw_graphs_from_OSM_pickles"
-)
-
-
-# incident file configs
-combined_incidents_file = "combined_incidents_45_days.csv"
-
-
-# speed data configs
-data_folder = "/Users/nishant/Documents/GitHub/WCS/data/here_speed_demo"
-road_linestring = "here_road_linestring_01032022.csv"
-var_jf = "here_speed_sgtime_jf.csv"
-var_ci = "here_speed_sgtime_cn.csv"
-plotting_enabled_speed_data_preprocess = True
-
-
-custom_filter = None  # '["highway"~"motorway|motorway_link|primary"]'
-# , "trunk","trunk_link", "motorway_link","primary","secondary"]
-# custom_filter=["motorway", "motorway_link","motorway_junction","highway"],
-# '["highway"~"motorway|motorway_link|primary"]'
-#'["highway"~"motorway"]'
-
-
-# city_list = [
-#     "Auckland",
-#     "Bogota",
-#     "Cape Town",
-#     "Istanbul",
-#     "London",
-#     "Mexico City",
-#     "Mumbai",
-#     "New York City",
-#     "Singapore",
-#     "Zurich",
-# ]
-
-
-num_threads = 1
-hierarchies = 5
-best_fit_hierarchy = 5
-base_for_merge = 6
-
-
-# graph features
-stats_type = "basic_stats"
-
-
-use_route_path_curved = False
-plotting_enabled = False
-
-bbox_split_for_merge_optimisation = 32
-reorder_dict_for_better_viz = True
-
-merge_param_a = 0.5
-merge_param_b = 0.5
-
-# steps_combined.py
-base_list = [5]  # list(range(2, 11))
-
-# urban_merge.py file
-thresh_list = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.05, 0.01]
-single_threshold = 0.9
-run_multiple_thresholds_in_parallel = False
-method_for_single_statistic = "sum"
-
-# compute_GOF_before_and_after
-pca_components = 3

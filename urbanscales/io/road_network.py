@@ -5,6 +5,9 @@ import copy
 import osmnx as ox
 from osmnx import utils_graph
 
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
+
 import config
 import matplotlib
 

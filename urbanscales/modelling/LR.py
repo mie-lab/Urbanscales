@@ -3,6 +3,10 @@ import os
 
 from sklearn.model_selection import cross_val_score
 
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
+
+
 import config
 from urbanscales.preprocessing.train_data import TrainDataVectors
 import numpy as np

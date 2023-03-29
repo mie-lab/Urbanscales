@@ -13,12 +13,13 @@ import numpy as np
 from multiprocessing import Pool
 import threading
 from osmnx import utils_graph
-from urbanscales.preprocessing.smart_truncate_gpd import smart_truncate
 
 from matplotlib import pyplot as plt
 from line_profiler_pycharm import profile
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
+from urbanscales.preprocessing.smart_truncate_gpd import smart_truncate
+
 
 import time
 import warnings
