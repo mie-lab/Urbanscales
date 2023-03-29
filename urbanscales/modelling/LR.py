@@ -29,7 +29,7 @@ class LR:
 
     def compute_score(self):
         reg = LinearRegression().fit(self.X, self.Y)
-        self.cv_scores = cross_val_score(reg, self.X, self.Y, cv=config.CV_splits)
+        self.cv_scores = cross_val_score(reg, self.X, self.Y, cv=config.ppl_CV_splits)
 
     @staticmethod
     def compute_scores_for_all_cities():

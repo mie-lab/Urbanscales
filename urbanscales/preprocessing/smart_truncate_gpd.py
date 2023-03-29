@@ -141,7 +141,7 @@ def smart_truncate(
 
                 if config.LOGGING_ENABLED:
                     with open(config.log_file, "a") as f:
-                        f.write('Standard case\n')
+                        f.write("Standard case\n")
 
             elif isinstance(intersecting_edges_series_filtered.iloc[i], shapely.geometry.MultiLineString):
                 xy_linestring = (
@@ -154,10 +154,9 @@ def smart_truncate(
                 )
                 if config.LOGGING_ENABLED:
                     with open(config.log_file, "a") as f:
-                        f.write('..................Multiline Case\n')
+                        f.write("..................Multiline Case\n")
 
                 linestring_x, linestring_y = shapely.wkt.loads(xy_linestring).xy
-
 
             first_point = Point(linestring_x[0], linestring_y[0])
             last_point = Point(linestring_x[-1], linestring_y[-1])
@@ -208,7 +207,7 @@ def smart_truncate(
 
                 if config.LOGGING_ENABLED:
                     with open(config.log_file, "a") as f:
-                        f.write('Standard case\n')
+                        f.write("Standard case\n")
 
             elif isinstance(intersecting_edges_series_filtered.iloc[i], shapely.geometry.MultiLineString):
                 # convert multi line string to linestring
@@ -222,7 +221,7 @@ def smart_truncate(
                 )
                 if config.LOGGING_ENABLED:
                     with open(config.log_file, "a") as f:
-                        f.write('..................Multiline Case\n')
+                        f.write("..................Multiline Case\n")
 
                 linestring_x, linestring_y = shapely.wkt.loads(xy_linestring).xy
 
@@ -280,7 +279,7 @@ def smart_truncate(
 
                 if config.LOGGING_ENABLED:
                     with open(config.log_file, "a") as f:
-                        f.write('Standard Case\n')
+                        f.write("Standard Case\n")
 
             elif isinstance(intersecting_edges_series_filtered.iloc[i], shapely.geometry.MultiLineString):
                 # convert multi line string to linestring
@@ -295,7 +294,7 @@ def smart_truncate(
 
                 if config.LOGGING_ENABLED:
                     with open(config.log_file, "a") as f:
-                        f.write('..................Multiline Case\n')
+                        f.write("..................Multiline Case\n")
 
                 linestring_x, linestring_y = shapely.wkt.loads(xy_linestring).xy
 
@@ -498,6 +497,10 @@ if __name__ == "__main__":
     """
     sprint(os.getcwd())
     os.system("rm urbanscales/tryouts/smart_truncated_plots/*.png")
+
+    if os.path.exists(config.log_file):
+        os.remove(config.log_file)
+    print("Cleaned the log file")
 
     list_of_bbox = [
         (1.2897639799999998, 1.2684322, 103.79295100109655, 103.7717563, 35),
