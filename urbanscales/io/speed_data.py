@@ -153,7 +153,7 @@ class SpeedData:
         fname = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, "_speed_data_object.pkl")
 
         # make the folder if it dfoes not exist
-        if not os.path.exists(os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name))):
+        if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name)):
             os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name))
 
         if not os.path.exists(fname):
