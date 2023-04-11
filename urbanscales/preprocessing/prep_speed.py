@@ -17,7 +17,7 @@ from urbanscales.io.road_network import RoadNetwork
 from urbanscales.io.speed_data import SpeedData, Segment
 from tqdm import tqdm
 
-# from smartprint import smartprint as sprint
+from smartprint import smartprint as sprint
 import shapely.geometry
 
 import pickle
@@ -186,7 +186,12 @@ class ScaleJF:
     def helper_parallel(params):
         city, seed, depth = params
         sd = SpeedData(city, config.sd_raw_speed_data_gran, config.sd_target_speed_data_gran)
-        scl = Scale(RoadNetwork(city), seed ** depth)
+        try:
+            scl = Scale(RoadNetwork(city), seed ** depth)
+        except Exception as e:
+            sprint(city, seed, depth)
+            raise Exception(e)
+            sys.exit(0)
         ScaleJF.preprocess_different_tods(config.ps_tod_list, scl, sd)
 
     @staticmethod

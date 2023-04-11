@@ -6,6 +6,7 @@ import time
 import numpy as np
 
 import os
+
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 
 import config
@@ -81,6 +82,8 @@ class SpeedData:
             os.path.join(config.sd_base_folder_path, self.city_name, config.sd_seg_file_path_within_city)
         ):
             raise Exception("Error in here data; data file SEG missing")
+            sprint(self.city_name, "Missing here data")
+            sys.exit(0)
 
         df = pd.read_csv(os.path.join(config.sd_base_folder_path, self.city_name, config.sd_seg_file_path_within_city))
         df = df[["NID", "Linestring"]].copy()
@@ -148,6 +151,11 @@ class SpeedData:
             self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy(jf_list)
 
         fname = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, "_speed_data_object.pkl")
+
+        # make the folder if it dfoes not exist
+        if not os.path.exists(os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name))):
+            os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name))
+
         if not os.path.exists(fname):
             with open(fname, "wb") as f:
                 pickle.dump(self, f, protocol=config.pickle_protocol)

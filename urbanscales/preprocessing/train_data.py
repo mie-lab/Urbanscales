@@ -7,6 +7,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from sklearn.preprocessing import StandardScaler
 import sys
+
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 import config
 from urbanscales.io.road_network import RoadNetwork

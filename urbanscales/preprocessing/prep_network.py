@@ -365,6 +365,7 @@ class Scale:
                 fname
                 + " not present \n Run prep_network.py, speed_data.py and prep_speed.py before running this function"
             )
+            sys.exit(0)
         return obj
 
 

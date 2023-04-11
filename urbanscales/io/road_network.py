@@ -6,6 +6,7 @@ import osmnx as ox
 from osmnx import utils_graph
 
 import sys
+
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 
 import config
@@ -130,10 +131,21 @@ class RoadNetwork:
                 with open(fname, "rb") as f1:
                     self.G_osm = pickle.load(f1)
             else:
-
-                self.G_osm = ox.graph_from_bbox(
-                    self.N, self.S, self.E, self.W, network_type="drive", simplify=config.rn_simplify, retain_all=True
-                )
+                try:
+                    self.G_osm = ox.graph_from_bbox(
+                        self.N,
+                        self.S,
+                        self.E,
+                        self.W,
+                        network_type="drive",
+                        simplify=config.rn_simplify,
+                        retain_all=True,
+                    )
+                except Exception as e:
+                    sprint(self.city_name, self.N, self.S, self.E, self.W)
+                    raise Exception(e)
+                    print("Exiting execution; graph not fetched from OSM")
+                    sys.exit(0)
 
                 with open(fname, "wb") as f:
                     pickle.dump(self.G_osm, f, protocol=config.pickle_protocol)
