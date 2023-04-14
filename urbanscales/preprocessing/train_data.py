@@ -202,7 +202,7 @@ class TrainDataVectors:
                         if config.td_viz_y_hist == True:
                             tdv.viz_y_hist()
                         print(time.time() - startime)
-                        print(city, seed, depth, tod)
+                        print("Inside train_data.py ", city, seed, depth, tod)
 
 
 if __name__ == "__main__":

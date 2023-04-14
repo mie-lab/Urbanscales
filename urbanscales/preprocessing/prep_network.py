@@ -201,7 +201,8 @@ class Scale:
             print((((y_edge_1 ** 2 + x_edge_1 ** 2) ** 0.5 - diagonal) / diagonal * 100))
             print((y_edge_1 - y_edge_2) / y_edge_1 * 100)
             print((x_edge_1 - x_edge_2) / x_edge_1 * 100)
-            sys.exit(0)
+            raise Exception("Error in _helper_compute_deltas")
+            # sys.exit(0)
 
         self.x_edge = (x_edge_1 + x_edge_2) / 2
         self.y_edge = (y_edge_1 + y_edge_2) / 2
@@ -365,7 +366,7 @@ class Scale:
                 fname
                 + " not present \n Run prep_network.py, speed_data.py and prep_speed.py before running this function"
             )
-            sys.exit(0)
+            # sys.exit(0)
         return obj
 
 

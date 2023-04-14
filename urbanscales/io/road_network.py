@@ -143,9 +143,9 @@ class RoadNetwork:
                     )
                 except Exception as e:
                     sprint(self.city_name, self.N, self.S, self.E, self.W)
-                    raise Exception(e)
+                    # raise Exception(e)
                     print("Exiting execution; graph not fetched from OSM")
-                    sys.exit(0)
+                    # sys.exit(0)
 
                 with open(fname, "wb") as f:
                     pickle.dump(self.G_osm, f, protocol=config.pickle_protocol)

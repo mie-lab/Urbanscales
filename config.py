@@ -89,7 +89,7 @@ rn_city_wise_bboxes = {
     "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
     "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
     "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
-    "Auckland": [-35.6984, 175.9032, -37.3645, 173.8963],
+    "Auckland": [-36.681247, 174.925937, -36.965932, 174.63532],
     "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
     "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
     "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
@@ -97,7 +97,7 @@ rn_city_wise_bboxes = {
     "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
     "London": [51.28676, -0.510375, 51.691874, 0.334015],
     # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
-    "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
+    # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
 }
 rn_city_wise_tz_code = {
     "Singapore": "Asia/Singapore",
@@ -147,7 +147,7 @@ rn_simplify = False
 if BASE_FOLDER == BASE_FOLDER_server:
     scl_n_jobs_parallel = 50
 else:
-    scl_n_jobs_parallel = 7
+    scl_n_jobs_parallel = 2
 scl_temp_file_counter = True
 scl_master_list_of_cities = rn_master_list_of_cities
 scl_list_of_depths = [1]
@@ -165,7 +165,7 @@ scl_list_of_depths = [1]
 
 # test_small
 if RUNNING_ON_LOCAL:
-    scl_list_of_seeds = list(range(5, 6, 10))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+    scl_list_of_seeds = list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 elif RUNNING_ON_SERVER:
     scl_list_of_seeds = list(range(5, 500, 10))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 # forward

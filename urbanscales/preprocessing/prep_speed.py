@@ -128,8 +128,11 @@ class ScaleJF:
                     val.append(self.SpeedData.segment_jf_map[segment][self.tod])
                 except:
                     debug_stop = True
-                    # print ("Error in segment_jf_map; length ", len(self.SpeedData.segment_jf_map[segment]))
-                    sys.exit(0)
+                    print("Error in segment_jf_map; length ", len(self.SpeedData.segment_jf_map[segment]))
+                    raise Exception(
+                        "Error in segment_jf_map; length " + str(len(self.SpeedData.segment_jf_map[segment]))
+                    )
+                    # sys.exit(0)
 
             if config.ps_spatial_combination_method == "mean":
                 agg_func = np.mean
@@ -191,7 +194,7 @@ class ScaleJF:
         except Exception as e:
             sprint(city, seed, depth)
             raise Exception(e)
-            sys.exit(0)
+            # sys.exit(0)
         ScaleJF.preprocess_different_tods(config.ps_tod_list, scl, sd)
 
     @staticmethod

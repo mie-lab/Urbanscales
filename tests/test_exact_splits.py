@@ -4,7 +4,8 @@ import time
 
 import matplotlib.pyplot as plt
 import pytest
-from smartprint import smartprint as sprint
+
+# from smartprint import smartprint as sprint
 
 from python_scripts.network_to_elementary.create_input_for_merge import get_bbox
 
@@ -35,8 +36,8 @@ def ssubset(base_N):
     ) as handle:
         splitted_N_osm_bbox_list = get_bbox(pickle.load(handle))
 
-    sprint(len((base_N_osm_bbox_list)))
-    sprint(len((splitted_N_osm_bbox_list)))
+    print(len((base_N_osm_bbox_list)))
+    print(len((splitted_N_osm_bbox_list)))
 
     lat_list_1, lon_list_1 = extract_lat_list_lon_list(base_N_osm_bbox_list)
     lat_list_2, lon_list_2 = extract_lat_list_lon_list(splitted_N_osm_bbox_list)
