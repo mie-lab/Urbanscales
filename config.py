@@ -10,7 +10,7 @@ DEBUG = False
 DEBUG_TRUNCATE = False
 
 BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"
-BASE_FOLDER_server = "/home/niskumar/WCS"
+BASE_FOLDER_server = "/home/datapublic/WCS"
 delete_results_folder = True
 cur_dir = os.getcwd()
 RUNNING_ON_LOCAL = True
@@ -134,7 +134,7 @@ rn_percentage_of_city_area = 100
 if rn_percentage_of_city_area != 100:
     assert rn_post_fix_road_network_object_file == "_road_network_object_small.pkl"
 
-rn_square_from_city_centre = 15  # 15 implies 15X15 sq.km.
+rn_square_from_city_centre = 50  # 15 implies 15X15 sq.km.
 if rn_square_from_city_centre != -1:
     assert rn_percentage_of_city_area == 100  # we cannot have two filtering techniques
     # basically it is not needed
@@ -145,7 +145,7 @@ rn_simplify = False
 #########   Scale Class   ##########
 ####################################
 if BASE_FOLDER == BASE_FOLDER_server:
-    scl_n_jobs_parallel = 50
+    scl_n_jobs_parallel = 25
 else:
     scl_n_jobs_parallel = 2
 scl_temp_file_counter = True
@@ -167,7 +167,7 @@ scl_list_of_depths = [1]
 if RUNNING_ON_LOCAL:
     scl_list_of_seeds = list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 elif RUNNING_ON_SERVER:
-    scl_list_of_seeds = list(range(5, 500, 10))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+    scl_list_of_seeds = list(range(5, 6, 10))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 # forward
 # scl_list_of_seeds = list(range(5, 350, 10))
 
@@ -202,8 +202,8 @@ sd_raw_speed_data_gran = 10
 sd_target_speed_data_gran = 60
 sd_temporal_combination_method = "max"
 assert sd_temporal_combination_method in ["mean", "max"]
-sd_start_datetime_str = "2022-07-31T18:04:05"
-sd_end_datetime_str = "2022-08-03T18:20:05"
+sd_start_datetime_str = "2022-09-01T00:00:01"
+sd_end_datetime_str = "2022-09-30T23:59:59"
 
 
 ####################################

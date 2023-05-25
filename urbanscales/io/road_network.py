@@ -287,6 +287,8 @@ class RoadNetwork:
         new_NE_corner = centre + ratio * (NE_corner - SW_corner)
         new_SW_corner = centre - ratio * (NE_corner - SW_corner)
 
+        sprint (self.city_name, half_square_diag_len / half_diag_len)
+
         plt.clf()
         plt.scatter(NE_corner[1], NE_corner[0], 5, "r", label="Original NE")  # inverted order for x,y
         plt.scatter(SW_corner[1], SW_corner[0], 5, "r", label="Original SW", alpha=0.2)  # inverted order for x,y
