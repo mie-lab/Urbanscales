@@ -1,0 +1,1 @@
+city,seed,depth,tod,#datapoints,#datapoints-train-sample-mean,#datapoints-test-sample-mean,np.mean(lr_object.scores_MSE),np.std(lr_object.scores_MSE),np.mean(lr_object.scores_QWK),np.std(lr_object.scores_QWK),num_splits

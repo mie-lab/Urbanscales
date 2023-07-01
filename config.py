@@ -48,21 +48,21 @@ td_delete_existing_pickle_objects = False
 #####################################
 ##############  PLOTS  ################
 #####################################
-ppl_smallest_sample = -1
-ppl_use_all = True
+ppl_smallest_sample = 130
+ppl_use_all = False
 if ppl_use_all:
     assert ppl_smallest_sample == -1
 ppl_parallel_overall = 1
-ppl_plot_FI = True
+ppl_plot_FI = False
 ppl_CV_splits = 7
-ppl_plot_corr = True
-ppl_hist = True
+ppl_plot_corr = False
+ppl_hist = False
 ppl_hist_bins = 10
 ppl_scaling_for_EDA = (
     2  # 0: None; 1: Divide by Max; 2: StandardScaler(); 3: Divide by max; followed by StandardScaler()
 )
 assert ppl_scaling_for_EDA in [0, 1, 2, 3]
-ppl_list_of_baselines = ["Lasso()", "LinearRegression()", "Ridge()"]
+ppl_list_of_baselines = ["LinearRegression()"] # ["Lasso()", "LinearRegression()", "Ridge()"]
 
 # ppl_feature_importance_via_coefficients = False
 # if ppl_feature_importance_via_coefficients:
@@ -87,15 +87,15 @@ ppl_list_of_correlations = ["pearson", "spearman"]  # , "kendall", "spearman"]
 # format: city,location, N, E, S, W
 rn_city_wise_bboxes = {
     "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
-    "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
-    "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
-    "Auckland": [-36.681247, 174.925937, -36.965932, 174.63532],
-    "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
-    "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
-    "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
-    "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
-    "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
-    "London": [51.28676, -0.510375, 51.691874, 0.334015],
+    # "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
+    # "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
+    # "Auckland": [-36.681247, 174.925937, -36.965932, 174.63532],
+    # "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
+    # "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
+    # "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
+    # "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
+    # "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
+    # "London": [51.28676, -0.510375, 51.691874, 0.334015],
     # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
     # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
 }
@@ -165,7 +165,7 @@ scl_list_of_depths = [1]
 
 # test_small
 if RUNNING_ON_LOCAL:
-    scl_list_of_seeds = list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+    scl_list_of_seeds = [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 elif RUNNING_ON_SERVER:
     scl_list_of_seeds = list(range(5, 6, 10))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 # forward
@@ -175,7 +175,7 @@ elif RUNNING_ON_SERVER:
 # scl_list_of_seeds = list(range(345, 120, -10))
 
 
-scl_error_percentage_tolerance = 0.2
+scl_error_percentage_tolerance = 1
 
 
 ####################################

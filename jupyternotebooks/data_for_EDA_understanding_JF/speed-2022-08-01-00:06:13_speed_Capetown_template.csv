@@ -1,0 +1,3974 @@
+NID,PC,DE,LE,TY,FF
+0,26,Newlands Road,0.01113,TR,54.0
+1,10347,Struben Road,0.61069,TR,56.3
+2,25,Simon Van Der Stel Freeway,1.20055,TR,57.4
+3,29,Rhodes Drive,0.01719,TR,38.0
+4,28,Edinburg Drive,0.63291,TR,58.9
+5,28,Edinburg Drive,0.01558,TR,49.0
+6,29,Rhodes Drive,0.63262,TR,48.9
+7,31,Rhodes Drive,0.05425,TR,31.0
+8,32,Union Avenue,1.84547,TR,71.9
+9,25,Simon Van Der Stel Freeway,0.06224,TR,60.0
+10,10347,Struben Road,1.13343,TR,59.2
+11,26,Newlands Road,0.60612,TR,55.5
+12,32,Union Avenue,0.17478,TR,78.9
+13,31,Rhodes Drive,1.58225,TR,67.3
+14,37,Settlers Way,0.63649,TR,60.0
+15,7660,Rhodes Avenue,0.32126,TR,67.1
+16,36,Woolsack Drive,0.28913,TR,77.6
+17,35,Rugby Road,0.87266,TR,74.6
+18,34,Princess Anne Avenue,0.55909,TR,73.7
+19,34,Princess Anne Avenue,0.0231,TR,72.0
+20,35,Rugby Road,0.41733,TR,67.0
+21,36,Woolsack Drive,0.94798,TR,76.7
+22,7660,Rhodes Avenue,0.20745,TR,78.1
+23,37,Settlers Way,0.84415,TR,66.7
+24,56,Strand Street,0.01505,TR,31.0
+25,10380,Waterkant Street,0.08371,TR,29.0
+26,55,Somerset Road,0.08102,TR,23.7
+27,54,Hans Strijdom Avenue,0.3509,TR,25.2
+28,53,Coen Steytler Avenue,0.15827,TR,27.8
+29,53,Coen Steytler Avenue,0.02019,TR,34.0
+30,54,Hans Strijdom Avenue,0.23367,TR,27.3
+31,55,Somerset Road,0.27028,TR,32.7
+32,10380,Waterkant Street,0.0802,TR,28.0
+33,56,Strand Street,0.09786,TR,24.7
+34,65,Russel Street,0.08068,TR,39.0
+35,64,Eastern Boulevard,0.43766,TR,42.4
+36,63,Buitenkant Street,0.37174,TR,40.8
+37,18453,Lower Plein Street,0.22054,TR,27.7
+38,62,Adderley Street,0.16228,TR,24.5
+39,61,Long Street,0.24514,TR,21.8
+40,60,Loop Street,0.07892,TR,20.0
+41,59,Bree Street,0.09317,TR,20.0
+42,58,Buitengracht Street,0.11653,TR,19.8
+43,3604,High Level Road,0.90826,TR,40.0
+44,69,Grey Street,0.05272,TR,44.0
+45,68,Nelson Street,0.39482,TR,45.0
+46,67,Russel Street,0.28594,TR,43.8
+47,3604,High Level Road,0.01646,TR,47.0
+48,58,Buitengracht Street,0.90555,TR,35.6
+49,59,Bree Street,0.1124,TR,19.9
+50,60,Loop Street,0.08035,TR,18.0
+51,61,Long Street,0.08029,TR,19.0
+52,62,Adderley Street,0.25941,TR,22.4
+53,18453,Lower Plein Street,0.14636,TR,25.7
+54,63,Buitenkant Street,0.22391,TR,28.1
+55,64,Eastern Boulevard,0.50316,TR,48.4
+56,65,Russel Street,0.36869,TR,47.5
+57,67,Russel Street,0.08495,TR,44.0
+58,68,Nelson Street,0.19795,TR,47.3
+59,69,Grey Street,0.44754,TR,47.3
+60,72,Salt River Road,0.04002,TR,29.5
+61,7634,Lower Church Street,1.03823,TR,37.8
+62,10252,Sussex Street,0.1296,TR,36.9
+63,71,Grey Street,0.36751,TR,40.9
+64,71,Grey Street,0.07582,TR,46.0
+65,10252,Sussex Street,0.29169,TR,44.7
+66,7634,Lower Church Street,0.1296,TR,40.0
+67,72,Salt River Road,1.08201,TR,38.5
+68,91,Kuils River Freeway,0.12011,TR,36.8
+69,90,La Belle Street,0.2923,TR,36.9
+70,8383,Peter Barlow Drive,0.97849,TR,41.4
+71,89,Willie Hofmeyer Avenue,1.3524,TR,44.1
+72,88,Voortrekker Road,0.31223,TR,36.9
+73,51,Coen Steytler Avenue,0.01293,TR,40.0
+74,7612,Heerengracht Street,0.60425,TR,64.2
+75,48,D.F. Malan Street,0.81112,TR,78.6
+76,296,Main Road,0.14509,TR,80.0
+77,295,Settlers Way,0.57663,TR,70.5
+78,42,De Waal Drive,0.98858,TR,75.2
+79,43,Browning Road,0.4532,TR,80.0
+80,44,Upper Roodebloem Road,0.40865,TR,79.2
+81,45,Melbourne Road,0.58995,TR,79.7
+82,46,Searle Street,0.5311,TR,78.6
+83,47,Strand Street,0.91278,TR,79.3
+84,10588,Table Bay Boulevard,0.74155,TR,76.6
+85,88,Voortrekker Road,0.01115,TR,36.0
+86,89,Willie Hofmeyer Avenue,0.33696,TR,36.1
+87,8383,Peter Barlow Drive,1.31453,TR,42.2
+88,90,La Belle Street,0.99326,TR,39.3
+89,91,Kuils River Freeway,0.39957,TR,33.9
+90,479,Piet Retief Street,0.06928,TR,38.2
+91,478,Stokery Road,1.39068,TR,51.7
+92,477,Malmesbury Road,2.68713,TR,69.7
+93,476,Noord Agter Paarl,3.56254,TR,86.7
+94,12494,Windmill Road,1.34411,TR,98.2
+95,475,R312,4.67041,TR,93.3
+96,474,Suid Agter Paarl,4.3095,TR,99.2
+97,473,N1,6.30222,TR,91.2
+98,472,R101,0.56337,TR,40.1
+99,15778,R45 (Secondary),0.47146,TR,39.5
+100,15762,Muldersvlei,5.79779,TR,85.2
+101,15793,Kromme Rhee Road,1.89745,TR,94.2
+102,471,Helshoogte Road,6.70929,TR,77.4
+103,470,R304,0.36463,TR,37.5
+104,15318,Molteno Street,0.62123,TR,51.8
+105,15282,Merriman Avenue,0.32844,TR,42.2
+106,15301,Alexander Street,0.39188,TR,36.2
+107,469,Adam Tas Street,0.11572,TR,34.1
+108,469,Adam Tas Street,0.04047,TR,36.5
+109,15301,Alexander Street,0.10142,TR,42.1
+110,15282,Merriman Avenue,0.39268,TR,41.6
+111,15318,Molteno Street,0.30574,TR,58.6
+112,470,R304,0.635,TR,52.5
+113,471,Helshoogte Road,0.35779,TR,36.0
+114,15793,Kromme Rhee Road,6.70157,TR,79.9
+115,15762,Muldersvlei,1.89745,TR,89.2
+116,15778,R45 (Secondary),5.79779,TR,84.9
+117,472,R101,0.47146,TR,39.9
+118,473,N1,0.64948,TR,49.7
+119,474,Suid Agter Paarl,6.21611,TR,90.9
+120,475,R312,4.36215,TR,99.6
+121,12494,Windmill Road,4.61497,TR,96.3
+122,476,Noord Agter Paarl,1.35081,TR,100.0
+123,477,Malmesbury Road,3.56689,TR,88.0
+124,478,Stokery Road,2.68713,TR,71.0
+125,479,Piet Retief Street,1.45996,TR,45.3
+126,534,Strand,0.03948,TR,83.0
+127,12787,Annandale Road,2.37758,TR,86.7
+128,532,Winery Road,3.19325,TR,88.8
+129,531,Steynsrust Road,2.90668,TR,90.3
+130,530,M9,2.25901,TR,71.8
+131,529,Van Riebeek Road,0.66619,TR,58.5
+132,528,N2,0.31152,TR,42.1
+133,527,De Beers Avenue,1.4284,TR,57.0
+134,8415,Beach Road,0.2275,TR,47.7
+135,526,Victoria Street,0.70987,TR,56.5
+136,525,Volsteedt Street,0.96616,TR,55.2
+137,524,Sarel Ciliers Street,0.33385,TR,52.4
+138,523,Mills Street,0.32919,TR,49.7
+139,522,Main Road,0.11519,TR,46.1
+140,12769,Altena Road,0.68092,TR,47.0
+141,10131,George Street,0.50982,TR,45.9
+142,8247,Broadlands Road,1.7332,TR,42.0
+143,520,Sir Lowry's Pass Road,0.05251,TR,38.1
+144,519,N2,1.43572,TR,50.2
+145,518,Broadway Boulevard,1.33172,TR,44.7
+146,517,Main Road,1.15336,TR,47.4
+147,12770,Altena Road,0.15005,TR,35.8
+148,10129,George Street,0.65011,TR,44.9
+149,10130,Beach Road West,0.42592,TR,44.6
+150,516,Broadlands Road,1.33073,TR,49.3
+151,15254,Beach Road,2.74338,TR,54.4
+152,515,Sir Lowry's Pass Road,0.61281,TR,50.7
+153,514,Anemone Street,22.11981,TR,65.2
+154,513,Hangklip Road,5.08765,TR,86.9
+155,512,Clarence Drive,3.09679,TR,97.4
+156,511,Porter Drive,3.16587,TR,60.0
+157,510,Waterfall Road,2.62631,TR,60.0
+158,509,Seaview Drive,2.31294,TR,60.0
+159,508,Oyster Street,1.4581,TR,60.0
+160,507,D.F.Malherbe Street,5.50391,TR,84.1
+161,506,Botrivier Road,2.95532,TR,52.7
+162,505,R43,11.57176,TR,87.0
+163,542,Adam Tas Street,0.01453,TR,51.0
+164,541,Dorp Street,0.33422,TR,48.2
+165,540,Van Reede,0.92082,TR,39.4
+166,539,Paradyskloof Road,1.29514,TR,66.5
+167,538,Blaauwklippen Road,0.48963,TR,59.6
+168,537,Tegno Avenue,0.91442,TR,62.6
+169,536,Webersvallei Road,0.6816,TR,64.6
+170,535,Broadway Boulevard,0.58543,TR,59.7
+171,8247,Broadlands Road,0.0371,TR,34.0
+172,10131,George Street,1.6961,TR,42.0
+173,12769,Altena Road,0.50982,TR,42.2
+174,522,Main Road,0.72756,TR,43.9
+175,523,Mills Street,0.06232,TR,46.0
+176,524,Sarel Ciliers Street,0.33519,TR,50.7
+177,525,Volsteedt Street,0.33236,TR,54.0
+178,526,Victoria Street,0.97011,TR,56.3
+179,8415,Beach Road,0.70736,TR,59.1
+180,527,De Beers Avenue,0.23216,TR,51.0
+181,528,N2,1.60853,TR,52.6
+182,529,Van Riebeek Road,0.14581,TR,40.7
+183,530,M9,0.72195,TR,50.0
+184,531,Steynsrust Road,2.18489,TR,78.4
+185,532,Winery Road,2.92251,TR,94.1
+186,12787,Annandale Road,3.19843,TR,87.8
+187,534,Strand,2.42439,TR,84.1
+188,535,Broadway Boulevard,0.02425,TR,81.0
+189,536,Webersvallei Road,0.55632,TR,72.3
+190,537,Tegno Avenue,0.68053,TR,68.3
+191,538,Blaauwklippen Road,0.91718,TR,69.6
+192,539,Paradyskloof Road,0.4958,TR,66.4
+193,540,Van Reede,1.27425,TR,64.4
+194,541,Dorp Street,0.92125,TR,50.2
+195,542,Adam Tas Street,0.3764,TR,40.9
+196,505,R43,0.05725,TR,57.0
+197,506,Botrivier Road,11.51451,TR,87.6
+198,507,D.F.Malherbe Street,2.95532,TR,51.5
+199,508,Oyster Street,5.50391,TR,84.1
+200,509,Seaview Drive,1.4581,TR,60.0
+201,510,Waterfall Road,2.31294,TR,60.0
+202,511,Porter Drive,2.62631,TR,60.0
+203,512,Clarence Drive,3.16587,TR,60.0
+204,513,Hangklip Road,3.09679,TR,97.5
+205,514,Anemone Street,5.08765,TR,90.6
+206,515,Sir Lowry's Pass Road,22.11981,TR,65.1
+207,15254,Beach Road,0.60642,TR,47.7
+208,516,Broadlands Road,2.75033,TR,54.7
+209,10130,Beach Road West,1.33119,TR,50.6
+210,10129,George Street,0.425,TR,46.6
+211,12770,Altena Road,0.65021,TR,45.7
+212,517,Main Road,0.14419,TR,34.4
+213,518,Broadway Boulevard,1.1983,TR,43.7
+214,519,N2,1.75301,TR,48.1
+215,520,Sir Lowry's Pass Road,1.017,TR,44.9
+216,671,R44,6.93721,TR,98.3
+217,670,China Marais Avenue,8.06444,TR,95.1
+218,15330,George Viljoen Street,2.22359,TR,86.6
+219,672,Disa Street,0.50332,TR,60.0
+220,13513,Lynx Avenue,2.26459,TR,79.8
+221,13512,Vermont Avenue,1.4067,TR,83.6
+222,13513,Lynx Avenue,1.4067,TR,80.0
+223,672,Disa Street,2.26459,TR,74.1
+224,15330,George Viljoen Street,0.50332,TR,60.0
+225,670,China Marais Avenue,2.22359,TR,89.4
+226,671,R44,8.06444,TR,99.8
+227,15236,R43 Slip Road,6.93721,TR,96.1
+228,704,Stokery Road,0.06113,TR,39.0
+229,12802,Lady Loch Road,1.34952,TR,52.4
+230,12801,Main Street,0.08187,TR,39.4
+231,703,Marlsmbury,21.59446,TR,97.9
+232,702,Tulbagh,17.59021,TR,96.6
+233,703,Marlsmbury,17.59021,TR,95.8
+234,12801,Main Street,21.61024,TR,97.0
+235,12802,Lady Loch Road,0.06609,TR,36.0
+236,704,Stokery Road,1.41065,TR,50.8
+237,13518,Graymead Road East,5.1543,TR,94.6
+238,13517,Graymead Road West,5.39695,TR,88.5
+239,13516,Main Road,16.4213,TR,76.4
+240,13515,Worcester Street,0.7364,TR,46.8
+241,13514,Ou Kaapse Way,0.6652,TR,38.3
+242,921,N2,1.30072,TR,51.9
+243,921,N2,0.06318,TR,34.0
+244,13514,Ou Kaapse Way,1.27389,TR,53.9
+245,13515,Worcester Street,0.62884,TR,37.8
+246,13516,Main Road,0.7364,TR,49.0
+247,13517,Graymead Road West,16.4213,TR,74.3
+248,13518,Graymead Road East,5.39695,TR,87.2
+249,13519,Draaiberg Road,5.1543,TR,92.2
+250,907,R45,0.04582,TR,37.0
+251,906,R311,14.70248,TR,94.0
+252,905,Malmesbury,9.92627,TR,90.8
+253,905,Malmesbury,0.02328,TR,52.0
+254,906,R311,9.90298,TR,92.3
+255,907,R45,14.74831,TR,96.0
+256,1100,Voortrekker Road,0.01926,TR,30.0
+257,1099,N7,1.20992,TR,37.8
+258,18360,Papenskuil Road,19.3801,TR,88.2
+259,1098,Main Road,11.76099,TR,98.5
+260,12510,Hill Road,27.70523,TR,52.9
+261,12509,College Street,2.1148,TR,50.9
+262,1072,Blouvlei Street,0.8728,TR,34.1
+263,1072,Blouvlei Street,0.03916,TR,27.0
+264,12509,College Street,0.8323,TR,35.4
+265,12510,Hill Road,2.1148,TR,51.2
+266,1073,R43,27.70523,TR,52.9
+267,1091,Evita Bezuidenhout Boulevard,15.235,TR,91.3
+268,1097,West Coast Road,0.04567,TR,39.0
+269,11968,Charel Uys Avenue,6.2125,TR,75.6
+270,11967,Reygersdal Drive,3.21924,TR,75.7
+271,1096,Charel Uys Drive (R304),3.44794,TR,86.4
+272,12156,Silverstream Road,0.93437,TR,65.9
+273,18359,Papenskuil Road,3.38461,TR,82.3
+274,1095,R315,12.74201,TR,95.2
+275,1094,Main Street,2.981,TR,66.7
+276,1093,R45,23.69407,TR,65.5
+277,1094,Main Street,23.64075,TR,56.3
+278,1095,R315,2.981,TR,65.3
+279,18359,Papenskuil Road,12.74201,TR,94.4
+280,12156,Silverstream Road,3.38461,TR,78.7
+281,1096,Charel Uys Drive (R304),0.93437,TR,67.4
+282,11967,Reygersdal Drive,3.44794,TR,83.2
+283,11968,Charel Uys Avenue,3.21924,TR,75.7
+284,1097,West Coast Road,6.26471,TR,70.9
+285,10499,Tienie Meyer Road,0.00554,TR,20.0
+286,1109,Durban Road,0.49846,TR,18.6
+287,3388,Frans Conradie Drive,1.1467,TR,37.3
+288,10112,Raglan Street,0.40403,TR,36.6
+289,1108,N1,0.24704,TR,29.5
+290,3532,Bill Bezuidenhout Avenue,1.05231,TR,40.9
+291,3531,Old Oak Road,0.60282,TR,41.7
+292,3530,Eversdale Road,2.1551,TR,49.8
+293,3529,Tindale Way,0.88249,TR,54.0
+294,3528,Church Street,1.35839,TR,53.1
+295,3527,Main Road,0.22983,TR,39.4
+296,3526,Langeberg Road,1.20752,TR,34.0
+297,8374,Lubbe Lane,0.8525,TR,54.1
+298,8373,Brackenfell Boulevard,1.21027,TR,62.1
+299,1107,R312,4.3568,TR,73.3
+300,1106,Klipheuwel Road,8.94895,TR,95.6
+301,1105,R304,1.44981,TR,71.1
+302,1104,Bokomo Road,27.25342,TR,95.2
+303,1103,Piet Retief Street,0.61169,TR,36.2
+304,1102,N7,2.35667,TR,51.1
+305,1102,N7,0.23332,TR,46.0
+306,1103,Piet Retief Street,2.13297,TR,45.7
+307,1104,Bokomo Road,0.6186,TR,32.8
+308,1105,R304,27.32085,TR,98.4
+309,1106,Klipheuwel Road,1.3918,TR,73.3
+310,1107,R312,8.94895,TR,95.7
+311,8373,Brackenfell Boulevard,4.3568,TR,72.1
+312,8374,Lubbe Lane,1.21027,TR,60.8
+313,3526,Langeberg Road,0.8525,TR,52.8
+314,3527,Main Road,1.20752,TR,34.3
+315,3528,Church Street,0.22983,TR,33.2
+316,3529,Tindale Way,1.36801,TR,49.0
+317,3530,Eversdale Road,0.87529,TR,52.5
+318,3531,Old Oak Road,2.16931,TR,51.8
+319,3532,Bill Bezuidenhout Avenue,0.58433,TR,43.9
+320,1108,N1,1.13517,TR,39.6
+321,10112,Raglan Street,0.14637,TR,39.2
+322,3388,Frans Conradie Drive,0.44627,TR,42.8
+323,1109,Durban Road,1.13877,TR,37.6
+324,10499,Tienie Meyer Road,0.49126,TR,20.4
+325,1111,Adam Tas Street,0.01304,TR,37.0
+326,15804,Elsenburgh Road,5.81303,TR,66.9
+327,15802,Kromme Rhee Road,1.06308,TR,77.0
+328,1112,R101,4.82994,TR,88.3
+329,1113,R45,0.52097,TR,77.9
+330,1114,N1,1.41838,TR,74.2
+331,1115,R312,6.45972,TR,95.4
+332,1116,R302,9.68135,TR,97.4
+333,1117,Klipheuwel Road,1.3918,TR,73.3
+334,3589,Adderley Road,5.99696,TR,96.1
+335,1118,N7,8.82014,TR,85.3
+336,1119,Reygersdal Drive,4.83184,TR,89.5
+337,12327,Brakkefontein Road,1.63353,TR,79.1
+338,12151,Klein Dassenberg Road,4.97356,TR,74.1
+339,1120,Charel Uys Drive,3.13089,TR,44.4
+340,1121,Dassenberg Road,4.49159,TR,54.2
+341,1121,Dassenberg Road,0.03091,TR,75.0
+342,1120,Charel Uys Drive,4.46067,TR,55.0
+343,12151,Klein Dassenberg Road,3.126,TR,46.3
+344,12327,Brakkefontein Road,4.97356,TR,76.6
+345,1119,Reygersdal Drive,1.63353,TR,80.0
+346,1118,N7,5.09703,TR,84.8
+347,3589,Adderley Road,8.53654,TR,85.9
+348,1117,Klipheuwel Road,5.99696,TR,95.0
+349,1116,R302,1.43349,TR,70.8
+350,1115,R312,9.63966,TR,98.4
+351,1114,N1,6.95821,TR,87.1
+352,1113,R45,0.91988,TR,75.1
+353,1112,R101,0.52097,TR,74.5
+354,15802,Kromme Rhee Road,4.82994,TR,89.9
+355,15804,Elsenburgh Road,1.06308,TR,76.1
+356,1111,Adam Tas Street,5.82608,TR,65.0
+357,3161,Adam Tas Street,0.07239,TR,49.0
+358,3160,R304,15.46993,TR,97.3
+359,3580,M167,4.10686,TR,85.0
+360,3159,Klipheuwel Road,1.20967,TR,67.7
+361,3159,Klipheuwel Road,0.04102,TR,51.0
+362,3580,M167,1.16865,TR,69.0
+363,3160,R304,4.10686,TR,83.0
+364,3161,Adam Tas Street,15.54232,TR,95.6
+365,3167,R46,32.13277,TR,89.0
+366,3167,R46,0.03993,TR,45.0
+367,3166,N7,32.12486,TR,89.4
+368,3228,M4,0.02407,TR,28.0
+369,3227,Main Road,7.70978,TR,49.5
+370,3227,Main Road,0.11443,TR,58.0
+371,3228,M4,7.61941,TR,50.3
+372,3198,Main Road,0.04639,TR,32.4
+373,10523,Hillside Road,0.43829,TR,45.0
+374,10522,Quarry Road,1.2469,TR,51.2
+375,10521,Corsair Way,1.61825,TR,57.8
+376,3197,Glencairn Expressway,0.52737,TR,49.0
+377,3196,Main Road,4.79317,TR,58.1
+378,3195,Slangkop Road,5.64844,TR,55.4
+379,3194,Red Hill Road,8.1037,TR,54.1
+380,3193,M4,7.99348,TR,76.0
+381,3193,M4,0.16629,TR,45.0
+382,3194,Red Hill Road,7.91912,TR,76.6
+383,3195,Slangkop Road,8.01176,TR,53.9
+384,3196,Main Road,5.669,TR,53.7
+385,3197,Glencairn Expressway,4.83097,TR,55.6
+386,10521,Corsair Way,0.77351,TR,46.3
+387,10522,Quarry Road,1.3635,TR,52.4
+388,10523,Hillside Road,1.2469,TR,51.4
+389,3198,Main Road,0.4939,TR,45.8
+390,3251,Steenberg Road,0.11474,TR,46.5
+391,12739,Silvermine Road,7.57725,TR,68.6
+392,3250,Noordhoek Road,2.84482,TR,65.1
+393,3248,Heerengracht Street,0.09787,TR,24.8
+394,3247,Long Street,0.21457,TR,22.3
+395,3246,Loop Street,0.08177,TR,22.0
+396,3245,Bree Street,0.11009,TR,21.9
+397,3244,Buitengracht Street,0.14185,TR,21.3
+398,3243,Portswood Road,1.1447,TR,56.7
+399,3242,Granger Bay Boulevard,0.34334,TR,49.9
+400,3241,Helen Suzman Boulevard,1.13292,TR,51.5
+401,11939,Three Anchor Bay Road,0.14087,TR,37.1
+402,11956,London Road,0.89059,TR,40.1
+403,11948,Church Road,0.83345,TR,40.6
+404,3240,Beach Road,0.6922,TR,37.8
+405,3239,Regent Street,0.19955,TR,27.8
+406,3238,Queens Road,0.06162,TR,28.0
+407,3237,Lower Kloof Road,3.1063,TR,38.9
+408,3236,Camps Bay Drive,0.93511,TR,34.8
+409,12749,Houghton Road,1.03235,TR,38.3
+410,3235,Victoria Avenue,9.54556,TR,58.8
+411,3234,Houtbay Road,0.72512,TR,41.2
+412,3233,Princess Street,1.39707,TR,44.0
+413,12738,Silvermine Road,11.04335,TR,33.6
+414,3232,Noordhoek Main Road,2.84879,TR,59.9
+415,3231,Kommetjie Road,0.9136,TR,44.2
+416,3230,Main Road,5.38892,TR,75.0
+417,3230,Main Road,0.03546,TR,38.0
+418,3231,Kommetjie Road,5.39958,TR,72.8
+419,3232,Noordhoek Main Road,0.86748,TR,45.2
+420,12738,Silvermine Road,2.88303,TR,61.9
+421,3233,Princess Street,11.05136,TR,31.4
+422,3234,Houtbay Road,1.37696,TR,43.1
+423,3235,Victoria Avenue,0.76517,TR,37.5
+424,12749,Houghton Road,9.48257,TR,58.5
+425,3236,Camps Bay Drive,1.03235,TR,37.2
+426,3237,Lower Kloof Road,0.96511,TR,34.7
+427,3238,Queens Road,3.0763,TR,39.9
+428,3239,Regent Street,0.08562,TR,29.1
+429,3240,Beach Road,0.22402,TR,35.8
+430,11948,Church Road,0.74312,TR,44.2
+431,11956,London Road,0.83174,TR,41.0
+432,11939,Three Anchor Bay Road,0.89472,TR,39.9
+433,3241,Helen Suzman Boulevard,0.14503,TR,40.1
+434,3242,Granger Bay Boulevard,1.20544,TR,50.5
+435,3243,Portswood Road,0.30586,TR,49.4
+436,3244,Buitengracht Street,1.19048,TR,53.1
+437,3245,Bree Street,0.10859,TR,24.8
+438,3246,Loop Street,0.09735,TR,22.0
+439,3247,Long Street,0.08333,TR,22.0
+440,3248,Heerengracht Street,0.31497,TR,22.1
+441,3250,Noordhoek Road,0.02374,TR,48.0
+442,12739,Silvermine Road,2.82107,TR,63.9
+443,3251,Steenberg Road,7.69199,TR,66.8
+444,3269,Main Road,0.04866,TR,30.0
+445,3268,Gabriel Road,0.55663,TR,40.0
+446,3267,Bower Road,0.10052,TR,39.3
+447,3266,Alphen Hill,0.3915,TR,47.4
+448,3265,Simon Van Der Stel Freeway,0.56909,TR,48.4
+449,3264,Spaanschemat River Road,0.75916,TR,48.5
+450,3263,Ladies Mile Road Extension,0.73553,TR,49.5
+451,3262,Rhodes Drive,4.33264,TR,54.3
+452,3262,Rhodes Drive,0.03352,TR,41.5
+453,3263,Ladies Mile Road Extension,4.29225,TR,55.9
+454,3264,Spaanschemat River Road,0.76126,TR,51.4
+455,3265,Simon Van Der Stel Freeway,1.14797,TR,45.7
+456,3266,Alphen Hill,0.19126,TR,40.0
+457,3267,Bower Road,0.36079,TR,36.6
+458,3268,Gabriel Road,0.11744,TR,33.4
+459,3269,Main Road,0.57488,TR,37.3
+460,3286,Kloof Street,0.02059,TR,21.0
+461,3285,Loop Street,0.05327,TR,21.2
+462,10348,Bree Street,0.08669,TR,33.0
+463,3284,Buitengracht Street,0.08043,TR,20.1
+464,3284,Buitengracht Street,0.01778,TR,20.0
+465,10348,Bree Street,0.06264,TR,27.7
+466,3285,Loop Street,0.08669,TR,28.9
+467,3286,Kloof Street,0.07387,TR,19.7
+468,3273,Paradise Road,0.0136,TR,36.0
+469,3272,Constantia Main Road,7.07608,TR,51.4
+470,3271,Victoria Road,5.5177,TR,53.1
+471,3271,Victoria Road,0.04993,TR,30.9
+472,3272,Constantia Main Road,5.49805,TR,53.9
+473,3273,Paradise Road,7.02932,TR,51.6
+474,3282,Strand Street,0.01807,TR,29.0
+475,3281,Shortmarket Street,0.19685,TR,40.9
+476,3280,Wale Street,0.2208,TR,31.7
+477,3279,Buitensingel Street,0.56219,TR,34.6
+478,3278,Park Street,0.31226,TR,36.0
+479,3277,Firdale Road,1.18035,TR,37.4
+480,3276,Kloof Nek Road,1.07316,TR,47.2
+481,12744,Upper Geneva Drive,0.99193,TR,57.2
+482,12745,Houghton Road,2.38293,TR,47.7
+483,12743,Lower Geneva Drive,0.54219,TR,36.2
+484,3275,Victoria Road,0.11901,TR,21.4
+485,3275,Victoria Road,0.05101,TR,27.0
+486,12743,Lower Geneva Drive,0.068,TR,29.0
+487,12745,Houghton Road,0.54219,TR,35.4
+488,12744,Upper Geneva Drive,2.40674,TR,46.9
+489,3276,Kloof Nek Road,1.03144,TR,57.0
+490,3277,Firdale Road,1.00758,TR,49.6
+491,3278,Park Street,1.14822,TR,41.4
+492,3279,Buitensingel Street,0.35172,TR,38.7
+493,3280,Wale Street,0.56273,TR,36.6
+494,3281,Shortmarket Street,0.21884,TR,38.2
+495,3282,Strand Street,0.21393,TR,30.0
+496,3292,Eastern Boulevard,0.24727,TR,73.6
+497,7640,Upper Roodebloem Road,0.33567,TR,78.4
+498,3291,Roeland Street,2.82795,TR,65.2
+499,7601,Brandweer Street,0.09846,TR,48.9
+500,3290,Buitenkant Street,0.6465,TR,55.7
+501,3289,Rheede Street,0.67896,TR,30.6
+502,3288,Kloof Street,0.31911,TR,27.0
+503,3288,Kloof Street,0.02059,TR,22.0
+504,3289,Rheede Street,0.29851,TR,32.9
+505,3290,Buitenkant Street,1.14021,TR,41.6
+506,7601,Brandweer Street,0.18525,TR,53.4
+507,3291,Roeland Street,0.31317,TR,24.9
+508,7640,Upper Roodebloem Road,2.65,TR,65.9
+509,3292,Eastern Boulevard,0.7336,TR,65.9
+510,3357,Jan Smuts Drive,0.04774,TR,36.6
+511,3356,Alexandra Road,3.39895,TR,51.2
+512,3355,Settlers Way,0.44347,TR,50.2
+513,3354,Milner Road,0.19223,TR,39.5
+514,3353,Klipfontein Road,0.46843,TR,34.7
+515,3353,Klipfontein Road,0.05045,TR,31.0
+516,3354,Milner Road,0.42798,TR,40.6
+517,3355,Settlers Way,0.47242,TR,47.0
+518,3356,Alexandra Road,0.15102,TR,45.1
+519,3357,Jan Smuts Drive,3.44578,TR,51.4
+520,3374,Mike Pienaar Boulevard,0.01509,TR,48.0
+521,10500,Durban Road,1.54416,TR,57.6
+522,3373,Mordderdam Road,0.41346,TR,47.9
+523,3373,Mordderdam Road,0.05802,TR,40.0
+524,10500,Durban Road,0.35378,TR,57.1
+525,3374,Mike Pienaar Boulevard,1.54372,TR,58.7
+526,8462,Lansdowne Road,0.05116,TR,40.0
+527,8461,Sithandatu Avenue,0.87382,TR,45.0
+528,10671,Klipfontein Road Extension,0.38212,TR,44.5
+529,8460,Ntlango Cresent,0.80543,TR,40.6
+530,7975,Ny1 Road,2.37059,TR,45.3
+531,3339,Duinefontein Road,0.8767,TR,46.6
+532,3338,Vanguard Drive,1.63118,TR,42.4
+533,3337,Belgravia Road,2.25055,TR,44.4
+534,3336,Thornton Road,0.36774,TR,41.7
+535,3335,Jan Smuts Drive,0.26429,TR,39.4
+536,18697,Kromboom Parkway South,1.38557,TR,51.2
+537,3334,Kromboom Parkway,1.38557,TR,51.2
+538,3333,Milner Road,1.03643,TR,42.7
+539,3332,Raapenberg Road,0.67484,TR,36.1
+540,3331,Liesbeek Parkway,0.3236,TR,32.3
+541,3331,Liesbeek Parkway,0.01386,TR,29.0
+542,3332,Raapenberg Road,0.30973,TR,33.3
+543,3333,Milner Road,0.68446,TR,34.8
+544,3334,Kromboom Parkway,1.37632,TR,43.4
+545,18697,Kromboom Parkway South,1.37632,TR,43.4
+546,3335,Jan Smuts Drive,1.04418,TR,51.2
+547,3336,Thornton Road,0.24903,TR,40.0
+548,3337,Belgravia Road,0.36338,TR,45.2
+549,3338,Vanguard Drive,2.33391,TR,44.2
+550,3339,Duinefontein Road,1.56813,TR,45.2
+551,7975,Ny1 Road,0.89204,TR,48.7
+552,8460,Ntlango Cresent,2.3403,TR,45.7
+553,10671,Klipfontein Road Extension,0.80543,TR,40.8
+554,8461,Sithandatu Avenue,0.38212,TR,42.4
+555,8462,Lansdowne Road,0.92498,TR,44.9
+556,3371,Voortrekker Road,0.01124,TR,24.0
+557,3370,Tienie Meyer Road,0.54803,TR,37.0
+558,3369,Kasselsvlei Road,0.85776,TR,47.0
+559,3368,Symphony Way,1.4261,TR,49.0
+560,3367,Radnor Road,1.94758,TR,58.8
+561,3366,De La Rey Street,1.29446,TR,49.1
+562,3365,35th Avenue,0.63964,TR,49.9
+563,3363,Borcherds Quarry Road,1.27012,TR,60.7
+564,3364,Valhalla Drive,2.07267,TR,60.5
+565,3362,Settlers Way,1.07767,TR,54.4
+566,3361,Klipfontein Road,1.15591,TR,55.8
+567,7990,Turfhall Road,1.40519,TR,55.1
+568,3360,Lansdowne Road,2.09721,TR,59.4
+569,3359,Vanguard Expressway,0.81334,TR,49.7
+570,3396,Giel Basson Drive,0.01492,TR,32.0
+571,3395,M14,1.80623,TR,49.7
+572,3394,Tierberg Road,0.97854,TR,46.9
+573,3393,Mike Pienaar Boulevard,1.22628,TR,48.5
+574,3392,Lincoln Street,0.74707,TR,45.4
+575,3391,Hume Road,1.16756,TR,46.5
+576,3390,Durban Road,0.12466,TR,26.5
+577,3451,Wingfield Road,0.3873,TR,54.0
+578,3450,Reygersdal Drive,2.63227,TR,93.8
+579,3449,West Coast Road,5.55859,TR,77.4
+580,3448,Otto Du Plessis Road,0.77406,TR,51.7
+581,3390,Durban Road,0.04994,TR,30.0
+582,3391,Hume Road,0.06702,TR,32.0
+583,3392,Lincoln Street,1.16112,TR,44.4
+584,3393,Mike Pienaar Boulevard,0.76126,TR,42.3
+585,3394,Tierberg Road,1.33989,TR,51.2
+586,3395,M14,0.91305,TR,48.3
+587,3396,Giel Basson Drive,1.7313,TR,49.6
+588,3359,Vanguard Expressway,0.16372,TR,45.7
+589,3360,Lansdowne Road,0.67636,TR,45.8
+590,7990,Turfhall Road,2.06816,TR,56.3
+591,3361,Klipfontein Road,1.43107,TR,55.1
+592,3362,Settlers Way,1.61501,TR,52.4
+593,3364,Valhalla Drive,0.64419,TR,58.2
+594,3363,Borcherds Quarry Road,2.05954,TR,58.2
+595,3365,35th Avenue,1.26963,TR,56.8
+596,3366,De La Rey Street,0.65588,TR,52.0
+597,3367,Radnor Road,1.2842,TR,51.7
+598,3368,Symphony Way,1.98501,TR,59.6
+599,3369,Kasselsvlei Road,1.32257,TR,49.5
+600,3370,Tienie Meyer Road,0.87173,TR,45.6
+601,3371,Voortrekker Road,0.54805,TR,32.9
+602,3448,Otto Du Plessis Road,0.04276,TR,38.0
+603,3449,West Coast Road,0.76495,TR,46.5
+604,3450,Reygersdal Drive,5.52493,TR,78.9
+605,3451,Wingfield Road,3.01957,TR,86.8
+606,3508,Camp Ground Road,0.04422,TR,31.0
+607,3507,Main Road,0.93939,TR,40.9
+608,3506,Newlands Road,1.04921,TR,35.6
+609,3485,Lansdowne Road,0.05431,TR,28.0
+610,3484,Pama Road,1.51591,TR,37.9
+611,3483,Spine Road,1.44972,TR,47.9
+612,3482,Steve Biko Road,1.05918,TR,45.0
+613,3481,Oscar Mpetha Road,1.16815,TR,54.6
+614,8402,Ncama Street,1.22148,TR,48.4
+615,8401,Lindela Road,0.28573,TR,43.0
+616,3480,Fukutha Road,0.77422,TR,48.0
+617,8186,Distributor Road West,0.48065,TR,43.2
+618,8187,Baden Powell Drive (R310),0.20699,TR,33.1
+619,8187,Baden Powell Drive (R310),0.04564,TR,28.0
+620,8186,Distributor Road West,0.19003,TR,38.1
+621,3480,Fukutha Road,0.45583,TR,45.7
+622,8401,Lindela Road,0.77422,TR,46.5
+623,8402,Ncama Street,0.32852,TR,39.3
+624,3481,Oscar Mpetha Road,1.1776,TR,48.4
+625,3482,Steve Biko Road,1.18792,TR,52.2
+626,3483,Spine Road,1.08528,TR,42.0
+627,3484,Pama Road,1.40982,TR,49.1
+628,3485,Lansdowne Road,1.57022,TR,36.1
+629,3496,Belvedere Road,0.04521,TR,39.2
+630,3495,Kromboom Parkway,1.15278,TR,40.7
+631,18325,Prince Arthur Road,0.9106,TR,47.3
+632,18326,Cross Cut,0.08686,TR,50.0
+633,3494,Lansdowne Road,0.20649,TR,46.3
+634,3493,Jan Smuts Drive,0.72919,TR,43.6
+635,3492,Belgravia Road,0.33787,TR,41.9
+636,3491,Bellmore Avenue,0.6169,TR,48.3
+637,3490,Vanguard Drive,1.8741,TR,53.6
+638,7988,Manenberg Avenue,1.24991,TR,48.7
+639,7989,Duinefontein Road (M10),0.5437,TR,49.2
+640,7989,Duinefontein Road (M10),0.019,TR,47.0
+641,7988,Manenberg Avenue,0.52469,TR,47.5
+642,3490,Vanguard Drive,1.29168,TR,45.8
+643,3491,Bellmore Avenue,1.83153,TR,52.1
+644,3492,Belgravia Road,0.61562,TR,47.6
+645,3493,Jan Smuts Drive,0.33852,TR,42.4
+646,3494,Lansdowne Road,0.72804,TR,44.2
+647,18326,Cross Cut,0.19248,TR,49.0
+648,18325,Prince Arthur Road,0.09891,TR,46.0
+649,3495,Kromboom Parkway,1.0466,TR,44.5
+650,3496,Belvedere Road,1.10467,TR,38.6
+651,3506,Newlands Road,0.03399,TR,29.2
+652,3507,Main Road,1.01192,TR,35.2
+653,3508,Camp Ground Road,0.98361,TR,44.3
+654,3525,Plattekloof Road,0.03807,TR,48.0
+655,3524,De Grendel Avenue,1.34312,TR,49.8
+656,3523,Bosmansdam Road,1.59567,TR,43.7
+657,3523,Bosmansdam Road,0.0498,TR,37.2
+658,3524,De Grendel Avenue,1.56141,TR,46.4
+659,3525,Plattekloof Road,1.37117,TR,48.2
+660,7908,Plattekloof Road (M14),0.04046,TR,41.0
+661,7907,Giel Basson Drive,0.2217,TR,42.7
+662,3521,Edgemead Drive,2.59899,TR,52.3
+663,3520,N7 (J14),0.76884,TR,47.9
+664,3519,Montague Drive,0.67662,TR,52.3
+665,3518,Ratanga Road,1.15233,TR,46.9
+666,3517,Koeberg Road,1.05264,TR,44.0
+667,3517,Koeberg Road,0.02294,TR,32.0
+668,3518,Ratanga Road,1.15455,TR,42.8
+669,3519,Montague Drive,1.09031,TR,46.3
+670,3520,N7 (J14),1.14621,TR,49.7
+671,3521,Edgemead Drive,0.34747,TR,45.2
+672,7907,Giel Basson Drive,2.51985,TR,53.2
+673,7908,Plattekloof Road (M14),0.26216,TR,41.8
+674,8485,Church Street,0.04455,TR,34.0
+675,3515,Race Course Road,0.41084,TR,40.8
+676,3514,Tindale Way,0.73086,TR,53.4
+677,3513,Saint John's Avenue,0.76052,TR,52.5
+678,3512,Race Course Way,1.04736,TR,57.7
+679,7900,Contermanskloof Road,7.5104,TR,72.4
+680,7901,Burgandy Drive,2.64253,TR,56.5
+681,3511,Plattekloof Road,1.01529,TR,51.6
+682,3510,Vryburger Avenue,1.30721,TR,50.1
+683,3510,Vryburger Avenue,0.06071,TR,35.0
+684,3511,Plattekloof Road,1.29313,TR,49.6
+685,7901,Burgandy Drive,0.99213,TR,51.8
+686,7900,Contermanskloof Road,2.61458,TR,56.6
+687,3512,Race Course Way,7.5465,TR,70.9
+688,3513,Saint John's Avenue,1.01127,TR,58.7
+689,3514,Tindale Way,0.76052,TR,55.1
+690,3515,Race Course Road,0.79791,TR,53.2
+691,8485,Church Street,0.42012,TR,34.9
+692,3557,Old Oak Road,0.01894,TR,45.0
+693,3556,Raglan Road,0.67029,TR,45.4
+694,10498,N1,1.51524,TR,49.9
+695,3555,Frans Conradie Drive,0.33997,TR,43.4
+696,3555,Frans Conradie Drive,0.04649,TR,33.0
+697,10498,N1,0.29155,TR,47.5
+698,3556,Raglan Road,1.52964,TR,49.6
+699,3557,Old Oak Road,0.67961,TR,43.2
+700,3570,La Belle Street,0.00896,TR,46.0
+701,10102,Kuils River Freeway,0.46757,TR,51.8
+702,8378,Cecil Morgan Drive,1.07457,TR,54.8
+703,8379,Brackenfell Boulevard,1.24264,TR,59.7
+704,8380,Kruis Road,1.55602,TR,63.4
+705,3571,Botfontein Road,3.68613,TR,79.7
+706,3572,R304,6.66793,TR,77.3
+707,3572,R304,0.04372,TR,38.0
+708,3571,Botfontein Road,6.6242,TR,81.8
+709,8380,Kruis Road,3.68613,TR,82.8
+710,8379,Brackenfell Boulevard,1.55602,TR,63.3
+711,8378,Cecil Morgan Drive,1.29951,TR,59.3
+712,10102,Kuils River Freeway,1.02603,TR,56.0
+713,3570,La Belle Street,0.47644,TR,53.3
+714,3582,Klipheuwel Road,0.07981,TR,100.0
+715,3583,N1,7.67403,TR,42.3
+716,3583,N1,0.19543,TR,40.1
+717,3582,Klipheuwel Road,7.55841,TR,43.9
+718,3597,Adderley Street,0.04764,TR,22.0
+719,3596,Long Street,0.19751,TR,19.0
+720,3595,Loop Street,0.07671,TR,17.0
+721,3594,Bree Street,0.09236,TR,17.8
+722,3593,Buitengracht Street,0.10282,TR,19.2
+723,3588,Old Oak Way,0.01707,TR,37.0
+724,8526,Kuils River Freeway (R300),0.94697,TR,49.6
+725,3587,Brackenfell Boulevard,0.91895,TR,51.4
+726,8372,Goede Hoop Avenue,1.1209,TR,49.1
+727,3586,Okavango Road,1.16965,TR,49.8
+728,3585,Van Riebeeck Street,2.46525,TR,47.5
+729,3593,Buitengracht Street,0.02321,TR,18.6
+730,3594,Bree Street,0.0931,TR,16.7
+731,3595,Loop Street,0.07886,TR,15.0
+732,3596,Long Street,0.07671,TR,16.0
+733,3597,Adderley Street,0.24515,TR,19.4
+734,3585,Van Riebeeck Street,0.07376,TR,34.0
+735,3586,Okavango Road,2.49047,TR,49.3
+736,8372,Goede Hoop Avenue,1.07021,TR,52.7
+737,3587,Brackenfell Boulevard,1.1465,TR,49.4
+738,8526,Kuils River Freeway (R300),0.89953,TR,48.9
+739,3588,Old Oak Way,0.95923,TR,47.9
+740,3574,Bottelary Road,0.04882,TR,26.0
+741,3575,Voortrekker Road,4.07202,TR,56.7
+742,3576,Van Der Merwe Street,1.12871,TR,40.2
+743,3577,N1,0.41142,TR,37.7
+744,3578,Darwin Way,0.71879,TR,44.9
+745,8376,Okavango Road,1.09506,TR,45.4
+746,8375,Fairtrees Road,3.2705,TR,50.9
+747,3579,Wellington Road,0.95985,TR,44.6
+748,3579,Wellington Road,0.02069,TR,33.0
+749,8375,Fairtrees Road,0.96638,TR,44.2
+750,8376,Okavango Road,3.26337,TR,51.2
+751,3578,Darwin Way,1.12266,TR,45.7
+752,3577,N1,0.86905,TR,39.1
+753,3576,Van Der Merwe Street,0.22138,TR,38.6
+754,3575,Voortrekker Road,1.12871,TR,40.7
+755,3574,Bottelary Road,4.12039,TR,56.5
+756,3602,Hans Strijdom Avenue,0.09528,TR,24.0
+757,3603,Riebeek Street,0.13694,TR,26.2
+758,3601,Strand Street,0.17211,TR,22.8
+759,3600,Darling Street,0.21018,TR,19.0
+760,3599,Wale Street,0.22509,TR,17.8
+761,3599,Wale Street,0.04575,TR,19.0
+762,3600,Darling Street,0.18049,TR,16.5
+763,3601,Strand Street,0.22002,TR,17.2
+764,3603,Riebeek Street,0.16149,TR,23.6
+765,3602,Hans Strijdom Avenue,0.23911,TR,18.4
+766,7532,Victoria Road,0.07628,TR,27.0
+767,7533,Kloof Road,0.19736,TR,26.9
+768,7530,Kloof Road,0.04835,TR,28.0
+769,11946,Church Road,0.09105,TR,26.0
+770,7529,Queens Road,0.70525,TR,27.8
+771,7529,Queens Road,0.02147,TR,25.8
+772,11946,Church Road,0.68621,TR,24.4
+773,7530,Kloof Road,0.13941,TR,26.0
+774,7525,Victoria Road,0.0208,TR,27.0
+775,18336,Kloof Road,0.65203,TR,38.4
+776,7526,Queens Road,2.19,TR,41.3
+777,8392,Fresnaye Avenue,0.18742,TR,38.0
+778,7527,Main Road,0.74389,TR,34.3
+779,7527,Main Road,0.04138,TR,33.0
+780,8392,Fresnaye Avenue,0.65364,TR,37.0
+781,7526,Queens Road,0.18742,TR,39.3
+782,18336,Kloof Road,2.19,TR,42.4
+783,7525,Victoria Road,0.67284,TR,38.5
+784,7544,Strand Street,0.03746,TR,40.0
+785,7543,Glengariff Road,1.34188,TR,42.2
+786,7542,High Level Road,1.98166,TR,39.9
+787,7540,Kloof Road,0.26652,TR,29.1
+788,7535,Kloof Road,0.02773,TR,28.0
+789,11958,London Road,0.6778,TR,26.7
+790,7536,Glengariff Road,0.76317,TR,29.4
+791,7537,York Road,1.21831,TR,40.8
+792,11908,Ebenezer Road,0.79455,TR,36.1
+793,7538,Somerset Road,0.64161,TR,26.5
+794,7538,Somerset Road,0.02985,TR,24.0
+795,11908,Ebenezer Road,0.61175,TR,28.7
+796,7537,York Road,0.80824,TR,36.2
+797,7536,Glengariff Road,1.20462,TR,38.1
+798,11958,London Road,0.76317,TR,31.6
+799,7535,Kloof Road,0.70553,TR,29.8
+800,7555,Hans Strijdom Avenue,0.0237,TR,23.0
+801,8397,Riebeek Street,0.21117,TR,20.4
+802,10381,Waterkant Street,0.08003,TR,19.0
+803,7554,Strand Street,0.09238,TR,17.7
+804,10379,Shortmarket Street,0.21485,TR,19.9
+805,7553,Wale Street,0.22042,TR,19.6
+806,7546,Buitensingel Street,0.56543,TR,22.2
+807,7540,Kloof Road,0.02451,TR,26.0
+808,7542,High Level Road,0.242,TR,33.8
+809,7543,Glengariff Road,1.98166,TR,38.3
+810,7544,Strand Street,1.37934,TR,41.5
+811,7546,Buitensingel Street,0.04659,TR,22.0
+812,7553,Wale Street,0.51972,TR,22.4
+813,10379,Shortmarket Street,0.22027,TR,19.7
+814,7554,Strand Street,0.22497,TR,19.0
+815,10381,Waterkant Street,0.08435,TR,20.0
+816,8397,Riebeek Street,0.07859,TR,18.0
+817,7555,Hans Strijdom Avenue,0.24141,TR,21.1
+818,7557,Buitengracht Street,0.01635,TR,20.0
+819,8396,Bree Street,0.11486,TR,17.6
+820,10390,Loop Street,0.07744,TR,13.9
+821,10391,Long Street,0.07887,TR,14.5
+822,7558,Adderley Street,0.25518,TR,16.6
+823,7558,Adderley Street,0.01635,TR,15.0
+824,10391,Long Street,0.23882,TR,18.3
+825,10390,Loop Street,0.07887,TR,15.9
+826,8396,Bree Street,0.0938,TR,15.7
+827,7557,Buitengracht Street,0.11486,TR,17.9
+828,7562,Eastern Boulevard,0.04483,TR,20.0
+829,7561,Coen Steytler Avenue,0.21432,TR,28.2
+830,7570,Hertzog Boulevard,0.17078,TR,20.8
+831,7560,Hans Strijdom Avenue,0.21682,TR,25.1
+832,7565,Heerengracht Street,0.09989,TR,27.3
+833,7564,Table Bay Boulevard,0.48885,TR,22.3
+834,7560,Hans Strijdom Avenue,0.0651,TR,22.5
+835,7570,Hertzog Boulevard,0.13653,TR,24.1
+836,7561,Coen Steytler Avenue,0.2268,TR,23.1
+837,7562,Eastern Boulevard,0.19055,TR,22.4
+838,7564,Table Bay Boulevard,0.09761,TR,19.0
+839,7565,Heerengracht Street,0.47519,TR,25.7
+840,7569,N2,0.01046,TR,42.0
+841,7568,Oswald Pirow Street,0.39089,TR,39.0
+842,7571,D.F.Malan Street,0.44481,TR,29.9
+843,7567,Heerengracht Street,0.17628,TR,27.1
+844,7567,Heerengracht Street,0.08564,TR,24.6
+845,7571,D.F.Malan Street,0.16125,TR,27.4
+846,7568,Oswald Pirow Street,0.44759,TR,27.1
+847,7569,N2,0.40236,TR,46.5
+848,7575,Table Bay Boulevard,0.06645,TR,28.6
+849,7574,Hertzog Boulevard,0.3219,TR,25.1
+850,7574,Hertzog Boulevard,0.05366,TR,20.0
+851,7575,Table Bay Boulevard,0.33469,TR,26.3
+852,7586,Roeland Street,0.01494,TR,20.0
+853,7583,Keizersgracht,0.56331,TR,26.6
+854,7609,Sir Lowry Road,0.3272,TR,30.2
+855,7578,Hertzog Boulevard,0.48134,TR,34.2
+856,7577,Table Bay Boulevard (N1),0.47128,TR,29.6
+857,7577,Table Bay Boulevard (N1),0.1251,TR,29.1
+858,7578,Hertzog Boulevard,0.42505,TR,31.8
+859,7609,Sir Lowry Road,0.49983,TR,35.6
+860,7583,Keizersgracht,0.23593,TR,27.3
+861,7586,Roeland Street,0.56541,TR,26.9
+862,7590,Mill Street,0.03086,TR,23.1
+863,7589,Roeland Street,0.56395,TR,27.0
+864,7588,Darling Street,0.49171,TR,24.0
+865,7591,Strand Street,0.24649,TR,23.5
+866,7591,Strand Street,0.01577,TR,23.0
+867,7588,Darling Street,0.23016,TR,24.2
+868,7589,Roeland Street,0.50099,TR,24.9
+869,7590,Mill Street,0.58553,TR,25.4
+870,7596,De Waal Drive,0.03588,TR,49.6
+871,7595,Brandweer Street,0.12833,TR,52.4
+872,7594,De Villiers Road,0.03494,TR,23.0
+873,25632,Canterbury Street,0.31569,TR,33.0
+874,7593,Buitenkant Street,0.14135,TR,26.3
+875,7593,Buitenkant Street,0.0419,TR,60.0
+876,25632,Canterbury Street,0.10014,TR,60.0
+877,7594,De Villiers Road,0.3173,TR,60.0
+878,7595,Brandweer Street,0.03494,TR,60.0
+879,7596,De Waal Drive,0.24744,TR,41.4
+880,7600,Jutland,0.01812,TR,25.0
+881,7599,Roeland Street,0.21484,TR,27.9
+882,7599,Roeland Street,0.01065,TR,26.0
+883,7600,Jutland,0.22232,TR,31.5
+884,7624,N2,0.10198,TR,40.0
+885,7623,Keizersgracht,0.16435,TR,25.4
+886,7623,Keizersgracht,0.07243,TR,25.0
+887,7624,N2,0.17707,TR,44.1
+888,7621,N2,0.00646,TR,31.0
+889,7620,Coronation Road,0.23138,TR,29.2
+890,7617,Searle Street,0.97436,TR,21.7
+891,7616,Tennant Street,1.07414,TR,36.4
+892,7615,Sir Lowry Road,0.33789,TR,23.9
+893,7615,Sir Lowry Road,0.04634,TR,23.3
+894,7616,Tennant Street,0.29072,TR,25.5
+895,7617,Searle Street,1.06944,TR,37.4
+896,7620,Coronation Road,0.84204,TR,23.2
+897,7621,N2,0.17456,TR,32.2
+898,7628,Victoria Road (M4),0.04452,TR,22.0
+899,7627,Earl Street,0.3982,TR,23.2
+900,7626,N2,0.42088,TR,26.9
+901,7626,N2,0.00646,TR,34.0
+902,7627,Earl Street,0.41441,TR,29.0
+903,7628,Victoria Road (M4),0.44272,TR,21.1
+904,7633,Table Bay Boulevard (N1),0.36674,TR,47.0
+905,7632,Albert Road (R102),0.49881,TR,33.3
+906,7632,Albert Road (R102),0.05371,TR,32.0
+907,7633,Table Bay Boulevard (N1),0.72419,TR,41.4
+908,7644,Albert Road,0.05273,TR,28.9
+909,7643,Victoria Road,0.50205,TR,30.1
+910,7639,Victoria Road,0.06325,TR,27.0
+911,7638,N2,0.8785,TR,35.0
+912,7637,De Waal Drive,0.45491,TR,35.6
+913,7643,Victoria Road,0.04599,TR,27.0
+914,7644,Albert Road,0.50934,TR,33.5
+915,7637,De Waal Drive,0.17375,TR,36.0
+916,7638,N2,0.60825,TR,37.8
+917,7639,Victoria Road,0.61465,TR,28.1
+918,7647,Victoria Road,0.05673,TR,24.0
+919,7648,Albert Road,0.68213,TR,39.2
+920,7648,Albert Road,0.04992,TR,29.5
+921,7647,Victoria Road,0.68278,TR,37.6
+922,7656,Main Road,0.05191,TR,25.1
+923,7655,Liesbeek Parkway,0.53112,TR,32.8
+924,7655,Liesbeek Parkway,0.03882,TR,30.0
+925,7656,Main Road,0.54421,TR,32.6
+926,7651,Liesbeek Parkway,0.61543,TR,33.9
+927,7651,Liesbeek Parkway,0.02304,TR,40.0
+928,10258,Lower Main Road,0.59106,TR,33.3
+929,7650,Main Road,0.34373,TR,19.8
+930,7659,Rhodes Drive,0.07108,TR,26.6
+931,7658,Main Road,0.54244,TR,31.4
+932,7658,Main Road,0.03568,TR,19.0
+933,7659,Rhodes Drive,0.52641,TR,28.3
+934,7666,Union Avenue,0.21117,TR,38.1
+935,7667,Klipper Road,0.20139,TR,49.0
+936,7667,Klipper Road,0.04135,TR,48.0
+937,7666,Union Avenue,0.37027,TR,47.0
+938,7672,Milner Road,0.01407,TR,28.0
+939,7670,Liesbeek Parkway,0.68023,TR,41.3
+940,7669,Main Road,0.80485,TR,37.0
+941,7664,Main Road,0.0472,TR,32.0
+942,7663,Klipper Road,0.56132,TR,46.4
+943,7662,Paradise Road,1.52685,TR,40.0
+944,7662,Paradise Road,0.01648,TR,31.0
+945,7663,Klipper Road,1.59757,TR,40.4
+946,7664,Main Road,0.53206,TR,41.1
+947,7669,Main Road,0.03973,TR,26.0
+948,7670,Liesbeek Parkway,0.78043,TR,38.1
+949,7672,Milner Road,0.679,TR,43.0
+950,7678,Kromboom Parkway (M5),0.42324,TR,55.8
+951,7679,Klipfontein Road,0.0691,TR,35.1
+952,7680,Park Road,0.84174,TR,49.7
+953,10614,Sandown Road,1.25964,TR,51.9
+954,7681,Kromboom Road,0.29645,TR,44.3
+955,10046,Avenue De Mist,0.40112,TR,41.6
+956,10047,Keurboom Road,0.52852,TR,39.0
+957,18324,Lansdowne Road,0.66262,TR,38.3
+958,7683,Chichester Road,0.18555,TR,32.2
+959,7686,M5,0.06985,TR,41.9
+960,18322,Ottery Road,0.27969,TR,36.5
+961,7685,Wetton Road,1.26924,TR,43.7
+962,10627,Kenilworth Road,0.84375,TR,40.6
+963,7684,Chichester Road,1.11483,TR,36.6
+964,7683,Chichester Road,0.06701,TR,26.6
+965,18324,Lansdowne Road,0.17738,TR,30.9
+966,10047,Keurboom Road,0.66262,TR,39.2
+967,10046,Avenue De Mist,0.52852,TR,40.9
+968,7681,Kromboom Road,0.40112,TR,42.7
+969,10614,Sandown Road,0.29645,TR,42.9
+970,7680,Park Road,1.27201,TR,48.9
+971,7679,Klipfontein Road,0.85823,TR,48.0
+972,7678,Kromboom Parkway (M5),0.32384,TR,57.8
+973,7684,Chichester Road,0.04402,TR,30.5
+974,10627,Kenilworth Road,1.09891,TR,36.7
+975,7685,Wetton Road,0.85709,TR,41.9
+976,18322,Ottery Road,1.25411,TR,47.4
+977,7686,M5,0.38915,TR,40.6
+978,10340,Edinburgh Drive,0.04633,TR,35.0
+979,10339,Newlands Road,0.70427,TR,35.7
+980,10338,Bowwood Road,0.59693,TR,34.1
+981,7688,Main Road,0.05594,TR,27.0
+982,7689,Palmyra Road,0.27624,TR,27.6
+983,18323,Cook Road,0.77063,TR,40.7
+984,7690,Belvedere Road,0.36343,TR,38.2
+985,7692,Milner Road,0.03737,TR,30.0
+986,7694,Kromboom Parkway,0.52196,TR,44.2
+987,7695,Jan Smuts Drive,1.19292,TR,38.7
+988,10066,Thornton Road,0.36193,TR,35.7
+989,7696,Belgravia Road,0.34587,TR,35.5
+990,7696,Belgravia Road,0.0455,TR,28.6
+991,10066,Thornton Road,0.30036,TR,37.4
+992,7695,Jan Smuts Drive,0.36193,TR,34.1
+993,7694,Kromboom Parkway,1.30674,TR,39.5
+994,7692,Milner Road,0.44552,TR,42.2
+995,7690,Belvedere Road,0.04053,TR,37.0
+996,18323,Cook Road,0.28472,TR,35.9
+997,7689,Palmyra Road,0.77063,TR,41.3
+998,7688,Main Road,0.27394,TR,27.9
+999,10338,Bowwood Road,0.05594,TR,29.5
+1000,10339,Newlands Road,0.59693,TR,34.1
+1001,10340,Edinburgh Drive,0.74971,TR,35.0
+1002,7701,Turf Hall Road,0.01453,TR,34.0
+1003,7700,Kromboom Road,1.68677,TR,39.4
+1004,7699,Klipfontein Road,1.15572,TR,33.0
+1005,7708,Constantia Road,0.02331,TR,29.0
+1006,11707,Alphen Hill,0.45678,TR,34.4
+1007,8575,Carr Hill Road,0.62999,TR,44.9
+1008,10636,Alexandra Road,0.43797,TR,44.6
+1009,10023,Herschel Walk,0.108,TR,44.7
+1010,7707,Edinburgh Drive,0.92956,TR,54.9
+1011,7699,Klipfontein Road,0.03554,TR,28.2
+1012,7700,Kromboom Road,1.12017,TR,33.4
+1013,7701,Turf Hall Road,1.7013,TR,40.0
+1014,7707,Edinburgh Drive,0.43309,TR,60.0
+1015,10023,Herschel Walk,0.44571,TR,50.1
+1016,10636,Alexandra Road,0.09849,TR,43.0
+1017,8575,Carr Hill Road,0.44675,TR,45.2
+1018,11707,Alphen Hill,0.69746,TR,47.6
+1019,7708,Constantia Road,0.39866,TR,45.9
+1020,7737,Strandfontein Road (M17),0.1118,TR,39.1
+1021,7736,Old Strandfontein Road,0.18693,TR,36.0
+1022,9908,New Ottery Road,0.62005,TR,45.1
+1023,7735,De Wet Road,0.7455,TR,52.0
+1024,9912,Plantation Road,0.86514,TR,51.8
+1025,7733,M5,1.15531,TR,53.6
+1026,7733,M5,0.20393,TR,43.6
+1027,9912,Plantation Road,1.03177,TR,56.7
+1028,7735,De Wet Road,0.8664,TR,55.9
+1029,9908,New Ottery Road,0.78145,TR,56.9
+1030,7736,Old Strandfontein Road,0.65906,TR,42.4
+1031,7737,Strandfontein Road (M17),0.22377,TR,36.1
+1032,7739,Wetton Road,0.02045,TR,27.0
+1033,8532,Hillstar Avenue,0.62374,TR,48.0
+1034,7740,Ottery Road,1.04679,TR,52.9
+1035,7741,Klip Road,2.73591,TR,53.3
+1036,7744,Klip Road,0.02885,TR,30.0
+1037,7743,Ottery Road,2.43288,TR,42.7
+1038,7741,Klip Road,0.03105,TR,31.0
+1039,7740,Ottery Road,2.70485,TR,52.6
+1040,8532,Hillstar Avenue,1.04679,TR,53.8
+1041,7739,Wetton Road,0.64419,TR,45.2
+1042,7743,Ottery Road,0.03899,TR,38.0
+1043,7744,Klip Road,2.42274,TR,43.9
+1044,7748,New Ottery Road,0.0336,TR,29.0
+1045,7747,Wetton Road,1.62615,TR,43.8
+1046,10659,Blomvlei Road,1.14113,TR,39.2
+1047,7746,Turf Hall Road,0.66315,TR,36.7
+1048,7756,Strandfontein Road,0.02149,TR,60.0
+1049,7755,De Wet Road,1.11196,TR,44.4
+1050,7754,Montagu's Gift Road,0.75993,TR,46.8
+1051,12917,Lake Road,0.32684,TR,40.6
+1052,12914,1st Road,0.67805,TR,46.2
+1053,7753,Victoria Road,0.57664,TR,45.5
+1054,7752,Prince George Drive,0.4502,TR,46.6
+1055,7752,Prince George Drive,0.03909,TR,40.0
+1056,7753,Victoria Road,0.45031,TR,41.2
+1057,12914,1st Road,0.53744,TR,48.1
+1058,12917,Lake Road,0.67805,TR,47.9
+1059,7754,Montagu's Gift Road,0.32684,TR,41.3
+1060,7755,De Wet Road,0.75993,TR,48.5
+1061,7756,Strandfontein Road,1.13346,TR,46.2
+1062,7746,Turf Hall Road,0.01124,TR,30.0
+1063,10659,Blomvlei Road,0.6701,TR,34.4
+1064,7747,Wetton Road,1.18428,TR,38.8
+1065,7748,New Ottery Road,1.58903,TR,43.6
+1066,12908,Egrets Way,0.04535,TR,35.0
+1067,12906,Fisherman's Walk,0.25651,TR,37.3
+1068,12905,Rooikrans Avenue,0.31447,TR,35.6
+1069,7766,5th Avenue,0.63188,TR,30.1
+1070,7765,Klip Road,0.86102,TR,33.9
+1071,7764,Prince George Drive,0.23408,TR,37.5
+1072,7761,Concert Boulevard,0.0356,TR,31.0
+1073,7760,Prince George Drive,2.55894,TR,38.0
+1074,12974,Italian Road,0.0298,TR,39.0
+1075,12959,Perth Road,0.44884,TR,39.8
+1076,7759,Victoria Road,0.46432,TR,40.3
+1077,12962,1st Road,0.58364,TR,42.8
+1078,8576,Lake Road,0.67273,TR,46.1
+1079,7758,Strandfontein Road,1.81707,TR,45.8
+1080,7764,Prince George Drive,0.04609,TR,38.0
+1081,7765,Klip Road,0.228,TR,41.2
+1082,7766,5th Avenue,0.82101,TR,37.2
+1083,12905,Rooikrans Avenue,0.63188,TR,33.3
+1084,12906,Fisherman's Walk,0.31447,TR,39.8
+1085,12908,Egrets Way,0.30186,TR,40.2
+1086,7772,Prince George Drive,0.00861,TR,34.0
+1087,7771,Retreat Road,1.77379,TR,42.0
+1088,7770,Main Road,0.91386,TR,38.4
+1089,7770,Main Road,0.05447,TR,30.0
+1090,7771,Retreat Road,0.85938,TR,40.6
+1091,7772,Prince George Drive,1.78241,TR,41.6
+1092,7776,Depsiton Crescent,0.04708,TR,31.0
+1093,7775,Prince George Drive,0.81914,TR,34.2
+1094,7774,Main Road,2.03642,TR,40.7
+1095,7774,Main Road,0.04247,TR,30.0
+1096,7775,Prince George Drive,2.03459,TR,40.0
+1097,7776,Depsiton Crescent,0.8256,TR,37.7
+1098,7758,Strandfontein Road,0.02149,TR,38.0
+1099,8576,Lake Road,1.79557,TR,45.3
+1100,12962,1st Road,0.67273,TR,44.3
+1101,7759,Victoria Road,0.58364,TR,41.2
+1102,12959,Perth Road,0.46432,TR,39.0
+1103,12974,Italian Road,0.468,TR,38.3
+1104,7760,Prince George Drive,0.1043,TR,34.3
+1105,7761,Concert Boulevard,2.50741,TR,39.4
+1106,7781,Prince George Drive,0.01927,TR,25.0
+1107,7780,Drury Road,0.97819,TR,29.1
+1108,7779,Military Road,1.04564,TR,17.7
+1109,7778,Prince George Drive,1.04747,TR,29.6
+1110,7778,Prince George Drive,0.00861,TR,33.0
+1111,7779,Military Road,1.03886,TR,32.3
+1112,7780,Drury Road,1.04564,TR,18.1
+1113,7781,Prince George Drive,0.99746,TR,26.6
+1114,7788,Boyes Drive,0.02794,TR,35.0
+1115,7789,Main Road (M4),0.62453,TR,35.3
+1116,7789,Main Road (M4),0.02125,TR,26.0
+1117,7788,Boyes Drive,0.63121,TR,34.9
+1118,7799,Beach Road,0.02093,TR,26.0
+1119,8559,Alexander Road,0.24107,TR,37.6
+1120,7798,Main Road,0.45288,TR,22.5
+1121,7798,Main Road,0.03697,TR,22.0
+1122,8559,Alexander Road,0.4159,TR,27.8
+1123,7799,Beach Road,0.262,TR,33.0
+1124,7783,Main Road,0.06473,TR,36.1
+1125,8566,Westlake Avenue,0.45474,TR,55.3
+1126,7784,Old Boyes Drive,2.32765,TR,58.4
+1127,7785,Clairvaux Road,3.9008,TR,53.5
+1128,7786,Main Road,0.25145,TR,29.8
+1129,7786,Main Road,0.03816,TR,24.0
+1130,7785,Clairvaux Road,0.21329,TR,43.9
+1131,7784,Old Boyes Drive,3.9008,TR,53.8
+1132,8566,Westlake Avenue,2.32765,TR,59.8
+1133,7783,Main Road,0.51948,TR,48.2
+1134,7801,Orpen Road,0.03059,TR,34.2
+1135,7802,Simon Van Der Stel Freeway,1.52133,TR,50.4
+1136,7803,Main Road,0.86127,TR,35.0
+1137,7803,Main Road,0.0462,TR,28.0
+1138,7802,Simon Van Der Stel Freeway,0.97056,TR,36.6
+1139,7801,Orpen Road,1.38424,TR,52.6
+1140,7810,Main Road,0.0815,TR,33.0
+1141,7809,Firgrove Way,1.73161,TR,51.6
+1142,7808,Simon Van Der Stel Freeway,1.26469,TR,49.3
+1143,7807,Spaanschemat River Road,0.11796,TR,36.3
+1144,7806,Constantia Main Road,0.98532,TR,47.5
+1145,7815,Ladies Mile Road,0.07828,TR,38.2
+1146,7814,Dreyersdal Road,0.1298,TR,53.6
+1147,7813,Simon Van Der Stel Freeway,0.4841,TR,59.9
+1148,7812,Spaanschemat River Road,1.94724,TR,59.0
+1149,7812,Spaanschemat River Road,0.03832,TR,43.0
+1150,7813,Simon Van Der Stel Freeway,1.90892,TR,59.7
+1151,7814,Dreyersdal Road,0.4841,TR,58.5
+1152,7815,Ladies Mile Road,0.21029,TR,44.8
+1153,7806,Constantia Main Road,0.05331,TR,39.0
+1154,7807,Spaanschemat River Road,0.92381,TR,47.9
+1155,7808,Simon Van Der Stel Freeway,0.5894,TR,47.8
+1156,7809,Firgrove Way,0.86727,TR,52.6
+1157,7810,Main Road,1.73432,TR,52.9
+1158,7817,Firgrove Way,0.01544,TR,38.0
+1159,7818,Main Road,2.03144,TR,36.4
+1160,7818,Main Road,0.02805,TR,27.0
+1161,7817,Firgrove Way,2.01884,TR,36.5
+1162,7828,Otto Du Plessis Drive,0.06124,TR,26.6
+1163,7829,Neptune Street,1.28486,TR,36.3
+1164,7830,Section Road,0.3627,TR,38.6
+1165,7830,Section Road,0.03019,TR,30.0
+1166,7829,Neptune Street,0.33251,TR,40.0
+1167,7828,Otto Du Plessis Drive,1.31969,TR,35.2
+1168,7833,Paarden Eiland Road,0.03491,TR,27.0
+1169,7832,Marine Drive,0.95001,TR,31.1
+1170,7832,Marine Drive,0.01207,TR,34.0
+1171,7833,Paarden Eiland Road,0.97285,TR,36.2
+1172,7837,Koeberg Road,0.0158,TR,30.0
+1173,18450,Table Bay Boulevard,0.22042,TR,39.3
+1174,7836,Paarden Eiland Road,0.18264,TR,43.0
+1175,7835,Marine Drive,0.89111,TR,41.5
+1176,7842,Koeberg Road,0.01791,TR,31.0
+1177,7841,Otto Du Plessis Drive,0.67785,TR,38.2
+1178,7835,Marine Drive,0.07177,TR,29.0
+1179,7836,Paarden Eiland Road,0.81934,TR,40.3
+1180,18450,Table Bay Boulevard,0.18485,TR,31.7
+1181,7837,Koeberg Road,0.24214,TR,29.2
+1182,7841,Otto Du Plessis Drive,0.01879,TR,43.5
+1183,7842,Koeberg Road,0.67316,TR,42.5
+1184,10232,Montague Drive,0.0111,TR,34.0
+1185,10231,Omuramba Road,0.31472,TR,37.1
+1186,7845,Koeberg Road,0.64581,TR,34.6
+1187,7844,Otto Du Plessis Drive,0.93418,TR,40.3
+1188,7848,Wood Drive,0.06055,TR,40.0
+1189,7847,West Coast Road,1.84862,TR,44.4
+1190,7847,West Coast Road,0.01672,TR,40.0
+1191,7848,Wood Drive,1.90275,TR,54.7
+1192,7853,Blaauwberg Road,0.04052,TR,28.9
+1193,7852,Raats Drive,1.30592,TR,39.7
+1194,7851,Parklands Main Road,0.61255,TR,32.7
+1195,7850,Sandown Road East,1.42665,TR,39.9
+1196,7857,Blaauwberg Road,0.04448,TR,35.9
+1197,7856,Raats Drive,1.74128,TR,43.0
+1198,7855,Parklands Main Road,1.35281,TR,47.8
+1199,7855,Parklands Main Road,0.04497,TR,32.9
+1200,7856,Raats Drive,1.33047,TR,50.5
+1201,7857,Blaauwberg Road,1.76246,TR,42.7
+1202,7850,Sandown Road East,0.04584,TR,33.0
+1203,7851,Parklands Main Road,1.42625,TR,39.5
+1204,7852,Raats Drive,0.61307,TR,32.5
+1205,7853,Blaauwberg Road,1.3059,TR,37.9
+1206,7844,Otto Du Plessis Drive,0.05502,TR,37.0
+1207,7845,Koeberg Road,0.89616,TR,38.2
+1208,10231,Omuramba Road,0.62037,TR,36.5
+1209,10232,Montague Drive,0.32494,TR,35.1
+1210,7862,Blaauwberg Road,0.03453,TR,29.2
+1211,7861,Parklands Main Road,0.92,TR,34.3
+1212,7860,Wood Drive,1.37876,TR,51.2
+1213,7859,Gie Road,0.90707,TR,37.7
+1214,7870,Parklands Main Road,0.02837,TR,30.2
+1215,7869,West Coast Road (R27),0.83743,TR,35.2
+1216,7859,Gie Road,0.0233,TR,40.5
+1217,7860,Wood Drive,0.92471,TR,37.0
+1218,7861,Parklands Main Road,1.35443,TR,51.6
+1219,7862,Blaauwberg Road,0.88358,TR,31.6
+1220,7867,Raats Drive,0.04813,TR,33.5
+1221,7866,Link Road,0.40495,TR,35.8
+1222,7865,Wood Drive,0.94111,TR,38.0
+1223,7864,Gie Road,1.06746,TR,39.1
+1224,7869,West Coast Road (R27),0.03423,TR,33.8
+1225,7870,Parklands Main Road,0.85709,TR,37.2
+1226,7864,Gie Road,0.05066,TR,33.4
+1227,7865,Wood Drive,1.06646,TR,37.3
+1228,7866,Link Road,0.91658,TR,37.9
+1229,7867,Raats Drive,0.40024,TR,37.0
+1230,7885,Jan Smuts Drive,0.17401,TR,40.1
+1231,7894,Alexandra Road,1.16963,TR,49.9
+1232,7893,Cannon Road,0.31439,TR,43.9
+1233,7884,Black River Parkway,0.27893,TR,42.3
+1234,7881,Bosmansdam Road,0.01216,TR,34.0
+1235,10236,Freedom Way,0.68267,TR,42.4
+1236,10235,Racecourse Road,0.54808,TR,46.7
+1237,7880,Koeberg Road,1.93221,TR,46.9
+1238,7880,Koeberg Road,0.02318,TR,31.0
+1239,10235,Racecourse Road,1.9219,TR,45.6
+1240,10236,Freedom Way,0.54693,TR,43.4
+1241,7881,Bosmansdam Road,0.68567,TR,37.9
+1242,7878,Omuramba Road,0.02184,TR,29.0
+1243,10234,Racecourse Road,0.89719,TR,45.5
+1244,10233,Freedom Way,0.59788,TR,42.2
+1245,7877,Bosmansdam Road,0.82883,TR,40.5
+1246,7876,Sable Road,1.81715,TR,44.9
+1247,7875,N1,0.95543,TR,49.8
+1248,7875,N1,0.18787,TR,41.6
+1249,7876,Sable Road,0.76755,TR,58.4
+1250,7877,Bosmansdam Road,1.88947,TR,45.0
+1251,10233,Freedom Way,0.77158,TR,43.2
+1252,10234,Racecourse Road,0.61358,TR,39.8
+1253,7878,Omuramba Road,0.90217,TR,45.6
+1254,7884,Black River Parkway,0.08588,TR,38.9
+1255,7893,Cannon Road,0.19967,TR,44.0
+1256,7894,Alexandra Road,0.31439,TR,44.4
+1257,7885,Jan Smuts Drive,1.27675,TR,52.8
+1258,7889,Berkley Road,0.03592,TR,31.0
+1259,7888,Voortrekker Road,0.46577,TR,38.1
+1260,7887,Black River Parkway,0.42007,TR,32.7
+1261,7887,Black River Parkway,0.20933,TR,41.6
+1262,7888,Voortrekker Road,0.25924,TR,34.5
+1263,7889,Berkley Road,0.50186,TR,35.5
+1264,7892,Forest Drive,0.0453,TR,35.7
+1265,7891,Berkley Road,1.98391,TR,51.0
+1266,7891,Berkley Road,0.01682,TR,33.0
+1267,7892,Forest Drive,2.01239,TR,46.8
+1268,7899,Tygerberg Road (M13),0.04426,TR,40.0
+1269,7898,N7,2.33068,TR,55.5
+1270,7898,N7,0.45933,TR,57.8
+1271,7899,Tygerberg Road (M13),1.92076,TR,51.6
+1272,7906,Kroonenburg Square,0.0292,TR,51.0
+1273,7905,Bosmandam Road,2.039,TR,60.9
+1274,7904,Giel Basson Drive,1.54771,TR,70.6
+1275,7903,Tygerberg Valley Road,1.24571,TR,44.1
+1276,7903,Tygerberg Valley Road,0.02739,TR,36.0
+1277,7904,Giel Basson Drive,1.22834,TR,48.1
+1278,7905,Bosmandam Road,1.54771,TR,70.3
+1279,7906,Kroonenburg Square,2.06821,TR,59.5
+1280,7913,Monte Vista Boulevard,0.03056,TR,29.0
+1281,7912,Bosmansdam Road,2.59099,TR,49.1
+1282,7912,Bosmansdam Road,0.03161,TR,33.0
+1283,7913,Monte Vista Boulevard,2.59088,TR,48.1
+1284,7915,Voortrekker Road,0.00906,TR,38.0
+1285,7916,Milton Road,0.85624,TR,43.7
+1286,7917,Frans Conradie Drive,0.84321,TR,42.2
+1287,7918,N1,0.65537,TR,38.7
+1288,7919,Wingfield Place,0.27434,TR,40.7
+1289,7921,Wingfield Road,0.01569,TR,30.0
+1290,7922,Vasco Boulevard,2.00525,TR,48.3
+1291,7937,Hugo Street,0.82203,TR,45.3
+1292,7923,Giel Basson Drive,0.29225,TR,41.5
+1293,7923,Giel Basson Drive,0.01849,TR,30.0
+1294,7937,Hugo Street,0.28049,TR,40.6
+1295,7922,Vasco Boulevard,0.83175,TR,45.0
+1296,7921,Wingfield Road,2.0069,TR,49.0
+1297,7919,Wingfield Place,0.03888,TR,32.0
+1298,7918,N1,0.35081,TR,38.3
+1299,7917,Frans Conradie Drive,0.55622,TR,42.3
+1300,7916,Milton Road,0.8283,TR,45.6
+1301,7915,Voortrekker Road,0.86444,TR,47.1
+1302,7927,Giel Basson Drive,0.0351,TR,36.0
+1303,7938,Hugo Street,0.37057,TR,42.0
+1304,7926,Vasco Boulevard,0.83217,TR,44.9
+1305,7925,Vanguard Drive,1.83622,TR,43.4
+1306,7936,Voortrekker Road,0.0162,TR,38.0
+1307,7935,Milton Road,0.84107,TR,42.4
+1308,7934,Frans Conradie Drive,0.84336,TR,44.5
+1309,7934,Frans Conradie Drive,0.01531,TR,60.0
+1310,7935,Milton Road,0.82854,TR,46.4
+1311,7936,Voortrekker Road,0.85647,TR,43.5
+1312,7925,Vanguard Drive,0.03844,TR,32.0
+1313,7926,Vasco Boulevard,1.80623,TR,44.0
+1314,7938,Hugo Street,0.83504,TR,45.1
+1315,7927,Giel Basson Drive,0.39436,TR,40.2
+1316,7932,Owen Road,0.05426,TR,33.2
+1317,7931,Avonwood Avenue,2.07707,TR,46.4
+1318,7930,Epping Avenue,0.74079,TR,43.9
+1319,7929,Voortrekker Road,0.88644,TR,39.7
+1320,7929,Voortrekker Road,0.01169,TR,40.0
+1321,7930,Epping Avenue,0.87506,TR,42.4
+1322,7931,Avonwood Avenue,0.75466,TR,45.9
+1323,7932,Owen Road,2.11747,TR,47.5
+1324,7942,Wingfield Place,0.0384,TR,44.0
+1325,7946,Le Seuer Avenue,0.60121,TR,55.1
+1326,7941,Giel Basson Drive,0.79088,TR,47.2
+1327,7940,Plattekloof Road,1.57937,TR,40.4
+1328,7940,Plattekloof Road,0.04486,TR,35.0
+1329,7941,Giel Basson Drive,1.53841,TR,44.6
+1330,7946,Le Seuer Avenue,0.75755,TR,46.9
+1331,7942,Wingfield Place,0.63961,TR,48.5
+1332,10083,Plattekloof Road,0.05006,TR,30.2
+1333,7944,Giel Basson Drive,1.91721,TR,40.9
+1334,7945,Monte Vista Boulevard,0.83294,TR,35.9
+1335,7945,Monte Vista Boulevard,0.04827,TR,29.5
+1336,7944,Giel Basson Drive,0.8433,TR,36.0
+1337,10083,Plattekloof Road,1.91154,TR,38.2
+1338,7951,Lincoln Street,0.01945,TR,30.0
+1339,7950,Jip De Jager Avenue,0.67696,TR,40.5
+1340,7949,Plattekloof Road,2.64523,TR,49.7
+1341,7953,Voortrekker Road (R102),0.0367,TR,24.0
+1342,7954,Frans Conradie Drive,0.83107,TR,29.0
+1343,10678,N1,0.5608,TR,31.7
+1344,7955,Hendrik Verwoerd Drive,0.23213,TR,38.0
+1345,7956,Jip De Jager Avenue,0.65965,TR,47.8
+1346,7956,Jip De Jager Avenue,0.28901,TR,49.8
+1347,7955,Hendrik Verwoerd Drive,0.62969,TR,51.0
+1348,10678,N1,0.23213,TR,40.0
+1349,7954,Frans Conradie Drive,0.57303,TR,30.7
+1350,7953,Voortrekker Road (R102),0.85554,TR,30.1
+1351,7949,Plattekloof Road,0.04884,TR,25.9
+1352,7950,Jip De Jager Avenue,2.61295,TR,50.4
+1353,7951,Lincoln Street,0.68346,TR,43.6
+1354,7960,Halt Road,0.07458,TR,33.0
+1355,7961,Jan Van Riebeeck Drive,1.32214,TR,43.4
+1356,7962,De La Rey Street,1.76723,TR,35.7
+1357,7962,De La Rey Street,0.01788,TR,31.0
+1358,7961,Jan Van Riebeeck Drive,1.76216,TR,34.6
+1359,7960,Halt Road,1.38391,TR,44.0
+1360,7968,Settlers Way,0.09465,TR,43.0
+1361,7967,Duinefontein Road,0.8015,TR,45.1
+1362,7966,Jakkalsvlei Street,0.91948,TR,52.8
+1363,7965,Owen Road,1.22463,TR,55.2
+1364,7964,Viking Way,1.34763,TR,51.2
+1365,7964,Viking Way,0.19406,TR,45.5
+1366,7965,Owen Road,1.15356,TR,54.0
+1367,7966,Jakkalsvlei Street,1.22463,TR,55.2
+1368,7967,Duinefontein Road,0.98846,TR,49.7
+1369,7968,Settlers Way,0.82815,TR,48.2
+1370,7980,35th Avenue,0.01587,TR,38.0
+1371,7979,Halt Road,0.30169,TR,40.1
+1372,7978,Valhalla Drive,1.61033,TR,48.3
+1373,7973,Lansdowne Road (M9),0.02005,TR,31.0
+1374,7972,Ny3,1.91123,TR,34.2
+1375,7971,Klipfontein Road (M18),1.54859,TR,34.4
+1376,7970,Settlers Way (N2),1.28354,TR,31.7
+1377,7978,Valhalla Drive,0.01483,TR,46.0
+1378,7979,Halt Road,1.62714,TR,45.6
+1379,7980,35th Avenue,0.28581,TR,40.3
+1380,7983,Vanguard Drive,0.02172,TR,40.0
+1381,8555,Jakkalsvlei Avenue,2.00855,TR,33.2
+1382,7982,Valhalla Drive,0.61782,TR,43.7
+1383,7982,Valhalla Drive,0.05925,TR,37.0
+1384,8555,Jakkalsvlei Avenue,0.55857,TR,49.8
+1385,7983,Vanguard Drive,2.02115,TR,31.3
+1386,7970,Settlers Way (N2),0.01894,TR,44.0
+1387,7971,Klipfontein Road (M18),1.29519,TR,31.0
+1388,7972,Ny3,1.51799,TR,35.1
+1389,7973,Lansdowne Road (M9),1.93128,TR,34.5
+1390,7986,Settlers Way,0.59894,TR,46.6
+1391,7985,Vanguard Drive,2.52421,TR,30.4
+1392,7993,Lansdowne Road (M9),0.03491,TR,36.8
+1393,8574,The Downs Road,1.26732,TR,33.8
+1394,7992,Philippi Ring,1.23562,TR,32.2
+1395,7985,Vanguard Drive,0.01336,TR,40.0
+1396,7986,Settlers Way,3.14519,TR,34.3
+1397,7992,Philippi Ring,0.03084,TR,32.0
+1398,8574,The Downs Road,1.23727,TR,33.9
+1399,7993,Lansdowne Road (M9),1.25614,TR,34.9
+1400,8009,Weltevreden Parkway,0.02314,TR,21.0
+1401,8008,New Eisleben Road,0.88715,TR,25.5
+1402,7999,Morgenster Road,0.02049,TR,36.0
+1403,7998,Highlands Drive,1.42657,TR,45.0
+1404,8523,Cape Flats Freeway,1.03531,TR,38.3
+1405,7997,Weltevreden Parkway,0.5662,TR,32.1
+1406,7996,Vanguard Drive,1.56063,TR,29.3
+1407,8006,Swartklip Road,0.02227,TR,50.0
+1408,8005,A.Z.Berman Drive,2.06617,TR,56.1
+1409,8019,Merrydale Avenue,0.73135,TR,51.9
+1410,8004,Eisleben Road,0.39567,TR,52.8
+1411,8003,Weltevreden Parkway,0.87057,TR,49.8
+1412,8002,Vanguard Drive,0.87871,TR,43.5
+1413,8002,Vanguard Drive,0.02099,TR,38.0
+1414,8003,Weltevreden Parkway,0.85771,TR,50.0
+1415,8004,Eisleben Road,0.88773,TR,52.4
+1416,8019,Merrydale Avenue,0.37667,TR,47.0
+1417,8005,A.Z.Berman Drive,0.7476,TR,49.3
+1418,8006,Swartklip Road,2.07683,TR,54.6
+1419,7996,Vanguard Drive,0.04858,TR,31.0
+1420,7997,Weltevreden Parkway,1.50002,TR,31.0
+1421,8523,Cape Flats Freeway,0.5662,TR,29.0
+1422,7998,Highlands Drive,1.03266,TR,37.3
+1423,7999,Morgenster Road,1.44825,TR,45.1
+1424,8008,New Eisleben Road,0.03629,TR,29.0
+1425,8009,Weltevreden Parkway,0.874,TR,26.1
+1426,8018,Swartklip Road,0.02135,TR,52.0
+1427,8017,Alpine Street,0.77709,TR,45.7
+1428,8016,A.Z.Berman Drive,0.82789,TR,47.1
+1429,8015,Merrydale Avenue,0.75667,TR,50.8
+1430,8014,Eisleben Road,0.52131,TR,50.0
+1431,8013,Weltevreden Parkway,1.48762,TR,50.2
+1432,8012,Vanguard Drive,0.35856,TR,39.6
+1433,8012,Vanguard Drive,0.01989,TR,40.0
+1434,8013,Weltevreden Parkway,0.33984,TR,44.0
+1435,8014,Eisleben Road,1.50167,TR,50.6
+1436,8015,Merrydale Avenue,0.50394,TR,48.3
+1437,8016,A.Z.Berman Drive,0.77969,TR,47.9
+1438,8017,Alpine Street,0.804,TR,50.7
+1439,8018,Swartklip Road,0.80262,TR,50.5
+1440,8031,A.Z.Berman Drive,0.02417,TR,31.0
+1441,8030,Merrydale Avenue,0.70425,TR,42.0
+1442,8029,Eisleben Road,0.70885,TR,45.0
+1443,8028,Weltevreden Road,1.70332,TR,47.4
+1444,8028,Weltevreden Road,0.0298,TR,32.0
+1445,8029,Eisleben Road,1.68859,TR,46.9
+1446,8030,Merrydale Avenue,0.6931,TR,45.0
+1447,8031,A.Z.Berman Drive,0.72754,TR,41.2
+1448,8025,Eisleben Road,0.01491,TR,45.0
+1449,8024,Spine Road (M32),1.005,TR,39.8
+1450,8023,Wespoort Drive,1.47693,TR,37.1
+1451,8022,Morgenster Road,1.01349,TR,33.5
+1452,8021,Highlands Drive,1.54123,TR,30.1
+1453,8021,Highlands Drive,0.01408,TR,29.0
+1454,8022,Morgenster Road,1.55122,TR,30.6
+1455,8023,Wespoort Drive,1.01487,TR,36.3
+1456,8024,Spine Road (M32),1.46924,TR,38.6
+1457,8025,Eisleben Road,1.00657,TR,42.7
+1458,8038,Lansdowne Road,0.0528,TR,40.0
+1459,8037,Stock Road,1.96013,TR,47.2
+1460,8036,New Eisleben Road,1.12746,TR,43.5
+1461,8035,Amsterdam Street,0.82947,TR,35.8
+1462,8034,Lansdowne Road,2.02498,TR,32.6
+1463,8034,Lansdowne Road,0.03952,TR,24.0
+1464,8035,Amsterdam Street,2.01874,TR,31.6
+1465,8036,New Eisleben Road,0.80633,TR,34.5
+1466,8037,Stock Road,1.22303,TR,44.1
+1467,8038,Lansdowne Road,1.91737,TR,46.8
+1468,8066,Ny1 Road,0.03937,TR,26.3
+1469,8067,Emms Drive,1.66849,TR,30.4
+1470,8068,Ntlangano Crescent,0.14485,TR,30.0
+1471,8069,New Eisleben Road,0.69994,TR,32.4
+1472,8069,New Eisleben Road,0.02125,TR,31.0
+1473,8068,Ntlangano Crescent,0.67869,TR,31.8
+1474,8067,Emms Drive,0.14485,TR,28.0
+1475,8066,Ny1 Road,1.70787,TR,31.5
+1476,8073,Sheffield Road,0.02963,TR,29.5
+1477,8072,Lansdowne Road,0.6901,TR,32.2
+1478,8071,Terminus Street,0.99178,TR,36.3
+1479,8071,Terminus Street,0.04142,TR,28.0
+1480,8072,Lansdowne Road,0.97373,TR,38.4
+1481,8073,Sheffield Road,0.69462,TR,34.3
+1482,8075,Sithandatu Avenue,0.03118,TR,28.0
+1483,8459,Klipfontein Road (M18),1.00776,TR,33.4
+1484,8076,Settlers Way,0.29876,TR,37.7
+1485,8453,Airport Approach Road,1.62991,TR,48.8
+1486,8454,Modderdam Road East-West,1.33655,TR,60.3
+1487,8454,Modderdam Road East-West,0.16724,TR,41.2
+1488,8453,Airport Approach Road,1.59357,TR,61.2
+1489,8076,Settlers Way,1.4177,TR,43.5
+1490,8459,Klipfontein Road (M18),0.10346,TR,34.5
+1491,8075,Sithandatu Avenue,1.03895,TR,35.5
+1492,8086,Modderdam Road North-South,0.14031,TR,53.3
+1493,8085,Modderdam Road East-West,2.02801,TR,57.7
+1494,10075,Kasselsvlei Road,1.15139,TR,52.4
+1495,8084,Strand Road (R102),1.1051,TR,45.3
+1496,8082,Modderdam East Road,0.04981,TR,41.7
+1497,8081,Erica Drive,2.01509,TR,53.2
+1498,8080,Stellenbosch Road,1.48974,TR,52.7
+1499,8079,M54,2.87245,TR,57.7
+1500,8078,Lansdowne Road,2.96522,TR,55.7
+1501,8089,Erica Drive,0.04623,TR,34.0
+1502,8088,Modderdam Road East-West,0.89823,TR,42.3
+1503,8078,Lansdowne Road,0.04521,TR,36.0
+1504,8079,M54,2.94002,TR,55.6
+1505,8080,Stellenbosch Road,2.93352,TR,56.1
+1506,8081,Erica Drive,1.42372,TR,50.4
+1507,8082,Modderdam East Road,2.08658,TR,48.4
+1508,8084,Strand Road (R102),0.01726,TR,33.0
+1509,10075,Kasselsvlei Road,1.08783,TR,48.2
+1510,8085,Modderdam Road East-West,1.15139,TR,56.5
+1511,8086,Modderdam Road North-South,2.08447,TR,54.4
+1512,8088,Modderdam Road East-West,0.05233,TR,47.0
+1513,8089,Erica Drive,0.88693,TR,41.7
+1514,8091,Stellenbosch Road,0.05438,TR,38.8
+1515,8092,Akkerboom Avenue,0.2399,TR,42.6
+1516,8093,Symphony Way,2.4946,TR,50.2
+1517,8094,Saint Vincent Drive,1.51876,TR,49.1
+1518,8094,Saint Vincent Drive,0.04992,TR,46.0
+1519,8093,Symphony Way,1.4556,TR,47.5
+1520,8092,Akkerboom Avenue,2.4739,TR,51.5
+1521,8091,Stellenbosch Road,0.29428,TR,39.8
+1522,8096,Saint Vincent Drive,0.02109,TR,46.0
+1523,8097,Stellenbosch Road,0.98281,TR,43.9
+1524,8098,Hindle Road,2.72896,TR,38.9
+1525,8098,Hindle Road,0.06654,TR,33.6
+1526,8097,Stellenbosch Road,2.70598,TR,38.6
+1527,8096,Saint Vincent Drive,0.95598,TR,43.5
+1528,8109,Stellenbosch Road,0.03568,TR,34.0
+1529,8108,Hindle Road,2.87469,TR,33.8
+1530,8106,M171,0.07903,TR,34.0
+1531,8105,Delft Main Road,1.05755,TR,42.4
+1532,8104,Kuils River Freeway,1.0201,TR,51.7
+1533,8103,Westbank Main Road,0.3387,TR,53.3
+1534,8102,Heidelberg Road,1.72534,TR,59.1
+1535,8101,Wimbledon Road,1.52653,TR,55.4
+1536,8229,Blue Downs Way,1.57359,TR,55.4
+1537,8108,Hindle Road,0.01274,TR,44.0
+1538,8109,Stellenbosch Road,2.89521,TR,33.5
+1539,8229,Blue Downs Way,0.0256,TR,31.0
+1540,8101,Wimbledon Road,1.54798,TR,54.2
+1541,8102,Heidelberg Road,1.52653,TR,52.4
+1542,8103,Westbank Main Road,1.72534,TR,57.3
+1543,8104,Kuils River Freeway,0.61798,TR,50.3
+1544,8105,Delft Main Road,0.79716,TR,48.0
+1545,8106,M171,1.07345,TR,43.0
+1546,8116,Old Faure Road,0.05098,TR,60.0
+1547,8115,Forest Drive,0.41587,TR,46.2
+1548,8114,Mfuleni Main Road,1.16214,TR,54.9
+1549,8113,Hindle Road,1.66504,TR,48.0
+1550,8112,Buttskop Road,1.45092,TR,46.1
+1551,8111,Stellenbosch Road,2.39636,TR,47.3
+1552,8120,Van Riebeek Road,0.03353,TR,29.0
+1553,10683,Carinus Street,0.33976,TR,39.6
+1554,8119,Stellenbosch Arterial Road,3.35962,TR,47.2
+1555,8118,Hindle Road,3.09742,TR,48.5
+1556,8111,Stellenbosch Road,0.02496,TR,37.0
+1557,8112,Buttskop Road,2.42619,TR,47.8
+1558,8113,Hindle Road,1.42298,TR,42.3
+1559,8114,Mfuleni Main Road,1.70362,TR,50.6
+1560,8115,Forest Drive,1.15524,TR,56.8
+1561,8116,Old Faure Road,0.45294,TR,44.7
+1562,8118,Hindle Road,0.07039,TR,35.3
+1563,8119,Stellenbosch Arterial Road,3.06244,TR,45.8
+1564,10683,Carinus Street,3.30862,TR,48.0
+1565,8120,Van Riebeek Road,0.37329,TR,38.7
+1566,8143,Ngqwangi Drive,0.01585,TR,36.0
+1567,8142,Lansdowne Road,2.57887,TR,30.7
+1568,8145,Morgenster Road,0.0134,TR,43.0
+1569,8146,Spine Road,2.16304,TR,38.4
+1570,8142,Lansdowne Road,0.04186,TR,25.0
+1571,8143,Ngqwangi Drive,2.55287,TR,30.2
+1572,8146,Spine Road,0.01424,TR,40.0
+1573,8145,Morgenster Road,2.1622,TR,39.1
+1574,8150,Swartklip Road,0.02848,TR,29.0
+1575,8149,Langeberg Street,1.18197,TR,34.9
+1576,8148,Spine Road,1.03196,TR,32.4
+1577,8148,Spine Road,0.05853,TR,35.0
+1578,8149,Langeberg Street,0.97343,TR,31.7
+1579,8150,Swartklip Road,1.21045,TR,33.1
+1580,8155,Lansdowne Road,0.01834,TR,37.0
+1581,8154,Bonga Drive,0.84959,TR,42.2
+1582,8153,Mew Way,1.31326,TR,38.0
+1583,8153,Mew Way,0.02495,TR,33.0
+1584,8154,Bonga Drive,1.28831,TR,39.2
+1585,8155,Lansdowne Road,0.86794,TR,41.2
+1586,8169,Lansdowne Road,0.02631,TR,37.0
+1587,8168,Govan Mbeki Road,0.55266,TR,38.2
+1588,8167,Walter Sisulu Road,0.6597,TR,38.4
+1589,8166,Distributor Road West,0.17748,TR,40.0
+1590,8165,Mew Way,1.0475,TR,38.9
+1591,8164,Baden Powell Drive (R310),0.93077,TR,45.0
+1592,8162,Lansdowne Road,0.02684,TR,33.0
+1593,8161,Govan Mbeki Road,0.47873,TR,43.2
+1594,8160,Walter Sisulu Road,0.56099,TR,46.1
+1595,8159,Ntlazane Road,0.45831,TR,44.9
+1596,8158,Mew Way,1.34415,TR,44.5
+1597,8157,Swartklip Road,0.77358,TR,47.4
+1598,8164,Baden Powell Drive (R310),0.03633,TR,25.0
+1599,8165,Mew Way,0.89444,TR,42.3
+1600,8166,Distributor Road West,1.0475,TR,38.3
+1601,8167,Walter Sisulu Road,0.17748,TR,35.2
+1602,8168,Govan Mbeki Road,0.6597,TR,39.1
+1603,8169,Lansdowne Road,0.57898,TR,36.9
+1604,8157,Swartklip Road,0.03667,TR,28.0
+1605,8158,Mew Way,0.73691,TR,48.5
+1606,8159,Ntlazane Road,1.34396,TR,42.6
+1607,8160,Walter Sisulu Road,0.4792,TR,45.3
+1608,8161,Govan Mbeki Road,0.53736,TR,47.9
+1609,8162,Lansdowne Road,0.50557,TR,39.9
+1610,8175,Walter Sisulu Road,0.04879,TR,27.4
+1611,8174,Lindela Road,1.24166,TR,31.9
+1612,8173,Oscar Mpetha Road,1.35203,TR,41.4
+1613,8172,Steve Biko Road,1.42102,TR,45.4
+1614,8171,Spine Road,1.19971,TR,42.1
+1615,8180,Walter Sisulu Road,0.04312,TR,34.7
+1616,8179,Oscar Mpetha Road,0.96274,TR,37.7
+1617,8178,Steve Biko Road,0.69149,TR,37.3
+1618,8177,Spine Road,0.87425,TR,32.5
+1619,8177,Spine Road,0.03118,TR,29.0
+1620,8178,Steve Biko Road,0.84307,TR,33.9
+1621,8179,Oscar Mpetha Road,0.69149,TR,36.4
+1622,8180,Walter Sisulu Road,1.00354,TR,37.7
+1623,8185,Lansdowne Road (M9),0.07309,TR,34.0
+1624,8184,Walter Sisulu Road,0.62128,TR,39.5
+1625,8183,Ntlazane Road,0.23003,TR,37.1
+1626,8182,Mew Way (M44),1.31401,TR,31.1
+1627,8182,Mew Way (M44),0.02977,TR,34.0
+1628,8183,Ntlazane Road,1.28424,TR,29.1
+1629,8184,Walter Sisulu Road,0.23003,TR,40.0
+1630,8185,Lansdowne Road (M9),0.69437,TR,38.2
+1631,8171,Spine Road,0.04344,TR,29.1
+1632,8172,Steve Biko Road,1.16614,TR,43.7
+1633,8173,Oscar Mpetha Road,1.42102,TR,44.5
+1634,8174,Lindela Road,1.35203,TR,41.6
+1635,8175,Walter Sisulu Road,1.28474,TR,33.0
+1636,8203,Lansdowne Road,0.02683,TR,26.0
+1637,8202,Walter Sisulu Road,0.89666,TR,29.1
+1638,8202,Walter Sisulu Road,0.02378,TR,36.0
+1639,8203,Lansdowne Road,0.8997,TR,29.0
+1640,8208,Tafelberg Street,0.02561,TR,35.0
+1641,8207,A.Z.Berman Drive,0.4783,TR,37.1
+1642,8207,A.Z.Berman Drive,0.0229,TR,37.0
+1643,8208,Tafelberg Street,0.481,TR,37.8
+1644,8211,Van Riebeek Road,0.06579,TR,39.1
+1645,8412,Beverly Street,0.52079,TR,45.5
+1646,8410,Bobs Way,1.94,TR,47.7
+1647,8210,Nooiensfontein Road,1.00553,TR,54.2
+1648,8210,Nooiensfontein Road,0.02941,TR,48.0
+1649,8410,Bobs Way,1.00282,TR,54.3
+1650,8412,Beverly Street,1.91369,TR,47.6
+1651,8211,Van Riebeek Road,0.58497,TR,41.6
+1652,8215,Forest Drive,0.0355,TR,29.7
+1653,8214,Beverly Street,2.47049,TR,39.0
+1654,8213,Van Riebeek Road,0.59976,TR,35.9
+1655,8213,Van Riebeek Road,0.01967,TR,60.0
+1656,8214,Beverly Street,0.58008,TR,36.1
+1657,8215,Forest Drive,2.4966,TR,38.4
+1658,8217,Van Riebeek Road,0.01966,TR,50.0
+1659,8218,Beverly Street,0.57813,TR,31.3
+1660,8220,Old Faure Road,1.45806,TR,30.6
+1661,8220,Old Faure Road,0.02609,TR,31.0
+1662,8218,Beverly Street,1.43197,TR,30.8
+1663,8217,Van Riebeek Road,0.59779,TR,30.0
+1664,8228,Forest Drive,0.02959,TR,32.0
+1665,8227,Beverly Street,0.82565,TR,38.9
+1666,8226,Stratford Avenue,0.8521,TR,38.0
+1667,8226,Stratford Avenue,0.02746,TR,31.0
+1668,8227,Beverly Street,0.82464,TR,36.9
+1669,8228,Forest Drive,0.85525,TR,37.2
+1670,8232,Forest Drive,0.02995,TR,32.6
+1671,8231,Hindle Road,1.73677,TR,34.9
+1672,8231,Hindle Road,0.02098,TR,35.0
+1673,8232,Forest Drive,1.74725,TR,36.0
+1674,8235,Van Riebeek Road,0.04584,TR,29.0
+1675,8234,Wimbledon Road,2.06037,TR,44.5
+1676,8234,Wimbledon Road,0.05013,TR,35.8
+1677,8235,Van Riebeek Road,2.07169,TR,42.6
+1678,8237,Broadway Boulevard,0.04934,TR,45.0
+1679,8238,Main Road,3.41005,TR,60.4
+1680,8238,Main Road,0.03407,TR,60.0
+1681,8237,Broadway Boulevard,3.42585,TR,59.2
+1682,8243,Main Road,0.00998,TR,28.0
+1683,8241,N2,1.23836,TR,36.6
+1684,8240,Broadway Boulevard,1.60451,TR,50.1
+1685,8240,Broadway Boulevard,0.03685,TR,43.7
+1686,8241,N2,1.58114,TR,47.9
+1687,8243,Main Road,1.23486,TR,37.2
+1688,8255,N2,0.01633,TR,40.0
+1689,8254,13th Street,2.32854,TR,49.0
+1690,8253,Faure Marine Drive,1.03029,TR,36.2
+1691,8253,Faure Marine Drive,0.00998,TR,40.0
+1692,8254,13th Street,1.02031,TR,34.9
+1693,8255,N2,2.34488,TR,45.4
+1694,8258,Faure Marine Drive,0.08302,TR,35.0
+1695,8257,N2,4.56831,TR,56.7
+1696,8257,N2,0.08066,TR,47.4
+1697,8258,Faure Marine Drive,4.57067,TR,58.2
+1698,8265,Faure Marine Drive,0.043,TR,29.0
+1699,8264,Beach Road,0.33639,TR,34.1
+1700,8264,Beach Road,0.04422,TR,26.9
+1701,8265,Faure Marine Drive,0.30797,TR,34.2
+1702,8273,Polkadraai Road,0.04251,TR,50.0
+1703,8272,Zevenwachlicht Link Road,1.57462,TR,61.6
+1704,8271,Amandel Drive,1.41788,TR,39.0
+1705,8270,Van Riebeek Road,0.96371,TR,43.6
+1706,8262,Faure Marine Drive (R44),0.03718,TR,34.8
+1707,8261,Main Road,1.59652,TR,34.1
+1708,15261,Sarel Cilliers Street,0.53777,TR,33.1
+1709,8260,Broadway Boulevard (R44),2.79721,TR,40.5
+1710,8260,Broadway Boulevard (R44),0.06549,TR,43.9
+1711,15261,Sarel Cilliers Street,2.73091,TR,41.5
+1712,8261,Main Road,0.6121,TR,31.2
+1713,8262,Faure Marine Drive (R44),1.58981,TR,32.8
+1714,8270,Van Riebeek Road,0.03672,TR,30.0
+1715,8271,Amandel Drive,0.97068,TR,46.3
+1716,8272,Zevenwachlicht Link Road,1.39207,TR,39.6
+1717,8273,Polkadraai Road,1.61713,TR,62.1
+1718,8281,Bottelary Road,0.04573,TR,40.0
+1719,8280,Protea Road,1.68333,TR,55.1
+1720,8279,Old Paarl Road,1.15169,TR,44.6
+1721,8278,Frans Conradie Drive,0.49463,TR,39.9
+1722,8277,Goede Hoop Avenue,1.00019,TR,46.3
+1723,8479,N1,0.26965,TR,46.6
+1724,8276,De Bron,0.85979,TR,47.5
+1725,10203,Van Riebeeck Road,0.07397,TR,28.4
+1726,8284,Langverwacht Road,0.98912,TR,30.1
+1727,10684,Kerk Street,1.22946,TR,44.6
+1728,10202,Pioneer Street,1.22127,TR,46.4
+1729,8283,Bottelary Road,0.5996,TR,42.7
+1730,8287,Amandel Drive,0.01041,TR,46.0
+1731,8286,Van Riebeek Road (R102),1.54975,TR,33.0
+1732,8276,De Bron,0.01109,TR,45.0
+1733,8479,N1,0.84869,TR,46.6
+1734,8277,Goede Hoop Avenue,0.26965,TR,48.0
+1735,8278,Frans Conradie Drive,1.01263,TR,45.8
+1736,8279,Old Paarl Road,0.48807,TR,42.4
+1737,8280,Protea Road,1.14695,TR,47.8
+1738,8281,Bottelary Road,1.71899,TR,55.2
+1739,8286,Van Riebeek Road (R102),0.01889,TR,30.0
+1740,8287,Amandel Drive,1.54127,TR,33.7
+1741,8283,Bottelary Road,0.04359,TR,30.6
+1742,10202,Pioneer Street,0.55547,TR,39.4
+1743,10684,Kerk Street,1.21853,TR,52.7
+1744,8284,Langverwacht Road,1.28286,TR,45.2
+1745,10203,Van Riebeeck Road,1.01328,TR,29.5
+1746,8291,Bottelary Road,0.02552,TR,42.0
+1747,8290,Protea Road,2.43797,TR,45.9
+1748,8289,Old Paarl Road,1.34667,TR,39.9
+1749,8289,Old Paarl Road,0.02863,TR,30.0
+1750,8290,Protea Road,1.31803,TR,43.5
+1751,8291,Bottelary Road,2.46349,TR,46.6
+1752,8297,Old Paarl Road,0.04945,TR,30.0
+1753,8298,Frans Conradie Drive,0.56891,TR,28.0
+1754,8296,Brackenfell Boulevard,0.80125,TR,32.2
+1755,8294,Kruis Road,0.02634,TR,33.0
+1756,8293,Brackenfell Boulevard,1.82656,TR,38.3
+1757,10101,Bottelary Road,2.05487,TR,44.3
+1758,10101,Bottelary Road,0.04596,TR,42.0
+1759,8293,Brackenfell Boulevard,2.03538,TR,46.2
+1760,8294,Kruis Road,1.84032,TR,38.0
+1761,8296,Brackenfell Boulevard,0.06577,TR,29.0
+1762,8298,Frans Conradie Drive,0.74991,TR,31.9
+1763,8297,Old Paarl Road,0.60392,TR,28.2
+1764,8307,Raglan Road,0.07708,TR,33.5
+1765,10501,Harrod Drive,0.95463,TR,42.5
+1766,10762,Meerlust Street,0.44153,TR,43.8
+1767,8308,Old Oak Way,0.13237,TR,31.3
+1768,8308,Old Oak Way,0.05978,TR,32.0
+1769,10762,Meerlust Street,0.07134,TR,34.0
+1770,10501,Harrod Drive,0.44611,TR,43.5
+1771,8307,Raglan Road,1.03171,TR,41.2
+1772,8312,Eversdal Street,0.06151,TR,34.0
+1773,8311,Old Oak Road,2.06847,TR,44.5
+1774,8310,Raglan Road,1.01886,TR,42.5
+1775,8304,Brighton Road,0.03194,TR,39.0
+1776,8303,Okavango Road,2.11667,TR,41.6
+1777,8302,Brackenfell Boulevard,1.28162,TR,45.3
+1778,8301,Fairtrees Road,1.41008,TR,50.7
+1779,8300,Durbanville Avenue,2.22684,TR,47.6
+1780,8310,Raglan Road,0.01793,TR,32.0
+1781,8311,Old Oak Road,1.02319,TR,40.2
+1782,8312,Eversdal Street,2.11551,TR,43.7
+1783,8300,Durbanville Avenue,0.01208,TR,43.0
+1784,8301,Fairtrees Road,2.22522,TR,49.9
+1785,8302,Brackenfell Boulevard,1.39728,TR,49.4
+1786,8303,Okavango Road,1.31399,TR,43.6
+1787,8304,Brighton Road,2.11822,TR,44.5
+1788,8314,Old Oak Way,0.01762,TR,40.0
+1789,8315,Mountain View Drive,2.12744,TR,57.0
+1790,8316,Eversdal Road,0.35086,TR,50.1
+1791,10694,Vygeboom Road,1.32694,TR,57.5
+1792,10692,De Villiers Road,0.65097,TR,52.9
+1793,8317,Langeberg Road,1.25178,TR,49.8
+1794,8318,Wellington Road,0.84185,TR,43.3
+1795,8318,Wellington Road,0.01941,TR,41.0
+1796,8317,Langeberg Road,0.84819,TR,42.0
+1797,10692,De Villiers Road,1.22602,TR,49.5
+1798,10694,Vygeboom Road,0.65266,TR,52.7
+1799,8316,Eversdal Road,1.35155,TR,58.4
+1800,8315,Mountain View Drive,0.3141,TR,51.9
+1801,8314,Old Oak Way,2.14351,TR,56.5
+1802,8334,Brackenfell Boulevard,0.04017,TR,37.0
+1803,8332,Vatican Street,2.71466,TR,44.8
+1804,8331,Langeberg Road (M15),2.38525,TR,54.9
+1805,8329,De Bron,1.90273,TR,48.2
+1806,8328,N1,0.40659,TR,37.0
+1807,8327,Frans Conradie Drive,0.64879,TR,44.7
+1808,8325,Old Paarl Road,0.76049,TR,47.4
+1809,8325,Old Paarl Road,0.05831,TR,36.0
+1810,8327,Frans Conradie Drive,0.78428,TR,44.4
+1811,8328,N1,0.72655,TR,36.9
+1812,8329,De Bron,0.28996,TR,39.5
+1813,8331,Langeberg Road (M15),1.88994,TR,49.7
+1814,8332,Vatican Street,2.38779,TR,57.4
+1815,8334,Brackenfell Boulevard,2.75483,TR,44.4
+1816,8395,High Level Road,0.05051,TR,26.0
+1817,8394,Main Road,0.21378,TR,27.5
+1818,8394,Main Road,0.02444,TR,22.0
+1819,8395,High Level Road,0.23985,TR,24.8
+1820,8458,Borcherds Quarry Road,0.48807,TR,50.0
+1821,8457,Settlers Way,1.46211,TR,71.7
+1822,8457,Settlers Way,0.69212,TR,54.9
+1823,8458,Borcherds Quarry Road,1.2438,TR,77.2
+1824,9922,Main Road,0.06978,TR,31.4
+1825,10653,Doordrift Road,0.25388,TR,36.6
+1826,9927,Constantia Road,0.64349,TR,41.6
+1827,9939,Lansdowne Road,0.01784,TR,37.0
+1828,9946,Springfield Street,1.9481,TR,68.2
+1829,12736,Varkens Vlei Road,1.01892,TR,100.0
+1830,9938,Strandfontein Road,1.57807,TR,98.0
+1831,9927,Constantia Road,0.02604,TR,34.3
+1832,10653,Doordrift Road,0.62219,TR,40.4
+1833,9922,Main Road,0.32367,TR,30.9
+1834,9938,Strandfontein Road,0.01876,TR,28.0
+1835,12736,Varkens Vlei Road,1.5593,TR,100.0
+1836,9946,Springfield Street,1.01892,TR,100.0
+1837,9939,Lansdowne Road,1.96595,TR,67.5
+1838,9954,Turf Hall Road,0.10354,TR,31.5
+1839,10661,Blomvlei Road,0.24799,TR,43.5
+1840,9951,Lansdowne Road,1.23196,TR,41.8
+1841,9949,Ottery Road,2.24309,TR,100.0
+1842,9949,Ottery Road,0.0566,TR,100.0
+1843,9951,Lansdowne Road,2.19872,TR,99.6
+1844,10661,Blomvlei Road,1.21972,TR,41.2
+1845,9954,Turf Hall Road,0.2954,TR,40.7
+1846,10017,Strandfontein Road,0.03163,TR,30.0
+1847,10015,New Ottery Road,1.33702,TR,45.3
+1848,10015,New Ottery Road,0.03564,TR,30.0
+1849,10017,Strandfontein Road,1.333,TR,42.2
+1850,10032,Newlands Road,0.02623,TR,35.0
+1851,10031,Waterloo Road,1.05095,TR,44.8
+1852,10031,Waterloo Road,0.0405,TR,37.0
+1853,10032,Newlands Road,1.0582,TR,45.7
+1854,10039,Newlands Road,0.04549,TR,28.0
+1855,10333,Highwick Avenue,0.04956,TR,32.2
+1856,10334,Bowwood Road,0.8255,TR,32.9
+1857,10040,Main Road,0.08886,TR,27.2
+1858,10040,Main Road,0.02781,TR,29.0
+1859,10334,Bowwood Road,0.02813,TR,30.0
+1860,10333,Highwick Avenue,0.8255,TR,34.9
+1861,10039,Newlands Road,0.09505,TR,29.8
+1862,10057,Campground Road,0.07996,TR,39.2
+1863,10056,Belvedere Road,1.03831,TR,45.6
+1864,10056,Belvedere Road,0.04685,TR,28.0
+1865,10057,Campground Road,1.07142,TR,43.1
+1866,10077,Peter Barlow Drive,0.08611,TR,40.0
+1867,10078,Modderdam Road North-South,1.59963,TR,41.3
+1868,10078,Modderdam Road North-South,0.03238,TR,33.0
+1869,10077,Peter Barlow Drive,1.65337,TR,43.9
+1870,10071,Klipfontein Road,0.01753,TR,31.0
+1871,10072,Kromboom Road,1.29631,TR,33.9
+1872,10082,Berkley Road,0.16414,TR,40.4
+1873,10081,Voortrekker Road,0.60167,TR,43.7
+1874,10072,Kromboom Road,0.07224,TR,28.0
+1875,10071,Klipfontein Road,1.2416,TR,32.9
+1876,10081,Voortrekker Road,0.04405,TR,37.0
+1877,10082,Berkley Road,0.70727,TR,48.0
+1878,10091,Vanguard Drive,0.08876,TR,28.9
+1879,10090,Bluegum Road,0.28503,TR,32.9
+1880,10089,Jakkalsvlei Avenue,2.28196,TR,28.3
+1881,10096,Modderdam Road East-West,0.03271,TR,41.0
+1882,10095,Junction Street,0.30454,TR,42.8
+1883,10094,De la Rey Street,0.78904,TR,41.6
+1884,10089,Jakkalsvlei Avenue,0.05156,TR,30.0
+1885,10090,Bluegum Road,2.30354,TR,28.7
+1886,10091,Vanguard Drive,0.28296,TR,29.8
+1887,10087,Koeberg Road,0.03247,TR,31.6
+1888,10086,Saint John'S Road,0.73094,TR,49.6
+1889,10085,N7,11.5003,TR,70.9
+1890,10094,De la Rey Street,0.01247,TR,41.0
+1891,10095,Junction Street,0.82413,TR,41.2
+1892,10096,Modderdam Road East-West,0.30455,TR,38.6
+1893,10085,N7,0.02339,TR,26.0
+1894,10086,Saint John'S Road,11.48898,TR,72.1
+1895,10087,Koeberg Road,0.74117,TR,52.8
+1896,10116,Bill Bezuidenhout Avenue,0.01279,TR,30.0
+1897,10114,Durban Road,0.99663,TR,26.3
+1898,10114,Durban Road,0.06429,TR,22.0
+1899,10116,Bill Bezuidenhout Avenue,0.79207,TR,31.5
+1900,10134,Broadway Boulevard,0.04047,TR,33.0
+1901,10133,Gordon's Bay Road,1.03634,TR,40.1
+1902,10133,Gordon's Bay Road,0.01137,TR,34.0
+1903,10134,Broadway Boulevard,1.06544,TR,41.0
+1904,10149,Lourensford Road,0.09989,TR,30.0
+1905,10148,Parel Vallei Road,0.35572,TR,42.4
+1906,10147,Dummer Street,0.58468,TR,48.0
+1907,10146,Helderberg College Road,1.57593,TR,52.3
+1908,15271,Old Stellenbosch Road,1.27088,TR,49.8
+1909,10145,Broadway Boulevard,0.05925,TR,42.6
+1910,10145,Broadway Boulevard,0.02502,TR,45.0
+1911,15271,Old Stellenbosch Road,0.04887,TR,43.2
+1912,10146,Helderberg College Road,1.24569,TR,48.8
+1913,10147,Dummer Street,1.57593,TR,53.2
+1914,10148,Parel Vallei Road,0.58468,TR,48.6
+1915,10149,Lourensford Road,0.45562,TR,39.9
+1916,10156,Main Road,0.08493,TR,34.0
+1917,10155,Irene Avenue,0.62771,TR,47.5
+1918,10151,Irene Avenue,0.05537,TR,37.0
+1919,10152,Old Stellenbosch Road,0.90844,TR,39.7
+1920,10153,Main Road,0.9297,TR,40.5
+1921,10155,Irene Avenue,0.05136,TR,40.0
+1922,10156,Main Road,0.66128,TR,45.0
+1923,10153,Main Road,0.04084,TR,30.0
+1924,10152,Old Stellenbosch Road,0.88885,TR,39.7
+1925,10151,Irene Avenue,0.96381,TR,38.4
+1926,12758,Vergelegen Avenue,0.05455,TR,44.0
+1927,12757,Hendriksz Road,0.91916,TR,47.2
+1928,12756,Hillcrest Road,0.3733,TR,43.2
+1929,10160,Irene Avenue,1.186,TR,39.0
+1930,10161,Main Road,0.86133,TR,39.3
+1931,10161,Main Road,0.03453,TR,32.0
+1932,10160,Irene Avenue,0.8268,TR,43.2
+1933,12756,Hillcrest Road,1.22054,TR,39.8
+1934,12757,Hendriksz Road,0.3654,TR,44.1
+1935,12758,Vergelegen Avenue,0.9528,TR,46.2
+1936,10219,Koeberg Road,0.01159,TR,30.0
+1937,10217,Otto du Plessis Drive,0.66109,TR,32.7
+1938,10217,Otto du Plessis Drive,0.0556,TR,36.8
+1939,10219,Koeberg Road,0.6154,TR,29.7
+1940,10239,Koeberg Road,0.04936,TR,27.0
+1941,10238,Marine Drive,0.3766,TR,33.7
+1942,10228,Montague Drive,0.01207,TR,34.0
+1943,10227,Omuramba Road,0.69222,TR,35.3
+1944,10225,Koeberg Road,0.72868,TR,25.4
+1945,10225,Koeberg Road,0.0865,TR,29.6
+1946,10227,Omuramba Road,0.66184,TR,25.5
+1947,10228,Montague Drive,0.68463,TR,32.9
+1948,10238,Marine Drive,0.0167,TR,40.0
+1949,10239,Koeberg Road,0.40927,TR,31.1
+1950,10243,Sir Lowry Road,0.03892,TR,25.0
+1951,10242,Eastern Boulevard,0.38109,TR,33.9
+1952,10242,Eastern Boulevard,0.01113,TR,27.0
+1953,10243,Sir Lowry Road,0.40888,TR,30.0
+1954,10245,Victoria Road,0.03775,TR,21.0
+1955,10246,Albert Road,0.22394,TR,24.9
+1956,10249,Albert Road,0.02417,TR,23.0
+1957,10248,Victoria Road,0.25627,TR,24.6
+1958,10256,Malta Road,0.01971,TR,27.0
+1959,10255,Station Road,1.00657,TR,31.0
+1960,10254,Main Road,0.55472,TR,22.3
+1961,10254,Main Road,0.04409,TR,22.0
+1962,10255,Station Road,0.51063,TR,22.8
+1963,10256,Malta Road,1.02628,TR,29.1
+1964,10337,Herschel Road,0.07145,TR,30.0
+1965,10336,Main Road,0.45851,TR,34.4
+1966,10336,Main Road,0.05216,TR,28.0
+1967,10337,Herschel Road,0.4778,TR,36.3
+1968,10367,Long Street,0.01635,TR,10.0
+1969,10366,Loop Street,0.06749,TR,10.0
+1970,10378,Bree Street,0.07954,TR,13.0
+1971,10365,Buitengragt,0.11444,TR,16.5
+1972,10350,Buitensingel Street,0.04391,TR,22.0
+1973,10352,Wale Street,0.52122,TR,21.2
+1974,10353,Shortmarket Street,0.22247,TR,17.4
+1975,10354,Strand Street,0.22136,TR,16.7
+1976,10356,Waterkant Street,0.08435,TR,16.0
+1977,10357,Riebeek Street,0.07988,TR,15.0
+1978,10359,Hans Strijdom Avenue,0.19319,TR,18.1
+1979,10365,Buitengragt,0.02345,TR,14.0
+1980,10378,Bree Street,0.09099,TR,17.1
+1981,10393,Buitengracht Street,0.02487,TR,20.0
+1982,10394,Bree Street,0.08998,TR,17.1
+1983,10395,Loop Street,0.07744,TR,13.9
+1984,10396,Long Street,0.07887,TR,14.5
+1985,10396,Long Street,0.03625,TR,17.0
+1986,10395,Loop Street,0.04262,TR,15.0
+1987,10394,Bree Street,0.17397,TR,17.2
+1988,10393,Buitengracht Street,0.0968,TR,17.0
+1989,10389,Hans Strijdom Avenue,0.01778,TR,19.0
+1990,10388,Riebeek Street,0.15264,TR,17.4
+1991,10387,Waterkant Street,0.07859,TR,17.0
+1992,10386,Strand Street,0.09717,TR,15.1
+1993,10385,Shortmarket Street,0.20968,TR,15.7
+1994,10384,Wale Street,0.22156,TR,16.3
+1995,10383,Buitensingel Street,0.57201,TR,19.9
+1996,10465,Eastern Boulevard,0.05124,TR,60.0
+1997,10466,Main Road,0.94292,TR,45.6
+1998,10466,Main Road,0.01937,TR,32.0
+1999,10465,Eastern Boulevard,2.02431,TR,36.4
+2000,18454,Lower Plein Street,0.00722,TR,19.0
+2001,10474,Darling Street,0.19522,TR,16.6
+2002,24531,Plein Street,0.50421,TR,20.3
+2003,10473,Buitenkant Street,0.25873,TR,27.3
+2004,10473,Buitenkant Street,0.03663,TR,24.0
+2005,24531,Plein Street,0.22165,TR,24.8
+2006,10474,Darling Street,0.50421,TR,18.9
+2007,18454,Lower Plein Street,0.20244,TR,16.7
+2008,10490,Otto du Plessis Road,0.07118,TR,35.0
+2009,10488,West Coast Road,1.46001,TR,48.9
+2010,10488,West Coast Road,0.04739,TR,34.0
+2011,10490,Otto du Plessis Road,1.48379,TR,50.5
+2012,10477,Buitensingel Street,0.0164,TR,19.0
+2013,10478,Rheede Street,0.25201,TR,35.7
+2014,10479,Park Road,0.04217,TR,21.3
+2015,10480,Firdale Road,1.04086,TR,26.6
+2016,10481,Kloof Nek Road,0.43876,TR,25.2
+2017,10481,Kloof Nek Road,0.03282,TR,25.0
+2018,10480,Firdale Road,0.40594,TR,23.2
+2019,10479,Park Road,1.04086,TR,27.0
+2020,10478,Rheede Street,0.04217,TR,22.6
+2021,10477,Buitensingel Street,0.26842,TR,33.1
+2022,10495,Wingfield Road,0.12173,TR,60.0
+2023,10494,Melkbosstrand Road,4.43533,TR,60.0
+2024,10493,Reygersdal Drive,8.47237,TR,59.6
+2025,10504,Suikerbos Street,0.04216,TR,31.7
+2026,10505,Old Paarl Road,1.04958,TR,35.1
+2027,10505,Old Paarl Road,0.05127,TR,35.0
+2028,10504,Suikerbos Street,1.04047,TR,35.9
+2029,10493,Reygersdal Drive,0.01334,TR,90.0
+2030,10494,Melkbosstrand Road,8.45903,TR,60.0
+2031,10495,Wingfield Road,4.55706,TR,60.0
+2032,10515,Baden Powell Drive,0.06344,TR,31.0
+2033,10514,Spine Road,0.4282,TR,41.0
+2034,10514,Spine Road,0.05286,TR,36.0
+2035,10515,Baden Powell Drive,0.43879,TR,43.1
+2036,10510,Vanguard Drive,0.01989,TR,40.0
+2037,10509,Morgenster Road,0.30727,TR,100.0
+2038,10508,Varkens Vlei Road,3.32243,TR,100.0
+2039,10507,Duinefontein Road,1.17645,TR,91.4
+2040,10507,Duinefontein Road,0.08372,TR,44.5
+2041,10508,Varkens Vlei Road,1.09272,TR,100.0
+2042,10509,Morgenster Road,3.32243,TR,100.0
+2043,10510,Vanguard Drive,0.30764,TR,91.2
+2044,10519,Steenberg Road,0.05209,TR,35.0
+2045,10518,Boyes Drive,1.21145,TR,51.6
+2046,10518,Boyes Drive,0.04076,TR,31.0
+2047,10519,Steenberg Road,1.24839,TR,45.8
+2048,10612,Main Road,0.06256,TR,32.0
+2049,10611,Rhodes Drive,0.69121,TR,42.3
+2050,10611,Rhodes Drive,0.13003,TR,37.3
+2051,10612,Main Road,0.62374,TR,42.5
+2052,10620,Milner Road,0.04744,TR,28.0
+2053,10618,Camp Ground Road,1.32454,TR,35.9
+2054,10618,Camp Ground Road,0.10216,TR,31.0
+2055,10620,Milner Road,1.26873,TR,38.2
+2056,10631,Rosmead Avenue,0.04342,TR,29.0
+2057,10630,Main Road,0.84227,TR,30.2
+2058,10630,Main Road,0.04348,TR,24.0
+2059,10631,Rosmead Avenue,0.84222,TR,28.8
+2060,10649,Main Road,0.03333,TR,23.0
+2061,10648,Waterloo Road,0.57692,TR,27.9
+2062,10641,Waterloo Road,0.0581,TR,26.9
+2063,10643,Riverstone Road,0.55862,TR,28.4
+2064,10644,Main Road,0.46735,TR,31.5
+2065,10648,Waterloo Road,0.02897,TR,27.0
+2066,10649,Main Road,0.68398,TR,25.3
+2067,10644,Main Road,0.06331,TR,28.0
+2068,10643,Riverstone Road,0.40404,TR,34.2
+2069,10641,Waterloo Road,0.61672,TR,29.3
+2070,10655,Gabriel Road,0.01022,TR,40.0
+2071,10656,Simon Van Der Stel Freeway,0.41059,TR,49.0
+2072,10657,Spaanschemat River Road,1.4199,TR,51.1
+2073,10657,Spaanschemat River Road,0.03603,TR,28.0
+2074,10656,Simon Van Der Stel Freeway,1.40338,TR,49.5
+2075,10655,Gabriel Road,0.40129,TR,44.8
+2076,10666,Hanover Park Avenue,0.05325,TR,28.0
+2077,10665,Jan Smuts Drive,0.94879,TR,34.6
+2078,10664,Lansdowne Road,0.45371,TR,35.1
+2079,10664,Lansdowne Road,0.03646,TR,28.0
+2080,10665,Jan Smuts Drive,0.42134,TR,34.7
+2081,10666,Hanover Park Avenue,1.00204,TR,36.3
+2082,10675,Lansdowne Road,0.04675,TR,28.0
+2083,10674,New Eisleben Road,1.84246,TR,27.1
+2084,10688,Carinus Street,0.06379,TR,26.0
+2085,10687,Van Riebeek Road,0.20931,TR,24.4
+2086,10686,Amandel Drive,1.07935,TR,32.2
+2087,10686,Amandel Drive,0.08051,TR,32.0
+2088,10687,Van Riebeek Road,1.0096,TR,31.8
+2089,10688,Carinus Street,0.27311,TR,26.9
+2090,10703,N1,0.20416,TR,47.0
+2091,10702,Old Paarl Road,1.18459,TR,48.6
+2092,10674,New Eisleben Road,0.04611,TR,30.0
+2093,10675,Lansdowne Road,1.84309,TR,27.4
+2094,10702,Old Paarl Road,0.04165,TR,33.5
+2095,10703,N1,1.32401,TR,47.5
+2096,10766,Old Paarl Road,0.07995,TR,31.2
+2097,10765,Suikerbos Street,0.89904,TR,30.9
+2098,10765,Suikerbos Street,0.0644,TR,29.8
+2099,10766,Old Paarl Road,0.91459,TR,32.6
+2100,11536,Durbanville Avenue,0.02295,TR,40.0
+2101,11537,Race Course Way,0.29347,TR,40.2
+2102,11537,Race Course Way,0.02807,TR,32.0
+2103,11536,Durbanville Avenue,0.28835,TR,35.3
+2104,11710,Waterloo Road,0.05567,TR,40.0
+2105,11709,Constantia Main Road,0.52463,TR,39.9
+2106,11709,Constantia Main Road,0.12643,TR,43.0
+2107,11710,Waterloo Road,0.45386,TR,41.1
+2108,11751,Blaauwberg Road,0.09262,TR,37.5
+2109,11750,Otto du Plessis Drive,1.26903,TR,49.5
+2110,11750,Otto du Plessis Drive,0.13926,TR,45.0
+2111,11751,Blaauwberg Road,1.18192,TR,54.4
+2112,11754,West Coast Road,0.04919,TR,33.0
+2113,11755,Cormorant Avenue,0.49953,TR,49.9
+2114,11756,Otto du Plessis Drive,0.8702,TR,54.1
+2115,11756,Otto du Plessis Drive,0.04346,TR,34.4
+2116,11755,Cormorant Avenue,0.85584,TR,54.1
+2117,11754,West Coast Road,0.4981,TR,45.3
+2118,11759,Big Bay Boulevard,0.0442,TR,33.0
+2119,11758,Otto du Plessis Drive,1.37555,TR,54.8
+2120,11758,Otto du Plessis Drive,0.06879,TR,36.4
+2121,11759,Big Bay Boulevard,1.4185,TR,54.7
+2122,11899,Port Road,0.05441,TR,26.3
+2123,11898,Buitengragt,0.42404,TR,21.3
+2124,11898,Buitengragt,0.09092,TR,26.1
+2125,11899,Port Road,0.3953,TR,26.6
+2126,11904,Portswood Road,0.0412,TR,17.6
+2127,11903,Ebenezer Road,1.33007,TR,32.6
+2128,11902,Dock Road,0.23579,TR,27.6
+2129,11907,Helen Suzman Boulevard,0.08116,TR,35.6
+2130,11919,Beach Road,0.50443,TR,36.6
+2131,11906,Port Road,0.09877,TR,23.6
+2132,11902,Dock Road,0.07347,TR,23.3
+2133,11903,Ebenezer Road,0.20525,TR,29.0
+2134,11904,Portswood Road,1.37507,TR,33.6
+2135,11906,Port Road,0.04061,TR,18.8
+2136,11919,Beach Road,0.0604,TR,31.4
+2137,11907,Helen Suzman Boulevard,0.56495,TR,39.3
+2138,11912,Somerset Road,0.02732,TR,27.0
+2139,11914,Port Road,0.35278,TR,27.9
+2140,11914,Port Road,0.04301,TR,23.5
+2141,11912,Somerset Road,0.3522,TR,23.9
+2142,11930,Helen Suzman Boulevard,0.02921,TR,26.0
+2143,11929,Alexandra Place,0.57539,TR,39.5
+2144,11927,Fritz Sonnenberg Road,0.75117,TR,43.8
+2145,11924,Granger Bay Boulevard,0.9583,TR,38.0
+2146,11923,Portswood Road,0.23764,TR,40.1
+2147,11923,Portswood Road,0.03295,TR,24.0
+2148,11924,Granger Bay Boulevard,0.24989,TR,39.0
+2149,11927,Fritz Sonnenberg Road,0.91768,TR,40.2
+2150,11929,Alexandra Place,0.75117,TR,42.8
+2151,11930,Helen Suzman Boulevard,0.6046,TR,35.1
+2152,11935,Beach Road,0.03958,TR,24.9
+2153,11934,Helen Suzman Boulevard,0.68725,TR,33.1
+2154,22248,Main Road,0.07065,TR,25.7
+2155,22248,Main Road,0.01664,TR,33.0
+2156,11934,Helen Suzman Boulevard,0.1291,TR,29.3
+2157,11935,Beach Road,0.66302,TR,32.8
+2158,11954,Beach Road,0.01908,TR,31.0
+2159,11953,Regent Street,0.08031,TR,26.6
+2160,11942,Main Road,0.01753,TR,26.0
+2161,11944,Beach Road,0.12008,TR,25.1
+2162,11944,Beach Road,0.05022,TR,31.0
+2163,11942,Main Road,0.0874,TR,28.6
+2164,11953,Regent Street,0.02485,TR,21.0
+2165,11954,Beach Road,0.07455,TR,21.1
+2166,11965,Beach Road,0.03987,TR,24.0
+2167,11963,Main Road,0.26776,TR,20.1
+2168,11970,Dassenberg Road (R307),0.06594,TR,48.0
+2169,11971,Kerria Avenue,2.75822,TR,50.3
+2170,11972,Reygersdal Drive (R304),1.26067,TR,48.1
+2171,11972,Reygersdal Drive (R304),0.03011,TR,43.0
+2172,11971,Kerria Avenue,1.23056,TR,49.9
+2173,11970,Dassenberg Road (R307),2.82345,TR,52.8
+2174,12154,N7,0.11423,TR,47.6
+2175,12395,Rondeberg Road,1.61673,TR,79.3
+2176,12153,Reygersdal Drive,8.05125,TR,84.7
+2177,12159,West Coast Road,0.06985,TR,40.0
+2178,12161,Dassenberg Road,10.97401,TR,86.3
+2179,12161,Dassenberg Road,0.02229,TR,30.0
+2180,12159,West Coast Road,11.02157,TR,90.8
+2181,12153,Reygersdal Drive,0.11923,TR,38.0
+2182,12395,Rondeberg Road,7.93202,TR,86.5
+2183,12154,N7,1.73097,TR,77.5
+2184,12330,R304,0.09422,TR,50.0
+2185,12329,West Coast Road,6.08842,TR,50.0
+2186,12329,West Coast Road,0.04416,TR,50.0
+2187,12330,R304,6.13848,TR,48.4
+2188,12398,Klein Dassenberg Road,0.04666,TR,50.0
+2189,12397,N7,2.86388,TR,50.0
+2190,12397,N7,0.03638,TR,50.0
+2191,12398,Klein Dassenberg Road,2.87416,TR,50.0
+2192,12492,Adam Tas Street,0.02289,TR,70.0
+2193,12493,Windmill Road,1.24132,TR,62.9
+2194,12491,Malmesbury Road,3.69583,TR,80.5
+2195,12491,Malmesbury Road,0.03193,TR,60.0
+2196,12493,Windmill Road,3.66389,TR,80.7
+2197,12492,Adam Tas Street,1.26422,TR,65.8
+2198,12497,Adam Tas Street,0.03732,TR,32.0
+2199,12496,Noord Agter Paarl,1.82969,TR,70.7
+2200,12496,Noord Agter Paarl,0.03772,TR,84.0
+2201,12497,Adam Tas Street,1.82928,TR,69.4
+2202,12508,Church Street,0.01047,TR,40.0
+2203,12507,Champagne Street,1.16705,TR,48.5
+2204,12506,Oosbosch Street,7.27106,TR,60.0
+2205,12725,Jan van Riebeeck Drive North,0.52407,TR,53.4
+2206,12723,E.K. Green Street,0.76306,TR,58.9
+2207,12722,Ambagsvallei Street,0.40311,TR,54.2
+2208,12505,Klein Drakenstein Road,0.25205,TR,45.0
+2209,12504,Lady Grey Street,0.27231,TR,38.8
+2210,12503,Langenhoven Avenue,0.73381,TR,40.2
+2211,12734,Arboretum Avenue,2.07119,TR,66.7
+2212,12502,N1,0.35635,TR,66.1
+2213,12501,Drakenstein Road S,0.5856,TR,76.5
+2214,12500,Jack Nicklaus Boulevard,6.44855,TR,83.4
+2215,12499,Huguenot Road,8.89923,TR,81.5
+2216,12499,Huguenot Road,0.03799,TR,29.0
+2217,12500,Jack Nicklaus Boulevard,8.86124,TR,79.1
+2218,12501,Drakenstein Road S,6.44861,TR,84.2
+2219,12502,N1,0.72467,TR,75.9
+2220,12734,Arboretum Avenue,0.2089,TR,53.4
+2221,12503,Langenhoven Avenue,2.18371,TR,61.7
+2222,12504,Lady Grey Street,0.65764,TR,38.1
+2223,12581,Jan van Riebeeck Drive,0.01523,TR,36.0
+2224,12580,Berg River Boulevard N,0.63277,TR,32.9
+2225,12579,Main Street,0.7006,TR,28.9
+2226,12576,Berg River Boulevard S,0.07101,TR,45.0
+2227,12573,Market Street,1.9342,TR,42.4
+2228,12574,Lady Grey Street,0.90777,TR,37.8
+2229,12575,Optenhorst Street,1.54824,TR,38.2
+2230,12575,Optenhorst Street,0.09875,TR,40.0
+2231,12574,Lady Grey Street,1.44949,TR,39.2
+2232,12573,Market Street,0.91116,TR,34.7
+2233,12576,Berg River Boulevard S,2.00932,TR,39.9
+2234,12579,Main Street,0.06024,TR,27.0
+2235,12580,Berg River Boulevard N,0.6598,TR,28.8
+2236,12581,Jan van Riebeeck Drive,0.63042,TR,35.7
+2237,12587,N1,0.1771,TR,30.7
+2238,12586,Langenhoven Avenue,0.13076,TR,27.0
+2239,12585,Klein Drakenstein Road,0.20781,TR,29.0
+2240,12584,Van der Stel Street,5.31162,TR,83.6
+2241,12583,Oosbosch Street,0.98245,TR,43.9
+2242,12583,Oosbosch Street,0.02569,TR,38.0
+2243,12584,Van der Stel Street,0.97134,TR,46.1
+2244,12585,Klein Drakenstein Road,5.29703,TR,82.4
+2245,12586,Langenhoven Avenue,0.20781,TR,28.0
+2246,12587,N1,0.30786,TR,37.5
+2247,12590,Sonstraal Road,0.04171,TR,34.0
+2248,12589,Jan van Riebeeck Drive,3.52608,TR,42.9
+2249,12592,Jan van Riebeeck Drive,0.0968,TR,41.0
+2250,12593,Sonstraal Road,3.69306,TR,55.5
+2251,12589,Jan van Riebeeck Drive,0.03825,TR,40.0
+2252,12590,Sonstraal Road,3.52468,TR,43.1
+2253,12593,Sonstraal Road,0.03095,TR,42.0
+2254,12592,Jan van Riebeeck Drive,3.77302,TR,54.3
+2255,12595,Main Street,0.05139,TR,33.0
+2256,12596,Berg River Boulevard S,0.59744,TR,44.8
+2257,12597,Jan van Riebeeck Drive,0.73694,TR,47.3
+2258,12602,Jan van Riebeeck Drive,0.06691,TR,45.0
+2259,12601,Westhoven Street,0.78278,TR,44.9
+2260,12600,Optenhorst Street,0.37671,TR,42.7
+2261,12600,Optenhorst Street,0.0171,TR,42.0
+2262,12601,Westhoven Street,0.35961,TR,42.1
+2263,12602,Jan van Riebeeck Drive,0.83468,TR,43.1
+2264,12597,Jan van Riebeeck Drive,0.08748,TR,42.0
+2265,12596,Berg River Boulevard S,0.72049,TR,50.0
+2266,12595,Main Street,0.54285,TR,41.5
+2267,12605,Lang Street,0.10707,TR,30.0
+2268,12604,Oosbosch Street,2.00286,TR,43.7
+2269,12604,Oosbosch Street,0.03785,TR,35.0
+2270,12605,Lang Street,2.04924,TR,42.4
+2271,12715,Lady Grey Street,0.05375,TR,37.0
+2272,12716,Ambagsvallei Street,0.39208,TR,41.8
+2273,12717,E.K. Green Street,0.38328,TR,51.4
+2274,12719,Jan van Riebeeck Drive North,0.74103,TR,52.8
+2275,12730,Arboretum Avenue,0.08321,TR,35.6
+2276,12729,Berg River Boulevard S,1.07437,TR,51.2
+2277,12729,Berg River Boulevard S,0.06291,TR,40.0
+2278,12730,Arboretum Avenue,1.0875,TR,53.4
+2279,12732,Cecilia Street,0.07243,TR,35.4
+2280,12733,Jan van Riebeeck Drive,1.50285,TR,54.3
+2281,12733,Jan van Riebeeck Drive,0.03984,TR,42.0
+2282,12732,Cecilia Street,1.54984,TR,53.6
+2283,12742,Noordhoek Main Road,0.06284,TR,45.0
+2284,12741,Ou Kaapse Road,2.204,TR,61.0
+2285,12741,Ou Kaapse Road,0.02394,TR,43.0
+2286,12742,Noordhoek Main Road,2.23599,TR,62.6
+2287,12748,Lower Geneva Drive,0.04697,TR,28.0
+2288,12747,Upper Geneva Drive,1.76996,TR,35.6
+2289,12747,Upper Geneva Drive,0.02627,TR,28.0
+2290,12748,Lower Geneva Drive,1.79066,TR,35.2
+2291,12751,Camps Bay Drive,0.03075,TR,28.0
+2292,12752,Victoria Road,0.46812,TR,39.4
+2293,12761,Hendriksz Road,0.08744,TR,31.0
+2294,12760,Lourensford Road,0.58803,TR,45.2
+2295,12754,Vissershok Way,0.0418,TR,40.8
+2296,12755,Race Course Way,1.65138,TR,47.9
+2297,12752,Victoria Road,0.09281,TR,35.0
+2298,12751,Camps Bay Drive,0.40606,TR,38.0
+2299,12755,Race Course Way,0.08671,TR,50.2
+2300,12754,Vissershok Way,1.60406,TR,51.5
+2301,12760,Lourensford Road,0.03539,TR,32.0
+2302,12761,Hendriksz Road,0.64007,TR,42.6
+2303,12763,Vergelegen Avenue,0.09563,TR,27.0
+2304,12764,Lourensford Road,1.00218,TR,41.7
+2305,12764,Lourensford Road,0.02521,TR,43.0
+2306,12763,Vergelegen Avenue,1.07073,TR,43.2
+2307,12768,Main Road,0.03725,TR,33.0
+2308,22460,Steynsrust Road,0.07129,TR,46.0
+2309,12767,Broadway Boulevard,4.56276,TR,75.2
+2310,12773,Broadway Boulevard,0.07152,TR,31.6
+2311,12772,Gordon's Bay Road,1.00161,TR,30.4
+2312,12772,Gordon's Bay Road,0.05836,TR,30.0
+2313,12773,Broadway Boulevard,1.01477,TR,31.6
+2314,12767,Broadway Boulevard,0.03972,TR,36.0
+2315,22460,Steynsrust Road,4.52303,TR,77.1
+2316,12768,Main Road,0.10855,TR,39.5
+2317,12780,Hindle Road,0.06775,TR,38.0
+2318,12781,Albert Philander Way,1.72531,TR,40.1
+2319,12781,Albert Philander Way,0.03286,TR,26.2
+2320,12780,Hindle Road,1.77274,TR,39.6
+2321,12785,Forest Drive,0.05639,TR,37.0
+2322,12784,Beverly Street,0.22142,TR,40.0
+2323,12783,Albert Philander Way,1.47684,TR,40.9
+2324,12783,Albert Philander Way,0.02033,TR,37.2
+2325,12784,Beverly Street,1.46721,TR,42.7
+2326,12785,Forest Drive,0.27781,TR,35.8
+2327,12790,Broadway Boulevard,0.02226,TR,24.0
+2328,12789,Baden Powell Drive,5.47744,TR,77.0
+2329,12789,Baden Powell Drive,0.01493,TR,57.0
+2330,12790,Broadway Boulevard,5.48477,TR,70.9
+2331,12800,R45 north,0.04368,TR,100.0
+2332,12799,Lady Loch Road,5.35871,TR,100.0
+2333,12798,R45 south,2.83667,TR,100.0
+2334,12798,R45 south,0.02359,TR,100.0
+2335,12799,Lady Loch Road,2.86302,TR,100.0
+2336,12800,R45 north,5.35246,TR,100.0
+2337,12805,Stokery Road,0.03066,TR,32.6
+2338,12804,R45,1.5674,TR,55.8
+2339,12807,Stokery Road,0.02355,TR,31.0
+2340,12808,Pentz Street,1.31079,TR,42.6
+2341,12809,Church Street,0.28231,TR,36.2
+2342,12804,R45,0.04127,TR,100.0
+2343,12805,Stokery Road,1.55679,TR,54.3
+2344,12809,Church Street,0.01047,TR,35.0
+2345,12808,Pentz Street,0.27282,TR,34.0
+2346,12807,Stokery Road,1.32118,TR,40.2
+2347,12924,Fisherman's Walk,0.07878,TR,32.0
+2348,12923,Rooikrans Avenue,0.2361,TR,38.3
+2349,12922,5th Avenue,0.63057,TR,32.6
+2350,12921,Klip Road,0.82668,TR,32.6
+2351,12921,Klip Road,0.02369,TR,31.0
+2352,12922,5th Avenue,0.80299,TR,34.1
+2353,12923,Rooikrans Avenue,0.63057,TR,34.1
+2354,12924,Fisherman's Walk,0.31489,TR,38.9
+2355,12927,Klip Road,0.05255,TR,31.0
+2356,12929,5th Avenue,0.77025,TR,33.7
+2357,12931,Rooikrans Avenue,0.62256,TR,32.9
+2358,12930,Fisherman's Walk,0.31691,TR,36.5
+2359,12930,Fisherman's Walk,0.04271,TR,31.0
+2360,12931,Rooikrans Avenue,0.2742,TR,36.3
+2361,12929,5th Avenue,0.62256,TR,29.7
+2362,12927,Klip Road,0.82281,TR,31.0
+2363,12944,Zeekoe Road,0.03445,TR,40.0
+2364,12943,Lake Road,0.1329,TR,38.8
+2365,12942,1st Road,0.67096,TR,35.5
+2366,12941,Victoria Road,0.5843,TR,38.1
+2367,12940,Perth Road,0.46434,TR,40.1
+2368,12940,Perth Road,0.05823,TR,31.0
+2369,12941,Victoria Road,0.40611,TR,38.8
+2370,12942,1st Road,0.5843,TR,35.1
+2371,12943,Lake Road,0.67096,TR,34.2
+2372,12944,Zeekoe Road,0.16735,TR,36.5
+2373,12953,Fisherman's Walk,0.01674,TR,35.0
+2374,12951,Rooikrans Avenue,0.29759,TR,33.7
+2375,12949,5th Avenue,0.63054,TR,31.2
+2376,12949,5th Avenue,0.07918,TR,31.0
+2377,12951,Rooikrans Avenue,0.55135,TR,36.0
+2378,12953,Fisherman's Walk,0.31433,TR,35.5
+2379,12972,Lake Road,0.0334,TR,31.0
+2380,12971,1st Road,0.63679,TR,44.7
+2381,12970,Victoria Road,0.58001,TR,42.6
+2382,12969,Perth Road,0.4679,TR,42.0
+2383,12967,Italian Road,0.45861,TR,38.4
+2384,12967,Italian Road,0.06528,TR,30.0
+2385,12969,Perth Road,0.39332,TR,36.1
+2386,12970,Victoria Road,0.4679,TR,38.5
+2387,12971,1st Road,0.58001,TR,40.5
+2388,12972,Lake Road,0.67019,TR,40.7
+2389,12981,Rooikrans Avenue,0.08206,TR,30.0
+2390,12980,5th Avenue,0.54671,TR,29.2
+2391,12980,5th Avenue,0.08082,TR,23.0
+2392,12981,Rooikrans Avenue,0.54794,TR,31.0
+2393,15244,Main Road,0.023,TR,54.0
+2394,15243,N2,1.2066,TR,55.1
+2395,15243,N2,0.10824,TR,33.0
+2396,15244,Main Road,1.12136,TR,59.6
+2397,15246,N2,0.03641,TR,26.0
+2398,15247,Ouderbrug Road,3.4718,TR,40.4
+2399,15247,Ouderbrug Road,0.05877,TR,37.0
+2400,15246,N2,3.42463,TR,39.4
+2401,15252,Faure Marine Drive North,0.16973,TR,40.7
+2402,15250,Van Der Byl Street,0.55891,TR,27.4
+2403,15249,Faure Marine Drive South,1.48107,TR,26.9
+2404,15249,Faure Marine Drive South,0.01239,TR,34.0
+2405,15250,Van Der Byl Street,1.46867,TR,25.6
+2406,15252,Faure Marine Drive North,0.71073,TR,30.0
+2407,15270,Broadway Boulevard,0.02611,TR,29.0
+2408,15269,Irene Avenue,0.37683,TR,42.8
+2409,15268,Helderberg College Road,1.20963,TR,55.3
+2410,15265,Main Road,1.43237,TR,50.6
+2411,15265,Main Road,0.01189,TR,36.0
+2412,15268,Helderberg College Road,1.42048,TR,47.8
+2413,15269,Irene Avenue,1.22683,TR,54.1
+2414,15270,Broadway Boulevard,0.3929,TR,42.4
+2415,15278,Helshoogte Road,0.01807,TR,34.0
+2416,15277,Merriman Avenue,0.70889,TR,37.2
+2417,15276,Van Riebeek Street,0.63243,TR,32.8
+2418,15276,Van Riebeek Street,0.04514,TR,30.0
+2419,15277,Merriman Avenue,0.67854,TR,31.9
+2420,15278,Helshoogte Road,0.64648,TR,37.1
+2421,15294,Adam Tas Street,0.03467,TR,32.0
+2422,15293,Molteno Street,0.44491,TR,34.1
+2423,15292,Merriman Avenue,0.38971,TR,31.6
+2424,15291,Alexander Street,0.43749,TR,26.5
+2425,15290,Plein Street,0.14744,TR,23.9
+2426,15289,Dorp Street,0.18074,TR,24.7
+2427,15291,Alexander Street,0.15411,TR,25.8
+2428,15292,Merriman Avenue,0.41562,TR,26.4
+2429,15293,Molteno Street,0.38971,TR,32.4
+2430,15294,Adam Tas Street,0.47959,TR,35.3
+2431,15287,Simonsberg Street,0.06349,TR,39.0
+2432,15286,Culver Street,0.67988,TR,35.9
+2433,15285,Bird Street,1.39534,TR,35.4
+2434,15284,Adam Tas Street,0.55798,TR,36.2
+2435,15284,Adam Tas Street,0.0396,TR,30.0
+2436,15285,Bird Street,0.51281,TR,36.3
+2437,15286,Culver Street,1.49067,TR,36.7
+2438,15287,Simonsberg Street,0.66698,TR,38.0
+2439,15300,The Avenue,0.08609,TR,29.0
+2440,15299,Drostdy Street,0.40439,TR,28.3
+2441,15298,Bird Street,0.34106,TR,25.3
+2442,15297,Mill Street,0.08013,TR,25.5
+2443,15296,Strand Street,0.70836,TR,26.9
+2444,15304,Bird Street,0.03914,TR,22.6
+2445,15303,AdamTas Street,0.6723,TR,37.5
+2446,15303,AdamTas Street,0.03696,TR,31.0
+2447,15304,Bird Street,0.6606,TR,36.1
+2448,15296,Strand Street,0.01131,TR,29.0
+2449,15297,Mill Street,0.71659,TR,28.8
+2450,15298,Bird Street,0.06059,TR,28.5
+2451,15299,Drostdy Street,0.34106,TR,30.1
+2452,15300,The Avenue,0.49048,TR,28.4
+2453,15308,Piet Retief Street,0.03449,TR,32.0
+2454,15307,Koch Street,0.20395,TR,34.7
+2455,15306,Strand Street,0.60637,TR,45.9
+2456,15306,Strand Street,0.02081,TR,42.0
+2457,15307,Koch Street,0.62756,TR,44.3
+2458,15308,Piet Retief Street,0.19644,TR,27.5
+2459,15310,Van Reede Road,0.03187,TR,45.0
+2460,15311,Dorp Street,0.8368,TR,34.1
+2461,15312,Plein Street,0.21761,TR,25.4
+2462,15312,Plein Street,0.02494,TR,23.4
+2463,15311,Dorp Street,0.30714,TR,25.7
+2464,15310,Van Reede Road,0.80469,TR,37.1
+2465,15317,Culver Street,0.07774,TR,30.6
+2466,15316,The Avenue,0.43522,TR,32.4
+2467,15315,Drostdy Street,0.40531,TR,30.5
+2468,15314,Bird Street,0.42094,TR,24.7
+2469,15314,Bird Street,0.02647,TR,21.5
+2470,15315,Drostdy Street,0.37582,TR,26.8
+2471,15316,The Avenue,0.40531,TR,29.3
+2472,15317,Culver Street,0.51297,TR,32.7
+2473,15322,Helshoogte Road,0.04131,TR,37.0
+2474,15321,Bird Street,1.39284,TR,39.1
+2475,15320,Adam Tas Street,0.36431,TR,33.2
+2476,15320,Adam Tas Street,0.0334,TR,26.0
+2477,15321,Bird Street,0.33091,TR,32.7
+2478,15322,Helshoogte Road,1.43416,TR,37.9
+2479,15733,Dassen Way,0.06671,TR,52.0
+2480,15732,Protea Way,0.80903,TR,54.4
+2481,15731,Vissershok Way,0.68762,TR,46.8
+2482,15730,Wellington Road,0.30657,TR,32.3
+2483,15730,Wellington Road,0.04356,TR,32.0
+2484,15731,Vissershok Way,0.31416,TR,37.0
+2485,15732,Protea Way,0.69461,TR,50.7
+2486,15733,Dassen Way,0.8514,TR,56.3
+2487,15735,Dassen Way,0.04677,TR,54.0
+2488,15736,Spes Bona Road,3.63394,TR,87.0
+2489,15737,Malanshoogte Road,4.91712,TR,98.4
+2490,15738,Occultdale Road,2.11653,TR,95.4
+2491,15739,Philadelphia Road (R304),4.30634,TR,93.6
+2492,15739,Philadelphia Road (R304),0.07247,TR,60.0
+2493,15738,Occultdale Road,4.23386,TR,94.9
+2494,15737,Malanshoogte Road,2.11653,TR,94.9
+2495,15736,Spes Bona Road,4.91712,TR,94.9
+2496,15735,Dassen Way,3.68071,TR,84.0
+2497,15757,Adam Tas Street (R45),0.06524,TR,37.0
+2498,15756,R45,5.70794,TR,64.5
+2499,15756,R45,0.05284,TR,50.0
+2500,15757,Adam Tas Street (R45),5.72034,TR,62.4
+2501,15771,R45,0.07275,TR,60.0
+2502,15831,Simonsvlei Road,1.25719,TR,76.8
+2503,15770,R44,6.30699,TR,81.8
+2504,15769,Muldersvlei,4.83325,TR,69.6
+2505,15768,R304,3.2184,TR,73.2
+2506,15768,R304,0.07657,TR,28.0
+2507,15769,Muldersvlei,3.23295,TR,78.8
+2508,15770,R44,4.74213,TR,67.9
+2509,15831,Simonsvlei Road,6.30699,TR,85.5
+2510,15771,R45,1.32914,TR,73.4
+2511,15784,R45,0.0411,TR,28.0
+2512,15785,Simonsvlei Road,4.56497,TR,81.3
+2513,15788,R44,4.00854,TR,80.1
+2514,15788,R44,0.05691,TR,31.0
+2515,15785,Simonsvlei Road,3.95162,TR,82.6
+2516,15784,R45,4.60607,TR,80.0
+2517,15799,R304,0.02038,TR,38.0
+2518,15800,Elsenburgh Road,1.27669,TR,53.8
+2519,15801,Adam Tas Street (R44),2.17793,TR,74.9
+2520,15801,Adam Tas Street (R44),0.06707,TR,44.3
+2521,15800,Elsenburgh Road,2.11086,TR,79.9
+2522,15799,R304,1.29708,TR,52.6
+2523,15808,Kromme Rhee Road,0.03064,TR,70.0
+2524,15807,R304,1.41476,TR,80.2
+2525,15807,R304,0.04002,TR,100.0
+2526,15808,Kromme Rhee Road,1.40537,TR,79.5
+2527,15834,R45 (secondary),0.05269,TR,70.0
+2528,15835,R101,3.88466,TR,70.0
+2529,15835,R101,0.03784,TR,70.0
+2530,15834,R45 (secondary),3.89951,TR,69.1
+2531,18334,Race Course Road,0.0375,TR,28.0
+2532,18335,Lansdowne Rd,0.07232,TR,29.7
+2533,18321,De Waal Road,0.04571,TR,40.0
+2534,18320,Dick Burton Street,1.5689,TR,45.8
+2535,18319,Main Road,0.91454,TR,43.3
+2536,18332,Race Course Road,0.03289,TR,28.0
+2537,18331,Cross Cut,0.15832,TR,31.6
+2538,18330,Prince Arthur Road,0.07073,TR,33.0
+2539,18329,Belvedere Road,2.05518,TR,40.2
+2540,18328,Chichester Road,0.3911,TR,39.7
+2541,18339,Camps Bay Drive,0.054,TR,34.8
+2542,18338,Lower Kloof Road,2.11095,TR,45.3
+2543,18319,Main Road,0.04034,TR,30.0
+2544,18320,Dick Burton Street,0.8742,TR,49.4
+2545,18321,De Waal Road,1.61462,TR,46.4
+2546,18328,Chichester Road,0.07768,TR,40.0
+2547,18329,Belvedere Road,0.31341,TR,39.1
+2548,18330,Prince Arthur Road,2.05518,TR,44.2
+2549,18331,Cross Cut,0.07073,TR,40.0
+2550,18332,Race Course Road,0.19122,TR,32.9
+2551,18342,Victoria Road,0.14454,TR,55.3
+2552,18341,Princess Street,1.63896,TR,47.6
+2553,18338,Lower Kloof Road,0.01279,TR,35.0
+2554,18339,Camps Bay Drive,2.1216,TR,43.7
+2555,18341,Princess Street,0.02276,TR,35.0
+2556,18342,Victoria Road,1.67794,TR,45.1
+2557,18348,Main Road North,0.06739,TR,45.0
+2558,18347,Main Road South,2.45956,TR,68.4
+2559,18345,Victoria Road,0.02702,TR,30.9
+2560,18344,Victoria Avenue,0.88179,TR,47.7
+2561,18344,Victoria Avenue,0.02711,TR,30.6
+2562,18345,Victoria Road,0.88161,TR,48.7
+2563,18352,Bill Bezuidenhout Avenue,0.01281,TR,38.0
+2564,18351,Mabel Street,0.17007,TR,38.0
+2565,18350,Durban Road,0.87849,TR,36.3
+2566,18347,Main Road South,0.04659,TR,43.0
+2567,18348,Main Road North,2.47968,TR,65.8
+2568,18350,Durban Road,0.05251,TR,31.0
+2569,18351,Mabel Street,0.77844,TR,38.4
+2570,18352,Bill Bezuidenhout Avenue,0.18289,TR,35.0
+2571,18355,Avondale Street,0.02507,TR,41.0
+2572,18354,Durban Road,0.85341,TR,36.2
+2573,18357,Dassenberg Road,0.10448,TR,50.0
+2574,18358,Darling Road,7.95956,TR,62.5
+2575,18358,Darling Road,0.03253,TR,13.3
+2576,18357,Dassenberg Road,8.03152,TR,59.8
+2577,18372,Gie Road,0.03995,TR,32.8
+2578,18373,Potsdam Road,3.97408,TR,70.4
+2579,18373,Potsdam Road,0.07398,TR,57.0
+2580,18372,Gie Road,3.90085,TR,56.4
+2581,18449,TABLE BAY BOULEVARD (NORTHBOUND),0.49542,RA,60.0
+2582,18452,TABLE BAY BOULEVARD (NORTHBOUND),0.15367,RA,51.6
+2583,18456,BLACK RIVER PARKWAY (NORTHBOUND),0.54095,RA,40.0
+2584,18458,KOEBERG ROAD,0.39495,RA,58.2
+2585,18460,BLACK RIVER PARKWAY (NORTHBOUND),1.25635,RA,80.0
+2586,18476,TABLE BAY BOULEVARD (NORTHBOUND),0.33044,RA,53.4
+2587,18478,TABLE BAY BOULEVARD (SOUTHBOUND),1.0319,RA,60.0
+2588,18480,BLACK RIVER PARKWAY (SOUTHBOUND),0.30848,RA,40.0
+2589,18482,KOEBERG ROAD SOUTH,0.25262,RA,35.8
+2590,18484,TABLE BAY BOULEVARD (NORTHBOUND),0.1978,RA,32.5
+2591,18488,KOEBERG ROAD,0.1099,RA,43.5
+2592,18486,KOEBERG ROAD,0.18551,RA,35.0
+2593,18490,KOEBERG ROAD SOUTH,0.17484,RA,50.1
+2594,18492,BLACK RIVER PARKWAY (SOUTHBOUND),0.20933,RA,41.6
+2595,18494,BLACK RIVER PARKWAY,0.1365,RA,46.0
+2596,18496,TABLE BAY BOULEVARD (NORTHBOUND),0.31107,RA,56.8
+2597,18498,TABLE BAY BOULEVARD (NORTHBOUND),0.70095,RA,57.1
+2598,18500,SABLE WAY,0.4157,RA,51.6
+2599,18502,SABLE WAY,0.30837,RA,52.0
+2600,18506,N1 SOUTHBOUND,0.26861,RA,60.0
+2601,18504,TABLE BAY BOULEVARD (SOUTHBOUND),0.60125,RA,48.0
+2602,18510,N7 WINGFIELD ROAD,0.54804,RA,74.4
+2603,18508,N1 SLIPWAY (SOUTHBOUND),0.59907,RA,60.0
+2604,18512,N1 (NORTHBOUND),0.62574,RA,76.5
+2605,18514,N7 SOUTHBOUND,0.63273,RA,79.1
+2606,18516,N7 (NORTHBOUND),0.26756,RA,46.4
+2607,18518,N1(NORTHBOUND),0.29123,RA,47.2
+2608,18520,N1 (SOUTHBOUND),0.26871,RA,44.6
+2609,18526,N1 (SOUTHBOUND),0.30472,RA,45.7
+2610,18522,N7 (SOUTHBOUND),0.42018,RA,51.5
+2611,18524,N1 (NORTHBOUND),0.44461,RA,48.9
+2612,18528,VASCO BOULEVARD,0.31457,RA,43.8
+2613,18530,VASCO BOULEVARD,0.38629,RA,54.7
+2614,18532,GIEL BASSON DRIVE,0.68127,RA,60.9
+2615,18534,N1 (SOUTHBOUND),0.58393,RA,53.8
+2616,18540,N1 (SOUTHBOUND),0.16731,RA,35.0
+2617,18542,MCINTYRE ROAD,0.18542,RA,51.1
+2618,18536,N1 (NORTHBOUND),0.51756,RA,50.3
+2619,18538,PLATTEKLOOF ROAD,0.34072,RA,50.6
+2620,18544,MCINTYRE ROAD,0.41791,RA,59.5
+2621,18546,N1 (SOUTHBOUND),0.26614,RA,60.0
+2622,18548,N1 (SOUTHBOUND),0.59037,RA,55.7
+2623,18552,JIP DE JAGER AVENUE,0.388,RA,47.7
+2624,18550,MIKE PIENAAR BOULEVARD,0.64291,RA,55.3
+2625,18554,N1 (SOUTHBOUND),0.41495,RA,51.0
+2626,18556,N1 (NORTHBOUND),0.51026,RA,50.0
+2627,18558,WILLIE VAN SCHOOR AVENUE,0.42965,RA,51.9
+2628,18562,WILLIE VAN SCHOOR AVENUE,0.46618,RA,49.0
+2629,18560,N1 (SOUTHBOUND),0.40189,RA,52.0
+2630,18564,N1 (NORTHBOUND),0.49981,RA,52.0
+2631,18566,OLD OAK ROAD,0.59567,RA,62.5
+2632,18568,OLD OAK ROAD,0.43009,RA,63.9
+2633,18570,N1 (SOUTHBOUND),0.34492,RA,42.2
+2634,18576,OKAVANGO ROAD,0.47151,RA,51.1
+2635,18574,N1 (NORTHBOUND),0.53718,RA,54.1
+2636,18578,N1 (SOUTHBOUND),0.53625,RA,47.8
+2637,18572,BRACKENFELL BOULEVARD,0.48093,RA,45.0
+2638,18580,OKAVANGO ROAD,0.43964,RA,61.2
+2639,18584,BRIGHTON ROAD,0.30684,RA,45.7
+2640,18586,N1 (SOUTHBOUND),0.24639,RA,41.0
+2641,18588,VAN RIEBEECK STREET,0.40398,RA,45.7
+2642,18582,N1 (NORTHBOUND),0.25401,RA,54.0
+2643,18590,N1 (NORTHBOUND),0.50579,RA,42.6
+2644,18592,MAROELA ROAD,0.49623,RA,25.2
+2645,18594,N1 (SOUTHBOUND),0.55384,RA,37.0
+2646,18600,BERKLEY ROAD,0.35228,RA,40.9
+2647,18598,N1 (SOUTHBOUND),0.23391,RA,53.3
+2648,18596,MAROELA ROAD,0.54354,RA,51.0
+2649,18602,BLACK RIVER PARKWAY (NORTHBOUND),0.31435,RA,51.8
+2650,18604,BERKLEY ROAD,0.2133,RA,44.1
+2651,18606,BLACK RIVER PARKWAY (SOUTHBOUND),0.43402,RA,68.6
+2652,18610,KROMBOOM PARKWAY (NORTHBOUND),0.39065,RA,60.2
+2653,18608,SETTLERS WAY (EASTBOUND),0.30537,RA,65.6
+2654,18612,SETTLERS WAY (WESTBOUND),0.22726,RA,42.4
+2655,18614,SETTLERS WAY (EASTBOUND),0.29108,RA,40.0
+2656,18617,KROMBOOM PARKWAY (SOUTHBOUND),0.32513,RA,57.0
+2657,18618,N1 (NORTHBOUND),0.57959,RA,51.0
+2658,18624,SETTLERS WAY (EASTBOUND),0.30543,RA,51.1
+2659,18621,N1 (SOUTHBOUND),0.51722,RA,45.0
+2660,18627,R304,0.70149,RA,58.0
+2661,18623,R304,0.59947,RA,48.0
+2662,18628,SETTLERS WAY (WESTBOUND),0.2426,RA,39.0
+2663,18634,ADAM TAS STREET,0.38652,RA,33.0
+2664,18632,N1 (NORTHBOUND),0.29296,RA,32.0
+2665,18636,ADAM TAS STREET,0.4412,RA,31.0
+2666,18631,RAAPENBERG ROAD,0.32282,RA,43.0
+2667,18639,N1 (SOUTHTHBOUND),0.45314,RA,57.0
+2668,18641,RAAPENBERG ROAD,0.17586,RA,52.0
+2669,18642,N1 (NORTHBOUND),0.43742,RA,51.2
+2670,18649,N1 (SOUTHBOUND),0.36976,RA,42.0
+2671,18645,MAIN ROAD,0.31012,RA,49.0
+2672,18646,RAAPENBERG ROAD,0.25524,RA,39.0
+2673,18650,SETTLERS WAY (WESTBOUND),0.31932,RA,48.4
+2674,18652,MAIN ROAD,0.46096,RA,57.5
+2675,18654,N1 (NORTHBOUND),0.3892,RA,40.0
+2676,18658,N1 (NORTHBOUND),0.4174,RA,51.6
+2677,18656,NEW ESKDALE STREET,0.7213,RA,62.6
+2678,18660,JAN VAN RIEBEECK DRIVE,0.39452,RA,53.6
+2679,18662,JAN VAN RIEBEECK DRIVE,0.53191,RA,43.0
+2680,18664,N1 (SOUTHBOUND),0.43043,RA,28.0
+2681,18667,RAAPENBERG ROAD,0.08567,RA,44.5
+2682,18670,SONSTRAAL ROAD,0.30899,RA,31.0
+2683,18668,N1 (NORTHBOUND),0.46308,RA,57.0
+2684,18672,SONSTRAAL ROAD,0.36052,RA,38.0
+2685,18676,KROMBOOM PARKWAY (SOUTHBOUND),0.45514,RA,50.8
+2686,18675,N1 (SOUTHBOUND),0.38127,RA,26.0
+2687,18679,KROMBOOM PARKWAY (NORTHBOUND),0.81305,RA,52.1
+2688,18686,KLIPFONTEIN ROAD,0.4852,RA,46.2
+2689,18683,KLIPFONTEIN ROAD,0.66872,RA,52.8
+2690,18699,KROMBOOM PARKWAY (SOUTHBOUND),0.39177,RA,43.1
+2691,18705,KROMBOOM ROAD,0.52884,RA,36.0
+2692,18709,KROMBOOM PARKWAY (NORTHBOUND),0.39884,RA,46.9
+2693,18713,KROMBOOM ROAD,0.42169,RA,42.4
+2694,18715,KROMBOOM PARKWAY (SOUTHBOUND),0.33713,RA,52.8
+2695,18717,DONCASTER ROAD,0.50712,RA,63.9
+2696,18721,DONCASTER ROAD,0.37237,RA,67.3
+2697,18719,KROMBOOM PARKWAY (NORTHBOUND),0.41604,RA,42.4
+2698,18723,KROMBOOM PARKWAY (SOUTHBOUND),0.34374,RA,58.4
+2699,18725,KROMBOOM PARKWAY (NORTHBOUND),0.446,RA,46.9
+2700,18727,OTTERY ROAD,0.44415,RA,59.8
+2701,18729,OTTERY ROAD,0.41935,RA,54.6
+2702,18731,STEENBERG ROAD,0.58978,RA,60.8
+2703,18684,N1 (J72),0.32218,TR,77.7
+2704,18682,R101 Viewstop,7.17345,TR,71.9
+2705,18681,Sonstraal Road,14.15199,TR,75.1
+2706,18733,STEENBERG ROAD,0.86992,RA,62.3
+2707,18735,SIMON VAN DER STEL FREEWAY (SOUTHBOUND),0.55835,RA,55.4
+2708,18737,SIMON VAN DER STEL FREEWAY (NORTHBOUND),0.42777,RA,50.2
+2709,18681,Sonstraal Road,0.03512,TR,27.0
+2710,18682,R101 Viewstop,14.11687,TR,71.4
+2711,18684,N1 (J72),7.77245,TR,76.1
+2712,18739,SIMON VAN DER STEL FREEWAY (SOUTHBOUND),0.49775,RA,46.4
+2713,18741,TOKAI ROAD,0.48952,RA,55.4
+2714,18743,TOKAI ROAD,0.45452,RA,55.2
+2715,18745,SIMON VAN DER STEL FREEWAY (NORTHBOUND),0.59233,RA,54.0
+2716,18749,LADIES MILE ROAD,0.48767,RA,56.3
+2717,18753,SIMON VAN DER STEL FREEWAY (SOUTHBOUND),0.43139,RA,45.4
+2718,18755,KENDAL ROAD,0.42628,RA,53.3
+2719,18751,LADIES MILE ROAD,0.54599,RA,58.9
+2720,18747,SIMON VAN DER STEL FREEWAY (SOUTHBOUND),0.58907,RA,36.7
+2721,18757,SIMON VAN DER STEL FREEWAY (NORTHBOUND),0.45664,RA,49.7
+2722,18761,CONSTANTIA MAIN ROAD,0.6023,RA,55.3
+2723,18759,SIMON VAN DER STEL FREEWAY (SOUTHBOUND),0.46041,RA,40.0
+2724,18763,CONSTANTIA MAIN ROAD,0.43871,RA,50.3
+2725,18777,RHODES DRIVE (NORTHBOUND),0.03578,RA,36.0
+2726,18781,RHODES DRIVE (SOUTHBOUND),0.17277,RA,35.0
+2727,18787,WOOLSACK DRIVE,0.1326,RA,30.0
+2728,18789,WOOLSACK DRIVE,0.04592,RA,31.0
+2729,18806,PRINCE GEORGE DRIVE (NORTHBOUND),0.05084,RA,38.0
+2730,18812,PRINCE GEORGE DRIVE (SOUTHBOUND),0.06189,RA,40.0
+2731,18837,PRINCE GEORGE DRIVE (SOUTHBOUND),0.04917,RA,31.0
+2732,18849,PRINCE GEORGE DRIVE (NORTHBOUND),0.03814,RA,31.0
+2733,18871,SETTLERS WAY (EASTBOUND),0.27279,RA,58.3
+2734,18877,SETTLERS WAY (EASTBOUND),0.16716,RA,32.7
+2735,18886,SETTLERS WAY (WESTBOUND),0.23692,RA,51.5
+2736,18888,SETTLERS WAY (WESTBOUND),0.15841,RA,30.0
+2737,18895,JAN SMUTS DRIVE (NORTHBOUND),0.21903,RA,35.7
+2738,18898,JAN SMUTS DRIVE (SOUTHBOUND),0.16852,RA,33.0
+2739,18903,JAN SMUTS DRIVE (NORTHBOUND),0.23206,RA,49.8
+2740,18908,JAN SMUTS DRIVE (SOUTHBOUND),0.23351,RA,60.0
+2741,18958,SETTLERS WAY (EASTBOUND),0.43191,RA,60.0
+2742,18965,SETTLERS WAY (WESTBOUND),0.47291,RA,48.2
+2743,18972,VANGUARD DRIVE (NORTHBOUND),0.3375,RA,63.0
+2744,18977,VANGUARD DRIVE,0.57445,RA,60.0
+2745,18981,DUINEFONTEIN ROAD,0.22091,RA,60.0
+2746,18990,SETTLERS WAY (EASTBOUND),0.23343,RA,42.0
+2747,19028,DUINEFONTEIN ROAD,0.46352,RA,49.4
+2748,19033,SETTLERS WAY (WESTBOUND),0.36979,RA,46.0
+2749,19041,SETTLERS WAY (EASTBOUND),0.46463,RA,60.0
+2750,19342,SETTLERS WAY (EASTBOUND),0.50131,RA,47.9
+2751,19344,SETTLERS WAY (WESTBOUND),0.3428,RA,44.5
+2752,19346,BORCHERDS QUARRY ROAD,0.49821,RA,60.0
+2753,19348,BORCHERDS QUARRY ROAD,0.45397,RA,60.6
+2754,19350,AIRPORT APPROACH ROAD (EASTBOUND),0.39831,RA,52.5
+2755,19352,BORCHERDS QUARRY ROAD,0.51257,RA,40.0
+2756,19354,SETTLERS WAY (EASTBOUND),1.24364,RA,86.6
+2757,19358,CAPE FLATS FREEWAY (SOUTHBOUND),0.7052,RA,84.8
+2758,19360,CAPE FLATS FREEWAY (NORTHBOUND),0.88669,RA,85.7
+2759,19356,CAPE FLATS FREEWAY (SOUTHBOUND),1.44511,RA,93.5
+2760,19362,SETTLERS WAY (WESTBOUND),0.96974,RA,90.7
+2761,19368,SETTLERS WAY (EASTBOUND),0.90334,RA,67.4
+2762,19364,SETTLERS WAY (WESTBOUND),1.13793,RA,97.9
+2763,19372,MEW WAY,0.54704,RA,21.0
+2764,19370,SETTLERS WAY (EASTBOUND),0.5342,RA,57.6
+2765,19366,CAPE FLATS FREEWAY (NORTHBOUND),1.35098,RA,98.0
+2766,19374,SETTLERS WAY (WESTBOUND),0.54956,RA,51.2
+2767,19376,MEW WAY,0.47156,RA,61.4
+2768,19378,N2 (EASTBOUND),0.40697,RA,45.0
+2769,19380,SPINE ROAD,0.41651,RA,55.8
+2770,19384,SPINE ROAD,0.43351,RA,38.0
+2771,19382,N2 (WESTBOUND),0.3955,RA,47.6
+2772,19386,N2 (EASTBOUND),0.43375,RA,56.2
+2773,19388,BADEN POWELL DRIVE,0.40372,RA,93.0
+2774,19390,N2 (WESTBOUND),0.41765,RA,74.5
+2775,19392,BADEN POWELL DRIVE,0.44617,RA,60.6
+2776,19456,N2 (EASTBOUND),0.52183,RA,61.0
+2777,19458,MACASSAR ROAD,0.40398,RA,31.0
+2778,19460,N2 (WESTBOUND),0.49335,RA,60.0
+2779,19462,MACASSAR ROAD,0.56371,RA,57.0
+2780,19464,N2 (EASTBOUND),0.40824,RA,42.2
+2781,19466,BROADWAY BOULEVARD,0.4607,RA,46.8
+2782,19468,N2 (WESTBOUND),0.37578,RA,43.9
+2783,19470,BROADWAY BOULEVARD,0.46175,RA,59.2
+2784,19472,BROADWAY BOULEVARD,0.24759,RA,30.0
+2785,19474,VAN RIEBEECK ROAD,0.22533,RA,33.0
+2786,19500,MILNER ROAD,0.29891,RA,49.6
+2787,19502,RAAPENBERG ROAD,0.4062,RA,48.7
+2788,20087,N2 (EASTBOUND),0.1588,RA,36.7
+2789,20089,MAIN ROAD,0.10147,RA,32.0
+2790,21072,N7 (NORTHBOUND),0.30647,RA,59.8
+2791,21074,BOSMANSDAM ROAD,0.62968,RA,56.1
+2792,21078,BOSMANSDAM ROAD,0.41562,RA,59.2
+2793,21076,N7 (SOUTHBOUND),0.44474,RA,47.3
+2794,21080,N7 (NORTHBOUND),0.66642,RA,50.3
+2795,21082,PLATTEKLOOF ROAD,0.6392,RA,52.5
+2796,21084,N7 (SOUTHBOUND),0.67342,RA,50.3
+2797,21090,N7 (NORTHBOUND),0.8002,RA,58.5
+2798,21086,PLATTEKLOOF ROAD,0.40731,RA,40.0
+2799,21088,PLATTEKLOOF ROAD,0.8323,RA,40.0
+2800,21092,POTSDAM ROAD,0.58386,RA,52.0
+2801,21094,N7 (SOUTHBOUND),0.78526,RA,59.5
+2802,21096,POTSDAM ROAD,0.4858,RA,58.0
+2803,21098,N7 (NORTHBOUND),0.77131,RA,40.0
+2804,21102,N7 (SOUTHBOUND),0.32243,RA,42.2
+2805,21100,MALMESBURY,0.55136,RA,48.2
+2806,21106,N7 (NORTHBOUND),0.19298,RA,43.0
+2807,21108,MALMESBURY NORTH,0.20179,RA,48.0
+2808,21104,MALMESBURY,0.56336,RA,51.6
+2809,21110,N7 (SOUTHBOUND),0.38721,RA,52.7
+2810,21112,MALMESBURY NORTH,0.35864,RA,120.0
+2811,21974,RHODES DRIVE,0.04989,RA,28.0
+2812,21978,RHODES DRIVE,0.09674,RA,54.0
+2813,21976,PRINCESS ANNE AVENUE,0.08038,RA,48.0
+2814,21980,PRINCESS ANNE AVENUE,0.08888,RA,45.0
+2815,21982,RHODES DRIVE,0.13428,RA,26.0
+2816,21984,MILL STREET,0.07347,RA,33.0
+2817,21988,MILL STREET,0.13573,RA,31.0
+2818,21986,BUITENKANT STREET,0.21589,RA,36.8
+2819,21990,BUITENKANT STREET,0.17256,RA,25.0
+2820,21994,DE WAAL DRIVE,0.03033,RA,19.0
+2821,21996,UPPER ROODEBLOEM ROAD,0.06941,RA,32.0
+2822,22000,TABLE BAY BOULEVARD UNDERPASS,0.49635,RA,68.2
+2823,21998,DE VAAL DRIVE,0.56242,RA,60.0
+2824,22002,TABLE BAY BOULEVARD (SOUTHBOUND),0.49627,RA,52.5
+2825,22006,NELSON MANDELA BOULEVARD,0.37928,RA,59.2
+2826,22008,NELSON MANDELA BOULEVARD,0.11546,RA,60.0
+2827,22010,SEARLE STREET,0.10945,RA,31.0
+2828,22004,STRAND STREET,0.51201,RA,57.0
+2829,22012,NELSON MANDELA BOULEVARD,0.06774,RA,21.0
+2830,22014,MELBOURNE ROAD,0.08586,RA,24.0
+2831,22016,NELSON MANDELA BOULEVARD,0.03941,RA,22.0
+2832,22018,UPPER ROODEBLOEM ROAD,0.10628,RA,30.0
+2833,22020,NELSON MANDELA BOULEVARD,0.08695,RA,29.9
+2834,22022,UPPER ROODEBLOEM ROAD,0.13758,RA,34.0
+2835,22024,DE WAAL DRIVE,0.30305,RA,80.0
+2836,22026,DE WAAL DRIVE,0.28665,RA,20.0
+2837,22028,NELSON MANDELA BOULEVARD,0.31624,RA,60.0
+2838,22030,MAIN ROAD,0.27056,RA,47.2
+2839,22032,SETTLERS WAY,0.21651,RA,50.4
+2840,22034,SETTLERS WAY,0.13384,RA,56.7
+2841,22038,SETTELRS WAY,0.1818,RA,49.2
+2842,22036,LIESBEEK PARKWAY,0.1604,RA,49.7
+2843,22040,LIESBEEK PARKWAY,0.13934,RA,52.5
+2844,22120,MAIN ROAD,0.12633,RA,36.7
+2845,22122,SIR LOWRY ROAD,0.15296,RA,41.6
+2846,22245,KOMMETJIE ROAD,0.07426,RA,35.0
+2847,22247,VICTORIA ROAD,0.07007,RA,37.0
+2848,22250,HELEN SUZMAN BOULEVARD,0.06117,RA,44.2
+2849,22298,VANGUARD DRIVE,0.08944,RA,37.0
+2850,22300,CAPE FLATS FREEWAY,0.0552,RA,29.0
+2851,22302,VANGUARD DRIVE,0.36446,RA,46.6
+2852,22304,WELTEVREDEN ROAD,0.04212,RA,100.0
+2853,22306,DUINEFONTEIN ROAD,0.34474,RA,59.5
+2854,22308,VANGUARD DRIVE,0.39998,RA,49.4
+2855,22314,TURF HALL ROAD,0.34133,RA,50.9
+2856,22310,LANSDOWNE ROAD,0.61375,RA,47.7
+2857,22312,VANGUARD DRIVE,0.3361,RA,47.3
+2858,22320,VANGUARD DRIVE,0.10142,RA,39.0
+2859,22316,VANGUARD DRIVE,0.34964,RA,47.9
+2860,22322,KLIPFONTEIN ROAD,0.09566,RA,39.0
+2861,22318,TURF HALL ROAD,0.35345,RA,49.2
+2862,22324,VANGUARD DRIVE,0.06323,RA,38.0
+2863,22326,VIKING WAY,0.06145,RA,39.0
+2864,22330,VOORTREKKER ROAD,0.05714,RA,38.8
+2865,22328,VANGUARD DRIVE,0.187,RA,51.0
+2866,22393,RATANGA ROAD,0.07495,RA,41.3
+2867,22395,BOSMANSDAM ROAD,0.08492,RA,43.7
+2868,22397,BOSMANSDAM ROAD,0.0504,RA,39.0
+2869,22401,BOSMANSDAM ROAD,0.04643,RA,40.0
+2870,22399,VRYBURGER AVENUE,0.04729,RA,35.0
+2871,22403,EDGEMEAD DRIVE,0.05057,RA,41.0
+2872,22455,MAIN ROAD,0.07597,RA,43.2
+2873,22457,MAIN ROAD,0.05252,RA,38.8
+2874,22557,MODDERDAM ROAD,0.20677,RA,60.0
+2875,22559,35TH AVENUE,0.16252,RA,50.0
+2876,22561,MODEDERDAM ROAD,0.14392,RA,54.8
+2877,22641,KUILS RIVER FREEWAY (NORTHBOUND),0.58543,RA,61.5
+2878,22643,STELLENBOSCH ROAD,0.63865,RA,65.0
+2879,22645,KUILS RIVER FREEWAY (SOUTHBOUND),0.63246,RA,66.4
+2880,22647,STELLENBOSCH ROAD,0.67537,RA,58.3
+2881,22765,PLATTEKLOOF ROAD,0.04149,RA,40.0
+2882,22767,PLATTEKLOOF ROAD,0.06904,RA,40.0
+2883,22769,DE GRENDEL AVENUE,0.06617,RA,42.0
+2884,22787,DE LA REY STREET,0.07482,RA,39.0
+2885,22785,VOORTREKKER ROAD,0.10722,RA,46.5
+2886,22789,FRANCIE VAN ZIJL DRIVE,0.07326,RA,44.0
+2887,22824,JAN SMUTS DRIVE,0.10702,RA,45.0
+2888,22826,JAN SMUTS DRIVE,0.0452,RA,40.0
+2889,22828,MODDERDAM NORTH-SOUTH ROAD,0.0432,RA,33.0
+2890,23024,AMANDEL DRIVE,0.0506,RA,40.0
+2891,23026,BOTTELARY ROAD,0.06356,RA,46.0
+2892,23036,BELVEDERE ROAD,0.03759,RA,27.0
+2893,23038,ROSMEAD AVENUE,0.05687,RA,34.7
+2894,23066,FRANS CONRADIE DRIVE,0.05279,RA,39.0
+2895,23068,FRANS CONRADIE DRIVE,0.05167,RA,41.0
+2896,23070,FRANS CONRADIE DRIVE,0.08719,RA,49.0
+2897,23072,TIERBERG ROAD,0.15052,RA,44.0
+2898,23078,VOORTREKKER ROAD,0.07986,RA,34.0
+2899,23080,VOORTREKKER ROAD,0.07144,RA,35.7
+2900,23188,A.Z. BERMAN DRIVE,0.34382,RA,48.7
+2901,23190,CAPE FLATS FREEWAY,0.33918,RA,42.1
+2902,23192,CAPE FLATS FREEWAY,0.36516,RA,47.4
+2903,23194,CAPE FLATS FREEWAY,0.50828,RA,52.6
+2904,23336,STEENBERG ROAD,0.18223,RA,59.5
+2905,23338,OU KAAPSE ROAD,0.15257,RA,51.0
+2906,23450,RAAPENBERG ROAD,0.08169,RA,45.0
+2907,23707,RED HILL ROAD,0.10028,RA,53.0
+2908,23964,MILTON ROAD,0.04594,RA,60.0
+2909,24008,MONTAGUE DRIVE,0.06883,RA,40.0
+2910,24106,NEWLANDS AVENUE,0.02516,RA,36.0
+2911,24144,AIRPORT APPROACH ROAD,0.28784,RA,48.2
+2912,24142,BORCHERDS QUARRY ROAD,0.38433,RA,50.8
+2913,24146,BORCHERDS QUARRY ROAD,0.52568,RA,50.4
+2914,24149,OLD PAARL ROAD,0.06613,RA,37.0
+2915,24177,JAN VAN RIEBEECK DRIVE,0.06691,RA,45.0
+2916,24209,HALT ROAD,0.05681,RA,46.0
+2917,24205,OTTERY ROAD,0.054,RA,40.0
+2918,24319,HELEN SUZMAN BOULEVARD,0.02288,RA,39.0
+2919,24321,PORTSWOOD ROAD,0.07365,RA,30.0
+2920,24378,OLD PAARL ROAD,0.48203,RA,56.7
+2921,24376,KUILS RIVER FREEWAY (NORTHBOUND),0.47726,RA,46.6
+2922,24528,Roeland Street,0.07194,TR,60.0
+2923,24529,Sir Lowry Road,0.43606,TR,23.6
+2924,24528,Roeland Street,0.36352,TR,25.2
+2925,24819,TABLE BAY BOULEVARD (SOUTHBOUND),0.07647,RA,26.0
+2926,24821,MARINE DRIVE,0.1424,RA,43.0
+2927,24817,MARINE DRIVE,0.22666,RA,36.7
+2928,24865,KUILS RIVER FREEWAY (NORTHBOUND),0.54912,RA,53.8
+2929,24869,KUILS RIVER FREEWAY SOUTHBOUND),0.55045,RA,44.7
+2930,24867,HINDLE ROAD,0.51785,RA,43.8
+2931,24871,HINDLE ROAD,0.5101,RA,46.7
+2932,24875,STRAND ROAD,0.45154,RA,55.8
+2933,24873,KUILS RIVER FREEWAY (NORTHTHBOUND),0.59086,RA,48.5
+2934,24879,STRAND ROAD,0.57798,RA,52.0
+2935,24877,KUILS RIVER FREEWAY (SOUTHBOUND),0.58748,RA,47.7
+2936,24923,OTTO DU PLESSIS DRIVE,0.04452,RA,39.2
+2937,25116,PIET RETIEF STREET,0.0873,RA,55.0
+2938,25118,OPTENHORST STREET,0.05353,RA,39.0
+2939,25351,FAURE MARINE DRIVE,0.15596,RA,29.0
+2940,25646,STELLENBOSCH ARTERIAL ROAD,0.04035,RA,31.0
+2941,25693,VALHALLA DRIVE,0.31974,RA,60.0
+2942,25695,DUINEFONTEIN ROAD,0.08705,RA,49.0
+2943,25728,Ottery Road,0.07666,TR,100.0
+2944,25729,Weltevreden Road,2.64234,TR,71.4
+2945,25729,Weltevreden Road,0.08018,TR,100.0
+2946,25728,Ottery Road,2.63882,TR,71.4
+2947,3553,Carl Cronje Drive,0.01427,TR,36.0
+2948,3552,Durban Road,0.5896,TR,31.6
+2949,3551,Mountain View Drive,0.68538,TR,46.6
+2950,3550,N1,0.41908,TR,43.9
+2951,3549,Suikerbos Street,0.32171,TR,51.0
+2952,3548,Raglan Road,0.73289,TR,49.7
+2953,3547,Mondale Street,0.38884,TR,45.0
+2954,3546,Old Paarl Road,0.629,TR,43.6
+2955,3545,Strand Road,0.36451,TR,38.4
+2956,3169,Baden Powell Drive,0.06842,TR,39.2
+2957,3170,Spine Road,0.81962,TR,52.7
+2958,3171,5th Avenue,5.0,TR,59.7
+2959,7767,Klip Road,0.79763,TR,55.3
+2960,3172,Ottery Road,0.88148,TR,54.4
+2961,7750,New Ottery Road,0.87198,TR,57.4
+2962,3173,Lansdowne Road,1.64907,TR,61.2
+2963,10660,Blomvlei Road,1.23926,TR,54.5
+2964,3174,Turf Hall Road,0.52228,TR,49.7
+2965,3175,Kromboom Road,1.78442,TR,52.7
+2966,3176,Klipfontein Road,1.50037,TR,48.9
+2967,3177,Settlers Way,1.36971,TR,59.3
+2968,3178,Viking Way,2.62334,TR,60.0
+2969,3179,Forest Drive,0.8332,TR,59.1
+2970,3180,Black River Parkway,1.97106,TR,52.0
+2971,3446,Access Road,0.05213,TR,79.0
+2972,3445,Melkbosstrand Road,4.65322,TR,81.9
+2973,10485,Birkenhead Drive,0.70075,TR,49.0
+2974,3444,Cormorant Avenue,6.87231,TR,66.0
+2975,3443,Sir David Baird Boulevard,0.56988,TR,49.4
+2976,3442,Marine Drive,3.52138,TR,57.0
+2977,3441,Blaauwberg Road,1.01876,TR,36.9
+2978,8357,Raats Drive,0.29024,TR,33.1
+2979,8356,Wood Drive,1.55556,TR,45.8
+2980,8355,Gie Road,1.18082,TR,46.9
+2981,3440,Blaauwberg Road,0.7814,TR,42.3
+2982,3429,Koeberg Road,1.17409,TR,53.8
+2983,3428,N7 (J17),1.20687,TR,47.6
+2984,3427,De Grendel Avenue,0.49318,TR,49.3
+2985,3426,Vryburger Avenue,1.35912,TR,62.8
+2986,7909,Bosmandam Road,0.6973,TR,58.7
+2987,3425,Rothschild Boulevard,2.4902,TR,58.9
+2988,7947,Hendrik Verwoerd Drive,1.06412,TR,56.5
+2989,3424,N1 (J18),0.47311,TR,41.8
+2990,3423,Frans Conradie Drive,0.90907,TR,50.1
+2991,3422,Voortrekker Road,1.20904,TR,46.9
+2992,455,N1 (J13),0.52081,TR,79.4
+2993,3591,Wingfield Road,1.09791,TR,63.3
+2994,3590,Milton Road,0.89637,TR,55.6
+2995,454,Voortrekker Road,0.89251,TR,51.8
+2996,453,Viking Way,1.49226,TR,53.8
+2997,7987,Jakkalsvlei Avenue,1.94736,TR,56.1
+2998,10092,Bluegum Road,0.73444,TR,54.6
+2999,452,Settlers Way,0.54228,TR,46.5
+3000,451,Klipfontein Road,1.42717,TR,51.3
+3001,450,Turf Hall Road,1.79962,TR,67.6
+3002,6868,Lansdowne Road,1.83472,TR,80.1
+3003,449,Duinefontein Road,2.24289,TR,90.3
+3004,8000,Oliver Tambo Drive,0.93927,TR,60.0
+3005,448,Cape Flats Freeway,0.83437,TR,58.5
+3006,447,Highlands Drive,1.06064,TR,59.6
+3007,446,Morgenster Road,1.30951,TR,59.3
+3008,445,Wespoort Drive,1.49429,TR,59.7
+3009,444,Canary,0.48103,TR,56.4
+3010,443,Piet-My-Vrou,0.2116,TR,52.9
+3011,442,Buzzard,0.06944,TR,51.4
+3012,441,The Cedars Avenue,0.13639,TR,38.5
+3013,440,Tarentaal,0.20724,TR,43.0
+3014,439,Robin,0.11247,TR,50.7
+3015,438,Spine Road,0.27136,TR,35.2
+3016,11469,Baden Powell Drive,1.57682,TR,43.2
+3017,7796,Main Road,0.03229,TR,26.0
+3018,8565,Alexander Road,0.26916,TR,37.8
+3019,7795,Vlei Road,0.45037,TR,40.5
+3020,457,Prince George Drive,0.64311,TR,42.6
+3021,458,Sanderling Road,0.84765,TR,48.6
+3022,459,Strandfontein Road,6.15794,TR,58.7
+3023,10511,Witsand Road,2.62413,TR,76.5
+3024,11481,Weltevreden Road,3.44044,TR,77.6
+3025,460,Eisleben Road,0.33939,TR,60.0
+3026,461,Swartklip Road,4.70534,TR,81.8
+3027,8406,Oscar Mpetha Road,0.64322,TR,65.4
+3028,462,Mew Way,2.63499,TR,84.8
+3029,8403,Walter Sisulu Road,1.2895,TR,59.1
+3030,463,Macassar Road,1.20961,TR,55.2
+3031,464,N2,1.24712,TR,61.8
+3032,3461,Old Faure Road,1.78611,TR,97.8
+3033,465,Van Riebeek Road,0.70781,TR,62.7
+3034,12786,Annandale Road,5.12743,TR,87.0
+3035,466,Adam Tas Street,5.19896,TR,74.6
+3036,467,Strand Street,4.3048,TR,63.4
+3037,3260,Constantia Main Road,0.04872,TR,32.2
+3038,10651,Doordrift Road,0.15876,TR,41.4
+3039,3259,Kendal Road,0.61562,TR,47.7
+3040,3258,Ladies Mile Road,0.3078,TR,42.4
+3041,3257,Firgrove Way,2.73411,TR,56.6
+3042,3256,Tokai Road,2.05387,TR,59.2
+3043,3255,Ou Kaapse Road,2.3972,TR,54.6
+3044,10516,Westlake Avenue,0.81036,TR,57.8
+3045,3254,Simon van der Stel Freeway,0.63037,TR,50.9
+3046,3253,Main Road,0.86122,TR,60.3
+3047,3420,Modderdam Road East-West,0.069,TR,43.5
+3048,3419,Radnor Road,1.0728,TR,58.2
+3049,3418,Francie Van Zijl Drive,2.00864,TR,50.2
+3050,11040,Mark Street,0.5906,TR,43.6
+3051,3417,Voortrekker Road,0.92807,TR,42.1
+3052,3416,Frans Conradie Drive,0.96873,TR,46.9
+3053,3543,R304,0.05489,TR,50.0
+3054,10699,Maroela Road,5.82947,TR,63.9
+3055,3542,Van Riebeeck Street,1.43576,TR,39.2
+3056,3541,Okavango Road,2.27993,TR,42.2
+3057,8382,Kruisfontein Way,0.49397,TR,44.3
+3058,8381,Windmeul Street,0.95011,TR,47.6
+3059,3540,Brackenfell Boulevard,1.13212,TR,41.9
+3060,3539,Kuils River Freeway,1.02547,TR,38.4
+3061,3538,Old Oak Way,0.25808,TR,38.9
+3062,10763,Meerlust Street,0.77619,TR,44.4
+3063,10502,Harrod Drive,0.57906,TR,50.0
+3064,11541,De la Haye Avenue,0.62619,TR,49.7
+3065,3537,Bill Bezuidenhout Avenue,0.9327,TR,46.4
+3066,3536,Du Toit Street,0.28005,TR,41.1
+3067,3535,Quarry Road,0.13076,TR,37.0
+3068,3534,Strand Road,0.09559,TR,24.6
+3069,3431,N7,0.45418,TR,50.7
+3070,18361,Potsdam Road,0.1398,TR,55.0
+3071,3432,Blaauwberg Road,3.51587,TR,44.2
+3072,3433,Plattekloof Road,1.20406,TR,54.6
+3073,3434,Montague Drive,1.17104,TR,47.2
+3074,7882,Omuramba Road,0.86216,TR,50.4
+3075,3435,Racecourse Road,0.60898,TR,48.5
+3076,10230,Freedom Way,0.6697,TR,46.8
+3077,10221,Zastron Road,0.60438,TR,43.3
+3078,3436,Bosmansdam Road,0.26879,TR,39.3
+3079,3437,Loxton Road,0.67914,TR,39.6
+3080,3438,Boundary Road,1.03518,TR,45.1
+3081,8476,Section Road,2.77866,TR,41.1
+3082,3439,Koeberg Interchange,0.33831,TR,41.2
+3083,3398,Kroonenburg Square,0.01251,TR,52.0
+3084,3399,Hendrik Verwoerd Drive,0.91549,TR,55.9
+3085,3400,N1,0.27562,TR,48.4
+3086,3401,Frans Conradie Drive,0.56712,TR,43.5
+3087,3402,Frans Conradie Drive,0.49351,TR,46.5
+3088,3403,Milton Road,0.34173,TR,46.0
+3089,3404,Voortrekker Road,1.04536,TR,50.5
+3090,7958,Epping Avenue,0.81567,TR,48.9
+3091,3405,Avonwood Avenue,0.89145,TR,54.0
+3092,3406,Owen Road,1.58537,TR,56.8
+3093,3407,Modderdam Road,1.76833,TR,59.0
+3094,3408,Erica Drive,1.27924,TR,69.0
+3095,3409,Symphony Way,1.36915,TR,70.2
+3096,3410,Belhar Drive,1.96709,TR,66.0
+3097,3411,Kuils River Freeway,0.99173,TR,60.3
+3098,8463,Westbank Main Road,0.37217,TR,57.7
+3099,3412,New Nooiensfontein Drive,0.87556,TR,60.0
+3100,8413,Range Road,1.43261,TR,58.5
+3101,3413,Van Riebeek Road,0.93621,TR,52.4
+3102,10767,Zevenwacht Link Road,1.17742,TR,61.7
+3103,3414,Polkadraai Road,10.1645,TR,84.6
+3104,3504,Voortrekker Road,0.04002,TR,31.5
+3105,10259,Lower Main Road,0.47609,TR,35.1
+3106,3503,Station Road,1.34669,TR,53.1
+3107,3502,Settlers Way,1.01053,TR,51.4
+3108,3501,Klipfontein Road,0.33222,TR,44.0
+3109,3500,Belmont Road,1.39857,TR,52.4
+3110,10615,Sandown Road,0.48593,TR,44.1
+3111,3499,Campground Road,1.01924,TR,41.9
+3112,3498,Stanhope Road,1.32211,TR,43.1
+3113,3382,Jan Smuts Drive,0.40681,TR,40.0
+3114,3381,Vanguard Drive,2.15093,TR,54.6
+3115,3380,Valhalla Drive,1.79209,TR,52.2
+3116,3379,Halt Road,0.33241,TR,47.4
+3117,3378,35th Avenue,1.54912,TR,53.7
+3118,3377,De La Rey Street,1.63121,TR,51.0
+3119,3376,Tienie Meyer Road,2.6021,TR,54.1
+3120,3387,Voortrekker Road,0.2961,TR,35.3
+3121,3386,Frans Conradie Drive,0.84865,TR,46.5
+3122,3385,N1,0.57349,TR,44.4
+3123,3384,Hendrik Verwoerd Drive,0.29497,TR,47.9
+3124,7957,Upper Lincoln Street,1.21288,TR,59.7
+3125,3383,Tygerbergvalley Road,3.19243,TR,55.7
+3126,3559,Strand Road,0.01596,TR,30.0
+3127,3560,Bottelary Road,0.6426,TR,43.4
+3128,3561,Old Paarl Road,2.12529,TR,45.9
+3129,3562,Frans Conradie Drive,1.10021,TR,49.0
+3130,3563,N1 (J25),0.82557,TR,46.9
+3131,8377,Eversdal Street,0.82557,TR,46.9
+3132,3564,Mountain View Drive,0.85529,TR,47.6
+3133,3565,Durban Road,1.04267,TR,42.4
+3134,3566,Tygerbergvalley Road,0.62495,TR,33.0
+3135,3567,Van Riebeekshof Road,0.67198,TR,49.0
+3136,3568,Race Course Way,2.45807,TR,50.9
+3137,12002,Silverstroom Road,29.03453,TR,111.9
+3138,500,Dassenberg Road,8.87609,TR,116.4
+3139,12000,Brakkefontein Road,2.50053,TR,90.3
+3140,499,Napoleon Avenue,4.53269,TR,100.6
+3141,498,Melkbosstrand Road,3.9313,TR,92.4
+3142,10484,Birkenhead Drive,1.08827,TR,67.5
+3143,11752,Big Bay Boulevard,6.28798,TR,94.4
+3144,7873,Sandown Road,1.24273,TR,64.6
+3145,7872,Sandown Road East,0.84384,TR,55.3
+3146,7871,Link Road,1.14012,TR,55.0
+3147,497,Blaauwberg Road,1.02256,TR,55.5
+3148,496,Marine Drive,0.682,TR,58.7
+3149,495,Racecourse Road,4.01159,TR,67.0
+3150,494,Broad Road,1.31867,TR,59.6
+3151,10240,Loxton Road,1.2049,TR,59.8
+3152,493,Boundary Road,1.11413,TR,58.5
+3153,7839,Section Road,2.70823,TR,66.1
+3154,7838,Neptune Street,0.30218,TR,71.8
+3155,492,Paarden Eiland Road,0.54158,TR,51.0
+3156,491,Table Bay Boulevard,0.98574,TR,50.6
+3157,3545,Strand Road,0.01796,TR,31.0
+3158,3546,Old Paarl Road,0.33926,TR,37.4
+3159,3547,Mondale Street,0.63981,TR,41.9
+3160,3548,Raglan Road,0.39208,TR,46.8
+3161,3549,Suikerbos Street,0.7305,TR,49.0
+3162,3550,N1,0.30942,TR,47.8
+3163,3551,Mountain View Drive,0.4211,TR,42.8
+3164,3552,Durban Road,0.78112,TR,38.7
+3165,3553,Carl Cronje Drive,0.49609,TR,32.6
+3166,98,N2,0.01109,TR,24.0
+3167,97,Broadway Boulevard,1.74912,TR,78.3
+3168,96,Main Road,3.97682,TR,84.3
+3169,95,Baden Powell Drive,5.17074,TR,74.4
+3170,8390,Stratford Avenue,1.41934,TR,74.3
+3171,8389,Bobs Way,0.84477,TR,71.7
+3172,8388,Forest Drive,0.85763,TR,54.6
+3173,8387,Buttskop Road,3.88633,TR,75.4
+3174,94,Stellenbosch Road,2.25102,TR,52.3
+3175,10205,Van Riebeeck Road,1.41284,TR,50.3
+3176,8386,Langverwacht Way,1.0699,TR,52.4
+3177,10682,Kerk Street,0.70557,TR,45.0
+3178,8385,New Nooiensfontein Drive,0.28463,TR,41.4
+3179,8384,Pioneer Street,0.78502,TR,40.9
+3180,93,Kuils River Freeway,0.61228,TR,38.9
+3181,3422,Voortrekker Road,0.03661,TR,26.0
+3182,3423,Frans Conradie Drive,1.22268,TR,45.9
+3183,3424,N1 (J18),1.10792,TR,44.0
+3184,7947,Hendrik Verwoerd Drive,0.21835,TR,39.4
+3185,3425,Rothschild Boulevard,1.0612,TR,58.0
+3186,7909,Bosmandam Road,2.47479,TR,63.1
+3187,3426,Vryburger Avenue,0.71186,TR,62.5
+3188,3427,De Grendel Avenue,1.38082,TR,64.9
+3189,3428,N7 (J17),0.86078,TR,54.3
+3190,3429,Koeberg Road,0.86687,TR,46.7
+3191,3440,Blaauwberg Road,1.20908,TR,52.9
+3192,8355,Gie Road,0.64428,TR,47.8
+3193,8356,Wood Drive,1.20622,TR,47.6
+3194,8357,Raats Drive,1.56297,TR,46.2
+3195,3441,Blaauwberg Road,0.30903,TR,36.6
+3196,3442,Marine Drive,1.06086,TR,42.0
+3197,3443,Sir David Baird Boulevard,3.50802,TR,57.5
+3198,3444,Cormorant Avenue,0.56781,TR,51.5
+3199,10485,Birkenhead Drive,6.82372,TR,66.5
+3200,3445,Melkbosstrand Road,0.70075,TR,50.6
+3201,3446,Access Road,4.70536,TR,79.2
+3202,436,Koeberg Interchange,0.41284,TR,52.2
+3203,7895,Koeberg Road South (M170),0.72607,TR,59.5
+3204,435,Black River Parkway,0.09956,TR,79.7
+3205,434,Berkley Road,0.87633,TR,80.0
+3206,433,Settlers Way,1.61337,TR,78.5
+3207,7896,Milner Road,0.62315,TR,82.0
+3208,432,Klipfontein Road,1.82362,TR,95.6
+3209,431,Kromboom Road,1.44022,TR,94.9
+3210,430,Doncaster Road,1.87333,TR,92.3
+3211,429,Ottery Road,2.84382,TR,93.0
+3212,428,Dick Burton Street,0.65899,TR,67.5
+3213,427,Victoria Road,1.65891,TR,60.8
+3214,7768,Victoria Road,0.48816,TR,54.4
+3215,7762,Klip Road,0.55997,TR,64.6
+3216,6867,Retreat Road,0.98092,TR,57.9
+3217,426,Concert Boulevard,1.51699,TR,60.1
+3218,425,Military Road,1.01777,TR,55.7
+3219,8338,Vrygrond Avenue,0.89433,TR,56.4
+3220,424,Park Island Way,0.45743,TR,50.6
+3221,423,Sonnet Quay,0.23316,TR,43.1
+3222,422,East Lake Island Drive,0.34974,TR,68.8
+3223,421,Windermere Road,0.66056,TR,57.2
+3224,420,R310,0.47157,TR,44.2
+3225,269,R45,21.83728,TR,108.8
+3226,268,Voortrekker Road,3.58336,TR,75.9
+3227,267,Darling Road,2.5658,TR,78.6
+3228,12026,Nywerheid Crescent,0.91995,TR,59.9
+3229,12024,Kloof Street,3.32471,TR,79.5
+3230,12023,Darling Way,0.44683,TR,60.0
+3231,12018,Kalbaskraal,10.19392,TR,87.4
+3232,12014,Klein Dassenberg Road,2.06224,TR,93.1
+3233,12394,Rondeberg Road,2.65239,TR,88.8
+3234,266,R304,7.78392,TR,93.1
+3235,12013,Van Schoorsdrift Road,1.08257,TR,109.2
+3236,265,Wingfield Road,5.93346,TR,104.4
+3237,264,Reygersdal Drive,2.20894,TR,107.8
+3238,12012,Old Malmesbury Road,2.14006,TR,105.1
+3239,263,Vissershok Road,2.6066,TR,104.2
+3240,262,Potsdam Road,2.52895,TR,94.8
+3241,261,Plattekloof Road,4.99207,TR,97.1
+3242,260,Bosmansdam Road,2.17363,TR,92.3
+3243,259,N1 (J13),0.87509,TR,82.7
+3244,11469,Baden Powell Drive,0.02883,TR,28.0
+3245,438,Spine Road,1.56079,TR,37.1
+3246,439,Robin,0.25855,TR,37.9
+3247,440,Tarentaal,0.11247,TR,51.2
+3248,441,The Cedars Avenue,0.20724,TR,39.8
+3249,442,Buzzard,0.13639,TR,41.5
+3250,443,Piet-My-Vrou,0.06944,TR,44.2
+3251,444,Canary,0.2116,TR,53.0
+3252,445,Wespoort Drive,0.48103,TR,59.3
+3253,446,Morgenster Road,1.51551,TR,58.0
+3254,447,Highlands Drive,1.284,TR,58.4
+3255,448,Cape Flats Freeway,1.11053,TR,55.3
+3256,8000,Oliver Tambo Drive,0.78196,TR,56.5
+3257,449,Duinefontein Road,1.4157,TR,60.0
+3258,6868,Lansdowne Road,1.84806,TR,60.0
+3259,450,Turf Hall Road,2.47036,TR,71.0
+3260,451,Klipfontein Road,1.1544,TR,60.7
+3261,452,Settlers Way,1.57872,TR,49.1
+3262,10092,Bluegum Road,0.31395,TR,49.0
+3263,7987,Jakkalsvlei Avenue,0.74523,TR,55.3
+3264,453,Viking Way,2.01083,TR,55.7
+3265,454,Voortrekker Road,1.46819,TR,54.5
+3266,3590,Milton Road,0.8889,TR,55.3
+3267,3591,Wingfield Road,0.85808,TR,54.5
+3268,455,N1 (J13),1.6116,TR,70.2
+3269,23,Edinburg Drive,0.07307,TR,60.0
+3270,7705,Trovato Link,0.37833,TR,64.0
+3271,22,Constantia Main Road,2.57626,TR,91.3
+3272,10652,Doordrift Road Bridge,0.48889,TR,96.4
+3273,21,Kendal Road,0.66349,TR,98.2
+3274,7820,Ladies Mile Road,1.12983,TR,100.0
+3275,7804,Tokai Road,3.50154,TR,99.4
+3276,20,Steenberg Road,0.63713,TR,85.4
+3277,489,N1,1.1587,TR,70.2
+3278,8525,Frans Conradie Drive,0.46927,TR,96.5
+3279,488,Old Paarl Road,1.29467,TR,103.7
+3280,487,Strand Road,3.34946,TR,102.9
+3281,486,Stellenbosch Road,4.78639,TR,102.2
+3282,485,Hindle Road,2.49754,TR,99.7
+3283,484,N2,2.64929,TR,100.3
+3284,8524,Lansdowne Road,0.76331,TR,101.1
+3285,483,A.Z.Berman Drive,2.77486,TR,97.1
+3286,482,New Eisleben Road,0.815,TR,89.7
+3287,481,Vanguard Drive,1.94256,TR,73.3
+3288,3478,Old Faure Road,0.03001,TR,28.0
+3289,3477,N2 (J25),0.40439,TR,37.1
+3290,3476,Lansdowne Road,0.34317,TR,40.1
+3291,3475,Pama Road,1.90108,TR,49.3
+3292,3474,Spine Road,1.59341,TR,57.0
+3293,3473,Steve Biko Road,1.71878,TR,48.0
+3294,3472,Oscar Mpetha Road,2.0188,TR,46.8
+3295,8400,Gqabi Street (M44),1.15487,TR,56.4
+3296,3471,Baden Powell Drive,0.91044,TR,50.1
+3297,298,Main Road,0.11478,TR,80.0
+3298,299,Liesbeek Parkway,0.59083,TR,79.5
+3299,300,Black River Parkway,0.67069,TR,79.9
+3300,301,Raapenberg Road,0.55112,TR,79.8
+3301,302,Jan Smuts Drive,2.27994,TR,88.8
+3302,10716,Bhunga Avenue,1.05073,TR,97.3
+3303,303,Vanguard Drive,2.37421,TR,98.6
+3304,304,Duinefontein Road,1.40297,TR,93.1
+3305,8455,Airport Approach Road,1.69496,TR,95.6
+3306,305,Borcherds Quarry Road,2.15593,TR,98.8
+3307,306,Cape Flats Freeway,5.11223,TR,102.7
+3308,307,Mew Way,2.37052,TR,102.6
+3309,308,Spine Road,3.12065,TR,102.0
+3310,309,Baden Powell Drive,3.42524,TR,102.0
+3311,310,Macassar Road,5.95768,TR,103.9
+3312,311,Broadway Boulevard,4.3893,TR,99.2
+3313,312,Van Riebeek Road,1.0689,TR,70.3
+3314,10141,Victoria Street,0.80119,TR,54.1
+3315,313,Main Road - Somerset West,1.36684,TR,57.1
+3316,8416,Broadlands Road,3.23242,TR,65.9
+3317,314,Sir Lowry's Pass Road,3.11812,TR,73.9
+3318,315,Ou Kaapse Way,11.91612,TR,79.4
+3319,316,Ouderbrug Road,2.3668,TR,71.4
+3320,10723,Viljoenshoop Road,2.88584,TR,79.4
+3321,318,R43 West,17.58473,TR,87.0
+3322,118,R101 (J72),12.44558,TR,90.6
+3323,9967,Huegenot Tunnel Toll Plaza,11.11056,TR,59.6
+3324,117,Sonstraal Road,0.78553,TR,72.7
+3325,116,Jan Van Riebeeck Road,3.61401,TR,99.1
+3326,115,Main Road,3.46233,TR,96.7
+3327,114,Adam Tas Street,8.13729,TR,100.3
+3328,113,R304,7.86526,TR,102.8
+3329,112,Maroela Road,5.46194,TR,101.3
+3330,111,Van Riebeeck Street,2.03472,TR,95.1
+3331,8391,Okavango Road,2.42959,TR,93.6
+3332,8478,Brackenfell Boulevard,0.90952,TR,91.5
+3333,110,Kuils River Freeway,2.47399,TR,94.7
+3334,109,Old Oak Way,0.72954,TR,95.5
+3335,108,Bill Bezuidenhout Avenue,0.71254,TR,95.6
+3336,107,Durban Road,1.7149,TR,103.3
+3337,106,Jip De Jager Avenue,2.40926,TR,97.8
+3338,105,Plattekloof Road,2.28041,TR,105.1
+3339,104,Giel Basson Drive,1.49158,TR,102.5
+3340,7910,Vasco Boulevard,1.34372,TR,102.9
+3341,103,N7 (J13),2.38194,TR,101.7
+3342,8477,Sable Way,2.6137,TR,100.5
+3343,102,Koeberg Interchange,3.23811,TR,91.6
+3344,101,Marine Drive,2.2356,TR,79.8
+3345,7635,Lower Church Street,0.58598,TR,76.6
+3346,7611,Nelson Mandela Boulevard,1.3306,TR,79.1
+3347,100,Eastern Boulevard,0.30649,TR,58.9
+3348,3534,Strand Road,0.01143,TR,28.0
+3349,3535,Quarry Road,0.0955,TR,27.8
+3350,3536,Du Toit Street,0.13076,TR,34.2
+3351,3537,Bill Bezuidenhout Avenue,0.29005,TR,36.9
+3352,11541,De la Haye Avenue,0.94261,TR,43.0
+3353,10502,Harrod Drive,0.60628,TR,48.4
+3354,10763,Meerlust Street,0.57906,TR,51.0
+3355,3538,Old Oak Way,0.79103,TR,43.5
+3356,3539,Kuils River Freeway,0.45426,TR,38.4
+3357,3540,Brackenfell Boulevard,0.82548,TR,37.4
+3358,8381,Windmeul Street,1.11755,TR,40.7
+3359,8382,Kruisfontein Way,0.95011,TR,46.3
+3360,3541,Okavango Road,0.54443,TR,40.8
+3361,3542,Van Riebeeck Street,2.22947,TR,43.3
+3362,10699,Maroela Road,1.4805,TR,41.0
+3363,3543,R304,5.83092,TR,62.4
+3364,3498,Stanhope Road,0.01157,TR,32.0
+3365,3499,Campground Road,1.31053,TR,39.8
+3366,10615,Sandown Road,1.03329,TR,44.3
+3367,3500,Belmont Road,0.47922,TR,43.8
+3368,3501,Klipfontein Road,1.38347,TR,51.5
+3369,3502,Settlers Way,0.52487,TR,41.3
+3370,3503,Station Road,0.82174,TR,56.4
+3371,10259,Lower Main Road,1.34669,TR,51.9
+3372,3504,Voortrekker Road,0.54207,TR,33.3
+3373,3383,Tygerbergvalley Road,0.01387,TR,40.0
+3374,7957,Upper Lincoln Street,3.16047,TR,54.0
+3375,3384,Hendrik Verwoerd Drive,1.20857,TR,58.9
+3376,3385,N1,0.44028,TR,42.3
+3377,3386,Frans Conradie Drive,0.44042,TR,44.3
+3378,3387,Voortrekker Road,0.90994,TR,44.6
+3379,3376,Tienie Meyer Road,0.23586,TR,38.3
+3380,3377,De La Rey Street,2.91596,TR,54.3
+3381,3378,35th Avenue,1.58032,TR,50.8
+3382,3379,Halt Road,1.52775,TR,52.4
+3383,3380,Valhalla Drive,0.56849,TR,48.6
+3384,3381,Vanguard Drive,1.76667,TR,47.8
+3385,3382,Jan Smuts Drive,2.24849,TR,54.0
+3386,3253,Main Road,0.02771,TR,30.0
+3387,3254,Simon van der Stel Freeway,0.97655,TR,56.4
+3388,10516,Westlake Avenue,0.47199,TR,57.8
+3389,3255,Ou Kaapse Road,1.03654,TR,57.0
+3390,3256,Tokai Road,2.19528,TR,55.6
+3391,3257,Firgrove Way,2.02835,TR,59.4
+3392,3258,Ladies Mile Road,2.77256,TR,56.3
+3393,3259,Kendal Road,0.26935,TR,40.5
+3394,10651,Doordrift Road,0.61438,TR,45.2
+3395,3260,Constantia Main Road,0.20502,TR,31.9
+3396,3225,Adderley Street,0.00784,TR,19.0
+3397,3224,Plein Street,0.15783,TR,17.0
+3398,3223,Buitenkant Street,0.27999,TR,19.3
+3399,24530,Canterbury Street,0.18329,TR,26.8
+3400,7629,Keizersgracht Street,0.03976,TR,27.0
+3401,3222,Oswald Pirow Street,0.29548,TR,31.9
+3402,10251,Searle Street,0.97103,TR,33.4
+3403,10250,Sussex Street,0.53227,TR,35.3
+3404,3221,Church Street,0.10066,TR,34.0
+3405,7630,Mountain Road,0.22075,TR,33.6
+3406,7641,Roodebloem Road,0.3817,TR,33.3
+3407,7653,Salt River Road,0.1754,TR,33.2
+3408,7652,Durham Avenue,0.55824,TR,35.2
+3409,10463,Browning Road,0.33183,TR,35.0
+3410,3220,Station Road,0.37436,TR,31.6
+3411,10257,Lower Main Road,0.52581,TR,31.0
+3412,3219,N2 (J7),0.32258,TR,30.4
+3413,3218,Saint Peters Road,0.46751,TR,32.0
+3414,3217,Woolsack Drive,0.80376,TR,37.2
+3415,3216,Belmont Road,0.53853,TR,36.0
+3416,3215,Klipper Road,0.7682,TR,39.6
+3417,3214,Campground Road,1.06491,TR,38.5
+3418,10041,Herschel Road,0.72117,TR,32.5
+3419,3213,Stanhope Road,0.06047,TR,31.0
+3420,10332,Highwick Avenue,0.67103,TR,39.6
+3421,10625,Kenilworth Road,0.58461,TR,43.8
+3422,10633,Summerley Road,0.1048,TR,38.5
+3423,3212,Riverstone Road,0.75194,TR,37.6
+3424,10634,Church Street,0.2057,TR,30.5
+3425,3211,Constantia Road,1.12262,TR,35.2
+3426,9917,Cecil Road,0.83987,TR,40.2
+3427,3210,Victoria Road,0.17134,TR,34.3
+3428,3209,Kendal Road,1.26889,TR,41.8
+3429,3208,Ladies Mile Road,2.14543,TR,43.9
+3430,7821,Dreyersdal Road,0.23833,TR,46.4
+3431,3207,Station Road,0.49344,TR,45.7
+3432,3206,Tokai Road,0.64907,TR,38.1
+3433,3205,Military Road,1.0031,TR,42.1
+3434,3204,Steenberg Road,0.49443,TR,36.2
+3435,7790,Boyes Drive,0.49229,TR,45.5
+3436,7791,Old Boyes Drive,2.1349,TR,53.9
+3437,10775,Albertyn Road,0.44091,TR,44.5
+3438,10774,Atlantic Road,0.36531,TR,33.9
+3439,10773,Clairvaux Road,3.11332,TR,45.0
+3440,10520,Clovelly Road,1.29386,TR,46.4
+3441,3203,Kommetjie Road,1.32763,TR,44.8
+3442,3202,Glencairn Expressway,2.68404,TR,55.9
+3443,3201,Red Hill Road,2.50428,TR,58.8
+3444,3200,M65,13.05961,TR,54.4
+3445,3416,Frans Conradie Drive,0.05299,TR,35.5
+3446,3417,Voortrekker Road,1.03588,TR,47.4
+3447,11040,Mark Street,0.8052,TR,43.2
+3448,3418,Francie Van Zijl Drive,0.64865,TR,43.1
+3449,3419,Radnor Road,1.94898,TR,49.5
+3450,3420,Modderdam Road East-West,1.13877,TR,53.7
+3451,86,Strand Road,0.01207,TR,32.0
+3452,85,Modderdam Road North-South,0.64667,TR,31.9
+3453,84,Durban Road,0.50749,TR,31.5
+3454,8466,Lincoln Street,0.74833,TR,38.3
+3455,10771,Mike Pienaar Boulevard,0.75779,TR,44.1
+3456,82,Tierberg Road,1.3532,TR,41.3
+3457,81,Jeans Simonis Street,0.4274,TR,33.7
+3458,80,Mcintyre Street,0.36057,TR,33.2
+3459,79,Jan Van Riebeeck Drive,1.1165,TR,36.1
+3460,8465,Halt Road,0.87262,TR,39.8
+3461,8464,Vasco Boulevard,0.84273,TR,41.5
+3462,78,Vanguard Drive,1.82832,TR,40.2
+3463,77,Aerodrome Road,1.49494,TR,58.8
+3464,10079,1st Avenue,2.48222,TR,51.7
+3465,76,Koeberg Road South,1.49,TR,38.7
+3466,75,Black River Parkway,0.40656,TR,38.6
+3467,74,Albert Road,1.67179,TR,51.3
+3468,3351,Baden Powell Drive,0.04768,TR,35.0
+3469,3350,Merrydale Avenue,0.28761,TR,50.0
+3470,3349,Spine Road,0.78998,TR,47.5
+3471,3348,Wespoort Drive,1.45011,TR,51.9
+3472,3347,Morgenster Road,1.02433,TR,50.3
+3473,3346,Highlands Drive,1.49462,TR,50.1
+3474,3345,Cape Flats Freeway,0.95248,TR,52.7
+3475,8010,White Hart Lane,0.24346,TR,55.5
+3476,11522,Sheffield Road,1.14796,TR,50.9
+3477,3344,Lansdowne Road,0.92326,TR,41.1
+3478,3468,Lansdowne Road,0.0446,TR,31.0
+3479,11705,Sheffield Road,1.06804,TR,41.9
+3480,11704,Ngqwangi Drive,0.37871,TR,45.1
+3481,3467,Cape Flats Freeway,0.90397,TR,45.6
+3482,3466,Highlands Drive,1.00027,TR,51.1
+3483,3465,Morgenster Road,1.22248,TR,52.7
+3484,3464,Wespoort Drive,0.99777,TR,44.8
+3485,3463,Spine Road,1.44048,TR,51.6
+3486,8151,Langeberg Street,0.89235,TR,54.9
+3487,491,Table Bay Boulevard,0.3597,TR,35.6
+3488,492,Paarden Eiland Road,0.63187,TR,55.2
+3489,7838,Neptune Street,0.54115,TR,54.9
+3490,7839,Section Road,0.30353,TR,67.5
+3491,493,Boundary Road,2.71455,TR,69.2
+3492,10240,Loxton Road,1.09532,TR,59.0
+3493,494,Broad Road,1.21177,TR,60.0
+3494,495,Racecourse Road,1.32643,TR,60.0
+3495,496,Marine Drive,3.99106,TR,66.9
+3496,497,Blaauwberg Road,0.69924,TR,57.1
+3497,7871,Link Road,1.0016,TR,56.1
+3498,7872,Sandown Road East,1.12745,TR,57.7
+3499,7873,Sandown Road,0.84062,TR,55.2
+3500,11752,Big Bay Boulevard,1.24273,TR,60.1
+3501,10484,Birkenhead Drive,6.28798,TR,93.3
+3502,498,Melkbosstrand Road,1.12598,TR,59.1
+3503,499,Napoleon Avenue,3.89359,TR,93.9
+3504,12000,Brakkefontein Road,4.53269,TR,98.3
+3505,500,Dassenberg Road,2.52836,TR,96.6
+3506,12002,Silverstroom Road,8.84826,TR,113.9
+3507,501,Yzerfontein Road,29.03453,TR,112.7
+3508,93,Kuils River Freeway,0.1045,TR,34.9
+3509,8384,Pioneer Street,0.50562,TR,42.9
+3510,8385,New Nooiensfontein Drive,0.79813,TR,43.2
+3511,10682,Kerk Street,0.28463,TR,42.6
+3512,8386,Langverwacht Way,0.70557,TR,45.7
+3513,10205,Van Riebeeck Road,1.0699,TR,52.3
+3514,94,Stellenbosch Road,1.41009,TR,47.1
+3515,8387,Buttskop Road,2.25251,TR,55.0
+3516,8388,Forest Drive,3.918,TR,79.2
+3517,8389,Bobs Way,0.83912,TR,59.3
+3518,8390,Stratford Avenue,0.84477,TR,67.7
+3519,95,Baden Powell Drive,1.43508,TR,69.2
+3520,96,Main Road,5.14752,TR,71.8
+3521,97,Broadway Boulevard,4.38523,TR,85.3
+3522,98,N2,1.36416,TR,72.1
+3523,3191,Old Faure Road,0.05026,TR,60.0
+3524,3190,N2,1.24416,TR,70.8
+3525,3189,Lansdowne Road,1.69375,TR,47.8
+3526,8399,Govan Mbeki Road,0.43261,TR,44.0
+3527,3188,Lwandle Road,0.39882,TR,44.1
+3528,8398,Distributor Road West,0.7457,TR,47.0
+3529,3187,Mew Way,0.84232,TR,37.6
+3530,3186,Swartklip Road,1.36954,TR,55.8
+3531,8407,Alpine Street,0.45154,TR,51.4
+3532,3185,A.Z.Berman Drive,0.72673,TR,51.8
+3533,8026,Merrydale Avenue,1.34175,TR,50.8
+3534,3184,Eisleben Road,0.66957,TR,52.8
+3535,3183,Weltevreden Road,1.13622,TR,51.6
+3536,10512,Witsand Road,2.41676,TR,57.1
+3537,3182,Strandfontein Road,2.97704,TR,57.9
+3538,20,Steenberg Road,0.12074,TR,90.0
+3539,7804,Tokai Road,1.4816,TR,98.8
+3540,7820,Ladies Mile Road,3.46466,TR,97.5
+3541,21,Kendal Road,0.62911,TR,98.3
+3542,10652,Doordrift Road Bridge,0.37865,TR,96.4
+3543,22,Constantia Main Road,0.98713,TR,98.4
+3544,7705,Trovato Link,2.1458,TR,78.7
+3545,23,Edinburg Drive,0.24055,TR,60.0
+3546,259,N1 (J13),0.46427,TR,77.8
+3547,260,Bosmansdam Road,1.34366,TR,91.2
+3548,261,Plattekloof Road,2.92913,TR,94.8
+3549,262,Potsdam Road,4.60011,TR,94.4
+3550,263,Vissershok Road,1.23524,TR,97.9
+3551,12012,Old Malmesbury Road,2.60347,TR,98.7
+3552,264,Reygersdal Drive,2.13775,TR,98.0
+3553,265,Wingfield Road,3.48952,TR,103.8
+3554,12013,Van Schoorsdrift Road,4.65506,TR,113.8
+3555,266,R304,2.37465,TR,112.5
+3556,12394,Rondeberg Road,6.50547,TR,97.7
+3557,12014,Klein Dassenberg Road,3.81987,TR,86.9
+3558,12018,Kalbaskraal,0.88909,TR,77.0
+3559,12023,Darling Way,10.19874,TR,76.1
+3560,12024,Kloof Street,0.47117,TR,55.6
+3561,12026,Nywerheid Crescent,3.31347,TR,73.8
+3562,267,Darling Road,1.38034,TR,71.5
+3563,268,Voortrekker Road,2.76046,TR,77.5
+3564,269,R45,2.98579,TR,69.4
+3565,12376,Main Street,21.7601,TR,108.9
+3566,100,Eastern Boulevard,0.02304,TR,37.0
+3567,7611,Nelson Mandela Boulevard,0.97282,TR,80.0
+3568,7635,Lower Church Street,0.63309,TR,78.4
+3569,101,Marine Drive,0.76093,TR,78.4
+3570,102,Koeberg Interchange,3.24501,TR,80.1
+3571,8477,Sable Way,2.46773,TR,101.9
+3572,103,N7 (J13),3.54197,TR,109.9
+3573,7910,Vasco Boulevard,1.75991,TR,100.4
+3574,104,Giel Basson Drive,1.3342,TR,100.7
+3575,105,Plattekloof Road,1.58822,TR,97.4
+3576,106,Jip De Jager Avenue,2.55005,TR,100.2
+3577,107,Durban Road,2.37867,TR,103.2
+3578,108,Bill Bezuidenhout Avenue,0.68975,TR,97.1
+3579,109,Old Oak Way,1.31371,TR,100.4
+3580,110,Kuils River Freeway,2.2094,TR,101.6
+3581,8478,Brackenfell Boulevard,0.89859,TR,89.6
+3582,8391,Okavango Road,1.4036,TR,95.6
+3583,111,Van Riebeeck Street,2.07771,TR,97.3
+3584,112,Maroela Road,2.41382,TR,99.9
+3585,113,R304,5.29491,TR,102.2
+3586,114,Adam Tas Street,7.81564,TR,101.9
+3587,115,Main Road,8.5184,TR,106.6
+3588,116,Jan Van Riebeeck Road,3.20372,TR,98.5
+3589,117,Sonstraal Road,3.37973,TR,91.3
+3590,9967,Huegenot Tunnel Toll Plaza,0.20475,TR,15.7
+3591,118,R101 (J72),11.18122,TR,73.6
+3592,119,Rawesonville West,12.25094,TR,93.9
+3593,420,R310,0.09544,TR,36.0
+3594,421,Windermere Road,0.41484,TR,54.0
+3595,422,East Lake Island Drive,0.66162,TR,49.3
+3596,423,Sonnet Quay,0.34969,TR,67.0
+3597,424,Park Island Way,0.23424,TR,42.6
+3598,8338,Vrygrond Avenue,0.45081,TR,47.2
+3599,425,Military Road,0.89999,TR,50.2
+3600,426,Concert Boulevard,1.02424,TR,55.0
+3601,6867,Retreat Road,1.49766,TR,56.3
+3602,7762,Klip Road,0.98388,TR,59.0
+3603,7768,Victoria Road,0.58635,TR,59.2
+3604,427,Victoria Road,0.4693,TR,51.1
+3605,428,Dick Burton Street,1.64971,TR,55.9
+3606,429,Ottery Road,1.57018,TR,78.9
+3607,430,Doncaster Road,2.87916,TR,92.9
+3608,431,Kromboom Road,1.8425,TR,96.2
+3609,432,Klipfontein Road,1.22295,TR,92.8
+3610,7896,Milner Road,1.26029,TR,88.4
+3611,433,Settlers Way,0.8865,TR,75.8
+3612,434,Berkley Road,1.77021,TR,79.9
+3613,435,Black River Parkway,0.30015,TR,79.2
+3614,7895,Koeberg Road South (M170),0.73568,TR,72.5
+3615,436,Koeberg Interchange,1.08627,TR,64.5
+3616,3471,Baden Powell Drive,0.04051,TR,32.0
+3617,8400,Gqabi Street (M44),0.86992,TR,54.0
+3618,3472,Oscar Mpetha Road,1.15487,TR,53.6
+3619,3473,Steve Biko Road,2.0188,TR,45.3
+3620,3474,Spine Road,1.74077,TR,49.2
+3621,3475,Pama Road,1.56809,TR,54.9
+3622,3476,Lansdowne Road,1.91243,TR,47.8
+3623,3477,N2 (J25),0.53775,TR,46.0
+3624,3478,Old Faure Road,0.22704,TR,33.7
+3625,3298,Spaanschemat River Road,0.06439,TR,37.8
+3626,3297,Simon Van Der Stel Freeway,0.26612,TR,47.6
+3627,9855,Boundary Road,1.38971,TR,52.8
+3628,3296,Main Road,0.40535,TR,41.9
+3629,3295,Victoria Road,2.22264,TR,46.0
+3630,3294,Prince George Drive,0.3508,TR,34.1
+3631,3200,M65,0.04586,TR,36.0
+3632,3201,Red Hill Road,13.01375,TR,52.8
+3633,3202,Glencairn Expressway,2.54467,TR,59.4
+3634,3203,Kommetjie Road,2.71533,TR,55.4
+3635,10520,Clovelly Road,1.31494,TR,42.4
+3636,10773,Clairvaux Road,1.29386,TR,47.2
+3637,10774,Atlantic Road,3.11332,TR,46.6
+3638,10775,Albertyn Road,0.36531,TR,31.7
+3639,7791,Old Boyes Drive,0.44091,TR,44.2
+3640,7790,Boyes Drive,2.1349,TR,51.1
+3641,3204,Steenberg Road,0.50244,TR,42.8
+3642,3205,Military Road,0.48427,TR,39.8
+3643,3206,Tokai Road,1.0031,TR,38.6
+3644,3207,Station Road,0.64907,TR,38.5
+3645,7821,Dreyersdal Road,0.49344,TR,44.4
+3646,3208,Ladies Mile Road,0.31158,TR,44.6
+3647,3209,Kendal Road,2.07218,TR,41.7
+3648,3210,Victoria Road,1.26889,TR,39.7
+3649,9917,Cecil Road,0.17134,TR,32.5
+3650,3211,Constantia Road,0.83987,TR,38.0
+3651,10634,Church Street,1.12262,TR,33.1
+3652,3212,Riverstone Road,0.2057,TR,29.8
+3653,10633,Summerley Road,0.75194,TR,37.8
+3654,10625,Kenilworth Road,0.1048,TR,39.0
+3655,10332,Highwick Avenue,0.58461,TR,40.5
+3656,3213,Stanhope Road,0.67103,TR,36.0
+3657,10041,Herschel Road,0.06047,TR,29.0
+3658,3214,Campground Road,0.72117,TR,31.5
+3659,3215,Klipper Road,1.06491,TR,39.8
+3660,3216,Belmont Road,0.78273,TR,39.8
+3661,3217,Woolsack Drive,0.63041,TR,35.6
+3662,3218,Saint Peters Road,0.69734,TR,37.8
+3663,3219,N2 (J7),0.52556,TR,32.4
+3664,10257,Lower Main Road,0.26453,TR,32.9
+3665,3220,Station Road,0.52581,TR,30.2
+3666,10463,Browning Road,0.37436,TR,33.9
+3667,7652,Durham Avenue,0.33183,TR,38.0
+3668,7653,Salt River Road,0.55824,TR,36.5
+3669,7641,Roodebloem Road,0.1754,TR,30.8
+3670,7630,Mountain Road,0.3817,TR,32.9
+3671,3221,Church Street,0.22075,TR,34.1
+3672,10250,Sussex Street,0.10066,TR,35.2
+3673,10251,Searle Street,0.53227,TR,37.5
+3674,3222,Oswald Pirow Street,1.07291,TR,34.2
+3675,7629,Keizersgracht Street,0.1936,TR,31.6
+3676,24530,Canterbury Street,0.03976,TR,28.0
+3677,3223,Buitenkant Street,0.18329,TR,23.1
+3678,3224,Plein Street,0.27999,TR,18.3
+3679,3225,Adderley Street,0.16567,TR,15.5
+3680,3460,Baden Powell Drive,0.01774,TR,44.0
+3681,8411,Stratford Avenue,1.80998,TR,55.5
+3682,3459,Spine Road,2.42801,TR,58.5
+3683,3458,Mew Way,2.99599,TR,61.9
+3684,3457,Lansdowne Road,2.90232,TR,57.6
+3685,3456,Highlands Drive,2.0735,TR,54.7
+3686,3455,Morgenster Road,0.77122,TR,60.0
+3687,3454,Spine Road,1.86126,TR,60.0
+3688,8409,Tafelberg Street,1.92095,TR,59.7
+3689,8408,Steve Biko Road,0.25226,TR,51.0
+3690,3453,Baden Powell Drive,1.6066,TR,70.4
+3691,481,Vanguard Drive,0.05282,TR,34.0
+3692,482,New Eisleben Road,1.89585,TR,66.9
+3693,483,A.Z.Berman Drive,1.54684,TR,94.1
+3694,8524,Lansdowne Road,2.31301,TR,93.7
+3695,484,N2,1.45205,TR,99.1
+3696,485,Hindle Road,2.65298,TR,97.3
+3697,486,Stellenbosch Road,2.81724,TR,96.6
+3698,487,Strand Road,4.48218,TR,99.3
+3699,488,Old Paarl Road,2.80597,TR,100.3
+3700,8525,Frans Conradie Drive,0.88846,TR,96.9
+3701,489,N1,1.7364,TR,80.8
+3702,9524,Edinburg Drive,0.05466,TR,32.0
+3703,3301,Protea Road,0.24634,TR,42.9
+3704,10341,Bowwood Road,0.54857,TR,43.0
+3705,3302,Herschel Road,0.58634,TR,46.0
+3706,3303,Herschel Walk,0.13629,TR,45.2
+3707,10637,Mains Avenue,0.73327,TR,46.1
+3708,3304,Main Road,0.67152,TR,37.6
+3709,3305,Rosmead Avenue,0.85126,TR,41.1
+3710,10836,Kromboom Parkway,0.94734,TR,55.8
+3711,9523,Plantation Road,1.7944,TR,52.5
+3712,3306,Wetton Road,0.78454,TR,47.1
+3713,3307,Strandfontein Road,0.55106,TR,43.7
+3714,3308,Hanover Park Avenue,0.56252,TR,45.5
+3715,3309,Ottery,1.14203,TR,52.0
+3716,3310,Vanguard Drive,0.28728,TR,49.1
+3717,9525,Vygekraal Road,0.62709,TR,55.5
+3718,3311,Duinefontein Road,0.85504,TR,53.9
+3719,9520,Ny72,0.78979,TR,52.4
+3720,9521,Sheffield Road Siding,0.19081,TR,44.6
+3721,9519,Emmbry Avenue,1.35765,TR,52.2
+3722,3312,New Eisleben Road,0.84913,TR,47.8
+3723,3313,Stock Road,1.16819,TR,48.0
+3724,10670,Klipfontein Road Extension,0.25712,TR,50.0
+3725,9518,Sheffield Road,1.49046,TR,52.6
+3726,9517,Luzuko Drive,0.47895,TR,47.3
+3727,9516,Cape Flats Freeway,0.38589,TR,53.4
+3728,3314,Swartklip Road,0.28254,TR,53.7
+3729,3315,Mew Way,3.07639,TR,44.1
+3730,3316,Bonga Drive,0.90949,TR,47.8
+3731,3317,Pama Road,1.49558,TR,40.6
+3732,3318,Spine Road,1.11024,TR,36.5
+3733,3319,Steve Biko Road,0.80347,TR,41.4
+3734,3320,Oscar Mpetha Road,0.35916,TR,46.4
+3735,8404,Lindela Road,0.98117,TR,48.7
+3736,8405,Fukutha Road,1.31398,TR,44.2
+3737,3322,Baden Powell Drive,0.55734,TR,39.7
+3738,3323,N2 (J38),7.55063,TR,65.3
+3739,3324,Van Riebeek Road,0.72603,TR,49.2
+3740,8414,Winery Road,0.80814,TR,53.2
+3741,3325,Broadway Boulevard,3.54186,TR,58.3
+3742,10158,Helderberg College Road,0.25779,TR,42.0
+3743,3326,Old Stellenbosch Road,1.18794,TR,54.5
+3744,10157,Dummer Street,0.42487,TR,51.9
+3745,10162,Lourensford Road,0.51792,TR,48.2
+3746,3327,Victoria Street,0.53675,TR,36.1
+3747,3328,Main Road,1.12507,TR,32.3
+3748,3329,N2 (Sir Lowry's Pass),7.39702,TR,51.5
+3749,3182,Strandfontein Road,0.0433,TR,33.0
+3750,10512,Witsand Road,2.93374,TR,57.6
+3751,3183,Weltevreden Road,2.41245,TR,57.4
+3752,3184,Eisleben Road,1.15545,TR,54.4
+3753,8026,Merrydale Avenue,0.65975,TR,54.1
+3754,3185,A.Z.Berman Drive,1.35144,TR,52.7
+3755,8407,Alpine Street,0.70753,TR,54.7
+3756,3186,Swartklip Road,0.45305,TR,54.6
+3757,3187,Mew Way,1.39508,TR,56.3
+3758,8398,Distributor Road West,0.84027,TR,40.0
+3759,3188,Lwandle Road,0.74947,TR,47.0
+3760,8399,Govan Mbeki Road,0.36299,TR,47.1
+3761,3189,Lansdowne Road,0.43261,TR,40.0
+3762,3190,N2,1.79832,TR,51.3
+3763,3191,Old Faure Road,1.18143,TR,77.2
+3764,1079,Vredenburg,30.42294,TR,114.1
+3765,3163,R45,0.04666,TR,31.0
+3766,15274,Cluver Street,13.68931,TR,67.5
+3767,15323,Hammanshand Road,0.59896,TR,48.9
+3768,3162,Helshoogte Road,1.42201,TR,55.0
+3769,3180,Black River Parkway,0.13978,TR,38.9
+3770,3179,Forest Drive,1.80857,TR,52.3
+3771,3178,Viking Way,1.02386,TR,63.9
+3772,3177,Settlers Way,2.7284,TR,65.6
+3773,3176,Klipfontein Road,1.16625,TR,57.9
+3774,3175,Kromboom Road,1.40447,TR,52.8
+3775,3174,Turf Hall Road,1.83122,TR,54.0
+3776,10660,Blomvlei Road,0.4875,TR,47.0
+3777,3173,Lansdowne Road,1.25742,TR,61.8
+3778,7750,New Ottery Road,1.65146,TR,62.0
+3779,3172,Ottery Road,0.85547,TR,60.2
+3780,7767,Klip Road,0.88196,TR,56.5
+3781,3171,5th Avenue,0.79773,TR,55.7
+3782,3170,Spine Road,4.99164,TR,61.1
+3783,3169,Baden Powell Drive,0.88804,TR,56.6
+3784,74,Albert Road,0.04307,TR,28.2
+3785,75,Black River Parkway,1.62833,TR,50.4
+3786,76,Koeberg Road South,0.40368,TR,41.5
+3787,10079,1st Avenue,1.49,TR,38.4
+3788,77,Aerodrome Road,2.48222,TR,51.2
+3789,78,Vanguard Drive,1.62817,TR,55.0
+3790,8464,Vasco Boulevard,1.70432,TR,38.4
+3791,8465,Halt Road,0.84003,TR,40.4
+3792,79,Jan Van Riebeeck Drive,0.885,TR,37.9
+3793,80,Mcintyre Street,1.09764,TR,35.8
+3794,81,Jeans Simonis Street,0.36124,TR,32.6
+3795,82,Tierberg Road,0.43848,TR,33.9
+3796,10771,Mike Pienaar Boulevard,1.35722,TR,42.2
+3797,8466,Lincoln Street,0.74212,TR,42.9
+3798,84,Durban Road,0.75248,TR,38.3
+3799,85,Modderdam Road North-South,0.5058,TR,30.2
+3800,86,Strand Road,0.65873,TR,30.3
+3801,3344,Lansdowne Road,0.05116,TR,40.4
+3802,11522,Sheffield Road,0.8721,TR,45.5
+3803,8010,White Hart Lane,1.14796,TR,50.5
+3804,3345,Cape Flats Freeway,0.24346,TR,52.6
+3805,3346,Highlands Drive,0.97435,TR,52.9
+3806,3347,Morgenster Road,1.49496,TR,50.5
+3807,3348,Wespoort Drive,1.01833,TR,53.4
+3808,3349,Spine Road,1.44847,TR,54.3
+3809,3350,Merrydale Avenue,0.77876,TR,49.6
+3810,3351,Baden Powell Drive,0.34093,TR,43.1
+3811,8151,Langeberg Street,0.03138,TR,38.0
+3812,3463,Spine Road,0.86981,TR,50.0
+3813,3464,Wespoort Drive,1.4416,TR,49.1
+3814,3465,Morgenster Road,1.00421,TR,44.3
+3815,3466,Highlands Drive,1.23331,TR,51.3
+3816,3467,Cape Flats Freeway,1.12508,TR,49.3
+3817,11704,Ngqwangi Drive,0.76058,TR,46.8
+3818,11705,Sheffield Road,0.41427,TR,43.0
+3819,3468,Lansdowne Road,1.07722,TR,43.0
+3820,3294,Prince George Drive,0.12065,TR,35.1
+3821,3295,Victoria Road,0.2847,TR,44.2
+3822,3296,Main Road,2.14651,TR,48.3
+3823,9855,Boundary Road,0.42946,TR,42.8
+3824,3297,Simon Van Der Stel Freeway,1.49406,TR,50.2
+3825,3298,Spaanschemat River Road,0.20338,TR,43.5
+3826,3568,Race Course Way,0.0272,TR,48.0
+3827,3567,Van Riebeekshof Road,2.44864,TR,53.4
+3828,3566,Tygerbergvalley Road,0.65671,TR,50.6
+3829,3565,Durban Road,0.61532,TR,37.6
+3830,3564,Mountain View Drive,1.02372,TR,44.8
+3831,8377,Eversdal Street,1.18466,TR,46.8
+3832,3563,N1 (J25),1.18466,TR,46.8
+3833,3562,Frans Conradie Drive,0.52617,TR,47.5
+3834,3561,Old Paarl Road,1.09918,TR,53.8
+3835,3560,Bottelary Road,2.12413,TR,46.8
+3836,3559,Strand Road,0.65886,TR,41.5
+3837,3439,Koeberg Interchange,0.52064,TR,56.9
+3838,8476,Section Road,0.2427,TR,38.7
+3839,3438,Boundary Road,2.76829,TR,40.4
+3840,3437,Loxton Road,1.02955,TR,44.5
+3841,3436,Bosmansdam Road,0.68272,TR,40.3
+3842,10221,Zastron Road,0.26834,TR,43.6
+3843,10230,Freedom Way,0.60579,TR,48.0
+3844,3435,Racecourse Road,0.6849,TR,46.9
+3845,7882,Omuramba Road,0.59145,TR,46.0
+3846,3434,Montague Drive,0.87651,TR,46.6
+3847,3433,Plattekloof Road,1.20516,TR,48.4
+3848,3432,Blaauwberg Road,1.217,TR,51.0
+3849,18361,Potsdam Road,3.50237,TR,44.7
+3850,3431,N7,0.58447,TR,63.6
+3851,3414,Polkadraai Road,0.07191,TR,57.9
+3852,10767,Zevenwacht Link Road,10.11318,TR,86.0
+3853,3413,Van Riebeek Road,1.18672,TR,63.4
+3854,8413,Range Road,0.90376,TR,57.3
+3855,3412,New Nooiensfontein Drive,1.44472,TR,59.1
+3856,8463,Westbank Main Road,0.88399,TR,57.3
+3857,3411,Kuils River Freeway,0.55688,TR,54.8
+3858,3410,Belhar Drive,0.85611,TR,58.8
+3859,3409,Symphony Way,1.91726,TR,66.8
+3860,3408,Erica Drive,1.3685,TR,70.3
+3861,3407,Modderdam Road,1.45353,TR,68.7
+3862,3406,Owen Road,1.63348,TR,64.6
+3863,3405,Avonwood Avenue,1.58796,TR,52.9
+3864,7958,Epping Avenue,0.87385,TR,52.3
+3865,3404,Voortrekker Road,0.82139,TR,48.5
+3866,3403,Milton Road,1.03542,TR,49.4
+3867,3402,Frans Conradie Drive,0.35037,TR,45.0
+3868,3401,Frans Conradie Drive,0.49483,TR,49.2
+3869,3400,N1,0.62072,TR,46.8
+3870,3399,Hendrik Verwoerd Drive,0.25837,TR,50.5
+3871,3398,Kroonenburg Square,0.88587,TR,55.3
+3872,3329,N2 (Sir Lowry's Pass),0.08066,TR,46.2
+3873,3328,Main Road,7.3748,TR,49.9
+3874,3327,Victoria Street,1.06339,TR,30.8
+3875,10162,Lourensford Road,0.5393,TR,35.7
+3876,10157,Dummer Street,0.51792,TR,48.1
+3877,3326,Old Stellenbosch Road,0.42487,TR,51.9
+3878,10158,Helderberg College Road,1.18887,TR,54.1
+3879,3325,Broadway Boulevard,0.29858,TR,43.8
+3880,8414,Winery Road,3.50157,TR,60.9
+3881,3324,Van Riebeek Road,0.82147,TR,53.7
+3882,3323,N2 (J38),0.91179,TR,56.3
+3883,3322,Baden Powell Drive,7.35154,TR,66.9
+3884,8405,Fukutha Road,0.55734,TR,39.8
+3885,8404,Lindela Road,1.31398,TR,42.6
+3886,3320,Oscar Mpetha Road,0.98117,TR,47.7
+3887,3319,Steve Biko Road,0.35916,TR,42.0
+3888,3318,Spine Road,0.80347,TR,43.3
+3889,3317,Pama Road,1.11024,TR,37.6
+3890,3316,Bonga Drive,1.49558,TR,43.5
+3891,3315,Mew Way,0.9993,TR,45.8
+3892,3314,Swartklip Road,2.98067,TR,45.9
+3893,9516,Cape Flats Freeway,0.44882,TR,49.8
+3894,9517,Luzuko Drive,0.21954,TR,50.0
+3895,9518,Sheffield Road,0.4798,TR,47.6
+3896,10670,Klipfontein Road Extension,1.49046,TR,53.3
+3897,3313,Stock Road,0.25712,TR,50.0
+3898,3312,New Eisleben Road,1.20882,TR,47.0
+3899,9519,Emmbry Avenue,0.81462,TR,47.7
+3900,9521,Sheffield Road Siding,1.35719,TR,50.6
+3901,9520,Ny72,0.1909,TR,45.4
+3902,3311,Duinefontein Road,0.8057,TR,53.3
+3903,9525,Vygekraal Road,0.84525,TR,56.1
+3904,3310,Vanguard Drive,0.61501,TR,51.5
+3905,3309,Ottery,0.29515,TR,48.2
+3906,3308,Hanover Park Avenue,1.14229,TR,51.5
+3907,3307,Strandfontein Road,0.58354,TR,47.2
+3908,3306,Wetton Road,0.58528,TR,43.6
+3909,9523,Plantation Road,0.77746,TR,45.5
+3910,10836,Kromboom Parkway,1.78953,TR,51.3
+3911,3305,Rosmead Avenue,0.90134,TR,55.8
+3912,3304,Main Road,0.85075,TR,42.3
+3913,10637,Mains Avenue,0.67152,TR,38.0
+3914,3303,Herschel Walk,0.78068,TR,45.2
+3915,3302,Herschel Road,0.08888,TR,44.0
+3916,10341,Bowwood Road,0.58634,TR,45.7
+3917,3301,Protea Road,0.5709,TR,43.6
+3918,9524,Edinburg Drive,0.25681,TR,27.8
+3919,3453,Baden Powell Drive,0.05483,TR,33.0
+3920,8408,Steve Biko Road,1.5536,TR,70.5
+3921,8409,Tafelberg Street,0.25226,TR,43.0
+3922,3454,Spine Road,1.92095,TR,59.9
+3923,3455,Morgenster Road,1.86126,TR,59.0
+3924,3456,Highlands Drive,0.77122,TR,60.0
+3925,3457,Lansdowne Road,2.08736,TR,53.3
+3926,3458,Mew Way,2.88846,TR,59.7
+3927,3459,Spine Road,3.04778,TR,61.0
+3928,8411,Stratford Avenue,2.37208,TR,59.9
+3929,3460,Baden Powell Drive,1.83858,TR,63.1
+3930,917,R301,33.22229,TR,69.2
+3931,916,Helshoogte Road,6.83738,TR,91.4
+3932,15774,R45 (secondary),3.79846,TR,80.9
+3933,15772,R101,6.07978,TR,78.1
+3934,915,N1,1.18165,TR,55.7
+3935,12487,Main Street,2.04703,TR,50.0
+3936,12577,Cecilia Street,0.22689,TR,48.2
+3937,12488,Market Street,2.28627,TR,54.4
+3938,914,Lady Grey Street,0.77496,TR,45.8
+3939,913,Berg River Boulevard North,1.62827,TR,46.1
+3940,12515,Main Street,0.67515,TR,41.5
+3941,12489,Lang Street,0.97187,TR,42.2
+3942,912,Noord Agter Paarl,1.45887,TR,45.4
+3943,911,Adam Tas Street,5.18282,TR,81.5
+3944,12795,R45 south,1.02013,TR,67.9
+3945,12796,R45 north,4.392,TR,95.0
+3946,910,R46,24.43901,TR,94.7
+3947,909,Piet Retief Street,4.36982,TR,58.0
+3948,1078,N7 (J68),2.35667,TR,51.1
+3949,10723,Viljoenshoop Road,18.36976,TR,88.5
+3950,316,Ouderbrug Road,2.88584,TR,78.8
+3951,315,Ou Kaapse Way,2.3668,TR,71.4
+3952,314,Sir Lowry's Pass Road,11.96315,TR,80.7
+3953,8416,Broadlands Road,3.07827,TR,75.6
+3954,313,Main Road - Somerset West,3.26487,TR,64.6
+3955,10141,Victoria Street,1.33513,TR,55.9
+3956,312,Van Riebeek Road,0.80262,TR,61.6
+3957,311,Broadway Boulevard,1.92449,TR,79.7
+3958,310,Macassar Road,4.5552,TR,96.7
+3959,309,Baden Powell Drive,5.74574,TR,107.1
+3960,308,Spine Road,3.43472,TR,99.9
+3961,307,Mew Way,3.28906,TR,98.3
+3962,306,Cape Flats Freeway,3.38628,TR,103.7
+3963,305,Borcherds Quarry Road,4.0045,TR,100.4
+3964,8455,Airport Approach Road,2.07786,TR,101.7
+3965,304,Duinefontein Road,1.60981,TR,94.4
+3966,303,Vanguard Drive,1.79233,TR,97.1
+3967,10716,Bhunga Avenue,1.64906,TR,97.4
+3968,302,Jan Smuts Drive,1.23488,TR,95.0
+3969,301,Raapenberg Road,2.15435,TR,83.2
+3970,300,Black River Parkway,0.57063,TR,79.3
+3971,299,Liesbeek Parkway,0.58839,TR,78.0
+3972,298,Main Road,0.29396,TR,80.0

@@ -205,7 +205,7 @@ class Pipeline:
             df_temp["Y"] = self.Y.flatten().tolist()
             self.plot_CORR(df_temp)
 
-        range_ = max(self.X.shape[0] // config.ppl_smallest_sample, 1) * 2
+        range_ = 60 # max(self.X.shape[0] // config.ppl_smallest_sample, 1) * 2
         if config.ppl_use_all:
             # Run with full data 7 times
             range_ = 7
@@ -287,7 +287,11 @@ class Pipeline:
     @staticmethod
     def parfunc(params):
         city, seed, depth, tod, model = params
-        lr_object = Pipeline(city, seed ** depth, tod)
+        try:
+            lr_object = Pipeline(city, seed ** depth, tod)
+        except Exception:
+            print ("Error in (city, seed ** depth, tod)", (city, seed ** depth, tod), "\n Skipping ...........")
+            return
         if not lr_object.empty_train_data:
             print(model, np.mean(lr_object.scores_MSE[model]), np.mean(lr_object.scores_QWK[model]))
             with open(

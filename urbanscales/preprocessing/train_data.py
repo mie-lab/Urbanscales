@@ -42,6 +42,16 @@ class TrainDataVectors:
             city_name,
             "_scale_" + str(scale) + "_train_data_" + str(tod) + ".pkl",
         )
+
+        alternate_filename = os.path.join(
+            config.BASE_FOLDER,
+            config.network_folder,
+            city_name +
+            "_" +
+            "_scale_" + str(scale) + "_train_data_" + str(tod) + ".pkl",
+        )     # for the case when all files are present at the same folder with city name prefixes
+        print (alternate_filename)
+
         if config.td_delete_existing_pickle_objects:
             if os.path.exists(fname):
                 os.remove(fname)
@@ -53,10 +63,18 @@ class TrainDataVectors:
             nparrayX = np.array(self.X)
             nparrayY = np.array(self.Y)
             print(nparrayX.shape, nparrayY.shape)
-
+        elif os.path.exists(alternate_filename):
+            # with open(fname, "rb") as f:
+            temp = copy.deepcopy(CustomUnpicklerTrainDataVectors(open(alternate_filename, "rb")).load())
+            self.__dict__.update(temp.__dict__)
+            nparrayX = np.array(self.X)
+            nparrayY = np.array(self.Y)
+            print(nparrayX.shape, nparrayY.shape)
         else:
             self.X = []
             self.Y = []
+            self.bbox_X = []
+            self.bbox_Y = []
             self.tod = tod
             self.city_name = city_name
             self.scale = scale
@@ -87,6 +105,8 @@ class TrainDataVectors:
 
                 self.X.append(subg.get_vector_of_features())
                 self.Y.append(scl_jf.bbox_jf_map[bbox])
+                self.bbox_X.append({bbox:self.X[-1]})
+                self.bbox_Y.append({bbox:self.Y[-1]})
 
         fname = os.path.join(
             config.BASE_FOLDER,
