@@ -26,10 +26,10 @@ import geopandas as gdf
 from urbanscales.preprocessing.tile import Tile
 from smartprint import smartprint as sprint
 
-from line_profiler_pycharm import profile
+# from line_profiler_pycharm import profile
 
 
-@profile
+# @profile
 def smart_truncate(
     graph, gs_nodes, gs_edges, N, S, E, W, get_subgraph=True, get_features=False, scale=-1, legacy=False
 ):

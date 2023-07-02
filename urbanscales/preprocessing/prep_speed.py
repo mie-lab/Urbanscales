@@ -122,24 +122,28 @@ class ScaleJF:
         """
         pbar = tqdm(total=len(self.bbox_segment_map), desc="Setting bbox JF map...")
         for bbox in self.bbox_segment_map:
-            val = []
-            for segment in self.bbox_segment_map[bbox]:
-                try:
-                    val.append(self.SpeedData.segment_jf_map[segment][self.tod])
-                except:
-                    debug_stop = True
-                    print("Error in segment_jf_map; length ", len(self.SpeedData.segment_jf_map[segment]))
-                    raise Exception(
-                        "Error in segment_jf_map; length " + str(len(self.SpeedData.segment_jf_map[segment]))
-                    )
-                    # sys.exit(0)
+            if not config.ps_set_all_speed_zero:
+                val = []
+                for segment in self.bbox_segment_map[bbox]:
+                    try:
+                        val.append(self.SpeedData.segment_jf_map[segment][self.tod])
+                    except:
+                        debug_stop = True
+                        print("Error in segment_jf_map; length ", len(self.SpeedData.segment_jf_map[segment]))
+                        # raise Exception(
+                        #     "Error in segment_jf_map; length " + str(len(self.SpeedData.segment_jf_map[segment]))
+                        # )
+                        # sys.exit(0)
 
-            if config.ps_spatial_combination_method == "mean":
-                agg_func = np.mean
-            elif config.ps_spatial_combination_method == "max":
-                agg_func = np.max
+                if config.ps_spatial_combination_method == "mean":
+                    agg_func = np.mean
+                elif config.ps_spatial_combination_method == "max":
+                    agg_func = np.max
 
-            self.bbox_jf_map[bbox] = agg_func(val)
+                self.bbox_jf_map[bbox] = agg_func(val)
+
+            elif config.ps_set_all_speed_zero:
+                self.bbox_jf_map[bbox] = 0
             pbar.update(1)
 
     def get_object(cityname, scale, tod):

@@ -17,6 +17,10 @@ from urbanscales.preprocessing.train_data import TrainDataVectors
 os.system("rm -rf " + config.BASE_FOLDER + config.results_folder)
 os.system("mkdir " + config.BASE_FOLDER + config.results_folder)
 
+print ("Current working directory: ", os.getcwd())
+os.chdir('../')
+print ("Current working directory: ", os.getcwd())
+
 os.system("python urbanscales/io/road_network.py")
 os.system("python urbanscales/io/speed_data.py")
 os.system("python urbanscales/preprocessing/prep_network.py")

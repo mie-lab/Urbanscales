@@ -15,7 +15,7 @@ import threading
 from osmnx import utils_graph
 
 from matplotlib import pyplot as plt
-from line_profiler_pycharm import profile
+# from line_profiler_pycharm import profile
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 from urbanscales.preprocessing.smart_truncate_gpd import smart_truncate
@@ -72,7 +72,7 @@ class Scale:
 
             self.set_bbox_sub_G_map()
 
-    @profile
+    # @profile
     def set_bbox_sub_G_map(self, save_to_pickle=True):
         fname = os.path.join(
             config.BASE_FOLDER, config.network_folder, self.RoadNetwork.city_name, "_scale_" + str(self.scale) + ".pkl"
@@ -98,6 +98,12 @@ class Scale:
 
             print("File counter running in background; clearing temp files")
             print("Cleaning temp files folder")
+            try:
+                os.mkdir(os.path.join(config.BASE_FOLDER, "temp"))
+                os.mkdir(os.path.join(config.BASE_FOLDER, "temp", self.RoadNetwork.city_name))
+            except:
+                print ("temp Folder for city", self.RoadNetwork.city_name, "already exists! .. continuing to \
+                emptying the temp folder")
             shutil.rmtree(os.path.join(config.BASE_FOLDER, "temp", self.RoadNetwork.city_name), ignore_errors=True)
             os.mkdir(os.path.join(config.BASE_FOLDER, "temp", self.RoadNetwork.city_name))
             print("Cleaned the temp folder")
@@ -250,7 +256,7 @@ class Scale:
                 time.sleep(1)
                 oldcount = count
 
-    @profile
+    # @profile
     def _helper_create_dict_in_parallel(self, key):
         if config.scl_temp_file_counter:
             self.create_file_marker()

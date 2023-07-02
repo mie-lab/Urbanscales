@@ -81,8 +81,10 @@ class SpeedData:
         if not os.path.exists(
             os.path.join(config.sd_base_folder_path, self.city_name, config.sd_seg_file_path_within_city)
         ):
+            sprint (os.path.join(config.sd_base_folder_path, self.city_name, config.sd_seg_file_path_within_city)
+)
             sprint(self.city_name, "Missing here data")
-            # raise Exception("Error in here data; data file SEG missing")
+            raise Exception("Error in here data; data file SEG missing")
             # sys.exit(0)
 
         df = pd.read_csv(os.path.join(config.sd_base_folder_path, self.city_name, config.sd_seg_file_path_within_city))
