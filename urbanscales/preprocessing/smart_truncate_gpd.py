@@ -452,7 +452,7 @@ def smart_truncate(
         print("Inside the function: ", time.time() - ss)
 
     if get_features:
-        t = Tile((g_truncated), (config.rn_square_from_city_centre ** 2) / (scale ** 2))
+        t = Tile((g_truncated), (config.rn_square_from_city_centre**2) / (scale**2))
         return t.get_vector_of_features()
     elif get_subgraph:
         return ox.utils_graph.get_largest_component(g_truncated)

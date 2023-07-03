@@ -22,6 +22,7 @@ import shapely.geometry
 
 import pickle
 
+
 # All custom unpicklers are due to SO user Pankaj Saini's answer:  https://stackoverflow.com/a/51397373/3896008
 class CustomUnpicklerScaleJF(pickle.Unpickler):
     def find_class(self, module, name):
@@ -194,7 +195,7 @@ class ScaleJF:
         city, seed, depth = params
         sd = SpeedData(city, config.sd_raw_speed_data_gran, config.sd_target_speed_data_gran)
         try:
-            scl = Scale(RoadNetwork(city), seed ** depth)
+            scl = Scale(RoadNetwork(city), seed**depth)
         except Exception as e:
             sprint(city, seed, depth)
             raise Exception(e)

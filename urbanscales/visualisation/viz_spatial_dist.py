@@ -156,7 +156,7 @@ class VizSpatial:
             for seed in config.scl_list_of_seeds:
                 for depth in config.scl_list_of_depths:
                     for tod in config.td_tod_list:
-                        VizSpatial(city, seed ** depth, tod)
+                        VizSpatial(city, seed**depth, tod)
 
 
 if __name__ == "__main__":

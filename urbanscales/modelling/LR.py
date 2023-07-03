@@ -48,7 +48,7 @@ class LR:
                     for tod in config.td_tod_list:
                         print(city, seed, depth, tod)
                         startime = time.time()
-                        lr_object = LR(city, seed ** depth, tod)
+                        lr_object = LR(city, seed**depth, tod)
                         if not lr_object.empty_train_data:
                             print(np.mean(lr_object.cv_scores))
                             with open(

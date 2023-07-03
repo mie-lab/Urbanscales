@@ -15,6 +15,7 @@ import threading
 from osmnx import utils_graph
 
 from matplotlib import pyplot as plt
+
 # from line_profiler_pycharm import profile
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
@@ -37,6 +38,7 @@ from urbanscales.io.road_network import RoadNetwork
 from urbanscales.preprocessing.tile import Tile
 
 import pickle
+
 
 # All custom unpicklers are due to SO user Pankaj Saini's answer:  https://stackoverflow.com/a/51397373/3896008
 class CustomUnpicklerScale(pickle.Unpickler):
@@ -64,7 +66,7 @@ class Scale:
         else:
             self.RoadNetwork = RoadNetwork
             self.scale = scale
-            self.tile_area = (config.rn_square_from_city_centre ** 2) / (scale ** 2)
+            self.tile_area = (config.rn_square_from_city_centre**2) / (scale**2)
 
             # the following assert ensures that the scale * scale gives the correct number of tiles
             # as this is valid only if our city is a square
@@ -102,8 +104,12 @@ class Scale:
                 os.mkdir(os.path.join(config.BASE_FOLDER, "temp"))
                 os.mkdir(os.path.join(config.BASE_FOLDER, "temp", self.RoadNetwork.city_name))
             except:
-                print ("temp Folder for city", self.RoadNetwork.city_name, "already exists! .. continuing to \
-                emptying the temp folder")
+                print(
+                    "temp Folder for city",
+                    self.RoadNetwork.city_name,
+                    "already exists! .. continuing to \
+                emptying the temp folder",
+                )
             shutil.rmtree(os.path.join(config.BASE_FOLDER, "temp", self.RoadNetwork.city_name), ignore_errors=True)
             os.mkdir(os.path.join(config.BASE_FOLDER, "temp", self.RoadNetwork.city_name))
             print("Cleaned the temp folder")
@@ -200,11 +206,11 @@ class Scale:
         # assert < 0.1 % error in distance computation
         err = config.scl_error_percentage_tolerance
         try:
-            assert (((y_edge_1 ** 2 + x_edge_1 ** 2) ** 0.5 - diagonal) / diagonal * 100) < err
+            assert (((y_edge_1**2 + x_edge_1**2) ** 0.5 - diagonal) / diagonal * 100) < err
             assert ((y_edge_1 - y_edge_2) / y_edge_1 * 100) < err
             assert ((x_edge_1 - x_edge_2) / x_edge_1 * 100) < err
         except:
-            print((((y_edge_1 ** 2 + x_edge_1 ** 2) ** 0.5 - diagonal) / diagonal * 100))
+            print((((y_edge_1**2 + x_edge_1**2) ** 0.5 - diagonal) / diagonal * 100))
             print((y_edge_1 - y_edge_2) / y_edge_1 * 100)
             print((x_edge_1 - x_edge_2) / x_edge_1 * 100)
             raise Exception("Error in _helper_compute_deltas")
@@ -263,7 +269,6 @@ class Scale:
         N, S, E, W, total = key
 
         def debug_by_plotting_bboxes(color, small_G=None):
-
             fig, ax = ox.plot.plot_graph(
                 self.RoadNetwork.G_osm,
                 ax=None,
@@ -312,7 +317,6 @@ class Scale:
             # plt.show()
 
         try:
-
             truncated_graph = smart_truncate(
                 self.RoadNetwork.G_osm, self.RoadNetwork.G_OSM_nodes, self.RoadNetwork.G_OSM_edges, N, S, E, W
             )
@@ -329,7 +333,7 @@ class Scale:
             #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
             if config.DEBUG:
                 debug_by_plotting_bboxes("green", tile.G)
-        except (ValueError):  #
+        except ValueError:  #
             # if config.verbose >= 1:
             #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
             #         csvwriter = csv.writer(f)
@@ -350,9 +354,9 @@ class Scale:
         for city in config.scl_master_list_of_cities:
             for seed in config.scl_list_of_seeds:
                 for depth in config.scl_list_of_depths:
-                    Scale(RoadNetwork(city), seed ** depth)
+                    Scale(RoadNetwork(city), seed**depth)
                     print(city, seed, depth)
-                    loaded_scale = Scale.get_object(cityname=city, scale=seed ** depth)
+                    loaded_scale = Scale.get_object(cityname=city, scale=seed**depth)
 
     @staticmethod
     def get_object(cityname, scale):

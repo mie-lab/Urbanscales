@@ -175,7 +175,7 @@ class RoadNetwork:
 
     def get_graph_features_as_list(self):
         assert config.rn_square_from_city_centre != -1
-        list_of_graph_features = Tile(None, config.rn_square_from_city_centre ** 2).get_list_of_features()
+        list_of_graph_features = Tile(None, config.rn_square_from_city_centre**2).get_list_of_features()
         list_of_values = [self.city_name]
         for key in list_of_graph_features:
             list_of_values.append(self.graph_features[key])
@@ -287,7 +287,7 @@ class RoadNetwork:
         new_NE_corner = centre + ratio * (NE_corner - SW_corner)
         new_SW_corner = centre - ratio * (NE_corner - SW_corner)
 
-        sprint (self.city_name, half_square_diag_len / half_diag_len)
+        sprint(self.city_name, half_square_diag_len / half_diag_len)
 
         plt.clf()
         plt.scatter(NE_corner[1], NE_corner[0], 5, "r", label="Original NE")  # inverted order for x,y
@@ -319,7 +319,7 @@ class RoadNetwork:
             csvwriter = csv.writer(f)
             # if config.rn_compute_full_city_features:
             assert config.rn_square_from_city_centre != -1
-            list_of_graph_features = Tile(None, config.rn_square_from_city_centre ** 2).get_list_of_features()
+            list_of_graph_features = Tile(None, config.rn_square_from_city_centre**2).get_list_of_features()
             csvwriter.writerow(["city"] + list_of_graph_features)
 
             for city in config.rn_master_list_of_cities:
