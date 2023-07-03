@@ -97,7 +97,7 @@ class TrainDataVectors:
                 + "-"
                 + str(self.scale)
                 + "-"
-                + str(tod),
+                + str(tod_),
             ):
                 # assert bbox in scl_jf.bbox_jf_map
                 assert isinstance(scl, Scale)
