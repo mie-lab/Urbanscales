@@ -85,41 +85,6 @@ class Pipeline:
                 + ".png",
             )
 
-    def feature_importance_via_ridge_coefficients(self, x, y, i):
-        ridge = RidgeCV(alphas=[1e-3, 1e-2, 1e-1, 1, 2, 5, 10]).fit(x, y)
-        importance = np.abs(ridge.coef_)
-
-        color = cm.rainbow(np.linspace(0, 1, (self.X.shape[1])))
-        colorlist = []
-        for j in range(self.X.shape[1]):
-            colorlist.append(color[j])
-
-        plt.clf()
-        plt.bar(height=importance, x=self.X.columns, color=colorlist)
-        plt.ylim(0, 1)
-
-        plt.title("Feature importances via coefficients")
-        plt.xticks(rotation=90, fontsize=7)
-        plt.tight_layout()
-        # plt.show()
-        plt.savefig(
-            os.path.join(
-                config.BASE_FOLDER,
-                config.results_folder,
-                slugify(
-                    "-FI-via-ridge_coeff-"
-                    + self.cityname
-                    + "-"
-                    + str(self.scale)
-                    + "-"
-                    + str(self.tod)
-                    + "-counter"
-                    + str(i + 1)
-                ),
-            ),
-            dpi=300,
-        )
-
     def scale_x(self, x):
         x_trans = np.array(x)
         # 0: None; 1: Divide by Max; 2: StandardScaler(); 3: Divide by max; followed by StandardScaler()
@@ -206,91 +171,15 @@ class Pipeline:
 
     def compute_score(self):
         print(self.X.shape, self.Y.shape)
-        if config.ppl_plot_corr:
+        if True: # config.ppl_plot_corr; using True for config.ppl_plot_corr now:
             df_temp = pd.DataFrame(self.scale_x(self.X), columns=self.X.columns)
             df_temp["Y"] = self.Y.flatten().tolist()
             self.plot_CORR(df_temp)
-
-        range_ = 10 # max(self.X.shape[0] // config.ppl_smallest_sample, 1) * 2
-        if config.ppl_use_all:
-            # Run with full data 7 times
-            range_ = 7
-
-        print ("Range: ", range_)
-
-        for i in range(range_):
-            x = []
-            y = []
-            for j in range(self.X.shape[0]):
-                # sampling without replacement to avoid target leakage
-                if (
-                    (np.random.rand() < config.ppl_smallest_sample * (1.33) / self.X.shape[0])
-                    and not config.ppl_use_all
-                ) or config.ppl_use_all:
-                    x.append(self.X.to_numpy()[j, :])
-                    y.append(self.Y[j])
-            x = np.array(x)
-            y = np.array(y)
-
-            print("x.shape, y.shape", x.shape, y.shape)
-
-            X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.33)
-            print(X_train.shape, y_train.shape, X_test.shape, y_test.shape)
-
-            self.num_train_data_points.append(X_train.shape[0])
-            self.num_test_data_points.append(X_test.shape[0])
-
-            if config.td_min_max_scaler:
-                X_train = preprocessing.MinMaxScaler().fit_transform(X_train)
-                X_test = preprocessing.MinMaxScaler().fit_transform(X_test)
-            if config.td_standard_scaler:
-                X_train = preprocessing.StandardScaler().fit_transform(X_train)
-                X_test = preprocessing.StandardScaler().fit_transform(X_test)
-
-            for ml_model in config.ppl_list_of_NL_models + config.ppl_list_of_baselines:
-                reg = make_pipeline()
-                reg.steps.append([ml_model, eval(ml_model)])
-
-                trained_model = reg.fit(pd.DataFrame(X_train, columns=self.X.columns), y_train)
-                y_test_predicted = trained_model.predict(pd.DataFrame(X_test, columns=self.X.columns))
-                y_test_GT = y_test
-
-                if config.ppl_hist:
-                    plt.clf()
-                    plt.hist(y_test_GT, bins=10, color="green", alpha=0.5, label="actual")
-                    plt.hist(y_test_predicted, bins=10, color="blue", alpha=0.5, label="predicted")
-                    plt.legend()
-                    plt.savefig(
-                        os.path.join(
-                            config.BASE_FOLDER,
-                            config.results_folder,
-                            self.cityname + str(self.scale) + slugify(ml_model) + "counter" + str(i) + ".png",
-                        )
-                    )
-
-                if config.ppl_plot_FI:
-                    self.plot_FI_for_trained_model(
-                        trained_model,
-                        pd.DataFrame(X_train, columns=self.X.columns),
-                        y_train,
-                        "train",
-                        i,
-                        slugify(ml_model),
-                    )
-                    self.plot_FI_for_trained_model(
-                        trained_model, pd.DataFrame(X_test, columns=self.X.columns), y_test, "val", i, slugify(ml_model)
-                    )
-                    plt.clf()
-
-                if ml_model in self.scores_QWK:
-                    self.scores_QWK[ml_model].append(QWK(y_test_GT, y_test_predicted).val)
-                else:
-                    self.scores_QWK[ml_model] = [(QWK(y_test_GT, y_test_predicted).val)]
-
-                if ml_model in self.scores_MSE:
-                    self.scores_MSE[ml_model].append(mean_squared_error(y_test_GT, y_test_predicted))
-                else:
-                    self.scores_MSE[ml_model] = [(mean_squared_error(y_test_GT, y_test_predicted))]
+            plt.savefig(os.path.join(
+                    config.BASE_FOLDER,
+                    config.results_folder,
+                    "_Corplot-" + self.cityname + "-" + self.scale + str(int(np.random.rand() * 100000000)) +".png",
+                ))
 
     @staticmethod
     def parfunc(params):
@@ -370,8 +259,11 @@ class Pipeline:
 
 if __name__ == "__main__":
 
-    if config.delete_results_folder and os.path.exists(os.path.join(config.BASE_FOLDER, config.results_folder)):
-        shutil.rmtree(os.path.join(config.BASE_FOLDER, config.results_folder))
+
+
+
+    # if config.delete_results_folder and os.path.exists(os.path.join(config.BASE_FOLDER, config.results_folder)):
+    #     shutil.rmtree(os.path.join(config.BASE_FOLDER, config.results_folder))
     if not os.path.exists(os.path.join(config.BASE_FOLDER, config.results_folder)):
         os.mkdir(os.path.join(config.BASE_FOLDER, config.results_folder))
 
