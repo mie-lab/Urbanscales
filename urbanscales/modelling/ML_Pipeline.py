@@ -186,6 +186,12 @@ class Pipeline:
 
         list_of_tuples = sorted(fi_dict.items(), key=lambda kv: kv[1][0], reverse=True)
         plt.clf()
+        print ("List of tuples: ", list_of_tuples)
+
+        descending_list_of_feature_importance = [ k[0] for k in list_of_tuples ]
+        with open(os.path.join(config.BASE_FOLDER, config.results_folder, "feature_importance.csv"), "a") as f2:
+            csvwriter = csv.writer(f2)
+            csvwriter.writerow([self.cityname, self.scale, self.tod, marker, plot_counter] + descending_list_of_feature_importance)
 
         column_names_sorted = [x[0] for x in list_of_tuples]
         importance_heights_sorted = [x[1][0] for x in list_of_tuples]
@@ -205,10 +211,12 @@ class Pipeline:
             df_temp["Y"] = self.Y.flatten().tolist()
             self.plot_CORR(df_temp)
 
-        range_ = 60  # max(self.X.shape[0] // config.ppl_smallest_sample, 1) * 2
+        range_ = 10 # max(self.X.shape[0] // config.ppl_smallest_sample, 1) * 2
         if config.ppl_use_all:
             # Run with full data 7 times
             range_ = 7
+
+        print ("Range: ", range_)
 
         for i in range(range_):
             x = []
@@ -288,9 +296,9 @@ class Pipeline:
     def parfunc(params):
         city, seed, depth, tod, model = params
         try:
-            lr_object = Pipeline(city, seed**depth, tod)
+            lr_object = Pipeline(city, seed ** depth, tod)
         except Exception:
-            print("Error in (city, seed ** depth, tod)", (city, seed**depth, tod), "\n Skipping ...........")
+            print ("Error in (city, seed ** depth, tod)", (city, seed ** depth, tod), "\n Skipping ...........")
             return
         if not lr_object.empty_train_data:
             print(model, np.mean(lr_object.scores_MSE[model]), np.mean(lr_object.scores_QWK[model]))
@@ -361,9 +369,14 @@ class Pipeline:
 
 
 if __name__ == "__main__":
+
     if config.delete_results_folder and os.path.exists(os.path.join(config.BASE_FOLDER, config.results_folder)):
         shutil.rmtree(os.path.join(config.BASE_FOLDER, config.results_folder))
     if not os.path.exists(os.path.join(config.BASE_FOLDER, config.results_folder)):
         os.mkdir(os.path.join(config.BASE_FOLDER, config.results_folder))
+
+    with open(os.path.join(config.BASE_FOLDER, config.results_folder, "feature_importance.csv"), "w") as f:
+        csvwriter = csv.writer(f)
+        csvwriter.writerow(["cityname", "scale", "tod", "marker", "plot_counter"] + ["feature" + str(i) for i in range(1, 17)])
 
     Pipeline.compute_scores_for_all_cities()
