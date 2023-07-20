@@ -160,7 +160,6 @@ class Tile:
 
 
 if __name__ == "__main__":
-
     point = 40.70443736361541, -73.93851957710785
     dist = 300
     G = ox.graph_from_point(point, dist=dist, network_type="drive")

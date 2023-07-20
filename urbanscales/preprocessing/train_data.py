@@ -15,12 +15,14 @@ from urbanscales.preprocessing.prep_network import Scale
 from urbanscales.preprocessing.prep_speed import ScaleJF
 from urbanscales.preprocessing.tile import Tile
 import pandas as pd
+from tqdm import tqdm
 
 # from smartprint import smartprint as sprint
 from slugify import slugify
 
 # from urbanscales.io.speed_data import Segment  # this line if not present gives
 # # an error while depickling a file.
+
 
 # All custom unpicklers are due to SO user Pankaj Saini's answer:  https://stackoverflow.com/a/51397373/3896008
 class CustomUnpicklerTrainDataVectors(pickle.Unpickler):
@@ -46,11 +48,9 @@ class TrainDataVectors:
         alternate_filename = os.path.join(
             config.BASE_FOLDER,
             config.network_folder,
-            city_name +
-            "_" +
-            "_scale_" + str(scale) + "_train_data_" + str(tod) + ".pkl",
-        )     # for the case when all files are present at the same folder with city name prefixes
-        print (alternate_filename)
+            city_name + "_" + "_scale_" + str(scale) + "_train_data_" + str(tod) + ".pkl",
+        )  # for the case when all files are present at the same folder with city name prefixes
+        print(alternate_filename)
 
         if config.td_delete_existing_pickle_objects:
             if os.path.exists(fname):
@@ -90,7 +90,15 @@ class TrainDataVectors:
         for tod_ in config.td_tod_list:
             scl_jf = ScaleJF.get_object(self.city_name, self.scale, tod_)
             assert isinstance(scl_jf, ScaleJF)
-            for bbox in scl_jf.bbox_segment_map:
+            for bbox in tqdm(
+                scl_jf.bbox_segment_map,
+                desc="Training vectors for city, scale, tod: "
+                + self.city_name
+                + "-"
+                + str(self.scale)
+                + "-"
+                + str(tod_),
+            ):
                 # assert bbox in scl_jf.bbox_jf_map
                 assert isinstance(scl, Scale)
                 subg = scl.dict_bbox_to_subgraph[bbox]
@@ -105,8 +113,8 @@ class TrainDataVectors:
 
                 self.X.append(subg.get_vector_of_features())
                 self.Y.append(scl_jf.bbox_jf_map[bbox])
-                self.bbox_X.append({bbox:self.X[-1]})
-                self.bbox_Y.append({bbox:self.Y[-1]})
+                self.bbox_X.append({bbox: self.X[-1]})
+                self.bbox_Y.append({bbox: self.Y[-1]})
 
         fname = os.path.join(
             config.BASE_FOLDER,
@@ -218,7 +226,7 @@ class TrainDataVectors:
                 for depth in config.scl_list_of_depths:
                     for tod in config.td_tod_list:
                         startime = time.time()
-                        tdv = TrainDataVectors(city, seed ** depth, tod)
+                        tdv = TrainDataVectors(city, seed**depth, tod)
                         if config.td_viz_y_hist == True:
                             tdv.viz_y_hist()
                         print(time.time() - startime)

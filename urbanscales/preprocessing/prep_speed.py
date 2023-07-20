@@ -22,6 +22,7 @@ import shapely.geometry
 
 import pickle
 
+
 # All custom unpicklers are due to SO user Pankaj Saini's answer:  https://stackoverflow.com/a/51397373/3896008
 class CustomUnpicklerScaleJF(pickle.Unpickler):
     def find_class(self, module, name):
@@ -122,24 +123,28 @@ class ScaleJF:
         """
         pbar = tqdm(total=len(self.bbox_segment_map), desc="Setting bbox JF map...")
         for bbox in self.bbox_segment_map:
-            val = []
-            for segment in self.bbox_segment_map[bbox]:
-                try:
-                    val.append(self.SpeedData.segment_jf_map[segment][self.tod])
-                except:
-                    debug_stop = True
-                    print("Error in segment_jf_map; length ", len(self.SpeedData.segment_jf_map[segment]))
-                    raise Exception(
-                        "Error in segment_jf_map; length " + str(len(self.SpeedData.segment_jf_map[segment]))
-                    )
-                    # sys.exit(0)
+            if not config.ps_set_all_speed_zero:
+                val = []
+                for segment in self.bbox_segment_map[bbox]:
+                    try:
+                        val.append(self.SpeedData.segment_jf_map[segment][self.tod])
+                    except:
+                        debug_stop = True
+                        print("Error in segment_jf_map; length ", len(self.SpeedData.segment_jf_map[segment]))
+                        # raise Exception(
+                        #     "Error in segment_jf_map; length " + str(len(self.SpeedData.segment_jf_map[segment]))
+                        # )
+                        # sys.exit(0)
 
-            if config.ps_spatial_combination_method == "mean":
-                agg_func = np.mean
-            elif config.ps_spatial_combination_method == "max":
-                agg_func = np.max
+                if config.ps_spatial_combination_method == "mean":
+                    agg_func = np.mean
+                elif config.ps_spatial_combination_method == "max":
+                    agg_func = np.max
 
-            self.bbox_jf_map[bbox] = agg_func(val)
+                self.bbox_jf_map[bbox] = agg_func(val)
+
+            elif config.ps_set_all_speed_zero:
+                self.bbox_jf_map[bbox] = 0
             pbar.update(1)
 
     def get_object(cityname, scale, tod):
@@ -190,7 +195,7 @@ class ScaleJF:
         city, seed, depth = params
         sd = SpeedData(city, config.sd_raw_speed_data_gran, config.sd_target_speed_data_gran)
         try:
-            scl = Scale(RoadNetwork(city), seed ** depth)
+            scl = Scale(RoadNetwork(city), seed**depth)
         except Exception as e:
             sprint(city, seed, depth)
             raise Exception(e)

@@ -26,10 +26,10 @@ import geopandas as gdf
 from urbanscales.preprocessing.tile import Tile
 from smartprint import smartprint as sprint
 
-from line_profiler_pycharm import profile
+# from line_profiler_pycharm import profile
 
 
-@profile
+# @profile
 def smart_truncate(
     graph, gs_nodes, gs_edges, N, S, E, W, get_subgraph=True, get_features=False, scale=-1, legacy=False
 ):
@@ -452,7 +452,7 @@ def smart_truncate(
         print("Inside the function: ", time.time() - ss)
 
     if get_features:
-        t = Tile((g_truncated), (config.rn_square_from_city_centre ** 2) / (scale ** 2))
+        t = Tile((g_truncated), (config.rn_square_from_city_centre**2) / (scale**2))
         return t.get_vector_of_features()
     elif get_subgraph:
         return ox.utils_graph.get_largest_component(g_truncated)
