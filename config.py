@@ -3,14 +3,13 @@ import osmnx as ox
 
 pickle_protocol = 5
 
-
 verbose = 2
 
 DEBUG = False
 DEBUG_TRUNCATE = False
 
 BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"
-BASE_FOLDER_server = "/home/datapublic/WCS"
+BASE_FOLDER_server = "/home/niskumar/WCS"
 delete_results_folder = True
 cur_dir = os.getcwd()
 RUNNING_ON_LOCAL = True
@@ -31,7 +30,6 @@ osmnx_cache_folder = os.path.join(BASE_FOLDER, "cache_osmnx")
 log_file = os.path.join(BASE_FOLDER, "log-main.txt")
 LOGGING_ENABLED = False
 
-
 ox.settings.use_cache = True
 ox.settings.cache_folder = osmnx_cache_folder
 
@@ -48,12 +46,12 @@ td_delete_existing_pickle_objects = False
 #####################################
 ##############  PLOTS  ################
 #####################################
-ppl_smallest_sample = 130
+ppl_smallest_sample = 1000
 ppl_use_all = False
 if ppl_use_all:
     assert ppl_smallest_sample == -1
 ppl_parallel_overall = 1
-ppl_plot_FI = False
+ppl_plot_FI = True
 ppl_CV_splits = 7
 ppl_plot_corr = False
 ppl_hist = False
@@ -62,7 +60,7 @@ ppl_scaling_for_EDA = (
     2  # 0: None; 1: Divide by Max; 2: StandardScaler(); 3: Divide by max; followed by StandardScaler()
 )
 assert ppl_scaling_for_EDA in [0, 1, 2, 3]
-ppl_list_of_baselines = ["LinearRegression()"] # ["Lasso()", "LinearRegression()", "Ridge()"]
+ppl_list_of_baselines = [] # ["Lasso()", "LinearRegression()", "Ridge()"], "LinearRegression()"
 
 # ppl_feature_importance_via_coefficients = False
 # if ppl_feature_importance_via_coefficients:
@@ -72,7 +70,7 @@ ppl_feature_importance_via_NL_models = False
 # if ppl_feature_importance_via_NL_models:
 #     assert model in ["RFR", "GBM"]
 
-ppl_list_of_NL_models = ["RandomForestRegressor()", "GradientBoostingRegressor()"]
+ppl_list_of_NL_models = ["GradientBoostingRegressor()"] #  ["RandomForestRegressor()"] # , "GradientBoostingRegressor()"]
 
 # assert (ppl_feature_importance_via_NL_models != ppl_feature_importance_via_coefficients) or (
 #     ppl_feature_importance_via_coefficients == False and ppl_feature_importance_via_NL_models == False
@@ -87,15 +85,15 @@ ppl_list_of_correlations = ["pearson", "spearman"]  # , "kendall", "spearman"]
 # format: city,location, N, E, S, W
 rn_city_wise_bboxes = {
     "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
-    # "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
-    # "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
-    # "Auckland": [-36.681247, 174.925937, -36.965932, 174.63532],
-    # "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
-    # "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
-    # "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
-    # "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
-    # "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
-    # "London": [51.28676, -0.510375, 51.691874, 0.334015],
+    "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
+    "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
+    "Auckland": [-36.681247, 174.925937, -36.965932, 174.63532],
+    "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
+    "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
+    "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
+    "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
+    "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
+    "London": [51.28676, -0.510375, 51.691874, 0.334015],
     # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
     # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
 }
@@ -145,7 +143,7 @@ rn_simplify = False
 #########   Scale Class   ##########
 ####################################
 if BASE_FOLDER == BASE_FOLDER_server:
-    scl_n_jobs_parallel = 25
+    scl_n_jobs_parallel = 45
 else:
     scl_n_jobs_parallel = 2
 scl_temp_file_counter = True
@@ -167,7 +165,7 @@ scl_list_of_depths = [1]
 if RUNNING_ON_LOCAL:
     scl_list_of_seeds = [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 elif RUNNING_ON_SERVER:
-    scl_list_of_seeds = list(range(5, 6, 10))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+    scl_list_of_seeds = list(range(10, 121, 40))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 # forward
 # scl_list_of_seeds = list(range(5, 350, 10))
 
@@ -200,7 +198,7 @@ sd_seg_file_path_within_city = "segments.csv"
 sd_jf_file_path_within_city = "jf.csv"
 sd_raw_speed_data_gran = 10
 sd_target_speed_data_gran = 60
-sd_temporal_combination_method = "max"
+sd_temporal_combination_method = "mean"
 assert sd_temporal_combination_method in ["mean", "max"]
 sd_start_datetime_str = "2022-09-01T00:00:01"
 sd_end_datetime_str = "2022-09-30T23:59:59"
@@ -209,10 +207,11 @@ sd_end_datetime_str = "2022-09-30T23:59:59"
 ####################################
 ######   PreProcess Speed   ########
 ####################################
-ps_spatial_combination_method = "max"
+ps_spatial_combination_method = "mean"
 assert ps_spatial_combination_method in ["mean", "max"]
 ps_tod_list = [6]  # list(range(24))
 assert isinstance(ps_tod_list, list)
+ps_set_all_speed_zero = False
 
 
 ####################################
@@ -237,6 +236,6 @@ td_drop_feature_lists = [
 ]
 td_drop_collinear_features = True
 
-network_folder = "network-tmax-smax"
+network_folder = "network-tmean-smean"
 warnings_folder = "warnings"
-results_folder = "results_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi"
+results_folder = "results_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi-mean-mean"

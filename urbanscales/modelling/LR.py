@@ -38,6 +38,9 @@ class LR:
 
     @staticmethod
     def compute_scores_for_all_cities():
+        if not os.path.exists(os.path.join(config.BASE_FOLDER, config.results_folder)):
+            os.mkdir(os.path.join(config.BASE_FOLDER, config.results_folder))
+
         with open(os.path.join(config.BASE_FOLDER, config.results_folder, "_LR_Scores.csv"), "w") as f:
             csvwriter = csv.writer(f)
             csvwriter.writerow(["city", "seed", "depth", "tod", "np.mean(lr_object.cv_scores)"])

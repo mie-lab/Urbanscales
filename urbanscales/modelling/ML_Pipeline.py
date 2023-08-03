@@ -17,6 +17,8 @@ from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import cross_val_score, RepeatedKFold, GridSearchCV, BaseCrossValidator, train_test_split
 from sklearn.pipeline import make_pipeline
 
+sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
+
 import config
 from urbanscales.metrics.QWK import QWK, custom_scoring_QWK
 from urbanscales.preprocessing.tile import Tile
