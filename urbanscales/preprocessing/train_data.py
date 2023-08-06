@@ -17,7 +17,7 @@ from urbanscales.preprocessing.tile import Tile
 import pandas as pd
 from tqdm import tqdm
 
-# from smartprint import smartprint as sprint
+from smartprint import smartprint as sprint
 from slugify import slugify
 
 # from urbanscales.io.speed_data import Segment  # this line if not present gives
@@ -76,6 +76,7 @@ class TrainDataVectors:
             nparrayX = np.array(self.X)
             nparrayY = np.array(self.Y)
             print(nparrayX.shape, nparrayY.shape)
+
         elif os.path.exists(alternate_filename):
             # with open(fname, "rb") as f:
             temp = copy.deepcopy(CustomUnpicklerTrainDataVectors(open(alternate_filename, "rb")).load())
@@ -88,11 +89,12 @@ class TrainDataVectors:
             # empty
             self.Y = []
             self.bbox_Y = []
+            self.tod = tod
 
             # refill
             self.set_Y_only()
 
-            self.empty_train_data = True
+            self.empty_train_data = False
 
 
         else:
@@ -104,7 +106,7 @@ class TrainDataVectors:
             self.city_name = city_name
             self.scale = scale
             self.set_X_and_Y()
-            self.empty_train_data = True
+            self.empty_train_data = False
 
 
     def set_X_and_Y(self):
@@ -113,34 +115,33 @@ class TrainDataVectors:
         scl = Scale.get_object(self.city_name, self.scale)
         # scl_jf = ScaleJF(scl, sd )
 
-        for tod_ in config.td_tod_list:
-            scl_jf = ScaleJF.get_object(self.city_name, self.scale, tod_)
-            assert isinstance(scl_jf, ScaleJF)
-            for bbox in tqdm(
-                scl_jf.bbox_segment_map,
-                desc="Training vectors for city, scale, tod: "
-                + self.city_name
-                + "-"
-                + str(self.scale)
-                + "-"
-                + str(tod_),
-            ):
-                # assert bbox in scl_jf.bbox_jf_map
-                assert isinstance(scl, Scale)
-                subg = scl.dict_bbox_to_subgraph[bbox]
-                if isinstance(subg, str):
-                    if subg == config.rn_no_stats_marker:
-                        # we skip creating X and Y for this empty tile
-                        # which does not have any roads OR
-                        # is outside the scope of the administrative area
-                        continue
+        scl_jf = ScaleJF.get_object(self.city_name, self.scale, self.tod)
+        assert isinstance(scl_jf, ScaleJF)
+        for bbox in tqdm(
+            scl_jf.bbox_segment_map,
+            desc="Training vectors for city, scale, tod: "
+            + self.city_name
+            + "-"
+            + str(self.scale)
+            + "-"
+            + str(self.tod),
+        ):
+            # assert bbox in scl_jf.bbox_jf_map
+            assert isinstance(scl, Scale)
+            subg = scl.dict_bbox_to_subgraph[bbox]
+            if isinstance(subg, str):
+                if subg == config.rn_no_stats_marker:
+                    # we skip creating X and Y for this empty tile
+                    # which does not have any roads OR
+                    # is outside the scope of the administrative area
+                    continue
 
-                assert isinstance(subg, Tile)
+            assert isinstance(subg, Tile)
 
-                self.X.append(subg.get_vector_of_features())
-                self.Y.append(scl_jf.bbox_jf_map[bbox])
-                self.bbox_X.append({bbox: self.X[-1]})
-                self.bbox_Y.append({bbox: self.Y[-1]})
+            self.X.append(subg.get_vector_of_features())
+            self.Y.append(scl_jf.bbox_jf_map[bbox])
+            self.bbox_X.append({bbox: self.X[-1]})
+            self.bbox_Y.append({bbox: self.Y[-1]})
 
         fname = os.path.join(
             config.BASE_FOLDER,
@@ -189,46 +190,45 @@ class TrainDataVectors:
         scl = Scale.get_object(self.city_name, self.scale)
         # scl_jf = ScaleJF(scl, sd )
 
-        for tod_ in config.td_tod_list:
-            scl_jf = ScaleJF.get_object(self.city_name, self.scale, tod_)
+        scl_jf = ScaleJF.get_object(self.city_name, self.scale, self.tod)
 
-            assert isinstance(scl_jf, ScaleJF)
+        assert isinstance(scl_jf, ScaleJF)
 
-            # get same list of bbox as the precomputed X since the ordering insdie the keys of the dict
-            # self_jf.bbox_segment_map is not guaranteed :)
-            bbox_list = [bbox for bbox_dict in self.bbox_X for bbox in bbox_dict.keys()]
+        # get same list of bbox as the precomputed X since the ordering insdie the keys of the dict
+        # self_jf.bbox_segment_map is not guaranteed :)
+        bbox_list = [bbox for bbox_dict in self.bbox_X for bbox in bbox_dict.keys()]
 
-            for bbox in tqdm(
-                bbox_list,  # this time we iterature through existing bbox_list instead of scl_jf.bbox_segment_map,
-                #                                                           in the func set_X_and_Y
-                desc="Recomputing only Y vectors for city, scale, tod: "
-                + self.city_name
-                + "-"
-                + str(self.scale)
-                + "-"
-                + str(tod_),
-            ):
-                # assert bbox in scl_jf.bbox_jf_map
-                assert isinstance(scl, Scale)
-                subg = scl.dict_bbox_to_subgraph[bbox]
-                if isinstance(subg, str):
-                    if subg == config.rn_no_stats_marker:
-                        # we skip creating X and Y for this empty tile
-                        # which does not have any roads OR
-                        # is outside the scope of the administrative area
-                        continue
+        for bbox in tqdm(
+            bbox_list,  # this time we iterature through existing bbox_list instead of scl_jf.bbox_segment_map,
+            #                                                           in the func set_X_and_Y
+            desc="Recomputing only Y vectors for city, scale, tod: "
+            + self.city_name
+            + "-"
+            + str(self.scale)
+            + "-"
+            + str(self.tod),
+        ):
+            # assert bbox in scl_jf.bbox_jf_map
+            assert isinstance(scl, Scale)
+            subg = scl.dict_bbox_to_subgraph[bbox]
+            if isinstance(subg, str):
+                if subg == config.rn_no_stats_marker:
+                    # we skip creating X and Y for this empty tile
+                    # which does not have any roads OR
+                    # is outside the scope of the administrative area
+                    continue
 
-                assert isinstance(subg, Tile)
+            assert isinstance(subg, Tile)
 
-                # We don't update X this time
-                # self.X.append(subg.get_vector_of_features())
+            # We don't update X this time
+            # self.X.append(subg.get_vector_of_features())
 
-                self.Y.append(scl_jf.bbox_jf_map[bbox])
+            self.Y.append(scl_jf.bbox_jf_map[bbox])
 
-                # we don't update X this time, just keep the same order using self.bbox_X
-                # self.bbox_X.append({bbox: self.X[-1]})
+            # we don't update X this time, just keep the same order using self.bbox_X
+            # self.bbox_X.append({bbox: self.X[-1]})
 
-                self.bbox_Y.append({bbox: self.Y[-1]})
+            self.bbox_Y.append({bbox: self.Y[-1]})
 
         fname = os.path.join(
             config.BASE_FOLDER,
@@ -236,10 +236,11 @@ class TrainDataVectors:
             scl.RoadNetwork.city_name,
             "_scale_" + str(scl.scale) + "_train_data_" + str(self.tod) + ".pkl",
         )
+        sprint (fname)
         if not os.path.exists(fname):
             nparrayX = np.array(self.X)
             nparrayY = np.array(self.Y)
-
+            print  ("Reached ehre!! ")
             # if not nparrayY.size < 30:  # we ignore cases with less than 100 data points
             self.empty_train_data = False
 
@@ -268,7 +269,7 @@ class TrainDataVectors:
             with open(fname, "wb") as f:
                 pickle.dump(self, f, protocol=config.pickle_protocol)
                 print("Pickle saved! ")
-
+            print  ("Pickle saved!! ")
         debug_stop = 2
 
     def viz_y_hist(self):
