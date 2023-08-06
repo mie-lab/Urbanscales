@@ -47,7 +47,6 @@ class Pipeline:
         self.num_train_data_points = []
 
         obj = TrainDataVectors(cityname, scale, tod)
-
         self.empty_train_data = True
 
         if not obj.empty_train_data:
@@ -301,6 +300,8 @@ class Pipeline:
             lr_object = Pipeline(city, seed ** depth, tod)
         except Exception:
             print ("Error in (city, seed ** depth, tod)", (city, seed ** depth, tod), "\n Skipping ...........")
+            if config.DEBUG:
+                raise Exception
             return
         if not lr_object.empty_train_data:
             print(model, np.mean(lr_object.scores_MSE[model]), np.mean(lr_object.scores_QWK[model]))

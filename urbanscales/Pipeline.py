@@ -39,3 +39,6 @@ print("\n Complete: python urbanscales/preprocessing/train_data.py\n")
 os.system("python urbanscales/modelling/ML_Pipeline.py")
 print("\n Complete: python urbanscales/modelling/ML_Pipeline.py\n")
 
+os.system("python urbanscales/process_results/process_feature_importance.py")
+print("\n Complete: python urbanscales/process_results/process_feature_importance.py\n")
+

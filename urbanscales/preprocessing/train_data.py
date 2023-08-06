@@ -2,7 +2,7 @@ import copy
 import os
 import pickle
 import time
-
+import glob
 import numpy as np
 from matplotlib import pyplot as plt
 from sklearn.preprocessing import StandardScaler
@@ -52,6 +52,19 @@ class TrainDataVectors:
         )  # for the case when all files are present at the same folder with city name prefixes
         print(alternate_filename)
 
+        if config.td_reuse_Graph_features:
+            # get the list of any training files
+            list_of_existing_all_td_for_any_tod_files = glob.glob(os.path.join(
+                                                config.BASE_FOLDER,
+                                                config.network_folder,
+                                                city_name,
+                                                "_scale_" + str(scale) + "_train_data_*.pkl",
+                                            ))
+
+            if len(list_of_existing_all_td_for_any_tod_files) > 0:
+                # choose the first file
+                alternate_filename = list_of_existing_all_td_for_any_tod_files[0]
+
         if config.td_delete_existing_pickle_objects:
             if os.path.exists(fname):
                 os.remove(fname)
@@ -70,6 +83,18 @@ class TrainDataVectors:
             nparrayX = np.array(self.X)
             nparrayY = np.array(self.Y)
             print(nparrayX.shape, nparrayY.shape)
+
+            # empty the self.Y and then refill
+            # empty
+            self.Y = []
+            self.bbox_Y = []
+
+            # refill
+            self.set_Y_only()
+
+            self.empty_train_data = True
+
+
         else:
             self.X = []
             self.Y = []
@@ -78,8 +103,9 @@ class TrainDataVectors:
             self.tod = tod
             self.city_name = city_name
             self.scale = scale
-            self.empty_train_data = True
             self.set_X_and_Y()
+            self.empty_train_data = True
+
 
     def set_X_and_Y(self):
         # sd = SpeedData(self.city_name, c)
@@ -126,35 +152,122 @@ class TrainDataVectors:
             nparrayX = np.array(self.X)
             nparrayY = np.array(self.Y)
 
-            if not nparrayY.size < 30:  # we ignore cases with less than 100 data points
-                self.empty_train_data = False
+            self.empty_train_data = False
 
-                self.X = pd.DataFrame(data=nparrayX, columns=Tile.get_feature_names())
-                self.Y = pd.DataFrame(data=nparrayY)
+            self.X = pd.DataFrame(data=nparrayX, columns=Tile.get_feature_names())
+            self.Y = pd.DataFrame(data=nparrayY)
 
-                self.X, self.Y = TrainDataVectors.filter_infs(self.X, self.Y)
-                if config.td_plot_raw_variance_before_scaling:
-                    df = pd.DataFrame(self.X, columns=Tile.get_feature_names())
-                    df.var().to_csv(
-                        os.path.join(
-                            config.BASE_FOLDER,
-                            config.results_folder,
-                            slugify(
-                                "pre-norm-feat-variance-" + self.city_name + "-" + str(self.scale) + "-" + str(self.tod)
-                            ),
-                        )
-                        + ".csv"
+            self.X, self.Y = TrainDataVectors.filter_infs(self.X, self.Y)
+            if config.td_plot_raw_variance_before_scaling:
+                df = pd.DataFrame(self.X, columns=Tile.get_feature_names())
+                if not os.path.exists(os.path.join(config.BASE_FOLDER, config.results_folder)):
+                    os.mkdir(os.path.join(config.BASE_FOLDER, config.results_folder))
+
+                df.var().to_csv(
+                    os.path.join(
+                        config.BASE_FOLDER,
+                        config.results_folder,
+                        slugify(
+                            "pre-norm-feat-variance-" + self.city_name + "-" + str(self.scale) + "-" + str(self.tod)
+                        ),
                     )
+                    + ".csv"
+                )
 
-                self.Y = self.Y.values.reshape(self.Y.shape[0])
+            self.Y = self.Y.values.reshape(self.Y.shape[0])
 
-                with open(fname, "wb") as f:
-                    pickle.dump(self, f, protocol=config.pickle_protocol)
-                    print("Pickle saved! ")
+            with open(fname, "wb") as f:
+                pickle.dump(self, f, protocol=config.pickle_protocol)
+                print("Pickle saved! ")
 
-            else:
-                print("\n\n")
-                print(self.city_name, " has less than 30 data points...skipping\n\n")
+
+        debug_stop = 2
+
+    def set_Y_only(self):
+        # sd = SpeedData(self.city_name, c)
+        # rn = RoadNetwork.get_object(self.city_name)
+        scl = Scale.get_object(self.city_name, self.scale)
+        # scl_jf = ScaleJF(scl, sd )
+
+        for tod_ in config.td_tod_list:
+            scl_jf = ScaleJF.get_object(self.city_name, self.scale, tod_)
+
+            assert isinstance(scl_jf, ScaleJF)
+
+            # get same list of bbox as the precomputed X since the ordering insdie the keys of the dict
+            # self_jf.bbox_segment_map is not guaranteed :)
+            bbox_list = [bbox for bbox_dict in self.bbox_X for bbox in bbox_dict.keys()]
+
+            for bbox in tqdm(
+                bbox_list,  # this time we iterature through existing bbox_list instead of scl_jf.bbox_segment_map,
+                #                                                           in the func set_X_and_Y
+                desc="Recomputing only Y vectors for city, scale, tod: "
+                + self.city_name
+                + "-"
+                + str(self.scale)
+                + "-"
+                + str(tod_),
+            ):
+                # assert bbox in scl_jf.bbox_jf_map
+                assert isinstance(scl, Scale)
+                subg = scl.dict_bbox_to_subgraph[bbox]
+                if isinstance(subg, str):
+                    if subg == config.rn_no_stats_marker:
+                        # we skip creating X and Y for this empty tile
+                        # which does not have any roads OR
+                        # is outside the scope of the administrative area
+                        continue
+
+                assert isinstance(subg, Tile)
+
+                # We don't update X this time
+                # self.X.append(subg.get_vector_of_features())
+
+                self.Y.append(scl_jf.bbox_jf_map[bbox])
+
+                # we don't update X this time, just keep the same order using self.bbox_X
+                # self.bbox_X.append({bbox: self.X[-1]})
+
+                self.bbox_Y.append({bbox: self.Y[-1]})
+
+        fname = os.path.join(
+            config.BASE_FOLDER,
+            config.network_folder,
+            scl.RoadNetwork.city_name,
+            "_scale_" + str(scl.scale) + "_train_data_" + str(self.tod) + ".pkl",
+        )
+        if not os.path.exists(fname):
+            nparrayX = np.array(self.X)
+            nparrayY = np.array(self.Y)
+
+            # if not nparrayY.size < 30:  # we ignore cases with less than 100 data points
+            self.empty_train_data = False
+
+            self.X = pd.DataFrame(data=nparrayX, columns=Tile.get_feature_names())
+            self.Y = pd.DataFrame(data=nparrayY)
+
+            self.X, self.Y = TrainDataVectors.filter_infs(self.X, self.Y)
+            if config.td_plot_raw_variance_before_scaling:
+                df = pd.DataFrame(self.X, columns=Tile.get_feature_names())
+                if not os.path.exists(os.path.join(config.BASE_FOLDER, config.results_folder)):
+                    os.mkdir(os.path.join(config.BASE_FOLDER, config.results_folder))
+
+                df.var().to_csv(
+                    os.path.join(
+                        config.BASE_FOLDER,
+                        config.results_folder,
+                        slugify(
+                            "pre-norm-feat-variance-" + self.city_name + "-" + str(self.scale) + "-" + str(self.tod)
+                        ),
+                    )
+                    + ".csv"
+                )
+
+            self.Y = self.Y.values.reshape(self.Y.shape[0])
+
+            with open(fname, "wb") as f:
+                pickle.dump(self, f, protocol=config.pickle_protocol)
+                print("Pickle saved! ")
 
         debug_stop = 2
 

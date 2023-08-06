@@ -14,6 +14,7 @@ delete_results_folder = True
 cur_dir = os.getcwd()
 RUNNING_ON_LOCAL = True
 RUNNING_ON_SERVER = False
+
 if cur_dir.split("/")[1] == "home":
     BASE_FOLDER = BASE_FOLDER_server
     RUNNING_ON_LOCAL = False
@@ -46,8 +47,8 @@ td_delete_existing_pickle_objects = False
 #####################################
 ##############  PLOTS  ################
 #####################################
-ppl_smallest_sample = 1000
-ppl_use_all = False
+ppl_smallest_sample = -1
+ppl_use_all = True
 if ppl_use_all:
     assert ppl_smallest_sample == -1
 ppl_parallel_overall = 1
@@ -70,7 +71,7 @@ ppl_feature_importance_via_NL_models = False
 # if ppl_feature_importance_via_NL_models:
 #     assert model in ["RFR", "GBM"]
 
-ppl_list_of_NL_models = ["GradientBoostingRegressor()"] #  ["RandomForestRegressor()"] # , "GradientBoostingRegressor()"]
+ppl_list_of_NL_models = ["RandomForestRegressor()"]  # , "GradientBoostingRegressor()" #  ["RandomForestRegressor()"] # , "GradientBoostingRegressor()"]
 
 # assert (ppl_feature_importance_via_NL_models != ppl_feature_importance_via_coefficients) or (
 #     ppl_feature_importance_via_coefficients == False and ppl_feature_importance_via_NL_models == False
@@ -118,7 +119,7 @@ rn_do_not_filter = True
 if rn_do_not_filter:
     assert len(rn_do_not_filter_list) == 0
 
-rn_plotting_enabled = True
+rn_plotting_enabled = False
 rn_plotting_for_truncated_graphs = False
 rn_prefix_geojson_files = "gdam_410_"
 rn_postfix_geojson_files = ".geojson"
@@ -145,7 +146,7 @@ rn_simplify = False
 if BASE_FOLDER == BASE_FOLDER_server:
     scl_n_jobs_parallel = 45
 else:
-    scl_n_jobs_parallel = 2
+    scl_n_jobs_parallel = 5
 scl_temp_file_counter = True
 scl_master_list_of_cities = rn_master_list_of_cities
 scl_list_of_depths = [1]
@@ -163,9 +164,9 @@ scl_list_of_depths = [1]
 
 # test_small
 if RUNNING_ON_LOCAL:
-    scl_list_of_seeds = [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+    scl_list_of_seeds = list(range(10, 121, 40))  # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 elif RUNNING_ON_SERVER:
-    scl_list_of_seeds = list(range(10, 121, 40))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+    scl_list_of_seeds = [50] # list(range(10, 121, 40))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 # forward
 # scl_list_of_seeds = list(range(5, 350, 10))
 
@@ -209,7 +210,7 @@ sd_end_datetime_str = "2022-09-30T23:59:59"
 ####################################
 ps_spatial_combination_method = "mean"
 assert ps_spatial_combination_method in ["mean", "max"]
-ps_tod_list = [6]  # list(range(24))
+ps_tod_list = [12]  # list(range(24))
 assert isinstance(ps_tod_list, list)
 ps_set_all_speed_zero = False
 
@@ -222,6 +223,8 @@ td_standard_scaler = True
 td_min_max_scaler = False
 td_plot_raw_variance_before_scaling = True
 td_viz_y_hist = True
+
+td_reuse_Graph_features = True
 
 ## maybe we should simply remove this
 td_drop_feature_lists = [
@@ -236,6 +239,7 @@ td_drop_feature_lists = [
 ]
 td_drop_collinear_features = True
 
-network_folder = "network-tmean-smean"
+
+network_folder = "network_tmean_smean_50x50"
 warnings_folder = "warnings"
-results_folder = "results_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi-mean-mean"
+results_folder = "results_50x50_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi-mean-mean"
