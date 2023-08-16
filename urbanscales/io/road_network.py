@@ -330,7 +330,8 @@ class RoadNetwork:
 
                 print(city)
                 rn = RoadNetwork(city, "bbox")
-                rn.plot_basemap()
+                if config.rn_plot_basemap:
+                    rn.plot_basemap()
 
                 if config.rn_compute_full_city_features:
                     csvwriter.writerow(rn.get_graph_features_as_list())

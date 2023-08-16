@@ -67,10 +67,10 @@ class ScaleJF:
             with open(fname, "rb") as f:
                 temp = copy.deepcopy(pickle.load(f))
                 self.__dict__.update(temp.__dict__)
-            print ("Pickle object loaded for (city, scale, tod): ", (scale.RoadNetwork.city_name, scale.scale, tod))
+            print ("Prep-speed Pickle object loaded for (city, scale, tod): ", (scale.RoadNetwork.city_name, scale.scale, tod))
         else:
             sprint (fname)
-            print("Pickle Not found for (city, scale, tod): ", (scale.RoadNetwork.city_name, scale.scale, tod))
+            print("Prep-speed Pickle Not found for (city, scale, tod): ", (scale.RoadNetwork.city_name, scale.scale, tod))
             self.bbox_segment_map = {}
             self.bbox_jf_map = {}
             self.Scale = scale
@@ -113,7 +113,7 @@ class ScaleJF:
 
             # Convert segments into GeoDataFrame
             segments_gdf = gpd.GeoDataFrame({
-                'geometry': [shapely.wkt.loads(seg) for seg in self.SpeedData.segment_jf_map]
+                'geometry': [shapely.wkt.loads(str(seg)) for seg in self.SpeedData.segment_jf_map]
             })
 
             # Convert bounding boxes into GeoDataFrame
@@ -203,8 +203,7 @@ class ScaleJF:
         if not config.ps_set_all_speed_zero:
             # Fetch segment_jf values for each segment using map and apply operations
             bbox_segment_df['segment_jf_values'] = bbox_segment_df['segments'].apply(
-                lambda segments_list: [self.SpeedData.segment_jf_map.get(seg, [np.nan] * 24)[self.tod] for seg in
-                                       segments_list]
+                lambda segments_list: [self.SpeedData.segment_jf_map.get(str(seg), [np.nan] * 24)[self.tod] for seg in segments_list]
             )
 
             # Use np.mean or np.max as aggregation function based on config
@@ -295,9 +294,9 @@ class ScaleJF:
                 obj = CustomUnpicklerScaleJF(open(fname, "rb")).load()
             except EOFError:
                 print(fname)
-                raise Exception("Error! Corrupted pickle file:\n Filename:  " + fname)
+                raise Exception("Error! Corrupted pickle file prep_speed:\n Filename:  " + fname)
         else:
-            raise Exception("Error! trying to read file that does not exist: Filename: " + fname)
+            raise Exception("Error! trying to read prep_speed file that does not exist: Filename: " + fname)
 
         obj.tod = tod
         obj.set_bbox_jf_map()

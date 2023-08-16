@@ -128,6 +128,7 @@ rn_base_map_filename = "_base_osm_truncated.png"
 rn_compute_full_city_features = False
 rn_add_edge_speed_and_tt = True
 rn_no_stats_marker = "Empty"
+rn_plot_basemap = False
 
 rn_percentage_of_city_area = 100
 if rn_percentage_of_city_area != 100:
