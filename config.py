@@ -86,30 +86,30 @@ ppl_list_of_correlations = ["pearson", "spearman"]  # , "kendall", "spearman"]
 # format: city,location, N, E, S, W
 rn_city_wise_bboxes = {
     "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
-    "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
-    "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
-    "Auckland": [-36.681247, 174.925937, -36.965932, 174.63532],
-    "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
-    "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
-    "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
-    "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
-    "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
-    "London": [51.28676, -0.510375, 51.691874, 0.334015],
+    # "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
+    # "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
+    # "Auckland": [-36.681247, 174.925937, -36.965932, 174.63532],
+    # "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
+    # "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
+    # "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
+    # "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
+    # "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
+    # "London": [51.28676, -0.510375, 51.691874, 0.334015],
     # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
     # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
 }
 rn_city_wise_tz_code = {
     "Singapore": "Asia/Singapore",
-    "Zurich": "Europe/Zurich",
-    "Mumbai": "Asia/Kolkata",
-    "Auckland": "Pacific/Auckland",
-    "Istanbul": "Europe/Istanbul",
-    "MexicoCity": "America/Mexico_City",
-    "Bogota": "America/Bogota",
-    "NewYorkCity": "America/New_York",
-    "Capetown": "Africa/Johannesburg",
-    "London": "Europe/London",
-    "Tokyo": "Asia/Tokyo"
+    # "Zurich": "Europe/Zurich",
+    # "Mumbai": "Asia/Kolkata",
+    # "Auckland": "Pacific/Auckland",
+    # "Istanbul": "Europe/Istanbul",
+    # "MexicoCity": "America/Mexico_City",
+    # "Bogota": "America/Bogota",
+    # "NewYorkCity": "America/New_York",
+    # "Capetown": "Africa/Johannesburg",
+    # "London": "Europe/London",
+    # "Tokyo": "Asia/Tokyo"
     # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
 }
 rn_master_list_of_cities = list(rn_city_wise_bboxes.keys())
@@ -164,9 +164,9 @@ scl_list_of_depths = [1]
 
 # test_small
 if RUNNING_ON_LOCAL:
-    scl_list_of_seeds = list(range(50, 121, 40))  # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+    scl_list_of_seeds = [50] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 elif RUNNING_ON_SERVER:
-    scl_list_of_seeds = [50] # list(range(10, 121, 40))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+    scl_list_of_seeds = [50, 70, 90] # list(range(50, 121, 20)) # list(range(10, 121, 40))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 # forward
 # scl_list_of_seeds = list(range(5, 350, 10))
 
@@ -199,7 +199,7 @@ sd_seg_file_path_within_city = "segments.csv"
 sd_jf_file_path_within_city = "jf.csv"
 sd_raw_speed_data_gran = 10
 sd_target_speed_data_gran = 60
-sd_temporal_combination_method = "mean"
+sd_temporal_combination_method = "max"
 assert sd_temporal_combination_method in ["mean", "max"]
 sd_start_datetime_str = "2022-09-01T00:00:01"
 sd_end_datetime_str = "2022-09-30T23:59:59"
@@ -208,9 +208,9 @@ sd_end_datetime_str = "2022-09-30T23:59:59"
 ####################################
 ######   PreProcess Speed   ########
 ####################################
-ps_spatial_combination_method = "mean"
+ps_spatial_combination_method = "max"
 assert ps_spatial_combination_method in ["mean", "max"]
-ps_tod_list = [12]  # list(range(24))
+ps_tod_list = list(range(24))
 assert isinstance(ps_tod_list, list)
 ps_set_all_speed_zero = False
 
@@ -240,6 +240,6 @@ td_drop_feature_lists = [
 td_drop_collinear_features = True
 
 
-network_folder = "network_tmean_smean_50x50"
+network_folder = "network_tmax_smax_50x50"
 warnings_folder = "warnings"
-results_folder = "results_50x50_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi-mean-mean"
+results_folder = "results_50x50_rerun_Aug_9_all_tods_" # "results_50x50_max_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi-max-max"

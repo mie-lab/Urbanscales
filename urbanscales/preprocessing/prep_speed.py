@@ -16,6 +16,13 @@ from urbanscales.preprocessing.prep_network import Scale
 from urbanscales.io.road_network import RoadNetwork
 from urbanscales.io.speed_data import SpeedData, Segment
 from tqdm import tqdm
+import os
+import copy
+from tqdm import tqdm
+import geopandas as gpd
+from shapely.geometry import box
+
+import pandas as pd
 
 from smartprint import smartprint as sprint
 import shapely.geometry
@@ -60,8 +67,10 @@ class ScaleJF:
             with open(fname, "rb") as f:
                 temp = copy.deepcopy(pickle.load(f))
                 self.__dict__.update(temp.__dict__)
-
+            print ("Pickle object loaded for (city, scale, tod): ", (scale.RoadNetwork.city_name, scale.scale, tod))
         else:
+            sprint (fname)
+            print("Pickle Not found for (city, scale, tod): ", (scale.RoadNetwork.city_name, scale.scale, tod))
             self.bbox_segment_map = {}
             self.bbox_jf_map = {}
             self.Scale = scale
@@ -70,7 +79,57 @@ class ScaleJF:
             self.set_bbox_segment_map()
             self.set_bbox_jf_map()
 
+
     def set_bbox_segment_map(self):
+        fname = os.path.join(
+            config.BASE_FOLDER,
+            config.network_folder,
+            self.Scale.RoadNetwork.city_name,
+            "_scale_" + str(self.Scale.scale) + "_prep_speed_" + str(self.tod) + ".pkl",
+        )
+
+        if os.path.exists(fname):
+            self.bbox_segment_map = copy.deepcopy(
+                (ScaleJF.get_object(self.Scale.RoadNetwork.city_name, self.Scale.scale, self.tod)).bbox_segment_map,
+            )
+            return
+
+        else:
+            for tod_ in config.td_tod_list:
+                fnametemp = os.path.join(
+                    config.BASE_FOLDER,
+                    config.network_folder,
+                    self.Scale.RoadNetwork.city_name,
+                    "_scale_" + str(self.Scale.scale) + "_prep_speed_" + str(tod_) + ".pkl",
+                )
+                if os.path.exists(fnametemp):
+                    print("\n", fnametemp, " found; re-using bbox segment map from here")
+                    self.bbox_segment_map = copy.deepcopy(
+                        (ScaleJF.get_object(self.Scale.RoadNetwork.city_name, self.Scale.scale, tod_)).bbox_segment_map,
+                    )
+                    return
+
+            print("Could not find other tod's, Recomputing bbox-segment map for this tod: ", self.tod)
+
+            # Convert segments into GeoDataFrame
+            segments_gdf = gpd.GeoDataFrame({
+                'geometry': [shapely.wkt.loads(seg) for seg in self.SpeedData.segment_jf_map]
+            })
+
+            # Convert bounding boxes into GeoDataFrame
+            bboxes = [
+                box(W, S, E, N) for bbox in self.Scale.dict_bbox_to_subgraph.keys() for N, S, E, W, _unused_len in
+                [bbox]
+            ]
+            bboxes_gdf = gpd.GeoDataFrame({'bbox': self.Scale.dict_bbox_to_subgraph.keys(), 'geometry': bboxes})
+
+            # Spatial join to find intersections
+            intersections = gpd.sjoin(segments_gdf, bboxes_gdf, op='intersects')
+            self.bbox_segment_map = intersections.groupby('bbox')['geometry'].apply(list).to_dict()
+
+            sprint(len(self.bbox_segment_map))
+
+    def set_bbox_segment_map_loops(self):
         # Step 1: iterate over segments
         # Step 2: iterate over bboxes
         # Then within the loop populate the dict if both are intersecting
@@ -80,14 +139,31 @@ class ScaleJF:
             self.Scale.RoadNetwork.city_name,
             "_scale_" + str(self.Scale.scale) + "_prep_speed_" + str(self.tod) + ".pkl",
         )
-
         if os.path.exists(fname):
             # @P/A Ask 2
             self.bbox_segment_map = copy.deepcopy(
                 (ScaleJF.get_object(self.Scale.RoadNetwork.city_name, self.Scale.scale, self.tod)).bbox_segment_map,
             )
             return
+
         else:
+
+            for tod_ in config.td_tod_list:
+                fnametemp = os.path.join(
+                    config.BASE_FOLDER,
+                    config.network_folder,
+                    self.Scale.RoadNetwork.city_name,
+                    "_scale_" + str(self.Scale.scale) + "_prep_speed_" + str(tod_) + ".pkl",
+                )
+                if os.path.exists(fnametemp):
+                    print("\n", fnametemp, " found; re-using bbox segment map from here")
+                    self.bbox_segment_map = copy.deepcopy(
+                        (ScaleJF.get_object(self.Scale.RoadNetwork.city_name, self.Scale.scale, tod_)).bbox_segment_map,
+                    )
+                    return  # and continue to creating this new prep_speed_object using fname
+
+            print ("Could not find other tod's, Recomputing bbox-segment map for this tod: ", self.tod)
+
             count_ = len(self.SpeedData.NID_road_segment_map) * len(self.Scale.dict_bbox_to_subgraph)
             pbar = tqdm(
                 total=count_,
@@ -110,42 +186,93 @@ class ScaleJF:
                             self.bbox_segment_map[bbox] = [segment]
 
                     pbar.update(1)
-            print(len(self.bbox_segment_map))
-
-            with open(fname, "wb") as f:
-                pickle.dump(self, f, protocol=config.pickle_protocol)
-                print("Pickle saved! ")
+            sprint(len(self.bbox_segment_map))
 
     def set_bbox_jf_map(self):
         """
         Input: object of class Scale JF
         For the current tod, this function sets its Y (JF mean/median) depending on config
         """
-        pbar = tqdm(total=len(self.bbox_segment_map), desc="Setting bbox JF map...")
-        for bbox in self.bbox_segment_map:
-            if not config.ps_set_all_speed_zero:
-                val = []
-                for segment in self.bbox_segment_map[bbox]:
-                    try:
-                        val.append(self.SpeedData.segment_jf_map[segment][self.tod])
-                    except:
-                        debug_stop = True
-                        print("Error in segment_jf_map; length ", len(self.SpeedData.segment_jf_map[segment]))
-                        # raise Exception(
-                        #     "Error in segment_jf_map; length " + str(len(self.SpeedData.segment_jf_map[segment]))
-                        # )
-                        # sys.exit(0)
 
+        # Convert bbox_segment_map to DataFrame for vectorized operations
+        bbox_segment_df = pd.DataFrame({
+            'bbox': list(self.bbox_segment_map.keys()),
+            'segments': [self.bbox_segment_map[k] for k in self.bbox_segment_map.keys()]
+        })
+
+        if not config.ps_set_all_speed_zero:
+            # Fetch segment_jf values for each segment using map and apply operations
+            bbox_segment_df['segment_jf_values'] = bbox_segment_df['segments'].apply(
+                lambda segments_list: [self.SpeedData.segment_jf_map.get(seg, [np.nan] * 24)[self.tod] for seg in
+                                       segments_list]
+            )
+
+            # Use np.mean or np.max as aggregation function based on config
+            if config.ps_spatial_combination_method == "mean":
+                agg_func = np.mean
+            elif config.ps_spatial_combination_method == "max":
+                agg_func = np.max
+            else:
+                raise ValueError(f"Unsupported spatial combination method: {config.ps_spatial_combination_method}")
+
+            # Aggregate segment_jf_values for each bbox
+            bbox_segment_df['agg_jf_value'] = bbox_segment_df['segment_jf_values'].apply(agg_func)
+
+            # Update bbox_jf_map from DataFrame
+            self.bbox_jf_map = bbox_segment_df.set_index('bbox')['agg_jf_value'].to_dict()
+
+        elif config.ps_set_all_speed_zero:
+            # Set all values to zero if ps_set_all_speed_zero is True
+            self.bbox_jf_map = {bbox: 0 for bbox in self.bbox_segment_map.keys()}
+
+        # Saving the object
+        fname = os.path.join(
+            config.BASE_FOLDER,
+            config.network_folder,
+            self.Scale.RoadNetwork.city_name,
+            "_scale_" + str(self.Scale.scale) + "_prep_speed_" + str(self.tod) + ".pkl",
+        )
+        with open(fname, "wb") as f:
+            pickle.dump(self, f, protocol=config.pickle_protocol)
+            print("Pickle saved!")
+
+    def set_bbox_jf_map_loops(self):
+        """
+        Input: object of class Scale JF
+        For the current tod, this function sets its Y (JF mean/median) depending on config
+        """
+
+        if not config.ps_set_all_speed_zero:
+            for bbox, segments in self.bbox_segment_map.items():
+                segment_jf_values = []
+                for segment in segments:
+                    # Fetch segment_jf value for the segment, and use NaN if not available
+                    segment_jf = self.SpeedData.segment_jf_map.get(segment, [np.nan] * 24)[self.tod]
+                    segment_jf_values.append(segment_jf)
+
+                # Use mean or max as aggregation function based on config
                 if config.ps_spatial_combination_method == "mean":
-                    agg_func = np.mean
+                    self.bbox_jf_map[bbox] = np.mean(segment_jf_values)
                 elif config.ps_spatial_combination_method == "max":
-                    agg_func = np.max
+                    self.bbox_jf_map[bbox] = np.max(segment_jf_values)
+                else:
+                    raise ValueError(f"Unsupported spatial combination method: {config.ps_spatial_combination_method}")
 
-                self.bbox_jf_map[bbox] = agg_func(val)
-
-            elif config.ps_set_all_speed_zero:
+        elif config.ps_set_all_speed_zero:
+            # Set all values to zero if ps_set_all_speed_zero is True
+            for bbox in self.bbox_segment_map.keys():
                 self.bbox_jf_map[bbox] = 0
-            pbar.update(1)
+
+        # Saving the object
+        fname = os.path.join(
+            config.BASE_FOLDER,
+            config.network_folder,
+            self.Scale.RoadNetwork.city_name,
+            "_scale_" + str(self.Scale.scale) + "_prep_speed_" + str(self.tod) + ".pkl",
+        )
+        with open(fname, "wb") as f:
+            pickle.dump(self, f, protocol=config.pickle_protocol)
+            print("Pickle saved!")
 
     def get_object(cityname, scale, tod):
         """
@@ -161,6 +288,7 @@ class ScaleJF:
             cityname,
             "_scale_" + str(scale) + "_prep_speed_" + str(tod) + ".pkl",
         )
+
         if os.path.exists(fname):
             # ScaleJF.preprocess_different_tods([tod], Scale.get_object_at_scale(cityname, scale), SpeedData.get_object(cityname))
             try:
@@ -178,17 +306,6 @@ class ScaleJF:
     def preprocess_different_tods(range_element, scl: Scale, sd: SpeedData):
         for tod in tqdm(range_element, desc="Processing for different ToDs"):
             scl_jf = ScaleJF(scl, sd, tod=tod)
-            fname = os.path.join(
-                config.BASE_FOLDER,
-                config.network_folder,
-                scl.RoadNetwork.city_name,
-                "_scale_" + str(scl.scale) + "_prep_speed_" + str(tod) + ".pkl",
-            )
-            with open(fname, "wb") as f:
-                pickle.dump(scl_jf, f, protocol=config.pickle_protocol)
-                print("Pickle saved! ")
-                # with open(fname, "rb") as f:
-                #     obj = pickle.load(f)
 
     @staticmethod
     def helper_parallel(params):
