@@ -215,7 +215,7 @@ class Pipeline:
         range_ = 10 # max(self.X.shape[0] // config.ppl_smallest_sample, 1) * 2
         if config.ppl_use_all:
             # Run with full data 7 times
-            range_ = 7
+            range_ = config.ppl_CV_splits
 
         print ("Range: ", range_)
 
