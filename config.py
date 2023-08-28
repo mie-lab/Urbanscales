@@ -98,18 +98,20 @@ rn_city_wise_bboxes = {
     # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
     # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
 }
+
+# rn_city_wise_tz_code can be commented out since we don't need to recompute the speed_data_object everytime.
 rn_city_wise_tz_code = {
     "Singapore": "Asia/Singapore",
-    # "Zurich": "Europe/Zurich",
-    # "Mumbai": "Asia/Kolkata",
-    # "Auckland": "Pacific/Auckland",
-    # "Istanbul": "Europe/Istanbul",
-    # "MexicoCity": "America/Mexico_City",
-    # "Bogota": "America/Bogota",
-    # "NewYorkCity": "America/New_York",
-    # "Capetown": "Africa/Johannesburg",
-    # "London": "Europe/London",
-    # "Tokyo": "Asia/Tokyo"
+    "Zurich": "Europe/Zurich",
+    "Mumbai": "Asia/Kolkata",
+    "Auckland": "Pacific/Auckland",
+    "Istanbul": "Europe/Istanbul",
+    "MexicoCity": "America/Mexico_City",
+    "Bogota": "America/Bogota",
+    "NewYorkCity": "America/New_York",
+    "Capetown": "Africa/Johannesburg",
+    "London": "Europe/London",
+    "Tokyo": "Asia/Tokyo"
     # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
 }
 rn_master_list_of_cities = list(rn_city_wise_bboxes.keys())
@@ -167,7 +169,7 @@ scl_list_of_depths = [1]
 if RUNNING_ON_LOCAL:
     scl_list_of_seeds = [50] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 elif RUNNING_ON_SERVER:
-    scl_list_of_seeds = [50, 70, 90] # list(range(50, 121, 20)) # list(range(10, 121, 40))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+    scl_list_of_seeds = [50] # , 70, 90] # list(range(50, 121, 20)) # list(range(10, 121, 40))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 # forward
 # scl_list_of_seeds = list(range(5, 350, 10))
 
@@ -184,6 +186,7 @@ scl_error_percentage_tolerance = 1
 tls_betweenness_features = True
 tls_number_of_lanes = True
 tls_add_edge_speed_and_tt = False
+tls_add_metered_intersections = True
 
 if tls_add_edge_speed_and_tt == True:
     # the data must be present in the road network to begin with

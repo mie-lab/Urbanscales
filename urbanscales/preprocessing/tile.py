@@ -10,6 +10,10 @@ import os
 import config
 import csv
 
+sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
+
+import config
+
 # from smartprint import smartprint as sprint
 from slugify import slugify
 
@@ -33,19 +37,83 @@ class Tile:
             # because we use some functions of this class for
             # other purposes as well; For example, for empty
             # graphs as well to simply view the list of features
-            self.set_stats_for_tile()
-            self.set_betweenness_centrality()
-            self.set_average_edge_speed()
-            self.set_number_of_lanes()
+
+            self.set_basic_stats_for_tile()
+
+            if config.tls_betweenness_features:
+                self.set_betweenness_centrality_local()
+                # self.set_betweenness_centrality_global()
+            if config.tls_add_edge_speed_and_tt:
+                self.set_average_edge_speed()
+            if config.tls_number_of_lanes:
+                self.set_number_of_lanes()
+            if config.tls_add_metered_intersections:
+                self.set_intersection_count()
+
             self.tile_area = tile_area
             self.set_lane_density()
 
-    def get_stats_for_tile(self):
-        return ox.stats.basic_stats(self.G)
+            print ("All values fixed!")
 
-    def set_betweenness_centrality(self):
+    def set_basic_stats_for_tile(self):
+        basic_stats = ox.stats.basic_stats(self.G)
+
+        # Map the basic_features output to class attributes
+        self.n = basic_stats.get('n', np.nan)
+        self.m = basic_stats.get('m', np.nan)
+        self.k_avg = basic_stats.get('k_avg', np.nan)
+        self.edge_length_total = basic_stats.get('edge_length_total', np.nan)
+        self.edge_length_avg = basic_stats.get('edge_length_avg', np.nan)
+        self.streets_per_node_avg = basic_stats.get('streets_per_node_avg', np.nan)
+        self.streets_per_node_counts = [
+            basic_stats['streets_per_node_counts'].get(i, np.nan) for i in range(6)
+        ]
+        self.streets_per_node_proportions = [
+            basic_stats['streets_per_node_proportions'].get(i, np.nan) for i in range(6)
+        ]
+        self.street_length_total = basic_stats.get('street_length_total', np.nan)
+        self.street_segment_count = basic_stats.get('street_segment_count', np.nan)
+        self.street_length_avg = basic_stats.get('street_length_avg', np.nan)
+        self.circuity_avg = basic_stats.get('circuity_avg', np.nan)
+        self.self_loop_proportion = basic_stats.get('self_loop_proportion', np.nan)
+
+    def set_intersection_count(self):
+        # Extract node attributes
+        data = list(G.nodes().items())
+
+        # Lists to store colors and sizes for each node
+        node_colors = []
+        node_sizes = []
+
+        for _, attributes in data:
+            if 'highway' in attributes:
+                if attributes['highway'] == 'traffic_signals':
+                    node_colors.append('red')
+                    node_sizes.append(100)  # size for traffic signal
+                elif attributes['highway'] == 'crossing':
+                    node_colors.append('blue')
+                    node_sizes.append(100)  # size for crossings
+                else:
+                    node_colors.append('gray')  # default node color
+                    node_sizes.append(25)  # default size
+            else:
+                node_colors.append('gray')  # default node color
+                node_sizes.append(25)  # default size
+
+        # Count the occurrences of each color
+        metered_count = node_colors.count('red')  # traffic_signals are considered as "metered"
+        non_metered_count = node_colors.count('blue')  # crossings are considered as "non-metered"
+
+        self.metered_count = metered_count
+        self.non_metered_count = non_metered_count
+        self.total_crossings = metered_count + non_metered_count
+
+    def set_betweenness_centrality_local(self):
         lict_of_centralities = list(nx.betweenness_centrality(self.G).values())
         self.betweenness = np.mean(lict_of_centralities)
+
+    def set_betweenness_centrality_global(self, big_Graph):
+        pass
 
     def set_number_of_lanes(self):
         edges = ox.graph_to_gdfs(self.G, nodes=False, edges=True)
@@ -82,87 +150,32 @@ class Tile:
     def set_average_edge_speed(self):
         pass
 
-    def get_vector_of_features(self):
-        X = []
-        stats = self.get_stats_for_tile()
-        for key in [
-            "circuity_avg",
-            "edge_length_avg",
-            "intersection_count",
-            "k_avg",
-            "m",
-            "n",
-            "self_loop_proportion",
-            "street_length_avg",
-            "street_segment_count",
-            "streets_per_node_avg",
-        ]:
-            X.append(stats[key])
 
-        for key in ["streets_per_node_counts", "streets_per_node_proportions"]:
-            for i in range(6):
-                if i in stats[key]:
-                    X.append(stats[key][i])
-                else:
-                    X.append(0)
-        if config.tls_betweenness_features:
-            self.set_betweenness_centrality()
-            X.append(self.betweenness)
-        if config.tls_number_of_lanes:
-            self.set_number_of_lanes()
-            X.append(self.mean_lanes)
-        if config.tls_add_edge_speed_and_tt:
-            self.set_average_edge_speed()
-            X.append(self.mean_speed)
-            self.set_average_tt()
-            X.append(self.mean_tt)
-        return X
-
-    @staticmethod
-    def get_feature_names():
-        f = [
-            "circuity_avg",
-            "edge_length_avg",
-            "intersection_count",
-            "k_avg",
-            "m",
-            "n",
-            "self_loop_proportion",
-            "street_length_avg",
-            "street_segment_count",
-            "streets_per_node_avg",
-        ]
-        f = (
-            f
-            + ["streets_per_node_counts_" + str(i) for i in range(6)]
-            + ["streets_per_node_proportions" + str(i) for i in range(6)]
+    def __repr__(self):
+        return (
+            f"Tile("
+            f"circuity_avg={self.circuity_avg}, "
+            f"edge_length_avg={self.edge_length_avg}, "
+            f"k_avg={self.k_avg}, "
+            f"m={self.m}, "
+            f"n={self.n}, "
+            f"self_loop_proportion={self.self_loop_proportion}, "
+            f"street_length_avg={self.street_length_avg}, "
+            f"street_segment_count={self.street_segment_count}, "
+            f"streets_per_node_avg={self.streets_per_node_avg}, "
+            f"streets_per_node_counts={self.streets_per_node_counts}, "
+            f"streets_per_node_proportions={self.streets_per_node_proportions}, "
+            f"betweenness={self.betweenness}, "
+            f"mean_lanes={self.mean_lanes}, "
+            f"metered_count={self.metered_count}, "
+            f"non_metered_count={self.non_metered_count}, "
+            f"total_crossings={self.total_crossings})"
         )
-        if config.tls_betweenness_features:
-            f.append("betweenness")
-        if config.tls_number_of_lanes:
-            f.append("mean_lanes")
-        if config.tls_add_edge_speed_and_tt:
-            f.append("mean_speed")
-            f.append("mean_tt")
-        return [slugify(x) for x in f]
-
-    def set_stats_for_tile(self):
-        self.basic_features = self.get_stats_for_tile()
-        return self.basic_features
-
-    def get_list_of_features(self):
-        point = 40.70443736361541, -73.93851957710785
-        dist = 300
-        G = ox.graph_from_point(point, dist=dist, network_type="drive")
-        tile = Tile(G, 0.3 * 0.3)  #  since distance = 300 m in this dummy case
-        return [slugify(x) for x in list(((tile.get_stats_for_tile().keys())))]
-        # def savefig
-
 
 if __name__ == "__main__":
     point = 40.70443736361541, -73.93851957710785
     dist = 300
     G = ox.graph_from_point(point, dist=dist, network_type="drive")
 
-    tile = Tile(G)
-    print(tile.get_stats_for_tile())
+    tile = Tile(G, config.rn_square_from_city_centre**2)
+    print(tile)
