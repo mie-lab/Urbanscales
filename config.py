@@ -5,7 +5,7 @@ pickle_protocol = 5
 
 verbose = 2
 
-DEBUG = True
+DEBUG = False
 DEBUG_TRUNCATE = False
 
 BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"
@@ -167,7 +167,7 @@ scl_list_of_depths = [1]
 
 # test_small
 if RUNNING_ON_LOCAL:
-    scl_list_of_seeds = [50] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+    scl_list_of_seeds = [20] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 elif RUNNING_ON_SERVER:
     scl_list_of_seeds = [50] # , 70, 90] # list(range(50, 121, 20)) # list(range(10, 121, 40))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 # forward
@@ -232,14 +232,14 @@ td_reuse_Graph_features = True
 
 ## maybe we should simply remove this
 td_drop_feature_lists = [
-    "streets-per-node-proportions0",
-    "streets-per-node-proportions1",
-    "streets-per-node-proportions3",
-    "streets-per-node-proportions4",
-    "streets-per-node-proportions5",
-    "edge-length-avg",
-    "street-segment-count",
-    "streets-per-node-counts-0",
+    # "streets-per-node-proportions0",
+    # "streets-per-node-proportions1",
+    # "streets-per-node-proportions3",
+    # "streets-per-node-proportions4",
+    # "streets-per-node-proportions5",
+    # "edge-length-avg",
+    # "street-segment-count",
+    # "streets-per-node-counts-0",
 ]
 td_drop_collinear_features = True
 

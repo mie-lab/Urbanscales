@@ -14,7 +14,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 
 import config
 
-# from smartprint import smartprint as sprint
+from smartprint import smartprint as sprint
 from slugify import slugify
 
 
@@ -79,7 +79,7 @@ class Tile:
 
     def set_intersection_count(self):
         # Extract node attributes
-        data = list(G.nodes().items())
+        data = list(self.G.nodes().items())
 
         # Lists to store colors and sizes for each node
         node_colors = []
@@ -150,6 +150,60 @@ class Tile:
     def set_average_edge_speed(self):
         pass
 
+    def get_features(self):
+        """
+        This function returns a list of the computed features.
+        """
+        features = [
+            self.n,
+            self.m,
+            self.k_avg,
+            self.edge_length_total,
+            self.edge_length_avg,
+            self.streets_per_node_avg,
+            self.street_length_total,
+            self.street_segment_count,
+            self.street_length_avg,
+            self.circuity_avg,
+            self.self_loop_proportion,
+            self.metered_count,
+            self.non_metered_count,
+            self.total_crossings,
+            self.betweenness,
+            self.mean_lanes,
+            self.lane_density
+            # Add other features as needed
+        ]
+
+        # Appending streets_per_node_counts as individual features
+        for count in self.streets_per_node_counts:
+            features.append(count)
+
+        # Appending streets_per_node_proportions as individual features
+        for proportion in self.streets_per_node_proportions:
+            features.append(proportion)
+
+        return features
+
+    FEATURE_NAMES = [
+        'n', 'm', 'k_avg', 'edge_length_total', 'edge_length_avg',
+        'streets_per_node_avg', 'street_length_total', 'street_segment_count',
+        'street_length_avg', 'circuity_avg', 'self_loop_proportion',
+        'metered_count', 'non_metered_count', 'total_crossings',
+        'betweenness', 'mean_lanes', 'lane_density'
+    ]
+
+    # Initializing feature names for streets_per_node_counts and streets_per_node_proportions
+    for i in range(1, 7):
+        FEATURE_NAMES.append(f'streets_per_node_count_{i}')
+        FEATURE_NAMES.append(f'streets_per_node_proportion_{i}')
+
+    @classmethod
+    def get_feature_names(cls):
+        """
+        This function returns a list of names of the computed features.
+        """
+        return cls.FEATURE_NAMES
 
     def __repr__(self):
         return (
@@ -175,7 +229,11 @@ class Tile:
 if __name__ == "__main__":
     point = 40.70443736361541, -73.93851957710785
     dist = 300
-    G = ox.graph_from_point(point, dist=dist, network_type="drive")
+    Gu = ox.graph_from_point(point, dist=dist, network_type="drive")
 
-    tile = Tile(G, config.rn_square_from_city_centre**2)
+    tile = Tile(Gu, config.rn_square_from_city_centre**2)
     print(tile)
+    sprint (tile.get_feature_names())
+    sprint (len(tile.get_features()))
+    print ("Now trying out the static functionality")
+    sprint (Tile.get_feature_names())

@@ -319,7 +319,7 @@ class RoadNetwork:
             csvwriter = csv.writer(f)
             # if config.rn_compute_full_city_features:
             assert config.rn_square_from_city_centre != -1
-            list_of_graph_features = Tile(None, config.rn_square_from_city_centre**2).get_list_of_features()
+            list_of_graph_features = Tile(None, config.rn_square_from_city_centre**2).get_feature_names()
             csvwriter.writerow(["city"] + list_of_graph_features)
 
             for city in config.rn_master_list_of_cities:

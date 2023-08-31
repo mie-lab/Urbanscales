@@ -48,7 +48,7 @@ class TrainDataVectors:
         alternate_filename = os.path.join(
             config.BASE_FOLDER,
             config.network_folder,
-            city_name + "_" + "_scale_" + str(scale) + "_train_data_" + str(tod) + ".pkl",
+            city_name, "_scale_" + str(scale) + "_train_data_" + str(tod) + ".pkl",
         )  # for the case when all files are present at the same folder with city name prefixes
         print(alternate_filename)
 
@@ -83,7 +83,7 @@ class TrainDataVectors:
             self.__dict__.update(temp.__dict__)
             nparrayX = np.array(self.X)
             nparrayY = np.array(self.Y)
-            print(nparrayX.shape, nparrayY.shape)
+            sprint(nparrayX.shape, nparrayY.shape)
 
             # empty the self.Y and then refill
             # empty
@@ -91,12 +91,11 @@ class TrainDataVectors:
             self.bbox_Y = []
             self.tod = tod
 
+            print ("Updating only the Y component")
             # refill
             self.set_Y_only()
 
             self.empty_train_data = False
-
-
         else:
             self.X = []
             self.Y = []
@@ -117,6 +116,7 @@ class TrainDataVectors:
 
         scl_jf = ScaleJF.get_object(self.city_name, self.scale, self.tod)
         assert isinstance(scl_jf, ScaleJF)
+        sprint (len(scl_jf.bbox_segment_map))
         for bbox in tqdm(
             scl_jf.bbox_segment_map,
             desc="Training vectors for city, scale, tod: "
@@ -138,10 +138,12 @@ class TrainDataVectors:
 
             assert isinstance(subg, Tile)
 
-            self.X.append(subg.get_vector_of_features())
+            self.X.append(subg.get_features())
             self.Y.append(scl_jf.bbox_jf_map[bbox])
             self.bbox_X.append({bbox: self.X[-1]})
             self.bbox_Y.append({bbox: self.Y[-1]})
+
+        sprint (len(self.bbox_Y), len(self.bbox_X))
 
         fname = os.path.join(
             config.BASE_FOLDER,
@@ -158,7 +160,7 @@ class TrainDataVectors:
             self.X = pd.DataFrame(data=nparrayX, columns=Tile.get_feature_names())
             self.Y = pd.DataFrame(data=nparrayY)
 
-            self.X, self.Y = TrainDataVectors.filter_infs(self.X, self.Y)
+            # self.X, self.Y = TrainDataVectors.filter_infs(self.X, self.Y)
             if config.td_plot_raw_variance_before_scaling:
                 df = pd.DataFrame(self.X, columns=Tile.get_feature_names())
                 if not os.path.exists(os.path.join(config.BASE_FOLDER, config.results_folder)):
@@ -191,22 +193,16 @@ class TrainDataVectors:
         # scl_jf = ScaleJF(scl, sd )
 
         scl_jf = ScaleJF.get_object(self.city_name, self.scale, self.tod)
-
         assert isinstance(scl_jf, ScaleJF)
-
-        # get same list of bbox as the precomputed X since the ordering insdie the keys of the dict
-        # self_jf.bbox_segment_map is not guaranteed :)
-        bbox_list = [bbox for bbox_dict in self.bbox_X for bbox in bbox_dict.keys()]
-
+        sprint(len(scl_jf.bbox_segment_map))
         for bbox in tqdm(
-            bbox_list,  # this time we iterature through existing bbox_list instead of scl_jf.bbox_segment_map,
-            #                                                           in the func set_X_and_Y
-            desc="Recomputing only Y vectors for city, scale, tod: "
-            + self.city_name
-            + "-"
-            + str(self.scale)
-            + "-"
-            + str(self.tod),
+                scl_jf.bbox_segment_map,
+                desc="Training vectors for city, scale, tod: "
+                     + self.city_name
+                     + "-"
+                     + str(self.scale)
+                     + "-"
+                     + str(self.tod),
         ):
             # assert bbox in scl_jf.bbox_jf_map
             assert isinstance(scl, Scale)
@@ -220,15 +216,12 @@ class TrainDataVectors:
 
             assert isinstance(subg, Tile)
 
-            # We don't update X this time
-            # self.X.append(subg.get_vector_of_features())
-
+            # self.X.append(subg.get_features())
             self.Y.append(scl_jf.bbox_jf_map[bbox])
-
-            # we don't update X this time, just keep the same order using self.bbox_X
             # self.bbox_X.append({bbox: self.X[-1]})
-
             self.bbox_Y.append({bbox: self.Y[-1]})
+
+        sprint(len(self.bbox_Y), len(self.bbox_X))
 
         fname = os.path.join(
             config.BASE_FOLDER,
@@ -236,18 +229,16 @@ class TrainDataVectors:
             scl.RoadNetwork.city_name,
             "_scale_" + str(scl.scale) + "_train_data_" + str(self.tod) + ".pkl",
         )
-        sprint (fname)
         if not os.path.exists(fname):
             nparrayX = np.array(self.X)
             nparrayY = np.array(self.Y)
-            print  ("Reached ehre!! ")
-            # if not nparrayY.size < 30:  # we ignore cases with less than 100 data points
+
             self.empty_train_data = False
 
             self.X = pd.DataFrame(data=nparrayX, columns=Tile.get_feature_names())
             self.Y = pd.DataFrame(data=nparrayY)
 
-            self.X, self.Y = TrainDataVectors.filter_infs(self.X, self.Y)
+            # self.X, self.Y = TrainDataVectors.filter_infs(self.X, self.Y)
             if config.td_plot_raw_variance_before_scaling:
                 df = pd.DataFrame(self.X, columns=Tile.get_feature_names())
                 if not os.path.exists(os.path.join(config.BASE_FOLDER, config.results_folder)):
@@ -269,8 +260,96 @@ class TrainDataVectors:
             with open(fname, "wb") as f:
                 pickle.dump(self, f, protocol=config.pickle_protocol)
                 print("Pickle saved! ")
-            print  ("Pickle saved!! ")
+
         debug_stop = 2
+
+    # def set_Y_only(self):
+    #     # sd = SpeedData(self.city_name, c)
+    #     # rn = RoadNetwork.get_object(self.city_name)
+    #     scl = Scale.get_object(self.city_name, self.scale)
+    #     # scl_jf = ScaleJF(scl, sd )
+    #
+    #     scl_jf = ScaleJF.get_object(self.city_name, self.scale, self.tod)
+    #
+    #     assert isinstance(scl_jf, ScaleJF)
+    #
+    #     # get same list of bbox as the precomputed X since the ordering insdie the keys of the dict
+    #     # self_jf.bbox_segment_map is not guaranteed :)
+    #     bbox_list = [bbox for bbox_dict in self.bbox_X for bbox in bbox_dict.keys()]
+    #
+    #     for bbox in tqdm(
+    #         bbox_list,  # this time we iterature through existing bbox_list instead of scl_jf.bbox_segment_map,
+    #         #                                                           in the func set_X_and_Y
+    #         desc="Recomputing only Y vectors for city, scale, tod: "
+    #         + self.city_name
+    #         + "-"
+    #         + str(self.scale)
+    #         + "-"
+    #         + str(self.tod),
+    #     ):
+    #         # assert bbox in scl_jf.bbox_jf_map
+    #         assert isinstance(scl, Scale)
+    #         subg = scl.dict_bbox_to_subgraph[bbox]
+    #         if isinstance(subg, str):
+    #             if subg == config.rn_no_stats_marker:
+    #                 # we skip creating X and Y for this empty tile
+    #                 # which does not have any roads OR
+    #                 # is outside the scope of the administrative area
+    #                 continue
+    #
+    #         assert isinstance(subg, Tile)
+    #
+    #         # We don't update X this time
+    #         # self.X.append(subg.get_vector_of_features())
+    #
+    #         self.Y.append(scl_jf.bbox_jf_map[bbox])
+    #
+    #         # we don't update X this time, just keep the same order using self.bbox_X
+    #         # self.bbox_X.append({bbox: self.X[-1]})
+    #
+    #         self.bbox_Y.append({bbox: self.Y[-1]})
+    #
+    #     fname = os.path.join(
+    #         config.BASE_FOLDER,
+    #         config.network_folder,
+    #         scl.RoadNetwork.city_name,
+    #         "_scale_" + str(scl.scale) + "_train_data_" + str(self.tod) + ".pkl",
+    #     )
+    #     sprint (fname)
+    #     if not os.path.exists(fname):
+    #         nparrayX = np.array(self.X)
+    #         nparrayY = np.array(self.Y)
+    #         print  ("Reached here!! ")
+    #         # if not nparrayY.size < 30:  # we ignore cases with less than 100 data points
+    #         self.empty_train_data = False
+    #
+    #         self.X = pd.DataFrame(data=nparrayX, columns=Tile.get_feature_names())
+    #         self.Y = pd.DataFrame(data=nparrayY)
+    #
+    #         self.X, self.Y = TrainDataVectors.filter_infs(self.X, self.Y)
+    #         if config.td_plot_raw_variance_before_scaling:
+    #             df = pd.DataFrame(self.X, columns=Tile.get_feature_names())
+    #             if not os.path.exists(os.path.join(config.BASE_FOLDER, config.results_folder)):
+    #                 os.mkdir(os.path.join(config.BASE_FOLDER, config.results_folder))
+    #
+    #             df.var().to_csv(
+    #                 os.path.join(
+    #                     config.BASE_FOLDER,
+    #                     config.results_folder,
+    #                     slugify(
+    #                         "pre-norm-feat-variance-" + self.city_name + "-" + str(self.scale) + "-" + str(self.tod)
+    #                     ),
+    #                 )
+    #                 + ".csv"
+    #             )
+    #
+    #         self.Y = self.Y.values.reshape(self.Y.shape[0])
+    #
+    #         with open(fname, "wb") as f:
+    #             pickle.dump(self, f, protocol=config.pickle_protocol)
+    #             print("Pickle saved! ")
+    #         print  ("Pickle saved!! ")
+    #     debug_stop = 2
 
     def viz_y_hist(self):
         plt.clf()
@@ -319,6 +398,12 @@ class TrainDataVectors:
         """
         initial_numrows = df1.shape[0]
 
+        try:
+            assert df2.shape[0] == df1.shape[0]
+        except:
+            sprint (df2.shape, df1.shape)
+            raise AssertionError
+
         df2 = df2[np.isfinite(df1).all(1)]
         df1 = df1[np.isfinite(df1).all(1)]
 
@@ -345,6 +430,15 @@ class TrainDataVectors:
                             tdv.viz_y_hist()
                         print(time.time() - startime)
                         print("Inside train_data.py ", city, seed, depth, tod)
+
+    def __repr__(self):
+        x_shape = self.X.shape if hasattr(self.X, 'shape') else 'N/A'
+        y_shape = self.Y.shape if hasattr(self.Y, 'shape') else 'N/A'
+
+        return (
+            f"<TrainDataVectors(city_name={self.city_name!r}, scale={self.scale!r}, tod={self.tod!r}, "
+            f"empty_train_data={self.empty_train_data!r}, X_shape={x_shape}, Y_shape={y_shape})>"
+        )
 
 
 if __name__ == "__main__":

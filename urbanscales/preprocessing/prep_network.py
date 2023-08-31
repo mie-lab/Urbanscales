@@ -380,6 +380,10 @@ class Scale:
         return obj
 
 
+    def __repr__(self):
+        return f"ScaleJF(scale={self.scale})"
+
+
 if __name__ == "__main__":
     Scale.generate_scales_for_all_cities()
     debug_stop = 1

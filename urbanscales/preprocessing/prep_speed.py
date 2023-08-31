@@ -57,7 +57,7 @@ class ScaleJF:
             config.BASE_FOLDER,
             config.network_folder,
             scale.RoadNetwork.city_name,
-            "_scale_" + str(scale) + "_prep_speed_" + str(tod) + ".pkl",
+            "_scale_" + str(scale.scale) + "_prep_speed_" + str(tod) + ".pkl",
         )
         if config.ps_delete_existing_pickle_objects:
             if os.path.exists(fname):
@@ -298,8 +298,8 @@ class ScaleJF:
         else:
             raise Exception("Error! trying to read prep_speed file that does not exist: Filename: " + fname)
 
-        obj.tod = tod
-        obj.set_bbox_jf_map()
+        # obj.tod = tod
+        # obj.set_bbox_jf_map()
         return obj
 
     def preprocess_different_tods(range_element, scl: Scale, sd: SpeedData):
@@ -332,6 +332,10 @@ class ScaleJF:
         else:
             for params in list_of_parallel_items:
                 ScaleJF.helper_parallel(params)
+
+    def __repr__(self):
+        return f"ScaleJF(scale={self.Scale.scale}, city_name={self.Scale.RoadNetwork.city_name}, tod={self.tod})"
+
 
 
 if __name__ == "__main__":
