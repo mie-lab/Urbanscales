@@ -93,10 +93,12 @@ class TrainDataVectors:
 
             print ("Updating only the Y component")
             # refill
-            self.set_Y_only()
+            self.set_X_and_Y(process_X=False)
 
             self.empty_train_data = False
         else:
+
+
             self.X = []
             self.Y = []
             self.bbox_X = []
@@ -104,162 +106,61 @@ class TrainDataVectors:
             self.tod = tod
             self.city_name = city_name
             self.scale = scale
-            self.set_X_and_Y()
-            self.empty_train_data = False
 
-
-    def set_X_and_Y(self):
-        # sd = SpeedData(self.city_name, c)
-        # rn = RoadNetwork.get_object(self.city_name)
-        scl = Scale.get_object(self.city_name, self.scale)
-        # scl_jf = ScaleJF(scl, sd )
-
-        scl_jf = ScaleJF.get_object(self.city_name, self.scale, self.tod)
-        assert isinstance(scl_jf, ScaleJF)
-        sprint (len(scl_jf.bbox_segment_map))
-        for bbox in tqdm(
-            scl_jf.bbox_segment_map,
-            desc="Training vectors for city, scale, tod: "
-            + self.city_name
-            + "-"
-            + str(self.scale)
-            + "-"
-            + str(self.tod),
-        ):
-            # assert bbox in scl_jf.bbox_jf_map
-            assert isinstance(scl, Scale)
-            subg = scl.dict_bbox_to_subgraph[bbox]
-            if isinstance(subg, str):
-                if subg == config.rn_no_stats_marker:
-                    # we skip creating X and Y for this empty tile
-                    # which does not have any roads OR
-                    # is outside the scope of the administrative area
-                    continue
-
-            assert isinstance(subg, Tile)
-
-            self.X.append(subg.get_features())
-            self.Y.append(scl_jf.bbox_jf_map[bbox])
-            self.bbox_X.append({bbox: self.X[-1]})
-            self.bbox_Y.append({bbox: self.Y[-1]})
-
-        sprint (len(self.bbox_Y), len(self.bbox_X))
-
-        fname = os.path.join(
-            config.BASE_FOLDER,
-            config.network_folder,
-            scl.RoadNetwork.city_name,
-            "_scale_" + str(scl.scale) + "_train_data_" + str(self.tod) + ".pkl",
-        )
-        if not os.path.exists(fname):
-            nparrayX = np.array(self.X)
-            nparrayY = np.array(self.Y)
+            print("Updating both X and Y component")
+            self.set_X_and_Y(process_X=True)
 
             self.empty_train_data = False
 
-            self.X = pd.DataFrame(data=nparrayX, columns=Tile.get_feature_names())
-            self.Y = pd.DataFrame(data=nparrayY)
-
-            # self.X, self.Y = TrainDataVectors.filter_infs(self.X, self.Y)
-            if config.td_plot_raw_variance_before_scaling:
-                df = pd.DataFrame(self.X, columns=Tile.get_feature_names())
-                if not os.path.exists(os.path.join(config.BASE_FOLDER, config.results_folder)):
-                    os.mkdir(os.path.join(config.BASE_FOLDER, config.results_folder))
-
-                df.var().to_csv(
-                    os.path.join(
-                        config.BASE_FOLDER,
-                        config.results_folder,
-                        slugify(
-                            "pre-norm-feat-variance-" + self.city_name + "-" + str(self.scale) + "-" + str(self.tod)
-                        ),
-                    )
-                    + ".csv"
-                )
-
-            self.Y = self.Y.values.reshape(self.Y.shape[0])
-
-            with open(fname, "wb") as f:
-                pickle.dump(self, f, protocol=config.pickle_protocol)
-                print("Pickle saved! ")
-
-
-        debug_stop = 2
-
-    def set_Y_only(self):
-        # sd = SpeedData(self.city_name, c)
-        # rn = RoadNetwork.get_object(self.city_name)
+    def set_X_and_Y(self, process_X=True):
         scl = Scale.get_object(self.city_name, self.scale)
-        # scl_jf = ScaleJF(scl, sd )
-
         scl_jf = ScaleJF.get_object(self.city_name, self.scale, self.tod)
         assert isinstance(scl_jf, ScaleJF)
+
+        with open(os.path.join(config.BASE_FOLDER, config.network_folder,
+                               self.city_name + "_mean_betweenness_centrality.pkl"), "rb") as f_between:
+            dict_between = pickle.load(f_between)
+
         sprint(len(scl_jf.bbox_segment_map))
         for bbox in tqdm(
                 scl_jf.bbox_segment_map,
                 desc="Training vectors for city, scale, tod: "
-                     + self.city_name
-                     + "-"
-                     + str(self.scale)
-                     + "-"
-                     + str(self.tod),
-        ):
-            # assert bbox in scl_jf.bbox_jf_map
+                     + self.city_name + "-" + str(self.scale) + "-" + str(self.tod)):
             assert isinstance(scl, Scale)
             subg = scl.dict_bbox_to_subgraph[bbox]
-            if isinstance(subg, str):
-                if subg == config.rn_no_stats_marker:
-                    # we skip creating X and Y for this empty tile
-                    # which does not have any roads OR
-                    # is outside the scope of the administrative area
-                    continue
-
+            if isinstance(subg, str) and subg == config.rn_no_stats_marker:
+                continue
             assert isinstance(subg, Tile)
 
-            # self.X.append(subg.get_features())
+            if process_X:
+                self.X.append(subg.get_features() + [subg.get_betweenness_centrality_global(dict_between)])
+                self.bbox_X.append({bbox: self.X[-1]})
+
             self.Y.append(scl_jf.bbox_jf_map[bbox])
-            # self.bbox_X.append({bbox: self.X[-1]})
             self.bbox_Y.append({bbox: self.Y[-1]})
 
         sprint(len(self.bbox_Y), len(self.bbox_X))
 
         fname = os.path.join(
-            config.BASE_FOLDER,
-            config.network_folder,
-            scl.RoadNetwork.city_name,
-            "_scale_" + str(scl.scale) + "_train_data_" + str(self.tod) + ".pkl",
-        )
-        if not os.path.exists(fname):
-            nparrayX = np.array(self.X)
-            nparrayY = np.array(self.Y)
+            config.BASE_FOLDER, config.network_folder, scl.RoadNetwork.city_name,
+            "_scale_" + str(scl.scale) + "_train_data_" + str(self.tod) + ".pkl")
 
+        if not os.path.exists(fname):
             self.empty_train_data = False
 
-            self.X = pd.DataFrame(data=nparrayX, columns=Tile.get_feature_names())
-            self.Y = pd.DataFrame(data=nparrayY)
+            if process_X:
+                self.X = pd.DataFrame(data=np.array(self.X), columns=Tile.get_feature_names() + ["global_betweenness"])
+                # Drop columns with more than 10% NaN values
+                self.X = self.X.loc[:, self.X.isnull().mean() <= 0.1]
+                # Fill NaN values with the mean of the respective column
+                self.X.fillna(self.X.mean(), inplace=True)
 
-            # self.X, self.Y = TrainDataVectors.filter_infs(self.X, self.Y)
-            if config.td_plot_raw_variance_before_scaling:
-                df = pd.DataFrame(self.X, columns=Tile.get_feature_names())
-                if not os.path.exists(os.path.join(config.BASE_FOLDER, config.results_folder)):
-                    os.mkdir(os.path.join(config.BASE_FOLDER, config.results_folder))
-
-                df.var().to_csv(
-                    os.path.join(
-                        config.BASE_FOLDER,
-                        config.results_folder,
-                        slugify(
-                            "pre-norm-feat-variance-" + self.city_name + "-" + str(self.scale) + "-" + str(self.tod)
-                        ),
-                    )
-                    + ".csv"
-                )
-
+            self.Y = pd.DataFrame(data=np.array(self.Y))
             self.Y = self.Y.values.reshape(self.Y.shape[0])
 
             with open(fname, "wb") as f:
                 pickle.dump(self, f, protocol=config.pickle_protocol)
-                print("Pickle saved! ")
+                print("Pickle saved!")
 
         debug_stop = 2
 

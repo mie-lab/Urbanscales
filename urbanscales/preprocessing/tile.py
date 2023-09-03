@@ -42,7 +42,6 @@ class Tile:
 
             if config.tls_betweenness_features:
                 self.set_betweenness_centrality_local()
-                # self.set_betweenness_centrality_global()
             if config.tls_add_edge_speed_and_tt:
                 self.set_average_edge_speed()
             if config.tls_number_of_lanes:
@@ -112,8 +111,10 @@ class Tile:
         lict_of_centralities = list(nx.betweenness_centrality(self.G).values())
         self.betweenness = np.mean(lict_of_centralities)
 
-    def set_betweenness_centrality_global(self, big_Graph):
-        pass
+    def get_betweenness_centrality_global(self, dict_node_to_bc):
+        # Filter out nodes from the dict that are also in self.G
+        valid_bc_values = [bc for node, bc in dict_node_to_bc.items() if node in self.G.nodes()]
+        return np.mean(valid_bc_values)
 
     def set_number_of_lanes(self):
         edges = ox.graph_to_gdfs(self.G, nodes=False, edges=True)
