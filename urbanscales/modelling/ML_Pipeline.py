@@ -5,7 +5,7 @@ import shutil
 import sys
 
 import matplotlib
-
+from smartprint import smartprint as sprint
 # matplotlib.use('TKAgg')
 
 from multiprocessing import Pool
@@ -47,19 +47,13 @@ class Pipeline:
         self.num_train_data_points = []
 
         obj = TrainDataVectors(cityname, scale, tod)
+        sprint (obj)
+
         self.empty_train_data = True
 
         if not obj.empty_train_data:
             self.empty_train_data = False
             self.X, self.Y = obj.X, obj.Y
-
-            # convert to DF
-            self.X = pd.DataFrame(self.X, columns=Tile.get_feature_names())
-            # self.Y = pd.DataFrame(self.Y, columns=["JF"])
-
-            if len(config.td_drop_feature_lists) > 0:
-                for feat in config.td_drop_feature_lists:
-                    self.X.drop(feat, axis=1, inplace=True)
 
             self.compute_score()
         else:
@@ -190,9 +184,22 @@ class Pipeline:
         print ("List of tuples: ", list_of_tuples)
 
         descending_list_of_feature_importance = [ k[0] for k in list_of_tuples ]
-        with open(os.path.join(config.BASE_FOLDER, config.results_folder, "feature_importance.csv"), "a") as f2:
+
+        # Filepath for feature_importance.csv
+        filepath_feature_importance = os.path.join(config.BASE_FOLDER, config.results_folder,
+                                                   "feature_importance.csv")
+
+        # Check if file exists and add header if not
+        if not os.path.exists(filepath_feature_importance):
+            with open(filepath_feature_importance, "w") as f2:
+                csvwriter = csv.writer(f2)
+                csvwriter.writerow(["CityName", "Scale", "TOD", "Marker", "PlotCounter", "Features..."])
+
+        with open(filepath_feature_importance, "a") as f2:
             csvwriter = csv.writer(f2)
-            csvwriter.writerow([self.cityname, self.scale, self.tod, marker, plot_counter] + descending_list_of_feature_importance)
+            csvwriter.writerow(
+                [self.cityname, self.scale, self.tod, marker, plot_counter] + descending_list_of_feature_importance)
+
 
         column_names_sorted = [x[0] for x in list_of_tuples]
         importance_heights_sorted = [x[1][0] for x in list_of_tuples]
@@ -203,10 +210,27 @@ class Pipeline:
         plt.tight_layout()
         plt.savefig(fname + ".png", dpi=300)
 
+        # Save feature importances for Nina's analysis
+        fi_dict = dict(zip(self.X.columns, r.importances_mean.tolist()))
+        # Save the feature importances to a new CSV
+        filepath_feature_importance_raw = os.path.join(config.BASE_FOLDER, config.results_folder,
+                                                       "feature_importance_raw_values.csv")
+
+        # Check if file exists and add header if not
+        if not os.path.exists(filepath_feature_importance_raw):
+            with open(filepath_feature_importance_raw, "w") as f3:
+                csvwriter = csv.writer(f3)
+                csvwriter.writerow(["CityName", "Scale", "TOD", "Marker", "PlotCounter", "Feature", "Value"])
+
+        with open(filepath_feature_importance_raw, "a") as f3:
+            csvwriter = csv.writer(f3)
+            for key, value in fi_dict.items():
+                csvwriter.writerow([self.cityname, self.scale, self.tod, marker, plot_counter] + [key, value])
         return
 
     def compute_score(self):
-        print(self.X.shape, self.Y.shape)
+        print ("Inside compute score function:")
+        sprint(self.X.shape, self.Y.shape)
         if config.ppl_plot_corr:
             df_temp = pd.DataFrame(self.scale_x(self.X), columns=self.X.columns)
             df_temp["Y"] = self.Y.flatten().tolist()
@@ -236,7 +260,7 @@ class Pipeline:
             print("x.shape, y.shape", x.shape, y.shape)
 
             X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.33)
-            print(X_train.shape, y_train.shape, X_test.shape, y_test.shape)
+            sprint(X_train.shape, y_train.shape, X_test.shape, y_test.shape)
 
             self.num_train_data_points.append(X_train.shape[0])
             self.num_test_data_points.append(X_test.shape[0])

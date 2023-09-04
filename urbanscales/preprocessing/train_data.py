@@ -16,9 +16,10 @@ from urbanscales.preprocessing.prep_speed import ScaleJF
 from urbanscales.preprocessing.tile import Tile
 import pandas as pd
 from tqdm import tqdm
-
+from statsmodels.stats.outliers_influence import variance_inflation_factor
 from smartprint import smartprint as sprint
 from slugify import slugify
+import seaborn as sns
 
 # from urbanscales.io.speed_data import Segment  # this line if not present gives
 # # an error while depickling a file.
@@ -112,6 +113,26 @@ class TrainDataVectors:
 
             self.empty_train_data = False
 
+    def plot_collinearity_heatmap(self):
+        """
+        Plots a heatmap of the collinearity between features of self.X
+        Returns:
+        - A heatmap plot.
+        """
+        df = self.X
+        # Compute the correlation matrix
+        corr_matrix = df.corr()
+
+        # Set up the matplotlib figure
+        f, ax = plt.subplots(figsize=(20, 20))
+
+        # Draw the heatmap with a color map
+        sns.heatmap(corr_matrix, cmap="coolwarm", annot=True, linewidths=.5, ax=ax)
+
+        plt.tight_layout()
+        # Show the plot
+        plt.show()
+
     def set_X_and_Y(self, process_X=True):
         scl = Scale.get_object(self.city_name, self.scale)
         scl_jf = ScaleJF.get_object(self.city_name, self.scale, self.tod)
@@ -155,8 +176,20 @@ class TrainDataVectors:
                 # Fill NaN values with the mean of the respective column
                 self.X.fillna(self.X.mean(), inplace=True)
 
+
+                if len(config.td_drop_feature_lists) > 0:
+                    for feat in config.td_drop_feature_lists:
+                        self.X.drop(feat, axis=1, inplace=True)
+
+                assert not self.X.isna().any().any(), "The DataFrame self.X contains NaN values."
+
+                self.plot_collinearity_heatmap()
+
+
+
             self.Y = pd.DataFrame(data=np.array(self.Y))
             self.Y = self.Y.values.reshape(self.Y.shape[0])
+            assert not np.isnan(self.Y).any(), "The array self.Y contains NaN values."
 
             with open(fname, "wb") as f:
                 pickle.dump(self, f, protocol=config.pickle_protocol)
