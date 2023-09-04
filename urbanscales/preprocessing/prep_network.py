@@ -1,19 +1,13 @@
-import asyncio
 import copy
-import csv
 import glob
-import multiprocessing
 import os
-import pickle
 import shutil
 import sys
+import threading
+from multiprocessing import Pool
 
 import networkx
 import numpy as np
-from multiprocessing import Pool
-import threading
-from osmnx import utils_graph
-
 from matplotlib import pyplot as plt
 
 # from line_profiler_pycharm import profile
@@ -23,7 +17,6 @@ from urbanscales.preprocessing.smart_truncate_gpd import smart_truncate
 
 
 import time
-import warnings
 
 import networkx as nx
 import osmnx as ox
@@ -31,7 +24,6 @@ from geopy.distance import geodesic
 
 # from smartprint import smartprint as sprint
 from tqdm import tqdm
-from tqdm.contrib.concurrent import process_map
 
 import config
 from urbanscales.io.road_network import RoadNetwork

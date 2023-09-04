@@ -1,8 +1,5 @@
-import copy
 import os
-import pickle
 import sys
-import time
 from multiprocessing import Pool
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
@@ -14,8 +11,7 @@ import shapely.ops
 import config
 from urbanscales.preprocessing.prep_network import Scale
 from urbanscales.io.road_network import RoadNetwork
-from urbanscales.io.speed_data import SpeedData, Segment
-from tqdm import tqdm
+from urbanscales.io.speed_data import SpeedData
 import os
 import copy
 from tqdm import tqdm

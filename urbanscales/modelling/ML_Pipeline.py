@@ -3,38 +3,31 @@ import os
 import pickle
 import shutil
 import sys
-
-import matplotlib
-from smartprint import smartprint as sprint
-# matplotlib.use('TKAgg')
-
 from multiprocessing import Pool
+
 import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.pyplot import cm
 from sklearn import preprocessing
 from sklearn.metrics import mean_squared_error
-from sklearn.model_selection import cross_val_score, RepeatedKFold, GridSearchCV, BaseCrossValidator, train_test_split
+from sklearn.model_selection import train_test_split
 from sklearn.pipeline import make_pipeline
+from smartprint import smartprint as sprint
+
+# matplotlib.use('TKAgg')
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 
 import config
-from urbanscales.metrics.QWK import QWK, custom_scoring_QWK
-from urbanscales.preprocessing.tile import Tile
+from urbanscales.metrics.QWK import QWK
 from urbanscales.preprocessing.train_data import TrainDataVectors
 import numpy as np
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-from sklearn.linear_model import LinearRegression, Lasso, Ridge, RidgeCV
-import time
+from sklearn.linear_model import RidgeCV
 
 # from smartprint import smartprint as sprint
-from sklearn.ensemble import RandomForestClassifier
-from yellowbrick.datasets import load_occupancy
-from yellowbrick.model_selection import FeatureImportances
 from slugify import slugify
 import plotly.express as px
-from sklearn.preprocessing import FunctionTransformer, StandardScaler
+from sklearn.preprocessing import StandardScaler
 from sklearn.inspection import permutation_importance
 
 
@@ -205,10 +198,10 @@ class Pipeline:
         importance_heights_sorted = [x[1][0] for x in list_of_tuples]
         colorlist_sorted = [x[1][1] for x in list_of_tuples]
 
-        plt.bar(column_names_sorted, importance_heights_sorted, width=0.5, color=colorlist_sorted)
-        plt.xticks(rotation=90, fontsize=8)
-        plt.tight_layout()
-        plt.savefig(fname + ".png", dpi=300)
+        # plt.bar(column_names_sorted, importance_heights_sorted, width=0.5, color=colorlist_sorted)
+        # plt.xticks(rotation=90, fontsize=8)
+        # plt.tight_layout()
+        # plt.savefig(fname + ".png", dpi=300)
 
         # Save feature importances for Nina's analysis
         fi_dict = dict(zip(self.X.columns, r.importances_mean.tolist()))

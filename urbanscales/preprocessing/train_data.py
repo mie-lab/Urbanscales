@@ -1,24 +1,21 @@
 import copy
+import glob
 import os
 import pickle
+import sys
 import time
-import glob
+
 import numpy as np
 from matplotlib import pyplot as plt
-from sklearn.preprocessing import StandardScaler
-import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 import config
-from urbanscales.io.road_network import RoadNetwork
 from urbanscales.preprocessing.prep_network import Scale
 from urbanscales.preprocessing.prep_speed import ScaleJF
 from urbanscales.preprocessing.tile import Tile
 import pandas as pd
 from tqdm import tqdm
-from statsmodels.stats.outliers_influence import variance_inflation_factor
 from smartprint import smartprint as sprint
-from slugify import slugify
 import seaborn as sns
 
 # from urbanscales.io.speed_data import Segment  # this line if not present gives

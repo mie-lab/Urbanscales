@@ -21,24 +21,24 @@ from urbanscales.preprocessing.train_data import TrainDataVectors
 # os.chdir("../")
 # print("Current working directory: ", os.getcwd())
 #
-# os.system("python urbanscales/io/road_network.py")
-# print("\n Complete: python urbanscales/io/road_network.py\n")
-#
-# os.system("python urbanscales/io/speed_data.py")
-# print("\n Complete: python urbanscales/io/speed_data.py\n")
-#
-# os.system("python urbanscales/preprocessing/prep_network.py")
-# print("\n Complete: python urbanscales/preprocessing/prep_network.py\n")
-#
-# os.system("python urbanscales/preprocessing/prep_speed.py")
-# print("\n Complete: python urbanscales/preprocessing/prep_speed.py\n")
-#
-# os.system("python urbanscales/preprocessing/train_data.py")
-# print("\n Complete: python urbanscales/preprocessing/train_data.py\n")
-#
-# # os.system("python urbanscales/modelling/ML_Pipeline.py")
-# # print("\n Complete: python urbanscales/modelling/ML_Pipeline.py\n")
+os.system("python urbanscales/io/road_network.py")
+print("\n Complete: python urbanscales/io/road_network.py\n")
 
-os.system("python urbanscales/process_results/process_feature_importance.py")
-print("\n Complete: python urbanscales/process_results/process_feature_importance.py\n")
+os.system("python urbanscales/io/speed_data.py")
+print("\n Complete: python urbanscales/io/speed_data.py\n")
+
+os.system("python urbanscales/preprocessing/prep_network.py")
+print("\n Complete: python urbanscales/preprocessing/prep_network.py\n")
+
+os.system("python urbanscales/preprocessing/prep_speed.py")
+print("\n Complete: python urbanscales/preprocessing/prep_speed.py\n")
+
+os.system("python urbanscales/preprocessing/train_data.py")
+print("\n Complete: python urbanscales/preprocessing/train_data.py\n")
+
+os.system("python urbanscales/modelling/ML_Pipeline.py")
+print("\n Complete: python urbanscales/modelling/ML_Pipeline.py\n")
+
+# os.system("python urbanscales/process_results/process_feature_importance.py")
+# print("\n Complete: python urbanscales/process_results/process_feature_importance.py\n")
 

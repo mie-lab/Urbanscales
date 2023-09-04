@@ -13,3 +13,4 @@ plotly==5.11.0
 # multiprocess==0.70.13
 kaleido==0.2.1
 earthpy==0.9.4
+statsmodels==0.14.0
