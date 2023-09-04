@@ -138,7 +138,7 @@ class TrainDataVectors:
         scl_jf = ScaleJF.get_object(self.city_name, self.scale, self.tod)
         assert isinstance(scl_jf, ScaleJF)
 
-        with open(os.path.join(config.BASE_FOLDER, config.network_folder,
+        with open(os.path.join(config.BASE_FOLDER, "urbanscales", "betweenness_global", \
                                self.city_name + "_mean_betweenness_centrality.pkl"), "rb") as f_between:
             dict_between = pickle.load(f_between)
 
