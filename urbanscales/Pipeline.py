@@ -1,44 +1,36 @@
 import os
-import shutil
 import sys
+import subprocess
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
 
 import config
 import urbanscales
 from urbanscales.io.road_network import RoadNetwork
-
 from urbanscales.io.speed_data import SpeedData
 from urbanscales.modelling.LR import LR
 from urbanscales.preprocessing.prep_network import Scale
 from urbanscales.preprocessing.prep_speed import ScaleJF
 from urbanscales.preprocessing.train_data import TrainDataVectors
 
-# os.system("rm -rf " + config.BASE_FOLDER + config.results_folder)
-# os.system("mkdir " + config.BASE_FOLDER + config.results_folder)
-#
-# print("Current working directory: ", os.getcwd())
-# os.chdir("../")
-# print("Current working directory: ", os.getcwd())
-#
-os.system("python urbanscales/io/road_network.py")
-print("\n Complete: python urbanscales/io/road_network.py\n")
+# Instead of os.system for rm and mkdir, use shutil and os library respectively
+# shutil.rmtree(os.path.join(config.BASE_FOLDER, config.results_folder))
+# os.makedirs(os.path.join(config.BASE_FOLDER, config.results_folder))
 
-os.system("python urbanscales/io/speed_data.py")
-print("\n Complete: python urbanscales/io/speed_data.py\n")
+# Removed the chdir since it's not a good idea to change working directory within script
+# Use absolute paths instead
 
-os.system("python urbanscales/preprocessing/prep_network.py")
-print("\n Complete: python urbanscales/preprocessing/prep_network.py\n")
+def run_command(command, message):
+    result = subprocess.call(command, shell=True)
+    if result == 0:
+        print(f"\n Complete: {message}\n")
+    else:
+        print(f"\n Failed: {message}\n")
 
-os.system("python urbanscales/preprocessing/prep_speed.py")
-print("\n Complete: python urbanscales/preprocessing/prep_speed.py\n")
-
-os.system("python urbanscales/preprocessing/train_data.py")
-print("\n Complete: python urbanscales/preprocessing/train_data.py\n")
-
-os.system("python urbanscales/modelling/ML_Pipeline.py")
-print("\n Complete: python urbanscales/modelling/ML_Pipeline.py\n")
-
-# os.system("python urbanscales/process_results/process_feature_importance.py")
-# print("\n Complete: python urbanscales/process_results/process_feature_importance.py\n")
-
+run_command("python urbanscales/io/road_network.py", "python urbanscales/io/road_network.py")
+run_command("python urbanscales/io/speed_data.py", "python urbanscales/io/speed_data.py")
+run_command("python urbanscales/preprocessing/prep_network.py", "python urbanscales/preprocessing/prep_network.py")
+run_command("python urbanscales/preprocessing/prep_speed.py", "python urbanscales/preprocessing/prep_speed.py")
+run_command("python urbanscales/preprocessing/train_data.py", "python urbanscales/preprocessing/train_data.py")
+run_command("python urbanscales/modelling/ML_Pipeline.py", "python urbanscales/modelling/ML_Pipeline.py")
+# run_command("python urbanscales/process_results/process_feature_importance.py", "python urbanscales/process_results/process_feature_importance.py")

@@ -10,6 +10,10 @@ from matplotlib import pyplot as plt
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 import config
+
+# RoadNetwork is greyed out in IDEs like PyCharm hinting that the import is not being used but it is needed for pickle loadings
+from urbanscales.io.road_network import RoadNetwork
+
 from urbanscales.preprocessing.prep_network import Scale
 from urbanscales.preprocessing.prep_speed import ScaleJF
 from urbanscales.preprocessing.tile import Tile

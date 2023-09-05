@@ -84,36 +84,70 @@ ppl_list_of_correlations = ["pearson", "spearman"]  # , "kendall", "spearman"]
 ####################################
 
 # format: city,location, N, E, S, W
-rn_city_wise_bboxes = {
-    "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
-    "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
-    "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
-    "Auckland": [-36.681247, 174.925937, -36.965932, 174.63532],
-    "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
-    "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
-    "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
-    "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
-    "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
-    "London": [51.28676, -0.510375, 51.691874, 0.334015],
-    # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
-    # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
-}
+if RUNNING_ON_SERVER:
+    rn_city_wise_bboxes = {
+        "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
+        "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
+        "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
+        "Auckland": [-36.681247, 174.925937, -36.965932, 174.63532],
+        "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
+        "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
+        "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
+        "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
+        "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
+        "London": [51.28676, -0.510375, 51.691874, 0.334015],
+        # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
+        # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
+    }
+elif RUNNING_ON_LOCAL:
+    rn_city_wise_bboxes = {
+        # "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
+        # "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
+        # "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
+        "Auckland": [-36.681247, 174.925937, -36.965932, 174.63532],
+        # "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
+        # "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
+        # "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
+        # "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
+        # "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
+        # "London": [51.28676, -0.510375, 51.691874, 0.334015],
+        # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
+        # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
+    }
 
-# rn_city_wise_tz_code can be commented out since we don't need to recompute the speed_data_object everytime.
-rn_city_wise_tz_code = {
-    "Singapore": "Asia/Singapore",
-    # "Zurich": "Europe/Zurich",
-    # "Mumbai": "Asia/Kolkata",
-    # "Auckland": "Pacific/Auckland",
-    # "Istanbul": "Europe/Istanbul",
-    # "MexicoCity": "America/Mexico_City",
-    # "Bogota": "America/Bogota",
-    # "NewYorkCity": "America/New_York",
-    # "Capetown": "Africa/Johannesburg",
-    # "London": "Europe/London",
-    # "Tokyo": "Asia/Tokyo"
-    # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
-}
+if RUNNING_ON_SERVER:
+    # rn_city_wise_tz_code can be commented out since we don't need to recompute the speed_data_object everytime.
+    rn_city_wise_tz_code = {
+        "Singapore": "Asia/Singapore",
+        "Zurich": "Europe/Zurich",
+        "Mumbai": "Asia/Kolkata",
+        "Auckland": "Pacific/Auckland",
+        "Istanbul": "Europe/Istanbul",
+        "MexicoCity": "America/Mexico_City",
+        "Bogota": "America/Bogota",
+        "NewYorkCity": "America/New_York",
+        "Capetown": "Africa/Johannesburg",
+        "London": "Europe/London",
+        # "Tokyo": "Asia/Tokyo"
+        # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
+    }
+elif RUNNING_ON_LOCAL:
+    # rn_city_wise_tz_code can be commented out since we don't need to recompute the speed_data_object everytime.
+    rn_city_wise_tz_code = {
+        # "Singapore": "Asia/Singapore",
+        # "Zurich": "Europe/Zurich",
+        # "Mumbai": "Asia/Kolkata",
+        "Auckland": "Pacific/Auckland",
+        # "Istanbul": "Europe/Istanbul",
+        # "MexicoCity": "America/Mexico_City",
+        # "Bogota": "America/Bogota",
+        # "NewYorkCity": "America/New_York",
+        # "Capetown": "Africa/Johannesburg",
+        # "London": "Europe/London",
+        # "Tokyo": "Asia/Tokyo"
+        # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
+    }
+
 rn_master_list_of_cities = list(rn_city_wise_bboxes.keys())
 
 rn_do_not_filter_list = []  # ["Zurich"]
@@ -143,6 +177,7 @@ if rn_square_from_city_centre != -1:
     assert rn_post_fix_road_network_object_file == "_road_network_object_square.pkl"
 rn_simplify = False
 
+print ("Loaded config file: Prefix for name of road network object pickle file!")
 ####################################
 #########   Scale Class   ##########
 ####################################
@@ -214,7 +249,10 @@ sd_end_datetime_str = "2022-09-30T23:59:59"
 ####################################
 ps_spatial_combination_method = "max"
 assert ps_spatial_combination_method in ["mean", "max"]
-ps_tod_list = list(range(24))
+if RUNNING_ON_LOCAL:
+    ps_tod_list = list(range(6, 8))
+elif RUNNING_ON_SERVER:
+    ps_tod_list = list(range(0, 24, 1))
 assert isinstance(ps_tod_list, list)
 ps_set_all_speed_zero = False
 
@@ -232,18 +270,24 @@ td_reuse_Graph_features = True
 
 ## maybe we should simply remove this
 td_drop_feature_lists = [
-    # "streets-per-node-proportions0",
-    # "streets-per-node-proportions1",
-    # "streets-per-node-proportions3",
-    # "streets-per-node-proportions4",
-    # "streets-per-node-proportions5",
-    # "edge-length-avg",
-    # "street-segment-count",
-    # "streets-per-node-counts-0",
+    "self_loop_proportion",
+    "streets_per_node_count_1",
+    "streets_per_node_count_4",
+    "street_length_avg",
+    "street_segment_count",
+    "streets_per_node_count_2",
+    "mean_lanes",
 ]
 td_drop_collinear_features = True
 
 
 network_folder = "network_tmax_smax_50x50"
 warnings_folder = "warnings"
-results_folder = "results_50x50_rerun_Aug_9_all_tods_" # "results_50x50_max_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi-max-max"
+results_folder = "results_50x50_rerun_Sept_5_all_tods_" # "results_50x50_max_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi-max-max"
+
+
+# To ensure that we don't overwrite the network folder of max with mean or vice-versa
+# When we use mean, we use mean in the network folder and
+# When we use max, we use max in the network folder
+assert ps_spatial_combination_method == sd_temporal_combination_method
+assert sd_temporal_combination_method in network_folder

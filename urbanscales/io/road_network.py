@@ -46,7 +46,7 @@ class RoadNetwork:
         self.rn_fname = os.path.join(
             config.BASE_FOLDER, config.network_folder, cityname, config.rn_post_fix_road_network_object_file
         )
-        self.osm_pickle = "_OSM_pickle_extra_small"
+        self.osm_pickle = config.rn_post_fix_road_network_object_file
         if config.rn_delete_existing_pickled_objects:
             try:
                 os.remove(self.rn_fname)

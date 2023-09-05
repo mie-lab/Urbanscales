@@ -11,7 +11,10 @@ import shapely.ops
 import config
 from urbanscales.preprocessing.prep_network import Scale
 from urbanscales.io.road_network import RoadNetwork
-from urbanscales.io.speed_data import SpeedData
+
+# Segment is greyed out in IDEs like PyCharm hinting that the import is not being used but it is needed for pickle loadings
+from urbanscales.io.speed_data import SpeedData, Segment
+
 import os
 import copy
 from tqdm import tqdm
