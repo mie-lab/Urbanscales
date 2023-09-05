@@ -53,7 +53,7 @@ if ppl_use_all:
     assert ppl_smallest_sample == -1
 ppl_parallel_overall = 1
 ppl_plot_FI = True
-ppl_CV_splits = 7
+ppl_CV_splits = 30
 ppl_plot_corr = False
 ppl_hist = False
 ppl_hist_bins = 10
