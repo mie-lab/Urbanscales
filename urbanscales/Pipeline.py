@@ -1,14 +1,9 @@
-import csv
 import os
-import shutil
 import sys
 import subprocess
 
-from urbanscales.modelling.ML_Pipeline import Pipeline
-from urbanscales.process_results.process_feature_importance import process_FI_file
-
 sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
-from urbanscales.io.road_network import RoadNetwork
+
 import config
 import urbanscales
 from urbanscales.io.road_network import RoadNetwork
@@ -25,34 +20,17 @@ from urbanscales.preprocessing.train_data import TrainDataVectors
 # Removed the chdir since it's not a good idea to change working directory within script
 # Use absolute paths instead
 
-print ("python urbanscales/io/road_network.py")
-RoadNetwork.generate_road_nw_object_for_all_cities()
+def run_command(command, message):
+    result = subprocess.call(command, shell=True)
+    if result == 0:
+        print(f"\n Complete: {message}\n")
+    else:
+        print(f"\n Failed: {message}\n")
 
-print ("python urbanscales/io/speed_data.py")
-SpeedData.preprocess_speed_data_for_all_cities()
-
-print ("python urbanscales/preprocessing/prep_network.py")
-Scale.generate_scales_for_all_cities()
-
-print ("python urbanscales/preprocessing/prep_speed.py")
-sys.path.append(config.home_folder_path)
-ScaleJF.connect_speed_and_nw_data_for_all_cities()
-
-print ("python urbanscales/preprocessing/train_data.py")
-os.chdir(config.home_folder_path)
-TrainDataVectors.compute_training_data_for_all_cities()
-
-print ("python urbanscales/modelling/ML_Pipeline.py")
-if config.delete_results_folder and os.path.exists(os.path.join(config.BASE_FOLDER, config.results_folder)):
-    shutil.rmtree(os.path.join(config.BASE_FOLDER, config.results_folder))
-if not os.path.exists(os.path.join(config.BASE_FOLDER, config.results_folder)):
-    os.mkdir(os.path.join(config.BASE_FOLDER, config.results_folder))
-
-with open(os.path.join(config.BASE_FOLDER, config.results_folder, "feature_importance.csv"), "w") as f:
-    csvwriter = csv.writer(f)
-    csvwriter.writerow(
-        ["cityname", "scale", "tod", "marker", "plot_counter"] + ["feature" + str(i) for i in range(1, 17)])
-Pipeline.compute_scores_for_all_cities()
-
-print ("python urbanscales/process_results/process_feature_importance.py")
-process_FI_file()
+run_command("python urbanscales/io/road_network.py", "python urbanscales/io/road_network.py")
+run_command("python urbanscales/io/speed_data.py", "python urbanscales/io/speed_data.py")
+run_command("python urbanscales/preprocessing/prep_network.py", "python urbanscales/preprocessing/prep_network.py")
+run_command("python urbanscales/preprocessing/prep_speed.py", "python urbanscales/preprocessing/prep_speed.py")
+run_command("python urbanscales/preprocessing/train_data.py", "python urbanscales/preprocessing/train_data.py")
+run_command("python urbanscales/modelling/ML_Pipeline.py", "python urbanscales/modelling/ML_Pipeline.py")
+# run_command("python urbanscales/process_results/process_feature_importance.py", "python urbanscales/process_results/process_feature_importance.py")
