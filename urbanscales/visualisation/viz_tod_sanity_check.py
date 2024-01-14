@@ -86,3 +86,58 @@ if __name__ == "__main__":
         plt.show()
 
     os.system("rm -rf " + ZIPPEDfoldername)
+
+
+
+
+    #
+    # def basic_correlation_analysis(self, common_features):
+    #     correlations = []
+    #     p_values = []
+    #     r2_values = []  # List to store R^2 values
+    #
+    #     feature_names = list(common_features)
+    #
+    #     if len(self.nparrayY.shape) == 1:
+    #         for i, feature_name in enumerate(feature_names):
+    #             feature_i = self.nparrayX[:, i]
+    #             corr_coefficient, p_value = pearsonr(feature_i, self.nparrayY)
+    #             correlations.append(corr_coefficient)
+    #             p_values.append(p_value)
+    #
+    #             # Calculate R^2 value for the feature
+    #             model = LinearRegression().fit(feature_i.reshape(-1, 1), self.nparrayY)
+    #             r2_values.append(model.score(feature_i.reshape(-1, 1), self.nparrayY))
+    #
+    #         sorted_indices = np.argsort(correlations)[::-1]
+    #         sorted_correlations = [correlations[i] for i in sorted_indices]
+    #         sorted_p_values = [p_values[i] for i in sorted_indices]
+    #         sorted_r2_values = [r2_values[i] for i in sorted_indices]
+    #         sorted_feature_names = [feature_names[i] for i in sorted_indices]
+    #
+    #         plt.figure(figsize=(15, 7))
+    #         bars = plt.bar(sorted_feature_names, sorted_correlations, color='c', label="Pearson Correlation")
+    #
+    #         for bar, p_value in zip(bars, sorted_p_values):
+    #             if p_value > 0.05:
+    #                 bar.set_color('r')
+    #
+    #         # Displaying R^2 values on top of the bars
+    #         for i, r2_value in enumerate(sorted_r2_values):
+    #             plt.text(i, sorted_correlations[i] + 0.01, f"R^2: {r2_value:.2f}", ha='center', rotation=90,
+    #                      color='blue', fontsize=8)
+    #
+    #         plt.xlabel('Feature Names')
+    #         plt.ylabel('Pearson Correlation Coefficient')
+    #         plt.title(f'Correlation Coefficients between Features of X and Y')
+    #         plt.xticks(rotation=45, ha="right")
+    #
+    #         ax = plt.gca()
+    #         bars = ax.bar(sorted_feature_names, sorted_correlations, color=color, label=f"Scale {color}")
+    #         # plt.grid(axis='y')
+    #         # plt.legend()
+    #         # plt.tight_layout()
+    #         # plt.show()
+    #
+    #     else:
+    #         print("Y is not 1D and cannot be correlated directly with X.")

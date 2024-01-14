@@ -27,6 +27,8 @@ def run_command(command, message):
     else:
         print(f"\n Failed: {message}\n")
 
+
+os.chdir("../")
 run_command("python urbanscales/io/road_network.py", "python urbanscales/io/road_network.py")
 run_command("python urbanscales/io/speed_data.py", "python urbanscales/io/speed_data.py")
 run_command("python urbanscales/preprocessing/prep_network.py", "python urbanscales/preprocessing/prep_network.py")

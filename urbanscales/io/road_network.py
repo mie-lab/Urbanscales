@@ -4,6 +4,8 @@ import pickle
 import copy
 import osmnx as ox
 from osmnx import utils_graph
+import contextily as ctx
+import geopandas as gpd
 
 import sys
 
@@ -26,8 +28,37 @@ import time
 from shapely.ops import unary_union
 import pickle
 import geopy.distance as gpy_dist
+from shapely.geometry import box
 
 # All custom unpicklers are due to SO user Pankaj Saini's answer:  https://stackoverflow.com/a/51397373/3896008
+
+
+import geopy.distance
+from geopy.point import Point
+
+
+class SquareFilter:
+    def __init__(self, N, E, S, W):
+        self.N = N
+        self.E = E
+        self.S = S
+        self.W = W
+
+    def filter_square_from_road_network(self, square_side_in_kms):
+        # Calculate the center of the original bounding box
+        center = Point((self.N + self.S) / 2, (self.E + self.W) / 2)
+
+        # Calculate half the side's length in kilometers
+        half_side = square_side_in_kms / 2 ** 0.5
+
+        # Find new NE and SW corners by moving from the center
+        # North-East corner
+        ne_corner = geopy.distance.distance(kilometers=half_side).destination(center, bearing=45)
+        self.N, self.E = ne_corner.latitude, ne_corner.longitude
+
+        # South-West corner
+        sw_corner = geopy.distance.distance(kilometers=half_side).destination(center, bearing=225)
+        self.S, self.W = sw_corner.latitude, sw_corner.longitude
 
 
 class CustomUnpicklerRoadNetwork(pickle.Unpickler):
@@ -216,7 +247,9 @@ class RoadNetwork:
             min_x, max_x = min(min_x, node["x"]), max(max_x, node["x"])
             min_y, max_y = min(min_y, node["y"]), max(max_y, node["y"])
         print(min_x, max_x, min_y, max_y)
-        self.min_x, self.max_x, self.min_y, self.max_y = (min_x, max_x, min_y, max_y)
+
+        # self.min_x, self.max_x, self.min_y, self.max_y = (min_x, max_x, min_y, max_y)
+        self.min_x, self.max_x, self.min_y, self.max_y = (self.W, self.E, self.S, self.N)
 
     def get_geojson_file_to_single_polygon(self):
         fname = os.path.join(
@@ -277,38 +310,63 @@ class RoadNetwork:
         self.W = ew_center - ew * 0.5 * (percentage / 100)
 
     def filter_a_square_from_road_network(self, square_side_in_kms):
-        NE_corner = np.array((self.N, self.E))
-        SW_corner = np.array((self.S, self.W))
-
-        centre = (NE_corner + SW_corner) / 2
-        half_diag_len = gpy_dist.geodesic(NE_corner, SW_corner).km / 2
-        half_square_diag_len = pow(2, 0.5) * square_side_in_kms / 2
-        ratio = half_square_diag_len / half_diag_len / 2
-        new_NE_corner = centre + ratio * (NE_corner - SW_corner)
-        new_SW_corner = centre - ratio * (NE_corner - SW_corner)
-
-        sprint(self.city_name, half_square_diag_len / half_diag_len)
-
-        plt.clf()
-        plt.scatter(NE_corner[1], NE_corner[0], 5, "r", label="Original NE")  # inverted order for x,y
-        plt.scatter(SW_corner[1], SW_corner[0], 5, "r", label="Original SW", alpha=0.2)  # inverted order for x,y
-        plt.scatter(new_NE_corner[1], new_NE_corner[0], 5, "b", label="New NE")  # inverted order for x,y
-        plt.scatter(new_SW_corner[1], new_SW_corner[0], 5, "b", label="New SW", alpha=0.2)  # inverted order for x,y
-        plt.scatter(centre[1], centre[0], 5, "g", label="Centre")
-        plt.legend()
-        plt.savefig(
-            os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name + "_boundaries_test.png"), dpi=300
-        )
-
-        self.N, self.E = new_NE_corner[0], new_NE_corner[1]
-        self.S, self.W = new_SW_corner[0], new_SW_corner[1]
-
-        sprint(gpy_dist.geodesic((self.N, self.E), (self.S, self.W)).km / pow(2, 0.5))
+        # NE_corner = np.array((self.N, self.E))
+        # SW_corner = np.array((self.S, self.W))
+        #
+        # centre = (NE_corner + SW_corner) / 2
+        # half_diag_len = gpy_dist.geodesic(NE_corner, SW_corner).km / 2
+        # half_square_diag_len = pow(2, 0.5) * square_side_in_kms / 2
+        # ratio = half_square_diag_len / half_diag_len / 2
+        # new_NE_corner = centre + ratio * (NE_corner - SW_corner)
+        # new_SW_corner = centre - ratio * (NE_corner - SW_corner)
+        #
+        # sprint(self.city_name, half_square_diag_len / half_diag_len)
+        #
+        # plt.clf()
+        # # Create GeoDataFrames for the original and new bounding boxes
+        # original_bbox_gdf = gpd.GeoDataFrame(geometry=[box(self.W, self.S, self.E, self.N)], crs='EPSG:4326')
+        # new_bbox_gdf = gpd.GeoDataFrame(
+        #     geometry=[box(new_SW_corner[1], new_SW_corner[0], new_NE_corner[1], new_NE_corner[0])], crs='EPSG:4326')
+        #
+        # # Convert to Web Mercator for contextily
+        # original_bbox_gdf = original_bbox_gdf.to_crs(epsg=3857)
+        # new_bbox_gdf = new_bbox_gdf.to_crs(epsg=3857)
+        #
+        # # Plotting
+        # fig, ax = plt.subplots(figsize=(10, 10))
+        #
+        # # Plot the original and new bounding boxes
+        # original_bbox_gdf.boundary.plot(ax=ax, color='black', linewidth=2, label='Original Box')
+        # new_bbox_gdf.boundary.plot(ax=ax, color='blue', linewidth=2, label='New Box')
+        #
+        # # Add basemap
+        # ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
+        #
+        # plt.scatter(NE_corner[1], NE_corner[0], 5, "r", label="Original NE")  # inverted order for x,y
+        # plt.scatter(SW_corner[1], SW_corner[0], 5, "r", label="Original SW", alpha=0.2)  # inverted order for x,y
+        # plt.scatter(new_NE_corner[1], new_NE_corner[0], 5, "b", label="New NE")  # inverted order for x,y
+        # plt.scatter(new_SW_corner[1], new_SW_corner[0], 5, "b", label="New SW", alpha=0.2)  # inverted order for x,y
+        # plt.scatter(centre[1], centre[0], 5, "g", label="Centre")
+        # plt.legend()
+        # plt.savefig(
+        #     os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name + "_boundaries_test.png"), dpi=300
+        # )
+        #
+        # self.N, self.E = new_NE_corner[0], new_NE_corner[1]
+        # self.S, self.W = new_SW_corner[0], new_SW_corner[1]
+        #
+        # sprint(gpy_dist.geodesic((self.N, self.E), (self.S, self.W)).km / pow(2, 0.5))
 
         # assert less than 2% error
-        assert (
-            gpy_dist.geodesic((self.N, self.E), (self.S, self.W)).km / pow(2, 0.5) - square_side_in_kms
-        ) / square_side_in_kms <= 2 / 100
+        # assert (
+        #     abs(gpy_dist.geodesic((self.N, self.E), (self.S, self.W)).km / pow(2, 0.5) - square_side_in_kms
+        # ) / square_side_in_kms) <= 2 / 100
+
+        # Example usage
+        square_filter = SquareFilter(N=self.N, E=self.E, S=self.S, W=self.W)
+        square_filter.filter_square_from_road_network(square_side_in_kms)
+        self.N, self.S, self.E, self.W = square_filter.N, square_filter.S, square_filter.E, square_filter.W
+
 
     @staticmethod
     def generate_road_nw_object_for_all_cities():

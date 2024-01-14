@@ -238,3 +238,4 @@ if __name__ == "__main__":
     sprint (len(tile.get_features()))
     print ("Now trying out the static functionality")
     sprint (Tile.get_feature_names())
+    sprint(len(Tile.get_feature_names()))

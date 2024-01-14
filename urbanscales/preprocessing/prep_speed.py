@@ -340,5 +340,4 @@ class ScaleJF:
 if __name__ == "__main__":
     sys.path.append(config.home_folder_path)
     ScaleJF.connect_speed_and_nw_data_for_all_cities()
-
     debug_stop = 2

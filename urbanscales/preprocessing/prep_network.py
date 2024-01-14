@@ -32,6 +32,8 @@ from urbanscales.preprocessing.tile import Tile
 import pickle
 
 
+
+
 # All custom unpicklers are due to SO user Pankaj Saini's answer:  https://stackoverflow.com/a/51397373/3896008
 class CustomUnpicklerScale(pickle.Unpickler):
     def find_class(self, module, name):
@@ -159,7 +161,6 @@ class Scale:
         self._helper_compute_deltas()
 
         srn = self.RoadNetwork
-        self.delta_x
 
         start_y = srn.min_y
         num_tiles = int((srn.max_y - srn.min_y) / self.delta_y * int((srn.max_x - srn.min_x) / self.delta_x))

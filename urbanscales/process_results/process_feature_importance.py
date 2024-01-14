@@ -10,12 +10,12 @@ from slugify import slugify
 
 marker_type = "train"
 model = "RF"
-for tod in range(0, 24):
+for tod in [6]:#range(0, 24):
     for model in ["RF"]:# ["RF", "GB"]:
         for marker_type in ["val"]: #, "train"]:
             # Define the path to your CSV file
             # csv_file_path = os.path.join(config.BASE_FOLDER, config.results_folder, "feature_importance_"+model+".csv")
-            csv_file_path = os.path.join("/Users/nishant/Downloads/results_50x50_rerun_Aug_9_all_tods_mean", "feature_importance.csv")
+            csv_file_path = os.path.join("/Users/nishant/Downloads/", "feature_importance_RF_old.csv")
 
             # Create a defaultdict to store the feature counts for each key combination
             feature_counts = defaultdict(lambda: defaultdict(int))
@@ -85,5 +85,5 @@ for tod in range(0, 24):
                 plt.yticks(rotation=0)
                 plt.gca().set_yticklabels([tick.get_text().split("_")[2] for tick in plt.gca().get_yticklabels()])
                 plt.tight_layout()
-                plt.savefig(os.path.join("/Users/nishant/Downloads/results_50x50_rerun_Aug_9_all_tods_mean/mean", model + "_" + marker_type + "_Top_" + str(k) +"tod:" +str(tod)+ ".png"), dpi=300)
+                plt.savefig(os.path.join("/Users/nishant/Downloads/old_plots/", model + "_" + marker_type + "_Top_" + str(k) +"tod:" +str(tod)+ ".png"), dpi=300)
                 plt.show()

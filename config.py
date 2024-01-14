@@ -101,10 +101,10 @@ if RUNNING_ON_SERVER:
     }
 elif RUNNING_ON_LOCAL:
     rn_city_wise_bboxes = {
-        # "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
+        "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
         # "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
         # "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
-        "Auckland": [-36.681247, 174.925937, -36.965932, 174.63532],
+        # "Auckland": [-36.681247, 174.925937, -36.965932, 174.63532],
         # "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
         # "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
         # "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
@@ -134,18 +134,17 @@ if RUNNING_ON_SERVER:
 elif RUNNING_ON_LOCAL:
     # rn_city_wise_tz_code can be commented out since we don't need to recompute the speed_data_object everytime.
     rn_city_wise_tz_code = {
-        # "Singapore": "Asia/Singapore",
-        # "Zurich": "Europe/Zurich",
-        # "Mumbai": "Asia/Kolkata",
+        "Singapore": "Asia/Singapore",
+        "Zurich": "Europe/Zurich",
+        "Mumbai": "Asia/Kolkata",
         "Auckland": "Pacific/Auckland",
-        # "Istanbul": "Europe/Istanbul",
-        # "MexicoCity": "America/Mexico_City",
-        # "Bogota": "America/Bogota",
-        # "NewYorkCity": "America/New_York",
-        # "Capetown": "Africa/Johannesburg",
-        # "London": "Europe/London",
-        # "Tokyo": "Asia/Tokyo"
-        # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
+        "Istanbul": "Europe/Istanbul",
+        "MexicoCity": "America/Mexico_City",
+        "Bogota": "America/Bogota",
+        "NewYorkCity": "America/New_York",
+        "Capetown": "Africa/Johannesburg",
+        "London": "Europe/London",
+        "Tokyo": "Asia/Tokyo"
     }
 
 rn_master_list_of_cities = list(rn_city_wise_bboxes.keys())
@@ -202,7 +201,7 @@ scl_list_of_depths = [1]
 
 # test_small
 if RUNNING_ON_LOCAL:
-    scl_list_of_seeds = [20] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+    scl_list_of_seeds = [25, 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 elif RUNNING_ON_SERVER:
     scl_list_of_seeds = [50] # , 70, 90] # list(range(50, 121, 20)) # list(range(10, 121, 40))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 # forward
@@ -238,7 +237,7 @@ sd_seg_file_path_within_city = "segments.csv"
 sd_jf_file_path_within_city = "jf.csv"
 sd_raw_speed_data_gran = 10
 sd_target_speed_data_gran = 60
-sd_temporal_combination_method = "max"
+sd_temporal_combination_method = "mean"
 assert sd_temporal_combination_method in ["mean", "max"]
 sd_start_datetime_str = "2022-09-01T00:00:01"
 sd_end_datetime_str = "2022-09-30T23:59:59"
@@ -247,7 +246,7 @@ sd_end_datetime_str = "2022-09-30T23:59:59"
 ####################################
 ######   PreProcess Speed   ########
 ####################################
-ps_spatial_combination_method = "max"
+ps_spatial_combination_method = "mean"
 assert ps_spatial_combination_method in ["mean", "max"]
 if RUNNING_ON_LOCAL:
     ps_tod_list = list(range(6, 8))
@@ -281,9 +280,9 @@ td_drop_feature_lists = [
 td_drop_collinear_features = True
 
 
-network_folder = "network_tmax_smax_50x50"
+network_folder = "network_tmean_smean_50x50"
 warnings_folder = "warnings"
-results_folder = "results_50x50_rerun_Sept_5_all_tods_" # "results_50x50_max_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi-max-max"
+results_folder = "results_50x50_rerun_Sept_5_all_tods_mean_" # "results_50x50_max_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi-max-max"
 
 
 # To ensure that we don't overwrite the network folder of max with mean or vice-versa

@@ -1,18 +1,16 @@
 tar -czvf urbanscales.tar.gz urbanscales
 echo "zipped urbanscales folder; moving to server"
-scp urbanscales.tar.gz niskumar@kelut.sec.sg:
-scp config.py niskumar@kelut.sec.sg:WCS/config.py
-ssh -t -t  niskumar@kelut.sec.sg << EOF
+scp urbanscales.tar.gz niskumar@172.25.185.141:
+scp config.py niskumar@172.25.185.141:WCS/config.py
+ssh -t -t  niskumar@172.25.185.141 << EOF
   cd ~/WCS
   rm -rf urbanscales
   mv ~/urbanscales.tar.gz ./
   tar -xf urbanscales.tar.gz
-  rm config.py 
-  echo "Decompression complete and config.py deleted"
+  chmod +777 cache_osmnx/*
   echo "Logging out of server"
   exit
 EOF
 echo "Logged out of server"
-scp config.py niskumar@kelut.sec.sg:WCS/config.py
-echo "Config.py copied "
+
 
