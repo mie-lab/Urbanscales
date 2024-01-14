@@ -261,6 +261,12 @@ class Scale:
             self.create_file_marker()
         N, S, E, W, total = key
 
+        from shapely.geometry import box as bboxShapely
+        def do_not_overlap(N, S, E, W, N_JF_data, S_JF_data, E_JF_data, W_JF_data):
+            bbox1 = bboxShapely(W, S, E, N)
+            bbox2 = bboxShapely(W_JF_data, S_JF_data, E_JF_data, N_JF_data)
+            return not bbox1.intersects(bbox2)
+
         def debug_by_plotting_bboxes(color, small_G=None):
             fig, ax = ox.plot.plot_graph(
                 self.RoadNetwork.G_osm,
@@ -309,35 +315,44 @@ class Scale:
             )
             # plt.show()
 
-        try:
-            truncated_graph = smart_truncate(
-                self.RoadNetwork.G_osm, self.RoadNetwork.G_OSM_nodes, self.RoadNetwork.G_OSM_edges, N, S, E, W
-            )
-            if not isinstance(truncated_graph, networkx.MultiDiGraph):
-                if truncated_graph == config.rn_no_stats_marker:
-                    raise ValueError
-                else:
-                    raise Exception("Unknown Error; Not Null passed")
 
-            tile = Tile(truncated_graph, self.tile_area)
-            # if config.verbose >= 2:
-            #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
-            #         csvwriter = csv.writer(f)
-            #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
-            if config.DEBUG:
-                debug_by_plotting_bboxes("green", tile.G)
-        except ValueError:  #
-            # if config.verbose >= 1:
-            #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
-            #         csvwriter = csv.writer(f)
-            #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
-            if config.DEBUG:
-                debug_by_plotting_bboxes("red")
-            return (key, config.rn_no_stats_marker)
-        except nx.exception.NetworkXPointlessConcept:
-            if config.DEBUG:
-                debug_by_plotting_bboxes("blue")
-            return (key, config.rn_no_stats_marker)
+        # the format is as shown below: (copied from config file)
+        # rn_city_wise_bboxes = {
+        #     "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
+
+        N_JF_data,  E_JF_data, S_JF_data, W_JF_data = config.rn_city_wise_bboxes(self.RoadNetwork.city_name)
+        if do_not_overlap(N, S, E, W, N_JF_data, S_JF_data, E_JF_data, W_JF_data) :
+            return (key, config.rn_no_stats_marker) # no need to process these graphs if we don't have their speed data
+        else:
+            try:
+                truncated_graph = smart_truncate(
+                    self.RoadNetwork.G_osm, self.RoadNetwork.G_OSM_nodes, self.RoadNetwork.G_OSM_edges, N, S, E, W
+                )
+                if not isinstance(truncated_graph, networkx.MultiDiGraph):
+                    if truncated_graph == config.rn_no_stats_marker:
+                        raise ValueError
+                    else:
+                        raise Exception("Unknown Error; Not Null passed")
+
+                tile = Tile(truncated_graph, self.tile_area)
+                # if config.verbose >= 2:
+                #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
+                #         csvwriter = csv.writer(f)
+                #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
+                if config.DEBUG:
+                    debug_by_plotting_bboxes("green", tile.G)
+            except ValueError:  #
+                # if config.verbose >= 1:
+                #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
+                #         csvwriter = csv.writer(f)
+                #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
+                if config.DEBUG:
+                    debug_by_plotting_bboxes("red")
+                return (key, config.rn_no_stats_marker)
+            except nx.exception.NetworkXPointlessConcept:
+                if config.DEBUG:
+                    debug_by_plotting_bboxes("blue")
+                return (key, config.rn_no_stats_marker)
             # pass
         return (key, tile)
         # pass
