@@ -320,8 +320,9 @@ class Scale:
         # rn_city_wise_bboxes = {
         #     "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
 
-        N_JF_data,  E_JF_data, S_JF_data, W_JF_data = config.rn_city_wise_bboxes(self.RoadNetwork.city_name)
+        N_JF_data,  E_JF_data, S_JF_data, W_JF_data = config.rn_city_wise_bboxes[self.RoadNetwork.city_name]
         if do_not_overlap(N, S, E, W, N_JF_data, S_JF_data, E_JF_data, W_JF_data) :
+            print ("Subgraph removed as empty, since no overlap found")
             return (key, config.rn_no_stats_marker) # no need to process these graphs if we don't have their speed data
         else:
             try:
@@ -354,7 +355,7 @@ class Scale:
                     debug_by_plotting_bboxes("blue")
                 return (key, config.rn_no_stats_marker)
             # pass
-        return (key, tile)
+            return (key, tile)
         # pass
 
     @staticmethod
