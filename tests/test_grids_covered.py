@@ -42,4 +42,4 @@ for val in a:
 import matplotlib.pyplot as plt
 
 plt.imshow(b)
-plt.show()
+plt.show(block=False)

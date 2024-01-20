@@ -123,7 +123,7 @@ def plot_bboxes_for_debugging(temp_obj, identifier):
     gdf.boundary.plot(ax=ax, color='blue', linewidth=2)
     ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
     plt.savefig("Bboxes_final_After_feature_Extraction_" + identifier + ".png", dpi=300)
-    plt.show()
+    plt.show(block=False)
 
 
 
@@ -238,7 +238,7 @@ if __name__ == "__main__":
         plt.tight_layout()
         plt.savefig("hierarchical_clustering/" + f'Hierarchical Clustering Dendrogram for scale {scale}'
                     + ".png", dpi=300)
-        plt.show()
+        plt.show(block=False)
 
 
     # 1. Calculate the mean feature values for each city across scales
@@ -325,4 +325,4 @@ if __name__ == "__main__":
     plt.tight_layout()
     plt.savefig("hierarchical_clustering/" + 'Hierarchical Clustering Dendrogram (Aggregated Across Scales)'
                 + ".png", dpi=300)
-    plt.show()
+    plt.show(block=False)

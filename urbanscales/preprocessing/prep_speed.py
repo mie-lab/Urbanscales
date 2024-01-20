@@ -22,6 +22,7 @@ import geopandas as gpd
 from shapely.geometry import box
 
 import pandas as pd
+import pandas
 
 from smartprint import smartprint as sprint
 import shapely.geometry

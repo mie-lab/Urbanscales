@@ -17,7 +17,7 @@ def plot_ratio_vs_n(ratio_values):
     plt.xlabel('Number of OD pairs sampled (N)')
     plt.ylabel('Ratio of Manhattan distance to Euclidean distance')
     plt.title('Ratio of Manhattan distance to Euclidean distance vs N')
-    plt.show()
+    plt.show(block=False)
 
 
 # Set the number of OD pairs to sample

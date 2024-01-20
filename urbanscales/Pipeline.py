@@ -29,10 +29,10 @@ def run_command(command, message):
 
 
 os.chdir("../")
-run_command("python urbanscales/io/road_network.py", "python urbanscales/io/road_network.py")
-run_command("python urbanscales/io/speed_data.py", "python urbanscales/io/speed_data.py")
-run_command("python urbanscales/preprocessing/prep_network.py", "python urbanscales/preprocessing/prep_network.py")
-run_command("python urbanscales/preprocessing/prep_speed.py", "python urbanscales/preprocessing/prep_speed.py")
+# run_command("python urbanscales/io/road_network.py", "python urbanscales/io/road_network.py")
+# run_command("python urbanscales/io/speed_data.py", "python urbanscales/io/speed_data.py")
+# run_command("python urbanscales/preprocessing/prep_network.py", "python urbanscales/preprocessing/prep_network.py")
+# run_command("python urbanscales/preprocessing/prep_speed.py", "python urbanscales/preprocessing/prep_speed.py")
 run_command("python urbanscales/preprocessing/train_data.py", "python urbanscales/preprocessing/train_data.py")
-run_command("python urbanscales/modelling/ML_Pipeline.py", "python urbanscales/modelling/ML_Pipeline.py")
+# run_command("python urbanscales/modelling/ML_Pipeline.py", "python urbanscales/modelling/ML_Pipeline.py")
 # run_command("python urbanscales/process_results/process_feature_importance.py", "python urbanscales/process_results/process_feature_importance.py")

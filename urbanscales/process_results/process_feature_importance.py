@@ -86,4 +86,4 @@ for tod in [6]:#range(0, 24):
                 plt.gca().set_yticklabels([tick.get_text().split("_")[2] for tick in plt.gca().get_yticklabels()])
                 plt.tight_layout()
                 plt.savefig(os.path.join("/Users/nishant/Downloads/old_plots/", model + "_" + marker_type + "_Top_" + str(k) +"tod:" +str(tod)+ ".png"), dpi=300)
-                plt.show()
+                plt.show(block=False)

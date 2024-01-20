@@ -75,5 +75,5 @@ for orig_dest in list_of_OD:
     ax.scatter(dest[1], dest[0], c="red", s=200, label="dest", marker="x")
     # ax.set_ylim([min([orig[0], dest[0]]) - padding, max([orig[0], dest[0]]) + padding])
     # ax.set_xlim([min([orig[1], dest[1]]) - padding, max([orig[1], dest[1]]) + padding])
-    plt.show()
+    plt.show(block=False)
     plt.savefig(repr(orig_dest) + ".png", dpi=300)

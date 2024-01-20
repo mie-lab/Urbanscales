@@ -124,7 +124,7 @@ def plot_bboxes_for_debugging(temp_obj, identifier):
     gdf.boundary.plot(ax=ax, color='blue', linewidth=2)
     ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
     plt.savefig(os.path.join(config.BASE_FOLDER_local, config.network_folder, "Bboxes_final_After_feature_Extraction_" + identifier + ".png"), dpi=300)
-    plt.show()
+    plt.show(block=False)
 
 
 

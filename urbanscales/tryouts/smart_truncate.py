@@ -48,7 +48,7 @@ height = (N - S) * 0.1
 
 rect = plt.Rectangle((W_, S_), width, height, facecolor="green", alpha=0.3, edgecolor=None)
 ax.add_patch(rect)
-plt.show()
+plt.show(block=False)
 
 g_truncated = ox.truncate.truncate_graph_bbox(graph, S_ + height, S_, W_ + width, W_, truncate_by_edge=False)
 ox.plot_graph(g_truncated)
@@ -124,7 +124,7 @@ for bbox_line in bbox_lines:
 
             # plt.plot(*firstLineString.xy, "green")
             # plt.plot(*secondLineString.xy, "blue")
-            # plt.show()
+            # plt.show(block=False)
 
             # now we need to figure out which linestring is inside, which is outside the bbox in question
             # so that we can choose the correct end points of the edge to be split
@@ -216,7 +216,7 @@ for edge in edges_to_delete:
 
 plt.gca().set_aspect("equal")
 plt.savefig("urbanscales/tryouts/Interpolated.png", dpi=600)
-plt.show()
+plt.show(block=False)
 
 for i in range(old_num_edges, gs_edges.shape[0]):
     plt.plot(
@@ -237,7 +237,7 @@ for i in range(1, 5):
 
 plt.gca().set_aspect("equal")
 plt.savefig("urbanscales/tryouts/differently_colored_edges.png", dpi=600)
-plt.show()
+plt.show(block=False)
 
 fig, ax = ox.plot.plot_graph(
     G,
@@ -260,7 +260,7 @@ fig, ax = ox.plot.plot_graph(
 plt.title("Whole graph before introducing new nodes")
 plt.gca().set_aspect("equal")
 plt.savefig("urbanscales/tryouts/Whole_graph_old.png", dpi=600)
-plt.show()
+plt.show(block=False)
 
 graph_attrs = {"crs": "epsg:4326", "simplified": True}
 graph2 = ox.graph_from_gdfs(gs_nodes, gs_edges, graph_attrs)
@@ -285,7 +285,7 @@ fig, ax = ox.plot.plot_graph(
 plt.title("Whole graph after introducing new nodes")
 plt.gca().set_aspect("equal")
 plt.savefig("urbanscales/tryouts/Whole_graph_new.png", dpi=600)
-plt.show()
+plt.show(block=False)
 
 
 g_truncated = ox.truncate.truncate_graph_bbox(graph, N, S, E, W, truncate_by_edge=False)

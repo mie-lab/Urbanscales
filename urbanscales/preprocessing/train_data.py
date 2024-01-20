@@ -132,7 +132,7 @@ class TrainDataVectors:
 
         plt.tight_layout()
         # Show the plot
-        plt.show()
+        plt.show(block=Fals)
 
     def set_X_and_Y(self, process_X=True):
         scl = Scale.get_object(self.city_name, self.scale)

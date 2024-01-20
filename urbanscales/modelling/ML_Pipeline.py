@@ -92,7 +92,7 @@ class Pipeline:
         plt.title("Feature importances via coefficients")
         plt.xticks(rotation=90, fontsize=7)
         plt.tight_layout()
-        # plt.show()
+        # plt.show(block=False)
         plt.savefig(
             os.path.join(
                 config.BASE_FOLDER,

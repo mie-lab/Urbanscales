@@ -367,7 +367,7 @@ def smart_truncate(
             gs_edges_intersecting = pd.concat([gs_edges_intersecting, df_dictionary], join="outer")
 
     # if config.rn_plotting_for_truncated_graphs:
-    #     plt.show()
+    #     plt.show(block=False)
 
     intersecting_nodes = gs_nodes[gs_nodes.index.isin(list(set(nodes_to_retain)))]
     intersecting_edges = gs_edges_intersecting[~gs_edges_intersecting.index.isin(list(set(edge_indices_to_drop)))]
@@ -405,7 +405,7 @@ def smart_truncate(
                 "urbanscales/tryouts/smart_truncated_plots/g_truncated_new_" + str(plot_num) + ".png",
             ),
             dpi=600,
-        )  # plt.show()
+        )  # plt.show(block=False)
 
         orig_graph = ox.graph_from_gdfs(nodes_orig, edges_orig, graph_attrs)
 
@@ -442,7 +442,7 @@ def smart_truncate(
             ),
             dpi=600,
         )
-        # plt.show()
+        # plt.show(block=False)
 
     if networkx.is_empty(g_truncated):
         print("Null graph returned")

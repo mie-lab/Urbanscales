@@ -114,7 +114,7 @@ class RandomForestAnalysis:
         plt.ylabel('Importance')
         plt.tight_layout()
         plt.savefig(f'no_total_yes_metered_FI for {city} at Scale {scales}' + " tod " + tod+'.png', dpi=300)
-        plt.show()
+        plt.show(block=False)
 
 
     # return mean_importances, ci_bounds, std_importances, significant_features, np.mean(val_error_accumulator), rf

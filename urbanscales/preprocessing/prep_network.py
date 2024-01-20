@@ -24,6 +24,7 @@ from geopy.distance import geodesic
 
 # from smartprint import smartprint as sprint
 from tqdm import tqdm
+import pandas
 
 import config
 from urbanscales.io.road_network import RoadNetwork
@@ -313,7 +314,7 @@ class Scale:
                 + str(int(np.random.rand() * 100000000))
                 + ".png"
             )
-            # plt.show()
+            # plt.show(block=False)
 
 
         # the format is as shown below: (copied from config file)

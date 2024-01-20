@@ -83,7 +83,7 @@ if __name__ == "__main__":
         plt.title("Scale: " + str(scale))
         plt.legend(fontsize=8, loc="best")
         plt.savefig("Mean_case_" + str(scale) + ".png", dpi=300)
-        plt.show()
+        plt.show(block=False)
 
     os.system("rm -rf " + ZIPPEDfoldername)
 
@@ -137,7 +137,7 @@ if __name__ == "__main__":
     #         # plt.grid(axis='y')
     #         # plt.legend()
     #         # plt.tight_layout()
-    #         # plt.show()
+    #         # plt.show(block=False)
     #
     #     else:
     #         print("Y is not 1D and cannot be correlated directly with X.")

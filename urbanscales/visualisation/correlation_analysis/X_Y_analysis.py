@@ -283,7 +283,7 @@ if __name__ == "__main__":
         plt.grid(True, which="both", ls="--", linewidth=0.5)
         plt.tight_layout()
         plt.savefig("LRvsRF/" + "feature_importance" + model_name + "-scale-" + str(selected_scale) + "-case-" + mean_max + ".png", dpi=300)
-        plt.show()
+        plt.show(block=False)
 
 
     # Plot for Linear Regression

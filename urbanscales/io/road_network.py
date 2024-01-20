@@ -367,6 +367,13 @@ class RoadNetwork:
         square_filter.filter_square_from_road_network(square_side_in_kms)
         self.N, self.S, self.E, self.W = square_filter.N, square_filter.S, square_filter.E, square_filter.W
 
+    def __repr__(self):
+        class_attrs = vars(self)
+        repr_str = f"{self.__class__.__name__}(\n"
+        for attr, value in class_attrs.items():
+            repr_str += f"  {attr}: {value}\n"
+        repr_str += ")"
+        return repr_str
 
     @staticmethod
     def generate_road_nw_object_for_all_cities():
