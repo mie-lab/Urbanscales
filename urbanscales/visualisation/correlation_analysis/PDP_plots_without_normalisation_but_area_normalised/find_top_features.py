@@ -155,8 +155,6 @@ for scale_list in [[25], [50], [100]]:
         plt.scatter(feature_list, list(data_recurrent.values()), color="tab:blue", marker='o', alpha=0.2)
         plt.plot(feature_list, np.array([otsu_thres] * len(feature_list)) , color="black", linewidth=1.5)
 
-
-
         features_with_higher_than_otsu = []
         corresponding_values = []
         for feature in feature_list:

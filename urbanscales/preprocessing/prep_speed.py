@@ -337,7 +337,6 @@ class ScaleJF:
         return f"ScaleJF(scale={self.Scale.scale}, city_name={self.Scale.RoadNetwork.city_name}, tod={self.tod})"
 
 
-
 if __name__ == "__main__":
     sys.path.append(config.home_folder_path)
     ScaleJF.connect_speed_and_nw_data_for_all_cities()

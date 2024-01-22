@@ -249,7 +249,7 @@ sd_end_datetime_str = "2022-09-30T23:59:59"
 ps_spatial_combination_method = "mean"
 assert ps_spatial_combination_method in ["mean", "max"]
 if RUNNING_ON_LOCAL:
-    ps_tod_list = list(range(6, 8))
+    ps_tod_list = list(range(0, 24, 1))
 elif RUNNING_ON_SERVER:
     ps_tod_list = list(range(0, 24, 1))
 assert isinstance(ps_tod_list, list)

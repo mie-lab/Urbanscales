@@ -44,9 +44,29 @@ class SquareFilter:
         self.S = S
         self.W = W
 
-    def filter_square_from_road_network(self, square_side_in_kms):
-        # Calculate the center of the original bounding box
+    def filter_square_from_road_network(self, square_side_in_kms, shift_tiles=0):
+        # Calculate the original center of the bounding box
         center = Point((self.N + self.S) / 2, (self.E + self.W) / 2)
+
+        assert shift_tiles in [0, 1, 2, 3, 4]
+        # Shift the center based on shift_tiles value
+        if shift_tiles == 1:
+            # Shift north by 2/3 km
+            new_center = geopy.distance.distance(kilometers=2 / 3).destination(center, bearing=0)
+        elif shift_tiles == 2:
+            # Shift south by 2/3 km
+            new_center = geopy.distance.distance(kilometers=2 / 3).destination(center, bearing=180)
+        elif shift_tiles == 3:
+            # Shift east by 2/3 km
+            new_center = geopy.distance.distance(kilometers=2 / 3).destination(center, bearing=90)
+        elif shift_tiles == 4:
+            # Shift west by 2/3 km
+            new_center = geopy.distance.distance(kilometers=2 / 3).destination(center, bearing=270)
+        elif shift_tiles == 0:
+            # No shift
+            new_center = center
+
+        center = new_center
 
         # Calculate half the side's length in kilometers
         half_side = square_side_in_kms / 2 ** 0.5

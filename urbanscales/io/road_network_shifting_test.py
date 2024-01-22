@@ -44,9 +44,29 @@ class SquareFilterShifting:
         self.S = S
         self.W = W
 
-    def filter_square_from_road_network(self, square_side_in_kms):
-        # Calculate the center of the original bounding box
+    def filter_square_from_road_network(self, square_side_in_kms, shift_tiles=0):
+        # Calculate the original center of the bounding box
         center = Point((self.N + self.S) / 2, (self.E + self.W) / 2)
+
+        assert shift_tiles in [0,1,2,3,4]
+        # Shift the center based on shift_tiles value
+        if shift_tiles == 1:
+            # Shift north by 2/3 km
+            new_center = geopy.distance.distance(kilometers=2 / 3).destination(center, bearing=0)
+        elif shift_tiles == 2:
+            # Shift south by 2/3 km
+            new_center = geopy.distance.distance(kilometers=2 / 3).destination(center, bearing=180)
+        elif shift_tiles == 3:
+            # Shift east by 2/3 km
+            new_center = geopy.distance.distance(kilometers=2 / 3).destination(center, bearing=90)
+        elif shift_tiles == 4:
+            # Shift west by 2/3 km
+            new_center = geopy.distance.distance(kilometers=2 / 3).destination(center, bearing=270)
+        elif shift_tiles == 0:
+            # No shift
+            new_center = center
+
+        center = new_center
 
         # Calculate half the side's length in kilometers
         half_side = square_side_in_kms / 2 ** 0.5
@@ -310,59 +330,6 @@ class RoadNetworkShifting:
         self.W = ew_center - ew * 0.5 * (percentage / 100)
 
     def filter_a_square_from_road_network(self, square_side_in_kms):
-        # NE_corner = np.array((self.N, self.E))
-        # SW_corner = np.array((self.S, self.W))
-        #
-        # centre = (NE_corner + SW_corner) / 2
-        # half_diag_len = gpy_dist.geodesic(NE_corner, SW_corner).km / 2
-        # half_square_diag_len = pow(2, 0.5) * square_side_in_kms / 2
-        # ratio = half_square_diag_len / half_diag_len / 2
-        # new_NE_corner = centre + ratio * (NE_corner - SW_corner)
-        # new_SW_corner = centre - ratio * (NE_corner - SW_corner)
-        #
-        # sprint(self.city_name, half_square_diag_len / half_diag_len)
-        #
-        # plt.clf()
-        # # Create GeoDataFrames for the original and new bounding boxes
-        # original_bbox_gdf = gpd.GeoDataFrame(geometry=[box(self.W, self.S, self.E, self.N)], crs='EPSG:4326')
-        # new_bbox_gdf = gpd.GeoDataFrame(
-        #     geometry=[box(new_SW_corner[1], new_SW_corner[0], new_NE_corner[1], new_NE_corner[0])], crs='EPSG:4326')
-        #
-        # # Convert to Web Mercator for contextily
-        # original_bbox_gdf = original_bbox_gdf.to_crs(epsg=3857)
-        # new_bbox_gdf = new_bbox_gdf.to_crs(epsg=3857)
-        #
-        # # Plotting
-        # fig, ax = plt.subplots(figsize=(10, 10))
-        #
-        # # Plot the original and new bounding boxes
-        # original_bbox_gdf.boundary.plot(ax=ax, color='black', linewidth=2, label='Original Box')
-        # new_bbox_gdf.boundary.plot(ax=ax, color='blue', linewidth=2, label='New Box')
-        #
-        # # Add basemap
-        # ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
-        #
-        # plt.scatter(NE_corner[1], NE_corner[0], 5, "r", label="Original NE")  # inverted order for x,y
-        # plt.scatter(SW_corner[1], SW_corner[0], 5, "r", label="Original SW", alpha=0.2)  # inverted order for x,y
-        # plt.scatter(new_NE_corner[1], new_NE_corner[0], 5, "b", label="New NE")  # inverted order for x,y
-        # plt.scatter(new_SW_corner[1], new_SW_corner[0], 5, "b", label="New SW", alpha=0.2)  # inverted order for x,y
-        # plt.scatter(centre[1], centre[0], 5, "g", label="Centre")
-        # plt.legend()
-        # plt.savefig(
-        #     os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name + "_boundaries_test.png"), dpi=300
-        # )
-        #
-        # self.N, self.E = new_NE_corner[0], new_NE_corner[1]
-        # self.S, self.W = new_SW_corner[0], new_SW_corner[1]
-        #
-        # sprint(gpy_dist.geodesic((self.N, self.E), (self.S, self.W)).km / pow(2, 0.5))
-
-        # assert less than 2% error
-        # assert (
-        #     abs(gpy_dist.geodesic((self.N, self.E), (self.S, self.W)).km / pow(2, 0.5) - square_side_in_kms
-        # ) / square_side_in_kms) <= 2 / 100
-
-        # Example usage
         square_filter = SquareFilterShifting(N=self.N, E=self.E, S=self.S, W=self.W)
         square_filter.filter_square_from_road_network(square_side_in_kms)
         self.N, self.S, self.E, self.W = square_filter.N, square_filter.S, square_filter.E, square_filter.W
