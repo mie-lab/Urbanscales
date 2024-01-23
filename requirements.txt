@@ -1,9 +1,12 @@
+## tested with Python 3.8.17
+pandas==1.4.3
 osmnx==1.2.0
 shapely==1.8.2
 tqdm==4.66.1
 yellowbrick==1.5
 smartprint==1.0.5
 basemap==1.4.0
+shap==0.44.0
 # taxicab
 jupyterlab
 geopy==2.2.0
