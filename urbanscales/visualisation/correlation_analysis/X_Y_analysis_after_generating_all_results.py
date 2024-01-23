@@ -1,7 +1,12 @@
+import csv
 import os
 import sys
 
 import shap
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
+
+import config
 
 sys.path.append("../../../")
 import pickle
@@ -166,6 +171,7 @@ def KDE_plots(X, y, identifier):
 
         # Create the KDE plot
         sns.kdeplot(data=plot_data, x=feature_name, y='target')
+        plt.scatter(X[feature_name], y, s=3, color="tab:orange", alpha=0.5)
         plt.title(f'KDE of {feature_name} and target variable')
         plt.xlabel(feature_name)
         plt.ylabel('Jam factor')
@@ -316,6 +322,17 @@ def plot_PDPs(X, y, identifier):
             continue
 
         plt.plot(grid_values, pdp_avg, label=f'RF: PDP for {X.columns[feature]}')
+
+        if not os.path.exists("plotted_stuff_" + config.network_folder + ".csv"):
+            with open("plotted_stuff_" + config.network_folder + ".csv", "w") as f:
+                csvwriter = csv.writer(f)
+                csvwriter.writerow(["identifier", "city", "scale", "tod", "feature", "XY"] + ["val_" + str(x) for x in range(len(grid_values.tolist()))] )
+        with open("plotted_stuff_" + config.network_folder + ".csv", "a") as f:
+            csvwriter = csv.writer(f)
+            city, scale, tod = identifier.split("_")[0], identifier.split("_")[2], identifier.split("_")[4]
+            csvwriter.writerow([identifier, city, scale, tod, X.columns[feature], "X"] + grid_values.tolist())
+            csvwriter.writerow([identifier, city, scale, tod, X.columns[feature], "Y"] + pdp_avg.tolist())
+
         # plt.plot(grid_values, pdp_avg, label=f'RF: PDP for {X.columns[feature]}', color='tab:orange')
         pdp_lr = partial_dependence(lr_model, X, features=[feature], grid_resolution=20)
         # plt.plot(pdp_lr['grid_values'][0], pdp_lr.average[0], label=f'LR: PDP for {X.columns[feature]}',
@@ -335,23 +352,210 @@ def plot_PDPs(X, y, identifier):
     plt.show(block=False)
 
 
+from sklearn.model_selection import GridSearchCV, KFold
+from sklearn.inspection import partial_dependence
+from sklearn.ensemble import RandomForestRegressor
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
+import csv
+
+def plot_PDPs_with_KDE(X, y, identifier):
+    """
+    param_grid = {'n_estimators': [50]}  # Example parameter grid # [25, 50, 100]
+    grid_search = GridSearchCV(RandomForestRegressor(random_state=42), param_grid, cv=7)
+    grid_search.fit(X, y)
+    best_model = grid_search.best_estimator_
+
+    param_grid_GBM = {'n_estimators': [50]}  # Example parameter grid # [25, 50, 100]
+    grid_search_GBM = GridSearchCV(GradientBoostingRegressor(random_state=42), param_grid_GBM, cv=7)
+    grid_search_GBM.fit(X, y)
+    best_model_GBM = grid_search_GBM.best_estimator_
+    """
+
+    # RandomForestRegressor pipeline
+    pipeline_RF = Pipeline([
+        ('scaler', StandardScaler()),  # or StandardScaler()
+        ('regressor', RandomForestRegressor(random_state=42))
+    ])
+
+    # Grid search with pipeline
+    param_grid_RF = {'regressor__n_estimators': [50, 100, 200]}
+    grid_search_RF = GridSearchCV(pipeline_RF, param_grid_RF, cv=7)
+    grid_search_RF.fit(X, y)
+    best_model_RF = grid_search_RF.best_estimator_
+
+    # GradientBoostingRegressor pipeline
+    pipeline_GBM = Pipeline([
+        ('scaler', StandardScaler()),  # or StandardScaler() # MinMaxScaler
+        ('regressor', GradientBoostingRegressor(random_state=42))
+    ])
+
+    # Grid search with pipeline
+    param_grid_GBM = {'regressor__n_estimators': [50, 100, 200]}
+    grid_search_GBM = GridSearchCV(pipeline_GBM, param_grid_GBM, cv=7)
+    grid_search_GBM.fit(X, y)
+    best_model_GBM = grid_search_GBM.best_estimator_
+
+    # Iterate over features to plot PDP and KDE
+    for feature in range(X.shape[1]):
+        # Compute PDP for the trained model
+        pdp_result = partial_dependence(best_model_RF, X, features=[feature], grid_resolution=20)
+        grid_values = pdp_result['grid_values'][0]
+        pdp_avg = pdp_result.average[0]
+
+        plt.figure()
+        plt.plot(grid_values, pdp_avg, label=f'RF: PDP for {X.columns[feature]}', color="tab:red")
+
+        pdp_result = partial_dependence(best_model_GBM, X, features=[feature], grid_resolution=20)
+        grid_values = pdp_result['grid_values'][0]
+        pdp_avg = pdp_result.average[0]
+
+        # plt.figure()
+        plt.plot(grid_values, pdp_avg, label=f'GBM: PDP for {X.columns[feature]}', color="tab:purple")
+
+        if not os.path.exists("plotted_stuff_" + config.network_folder + ".csv"):
+            with open("plotted_stuff_" + config.network_folder + ".csv", "w") as f:
+                csvwriter = csv.writer(f)
+                csvwriter.writerow(["identifier", "city", "scale", "tod", "feature", "XY"] + ["val_" + str(x) for x in range(len(grid_values.tolist()))] )
+        with open("plotted_stuff_" + config.network_folder + ".csv", "a") as f:
+            csvwriter = csv.writer(f)
+            city, scale, tod = identifier.split("_")[0], identifier.split("_")[2], identifier.split("_")[4]
+            csvwriter.writerow([identifier, city, scale, tod, X.columns[feature], "X"] + grid_values.tolist())
+            csvwriter.writerow([identifier, city, scale, tod, X.columns[feature], "Y"] + pdp_avg.tolist())
+
+
+        plt.title(identifier)
+
+        plt.xlabel(X.columns[feature])
+        plt.ylabel('Jam Factor')
+
+
+
+        plt.legend()
+        plot_data = X.copy()
+        plot_data['target'] = y
+
+        # Create the KDE plot
+        sns.kdeplot(data=plot_data, x=X.columns[feature], y='target', alpha=0.6)
+        plt.scatter(X[X.columns[feature]], y, s=4, color="tab:green", alpha=0.5)
+        plt.tight_layout()
+        plt.savefig(f"SHAP_plots/PDP_{identifier}_{X.columns[feature]}.png")
+        # plt.savefig(f"SHAP_plots/PDP_{identifier}.png")
+        plt.show(block=False)
+
+
+
+def plot_SHAPs_with_KDE(X, y, identifier):
+    """
+    param_grid = {'n_estimators': [50]}  # Example parameter grid # [25, 50, 100]
+    grid_search = GridSearchCV(RandomForestRegressor(random_state=42), param_grid, cv=7)
+    grid_search.fit(X, y)
+    best_model = grid_search.best_estimator_
+
+    param_grid_GBM = {'n_estimators': [50]}  # Example parameter grid # [25, 50, 100]
+    grid_search_GBM = GridSearchCV(GradientBoostingRegressor(random_state=42), param_grid_GBM, cv=7)
+    grid_search_GBM.fit(X, y)
+    best_model_GBM = grid_search_GBM.best_estimator_
+    """
+
+    # RandomForestRegressor pipeline
+    pipeline_RF = Pipeline([
+        ('scaler', MinMaxScaler()),  # or StandardScaler()
+        ('regressor', RandomForestRegressor(random_state=42))
+    ])
+
+    # Grid search with pipeline
+    param_grid_RF = {'regressor__n_estimators': [50, 100, 200]}
+    grid_search_RF = GridSearchCV(pipeline_RF, param_grid_RF, cv=7)
+    grid_search_RF.fit(X, y)
+    best_model_RF = grid_search_RF.best_estimator_
+
+    # GradientBoostingRegressor pipeline
+    pipeline_GBM = Pipeline([
+        ('scaler', MinMaxScaler()),  # or StandardScaler()
+        ('regressor', GradientBoostingRegressor(random_state=42))
+    ])
+
+    # Grid search with pipeline
+    param_grid_GBM = {'regressor__n_estimators': [50, 100, 200]}
+    grid_search_GBM = GridSearchCV(pipeline_GBM, param_grid_GBM, cv=7)
+    grid_search_GBM.fit(X, y)
+    best_model_GBM = grid_search_GBM.best_estimator_
+
+    # Iterate over features to plot PDP and KDE
+    for feature in range(X.shape[1]):
+        # Compute PDP for the trained model
+        pdp_result = partial_dependence(best_model_RF, X, features=[feature], grid_resolution=20)
+        grid_values = pdp_result['grid_values'][0]
+        pdp_avg = pdp_result.average[0]
+
+        plt.figure()
+        plt.plot(grid_values, pdp_avg, label=f'RF: PDP for {X.columns[feature]}', color="tab:red")
+
+        pdp_result = partial_dependence(best_model_GBM, X, features=[feature], grid_resolution=20)
+        grid_values = pdp_result['grid_values'][0]
+        pdp_avg = pdp_result.average[0]
+
+        # plt.figure()
+        plt.plot(grid_values, pdp_avg, label=f'GBM: PDP for {X.columns[feature]}', color="tab:purple")
+
+        if not os.path.exists("plotted_stuff_" + config.network_folder + ".csv"):
+            with open("plotted_stuff_" + config.network_folder + ".csv", "w") as f:
+                csvwriter = csv.writer(f)
+                csvwriter.writerow(["identifier", "city", "scale", "tod", "feature", "XY"] + ["val_" + str(x) for x in range(len(grid_values.tolist()))] )
+        with open("plotted_stuff_" + config.network_folder + ".csv", "a") as f:
+            csvwriter = csv.writer(f)
+            city, scale, tod = identifier.split("_")[0], identifier.split("_")[2], identifier.split("_")[4]
+            csvwriter.writerow([identifier, city, scale, tod, X.columns[feature], "X"] + grid_values.tolist())
+            csvwriter.writerow([identifier, city, scale, tod, X.columns[feature], "Y"] + pdp_avg.tolist())
+
+
+        plt.title(identifier)
+
+        plt.xlabel(X.columns[feature])
+        plt.ylabel('Jam Factor')
+
+
+
+        plt.legend()
+        plot_data = X.copy()
+        plot_data['target'] = y
+
+        # Create the KDE plot
+        sns.kdeplot(data=plot_data, x=X.columns[feature], y='target', alpha=0.6)
+        plt.scatter(X[X.columns[feature]], y, s=4, color="tab:green", alpha=0.5)
+        plt.tight_layout()
+        plt.savefig(f"SHAP_plots/PDP_{identifier}_{X.columns[feature]}.png")
+        # plt.savefig(f"SHAP_plots/PDP_{identifier}.png")
+        plt.show(block=False)
+
+
+
 def plot_SHAP_PDP(X, y, identifier):
     # Split the dataset into training and test sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    #
+    # # Train the Random Forest model
+    # model = RandomForestRegressor(n_estimators=50, random_state=42)
+    # model.fit(X_train, y_train)
+    #
+    # # Create the SHAP explainer and calculate SHAP values for the test set
+    # explainer = shap.TreeExplainer(model)
+    # shap_values = explainer.shap_values(X_test)
 
-    # Train the Random Forest model
-    model = RandomForestRegressor(n_estimators=50, random_state=42)
-    model.fit(X_train, y_train)
-
-    # Create the SHAP explainer and calculate SHAP values for the test set
-    explainer = shap.TreeExplainer(model)
-    shap_values = explainer.shap_values(X_test)
+    param_grid = {'n_estimators': [50, 100, 200]}  # Example parameter grid # [25, 50, 100]
+    grid_search = GridSearchCV(RandomForestRegressor(random_state=42), param_grid, cv=7)
+    grid_search.fit(X, y)
+    best_model = grid_search.best_estimator_
+    explainer = shap.TreeExplainer(best_model)
+    shap_values = explainer.shap_values(X)
 
     # Plot SHAP values for each feature across all data points
     for feature in range(X.shape[1]):
         # Create a new figure for each plot
         plt.figure()
-        shap.dependence_plot(ind=feature, shap_values=shap_values, features=X_test, show=False)
+        shap.dependence_plot(ind=feature, shap_values=shap_values, features=X, show=False)
 
         # Save the plot before showing it
         filename = f"SHAP_plots/SHAP_PDP_{identifier}_{X.columns[feature]}.png"
@@ -363,6 +567,31 @@ def plot_SHAP_PDP(X, y, identifier):
         # Clear the current figure after saving and showing
         plt.clf()
 
+    """
+    lr_model = LinearRegression()
+    lr_model.fit(X, y)
+    best_model = lr_model
+    explainer = shap.LinearExplainer(best_model, X)
+
+    # explainer = shap.LinearExplainer(best_model)
+    shap_values = explainer.shap_values(X)
+
+    # Plot SHAP values for each feature across all data points
+    for feature in range(X.shape[1]):
+        # Create a new figure for each plot
+        plt.figure()
+        shap.dependence_plot(ind=feature, shap_values=shap_values, features=X, show=False)
+
+        # Save the plot before showing it
+        filename = f"SHAP_plots/_LR_SHAP_PDP_{identifier}_{X.columns[feature]}.png"
+        plt.savefig(filename, bbox_inches='tight')
+
+        # Show the plot
+        plt.show(block=False)
+
+        # Clear the current figure after saving and showing
+        plt.clf()
+    """
 
 # Example usage with your data
 
@@ -376,6 +605,8 @@ from scipy.cluster.hierarchy import dendrogram, linkage
 
 if __name__ == "__main__":
     os.system("rm Mean_area_of_tiles.txt")
+    os.system("rm plotted_stuff_" + config.network_folder + ".csv")
+
     list_of_cities = "Singapore|Zurich|Mumbai|Auckland|Istanbul|MexicoCity|Bogota|NewYorkCity|Capetown|London".split("|")
     list_of_cities_list_of_list = [
                                     # list_of_cities[:2],
@@ -409,7 +640,7 @@ if __name__ == "__main__":
         'total_crossings'
     ]
 
-    scale_list = [25, 50, 100] # 25, 50, 100]
+    scale_list = [25, 50, 100] # [25, 50, 100] # 25, 50, 100]
 
     results = {}
 
@@ -449,46 +680,48 @@ if __name__ == "__main__":
                 except FileNotFoundError:
                     print("Error in fname:", fname)
 
-            assert len(combined_X_for_city) == 1 # since now we are only using a single tod; no TOD combination implies
-                                                 # only a single value will be present
+                assert len(combined_X_for_city) == 1 # since now we are only using a single tod; no TOD combination implies
+                                                     # only a single value will be present
 
 
-            debug_pitstop = True
+                debug_pitstop = True
 
 
 
 
-            X = temp_obj.X #[common_features]
-            X = X.drop(columns=[col for col in X if col not in common_features])
+                X = temp_obj.X #[common_features]
+                X = X.drop(columns=[col for col in X if col not in common_features])
 
-            Y = temp_obj.Y
+                Y = temp_obj.Y
 
-            areas = {
-                'betweenness': 1,
-                'circuity_avg': 1,
-                'global_betweenness': 1 ,# /( (scale/50)**2 ),
-                'k_avg': 1,
-                'lane_density': 1,
-                'm': 1/( (scale/50)**2 ),
-                'n': 1/( (scale/50)**2 ),
-                'metered_count': 1/( (scale/50)**2 ),
-                'non_metered_count': 1/( (scale/50)**2 ),
-                'street_length_total': 1, # 1/( (scale/50)**2 ),
-                # 'streets_per_node_count_5': 1/( (scale/50)**2 ),
-                'total_crossings':  1/( (scale/50)**2 ),
+                areas = {
+                    'betweenness': 1,
+                    'circuity_avg': 1,
+                    'global_betweenness': 1 ,# /( (scale/50)**2 ),
+                    'k_avg': 1,
+                    'lane_density': 1,
+                    'm': 1/( (scale/50)**2 ),
+                    'n': 1/( (scale/50)**2 ),
+                    'metered_count': 1/( (scale/50)**2 ),
+                    'non_metered_count': 1/( (scale/50)**2 ),
+                    'street_length_total': 1, # 1/( (scale/50)**2 ),
+                    # 'streets_per_node_count_5': 1/( (scale/50)**2 ),
+                    'total_crossings':  1/( (scale/50)**2 ),
 
-            }
+                }
 
-            for column in X.columns:
-                X[column] = X[column] / areas[column]
+                for column in X.columns:
+                    X[column] = X[column] / areas[column]
 
-            # sprint(city, scale, tod, X.shape, Y.shape)
+                # sprint(city, scale, tod, X.shape, Y.shape)
 
-            debug_pitstop = True
+                debug_pitstop = True
 
-            # plot_SHAP_PDP(X, Y, identifier=city + "_scl_" + str(scale) + "_tod_" + str(tod))
-            plot_PDPs(X, Y, identifier=city + "_scl_" + str(scale) + "_tod_" + str(tod))
-            # compare_models(X, Y, identifier=city + "_scl_" + str(scale) + "_tod_" + str(tod))
-            # KDE_plots(X, Y, identifier=city + "_scl_" + str(scale) + "_tod_" + str(tod))
-            print ("\n\n")
-            # a = 1/0
+                plot_SHAP_PDP(X, Y, identifier=city + "_scl_" + str(scale) + "_tod_" + str(tod))
+                plot_PDPs_with_KDE(X, Y, identifier=city + "_scl_" + str(scale) + "_tod_" + str(tod))
+                # compare_models(X, Y, identifier=city + "_scl_" + str(scale) + "_tod_" + str(tod))
+                # KDE_plots(X, Y, identifier=city + "_scl_" + str(scale) + "_tod_" + str(tod))
+
+
+                print ("\n\n")
+                # a = 1/0

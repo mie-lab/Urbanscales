@@ -44,7 +44,7 @@ class SquareFilter:
         self.S = S
         self.W = W
 
-    def filter_square_from_road_network(self, square_side_in_kms, shift_tiles=0):
+    def filter_square_from_road_network(self, square_side_in_kms, shift_tiles=config.shift_tile_marker):
         # Calculate the original center of the bounding box
         center = Point((self.N + self.S) / 2, (self.E + self.W) / 2)
 
