@@ -2,6 +2,7 @@ import os
 import sys
 
 import config
+from urbanscales.io.speed_data import SpeedData
 
 sys.path.append("../../../")
 import pickle
@@ -187,7 +188,8 @@ if __name__ == "__main__":
         'total_crossings'
     ]
 
-    scale_list = config.scl_list_of_seeds
+    # scale_list = config.scl_list_of_seeds
+    scale_list = [ 12 ]
 
     results = {}
 
@@ -208,6 +210,8 @@ if __name__ == "__main__":
 
                         # We need to do this only for one tod; since the graph does not change across all tod's
                         if counter == 0:
+                            # sd = SpeedData("London", config.sd_raw_speed_data_gran, config.sd_target_speed_data_gran)
+                            # sd.segment_jf_map
                             plot_bboxes_for_debugging(temp_obj, identifier=f"_{city}_scale_{scale}_train_data_{tod}_")
 
                 except FileNotFoundError:

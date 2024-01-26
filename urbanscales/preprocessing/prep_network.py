@@ -60,6 +60,7 @@ class Scale:
                 print("Scale pickle loading time: ", time.time() - ss)
         else:
             self.RoadNetwork = RoadNetwork
+            self.__class__.global_G_OSM = self.RoadNetwork.G_osm
             self.scale = scale
             self.tile_area = (config.rn_square_from_city_centre**2) / (scale**2)
 
@@ -115,8 +116,26 @@ class Scale:
             filecounter = threading.Thread(target=self.keep_counting)
             filecounter.start()
 
-            with Pool(config.scl_n_jobs_parallel) as p:
-                list_of_tuples = p.map(self._helper_create_dict_in_parallel, list(self.list_of_bbox))
+            # if config.rn_truncate_method == "GPD_CUSTOM":
+            #     batch_size = config.scl_n_jobs_parallel
+            #     list_of_tuples = []
+            #     for i in range(1500, len(self.list_of_bbox), batch_size):
+            #         templist = []
+            #         for j in range(i, i+batch_size):
+            #             extras = [self.RoadNetwork.G_osm, self.RoadNetwork.G_OSM_nodes, self.RoadNetwork.G_OSM_edges]
+            #             templist.append(list(self.list_of_bbox[j]) + extras)
+            #         print ("templist created:", templist)
+            #         print ("sending out the batches to the helper function for parallel processing")
+            #         with Pool(config.scl_n_jobs_parallel) as p:
+            #             batch_output = p.map(self._helper_create_dict_in_parallel, templist)
+            #         print (batch_output)
+
+            if config.rn_truncate_method in ["GPD_DEFAULT", "OSMNX_RETAIN_EDGE", "GPD_CUSTOM"]:
+                with Pool(config.scl_n_jobs_parallel) as p:
+                    list_of_tuples = p.map(self._helper_create_dict_in_parallel, list(self.list_of_bbox))
+            else:
+                raise Exception ("Unknown config.rn_truncate_method in prep_network.py")
+
             self.keep_countin_state = False
             stop_background_thread.clear()
 
@@ -125,9 +144,9 @@ class Scale:
             list_of_tuples = []
             for i in tqdm(
                 range(len(inputs)),
-                desc="Single threaded performance " + self.scale.RoadNetwork.city_name + self.scale.scale,
+                desc="Single threaded performance " + self.RoadNetwork.city_name + str(self.scale),
             ):  # input_ in inputs:
-                input_, _ = self.list_of_bbox[i]
+                input_ = self.list_of_bbox[i]
                 k, v = self._helper_create_dict_in_parallel(input_)
                 list_of_tuples.append((k, v))
         else:
@@ -260,104 +279,146 @@ class Scale:
     def _helper_create_dict_in_parallel(self, key):
         if config.scl_temp_file_counter:
             self.create_file_marker()
-        N, S, E, W, total = key
 
-        from shapely.geometry import box as bboxShapely
-        def do_not_overlap(N, S, E, W, N_JF_data, S_JF_data, E_JF_data, W_JF_data):
-            bbox1 = bboxShapely(W, S, E, N)
-            bbox2 = bboxShapely(W_JF_data, S_JF_data, E_JF_data, N_JF_data)
-            return not bbox1.intersects(bbox2)
+        if config.rn_truncate_method in ["OSMNX_RETAIN_EDGE", "GPD_DEFAULT" ]:
+            N, S, E, W, total = key
 
-        def debug_by_plotting_bboxes(color, small_G=None):
-            fig, ax = ox.plot.plot_graph(
-                self.RoadNetwork.G_osm,
-                ax=None,
-                figsize=(10, 10),
-                bgcolor="white",
-                node_color="red",
-                node_size=5,
-                node_alpha=None,
-                node_edgecolor="none",
-                node_zorder=1,
-                edge_color="black",
-                edge_linewidth=0.1,
-                edge_alpha=None,
-                show=False,
-                close=False,
-                save=False,
-                bbox=None,
-            )
-            # if color == "green":
-            #     ox.plot.plot_graph(
-            #     small_G,
-            #     ax=ax,
-            #     bgcolor="white",
-            #     node_color="green",
-            #     node_size=10,
-            #     node_alpha=None,
-            #     node_edgecolor="none",
-            #     node_zorder=1,
-            #     edge_color="black",
-            #     edge_linewidth=0.1,
-            #     edge_alpha=None,
-            #     show=False,
-            #     close=False,
-            #     save=False,
-            #     bbox=None,
-            # )
-            rect = plt.Rectangle((W, S), E - W, N - S, facecolor=color, alpha=0.3, edgecolor=None)
-            ax.add_patch(rect)
-            plt.savefig(
-                os.path.join(config.BASE_FOLDER, config.results_folder, "empty_tiles", self.RoadNetwork.city_name)
-                + str(self.scale)
-                + color
-                + str(int(np.random.rand() * 100000000))
-                + ".png"
-            )
-            # plt.show(block=False)
+            from shapely.geometry import box as bboxShapely
+            def do_not_overlap(N, S, E, W, N_JF_data, S_JF_data, E_JF_data, W_JF_data):
+                bbox1 = bboxShapely(W, S, E, N)
+                bbox2 = bboxShapely(W_JF_data, S_JF_data, E_JF_data, N_JF_data)
+                return not bbox1.intersects(bbox2)
 
-
-        # the format is as shown below: (copied from config file)
-        # rn_city_wise_bboxes = {
-        #     "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
-
-        N_JF_data,  E_JF_data, S_JF_data, W_JF_data = config.rn_city_wise_bboxes[self.RoadNetwork.city_name]
-        if do_not_overlap(N, S, E, W, N_JF_data, S_JF_data, E_JF_data, W_JF_data) :
-            print ("Subgraph removed as empty, since no overlap found")
-            return (key, config.rn_no_stats_marker) # no need to process these graphs if we don't have their speed data
-        else:
-            try:
-                truncated_graph = smart_truncate(
-                    self.RoadNetwork.G_osm, self.RoadNetwork.G_OSM_nodes, self.RoadNetwork.G_OSM_edges, N, S, E, W
+            def debug_by_plotting_bboxes(color, small_G=None):
+                fig, ax = ox.plot.plot_graph(
+                    self.RoadNetwork.G_osm,
+                    ax=None,
+                    figsize=(10, 10),
+                    bgcolor="white",
+                    node_color="red",
+                    node_size=5,
+                    node_alpha=None,
+                    node_edgecolor="none",
+                    node_zorder=1,
+                    edge_color="black",
+                    edge_linewidth=0.1,
+                    edge_alpha=None,
+                    show=False,
+                    close=False,
+                    save=False,
+                    bbox=None,
                 )
-                if not isinstance(truncated_graph, networkx.MultiDiGraph):
-                    if truncated_graph == config.rn_no_stats_marker:
-                        raise ValueError
-                    else:
-                        raise Exception("Unknown Error; Not Null passed")
+                # if color == "green":
+                #     ox.plot.plot_graph(
+                #     small_G,
+                #     ax=ax,
+                #     bgcolor="white",
+                #     node_color="green",
+                #     node_size=10,
+                #     node_alpha=None,
+                #     node_edgecolor="none",
+                #     node_zorder=1,
+                #     edge_color="black",
+                #     edge_linewidth=0.1,
+                #     edge_alpha=None,
+                #     show=False,
+                #     close=False,
+                #     save=False,
+                #     bbox=None,
+                # )
+                rect = plt.Rectangle((W, S), E - W, N - S, facecolor=color, alpha=0.3, edgecolor=None)
+                ax.add_patch(rect)
+                plt.savefig(
+                    os.path.join(config.BASE_FOLDER, config.results_folder, "empty_tiles", self.RoadNetwork.city_name)
+                    + str(self.scale)
+                    + color
+                    + str(int(np.random.rand() * 100000000))
+                    + ".png"
+                )
+                # plt.show(block=False)
 
-                tile = Tile(truncated_graph, self.tile_area)
-                # if config.verbose >= 2:
-                #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
-                #         csvwriter = csv.writer(f)
-                #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
-                if config.DEBUG:
-                    debug_by_plotting_bboxes("green", tile.G)
-            except ValueError:  #
-                # if config.verbose >= 1:
-                #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
-                #         csvwriter = csv.writer(f)
-                #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
-                if config.DEBUG:
-                    debug_by_plotting_bboxes("red")
+
+            # the format is as shown below: (copied from config file)
+            # rn_city_wise_bboxes = {
+            #     "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
+
+            N_JF_data,  E_JF_data, S_JF_data, W_JF_data = config.rn_city_wise_bboxes[self.RoadNetwork.city_name]
+            if do_not_overlap(N, S, E, W, N_JF_data, S_JF_data, E_JF_data, W_JF_data) :
+                print ("Subgraph removed as empty, since no overlap found")
+                return (key, config.rn_no_stats_marker) # no need to process these graphs if we don't have their speed data
+            else:
+                try:
+                    if config.rn_truncate_method == "GPD_DEFAULT":
+                        truncated_graph = smart_truncate(
+                            self.RoadNetwork.G_osm, self.RoadNetwork.G_OSM_nodes, self.RoadNetwork.G_OSM_edges, N, S, E, W
+                        )
+                    elif config.rn_truncate_method == "OSMNX_RETAIN_EDGE":
+                        # truncated_graph = ox.truncate.truncate_graph_bbox(self.RoadNetwork.G_osm, N,S,E,W, truncate_by_edge=True)
+                        truncated_graph = ox.truncate.truncate_graph_bbox(self.__class__.global_G_OSM, N,S,E,W, truncate_by_edge=True)
+                    else:
+                        raise Exception ("Wrong Truncation method passed!")
+
+                    if not isinstance(truncated_graph, networkx.MultiDiGraph):
+                        if truncated_graph == config.rn_no_stats_marker:
+                            raise ValueError
+                        else:
+                            raise Exception("Unknown Error; Not Null passed")
+
+                    tile = Tile(truncated_graph, self.tile_area)
+                    # if config.verbose >= 2:
+                    #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
+                    #         csvwriter = csv.writer(f)
+                    #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
+                    if config.DEBUG:
+                        debug_by_plotting_bboxes("green", tile.G)
+                except ValueError:  #
+                    # if config.verbose >= 1:
+                    #     with open(os.path.join(config.warnings_folder, "empty_graph_tiles.txt"), "a") as f:
+                    #         csvwriter = csv.writer(f)
+                    #         csvwriter.writerow(["ValueError at i: " + str(i) + " " + self.RoadNetwork.city_name])
+                    if config.DEBUG:
+                        debug_by_plotting_bboxes("red")
+                    return (key, config.rn_no_stats_marker)
+                except nx.exception.NetworkXPointlessConcept:
+                    if config.DEBUG:
+                        debug_by_plotting_bboxes("blue")
+                    return (key, config.rn_no_stats_marker)
+                return (key, tile)
+
+        elif config.rn_truncate_method == ["GPD_CUSTOM"]:
+            # assert config.scl_n_jobs_parallel == 1
+            def retain_subg(bbox):
+                north, south, east, west = bbox
+                # nodes_in_bbox = gdf_nodes.cx[west:east, south:north]
+                # edges_in_bbox = gdf_edges[gdf_edges.index.map(lambda x: x[0] in nodes_in_bbox.index or x[1] in nodes_in_bbox.index)]
+                # edge_node_ids = set(edges_in_bbox.index.get_level_values(0)) | set(
+                #     edges_in_bbox.index.get_level_values(1))
+                # G_sub = G_osm_.edge_subgraph(edge_node_ids).copy()
+
+                nodes_in_bbox = self.RoadNetwork.G_OSM_nodes.cx[west:east, south:north]
+                edges_in_bbox = self.RoadNetwork.G_OSM_edges[self.RoadNetwork.G_OSM_edges.index.map(lambda x: x[0] in nodes_in_bbox.index or x[1] in nodes_in_bbox.index)]
+                edge_node_ids = set(edges_in_bbox.index.get_level_values(0)) | set(
+                    edges_in_bbox.index.get_level_values(1))
+                G_sub = self.RoadNetwork.G_osm.edge_subgraph(edge_node_ids).copy()
+
+                return G_sub
+
+            # N, S, E, W, total, extras = key
+            # G_osm_, gdf_nodes, gdf_edges = extras
+
+            N, S, E, W, _ = key
+
+            if self.RoadNetwork.G_OSM_nodes.shape[0] == 0:
+                print ("Empty tile; returning empty tile marker")
                 return (key, config.rn_no_stats_marker)
-            except nx.exception.NetworkXPointlessConcept:
-                if config.DEBUG:
-                    debug_by_plotting_bboxes("blue")
-                return (key, config.rn_no_stats_marker)
-            # pass
-            return (key, tile)
-        # pass
+            try:
+                tile = Tile(retain_subg(bbox=(N, S, E, W)), self.tile_area)
+            except:
+                print ("Error in tile computation")
+                tile = config.rn_no_stats_marker
+
+            return key, tile
+
 
     @staticmethod
     def generate_scales_for_all_cities():

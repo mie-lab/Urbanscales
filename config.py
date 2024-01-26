@@ -156,6 +156,8 @@ if rn_do_not_filter:
 
 rn_plotting_enabled = False
 rn_plotting_for_truncated_graphs = False
+rn_truncate_method = "GPD_CUSTOM"
+assert rn_truncate_method in ["GPD_DEFAULT", "OSMNX_RETAIN_EDGE", "GPD_CUSTOM"]
 rn_prefix_geojson_files = "gdam_410_"
 rn_postfix_geojson_files = ".geojson"
 rn_post_fix_road_network_object_file = "_road_network_object_square.pkl"
@@ -185,6 +187,10 @@ if BASE_FOLDER == BASE_FOLDER_server:
 else:
     scl_n_jobs_parallel = 5
 scl_temp_file_counter = True
+
+# if rn_truncate_method == "GDF_CUSTOM":
+#     assert scl_n_jobs_parallel == 1
+
 scl_master_list_of_cities = rn_master_list_of_cities
 scl_list_of_depths = [1]
 # scl_list_of_seeds = [
@@ -201,7 +207,7 @@ scl_list_of_depths = [1]
 
 # test_small
 if RUNNING_ON_LOCAL:
-    scl_list_of_seeds = [12, 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+    scl_list_of_seeds = [50] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 elif RUNNING_ON_SERVER:
     scl_list_of_seeds = [25, 50, 100] # , 70, 90] # list(range(50, 121, 20)) # list(range(10, 121, 40))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 # forward
@@ -210,13 +216,14 @@ elif RUNNING_ON_SERVER:
 # backward
 # scl_list_of_seeds = list(range(345, 120, -10))
 
-
 scl_error_percentage_tolerance = 1
-
 
 ####################################
 ######## Tile Class configs ########
 ####################################
+tls_garbage_Test_Speed = False   # tls_garbage_Test_Speed set to True for debugging, otherwise MUST BE FALSE;
+                                 # if set to True, will return all zeros; Zeros are used to ensure that a
+                                 # wrongly set config is easy to spot
 tls_betweenness_features = True
 tls_number_of_lanes = True
 tls_add_edge_speed_and_tt = False
@@ -237,10 +244,12 @@ sd_seg_file_path_within_city = "segments.csv"
 sd_jf_file_path_within_city = "jf.csv"
 sd_raw_speed_data_gran = 10
 sd_target_speed_data_gran = 60
-sd_temporal_combination_method = "max"
+sd_temporal_combination_method = "mean"
 assert sd_temporal_combination_method in ["mean", "max"]
 sd_start_datetime_str = "2022-09-01T00:00:01"
 sd_end_datetime_str = "2022-09-30T23:59:59"
+sd_total_number_of_days = 30 # additional config item for sanity check
+sd_total_number_of_data_points_for_each_segment = 30 * 24 * (60/sd_raw_speed_data_gran)
 
 
 ####################################
@@ -249,9 +258,9 @@ sd_end_datetime_str = "2022-09-30T23:59:59"
 ps_spatial_combination_method = "mean"
 assert ps_spatial_combination_method in ["mean", "max"]
 if RUNNING_ON_LOCAL:
-    ps_tod_list = list(range(0, 24, 1))
-elif RUNNING_ON_SERVER:
     ps_tod_list = list(range(6, 7, 1))
+elif RUNNING_ON_SERVER:
+    ps_tod_list = list(range(0, 24, 1))
 assert isinstance(ps_tod_list, list)
 ps_set_all_speed_zero = False
 
@@ -279,10 +288,10 @@ td_drop_feature_lists = [
 ]
 td_drop_collinear_features = True
 
-shift_tile_marker = 1
-network_folder = "network_tmax_smean_25x25_shifting_" + str(shift_tile_marker)
+shift_tile_marker = 5
+network_folder = "network_tmean_smean_25x25_shifting_" + str(shift_tile_marker)
 warnings_folder = "warnings"
-results_folder = "results_network_tmax_smean_25x25_shifting_" # "results_50x50_max_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi-max-max"
+results_folder = "results_network_tmean_smean_25x25_shifting_" # "results_50x50_max_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi-max-max"
 
 
 # To ensure that we don't overwrite the network folder of max with mean or vice-versa

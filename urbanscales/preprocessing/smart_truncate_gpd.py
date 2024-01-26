@@ -10,8 +10,9 @@ import pandas as pd
 from osmnx import utils_graph
 from shapely.errors import ShapelyDeprecationWarning
 import warnings
-from urbanscales.io.road_network import RoadNetwork
+# from urbanscales.io.road_network import RoadNetwork
 import logging
+
 import networkx
 
 warnings.filterwarnings("ignore", category=ShapelyDeprecationWarning)
@@ -572,22 +573,25 @@ if __name__ == "__main__":
 
         N, S, E, W, _ = NSEW
 
-        # print ("Unoptimised code:", sep="")
-        # graph = smart_truncate(
-        #     graph,
-        #     gs_nodes,
-        #     gs_edges,
-        #     N,
-        #     S,
-        #     E,
-        #     W,
-        #     get_features=False,
-        #     get_subgraph=True,
-        #     scale=25,
-        #     legacy=True,
-        # )
+        starttime = time.time()
+        print ("Unoptimised code:", sep="")
+        graph = smart_truncate(
+            graph,
+            gs_nodes,
+            gs_edges,
+            N,
+            S,
+            E,
+            W,
+            get_features=False,
+            get_subgraph=True,
+            scale=25,
+            legacy=True,
+        )
+        print (round(time.time() - starttime, 2))
         sprint(count)
 
+        starttime = time.time()
         print("     Optimised code: ", sep="")
         graph = smart_truncate(
             graph,
@@ -602,3 +606,4 @@ if __name__ == "__main__":
             scale=25,
             legacy=False,
         )
+        print (round(time.time() - starttime, 2))

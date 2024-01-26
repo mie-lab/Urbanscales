@@ -48,7 +48,7 @@ class SquareFilterShifting:
         # Calculate the original center of the bounding box
         center = Point((self.N + self.S) / 2, (self.E + self.W) / 2)
 
-        assert shift_tiles in [0,1,2,3,4]
+        assert shift_tiles in [0,1,2,3,4,5]
         # Shift the center based on shift_tiles value
         if shift_tiles == 1:
             # Shift north by 2/3 km
@@ -62,6 +62,18 @@ class SquareFilterShifting:
         elif shift_tiles == 4:
             # Shift west by 2/3 km
             new_center = geopy.distance.distance(kilometers=2 / 3).destination(center, bearing=270)
+        elif shift_tiles == 5:
+            # Shift north by 2/3 km
+            new_center = geopy.distance.distance(kilometers=2 / 7).destination(center, bearing=0)
+        elif shift_tiles == 6:
+            # Shift south by 2/3 km
+            new_center = geopy.distance.distance(kilometers=2 / 7).destination(center, bearing=180)
+        elif shift_tiles == 7:
+            # Shift east by 2/3 km
+            new_center = geopy.distance.distance(kilometers=2 / 7).destination(center, bearing=90)
+        elif shift_tiles == 8:
+            # Shift west by 2/3 km
+            new_center = geopy.distance.distance(kilometers=2 / 7).destination(center, bearing=270)
         elif shift_tiles == 0:
             # No shift
             new_center = center

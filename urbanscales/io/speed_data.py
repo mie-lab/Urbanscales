@@ -16,7 +16,7 @@ from shapely import geometry
 import pandas as pd
 import copy
 from tqdm import tqdm
-
+import matplotlib.pyplot as plt
 from smartprint import smartprint as sprint
 import shutil
 
@@ -140,6 +140,7 @@ class SpeedData:
                 .tolist()
             )
 
+
             jf_list = self._aggregation(jf_list, self.time_gran_minutes_target // self.time_gran_minutes_raw)
             if self.num_timesteps_in_data == 0:
                 self.num_timesteps_in_data = len(jf_list)
@@ -151,6 +152,14 @@ class SpeedData:
             self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy(jf_list)
 
         fname = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, "_speed_data_object.pkl")
+
+        avg_ = []
+        for i in range(len(jf_list)//(1440//config.sd_target_speed_data_gran)):
+            avg_.append(jf_list[i * 24:(i + 1) * 24])
+        avg_ = np.array(avg_)
+        plt.plot(np.mean(avg_, axis=0))
+        plt.title(self.city_name)
+        plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, "_speed_plot_raw_data_aggregated.png"))
 
         # make the folder if it dfoes not exist
         if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name)):

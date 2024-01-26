@@ -544,11 +544,32 @@ def plot_SHAP_PDP(X, y, identifier):
     # explainer = shap.TreeExplainer(model)
     # shap_values = explainer.shap_values(X_test)
 
-    param_grid = {'n_estimators': [50, 100, 200]}  # Example parameter grid # [25, 50, 100]
-    grid_search = GridSearchCV(RandomForestRegressor(random_state=42), param_grid, cv=7)
-    grid_search.fit(X, y)
-    best_model = grid_search.best_estimator_
-    explainer = shap.TreeExplainer(best_model)
+    # param_grid = {'n_estimators': [100]}  # Example parameter grid # [25, 50, 100]
+    # grid_search = GridSearchCV(GradientBoostingRegressor(random_state=42), param_grid, cv=7)
+    # grid_search.fit(X, y)
+
+    pipeline_GBM = Pipeline([
+        # ('scaler', MinMaxScaler()),  # or StandardScaler()
+        ('regressor', GradientBoostingRegressor(random_state=42))
+    ])
+
+    # Grid search with pipeline
+    param_grid_GBM = {'regressor__n_estimators': [100]} # , 100, 200]}
+    grid_search_GBM = GridSearchCV(pipeline_GBM, param_grid_GBM, cv=7)
+    grid_search_GBM.fit(X, y)
+
+    best_model = grid_search_GBM.best_estimator_
+    tree_model = best_model.named_steps['regressor']
+    explainer = shap.TreeExplainer(tree_model)
+
+    # explainer = shap.TreeExplainer(best_model)
+
+    # lr_model = LinearRegression()
+    # lr_model.fit(X, y)
+    # best_model = lr_model
+    # explainer = shap.LinearExplainer(best_model, X)
+
+
     shap_values = explainer.shap_values(X)
 
     # Plot SHAP values for each feature across all data points
@@ -566,6 +587,27 @@ def plot_SHAP_PDP(X, y, identifier):
 
         # Clear the current figure after saving and showing
         plt.clf()
+
+
+    plt.figure()
+    # Only one beeswarm plot per table, not per feature (column); Those are just repetitions.
+    shap_values_bswarm = explainer(X)
+    shap.plots.beeswarm(shap_values_bswarm, show=False)
+    mean_shap_values = np.mean(shap_values_bswarm.values, axis=0)
+    feature_names = X.columns  # Assuming X is a DataFrame with column names
+
+    for name, value in zip(feature_names, mean_shap_values):
+        print(f"{name}: {value}")
+
+    # Save the plot before showing it
+    filename = f"SHAP_plots/SHAP_Beeswarm_{identifier}.png"
+    plt.savefig(filename, bbox_inches='tight')
+
+    # Show the plot
+    plt.show(block=False)
+
+    # Clear the current figure after saving and showing
+    plt.clf()
 
     """
     lr_model = LinearRegression()
@@ -609,8 +651,8 @@ if __name__ == "__main__":
 
     list_of_cities = "Singapore|Zurich|Mumbai|Auckland|Istanbul|MexicoCity|Bogota|NewYorkCity|Capetown|London".split("|")
     list_of_cities_list_of_list = [
-                                    # list_of_cities[:2],
-                                    # list_of_cities[2:]
+                                    list_of_cities[:2],
+                                    list_of_cities[2:],
                                     [list_of_cities[0]],
                                     [list_of_cities[1]],
                                     [list_of_cities[2]],
@@ -640,88 +682,88 @@ if __name__ == "__main__":
         'total_crossings'
     ]
 
-    scale_list = [25, 50, 100] # [25, 50, 100] # 25, 50, 100]
+    # scale_list = [25, 50, 100] # [25, 50, 100] # 25, 50, 100]
+    scale_list = [12] #, 25, 50][::-1] # [25, 50, 100] # 25, 50, 100]
+    # scale_list = [50][::-1] # [25, 50, 100] # 25, 50, 100]
 
     results = {}
+    for counter_shift in [1, 2, 3, 4]:
+        for scale in scale_list:
+            all_cities_data = []
 
-    for scale in scale_list:
-        all_cities_data = []
+            for city in ["London"]:# list_of_cities:
+                combined_X_for_city = []
 
-        for city in list_of_cities:
-            combined_X_for_city = []
+                for tod in range(6, 7):
+                    # fname = f"/Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/{city}/_scale_{scale}_train_data_{tod}.pkl"
+                    fname = f"/Users/nishant/Documents/GitHub/WCS/network_tmax_smean_25x25_shifting_{counter_shift}/{city}/_scale_{scale}_train_data_{tod}.pkl"
+                    print ("Training data pickle file loaded!")
+                    try:
+                        temp_obj = CustomUnpicklerTrainDataVectors(open(fname, "rb")).load()
 
-            for tod in range(6, 7):
-                fname = f"/Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/{city}/_scale_{scale}_train_data_{tod}.pkl"
-                try:
-                    temp_obj = CustomUnpicklerTrainDataVectors(open(fname, "rb")).load()
+                        if isinstance(temp_obj.X, pd.DataFrame):
+                            try:
+                                filtered_X = temp_obj.X[list(common_features)]
+                                combined_X_for_city.append(filtered_X)
 
-                    if isinstance(temp_obj.X, pd.DataFrame):
-                        try:
-                            filtered_X = temp_obj.X[list(common_features)]
-                            combined_X_for_city.append(filtered_X)
+                            except KeyError as e:
 
-                        except KeyError as e:
+                                filtered_X = temp_obj.X[list (set(common_features) - set(["global_betweenness"]))]
+                                combined_X_for_city.append(filtered_X)
 
-                            filtered_X = temp_obj.X[list (set(common_features) - set(["global_betweenness"]) )]
-                            combined_X_for_city.append(filtered_X)
-
-                            print ("\n\n")
-                            print ("Some features not found:", e)
-                            sprint(city, scale, tod, temp_obj.X.shape, temp_obj.Y.shape)
-                            print ("Proceeding without this feature")
-                            print("\n\n")
-                            debug_pitstop = True
-                            # raise Exception("Exiting execution; feature not found")
-                            # continue
-                            do_nothing = True
-                            # combined_X_for_city.append("Dummy")
-
-
-                except FileNotFoundError:
-                    print("Error in fname:", fname)
-
-                assert len(combined_X_for_city) == 1 # since now we are only using a single tod; no TOD combination implies
-                                                     # only a single value will be present
+                                print ("\n\n")
+                                print ("Some features not found:", e)
+                                sprint(city, scale, tod, temp_obj.X.shape, temp_obj.Y.shape)
+                                print ("Proceeding without this feature")
+                                print("\n\n")
+                                debug_pitstop = True
+                                # raise Exception("Exiting execution; feature not found")
+                                # continue
+                                do_nothing = True
+                                # combined_X_for_city.append("Dummy")
 
 
-                debug_pitstop = True
+                    except FileNotFoundError:
+                        print("Error in fname:", fname)
 
+                    assert len(combined_X_for_city) == 1 # since now we are only using a single tod; no TOD combination implies
+                                                         # only a single value will be present
 
+                    debug_pitstop = True
 
+                    X = temp_obj.X #[common_features]
+                    X = X.drop(columns=[col for col in X if col not in common_features])
 
-                X = temp_obj.X #[common_features]
-                X = X.drop(columns=[col for col in X if col not in common_features])
+                    Y = temp_obj.Y
 
-                Y = temp_obj.Y
+                    areas = {
+                        'betweenness': 1,
+                        'circuity_avg': 1,
+                        'global_betweenness': 1 ,# /( (scale/50)**2 ),
+                        'k_avg': 1,
+                        'lane_density': 1,
+                        'm': 1/( (scale/50)**2 ),
+                        'n': 1/( (scale/50)**2 ),
+                        'metered_count': 1/( (scale/50)**2 ),
+                        'non_metered_count': 1/( (scale/50)**2 ),
+                        'street_length_total': 1, # 1/( (scale/50)**2 ),
+                        # 'streets_per_node_count_5': 1/( (scale/50)**2 ),
+                        'total_crossings':  1/( (scale/50)**2 ),
 
-                areas = {
-                    'betweenness': 1,
-                    'circuity_avg': 1,
-                    'global_betweenness': 1 ,# /( (scale/50)**2 ),
-                    'k_avg': 1,
-                    'lane_density': 1,
-                    'm': 1/( (scale/50)**2 ),
-                    'n': 1/( (scale/50)**2 ),
-                    'metered_count': 1/( (scale/50)**2 ),
-                    'non_metered_count': 1/( (scale/50)**2 ),
-                    'street_length_total': 1, # 1/( (scale/50)**2 ),
-                    # 'streets_per_node_count_5': 1/( (scale/50)**2 ),
-                    'total_crossings':  1/( (scale/50)**2 ),
+                    }
 
-                }
+                    for column in X.columns:
+                        X[column] = X[column] / areas[column]
 
-                for column in X.columns:
-                    X[column] = X[column] / areas[column]
+                    # sprint(city, scale, tod, X.shape, Y.shape)
 
-                # sprint(city, scale, tod, X.shape, Y.shape)
+                    debug_pitstop = True
 
-                debug_pitstop = True
+                    X_normalized = (X - X.min()) / (X.max() - X.min())
+                    plot_SHAP_PDP(X_normalized, Y, identifier= "Counter_shift_" + str(counter_shift) + city + "_scl_" + str(scale) + "_tod_" + str(tod))
+                    # plot_PDPs_with_KDE(X, Y, identifier=city + "_scl_" + str(scale) + "_tod_" + str(tod))
+                    # compare_models(X, Y, identifier=city + "_scl_" + str(scale) + "_tod_" + str(tod))
+                    # KDE_plots(X, Y, identifier=city + "_scl_" + str(scale) + "_tod_" + str(tod))
 
-                plot_SHAP_PDP(X, Y, identifier=city + "_scl_" + str(scale) + "_tod_" + str(tod))
-                plot_PDPs_with_KDE(X, Y, identifier=city + "_scl_" + str(scale) + "_tod_" + str(tod))
-                # compare_models(X, Y, identifier=city + "_scl_" + str(scale) + "_tod_" + str(tod))
-                # KDE_plots(X, Y, identifier=city + "_scl_" + str(scale) + "_tod_" + str(tod))
-
-
-                print ("\n\n")
-                # a = 1/0
+                    print ("\n\n")
+                    # a = 1/0

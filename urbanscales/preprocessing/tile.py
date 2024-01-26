@@ -19,6 +19,21 @@ from slugify import slugify
 
 
 class Tile:
+
+    # static variable FEATURE_NAMES below
+    FEATURE_NAMES = [
+        'n', 'm', 'k_avg', 'edge_length_total', 'edge_length_avg',
+        'streets_per_node_avg', 'street_length_total', 'street_segment_count',
+        'street_length_avg', 'circuity_avg', 'self_loop_proportion',
+        'metered_count', 'non_metered_count', 'total_crossings',
+        'betweenness', 'mean_lanes', 'lane_density'
+    ]
+
+    # Initializing feature names for streets_per_node_counts and streets_per_node_proportions
+    for i in range(1, 7):
+        FEATURE_NAMES.append(f'streets_per_node_count_{i}')
+        FEATURE_NAMES.append(f'streets_per_node_proportion_{i}')
+
     def __init__(self, G: nx.MultiDiGraph, tile_area):
         """
 
@@ -37,20 +52,26 @@ class Tile:
             # because we use some functions of this class for
             # other purposes as well; For example, for empty
             # graphs as well to simply view the list of features
+            if not config.tls_garbage_Test_Speed:
+                self.set_basic_stats_for_tile()
 
-            self.set_basic_stats_for_tile()
+                if config.tls_betweenness_features:
+                    self.set_betweenness_centrality_local()
+                if config.tls_add_edge_speed_and_tt:
+                    self.set_average_edge_speed()
+                if config.tls_number_of_lanes:
+                    self.set_number_of_lanes()
+                if config.tls_add_metered_intersections:
+                    self.set_intersection_count()
 
-            if config.tls_betweenness_features:
-                self.set_betweenness_centrality_local()
-            if config.tls_add_edge_speed_and_tt:
-                self.set_average_edge_speed()
-            if config.tls_number_of_lanes:
-                self.set_number_of_lanes()
-            if config.tls_add_metered_intersections:
-                self.set_intersection_count()
+                self.tile_area = tile_area
+                self.set_lane_density()
 
-            self.tile_area = tile_area
-            self.set_lane_density()
+            else:
+                for feature in self.FEATURE_NAMES:
+                    # eval ("self." + feature + " = 0")
+                    setattr(self, feature, 0)
+                    print ("Garbage Tile values set to 0 throughout for all features")
 
             print ("All values fixed!")
 
@@ -186,18 +207,7 @@ class Tile:
 
         return features
 
-    FEATURE_NAMES = [
-        'n', 'm', 'k_avg', 'edge_length_total', 'edge_length_avg',
-        'streets_per_node_avg', 'street_length_total', 'street_segment_count',
-        'street_length_avg', 'circuity_avg', 'self_loop_proportion',
-        'metered_count', 'non_metered_count', 'total_crossings',
-        'betweenness', 'mean_lanes', 'lane_density'
-    ]
 
-    # Initializing feature names for streets_per_node_counts and streets_per_node_proportions
-    for i in range(1, 7):
-        FEATURE_NAMES.append(f'streets_per_node_count_{i}')
-        FEATURE_NAMES.append(f'streets_per_node_proportion_{i}')
 
     @classmethod
     def get_feature_names(cls):
