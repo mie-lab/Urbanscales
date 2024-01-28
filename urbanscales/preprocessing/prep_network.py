@@ -4,8 +4,11 @@ import os
 import shutil
 import sys
 import threading
+from concurrent.futures import ProcessPoolExecutor
 from multiprocessing import Pool
-
+import shapely.geometry
+from shapely.geometry import box
+import geopandas as gpd
 import networkx
 import numpy as np
 from matplotlib import pyplot as plt
@@ -14,7 +17,8 @@ from matplotlib import pyplot as plt
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 from urbanscales.preprocessing.smart_truncate_gpd import smart_truncate
-
+from concurrent.futures import ProcessPoolExecutor, as_completed
+from tqdm import tqdm
 
 import time
 
@@ -70,6 +74,63 @@ class Scale:
 
             self.set_bbox_sub_G_map()
 
+    def create_subgraphs_from_bboxes_optimised(self, G, bboxes):
+        gdf_nodes, _ = ox.graph_to_gdfs(G)
+
+        bbox_gdf = gpd.GeoDataFrame({'bbox': bboxes},
+                                    geometry=[box(west, south, east, north) for north, south, east, west, _ in bboxes],
+                                    crs=gdf_nodes.crs)
+                                    # After NSEW, the underscore _ (the fifth parameter is total count;
+                                    # not needed for this function)
+
+        joined_nodes = gpd.sjoin(gdf_nodes, bbox_gdf, how='left', predicate='within')
+
+        subgraphs = {}
+        for bbox in tqdm(bbox_gdf['bbox'], desc="Iterating over bboxes"):
+            nodes_in_bbox = joined_nodes[joined_nodes['bbox'] == bbox].index
+
+            # Collect edges by checking neighbors of each node in the bbox
+            edges_in_bbox = set()
+            for node in nodes_in_bbox:
+                for neighbor in G.neighbors(node):
+                    if G.has_edge(node, neighbor):
+                        key = 0 if not G.is_multigraph() else min(G[node][neighbor])
+                        edges_in_bbox.add((node, neighbor, key))
+
+            # Create subgraph based on these edges
+            G_sub = G.edge_subgraph(edges_in_bbox).copy()
+
+            subgraphs[bbox] = G_sub
+
+        return subgraphs
+
+    def create_subgraphs_from_bboxes(self, G, bboxes):
+        gdf_nodes, gdf_edges = ox.graph_to_gdfs(G)
+
+        bbox_gdf = gpd.GeoDataFrame({'bbox_id': range(len(bboxes))},
+                                    geometry=[box(west, south, east, north) for north, south, east, west, _ in bboxes],
+                                    crs=gdf_nodes.crs)
+
+        joined_nodes = gpd.sjoin(gdf_nodes, bbox_gdf, how='left', predicate='within')
+
+        subgraphs = {}
+        for bbox_id in tqdm(bbox_gdf['bbox_id'], desc="Iterating over bboxes"):
+            nodes_in_bbox = joined_nodes[joined_nodes['bbox_id'] == bbox_id].index
+
+            # Filter edges where at least one node is in the bbox
+            # Include edge keys for MultiDiGraph
+            edges_in_bbox = [(u, v, k) for u, v, k in G.edges(keys=True) if u in nodes_in_bbox or v in nodes_in_bbox]
+
+            # Create subgraph based on these edges
+            G_sub = G.edge_subgraph(edges_in_bbox).copy()
+
+            # G_sub = G.subgraph(nodes_in_bbox).copy()
+            subgraphs[bbox_id] = G_sub
+
+        print ("Subgraphs computed; computing tiles now")
+
+        return subgraphs
+
     # @profile
     def set_bbox_sub_G_map(self, save_to_pickle=True):
         fname = os.path.join(
@@ -110,34 +171,61 @@ class Scale:
             os.mkdir(os.path.join(config.BASE_FOLDER, "temp", self.RoadNetwork.city_name))
             print("Cleaned the temp folder")
 
-            stop_background_thread = threading.Event()
 
-            self.keep_countin_state = True
-            filecounter = threading.Thread(target=self.keep_counting)
-            filecounter.start()
 
             # if config.rn_truncate_method == "GPD_CUSTOM":
             #     batch_size = config.scl_n_jobs_parallel
             #     list_of_tuples = []
             #     for i in range(1500, len(self.list_of_bbox), batch_size):
             #         templist = []
+            #         starttime = time.time()
             #         for j in range(i, i+batch_size):
-            #             extras = [self.RoadNetwork.G_osm, self.RoadNetwork.G_OSM_nodes, self.RoadNetwork.G_OSM_edges]
+            #             extras = [self.RoadNetwork.G_osm, self.RoadNetwork.G_OSM_nodes]
             #             templist.append(list(self.list_of_bbox[j]) + extras)
             #         print ("templist created:", templist)
+            #         print ("Time taken to complete templist:", time.time() - starttime)
             #         print ("sending out the batches to the helper function for parallel processing")
             #         with Pool(config.scl_n_jobs_parallel) as p:
-            #             batch_output = p.map(self._helper_create_dict_in_parallel, templist)
+            #             batch_output = p.map_async(self._helper_create_dict_in_parallel, templist)
+            #             batch_output = batch_output.get()
+            #         print ("One batch complete: time taken: ", time.time() - starttime)
             #         print (batch_output)
 
-            if config.rn_truncate_method in ["GPD_DEFAULT", "OSMNX_RETAIN_EDGE", "GPD_CUSTOM"]:
+            if config.rn_truncate_method in ["GPD_DUMMY_NODES_SMART_TRUNC", "OSMNX_RETAIN_EDGE"]:
+                stop_background_thread = threading.Event()
+
+                self.keep_countin_state = True
+                filecounter = threading.Thread(target=self.keep_counting)
+                filecounter.start()
                 with Pool(config.scl_n_jobs_parallel) as p:
-                    list_of_tuples = p.map(self._helper_create_dict_in_parallel, list(self.list_of_bbox))
+                    list_of_tuples = p.map(self._helper_create_dict_in_parallel, list(self.list_of_bbox[1500:1520]))
+
+                self.keep_countin_state = False
+                stop_background_thread.clear()
+
+            elif config.rn_truncate_method == "GPD_CUSTOM":
+                dict_of_subgraphs = self.create_subgraphs_from_bboxes_optimised(self.RoadNetwork.G_osm, self.list_of_bbox)
+                self.dict_bbox_to_subgraph = {}
+                for bbox in tqdm(dict_of_subgraphs, desc="Converting subgraphs to Tiles"):
+                    N,S,E,W, _ = bbox
+                    # After NSEW, the underscore _ (the fifth parameter is total count;
+                    # not needed for this function)
+                    print (len(list(dict_of_subgraphs[bbox].nodes)))
+                    try:
+                        self.dict_bbox_to_subgraph[N, S, E, W] = Tile(dict_of_subgraphs[bbox], self.tile_area)
+                        print (self.dict_bbox_to_subgraph[N, S, E, W].get_features())
+                    except Exception as e:
+                        self.dict_bbox_to_subgraph[N, S, E, W] = config.rn_no_stats_marker
+                        # raise Exception(e)
+                debug_pitstop = True
+
+                # Call the function and pass necessary arguments
+                # this is slower in fact
+                # self.dict_bbox_to_subgraph = self.process_subgraphs(dict_of_subgraphs, self.tile_area)
             else:
                 raise Exception ("Unknown config.rn_truncate_method in prep_network.py")
 
-            self.keep_countin_state = False
-            stop_background_thread.clear()
+
 
         elif config.scl_n_jobs_parallel == 1:
             # single threaded
@@ -152,7 +240,11 @@ class Scale:
         else:
             raise Exception("Wrong number of threads specified in config file.")
 
-        self.dict_bbox_to_subgraph = dict(list_of_tuples)
+        if config.rn_truncate_method != "GPD_CUSTOM":
+            # For other cases, we need this, for GPD_custom, this is already saved above directly
+            # into the dictionary
+            self.dict_bbox_to_subgraph = dict(list_of_tuples)
+
         print(time.time() - starttime, "seconds using", config.scl_n_jobs_parallel, "threads")
 
         print("Before removing empty bboxes", len(self.list_of_bbox))
@@ -171,6 +263,35 @@ class Scale:
         if not os.path.exists(fname):
             with open(fname, "wb") as f:
                 pickle.dump(self, f, protocol=config.pickle_protocol)
+
+
+
+    def process_bbox(self, bbox, dict_of_subgraphs, tile_area):
+        N, S, E, W, _ = bbox
+        try:
+            tile = Tile(dict_of_subgraphs[bbox], tile_area)
+            return (N, S, E, W), tile
+        except Exception as e:
+            return (N, S, E, W), config.rn_no_stats_marker
+
+    # Assuming dict_of_subgraphs and tile_area are already defined
+    def process_subgraphs(self, dict_of_subgraphs, tile_area):
+        dict_bbox_to_subgraph = {}
+        with ProcessPoolExecutor(max_workers=config.scl_n_jobs_parallel) as executor:
+            # Submit tasks
+            future_to_bbox = {executor.submit(self.process_bbox, bbox, dict_of_subgraphs, tile_area): bbox for bbox in
+                              dict_of_subgraphs}
+
+            # Process results with a progress bar
+            with tqdm(total=len(future_to_bbox), desc="Processing Subgraphs") as progress:
+                for future in as_completed(future_to_bbox):
+                    bbox, result = future.result()
+                    dict_bbox_to_subgraph[bbox] = result
+                    progress.update(1)
+
+        return dict_bbox_to_subgraph
+
+
 
     def _set_list_of_bbox(self):
         self.list_of_bbox = []
@@ -280,7 +401,7 @@ class Scale:
         if config.scl_temp_file_counter:
             self.create_file_marker()
 
-        if config.rn_truncate_method in ["OSMNX_RETAIN_EDGE", "GPD_DEFAULT" ]:
+        if config.rn_truncate_method in ["OSMNX_RETAIN_EDGE", "GPD_DUMMY_NODES_SMART_TRUNC" ]:
             N, S, E, W, total = key
 
             from shapely.geometry import box as bboxShapely
@@ -348,7 +469,7 @@ class Scale:
                 return (key, config.rn_no_stats_marker) # no need to process these graphs if we don't have their speed data
             else:
                 try:
-                    if config.rn_truncate_method == "GPD_DEFAULT":
+                    if config.rn_truncate_method == "GPD_DUMMY_NODES_SMART_TRUNC":
                         truncated_graph = smart_truncate(
                             self.RoadNetwork.G_osm, self.RoadNetwork.G_OSM_nodes, self.RoadNetwork.G_OSM_edges, N, S, E, W
                         )
@@ -385,39 +506,76 @@ class Scale:
                     return (key, config.rn_no_stats_marker)
                 return (key, tile)
 
-        elif config.rn_truncate_method == ["GPD_CUSTOM"]:
+        # elif config.rn_truncate_method == "GPD_CUSTOM":
             # assert config.scl_n_jobs_parallel == 1
-            def retain_subg(bbox):
-                north, south, east, west = bbox
-                # nodes_in_bbox = gdf_nodes.cx[west:east, south:north]
-                # edges_in_bbox = gdf_edges[gdf_edges.index.map(lambda x: x[0] in nodes_in_bbox.index or x[1] in nodes_in_bbox.index)]
-                # edge_node_ids = set(edges_in_bbox.index.get_level_values(0)) | set(
-                #     edges_in_bbox.index.get_level_values(1))
-                # G_sub = G_osm_.edge_subgraph(edge_node_ids).copy()
+            # def retain_subg(bbox):
+            #     north, south, east, west = bbox
+            #     # nodes_in_bbox = gdf_nodes.cx[west:east, south:north]
+            #     # edges_in_bbox = gdf_edges[gdf_edges.index.map(lambda x: x[0] in nodes_in_bbox.index or x[1] in nodes_in_bbox.index)]
+            #     # edge_node_ids = set(edges_in_bbox.index.get_level_values(0)) | set(
+            #     #     edges_in_bbox.index.get_level_values(1))
+            #     # G_sub = G_osm_.edge_subgraph(edge_node_ids).copy()
+            #
+            #     nodes_in_bbox = self.RoadNetwork.G_OSM_nodes.cx[west:east, south:north]
+            #     edges_in_bbox = self.RoadNetwork.G_OSM_edges[self.RoadNetwork.G_OSM_edges.index.map(lambda x: x[0] in nodes_in_bbox.index or x[1] in nodes_in_bbox.index)]
+            #     edge_node_ids = set(edges_in_bbox.index.get_level_values(0)) | set(
+            #         edges_in_bbox.index.get_level_values(1))
+            #     G_sub = self.RoadNetwork.G_osm.edge_subgraph(edge_node_ids).copy()
+            #
+            #     return G_sub
+            #
 
+
+            def create_subgraph_within_bbox(bbox):
+                north, south, east, west = bbox
+
+                # Identify nodes within the bounding box
+                startime = time.time()
                 nodes_in_bbox = self.RoadNetwork.G_OSM_nodes.cx[west:east, south:north]
-                edges_in_bbox = self.RoadNetwork.G_OSM_edges[self.RoadNetwork.G_OSM_edges.index.map(lambda x: x[0] in nodes_in_bbox.index or x[1] in nodes_in_bbox.index)]
-                edge_node_ids = set(edges_in_bbox.index.get_level_values(0)) | set(
-                    edges_in_bbox.index.get_level_values(1))
-                G_sub = self.RoadNetwork.G_osm.edge_subgraph(edge_node_ids).copy()
+                # nodes_in_bbox = gdf_nodes.cx[west:east, south:north]
+                print (time.time() - startime, " Extracting nodes from big graph")
+
+                # Initialize a set with these nodes
+                nodes_set = set(nodes_in_bbox.index)
+
+                # Include neighbors of these nodes
+                for node in nodes_in_bbox.index:
+                    neighbors = set(self.RoadNetwork.G_osm.neighbors(node))
+                    # neighbors = set(G_osm_.neighbors(node))
+                    nodes_set.update(neighbors)
+
+                # Create and return the subgraph
+                startime = time.time()
+                G_sub = self.RoadNetwork.G_osm.subgraph(nodes_set).copy()
+                # G_sub = G_osm_.subgraph(nodes_set).copy()
+                print ("\n Copying the subgraph", time.time() - startime)
 
                 return G_sub
 
-            # N, S, E, W, total, extras = key
-            # G_osm_, gdf_nodes, gdf_edges = extras
-
             N, S, E, W, _ = key
+            # N, S, E, W, total, extras = key
+            # G_osm_, gdf_nodes = extras
 
             if self.RoadNetwork.G_OSM_nodes.shape[0] == 0:
                 print ("Empty tile; returning empty tile marker")
-                return (key, config.rn_no_stats_marker)
+                # return (key, config.rn_no_stats_marker)
+                fname = os.path.join(config.BASE_FOLDER, "_prep_network_temp_file_" + str(int(np.random.rand() * 10000000000)) + self.RoadNetwork.city + str(self.RoadNetwork.scale) + ".pkl")
+                with open(fname, "wb") as f:
+                    pickle.dump((N, S, E, W, config.rn_no_stats_marker), f, protocol=config.pickle_protocol)
             try:
-                tile = Tile(retain_subg(bbox=(N, S, E, W)), self.tile_area)
+                startime = time.time()
+                tile = Tile(create_subgraph_within_bbox(bbox=(N, S, E, W)), self.tile_area)
+                print(time.time() - startime, "Computing tile features")
+
             except:
-                print ("Error in tile computation")
+                print ("Error in tile computation; returning empty tile marker")
                 tile = config.rn_no_stats_marker
 
-            return key, tile
+            # return (key, tile)
+            fname = os.path.join(config.BASE_FOLDER, "_prep_network_temp_file_" + str(
+                int(np.random.rand() * 10000000000)) + self.RoadNetwork.city + str(self.RoadNetwork.scale) + ".pkl")
+            with open(fname, "wb") as f:
+                pickle.dump((N, S, E, W, tile), f, protocol=config.pickle_protocol)
 
 
     @staticmethod
