@@ -7,6 +7,7 @@ verbose = 2
 
 DEBUG = False
 DEBUG_TRUNCATE = False
+MASTER_VISUALISE_EACH_STEP = True
 
 BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"
 BASE_FOLDER_server = "/home/niskumar/WCS"
@@ -258,7 +259,7 @@ sd_total_number_of_data_points_for_each_segment = 30 * 24 * (60/sd_raw_speed_dat
 ps_spatial_combination_method = "length_weighted_mean"
 assert ps_spatial_combination_method in ["mean", "max", "length_weighted_mean"]
 if RUNNING_ON_LOCAL:
-    ps_tod_list = list(range(6, 24, 1))
+    ps_tod_list = list(range(6, 7, 1))
 elif RUNNING_ON_SERVER:
     ps_tod_list = list(range(0, 24, 1))
 assert isinstance(ps_tod_list, list)
@@ -288,7 +289,7 @@ td_drop_feature_lists = [
 ]
 td_drop_collinear_features = True
 
-shift_tile_marker = 2
+shift_tile_marker = 1
 network_folder = "network_tmean_smean_" +str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" + str(shift_tile_marker)
 warnings_folder = "warnings"
 results_folder = "results_network_tmean_smean_"+str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" # "results_50x50_max_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi-max-max"
