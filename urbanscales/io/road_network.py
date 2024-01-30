@@ -165,6 +165,7 @@ class RoadNetwork:
     def save_road_network_object(self):
         with open(self.rn_fname, "wb") as f:
             pickle.dump(self, f, protocol=config.pickle_protocol)
+        os.rename()
 
     def get_osm_from_place(self):
         if self.G_osm == None:

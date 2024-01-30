@@ -75,7 +75,9 @@ class Scale:
             self.set_bbox_sub_G_map()
 
     def create_subgraphs_from_bboxes_optimised(self, G, bboxes):
+        print ("Converting graph to GDF's")
         gdf_nodes, _ = ox.graph_to_gdfs(G)
+
 
         bbox_gdf = gpd.GeoDataFrame({'bbox': bboxes},
                                     geometry=[box(west, south, east, north) for north, south, east, west, _ in bboxes],
@@ -83,7 +85,9 @@ class Scale:
                                     # After NSEW, the underscore _ (the fifth parameter is total count;
                                     # not needed for this function)
 
+        print("Performing spatial join")
         joined_nodes = gpd.sjoin(gdf_nodes, bbox_gdf, how='left', predicate='within')
+        print ("Spatial join complete")
 
         subgraphs = {}
         for bbox in tqdm(bbox_gdf['bbox'], desc="Iterating over bboxes"):
@@ -101,6 +105,7 @@ class Scale:
             G_sub = G.edge_subgraph(edges_in_bbox).copy()
 
             subgraphs[bbox] = G_sub
+            # subgraphs[bbox] = Tile(G_sub, self.tile_area)
 
         return subgraphs
 
@@ -220,7 +225,8 @@ class Scale:
                 debug_pitstop = True
 
                 # Call the function and pass necessary arguments
-                # this is slower in fact
+                # this is in fact slower since there appears to be multiple parallelisation
+                # attemps concurrently in the pipeline
                 # self.dict_bbox_to_subgraph = self.process_subgraphs(dict_of_subgraphs, self.tile_area)
             else:
                 raise Exception ("Unknown config.rn_truncate_method in prep_network.py")
@@ -264,8 +270,6 @@ class Scale:
             with open(fname, "wb") as f:
                 pickle.dump(self, f, protocol=config.pickle_protocol)
 
-
-
     def process_bbox(self, bbox, dict_of_subgraphs, tile_area):
         N, S, E, W, _ = bbox
         try:
@@ -274,9 +278,8 @@ class Scale:
         except Exception as e:
             return (N, S, E, W), config.rn_no_stats_marker
 
-    # Assuming dict_of_subgraphs and tile_area are already defined
     def process_subgraphs(self, dict_of_subgraphs, tile_area):
-        dict_bbox_to_subgraph = {}
+        results = []
         with ProcessPoolExecutor(max_workers=config.scl_n_jobs_parallel) as executor:
             # Submit tasks
             future_to_bbox = {executor.submit(self.process_bbox, bbox, dict_of_subgraphs, tile_area): bbox for bbox in
@@ -285,13 +288,13 @@ class Scale:
             # Process results with a progress bar
             with tqdm(total=len(future_to_bbox), desc="Processing Subgraphs") as progress:
                 for future in as_completed(future_to_bbox):
-                    bbox, result = future.result()
-                    dict_bbox_to_subgraph[bbox] = result
+                    result = future.result()
+                    results.append(result)
                     progress.update(1)
 
+        # Combine the results into a dictionary
+        dict_bbox_to_subgraph = {bbox: tile for bbox, tile in results}
         return dict_bbox_to_subgraph
-
-
 
     def _set_list_of_bbox(self):
         self.list_of_bbox = []

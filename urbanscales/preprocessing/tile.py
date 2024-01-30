@@ -70,10 +70,10 @@ class Tile:
             else:
                 for feature in self.FEATURE_NAMES:
                     # eval ("self." + feature + " = 0")
-                    setattr(self, feature, 0)
+                    setattr(self, feature, "garbage_value")
                     print ("Garbage Tile values set to 0 throughout for all features")
 
-            print ("All values fixed!")
+            # print ("All values fixed!")
 
     def set_basic_stats_for_tile(self):
         basic_stats = ox.stats.basic_stats(self.G)

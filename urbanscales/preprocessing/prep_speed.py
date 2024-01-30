@@ -117,10 +117,16 @@ class ScaleJF:
             })
 
             # Convert bounding boxes into GeoDataFrame
-            bboxes = [
-                box(W, S, E, N) for bbox in self.Scale.dict_bbox_to_subgraph.keys() for N, S, E, W, _unused_len in
-                [bbox]
-            ]
+            if config.rn_truncate_method != "GPD_CUSTOM":
+                bboxes = [
+                    box(W, S, E, N) for bbox in self.Scale.dict_bbox_to_subgraph.keys() for N, S, E, W, _unused_len in
+                    [bbox]
+                ]
+            else:
+                bboxes = [
+                    box(W, S, E, N) for bbox in self.Scale.dict_bbox_to_subgraph.keys() for N, S, E, W in
+                    [bbox]
+                ]
             bboxes_gdf = gpd.GeoDataFrame({'bbox': self.Scale.dict_bbox_to_subgraph.keys(), 'geometry': bboxes})
 
             # Spatial join to find intersections
@@ -205,17 +211,28 @@ class ScaleJF:
             bbox_segment_df['segment_jf_values'] = bbox_segment_df['segments'].apply(
                 lambda segments_list: [self.SpeedData.segment_jf_map.get(str(seg), [np.nan] * 24)[self.tod] for seg in segments_list]
             )
+            bbox_segment_df['segment_lengths'] = bbox_segment_df['segments'].apply(
+                lambda segments_list: [seg.length for seg in segments_list]
+            )
 
             # Use np.mean or np.max as aggregation function based on config
             if config.ps_spatial_combination_method == "mean":
                 agg_func = np.mean
             elif config.ps_spatial_combination_method == "max":
                 agg_func = np.max
+            elif config.ps_spatial_combination_method == "length_weighted_mean":
+                agg_func = lambda values, lengths: np.sum(np.multiply(values, lengths)) / np.sum(lengths)
             else:
                 raise ValueError(f"Unsupported spatial combination method: {config.ps_spatial_combination_method}")
 
-            # Aggregate segment_jf_values for each bbox
-            bbox_segment_df['agg_jf_value'] = bbox_segment_df['segment_jf_values'].apply(agg_func)
+            if config.ps_spatial_combination_method == "length_weighted_mean":
+                bbox_segment_df['agg_jf_value'] = bbox_segment_df.apply(
+                    lambda row: agg_func(row['segment_jf_values'], row['segment_lengths']), axis=1)
+            elif config.ps_spatial_combination_method in ["mean", "max"]:
+                # Aggregate segment_jf_values for each bbox
+                bbox_segment_df['agg_jf_value'] = bbox_segment_df['segment_jf_values'].apply(agg_func)
+            else:
+                raise ValueError(f"Unsupported spatial combination method: {config.ps_spatial_combination_method}")
 
             # Update bbox_jf_map from DataFrame
             self.bbox_jf_map = bbox_segment_df.set_index('bbox')['agg_jf_value'].to_dict()
