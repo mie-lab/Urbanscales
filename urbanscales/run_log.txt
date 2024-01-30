@@ -1,0 +1,1752 @@
+Loaded config file: Prefix for name of road network object pickle file!
+Singapore
+Road network loading time:  20.496690034866333
+20.497283220291138
+Zurich
+Road network loading time:  35.28739404678345
+35.28823804855347
+Mumbai
+Road network loading time:  18.690518856048584
+18.69136691093445
+Auckland
+Road network loading time:  31.344676733016968
+31.345398902893066
+Istanbul
+Road network loading time:  35.907405853271484
+35.908129930496216
+MexicoCity
+Road network loading time:  2330.407089948654
+2330.4077320098877
+Bogota
+Road network loading time:  31.24470281600952
+31.245383977890015
+NewYorkCity
+Road network loading time:  39.263155937194824
+39.264068841934204
+Capetown
+Road network loading time:  30.91798686981201
+30.91893696784973
+London
+Road network loading time:  58.83142900466919
+58.8323769569397
+Loaded config file: Prefix for name of road network object pickle file!
+Singapore 25 1
+Read speed data object from pickle
+720
+13.828871011734009
+Singapore 50 1
+Read speed data object from pickle
+720
+14.252227067947388
+Singapore 100 1
+Read speed data object from pickle
+720
+13.915158033370972
+Zurich 25 1
+Read speed data object from pickle
+714
+4.122474908828735
+Zurich 50 1
+Read speed data object from pickle
+714
+3.790642023086548
+Zurich 100 1
+Read speed data object from pickle
+714
+3.89776611328125
+Mumbai 25 1
+Read speed data object from pickle
+718
+15.185758829116821
+Mumbai 50 1
+Read speed data object from pickle
+718
+14.920403957366943
+Mumbai 100 1
+Read speed data object from pickle
+718
+15.187988996505737
+Auckland 25 1
+Read speed data object from pickle
+715
+16.53811502456665
+Auckland 50 1
+Read speed data object from pickle
+715
+16.234479188919067
+Auckland 100 1
+Read speed data object from pickle
+715
+19.408849954605103
+Istanbul 25 1
+Read speed data object from pickle
+715
+145.85840916633606
+Istanbul 50 1
+Read speed data object from pickle
+715
+189.32624101638794
+Istanbul 100 1
+Read speed data object from pickle
+715
+178.82393407821655
+MexicoCity 25 1
+Read speed data object from pickle
+707
+14.916843891143799
+MexicoCity 50 1
+Read speed data object from pickle
+707
+10.752899169921875
+MexicoCity 100 1
+Read speed data object from pickle
+707
+10.765882015228271
+Bogota 25 1
+Read speed data object from pickle
+707
+20.68903112411499
+Bogota 50 1
+Read speed data object from pickle
+707
+20.02154541015625
+Bogota 100 1
+Read speed data object from pickle
+707
+19.945491313934326
+NewYorkCity 25 1
+Read speed data object from pickle
+708
+44.582190990448
+NewYorkCity 50 1
+Read speed data object from pickle
+708
+44.76401495933533
+NewYorkCity 100 1
+Read speed data object from pickle
+708
+44.98820209503174
+Capetown 25 1
+Read speed data object from pickle
+714
+13.184972047805786
+Capetown 50 1
+Read speed data object from pickle
+714
+12.723936796188354
+Capetown 100 1
+Read speed data object from pickle
+714
+12.605438232421875
+London 25 1
+Read speed data object from pickle
+713
+15.702101945877075
+London 50 1
+Read speed data object from pickle
+713
+16.145205974578857
+London 100 1
+Read speed data object from pickle
+713
+15.505107402801514
+Loaded config file: Prefix for name of road network object pickle file!
+Road network loading time:  19.14133882522583
+Scale pickle loading time:  43.584738969802856
+Singapore 25 1
+Road network loading time:  20.212613821029663
+Scale pickle loading time:  40.88156580924988
+Singapore 50 1
+Road network loading time:  23.189793825149536
+Scale pickle loading time:  44.44342613220215
+Singapore 100 1
+Road network loading time:  37.49933099746704
+Scale pickle loading time:  39.37912917137146
+Zurich 25 1
+Road network loading time:  36.578157901763916
+Scale pickle loading time:  37.4940390586853
+Zurich 50 1
+Road network loading time:  38.00076174736023
+Scale pickle loading time:  39.04753065109253
+Zurich 100 1
+Road network loading time:  18.540299892425537
+Scale pickle loading time:  26.64743185043335
+Mumbai 25 1
+Road network loading time:  19.369789361953735
+Scale pickle loading time:  25.735947847366333
+Mumbai 50 1
+Road network loading time:  16.92466402053833
+Scale pickle loading time:  25.017128944396973
+Mumbai 100 1
+Road network loading time:  19.666183948516846
+Scale pickle loading time:  34.96918511390686
+Auckland 25 1
+Road network loading time:  19.985610008239746
+Scale pickle loading time:  32.34850096702576
+Auckland 50 1
+Road network loading time:  20.283203840255737
+Scale pickle loading time:  32.228023052215576
+Auckland 100 1
+Road network loading time:  36.427927017211914
+Scale pickle loading time:  77.81157898902893
+Istanbul 25 1
+Road network loading time:  38.43398880958557
+Scale pickle loading time:  81.04163575172424
+Istanbul 50 1
+Road network loading time:  44.44124174118042
+Scale pickle loading time:  83.30229592323303
+Istanbul 100 1
+Road network loading time:  55.30654001235962
+Scale pickle loading time:  104.89314031600952
+MexicoCity 25 1
+Road network loading time:  66.49660730361938
+Scale pickle loading time:  120.55026316642761
+MexicoCity 50 1
+Road network loading time:  60.91637182235718
+Scale pickle loading time:  118.13225603103638
+MexicoCity 100 1
+Road network loading time:  45.96909213066101
+Scale pickle loading time:  54.71008801460266
+Bogota 25 1
+Road network loading time:  39.23761606216431
+Scale pickle loading time:  51.953380823135376
+Bogota 50 1
+Road network loading time:  30.251429796218872
+Scale pickle loading time:  51.4228458404541
+Bogota 100 1
+Road network loading time:  43.94779682159424
+Scale pickle loading time:  94.54431295394897
+NewYorkCity 25 1
+Road network loading time:  45.92334222793579
+Scale pickle loading time:  98.88319802284241
+NewYorkCity 50 1
+Road network loading time:  53.50640511512756
+Scale pickle loading time:  119.97071409225464
+NewYorkCity 100 1
+Road network loading time:  52.957452058792114
+Scale pickle loading time:  85.94821000099182
+Capetown 25 1
+Road network loading time:  48.00009298324585
+Scale pickle loading time:  85.74902415275574
+Capetown 50 1
+Road network loading time:  43.96318006515503
+Scale pickle loading time:  76.94183683395386
+Capetown 100 1
+Road network loading time:  80.47976899147034
+Scale pickle loading time:  224.6264340877533
+London 25 1
+Road network loading time:  89.18389105796814
+Scale pickle loading time:  268.13465666770935
+London 50 1
+Road network loading time:  116.0739209651947
+Scale pickle loading time:  329.72657012939453
+London 100 1
+Loaded config file: Prefix for name of road network object pickle file!
+Read speed data object from pickle
+Road network loading time:  21.2798330783844
+Scale pickle loading time:  43.373297929763794
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_0.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 25, 0)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_6.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_1.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 25, 1)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_2.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 25, 2)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_3.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 25, 3)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_4.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 25, 4)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_5.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 25, 5)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Singapore', 25, 6)
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Singapore', 25, 7)
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_8.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 25, 8)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_9.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 25, 9)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_10.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 25, 10)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_11.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 25, 11)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_12.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 25, 12)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_13.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 25, 13)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_14.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 25, 14)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_15.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 25, 15)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_16.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 25, 16)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_17.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 25, 17)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_18.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 25, 18)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_19.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 25, 19)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_20.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 25, 20)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_21.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 25, 21)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_22.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 25, 22)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_23.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 25, 23)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Read speed data object from pickle
+Road network loading time:  30.137463092803955
+Scale pickle loading time:  42.14304518699646
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_0.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 50, 0)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_6.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_1.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 50, 1)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_2.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 50, 2)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_3.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 50, 3)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_4.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 50, 4)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_5.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 50, 5)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Singapore', 50, 6)
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Singapore', 50, 7)
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_8.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 50, 8)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_9.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 50, 9)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_10.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 50, 10)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_11.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 50, 11)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_12.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 50, 12)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_13.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 50, 13)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_14.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 50, 14)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_15.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 50, 15)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_16.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 50, 16)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_17.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 50, 17)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_18.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 50, 18)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_19.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 50, 19)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_20.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 50, 20)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_21.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 50, 21)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_22.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 50, 22)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_23.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 50, 23)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Read speed data object from pickle
+Road network loading time:  30.538550853729248
+Scale pickle loading time:  42.68105673789978
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_0.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 100, 0)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_6.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_1.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 100, 1)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_2.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 100, 2)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_3.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 100, 3)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_4.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 100, 4)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_5.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 100, 5)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Singapore', 100, 6)
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Singapore', 100, 7)
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_8.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 100, 8)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_9.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 100, 9)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_10.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 100, 10)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_11.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 100, 11)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_12.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 100, 12)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_13.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 100, 13)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_14.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 100, 14)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_15.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 100, 15)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_16.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 100, 16)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_17.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 100, 17)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_18.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 100, 18)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_19.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 100, 19)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_20.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 100, 20)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_21.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 100, 21)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_22.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 100, 22)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_23.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Singapore', 100, 23)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Singapore/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Read speed data object from pickle
+Road network loading time:  44.74617910385132
+Scale pickle loading time:  40.744154930114746
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_0.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 25, 0)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_6.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_1.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 25, 1)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_2.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 25, 2)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_3.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 25, 3)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_4.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 25, 4)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_5.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 25, 5)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Zurich', 25, 6)
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Zurich', 25, 7)
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_8.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 25, 8)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_9.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 25, 9)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_10.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 25, 10)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_11.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 25, 11)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_12.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 25, 12)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_13.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 25, 13)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_14.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 25, 14)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_15.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 25, 15)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_16.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 25, 16)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_17.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 25, 17)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_18.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 25, 18)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_19.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 25, 19)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_20.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 25, 20)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_21.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 25, 21)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_22.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 25, 22)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_23.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 25, 23)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Read speed data object from pickle
+Road network loading time:  45.85745096206665
+Scale pickle loading time:  40.628013134002686
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_0.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 50, 0)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_6.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_1.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 50, 1)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_2.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 50, 2)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_3.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 50, 3)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_4.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 50, 4)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_5.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 50, 5)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Zurich', 50, 6)
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Zurich', 50, 7)
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_8.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 50, 8)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_9.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 50, 9)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_10.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 50, 10)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_11.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 50, 11)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_12.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 50, 12)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_13.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 50, 13)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_14.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 50, 14)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_15.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 50, 15)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_16.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 50, 16)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_17.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 50, 17)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_18.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 50, 18)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_19.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 50, 19)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_20.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 50, 20)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_21.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 50, 21)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_22.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 50, 22)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_23.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 50, 23)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Read speed data object from pickle
+Road network loading time:  45.94285202026367
+Scale pickle loading time:  41.23013687133789
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_0.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 100, 0)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_6.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_1.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 100, 1)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_2.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 100, 2)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_3.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 100, 3)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_4.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 100, 4)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_5.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 100, 5)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Zurich', 100, 6)
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Zurich', 100, 7)
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_8.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 100, 8)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_9.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 100, 9)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_10.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 100, 10)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_11.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 100, 11)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_12.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 100, 12)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_13.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 100, 13)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_14.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 100, 14)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_15.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 100, 15)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_16.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 100, 16)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_17.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 100, 17)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_18.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 100, 18)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_19.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 100, 19)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_20.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 100, 20)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_21.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 100, 21)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_22.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 100, 22)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_23.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Zurich', 100, 23)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Zurich/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Read speed data object from pickle
+Road network loading time:  23.62539505958557
+Scale pickle loading time:  27.21971297264099
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_0.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 25, 0)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_6.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_1.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 25, 1)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_2.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 25, 2)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_3.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 25, 3)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_4.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 25, 4)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_5.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 25, 5)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Mumbai', 25, 6)
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Mumbai', 25, 7)
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_8.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 25, 8)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_9.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 25, 9)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_10.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 25, 10)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_11.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 25, 11)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_12.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 25, 12)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_13.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 25, 13)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_14.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 25, 14)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_15.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 25, 15)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_16.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 25, 16)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_17.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 25, 17)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_18.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 25, 18)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_19.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 25, 19)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_20.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 25, 20)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_21.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 25, 21)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_22.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 25, 22)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_23.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 25, 23)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Read speed data object from pickle
+Road network loading time:  21.59583568572998
+Scale pickle loading time:  26.460126876831055
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_0.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 50, 0)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_6.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_1.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 50, 1)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_2.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 50, 2)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_3.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 50, 3)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_4.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 50, 4)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_5.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 50, 5)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Mumbai', 50, 6)
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Mumbai', 50, 7)
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_8.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 50, 8)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_9.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 50, 9)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_10.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 50, 10)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_11.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 50, 11)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_12.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 50, 12)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_13.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 50, 13)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_14.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 50, 14)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_15.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 50, 15)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_16.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 50, 16)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_17.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 50, 17)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_18.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 50, 18)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_19.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 50, 19)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_20.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 50, 20)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_21.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 50, 21)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_22.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 50, 22)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_23.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 50, 23)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Read speed data object from pickle
+Road network loading time:  20.964752197265625
+Scale pickle loading time:  26.893106937408447
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_0.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 100, 0)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_6.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_1.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 100, 1)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_2.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 100, 2)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_3.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 100, 3)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_4.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 100, 4)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_5.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 100, 5)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Mumbai', 100, 6)
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Mumbai', 100, 7)
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_8.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 100, 8)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_9.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 100, 9)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_10.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 100, 10)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_11.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 100, 11)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_12.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 100, 12)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_13.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 100, 13)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_14.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 100, 14)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_15.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 100, 15)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_16.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 100, 16)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_17.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 100, 17)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_18.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 100, 18)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_19.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 100, 19)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_20.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 100, 20)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_21.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 100, 21)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_22.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 100, 22)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_23.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Mumbai', 100, 23)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Mumbai/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Read speed data object from pickle
+Road network loading time:  25.59974694252014
+Scale pickle loading time:  35.463375091552734
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_0.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 25, 0)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_6.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_1.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 25, 1)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_2.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 25, 2)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_3.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 25, 3)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_4.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 25, 4)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_5.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 25, 5)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Auckland', 25, 6)
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Auckland', 25, 7)
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_8.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 25, 8)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_9.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 25, 9)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_10.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 25, 10)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_11.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 25, 11)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_12.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 25, 12)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_13.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 25, 13)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_14.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 25, 14)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_15.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 25, 15)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_16.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 25, 16)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_17.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 25, 17)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_18.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 25, 18)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_19.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 25, 19)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_20.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 25, 20)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_21.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 25, 21)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_22.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 25, 22)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_23.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 25, 23)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Read speed data object from pickle
+Road network loading time:  27.673073053359985
+Scale pickle loading time:  32.24261498451233
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_0.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 50, 0)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_6.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_1.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 50, 1)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_2.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 50, 2)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_3.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 50, 3)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_4.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 50, 4)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_5.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 50, 5)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Auckland', 50, 6)
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Auckland', 50, 7)
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_8.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 50, 8)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_9.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 50, 9)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_10.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 50, 10)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_11.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 50, 11)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_12.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 50, 12)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_13.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 50, 13)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_14.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 50, 14)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_15.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 50, 15)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_16.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 50, 16)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_17.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 50, 17)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_18.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 50, 18)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_19.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 50, 19)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_20.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 50, 20)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_21.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 50, 21)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_22.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 50, 22)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_23.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 50, 23)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_50_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Read speed data object from pickle
+Road network loading time:  26.465182065963745
+Scale pickle loading time:  34.0267608165741
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_0.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 100, 0)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_6.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_1.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 100, 1)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_2.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 100, 2)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_3.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 100, 3)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_4.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 100, 4)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_5.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 100, 5)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Auckland', 100, 6)
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Auckland', 100, 7)
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_8.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 100, 8)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_9.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 100, 9)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_10.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 100, 10)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_11.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 100, 11)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_12.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 100, 12)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_13.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 100, 13)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_14.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 100, 14)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_15.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 100, 15)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_16.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 100, 16)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_17.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 100, 17)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_18.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 100, 18)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_19.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 100, 19)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_20.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 100, 20)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_21.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 100, 21)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_22.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 100, 22)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_23.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Auckland', 100, 23)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Auckland/_scale_100_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Read speed data object from pickle
+Road network loading time:  52.38495397567749
+Scale pickle loading time:  84.90469694137573
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_0.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Istanbul', 25, 0)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_6.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_1.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Istanbul', 25, 1)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_2.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Istanbul', 25, 2)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_3.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Istanbul', 25, 3)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_4.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Istanbul', 25, 4)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_5.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Istanbul', 25, 5)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Istanbul', 25, 6)
+Prep-speed Pickle object loaded for (city, scale, tod):  ('Istanbul', 25, 7)
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_8.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Istanbul', 25, 8)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_9.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Istanbul', 25, 9)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_10.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Istanbul', 25, 10)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_11.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Istanbul', 25, 11)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_12.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Istanbul', 25, 12)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_13.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Istanbul', 25, 13)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_14.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Istanbul', 25, 14)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_15.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Istanbul', 25, 15)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_16.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Istanbul', 25, 16)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_17.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Istanbul', 25, 17)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_18.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Istanbul', 25, 18)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_19.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Istanbul', 25, 19)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_20.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Istanbul', 25, 20)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_21.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Istanbul', 25, 21)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_22.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Istanbul', 25, 22)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+fname : /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_23.pkl
+Prep-speed Pickle Not found for (city, scale, tod):  ('Istanbul', 25, 23)
+
+ /Users/nishant/Documents/GitHub/WCS/network_tmax_smean_50x50_Jan_19/Istanbul/_scale_25_prep_speed_0.pkl  found; re-using bbox segment map from here
+Pickle saved!
+Read speed data object from pickle
+Road network loading time:  149.72203493118286
+Scale pickle loading time:  146.95820307731628
+Loaded config file: Prefix for name of road network object pickle file!
+
+ Complete: python urbanscales/io/road_network.py
+
+
+ Complete: python urbanscales/io/speed_data.py
+
+
+ Complete: python urbanscales/preprocessing/prep_network.py
+

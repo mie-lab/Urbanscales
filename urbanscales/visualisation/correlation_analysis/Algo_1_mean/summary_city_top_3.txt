@@ -1,0 +1,11 @@
+Singapore: non_metered_count, global_betweenness, total_corssings
+Zurich: global_betweenness, metered_count, total_corssings
+NewYork City: metered_count, global_betweenness, total_crossings
+Mumbai: betweenness, circuity_avg,street_length_total
+Mexico City: street_length_total, metered_count, streets_per_node_count_5
+London: k_avg, global betweenness, street length total
+Istanbul: street_length_total, global_betweenness, cicuity_Avg
+Capetown: metered_count, total_crossings, betweenness
+Bogota: betweeness, meterd_count, total_crossings
+Auckland:  total_crossings, streets_per_node_count_5, betweenness
+

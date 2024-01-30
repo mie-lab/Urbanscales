@@ -1,2 +1,0 @@
-city,seed,depth,tod,np.mean(lr_object.cv_scores)
-Singapore,5,1,6,-1.5465875582828037

@@ -1,0 +1,261 @@
+os.getcwd() : /Users/nishant/Documents/GitHub/WCS/urbanscales/visualisation/correlation_analysis
+Loaded config file: Prefix for name of road network object pickle file!
+X.shape, y.shape : (167, 19) (167,)
+Linear Regression:                                          , Singapore_scl_25_tod_6          Mean MSE = -0.2965, Std Dev MSE = 0.1226
+Random Forest:                                              , Singapore_scl_25_tod_6          Mean MSE = -0.3245, Std Dev MSE = 0.1518
+Gradient Boosting:                                          , Singapore_scl_25_tod_6          Mean MSE = -0.3271, Std Dev MSE = 0.1567
+
+
+
+X.shape, y.shape : (48, 21) (48,)
+Linear Regression:                                          , Zurich_scl_25_tod_6             Mean MSE = -3.0310, Std Dev MSE = 5.6133
+Random Forest:                                              , Zurich_scl_25_tod_6             Mean MSE = -0.3116, Std Dev MSE = 0.1477
+Gradient Boosting:                                          , Zurich_scl_25_tod_6             Mean MSE = -0.4028, Std Dev MSE = 0.1496
+
+
+
+"Error in: ", identifier, feature : Error in:  Mumbai_scl_25_tod_6 9
+X.shape, y.shape : (115, 21) (115,)
+Linear Regression:                                          , Mumbai_scl_25_tod_6             Mean MSE = -0.6069, Std Dev MSE = 0.3623
+Random Forest:                                              , Mumbai_scl_25_tod_6             Mean MSE = -0.4392, Std Dev MSE = 0.2384
+Gradient Boosting:                                          , Mumbai_scl_25_tod_6             Mean MSE = -0.5279, Std Dev MSE = 0.2273
+
+
+
+X.shape, y.shape : (148, 19) (148,)
+Linear Regression:                                          , Auckland_scl_25_tod_6           Mean MSE = -0.1804, Std Dev MSE = 0.0514
+Random Forest:                                              , Auckland_scl_25_tod_6           Mean MSE = -0.1654, Std Dev MSE = 0.0358
+Gradient Boosting:                                          , Auckland_scl_25_tod_6           Mean MSE = -0.1862, Std Dev MSE = 0.0497
+
+
+
+
+
+
+Some features not found: "['global_betweenness'] not in index"
+city, scale, tod, temp_obj.X.shape, temp_obj.Y.shape : Istanbul 25 6 (340, 18) (340,)
+Proceeding without this feature
+
+
+
+X.shape, y.shape : (340, 18) (340,)
+Linear Regression:                                          , Istanbul_scl_25_tod_6           Mean MSE = -0.1010, Std Dev MSE = 0.0174
+Random Forest:                                              , Istanbul_scl_25_tod_6           Mean MSE = -0.0999, Std Dev MSE = 0.0148
+Gradient Boosting:                                          , Istanbul_scl_25_tod_6           Mean MSE = -0.0993, Std Dev MSE = 0.0145
+
+
+
+X.shape, y.shape : (293, 21) (293,)
+Linear Regression:                                          , MexicoCity_scl_25_tod_6         Mean MSE = -1.5188, Std Dev MSE = 0.3475
+Random Forest:                                              , MexicoCity_scl_25_tod_6         Mean MSE = -1.3816, Std Dev MSE = 0.5047
+Gradient Boosting:                                          , MexicoCity_scl_25_tod_6         Mean MSE = -1.3975, Std Dev MSE = 0.5538
+
+
+
+X.shape, y.shape : (175, 19) (175,)
+Linear Regression:                                          , Bogota_scl_25_tod_6             Mean MSE = -2.3000, Std Dev MSE = 0.8839
+Random Forest:                                              , Bogota_scl_25_tod_6             Mean MSE = -2.3969, Std Dev MSE = 0.5145
+Gradient Boosting:                                          , Bogota_scl_25_tod_6             Mean MSE = -2.4051, Std Dev MSE = 0.6799
+
+
+
+X.shape, y.shape : (473, 21) (473,)
+Linear Regression:                                          , NewYorkCity_scl_25_tod_6        Mean MSE = -0.4203, Std Dev MSE = 0.1135
+Random Forest:                                              , NewYorkCity_scl_25_tod_6        Mean MSE = -0.3904, Std Dev MSE = 0.0873
+Gradient Boosting:                                          , NewYorkCity_scl_25_tod_6        Mean MSE = -0.4443, Std Dev MSE = 0.1168
+
+
+
+X.shape, y.shape : (386, 19) (386,)
+Linear Regression:                                          , Capetown_scl_25_tod_6           Mean MSE = -0.3966, Std Dev MSE = 0.0780
+Random Forest:                                              , Capetown_scl_25_tod_6           Mean MSE = -0.4198, Std Dev MSE = 0.0517
+Gradient Boosting:                                          , Capetown_scl_25_tod_6           Mean MSE = -0.4037, Std Dev MSE = 0.0606
+
+
+
+X.shape, y.shape : (539, 19) (539,)
+Linear Regression:                                          , London_scl_25_tod_6             Mean MSE = -0.3684, Std Dev MSE = 0.0940
+Random Forest:                                              , London_scl_25_tod_6             Mean MSE = -0.4113, Std Dev MSE = 0.1083
+Gradient Boosting:                                          , London_scl_25_tod_6             Mean MSE = -0.3955, Std Dev MSE = 0.1058
+
+
+
+X.shape, y.shape : (527, 19) (527,)
+Linear Regression:                                          , Singapore_scl_50_tod_6          Mean MSE = -0.5283, Std Dev MSE = 0.0809
+Random Forest:                                              , Singapore_scl_50_tod_6          Mean MSE = -0.5226, Std Dev MSE = 0.0918
+Gradient Boosting:                                          , Singapore_scl_50_tod_6          Mean MSE = -0.5119, Std Dev MSE = 0.0897
+
+
+
+"Error in: ", identifier, feature : Error in:  Zurich_scl_50_tod_6 13
+X.shape, y.shape : (168, 19) (168,)
+Linear Regression:                                          , Zurich_scl_50_tod_6             Mean MSE = -0.8529, Std Dev MSE = 0.5367
+Random Forest:                                              , Zurich_scl_50_tod_6             Mean MSE = -0.5702, Std Dev MSE = 0.2761
+Gradient Boosting:                                          , Zurich_scl_50_tod_6             Mean MSE = -0.5832, Std Dev MSE = 0.2950
+
+
+
+"Error in: ", identifier, feature : Error in:  Mumbai_scl_50_tod_6 9
+X.shape, y.shape : (353, 19) (353,)
+Linear Regression:                                          , Mumbai_scl_50_tod_6             Mean MSE = -0.5617, Std Dev MSE = 0.2004
+Random Forest:                                              , Mumbai_scl_50_tod_6             Mean MSE = -0.5105, Std Dev MSE = 0.1203
+Gradient Boosting:                                          , Mumbai_scl_50_tod_6             Mean MSE = -0.4713, Std Dev MSE = 0.0686
+
+
+
+X.shape, y.shape : (466, 19) (466,)
+Linear Regression:                                          , Auckland_scl_50_tod_6           Mean MSE = -0.3252, Std Dev MSE = 0.0892
+Random Forest:                                              , Auckland_scl_50_tod_6           Mean MSE = -0.3148, Std Dev MSE = 0.0893
+Gradient Boosting:                                          , Auckland_scl_50_tod_6           Mean MSE = -0.3035, Std Dev MSE = 0.0894
+
+
+
+
+
+
+Some features not found: "['global_betweenness'] not in index"
+city, scale, tod, temp_obj.X.shape, temp_obj.Y.shape : Istanbul 50 6 (1105, 18) (1105,)
+Proceeding without this feature
+
+
+
+X.shape, y.shape : (1105, 18) (1105,)
+Linear Regression:                                          , Istanbul_scl_50_tod_6           Mean MSE = -0.1767, Std Dev MSE = 0.0340
+Random Forest:                                              , Istanbul_scl_50_tod_6           Mean MSE = -0.1806, Std Dev MSE = 0.0355
+Gradient Boosting:                                          , Istanbul_scl_50_tod_6           Mean MSE = -0.1697, Std Dev MSE = 0.0334
+
+
+
+X.shape, y.shape : (928, 19) (928,)
+Linear Regression:                                          , MexicoCity_scl_50_tod_6         Mean MSE = -2.0885, Std Dev MSE = 0.3511
+Random Forest:                                              , MexicoCity_scl_50_tod_6         Mean MSE = -2.0579, Std Dev MSE = 0.3416
+Gradient Boosting:                                          , MexicoCity_scl_50_tod_6         Mean MSE = -1.9265, Std Dev MSE = 0.3464
+
+
+
+X.shape, y.shape : (510, 19) (510,)
+Linear Regression:                                          , Bogota_scl_50_tod_6             Mean MSE = -2.5238, Std Dev MSE = 0.2551
+Random Forest:                                              , Bogota_scl_50_tod_6             Mean MSE = -2.2577, Std Dev MSE = 0.2418
+Gradient Boosting:                                          , Bogota_scl_50_tod_6             Mean MSE = -2.1599, Std Dev MSE = 0.3140
+
+
+
+X.shape, y.shape : (1561, 19) (1561,)
+Linear Regression:                                          , NewYorkCity_scl_50_tod_6        Mean MSE = -0.5957, Std Dev MSE = 0.0271
+Random Forest:                                              , NewYorkCity_scl_50_tod_6        Mean MSE = -0.6075, Std Dev MSE = 0.0390
+Gradient Boosting:                                          , NewYorkCity_scl_50_tod_6        Mean MSE = -0.5716, Std Dev MSE = 0.0412
+
+
+
+X.shape, y.shape : (1131, 19) (1131,)
+Linear Regression:                                          , Capetown_scl_50_tod_6           Mean MSE = -0.6108, Std Dev MSE = 0.0723
+Random Forest:                                              , Capetown_scl_50_tod_6           Mean MSE = -0.6111, Std Dev MSE = 0.0494
+Gradient Boosting:                                          , Capetown_scl_50_tod_6           Mean MSE = -0.5776, Std Dev MSE = 0.0566
+
+
+
+X.shape, y.shape : (1780, 19) (1780,)
+Linear Regression:                                          , London_scl_50_tod_6             Mean MSE = -0.6512, Std Dev MSE = 0.0696
+Random Forest:                                              , London_scl_50_tod_6             Mean MSE = -0.6761, Std Dev MSE = 0.0573
+Gradient Boosting:                                          , London_scl_50_tod_6             Mean MSE = -0.6596, Std Dev MSE = 0.0600
+
+
+
+"Error in: ", identifier, feature : Error in:  Singapore_scl_100_tod_6 8
+"Error in: ", identifier, feature : Error in:  Singapore_scl_100_tod_6 13
+X.shape, y.shape : (1655, 19) (1655,)
+Linear Regression:                                          , Singapore_scl_100_tod_6         Mean MSE = -1.2229, Std Dev MSE = 0.4732
+Random Forest:                                              , Singapore_scl_100_tod_6         Mean MSE = -0.9228, Std Dev MSE = 0.1170
+Gradient Boosting:                                          , Singapore_scl_100_tod_6         Mean MSE = -0.8820, Std Dev MSE = 0.1346
+
+
+
+"Error in: ", identifier, feature : Error in:  Zurich_scl_100_tod_6 13
+X.shape, y.shape : (478, 19) (478,)
+Linear Regression:                                          , Zurich_scl_100_tod_6            Mean MSE = -0.9360, Std Dev MSE = 0.1970
+Random Forest:                                              , Zurich_scl_100_tod_6            Mean MSE = -0.9793, Std Dev MSE = 0.2926
+Gradient Boosting:                                          , Zurich_scl_100_tod_6            Mean MSE = -0.9529, Std Dev MSE = 0.2375
+
+
+
+"Error in: ", identifier, feature : Error in:  Mumbai_scl_100_tod_6 8
+"Error in: ", identifier, feature : Error in:  Mumbai_scl_100_tod_6 9
+"Error in: ", identifier, feature : Error in:  Mumbai_scl_100_tod_6 10
+"Error in: ", identifier, feature : Error in:  Mumbai_scl_100_tod_6 13
+X.shape, y.shape : (1120, 19) (1120,)
+Linear Regression:                                          , Mumbai_scl_100_tod_6            Mean MSE = -0.7050, Std Dev MSE = 0.0725
+Random Forest:                                              , Mumbai_scl_100_tod_6            Mean MSE = -0.7387, Std Dev MSE = 0.0703
+Gradient Boosting:                                          , Mumbai_scl_100_tod_6            Mean MSE = -0.7035, Std Dev MSE = 0.0757
+
+
+
+"Error in: ", identifier, feature : Error in:  Auckland_scl_100_tod_6 13
+X.shape, y.shape : (1361, 19) (1361,)
+Linear Regression:                                          , Auckland_scl_100_tod_6          Mean MSE = -0.4870, Std Dev MSE = 0.0997
+Random Forest:                                              , Auckland_scl_100_tod_6          Mean MSE = -0.4979, Std Dev MSE = 0.1087
+Gradient Boosting:                                          , Auckland_scl_100_tod_6          Mean MSE = -0.4860, Std Dev MSE = 0.1020
+
+
+
+
+
+
+Some features not found: "['global_betweenness'] not in index"
+city, scale, tod, temp_obj.X.shape, temp_obj.Y.shape : Istanbul 100 6 (3394, 18) (3394,)
+Proceeding without this feature
+
+
+
+"Error in: ", identifier, feature : Error in:  Istanbul_scl_100_tod_6 8
+X.shape, y.shape : (3394, 18) (3394,)
+Linear Regression:                                          , Istanbul_scl_100_tod_6          Mean MSE = -55.2731, Std Dev MSE = 134.6899
+Random Forest:                                              , Istanbul_scl_100_tod_6          Mean MSE = -0.3027, Std Dev MSE = 0.0267
+Gradient Boosting:                                          , Istanbul_scl_100_tod_6          Mean MSE = -0.2856, Std Dev MSE = 0.0266
+
+
+
+X.shape, y.shape : (2511, 19) (2511,)
+Linear Regression:                                          , MexicoCity_scl_100_tod_6        Mean MSE = -2.6827, Std Dev MSE = 0.0976
+Random Forest:                                              , MexicoCity_scl_100_tod_6        Mean MSE = -2.7639, Std Dev MSE = 0.1102
+Gradient Boosting:                                          , MexicoCity_scl_100_tod_6        Mean MSE = -2.6355, Std Dev MSE = 0.1228
+
+
+
+X.shape, y.shape : (1521, 19) (1521,)
+Linear Regression:                                          , Bogota_scl_100_tod_6            Mean MSE = -3.2900, Std Dev MSE = 0.2363
+Random Forest:                                              , Bogota_scl_100_tod_6            Mean MSE = -2.9080, Std Dev MSE = 0.3629
+Gradient Boosting:                                          , Bogota_scl_100_tod_6            Mean MSE = -2.9311, Std Dev MSE = 0.2640
+
+
+
+"Error in: ", identifier, feature : Error in:  NewYorkCity_scl_100_tod_6 13
+X.shape, y.shape : (5089, 19) (5089,)
+Linear Regression:                                          , NewYorkCity_scl_100_tod_6       Mean MSE = -0.8434, Std Dev MSE = 0.0608
+Random Forest:                                              , NewYorkCity_scl_100_tod_6       Mean MSE = -0.8541, Std Dev MSE = 0.0430
+Gradient Boosting:                                          , NewYorkCity_scl_100_tod_6       Mean MSE = -0.7994, Std Dev MSE = 0.0535
+
+
+
+
+
+
+Some features not found: "['global_betweenness'] not in index"
+city, scale, tod, temp_obj.X.shape, temp_obj.Y.shape : Capetown 100 6 (2983, 18) (2983,)
+Proceeding without this feature
+
+
+
+X.shape, y.shape : (2983, 18) (2983,)
+Linear Regression:                                          , Capetown_scl_100_tod_6          Mean MSE = -0.8092, Std Dev MSE = 0.0556
+Random Forest:                                              , Capetown_scl_100_tod_6          Mean MSE = -0.8402, Std Dev MSE = 0.0510
+Gradient Boosting:                                          , Capetown_scl_100_tod_6          Mean MSE = -0.7936, Std Dev MSE = 0.0525
+
+
+
+X.shape, y.shape : (4881, 19) (4881,)
+Linear Regression:                                          , London_scl_100_tod_6            Mean MSE = -0.9745, Std Dev MSE = 0.1282
+Random Forest:                                              , London_scl_100_tod_6            Mean MSE = -1.0358, Std Dev MSE = 0.0978
+Gradient Boosting:                                          , London_scl_100_tod_6            Mean MSE = -0.9900, Std Dev MSE = 0.1338
+
+
+
