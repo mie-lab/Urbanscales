@@ -552,8 +552,12 @@ if __name__ == "__main__":
         sprint(time.time() - ss, ox.settings.use_cache)
 
         ss = time.time()
-        with open(fname, "wb") as f:
+        rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,
+                                          str(int(np.random.rand() * 100000000000000)))
+        with open(rand_pickle_marker, "wb") as f:
             pickle.dump(graph, f, protocol=config.pickle_protocol)
+        os.rename(rand_pickle_marker, fname)
+
         print("Pickle write time: ", time.time() - ss)
 
     elif os.path.exists(fname):

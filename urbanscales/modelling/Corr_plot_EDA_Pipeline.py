@@ -145,9 +145,12 @@ class Pipeline:
         ]
         fi_dict = dict(zip(self.X.columns, zip(r.importances_mean.tolist(), colorlist)))
 
-        with open(fname + ".pkl", "wb") as f:
+        rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,
+                                          str(int(np.random.rand() * 100000000000000)))
+        with open(rand_pickle_marker, "wb") as f:
             pickle.dump(fi_dict, f, protocol=config.pickle_protocol)
             print("Pickle of feature importance saved! ")
+        os.rename(rand_pickle_marker, fname + ".pkl")
 
         list_of_tuples = sorted(fi_dict.items(), key=lambda kv: kv[1][0], reverse=True)
         plt.clf()

@@ -149,7 +149,7 @@ elif RUNNING_ON_LOCAL:
     }
 
 rn_master_list_of_cities = list(rn_city_wise_bboxes.keys())
-
+rn_basemap_zoom_level = 13
 rn_do_not_filter_list = []  # ["Zurich"]
 rn_do_not_filter = True
 if rn_do_not_filter:
@@ -208,7 +208,7 @@ scl_list_of_depths = [1]
 
 # test_small
 if RUNNING_ON_LOCAL:
-    scl_list_of_seeds = [100, 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+    scl_list_of_seeds = [100]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 elif RUNNING_ON_SERVER:
     scl_list_of_seeds = [25, 50, 100] # , 70, 90] # list(range(50, 121, 20)) # list(range(10, 121, 40))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 # forward
@@ -218,6 +218,7 @@ elif RUNNING_ON_SERVER:
 # scl_list_of_seeds = list(range(345, 120, -10))
 
 scl_error_percentage_tolerance = 1
+scl_basemap_zoom_level = 15
 
 ####################################
 ######## Tile Class configs ########
@@ -294,6 +295,10 @@ network_folder = "network_tmean_smean_" +str(rn_square_from_city_centre)+ "x" +s
 warnings_folder = "warnings"
 results_folder = "results_network_tmean_smean_"+str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" # "results_50x50_max_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi-max-max"
 
+
+temp_folder_for_robust_pickle_files = os.path.join(BASE_FOLDER, "pickle_slack_temp")
+if not os.path.exists(temp_folder_for_robust_pickle_files):
+    os.mkdir(temp_folder_for_robust_pickle_files)
 
 # To ensure that we don't overwrite the network folder of max with mean or vice-versa
 # When we use mean, we use mean in the network folder and

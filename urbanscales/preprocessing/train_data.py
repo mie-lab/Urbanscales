@@ -192,9 +192,12 @@ class TrainDataVectors:
             self.Y = self.Y.values.reshape(self.Y.shape[0])
             assert not np.isnan(self.Y).any(), "The array self.Y contains NaN values."
 
-            with open(fname, "wb") as f:
+            rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,
+                                              str(int(np.random.rand() * 100000000000000)))
+            with open(rand_pickle_marker, "wb") as f:
                 pickle.dump(self, f, protocol=config.pickle_protocol)
                 print("Pickle saved!")
+            os.rename(rand_pickle_marker, fname)
 
         debug_stop = 2
 
@@ -279,10 +282,12 @@ class TrainDataVectors:
     #             )
     #
     #         self.Y = self.Y.values.reshape(self.Y.shape[0])
-    #
-    #         with open(fname, "wb") as f:
+    #         rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,
+    #                                           str(int(np.random.rand() * 100000000000000)))
+    #         with open(rand_pickle_marker, "wb") as f:
     #             pickle.dump(self, f, protocol=config.pickle_protocol)
     #             print("Pickle saved! ")
+    #         os.rename(rand_pickle_marker, fname)
     #         print  ("Pickle saved!! ")
     #     debug_stop = 2
 

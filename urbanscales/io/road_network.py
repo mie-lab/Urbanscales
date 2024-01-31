@@ -63,16 +63,16 @@ class SquareFilter:
             # Shift west by 2/3 km
             new_center = geopy.distance.distance(kilometers=2 / 3).destination(center, bearing=270)
         elif shift_tiles == 5:
-            # Shift north by 2/3 km
+            # Shift north by 2/7 km
             new_center = geopy.distance.distance(kilometers=2 / 7).destination(center, bearing=0)
         elif shift_tiles == 6:
-            # Shift south by 2/3 km
+            # Shift south by 2/7 km
             new_center = geopy.distance.distance(kilometers=2 / 7).destination(center, bearing=180)
         elif shift_tiles == 7:
-            # Shift east by 2/3 km
+            # Shift east by 2/7 km
             new_center = geopy.distance.distance(kilometers=2 / 7).destination(center, bearing=90)
         elif shift_tiles == 8:
-            # Shift west by 2/3 km
+            # Shift west by 2/7 km
             new_center = geopy.distance.distance(kilometers=2 / 7).destination(center, bearing=270)
         elif shift_tiles == 0:
             # No shift
@@ -106,6 +106,7 @@ class RoadNetwork:
         Example: SG = RoadNetwork("Singapore")
         mode_of_retreival = "place"/"bbox"
         """
+        self.city_name = cityname
         self.rn_fname = os.path.join(
             config.BASE_FOLDER, config.network_folder, cityname, config.rn_post_fix_road_network_object_file
         )
@@ -161,11 +162,66 @@ class RoadNetwork:
                 self.G_osm = ox.speed.add_edge_speeds(self.G_osm)
                 self.G_osm = ox.speed.add_edge_travel_times(self.G_osm)
             self.save_road_network_object()
+        if config.MASTER_VISUALISE_EACH_STEP:
+            self.visualise()
+
+    def visualise(self):
+        filepath = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name,
+                                config.rn_base_map_filename)
+
+        # Check if the graph exists
+        if self.G_osm is None:
+            print("Graph not loaded. Unable to visualize.")
+            raise Exception("Graph not loaded. Unable to visualize." + "\nInside RoadNetwork class")
+            return
+
+        # ox.plot.plot_graph(
+        #     self.G_osm,
+        #     ax=None,
+        #     figsize=(12, 8),
+        #     bgcolor="white",
+        #     node_color="black",
+        #     node_size=0.1,
+        #     node_alpha=None,
+        #     node_edgecolor="none",
+        #     node_zorder=1,
+        #     edge_color="black",
+        #     edge_linewidth=0.1,
+        #     edge_alpha=None,
+        #     show=True,
+        #     close=False,
+        #     save=True,
+        #     bbox=None,
+        #     filepath=filepath,
+        #     dpi=300,
+        # )
+        # Convert the graph to a GeoDataFrame
+        gdf_nodes, gdf_edges = ox.utils_graph.graph_to_gdfs(self.G_osm)
+
+        # Create a basemap plot
+        fig, ax = plt.subplots(figsize=(12, 8))
+
+        # Plot the edges
+        gdf_edges.plot(ax=ax, linewidth=1, edgecolor='black')
+
+        # Add the colorful basemap
+        ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik, zoom=config.rn_basemap_zoom_level)
+
+        # Optionally, you can set bounds to zoom into a specific area
+        # ax.set_xlim([min_x, max_x])
+        # ax.set_ylim([min_y, max_y])
+
+        # Save or show the plot
+        filepath = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, config.rn_base_map_filename)
+        plt.savefig(filepath, dpi=300)
+        plt.show()
 
     def save_road_network_object(self):
-        with open(self.rn_fname, "wb") as f:
+        rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,
+                                          str(int(np.random.rand() * 100000000000000)))
+        with open(rand_pickle_marker, "wb") as f:
             pickle.dump(self, f, protocol=config.pickle_protocol)
-        os.rename()
+        os.rename(rand_pickle_marker, self.rn_fname)
 
     def get_osm_from_place(self):
         if self.G_osm == None:
@@ -177,8 +233,12 @@ class RoadNetwork:
                 self.G_osm = ox.graph_from_place(
                     self.city_name, network_type="drive", simplify=config.rn_simplify, retain_all=True
                 )
-                with open(fname, "wb") as f:
+                rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,
+                                                  str(int(np.random.rand() * 100000000000000)))
+                with open(rand_pickle_marker, "wb") as f:
                     pickle.dump(self.G_osm, f, protocol=config.pickle_protocol)
+                os.rename(rand_pickle_marker, fname)
+
         return self.G_osm
 
     def get_osm_from_bbox(self):
@@ -211,8 +271,12 @@ class RoadNetwork:
                     print("Exiting execution; graph not fetched from OSM")
                     # sys.exit(0)
 
-                with open(fname, "wb") as f:
+                rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,
+                                                  str(int(np.random.rand() * 100000000000000)))
+                with open(rand_pickle_marker, "wb") as f:
                     pickle.dump(self.G_osm, f, protocol=config.pickle_protocol)
+                os.rename(rand_pickle_marker, fname)
+
         return self.G_osm
 
     def get_osm_from_address(self):
@@ -229,8 +293,12 @@ class RoadNetwork:
                 self.G_osm = pickle.load(f1)
         else:
             self.G_osm = ox.graph_from_address(self.city_name, network_type="drive")
-            with open(fname, "wb") as f:
+            rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,
+                                              str(int(np.random.rand() * 100000000000000)))
+            with open(rand_pickle_marker, "wb") as f:
                 pickle.dump(self.G_osm, f, protocol=config.pickle_protocol)
+            os.rename(rand_pickle_marker, fname)
+
         return self.G_osm
 
     def set_graph_features(self):
@@ -404,7 +472,11 @@ class RoadNetwork:
         class_attrs = vars(self)
         repr_str = f"{self.__class__.__name__}(\n"
         for attr, value in class_attrs.items():
-            repr_str += f"  {attr}: {value}\n"
+            # if attr == "G_osm": # no need to fill the screen
+            #     repr_str += f"  {attr}: {value}\n"
+            #     continue
+            # repr_str += f"  {attr}: {value}\n"
+            repr_str += f"  {attr}: Value \n"
         repr_str += ")"
         return repr_str
 

@@ -163,8 +163,11 @@ class RoadNetworkShifting:
             self.save_road_network_object()
 
     def save_road_network_object(self):
-        with open(self.rn_fname, "wb") as f:
+        rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,
+                                          str(int(np.random.rand() * 100000000000000)))
+        with open(rand_pickle_marker, "wb") as f:
             pickle.dump(self, f, protocol=config.pickle_protocol)
+        os.rename(rand_pickle_marker, self.rn_fname)
 
     def get_osm_from_place(self):
         if self.G_osm == None:
@@ -176,8 +179,12 @@ class RoadNetworkShifting:
                 self.G_osm = ox.graph_from_place(
                     self.city_name, network_type="drive", simplify=config.rn_simplify, retain_all=True
                 )
-                with open(fname, "wb") as f:
+                rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,
+                                                  str(int(np.random.rand() * 100000000000000)))
+                with open(rand_pickle_marker, "wb") as f:
                     pickle.dump(self.G_osm, f, protocol=config.pickle_protocol)
+                os.rename(rand_pickle_marker, fname)
+
         return self.G_osm
 
     def get_osm_from_bbox(self):
@@ -210,8 +217,13 @@ class RoadNetworkShifting:
                     print("Exiting execution; graph not fetched from OSM")
                     # sys.exit(0)
 
-                with open(fname, "wb") as f:
+                rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,
+                                                  str(int(np.random.rand() * 100000000000000)))
+                with open(rand_pickle_marker, "wb") as f:
                     pickle.dump(self.G_osm, f, protocol=config.pickle_protocol)
+                os.rename(rand_pickle_marker, fname)
+
+
         return self.G_osm
 
     def get_osm_from_address(self):
@@ -228,8 +240,12 @@ class RoadNetworkShifting:
                 self.G_osm = pickle.load(f1)
         else:
             self.G_osm = ox.graph_from_address(self.city_name, network_type="drive")
-            with open(fname, "wb") as f:
+            rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,
+                                              str(int(np.random.rand() * 100000000000000)))
+            with open(rand_pickle_marker, "wb") as f:
                 pickle.dump(self.G_osm, f, protocol=config.pickle_protocol)
+            os.rename(rand_pickle_marker, fname)
+
         return self.G_osm
 
     def set_graph_features(self):
@@ -354,6 +370,8 @@ class RoadNetworkShifting:
         repr_str += ")"
         return repr_str
 
+
+
     @staticmethod
     def generate_road_nw_object_for_all_cities():
         if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder)):
@@ -381,6 +399,8 @@ class RoadNetworkShifting:
                     csvwriter.writerow(rn.get_graph_features_as_list())
 
                 print(time.time() - starttime)
+
+
 
     @staticmethod
     def get_object(city):

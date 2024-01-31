@@ -21,7 +21,7 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 from tqdm import tqdm
 
 import time
-
+import contextily as ctx
 import networkx as nx
 import osmnx as ox
 from geopy.distance import geodesic
@@ -49,9 +49,13 @@ class CustomUnpicklerScale(pickle.Unpickler):
 
 class Scale:
     def __init__(self, RoadNetwork, scale):
-        fname = os.path.join(
-            config.BASE_FOLDER, config.network_folder, RoadNetwork.city_name, "_scale_" + str(scale) + ".pkl"
-        )
+        try:
+            fname = os.path.join(
+                config.BASE_FOLDER, config.network_folder, RoadNetwork.city_name, "_scale_" + str(scale) + ".pkl"
+            )
+        except AttributeError as e:
+            print (RoadNetwork)
+            raise Exception(e)
         if config.scl_delete_existing_pickle_objects:
             if os.path.exists(fname):
                 os.remove(fname)
@@ -73,6 +77,8 @@ class Scale:
             assert config.rn_square_from_city_centre != -1 and config.rn_percentage_of_city_area == 100
 
             self.set_bbox_sub_G_map()
+        if config.MASTER_VISUALISE_EACH_STEP:
+            self.visualise()
 
     def create_subgraphs_from_bboxes_optimised(self, G, bboxes):
         print ("Converting graph to GDF's")
@@ -267,8 +273,11 @@ class Scale:
         print("After removing empty bboxes", len(self.list_of_bbox))
 
         if not os.path.exists(fname):
-            with open(fname, "wb") as f:
+            rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,
+                                              str(int(np.random.rand() * 100000000000000)))
+            with open(rand_pickle_marker, "wb") as f:
                 pickle.dump(self, f, protocol=config.pickle_protocol)
+            os.rename(rand_pickle_marker, fname)
 
     def process_bbox(self, bbox, dict_of_subgraphs, tile_area):
         N, S, E, W, _ = bbox
@@ -563,8 +572,12 @@ class Scale:
                 print ("Empty tile; returning empty tile marker")
                 # return (key, config.rn_no_stats_marker)
                 fname = os.path.join(config.BASE_FOLDER, "_prep_network_temp_file_" + str(int(np.random.rand() * 10000000000)) + self.RoadNetwork.city + str(self.RoadNetwork.scale) + ".pkl")
-                with open(fname, "wb") as f:
+                rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,
+                                                  str(int(np.random.rand() * 100000000000000)))
+                with open(rand_pickle_marker, "wb") as f:
                     pickle.dump((N, S, E, W, config.rn_no_stats_marker), f, protocol=config.pickle_protocol)
+                os.rename(rand_pickle_marker, fname)
+
             try:
                 startime = time.time()
                 tile = Tile(create_subgraph_within_bbox(bbox=(N, S, E, W)), self.tile_area)
@@ -577,8 +590,50 @@ class Scale:
             # return (key, tile)
             fname = os.path.join(config.BASE_FOLDER, "_prep_network_temp_file_" + str(
                 int(np.random.rand() * 10000000000)) + self.RoadNetwork.city + str(self.RoadNetwork.scale) + ".pkl")
-            with open(fname, "wb") as f:
+            rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,
+                                              str(int(np.random.rand() * 100000000000000)))
+            with open(rand_pickle_marker, "wb") as f:
                 pickle.dump((N, S, E, W, tile), f, protocol=config.pickle_protocol)
+            os.rename(rand_pickle_marker, fname)
+
+    import geopandas as gpd
+    import matplotlib.pyplot as plt
+    import contextily as ctx
+    from shapely.geometry import box
+    import config  # Ensure this is the module where rn_no_stats_marker is defined
+
+    def visualise(self):
+        identifier = self.RoadNetwork.city_name + "_" + str(self.scale) + "_" + str(config.shift_tile_marker)
+        # Ensure that dict_bbox_to_subgraph attribute exists
+        if not hasattr(self, 'dict_bbox_to_subgraph'):
+            print("No dict_bbox_to_subgraph attribute found in the scale object.")
+            return
+
+        # Create a list of box geometries, excluding those with rn_no_stats_marker
+        geometries = []
+        for bbox in self.dict_bbox_to_subgraph:
+            if self.dict_bbox_to_subgraph[bbox] != config.rn_no_stats_marker:
+                N, S, E, W = bbox
+                geometries.append(box(W, S, E, N))
+
+        if not geometries:
+            print("No valid bounding boxes to plot.")
+            return
+
+        # Create GeoDataFrame from the geometries
+        gdf = gpd.GeoDataFrame({'geometry': geometries}, crs='EPSG:4326')
+
+        # Convert to Web Mercator for basemap
+        gdf = gdf.to_crs(epsg=3857)
+        fig, ax = plt.subplots(figsize=(15, 10))
+        gdf.boundary.plot(ax=ax, color='blue', linewidth=2)
+        ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik, zoom=config.scl_basemap_zoom_level)
+        plt.savefig(f"Bboxes_{identifier}.png", dpi=300)
+        plt.show(block=False)
+
+    # Example usage
+    # scale_obj = Scale(RoadNetwork('CityName'), scale)
+    # plot_bboxes_for_debugging(scale_obj, 'CityName_Scale')
 
 
     @staticmethod

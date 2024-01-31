@@ -165,9 +165,12 @@ class SpeedData:
         if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name)):
             os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name))
 
+
         if not os.path.exists(fname):
-            with open(fname, "wb") as f:
+            rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files, str(int(np.random.rand() * 100000000000000)) )
+            with open(rand_pickle_marker, "wb") as f:
                 pickle.dump(self, f, protocol=config.pickle_protocol)
+            os.rename(rand_pickle_marker, fname)
 
     # def get_object(cityname):
     #     """

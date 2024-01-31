@@ -37,8 +37,9 @@ class CustomUnpicklerScaleJF(pickle.Unpickler):
             return ScaleJF
         if name == "Scale":
             from urbanscales.preprocessing.prep_network import Scale
-
-            return Scale
+        if name == "RoadNetwork":
+            from urbanscales.io.road_network import RoadNetwork
+            return RoadNetwork
         return super().find_class(module, name)
 
 
@@ -248,9 +249,12 @@ class ScaleJF:
             self.Scale.RoadNetwork.city_name,
             "_scale_" + str(self.Scale.scale) + "_prep_speed_" + str(self.tod) + ".pkl",
         )
-        with open(fname, "wb") as f:
+        rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,
+                                          str(int(np.random.rand() * 100000000000000)))
+        with open(rand_pickle_marker, "wb") as f:
             pickle.dump(self, f, protocol=config.pickle_protocol)
             print("Pickle saved!")
+        os.rename(rand_pickle_marker, fname)
 
     def set_bbox_jf_map_loops(self):
         """
@@ -286,9 +290,12 @@ class ScaleJF:
             self.Scale.RoadNetwork.city_name,
             "_scale_" + str(self.Scale.scale) + "_prep_speed_" + str(self.tod) + ".pkl",
         )
-        with open(fname, "wb") as f:
+        rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,
+                                          str(int(np.random.rand() * 100000000000000)))
+        with open(rand_pickle_marker, "wb") as f:
             pickle.dump(self, f, protocol=config.pickle_protocol)
             print("Pickle saved!")
+        os.rename(rand_pickle_marker, fname)
 
     def get_object(cityname, scale, tod):
         """
