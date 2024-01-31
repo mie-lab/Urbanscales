@@ -176,7 +176,7 @@ class Pipeline:
         with open(rand_pickle_marker, "wb") as f:
             pickle.dump(fi_dict, f, protocol=config.pickle_protocol)
             print("Pickle of feature importance saved! ")
-        os.rename(fname + ".pkl", fname)
+        os.rename(rand_pickle_marker, fname + ".pkl")
 
 
         list_of_tuples = sorted(fi_dict.items(), key=lambda kv: kv[1][0], reverse=True)
