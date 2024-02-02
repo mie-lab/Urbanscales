@@ -121,6 +121,7 @@ class RoadNetwork:
             with open(self.rn_fname, "rb") as f:
                 # temp = copy.deepcopy(pickle.load(f))
                 ss = time.time()
+                print ("Reading road network pickle file:  .. .. .. ")
                 temp = copy.deepcopy(CustomUnpicklerRoadNetwork(open(self.rn_fname, "rb")).load())
                 self.__dict__.update(temp.__dict__)
                 print("Road network loading time: ", time.time() - ss)
@@ -202,10 +203,10 @@ class RoadNetwork:
         fig, ax = plt.subplots(figsize=(12, 8))
 
         # Plot the edges
-        gdf_edges.plot(ax=ax, linewidth=1, edgecolor='black')
+        gdf_edges.plot(ax=ax, linewidth=1, edgecolor='black', alpha=0.5)
 
         # Add the colorful basemap
-        ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik, zoom=config.rn_basemap_zoom_level)
+        ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik) # , zoom=config.rn_basemap_zoom_level)
 
         # Optionally, you can set bounds to zoom into a specific area
         # ax.set_xlim([min_x, max_x])

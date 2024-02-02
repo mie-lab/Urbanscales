@@ -4,7 +4,9 @@ import os
 import pickle
 import sys
 import time
+from random import random
 
+import networkx as nx
 import numpy as np
 from matplotlib import pyplot as plt
 
@@ -139,9 +141,38 @@ class TrainDataVectors:
         scl_jf = ScaleJF.get_object(self.city_name, self.scale, self.tod)
         assert isinstance(scl_jf, ScaleJF)
 
-        with open(os.path.join(config.BASE_FOLDER, "urbanscales", "betweenness_global", \
-                               self.city_name + "_mean_betweenness_centrality.pkl"), "rb") as f_between:
-            dict_between = pickle.load(f_between)
+        betweenness_fname = os.path.join(config.BASE_FOLDER, config.network_folder,
+                                         self.city_name + "_mean_betweenness_centrality.pkl")
+        if os.path.exists(betweenness_fname):
+            with open(betweenness_fname, "rb") as f_between:
+                dict_between = pickle.load(f_between)
+        else:
+            K = 20
+            iterations = 10
+            initial_bc = nx.betweenness_centrality(scl.RoadNetwork.G_osm, k=K)
+            all_nodes = list(initial_bc.keys())
+
+            # Dictionary to store the mean betweenness centrality values for each node up to each iteration
+            mean_values_per_node = {node: [] for node in all_nodes}
+
+            for i in tqdm(range(iterations), desc="Computing betweenness using iterations.."):
+                bc = nx.betweenness_centrality(scl.RoadNetwork.G_osm, k=K)
+                for node in all_nodes:
+                    if i == 0:
+                        current_mean = bc[node]
+                    else:
+                        current_mean = (mean_values_per_node[node][-1] * i + bc[node]) / (i + 1)
+                    mean_values_per_node[node].append(current_mean)
+            overall_mean_bc_per_node = {node: sum(values) / len(values) for node, values in
+                                        mean_values_per_node.items()}
+
+            dict_between = overall_mean_bc_per_node
+            rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,
+                                              str(int(np.random.rand() * 100000000000000)))
+            with open(rand_pickle_marker, "wb") as f_between:
+                pickle.dump(dict_between, f_between, protocol=config.pickle_protocol)
+                print("Pickle saved!")
+            os.rename(rand_pickle_marker, betweenness_fname)
 
         sprint(len(scl_jf.bbox_segment_map))
         for bbox in tqdm(

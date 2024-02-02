@@ -7,7 +7,7 @@ verbose = 2
 
 DEBUG = False
 DEBUG_TRUNCATE = False
-MASTER_VISUALISE_EACH_STEP = True
+MASTER_VISUALISE_EACH_STEP = False
 
 BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"
 BASE_FOLDER_server = "/home/niskumar/WCS"
@@ -208,7 +208,7 @@ scl_list_of_depths = [1]
 
 # test_small
 if RUNNING_ON_LOCAL:
-    scl_list_of_seeds = [100]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+    scl_list_of_seeds = [100] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 elif RUNNING_ON_SERVER:
     scl_list_of_seeds = [25, 50, 100] # , 70, 90] # list(range(50, 121, 20)) # list(range(10, 121, 40))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 # forward
@@ -218,7 +218,7 @@ elif RUNNING_ON_SERVER:
 # scl_list_of_seeds = list(range(345, 120, -10))
 
 scl_error_percentage_tolerance = 1
-scl_basemap_zoom_level = 15
+scl_basemap_zoom_level = 19
 
 ####################################
 ######## Tile Class configs ########

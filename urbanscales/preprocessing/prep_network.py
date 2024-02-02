@@ -626,9 +626,9 @@ class Scale:
         # Convert to Web Mercator for basemap
         gdf = gdf.to_crs(epsg=3857)
         fig, ax = plt.subplots(figsize=(15, 10))
-        gdf.boundary.plot(ax=ax, color='blue', linewidth=2)
-        ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik, zoom=config.scl_basemap_zoom_level)
-        plt.savefig(f"Bboxes_{identifier}.png", dpi=300)
+        gdf.boundary.plot(ax=ax, color='blue', linewidth=0.5, alpha=0.5)
+        ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik) #, zoom=config.scl_basemap_zoom_level)
+        plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, self.RoadNetwork.city_name,f"Bboxes_{identifier}.png"), dpi=600)
         plt.show(block=False)
 
     # Example usage
