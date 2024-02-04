@@ -1,5 +1,8 @@
 import csv
 import sys
+
+from tqdm import tqdm
+
 import warnings
 
 import networkx as nx
@@ -129,8 +132,31 @@ class Tile:
         self.total_crossings = metered_count + non_metered_count
 
     def set_betweenness_centrality_local(self):
-        lict_of_centralities = list(nx.betweenness_centrality(self.G).values())
-        self.betweenness = np.mean(lict_of_centralities)
+        if self.G.__len__() > 20:
+            K = 20
+            iterations = 20
+            initial_bc = nx.betweenness_centrality(self.G, k=K)
+            all_nodes = list(initial_bc.keys())
+
+            # Dictionary to store the mean betweenness centrality values for each node up to each iteration
+            mean_values_per_node = {node: [] for node in all_nodes}
+
+            for i in tqdm(range(iterations), desc="Computing betweenness using iterations.."):
+                bc = nx.betweenness_centrality(self.G, k=K)
+                for node in all_nodes:
+                    if i == 0:
+                        current_mean = bc[node]
+                    else:
+                        current_mean = (mean_values_per_node[node][-1] * i + bc[node]) / (i + 1)
+                    mean_values_per_node[node].append(current_mean)
+            overall_mean_bc_per_node = {node: sum(values) / len(values) for node, values in
+                                        mean_values_per_node.items()}
+
+            dict_between = overall_mean_bc_per_node
+            self.betweenness = np.mean(dict_between.values())
+        else:
+            lict_of_centralities = list(nx.betweenness_centrality(self.G).values())
+            self.betweenness = np.mean(lict_of_centralities)
 
     def get_betweenness_centrality_global(self, dict_node_to_bc):
         # Filter out nodes from the dict that are also in self.G
