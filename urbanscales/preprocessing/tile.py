@@ -153,7 +153,7 @@ class Tile:
                                         mean_values_per_node.items()}
 
             dict_between = overall_mean_bc_per_node
-            self.betweenness = np.mean(dict_between.values())
+            self.betweenness = np.mean(list(dict_between.values()))
         else:
             lict_of_centralities = list(nx.betweenness_centrality(self.G).values())
             self.betweenness = np.mean(lict_of_centralities)
