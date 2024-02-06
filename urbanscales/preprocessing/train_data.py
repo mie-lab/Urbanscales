@@ -23,6 +23,10 @@ import pandas as pd
 from tqdm import tqdm
 from smartprint import smartprint as sprint
 import seaborn as sns
+import geopandas as gpd
+from shapely.geometry import Polygon
+import matplotlib.pyplot as plt
+import contextily as ctx
 
 # from urbanscales.io.speed_data import Segment  # this line if not present gives
 # # an error while depickling a file.
@@ -140,6 +144,28 @@ class TrainDataVectors:
         scl = Scale.get_object(self.city_name, self.scale)
         scl_jf = ScaleJF.get_object(self.city_name, self.scale, self.tod)
         assert isinstance(scl_jf, ScaleJF)
+
+        if config.MASTER_VISUALISE_EACH_STEP:
+            # Plot the bboxes from scl_jf
+            # Example list of bounding boxes
+            # bboxes = list(scl_jf.bbox_segment_map.keys())
+            bboxes = list (scl.dict_bbox_to_subgraph.keys())
+
+            # Create a GeoDataFrame with these bounding boxes
+            gdf = gpd.GeoDataFrame({
+                'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)]) for
+                             lat1, lat2, lon1, lon2 in bboxes]
+            }, crs="EPSG:4326")  # EPSG:4326 is WGS84 latitude-longitude projection
+
+            # Convert the GeoDataFrame to the Web Mercator projection (used by most web maps)
+            gdf_mercator = gdf.to_crs(epsg=3857)
+
+            # Plotting
+            fig, ax = plt.subplots(figsize=(10, 10))
+            gdf_mercator.boundary.plot(ax=ax, color='red')
+            ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
+            ax.set_axis_off()
+            plt.show()
 
         betweenness_fname = os.path.join(config.BASE_FOLDER, config.network_folder,
                                          self.city_name + "_mean_betweenness_centrality.pkl")

@@ -82,8 +82,9 @@ class Scale:
 
     def create_subgraphs_from_bboxes_optimised(self, G, bboxes):
         print ("Converting graph to GDF's")
+        starttime = time.time()
         gdf_nodes, _ = ox.graph_to_gdfs(G)
-
+        print("Done .. Converting graph to GDF's completed in: ", round(time.time() - starttime, 2), "seconds")
 
         bbox_gdf = gpd.GeoDataFrame({'bbox': bboxes},
                                     geometry=[box(west, south, east, north) for north, south, east, west, _ in bboxes],
@@ -92,8 +93,9 @@ class Scale:
                                     # not needed for this function)
 
         print("Performing spatial join")
+        starttime = time.time()
         joined_nodes = gpd.sjoin(gdf_nodes, bbox_gdf, how='left', predicate='within')
-        print ("Spatial join complete")
+        print ("Spatial join complete in ", round(time.time() - starttime, 2), " seconds")
 
         subgraphs = {}
         for bbox in tqdm(bbox_gdf['bbox'], desc="Iterating over bboxes"):
@@ -217,6 +219,7 @@ class Scale:
             elif config.rn_truncate_method == "GPD_CUSTOM":
                 dict_of_subgraphs = self.create_subgraphs_from_bboxes_optimised(self.RoadNetwork.G_osm, self.list_of_bbox)
                 self.dict_bbox_to_subgraph = {}
+                counter_bbox = 0
                 for bbox in tqdm(dict_of_subgraphs, desc="Converting subgraphs to Tiles"):
                     N,S,E,W, _ = bbox
                     # After NSEW, the underscore _ (the fifth parameter is total count;
@@ -228,6 +231,32 @@ class Scale:
                     except Exception as e:
                         self.dict_bbox_to_subgraph[N, S, E, W] = config.rn_no_stats_marker
                         # raise Exception(e)
+
+                    counter_bbox += 1
+                    if counter_bbox % 10 == 0:
+                        debug_stop = True
+                        if config.MASTER_VISUALISE_EACH_STEP:
+                            # Plot the bboxes from scl_jf
+                            # Example list of bounding boxes
+                            # bboxes = list(scl_jf.bbox_segment_map.keys())
+                            bboxes = list(self.dict_bbox_to_subgraph.keys())
+                            from shapely.geometry import Polygon
+                            # Create a GeoDataFrame with these bounding boxes
+                            gdf = gpd.GeoDataFrame({
+                                'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)]) for
+                                             lat1, lat2, lon1, lon2 in bboxes]
+                            }, crs="EPSG:4326")  # EPSG:4326 is WGS84 latitude-longitude projection
+
+                            # Convert the GeoDataFrame to the Web Mercator projection (used by most web maps)
+                            gdf_mercator = gdf.to_crs(epsg=3857)
+
+                            # Plotting
+                            fig, ax = plt.subplots(figsize=(10, 10))
+                            gdf_mercator.boundary.plot(ax=ax, color='red')
+                            ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
+                            ax.set_axis_off()
+                            plt.show()
+
                 debug_pitstop = True
 
                 # Call the function and pass necessary arguments
@@ -256,6 +285,8 @@ class Scale:
             # For other cases, we need this, for GPD_custom, this is already saved above directly
             # into the dictionary
             self.dict_bbox_to_subgraph = dict(list_of_tuples)
+
+
 
         print(time.time() - starttime, "seconds using", config.scl_n_jobs_parallel, "threads")
 
