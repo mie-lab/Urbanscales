@@ -19,6 +19,7 @@ from tqdm import tqdm
 import matplotlib.pyplot as plt
 from smartprint import smartprint as sprint
 import shutil
+from shapely.wkt import loads
 
 
 class SpeedData:
@@ -140,8 +141,8 @@ class SpeedData:
                 .tolist()
             )
 
-
             jf_list = self._aggregation(jf_list, self.time_gran_minutes_target // self.time_gran_minutes_raw)
+
             if self.num_timesteps_in_data == 0:
                 self.num_timesteps_in_data = len(jf_list)
             else:
@@ -149,13 +150,96 @@ class SpeedData:
                 assert self.num_timesteps_in_data == len(jf_list)
 
             self.nid_jf_map[seg_nid] = copy.deepcopy(jf_list)
-            self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy(jf_list)
+
+
+            a = []
+            for i in range(30):
+                if config.MASTER_VISUALISE_EACH_STEP:
+                    plt.plot(jf_list[i * 24: (i + 1) * 24], alpha=0.2, color="blue")
+
+                if len(jf_list[i * 24: (i + 1) * 24]) == 24:
+                    # a.append(jf_list[i * 24: (i + 1) * 24])
+                    a.append(jf_list[i * 24 + 6 : i * 24 + 9])
+
+            if config.MASTER_VISUALISE_EACH_STEP:
+                plt.plot(np.mean(np.array(a), axis=0), linewidth=4, color="black", label="mean_tod_plot")
+                plt.legend()
+                plt.ylim(0, 10)
+                plt.show()
+
+            # self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy(jf_list)
+            self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy( [np.std(np.mean(np.array(a), axis=0))] * 24 )
 
         fname = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, "_speed_data_object.pkl")
+
+
+        if config.MASTER_VISUALISE_EACH_STEP:
+
+
+            fig, ax = plt.subplots()
+
+            segment_counter = 0
+            for segment_str, values in tqdm(self.segment_jf_map.items(), desc="Plotting the linestrings for "
+                                                                                  "visualisation"):
+                segment_counter += 1
+
+                # Use Shapely to parse the MULTILINESTRING
+                multiline = loads(segment_str)
+
+                # Normalize mean_value for color mapping, adjust as per your color scale
+                color = plt.cm.gist_rainbow(np.random.rand() * 0.99)  # * 0.99 to ensure always less than 1
+
+                # Iterate through each line string in the multi-line string
+                for linestring in multiline:
+                    x, y = linestring.xy
+                    ax.plot(x, y, color=color, linewidth=0.4)
+
+            # Finalizing and showing the plot
+            ax.set_aspect('equal', adjustable='datalim')
+            if not os.path.exists(os.path.join(config.network_folder, self.city_name, "raw_speed_data")):
+                os.mkdir(os.path.join(config.network_folder, self.city_name, "raw_speed_data"))
+            plt.savefig(os.path.join(config.network_folder, self.city_name, "raw_speed_data",
+                                     "visualise_segment_boundaries" + ".png"), dpi=600)
+
+            # Normalize color scale by the max mean of the values for dynamic color range
+            if config.MASTER_VISUALISE_EACH_STEP:
+                for tod_counter in [0] :# range(0, 1000):
+                    fig, ax = plt.subplots()
+
+                    max_mean_value = -1
+                    for segment_str, values in tqdm(self.segment_jf_map.items(), desc="Plotting the linestrings for "
+                                                                                      "visualisation"):
+
+                        # Calculate mean of values for color mapping
+                        # mean_value = np.nanmean(values)
+                        # max_mean_value = max(max_mean_value, values[tod_counter])
+                        max_mean_value = max(max_mean_value, self.segment_jf_map[segment_str][0])
+
+
+                    for segment_str, values in tqdm(self.segment_jf_map.items(), desc="Plotting the linestrings for "
+                                                                                      "visualisation"):
+                        # Use Shapely to parse the MULTILINESTRING
+                        multiline = loads(segment_str)
+
+                        # Normalize mean_value for color mapping, adjust as per your color scale
+                        # color = plt.cm.gist_rainbow(values[tod_counter] / max_mean_value * 0.99)  # Example color mapping
+                        color = plt.cm.gist_rainbow(self.segment_jf_map[segment_str][0] / max_mean_value * 0.99)  # Example color mapping
+
+                        # Iterate through each line string in the multi-line string
+                        for linestring in multiline:
+                            x, y = linestring.xy
+                            ax.plot(x, y, color=color, linewidth=0.1)
+
+                    # Finalizing and showing the plot
+                    ax.set_aspect('equal', adjustable='datalim')
+                    plt.savefig(os.path.join(config.network_folder, self.city_name, "raw_speed_data", "plot" + str(tod_counter)
+                                             + ".png"), dpi=1800)
+                print("Plot updated")
 
         avg_ = []
         for i in range(len(jf_list)//(1440//config.sd_target_speed_data_gran)):
             avg_.append(jf_list[i * 24:(i + 1) * 24])
+
         avg_ = np.array(avg_)
         plt.plot(np.mean(avg_, axis=0))
         plt.title(self.city_name)
@@ -212,9 +296,11 @@ class SpeedData:
 
         """
         if config.sd_temporal_combination_method == "mean":
-            agg_func = np.mean
+            agg_func = np.nanmean
         elif config.sd_temporal_combination_method == "max":
-            agg_func = np.max
+            agg_func = np.nanmax
+        elif config.sd_temporal_combination_method == "variance":
+            agg_func = np.nanstd
 
         a = []
         for i in range(0, len(jf_list), combine_how_many_t_steps):
@@ -224,7 +310,7 @@ class SpeedData:
     @staticmethod
     def organise_files_into_folders_all_cities(root_path):
         for city in config.scl_master_list_of_cities:
-            if not os.path.exists(os.path.join(root_path, city)):
+            if not os.path.exists(os.path.join(config.BASE_FOLDER, root_path, city)):
                 os.mkdir(os.path.join(root_path, city))
 
             for filename in glob.glob(os.path.join(root_path, "*")):

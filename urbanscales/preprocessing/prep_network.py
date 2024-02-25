@@ -233,7 +233,7 @@ class Scale:
                         # raise Exception(e)
 
                     counter_bbox += 1
-                    if counter_bbox % 10 == 0:
+                    if counter_bbox % 100 == 0:
                         debug_stop = True
                         if config.MASTER_VISUALISE_EACH_STEP:
                             # Plot the bboxes from scl_jf

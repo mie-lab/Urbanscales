@@ -107,11 +107,11 @@ elif RUNNING_ON_LOCAL:
         # "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
         # "Auckland": [-36.681247, 174.925937, -36.965932, 174.63532],
         # "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
-        # "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
+        "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
         # "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
         # "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
         # "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
-        "London": [51.28676, -0.510375, 51.691874, 0.334015],
+        # "London": [51.28676, -0.510375, 51.691874, 0.334015],
         # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
         # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
@@ -172,7 +172,7 @@ rn_percentage_of_city_area = 100
 if rn_percentage_of_city_area != 100:
     assert rn_post_fix_road_network_object_file == "_road_network_object_small.pkl"
 
-rn_square_from_city_centre = 25  # 15 implies 15X15 sq.km.
+rn_square_from_city_centre = 50  # 15 implies 15X15 sq.km.
 if rn_square_from_city_centre != -1:
     assert rn_percentage_of_city_area == 100  # we cannot have two filtering techniques
     # basically it is not needed
@@ -208,7 +208,7 @@ scl_list_of_depths = [1]
 
 # test_small
 if RUNNING_ON_LOCAL:
-    scl_list_of_seeds = [25] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+    scl_list_of_seeds = [50] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 elif RUNNING_ON_SERVER:
     scl_list_of_seeds = [25, 50, 100] # , 70, 90] # list(range(50, 121, 20)) # list(range(10, 121, 40))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 # forward
@@ -247,9 +247,9 @@ sd_jf_file_path_within_city = "jf.csv"
 sd_raw_speed_data_gran = 10
 sd_target_speed_data_gran = 60
 sd_temporal_combination_method = "mean"
-assert sd_temporal_combination_method in ["mean", "max"]
-sd_start_datetime_str = "2022-09-01T00:00:01"
-sd_end_datetime_str = "2022-09-30T23:59:59"
+assert sd_temporal_combination_method in ["mean", "max", "variance"]
+sd_start_datetime_str = "2022-09-02T00:00:01"
+sd_end_datetime_str = "2022-09-29T23:59:59"
 sd_total_number_of_days = 30 # additional config item for sanity check
 sd_total_number_of_data_points_for_each_segment = 30 * 24 * (60/sd_raw_speed_data_gran)
 
@@ -258,9 +258,9 @@ sd_total_number_of_data_points_for_each_segment = 30 * 24 * (60/sd_raw_speed_dat
 ######   PreProcess Speed   ########
 ####################################
 ps_spatial_combination_method = "length_weighted_mean"
-assert ps_spatial_combination_method in ["mean", "max", "length_weighted_mean"]
+assert ps_spatial_combination_method in ["mean", "max", "length_weighted_mean", "variance"]
 if RUNNING_ON_LOCAL:
-    ps_tod_list = list(range(6, 7, 1))
+    ps_tod_list = [9] # list(range(9, 10, 1))
 elif RUNNING_ON_SERVER:
     ps_tod_list = list(range(0, 24, 1))
 assert isinstance(ps_tod_list, list)
@@ -291,7 +291,7 @@ td_drop_feature_lists = [
 td_drop_collinear_features = True
 td_drop_collinear_features = True
 
-shift_tile_marker = 2
+shift_tile_marker = 3
 network_folder = "network_tmean_smean_" +str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" + str(shift_tile_marker)
 warnings_folder = "warnings"
 results_folder = "results_network_tmean_smean_"+str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" # "results_50x50_max_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi-max-max"
@@ -305,4 +305,4 @@ if not os.path.exists(temp_folder_for_robust_pickle_files):
 # When we use mean, we use mean in the network folder and
 # When we use max, we use max in the network folder
 # assert ps_spatial_combination_method == sd_temporal_combination_method
-assert sd_temporal_combination_method in network_folder
+# assert sd_temporal_combination_method in network_folder

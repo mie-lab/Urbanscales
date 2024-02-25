@@ -212,15 +212,117 @@ class ScaleJF:
             bbox_segment_df['segment_jf_values'] = bbox_segment_df['segments'].apply(
                 lambda segments_list: [self.SpeedData.segment_jf_map.get(str(seg), [np.nan] * 24)[self.tod] for seg in segments_list]
             )
+
+            a = []
+            for key in self.SpeedData.segment_jf_map:
+                a.append(len(self.SpeedData.segment_jf_map[key]))
+            assert len(set(a)) == 1
+
+            # b = []
+            # for key in self.SpeedData.segment_jf_map:
+            #     a = []
+            #     for counter, val in enumerate(self.SpeedData.segment_jf_map[key]):
+            #         if counter % self.tod == 0 and self.SpeedData.segment_jf_map[key][counter] != -1:
+            #             if self.SpeedData.segment_jf_map[key][counter] == -1:
+            #                 print ("-1 Found")
+            #             a.append(self.SpeedData.segment_jf_map[key][counter])
+            #     b.append(a)
+            # bbox_segment_df['segment_jf_values'] = pd.Series(b)
+
             bbox_segment_df['segment_lengths'] = bbox_segment_df['segments'].apply(
                 lambda segments_list: [seg.length for seg in segments_list]
             )
 
+            from shapely.geometry import box
+
+            def segment_length_within_bbox(segments, bbox):
+                """
+                Calculate the length of each segment within the bounding box.
+
+                Parameters:
+                segments (list): List of shapely.geometry.MultiLineString objects representing the segments.
+                bbox (tuple): Tuple representing the bounding box (N, S, E, W).
+
+                Returns:
+                list: List of lengths of each segment within the bounding box.
+                """
+                N, S, E, W = bbox
+                bbox_polygon = box(W, S, E, N)
+                lengths = []
+
+                for segment in segments:
+                    intersection = segment.intersection(bbox_polygon)
+                    lengths.append(intersection.length)
+
+                return lengths
+
+            # Apply the function to each row of the DataFrame
+            bbox_segment_df['lengths_within_bbox'] = bbox_segment_df.apply(
+                lambda row: segment_length_within_bbox(row['segments'], row['bbox']), axis=1
+            )
+
+            for i in range(bbox_segment_df.shape[0]):
+                assert len(bbox_segment_df["lengths_within_bbox"][i]) == len(bbox_segment_df["segments"][i])
+                assert len(bbox_segment_df["segment_jf_values"][i]) == len(bbox_segment_df["segments"][i])
+
+            if 2==2: # :config.MASTER_VISUALISE_EACH_STEP:
+                import matplotlib.pyplot as plt
+
+                for bbox_num in range(bbox_segment_df.shape[0]):
+
+                    if np.random.rand() < 0.75:
+                        continue
+
+                    # Extract the segments and bounding box
+                    segments = bbox_segment_df['segments'][bbox_num]
+                    bbox = bbox_segment_df['bbox'][bbox_num]
+                    bbox_polygon = box(bbox[3], bbox[1], bbox[2], bbox[0])
+
+                    # Plot the segments and their intersections with the bounding box
+                    fig, ax = plt.subplots()
+
+                    for segment in segments:
+                        # Plot each LineString in the MultiLineString
+                        for line in segment:
+                            x, y = line.xy
+                            ax.plot(x, y, color='black', alpha=0.3, linewidth=2, label='Segment outside BBox')
+
+                        # Calculate the intersection of the segment with the bounding box
+                        intersection = segment.intersection(bbox_polygon)
+
+                        # Plot the intersection
+                        if not intersection.is_empty:
+                            if intersection.geom_type == 'MultiLineString':
+                                for line in intersection:
+                                    x, y = line.xy
+                                    ax.plot(x, y, color='black', alpha=1, linewidth=2, label='Segment inside BBox')
+                            elif intersection.geom_type == 'LineString':
+                                x, y = intersection.xy
+                                ax.plot(x, y, color='black', alpha=1, linewidth=2, label='Segment inside BBox')
+
+                    # Plot the bounding box
+                    x, y = bbox_polygon.exterior.xy
+                    ax.plot(x, y, color='red', alpha=0.7, linewidth=1, linestyle='--', label='Bounding Box')
+
+                    # Set plot properties
+                    ax.set_aspect('equal')
+                    # plt.legend()
+                    plt.title("Segments lengths: " + str(bbox_segment_df["segment_lengths"][bbox_num]) +  " \n"
+                                                                                            "Weighted " +
+                              str(bbox_segment_df["lengths_within_bbox"][bbox_num]), fontsize=8,
+                              )
+                    if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, self.Scale.RoadNetwork.city_name, "intersecting_seg_bbox")):
+                        os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, self.Scale.RoadNetwork.city_name, "intersecting_seg_bbox"))
+                    plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, self.Scale.RoadNetwork.city_name, "intersecting_seg_bbox", str(bbox_num) + ".png"), dpi=300)
+                    plt.clf()
+
             # Use np.mean or np.max as aggregation function based on config
             if config.ps_spatial_combination_method == "mean":
-                agg_func = np.mean
+                agg_func = np.nanmean
             elif config.ps_spatial_combination_method == "max":
-                agg_func = np.max
+                agg_func = np.nanmax
+            elif config.ps_spatial_combination_method == "variance":
+                agg_func = np.nanstd
             elif config.ps_spatial_combination_method == "length_weighted_mean":
                 agg_func = lambda values, lengths: np.sum(np.multiply(values, lengths)) / np.sum(lengths)
             else:
@@ -228,8 +330,8 @@ class ScaleJF:
 
             if config.ps_spatial_combination_method == "length_weighted_mean":
                 bbox_segment_df['agg_jf_value'] = bbox_segment_df.apply(
-                    lambda row: agg_func(row['segment_jf_values'], row['segment_lengths']), axis=1)
-            elif config.ps_spatial_combination_method in ["mean", "max"]:
+                    lambda row: agg_func(row['segment_jf_values'], row['lengths_within_bbox']), axis=1)
+            elif config.ps_spatial_combination_method in ["mean", "max", "variance"]:
                 # Aggregate segment_jf_values for each bbox
                 bbox_segment_df['agg_jf_value'] = bbox_segment_df['segment_jf_values'].apply(agg_func)
             else:
