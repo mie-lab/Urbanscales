@@ -158,8 +158,9 @@ class SpeedData:
                     plt.plot(jf_list[i * 24: (i + 1) * 24], alpha=0.2, color="blue")
 
                 if len(jf_list[i * 24: (i + 1) * 24]) == 24:
-                    # a.append(jf_list[i * 24: (i + 1) * 24])
-                    a.append(jf_list[i * 24 + 6 : i * 24 + 9])
+                    a.append(jf_list[i * 24: (i + 1) * 24])
+                    # a.append(jf_list[i * 24 + 6 : i * 24 + 9])
+
 
             if config.MASTER_VISUALISE_EACH_STEP:
                 plt.plot(np.mean(np.array(a), axis=0), linewidth=4, color="black", label="mean_tod_plot")
@@ -168,7 +169,7 @@ class SpeedData:
                 plt.show()
 
             # self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy(jf_list)
-            self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy( [np.std(np.mean(np.array(a), axis=0))] * 24 )
+            self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy( [np.mean(np.mean(np.array(a), axis=0))] * 24 )
 
         fname = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, "_speed_data_object.pkl")
 

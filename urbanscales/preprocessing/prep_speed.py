@@ -265,12 +265,12 @@ class ScaleJF:
                 assert len(bbox_segment_df["lengths_within_bbox"][i]) == len(bbox_segment_df["segments"][i])
                 assert len(bbox_segment_df["segment_jf_values"][i]) == len(bbox_segment_df["segments"][i])
 
-            if 2==2: # :config.MASTER_VISUALISE_EACH_STEP:
+            if config.MASTER_VISUALISE_EACH_STEP:
                 import matplotlib.pyplot as plt
 
                 for bbox_num in range(bbox_segment_df.shape[0]):
 
-                    if np.random.rand() < 0.75:
+                    if np.random.rand() > 0.99:
                         continue
 
                     # Extract the segments and bounding box
@@ -314,7 +314,7 @@ class ScaleJF:
                     if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, self.Scale.RoadNetwork.city_name, "intersecting_seg_bbox")):
                         os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, self.Scale.RoadNetwork.city_name, "intersecting_seg_bbox"))
                     plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, self.Scale.RoadNetwork.city_name, "intersecting_seg_bbox", str(bbox_num) + ".png"), dpi=300)
-                    plt.clf()
+                    plt.show()
 
             # Use np.mean or np.max as aggregation function based on config
             if config.ps_spatial_combination_method == "mean":

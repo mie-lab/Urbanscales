@@ -185,25 +185,6 @@ class Scale:
             print("Cleaned the temp folder")
 
 
-
-            # if config.rn_truncate_method == "GPD_CUSTOM":
-            #     batch_size = config.scl_n_jobs_parallel
-            #     list_of_tuples = []
-            #     for i in range(1500, len(self.list_of_bbox), batch_size):
-            #         templist = []
-            #         starttime = time.time()
-            #         for j in range(i, i+batch_size):
-            #             extras = [self.RoadNetwork.G_osm, self.RoadNetwork.G_OSM_nodes]
-            #             templist.append(list(self.list_of_bbox[j]) + extras)
-            #         print ("templist created:", templist)
-            #         print ("Time taken to complete templist:", time.time() - starttime)
-            #         print ("sending out the batches to the helper function for parallel processing")
-            #         with Pool(config.scl_n_jobs_parallel) as p:
-            #             batch_output = p.map_async(self._helper_create_dict_in_parallel, templist)
-            #             batch_output = batch_output.get()
-            #         print ("One batch complete: time taken: ", time.time() - starttime)
-            #         print (batch_output)
-
             if config.rn_truncate_method in ["GPD_DUMMY_NODES_SMART_TRUNC", "OSMNX_RETAIN_EDGE"]:
                 stop_background_thread = threading.Event()
 
@@ -211,7 +192,7 @@ class Scale:
                 filecounter = threading.Thread(target=self.keep_counting)
                 filecounter.start()
                 with Pool(config.scl_n_jobs_parallel) as p:
-                    list_of_tuples = p.map(self._helper_create_dict_in_parallel, list(self.list_of_bbox[1500:1520]))
+                    list_of_tuples = p.map(self._helper_create_dict_in_parallel, list(self.list_of_bbox))
 
                 self.keep_countin_state = False
                 stop_background_thread.clear()
@@ -232,30 +213,114 @@ class Scale:
                         self.dict_bbox_to_subgraph[N, S, E, W] = config.rn_no_stats_marker
                         # raise Exception(e)
 
+                    if len(list(dict_of_subgraphs[bbox].nodes())) == 0 or len(list(dict_of_subgraphs[bbox].edges())) == 0:
+                        self.dict_bbox_to_subgraph[N, S, E, W] =  config.rn_no_stats_marker
+
                     counter_bbox += 1
-                    if counter_bbox % 100 == 0:
-                        debug_stop = True
-                        if config.MASTER_VISUALISE_EACH_STEP:
-                            # Plot the bboxes from scl_jf
-                            # Example list of bounding boxes
-                            # bboxes = list(scl_jf.bbox_segment_map.keys())
-                            bboxes = list(self.dict_bbox_to_subgraph.keys())
-                            from shapely.geometry import Polygon
-                            # Create a GeoDataFrame with these bounding boxes
-                            gdf = gpd.GeoDataFrame({
-                                'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)]) for
-                                             lat1, lat2, lon1, lon2 in bboxes]
-                            }, crs="EPSG:4326")  # EPSG:4326 is WGS84 latitude-longitude projection
 
-                            # Convert the GeoDataFrame to the Web Mercator projection (used by most web maps)
-                            gdf_mercator = gdf.to_crs(epsg=3857)
+                    debug_stop = True
+                    if counter_bbox % 100 == 0 and config.MASTER_VISUALISE_EACH_STEP:
+                        # Plot the bboxes from scl_jf
+                        # Example list of bounding boxes
+                        # bboxes = list(scl_jf.bbox_segment_map.keys())
+                        bboxes = list(self.dict_bbox_to_subgraph.keys())
+                        from shapely.geometry import Polygon
+                        # Create a GeoDataFrame with these bounding boxes
+                        gdf = gpd.GeoDataFrame({
+                            'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)]) for
+                                         lat1, lat2, lon1, lon2 in bboxes]
+                        }, crs="EPSG:4326")  # EPSG:4326 is WGS84 latitude-longitude projection
 
-                            # Plotting
-                            fig, ax = plt.subplots(figsize=(10, 10))
-                            gdf_mercator.boundary.plot(ax=ax, color='red')
-                            ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
-                            ax.set_axis_off()
-                            plt.show()
+                        # Convert the GeoDataFrame to the Web Mercator projection (used by most web maps)
+                        gdf_mercator = gdf.to_crs(epsg=3857)
+
+                        # Plotting
+                        fig, ax = plt.subplots(figsize=(10, 10))
+                        gdf_mercator.boundary.plot(ax=ax, color='red')
+                        ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
+                        ax.set_axis_off()
+                        if not os.path.exists(
+                                os.path.join(config.BASE_FOLDER, config.network_folder, self.RoadNetwork.city_name,
+                                             "OSM_bboxes")):
+                            os.mkdir(
+                                os.path.join(config.BASE_FOLDER, config.network_folder, self.RoadNetwork.city_name,
+                                             "OSM_bboxes"))
+                        plt.savefig(
+                            os.path.join(config.BASE_FOLDER, config.network_folder, self.RoadNetwork.city_name,
+                                         "OSM_bboxes",
+                                         f"{self.scale}_bbox_counter_{counter_bbox}.png"))
+                        plt.show()
+
+                    G_sub = dict_of_subgraphs[bbox]
+                    if config.MASTER_VISUALISE_EACH_STEP and G_sub != config.rn_no_stats_marker \
+                            and len(G_sub.nodes()) != 0 and len(G_sub.edges()) != 0:
+                        # Plot the bboxes from scl_jf
+                        # Example list of bounding boxes
+                        # bboxes = list(scl_jf.bbox_segment_map.keys())
+                        bboxes = [list(self.dict_bbox_to_subgraph.keys())[counter_bbox-1]]
+                        from shapely.geometry import Polygon
+                        # Create a GeoDataFrame with these bounding boxes
+                        gdf = gpd.GeoDataFrame({
+                            'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)]) for
+                                         lat1, lat2, lon1, lon2 in bboxes]
+                        }, crs="EPSG:4326")  # EPSG:4326 is WGS84 latitude-longitude projection
+
+                        # Convert the GeoDataFrame to the Web Mercator projection (used by most web maps)
+                        gdf_mercator = gdf.to_crs(epsg=3857)
+
+                        # Plotting
+                        fig, ax = plt.subplots(figsize=(10, 10))
+                        gdf_mercator.boundary.plot(ax=ax, color='red')
+                        ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
+
+                        G_sub = dict_of_subgraphs[bbox]
+                        # ox.plot_graph(G_sub, ax=ax, show=False, edge_color='black')
+                        ax.set_axis_off()
+                        if not os.path.exists(
+                                os.path.join(config.BASE_FOLDER, config.network_folder, self.RoadNetwork.city_name,
+                                             "OSM_subgraphs")):
+                            os.mkdir(
+                                os.path.join(config.BASE_FOLDER, config.network_folder, self.RoadNetwork.city_name,
+                                             "OSM_subgraphs"))
+                        plt.savefig(
+                            os.path.join(config.BASE_FOLDER, config.network_folder, self.RoadNetwork.city_name,
+                                         "OSM_subgraphs",
+                                         f"{self.scale}_bbox_counter_{counter_bbox}.png"))
+                        plt.show()
+
+
+                        bboxes = [list(self.dict_bbox_to_subgraph.keys())[counter_bbox-1]]
+                        from shapely.geometry import Polygon
+                        # Create a GeoDataFrame with these bounding boxes
+                        gdf = gpd.GeoDataFrame({
+                            'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)]) for
+                                         lat1, lat2, lon1, lon2 in bboxes]
+                        }, crs="EPSG:4326")  # EPSG:4326 is WGS84 latitude-longitude projection
+
+                        # Convert the GeoDataFrame to the Web Mercator projection (used by most web maps)
+                        gdf_mercator = gdf.to_crs(epsg=3857)
+
+                        # Plotting
+                        fig, ax = plt.subplots(figsize=(10, 10))
+                        gdf_mercator.boundary.plot(ax=ax, color='red')
+                        ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
+
+                        G_sub = dict_of_subgraphs[bbox]
+                        ox.plot_graph(G_sub, ax=ax, show=False, edge_color='black')
+                        ax.set_axis_off()
+                        if not os.path.exists(
+                                os.path.join(config.BASE_FOLDER, config.network_folder, self.RoadNetwork.city_name,
+                                             "OSM_subgraphs")):
+                            os.mkdir(
+                                os.path.join(config.BASE_FOLDER, config.network_folder, self.RoadNetwork.city_name,
+                                             "OSM_subgraphs"))
+                        plt.savefig(
+                            os.path.join(config.BASE_FOLDER, config.network_folder, self.RoadNetwork.city_name,
+                                         "OSM_subgraphs",
+                                         f"{self.scale}_bbox_counter_{counter_bbox}_Subgraph.png"))
+                        plt.show()
+
+
 
                 debug_pitstop = True
 

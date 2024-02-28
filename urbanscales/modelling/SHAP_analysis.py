@@ -113,7 +113,7 @@ from sklearn.linear_model import LinearRegression, Lasso, Ridge
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 import numpy as np
 
-def compare_models_gof_standard_cv(X, Y, feature_list, scaling=True, include_interactions=True):
+def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, scaling=True, include_interactions=True):
 
     X = X[feature_list]
 
@@ -124,12 +124,12 @@ def compare_models_gof_standard_cv(X, Y, feature_list, scaling=True, include_int
         feature_list = poly.get_feature_names_out(feature_list)  # Update feature_list with new polynomial feature names
 
     # Cross-validation strategy
-    kf = KFold(n_splits=7, shuffle=True, random_state=42)
+    kf = KFold(n_splits=15, shuffle=True, random_state=42)
 
     # Define models
     models = {
         "Linear Regression": LinearRegression(),
-        "Random Forest": RandomForestRegressor(n_estimators=100, random_state=42, max_depth=20),
+        "Random Forest": RandomForestRegressor(n_estimators=200, random_state=42, max_depth=200, min_samples_leaf=2),
         "Gradient Boosting Machine": GradientBoostingRegressor(n_estimators=100, random_state=42),
         "Lasso": Lasso(random_state=42),
         "Ridge": Ridge(random_state=42)
@@ -137,7 +137,7 @@ def compare_models_gof_standard_cv(X, Y, feature_list, scaling=True, include_int
 
     # Results dictionary
     results = {}
-
+    models_trained = {}
     for name, model in models.items():
         if scaling:
             # If scaling is true, include a scaler in the pipeline
@@ -156,11 +156,56 @@ def compare_models_gof_standard_cv(X, Y, feature_list, scaling=True, include_int
         cv_results = cross_val_score(pipeline, X_df, Y, cv=kf, scoring=make_scorer(explained_variance_score))
         results[name] = np.mean(cv_results)
 
+        # Train the model on the full dataset and store it
+        pipeline.fit(X_df, Y)
+        models_trained[name] = pipeline
+
     # Print the results
     print("Model Performance Comparison (Explained variance):")
     print("-------------------------------------------------------------")
     for name, score in results.items():
         print(f"{name}: {score:.4f}")
+
+    import shap
+
+
+    from sklearn.model_selection import cross_val_predict
+    rf_model = models_trained["Random Forest"].named_steps['randomforestregressor']
+    if config.MASTER_VISUALISE_EACH_STEP:
+        for i, tree in enumerate(rf_model.estimators_):
+            print(f"Tree {i + 1}:")
+            print(f"  Depth: {tree.tree_.max_depth}")
+            print(f"  Number of leaves: {tree.tree_.n_leaves}")
+            print(f"  Number of features: {tree.tree_.n_features}")
+            print("---")
+    explainer = shap.TreeExplainer(rf_model)
+    shap_values = explainer.shap_values(StandardScaler().fit_transform(X))
+
+    # Aggregate SHAP values
+    shap_values_agg = shap_values
+
+    # Plot feature importance
+    shap.summary_plot(shap_values_agg, X, plot_type="bar", show=False)
+    if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots")):
+        os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots"))
+    plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots",
+                             f"shap_total_FI_scale_{scale}.png"))
+    plt.clf()
+
+    total_shap_values = np.abs(shap_values_agg).mean(axis=0)
+
+    # Rank features based on total SHAP values
+    sorted_features = np.argsort(-total_shap_values)
+
+    # Plot SHAP-based PDP for the top 3 features
+    for idx in sorted_features[:]:
+        feature = X.columns[idx]
+        # feature = feature_list[idx] # X.columns[idx]
+        shap.dependence_plot(feature, shap_values_agg, X, show=False)
+        if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots")):
+            os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots"))
+        plt.ylim(-1, 3)
+        plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots", f"shap_pdp_{feature}_scale_{scale}.png"))
 
 
 def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, scaling=True, include_interactions=True, n_strips=3):
@@ -184,7 +229,7 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, scaling=Tru
 
     # Results dictionary to store model scores
     results = {name: [] for name in models}
-
+    models_trained = {}
     # Perform spatial cross-validation using the spatial splits
     for strip_index in range(n_strips):
         index_to_bbox = {i: tuple(bbox.keys())[0] for i, bbox in enumerate(bboxes)}
@@ -206,11 +251,12 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, scaling=Tru
         sprint (X_train.shape, X_test.shape, strip_index)
 
         # Train and evaluate each model
-        for name, model in models.items():
-            cloned_model = clone(model)
-            cloned_model.fit(X_train, Y_train)
-            score = explained_variance_score(Y_test, cloned_model.predict(X_test))
-            results[name].append(score)
+        # for name, model in models.items():
+        #     cloned_model = clone(model)
+        #     cloned_model.fit(X_train, Y_train)
+        #     score = explained_variance_score(Y_test, cloned_model.predict(X_test))
+        #     results[name].append(score)
+        #     models_trained[name] = cloned_model
 
     # Print the results
     for name, scores in results.items():
@@ -218,7 +264,28 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, scaling=Tru
         # print(f"Scores for each fold: {scores}")
         print(f"Average score explained variance: {np.mean(scores)}\n")
 
+    import shap
+    from sklearn.model_selection import cross_val_predict
+    rf_model = models_trained["Random Forest"]
+    explainer = shap.TreeExplainer(rf_model)
+    shap_values = explainer.shap_values(StandardScaler().fit_transform(X))
 
+    # Aggregate SHAP values
+    shap_values_agg = shap_values
+
+    # Plot feature importance
+    shap.summary_plot(shap_values_agg, X, plot_type="bar")
+
+    total_shap_values = np.abs(shap_values_agg).mean(axis=0)
+
+    # Rank features based on total SHAP values
+    sorted_features = np.argsort(-total_shap_values)
+
+    # Plot SHAP-based PDP for the top 3 features
+    for idx in sorted_features[:3]:
+        # feature = feature_list[idx] #
+        feature = X.columns[idx]
+        shap.dependence_plot(feature, shap_values_agg, X)
 
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
@@ -226,11 +293,6 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression, Lasso, Ridge
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-import numpy as np
-import pandas as pd
-
-
-
 import numpy as np
 import pandas as pd
 
@@ -269,10 +331,10 @@ if __name__ == "__main__":
                                     # list_of_cities[2:]
                                     # [list_of_cities[0]],
                                     # [list_of_cities[1]],
-                                    # [list_of_cities[2]],
+                                    [list_of_cities[2]],
                                     # [list_of_cities[3]],
                                     # [list_of_cities[4]],
-                                    [list_of_cities[5]],
+                                    # [list_of_cities[5]],
                                     # [list_of_cities[6]],
                                     # [list_of_cities[7]],
                                     # [list_of_cities[8]],
@@ -298,12 +360,12 @@ if __name__ == "__main__":
         'global_betweenness',
         'k_avg',
         'lane_density',
-        'm',
+        # 'm',
         'metered_count',
-        'n',
+        # 'n',
         'non_metered_count',
         'street_length_total',
-        'streets_per_node_count_5',
+        # 'streets_per_node_count_5',
         'total_crossings'
     ]
 
@@ -396,23 +458,24 @@ if __name__ == "__main__":
                             }, crs="EPSG:4326")
 
                             # Plot the bounding boxes with different colors for each strip
-                            fig, ax = plt.subplots(figsize=(10, 6))
-                            for strip, color in zip(range(len(strip_boundaries) - 1),
-                                                    ['red', 'green', 'blue', 'orange', 'purple', 'brown', 'cyan']):
-                                gdf[gdf['strip'] == strip].plot(ax=ax, color=color, alpha=0.5, edgecolor='black')
+                            if config.MASTER_VISUALISE_EACH_STEP:
+                                fig, ax = plt.subplots(figsize=(10, 6))
+                                for strip, color in zip(range(len(strip_boundaries) - 1),
+                                                        ['red', 'green', 'blue', 'orange', 'purple', 'brown', 'cyan']):
+                                    gdf[gdf['strip'] == strip].plot(ax=ax, color=color, alpha=0.5, edgecolor='black')
 
-                            # Add split boundaries
-                            if split_direction == 'vertical':
-                                for lon in strip_boundaries:
-                                    plt.axvline(x=lon, color='black', linestyle='--', linewidth=3)
-                            elif split_direction == 'horizontal':
-                                for lat in strip_boundaries:
-                                    plt.axhline(y=lat, color='black', linestyle='--', linewidth=3)
+                                # Add split boundaries
+                                if split_direction == 'vertical':
+                                    for lon in strip_boundaries:
+                                        plt.axvline(x=lon, color='black', linestyle='--', linewidth=3)
+                                elif split_direction == 'horizontal':
+                                    for lat in strip_boundaries:
+                                        plt.axhline(y=lat, color='black', linestyle='--', linewidth=3)
 
-                            plt.xlabel('Longitude')
-                            plt.ylabel('Latitude')
-                            plt.title('Spatial Splits')
-                            plt.show()
+                                plt.xlabel('Longitude')
+                                plt.ylabel('Latitude')
+                                plt.title('Spatial Splits')
+                                plt.show()
 
 
                         bboxes = temp_obj.bbox_X
@@ -438,24 +501,24 @@ if __name__ == "__main__":
 
                         sprint (city, scale, tod, config.shift_tile_marker, X.shape, Y.shape)
 
-                        for column in common_features:
-                            # plt.hist(X[column], 50)
-                            # plt.title("Histogram for " + column)
-                            # plt.hist(X[column])
-                            # plt.show()
-
-                            plt.title("Histogram for Y")
-                            plt.hist(Y)
-                            plt.show()
-                            break
+                        # for column in common_features:
+                        #     # plt.hist(X[column], 50)
+                        #     # plt.title("Histogram for " + column)
+                        #     # plt.hist(X[column])
+                        #     # plt.show()
+                        #
+                        #     plt.title("Histogram for Y")
+                        #     plt.hist(Y)
+                        #     plt.show()
+                        #     break
 
                         # locs = (Y > 0.5)  # & (Y < 6 )
                         # X = X[locs]
                         # Y = Y[locs]
 
-                        # compare_models_gof_standard_cv(X, Y, common_features, include_interactions=False, scaling=True)
-                        compare_models_gof_spatial_cv(X, Y, common_features, include_interactions=False, scaling=False,
-                                                      bbox_to_strip=bbox_to_strip, n_strips=n_strips)
+                        compare_models_gof_standard_cv(X, Y, common_features, cityname=city, scale=scale, include_interactions=False, scaling=True)
+                        # compare_models_gof_spatial_cv(X, Y, common_features, include_interactions=False, scaling=True,
+                        #                               bbox_to_strip=bbox_to_strip, n_strips=n_strips)
 
                         if config.MASTER_VISUALISE_EACH_STEP:
                             # Plot the bboxes from scl_jf
