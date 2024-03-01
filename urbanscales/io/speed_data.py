@@ -141,7 +141,8 @@ class SpeedData:
                 .tolist()
             )
 
-            jf_list = self._aggregation(jf_list, self.time_gran_minutes_target // self.time_gran_minutes_raw)
+            # 10 minutes to 1 hour frozen to mean
+            jf_list = self._aggregation_mean(jf_list, self.time_gran_minutes_target // self.time_gran_minutes_raw)
 
             if self.num_timesteps_in_data == 0:
                 self.num_timesteps_in_data = len(jf_list)
@@ -158,7 +159,7 @@ class SpeedData:
                     plt.plot(jf_list[i * 24: (i + 1) * 24], alpha=0.2, color="blue")
 
                 if len(jf_list[i * 24: (i + 1) * 24]) == 24:
-                    a.append(jf_list[i * 24: (i + 1) * 24])
+                    a.append(jf_list[i * 24: (i + 1) * 24]) # extract the mean day
                     # a.append(jf_list[i * 24 + 6 : i * 24 + 9])
 
 
@@ -166,10 +167,15 @@ class SpeedData:
                 plt.plot(np.mean(np.array(a), axis=0), linewidth=4, color="black", label="mean_tod_plot")
                 plt.legend()
                 plt.ylim(0, 10)
+                if not os.path.exists(os.path.join(config.network_folder, self.city_name, "mean_day")):
+                    os.mkdir(os.path.join(config.network_folder, self.city_name, "mean_day"))
+                r = str(int(np.random.rand() * 100000000))
+                plt.savefig(os.path.join(config.network_folder, self.city_name, "mean_day",
+                                         f"mean_day_{r}" + ".png"), dpi=300)
                 plt.show()
 
             # self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy(jf_list)
-            self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy( [np.mean(np.mean(np.array(a), axis=0))] * 24 )
+            self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy( np.nanmean(np.array(a), axis=0).tolist() )
 
         fname = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, "_speed_data_object.pkl")
 
@@ -302,6 +308,25 @@ class SpeedData:
             agg_func = np.nanmax
         elif config.sd_temporal_combination_method == "variance":
             agg_func = np.nanstd
+
+        a = []
+        for i in range(0, len(jf_list), combine_how_many_t_steps):
+            a.append(agg_func(jf_list[i : i + combine_how_many_t_steps]))
+        return a
+
+    def _aggregation_mean(self, jf_list, combine_how_many_t_steps):
+        """
+
+        Args:
+            jf_list:
+            combine_how_many_t_steps:
+
+        Returns:
+            shortened JF list
+
+        """
+
+        agg_func = np.nanmean
 
         a = []
         for i in range(0, len(jf_list), combine_how_many_t_steps):

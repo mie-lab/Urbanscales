@@ -136,65 +136,6 @@ class ScaleJF:
 
             sprint(len(self.bbox_segment_map))
 
-    def set_bbox_segment_map_loops(self):
-        # Step 1: iterate over segments
-        # Step 2: iterate over bboxes
-        # Then within the loop populate the dict if both are intersecting
-        fname = os.path.join(
-            config.BASE_FOLDER,
-            config.network_folder,
-            self.Scale.RoadNetwork.city_name,
-            "_scale_" + str(self.Scale.scale) + "_prep_speed_" + str(self.tod) + ".pkl",
-        )
-        if os.path.exists(fname):
-            # @P/A Ask 2
-            self.bbox_segment_map = copy.deepcopy(
-                (ScaleJF.get_object(self.Scale.RoadNetwork.city_name, self.Scale.scale, self.tod)).bbox_segment_map,
-            )
-            return
-
-        else:
-
-            for tod_ in config.td_tod_list:
-                fnametemp = os.path.join(
-                    config.BASE_FOLDER,
-                    config.network_folder,
-                    self.Scale.RoadNetwork.city_name,
-                    "_scale_" + str(self.Scale.scale) + "_prep_speed_" + str(tod_) + ".pkl",
-                )
-                if os.path.exists(fnametemp):
-                    print("\n", fnametemp, " found; re-using bbox segment map from here")
-                    self.bbox_segment_map = copy.deepcopy(
-                        (ScaleJF.get_object(self.Scale.RoadNetwork.city_name, self.Scale.scale, tod_)).bbox_segment_map,
-                    )
-                    return  # and continue to creating this new prep_speed_object using fname
-
-            print ("Could not find other tod's, Recomputing bbox-segment map for this tod: ", self.tod)
-
-            count_ = len(self.SpeedData.NID_road_segment_map) * len(self.Scale.dict_bbox_to_subgraph)
-            pbar = tqdm(
-                total=count_,
-                desc="Setting bbox Segment map...",
-            )
-            for segment in self.SpeedData.segment_jf_map:
-                # print("Inside loop 1")
-                seg_poly = shapely.wkt.loads(segment)
-
-                for bbox in self.Scale.dict_bbox_to_subgraph.keys():
-                    # print("                   Inside loop 2")
-
-                    N, S, E, W, _unused_len = bbox
-
-                    bbox_shapely = shapely.geometry.box(W, S, E, N, ccw=True)
-                    if seg_poly.intersection(bbox_shapely):
-                        if bbox in self.bbox_segment_map:
-                            self.bbox_segment_map[bbox].append(segment)
-                        else:
-                            self.bbox_segment_map[bbox] = [segment]
-
-                    pbar.update(1)
-            sprint(len(self.bbox_segment_map))
-
     def set_bbox_jf_map(self):
         """
         Input: object of class Scale JF
@@ -209,25 +150,41 @@ class ScaleJF:
 
         if not config.ps_set_all_speed_zero:
             # Fetch segment_jf values for each segment using map and apply operations
-            bbox_segment_df['segment_jf_values'] = bbox_segment_df['segments'].apply(
-                lambda segments_list: [self.SpeedData.segment_jf_map.get(str(seg), [np.nan] * 24)[self.tod] for seg in segments_list]
-            )
+            if isinstance(self.tod, int):
+                segment_jf_values = []
 
+                for segments_list in bbox_segment_df['segments']:
+                    jf_values_list = []
+                    for seg in segments_list:
+                        jf_values = self.SpeedData.segment_jf_map.get(str(seg), [np.nan] * 24)[self.tod]
+                        jf_values_list.append(jf_values)
+                    segment_jf_values.append(jf_values_list)
+
+                bbox_segment_df['segment_jf_values'] = segment_jf_values # one value for each segment, multiple values for each bbox
+
+            if isinstance(self.tod, list): # list of integers like [6,7,8,9]
+                segment_jf_values = []
+
+                for segments_list in bbox_segment_df['segments']:
+                    jf_values_list = []
+                    for seg in segments_list:
+                        if config.sd_temporal_combination_method == "mean":
+                            agg_func = np.nanmean
+                        elif config.sd_temporal_combination_method == "max":
+                            agg_func = np.nanmax
+                        elif config.sd_temporal_combination_method == "variance":
+                            agg_func = np.nanstd
+                        jf_values = agg_func( self.SpeedData.segment_jf_map.get(str(seg), [np.nan] * 24)[self.tod[0] : self.tod[-1]] )
+                        jf_values_list.append(jf_values)
+                    segment_jf_values.append(jf_values_list)
+
+                bbox_segment_df['segment_jf_values'] = segment_jf_values # one value for each segment, multiple values for each bbox
+
+            # ensure that each segment is associated with the same number of time steps
             a = []
             for key in self.SpeedData.segment_jf_map:
                 a.append(len(self.SpeedData.segment_jf_map[key]))
             assert len(set(a)) == 1
-
-            # b = []
-            # for key in self.SpeedData.segment_jf_map:
-            #     a = []
-            #     for counter, val in enumerate(self.SpeedData.segment_jf_map[key]):
-            #         if counter % self.tod == 0 and self.SpeedData.segment_jf_map[key][counter] != -1:
-            #             if self.SpeedData.segment_jf_map[key][counter] == -1:
-            #                 print ("-1 Found")
-            #             a.append(self.SpeedData.segment_jf_map[key][counter])
-            #     b.append(a)
-            # bbox_segment_df['segment_jf_values'] = pd.Series(b)
 
             bbox_segment_df['segment_lengths'] = bbox_segment_df['segments'].apply(
                 lambda segments_list: [seg.length for seg in segments_list]
@@ -324,7 +281,7 @@ class ScaleJF:
             elif config.ps_spatial_combination_method == "variance":
                 agg_func = np.nanstd
             elif config.ps_spatial_combination_method == "length_weighted_mean":
-                agg_func = lambda values, lengths: np.sum(np.multiply(values, lengths)) / np.sum(lengths)
+                agg_func = lambda values, lengths: np.nansum(np.multiply(values, lengths)) / np.nansum(lengths)
             else:
                 raise ValueError(f"Unsupported spatial combination method: {config.ps_spatial_combination_method}")
 
@@ -343,47 +300,6 @@ class ScaleJF:
         elif config.ps_set_all_speed_zero:
             # Set all values to zero if ps_set_all_speed_zero is True
             self.bbox_jf_map = {bbox: 0 for bbox in self.bbox_segment_map.keys()}
-
-        # Saving the object
-        fname = os.path.join(
-            config.BASE_FOLDER,
-            config.network_folder,
-            self.Scale.RoadNetwork.city_name,
-            "_scale_" + str(self.Scale.scale) + "_prep_speed_" + str(self.tod) + ".pkl",
-        )
-        rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,
-                                          str(int(np.random.rand() * 100000000000000)))
-        with open(rand_pickle_marker, "wb") as f:
-            pickle.dump(self, f, protocol=config.pickle_protocol)
-            print("Pickle saved!")
-        os.rename(rand_pickle_marker, fname)
-
-    def set_bbox_jf_map_loops(self):
-        """
-        Input: object of class Scale JF
-        For the current tod, this function sets its Y (JF mean/median) depending on config
-        """
-
-        if not config.ps_set_all_speed_zero:
-            for bbox, segments in self.bbox_segment_map.items():
-                segment_jf_values = []
-                for segment in segments:
-                    # Fetch segment_jf value for the segment, and use NaN if not available
-                    segment_jf = self.SpeedData.segment_jf_map.get(segment, [np.nan] * 24)[self.tod]
-                    segment_jf_values.append(segment_jf)
-
-                # Use mean or max as aggregation function based on config
-                if config.ps_spatial_combination_method == "mean":
-                    self.bbox_jf_map[bbox] = np.mean(segment_jf_values)
-                elif config.ps_spatial_combination_method == "max":
-                    self.bbox_jf_map[bbox] = np.max(segment_jf_values)
-                else:
-                    raise ValueError(f"Unsupported spatial combination method: {config.ps_spatial_combination_method}")
-
-        elif config.ps_set_all_speed_zero:
-            # Set all values to zero if ps_set_all_speed_zero is True
-            for bbox in self.bbox_segment_map.keys():
-                self.bbox_jf_map[bbox] = 0
 
         # Saving the object
         fname = os.path.join(
