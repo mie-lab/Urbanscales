@@ -7,7 +7,7 @@ verbose = 2
 
 DEBUG = False
 DEBUG_TRUNCATE = False
-MASTER_VISUALISE_EACH_STEP = True
+MASTER_VISUALISE_EACH_STEP = False
 
 BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"
 BASE_FOLDER_server = "/home/niskumar/WCS"
@@ -260,7 +260,12 @@ sd_total_number_of_data_points_for_each_segment = 30 * 24 * (60/sd_raw_speed_dat
 ps_spatial_combination_method = "length_weighted_mean"
 assert ps_spatial_combination_method in ["mean", "max", "length_weighted_mean", "variance"]
 if RUNNING_ON_LOCAL:
-    ps_tod_list = [9] # list(range(9, 10, 1))
+    ps_tod_list = [
+        [9, 10],
+        [6, 7, 8, 9, 10],  # peak hour morning
+        [16, 17, 18, 19, 20],  # peak hour morning
+        list(range(1,25))
+    ] # list(range(9, 10, 1))
 elif RUNNING_ON_SERVER:
     ps_tod_list = list(range(0, 24, 1))
 assert isinstance(ps_tod_list, list)

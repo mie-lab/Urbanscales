@@ -219,7 +219,7 @@ class Scale:
                     counter_bbox += 1
 
                     debug_stop = True
-                    if counter_bbox % 100 == 0 and config.MASTER_VISUALISE_EACH_STEP:
+                    if 1==2 and counter_bbox % 100 == 0 and config.MASTER_VISUALISE_EACH_STEP:
                         # Plot the bboxes from scl_jf
                         # Example list of bounding boxes
                         # bboxes = list(scl_jf.bbox_segment_map.keys())
@@ -252,7 +252,7 @@ class Scale:
                         plt.show()
 
                     G_sub = dict_of_subgraphs[bbox]
-                    if config.MASTER_VISUALISE_EACH_STEP and G_sub != config.rn_no_stats_marker \
+                    if 1==2 and config.MASTER_VISUALISE_EACH_STEP and G_sub != config.rn_no_stats_marker \
                             and len(G_sub.nodes()) != 0 and len(G_sub.edges()) != 0:
                         # Plot the bboxes from scl_jf
                         # Example list of bounding boxes

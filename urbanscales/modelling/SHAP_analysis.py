@@ -1,8 +1,10 @@
+import csv
 import os
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas
 import pandas as pd
+from skimage.filters import threshold_otsu
 from skimage.metrics import mean_squared_error
 from sklearn.ensemble import RandomForestRegressor
 import sys
@@ -113,7 +115,7 @@ from sklearn.linear_model import LinearRegression, Lasso, Ridge
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 import numpy as np
 
-def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, scaling=True, include_interactions=True):
+def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  scaling=True, include_interactions=True):
 
     X = X[feature_list]
 
@@ -136,7 +138,9 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, scaling=
     }
 
     # Results dictionary
-    results = {}
+
+    results_explained_variance = {}
+    results_mse = {}
     models_trained = {}
     for name, model in models.items():
         if scaling:
@@ -153,8 +157,11 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, scaling=
 
         sprint (model, X_df.shape)
         # Perform cross-validation and store the mean explained variance score
-        cv_results = cross_val_score(pipeline, X_df, Y, cv=kf, scoring=make_scorer(explained_variance_score))
-        results[name] = np.mean(cv_results)
+        cv_results_explained_variance = cross_val_score(pipeline, X_df, Y, cv=kf,
+                                                        scoring=make_scorer(explained_variance_score))
+        cv_results_mse = cross_val_score(pipeline, X_df, Y, cv=kf, scoring=make_scorer(mean_squared_error))
+        results_explained_variance[name] = np.mean(cv_results_explained_variance)
+        results_mse[name] = np.mean(cv_results_mse)
 
         # Train the model on the full dataset and store it
         pipeline.fit(X_df, Y)
@@ -163,7 +170,14 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, scaling=
     # Print the results
     print("Model Performance Comparison (Explained variance):")
     print("-------------------------------------------------------------")
-    for name, score in results.items():
+
+    for name, score in results_explained_variance.items():
+        print(f"{name}: {score:.4f}")
+
+    print("Model Performance Comparison (MSE):")
+    print("-------------------------------------------------------------")
+
+    for name, score in results_mse.items():
         print(f"{name}: {score:.4f}")
 
     import shap
@@ -185,28 +199,53 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, scaling=
     shap_values_agg = shap_values
 
     # Plot feature importance
-    shap.summary_plot(shap_values_agg, X, plot_type="bar", show=False)
-    if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots")):
-        os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots"))
-    plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots",
-                             f"shap_total_FI_scale_{scale}.png"))
-    plt.clf()
-
     total_shap_values = np.abs(shap_values_agg).mean(axis=0)
 
     # Rank features based on total SHAP values
     sorted_features = np.argsort(-total_shap_values)
 
-    # Plot SHAP-based PDP for the top 3 features
-    for idx in sorted_features[:]:
+    total_shap_values = np.abs(shap_values_agg).mean(axis=0)
+
+    # Compute Otsu threshold
+    otsu_threshold = threshold_otsu(total_shap_values)
+    plt.clf()
+    shap.summary_plot(shap_values_agg, X, plot_type="bar", show=False)
+    if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots")):
+        os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots"))
+    plt.title("Otsu: " + str(otsu_threshold))
+    plt.tight_layout()
+    plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots",
+                             f"tod_{tod}_shap_total_FI_scale_{scale}_.png"))
+    plt.clf()
+
+
+
+
+
+    # Filter features based on Otsu threshold
+    filtered_features = [idx for idx, val in enumerate(total_shap_values) if val > otsu_threshold]
+
+    for idx in filtered_features:
         feature = X.columns[idx]
         # feature = feature_list[idx] # X.columns[idx]
         shap.dependence_plot(feature, shap_values_agg, X, show=False)
         if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots")):
             os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots"))
         plt.ylim(-1, 3)
-        plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots", f"shap_pdp_{feature}_scale_{scale}.png"))
+        plt.tight_layout()
+        plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots", f"tod_{tod}_shap_pdp_{feature}_scale_{scale}.png"))
+        plt.clf()
+    # Plot SHAP-based PDP for filtered features
+    if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "GOF" + f"tod_{tod}_scale_{scale}.csv")):
+        with open(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "GOF" + f"tod_{tod}_scale_{scale}.csv"), "w") as f:
+            csvwriter = csv.writer(f)
+            csvwriter.writerow(["model", "GoF_explained_Variance", "GoF_MSE", "TOD", "Scale", "cityname"])
 
+    with open(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "GOF" + f"tod_{tod}_scale_{scale}.csv"), "a") as f:
+        csvwriter = csv.writer(f)
+        for name, score in results_explained_variance.items():
+            print(f"{name}: {score:.4f}")
+            csvwriter.writerow([name, results_explained_variance[name], results_mse[name], tod, scale, cityname])
 
 def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, scaling=True, include_interactions=True, n_strips=3):
     # Use only the selected features
@@ -331,7 +370,7 @@ if __name__ == "__main__":
                                     # list_of_cities[2:]
                                     # [list_of_cities[0]],
                                     # [list_of_cities[1]],
-                                    [list_of_cities[2]],
+                                    # [list_of_cities[2]],
                                     # [list_of_cities[3]],
                                     # [list_of_cities[4]],
                                     # [list_of_cities[5]],
@@ -339,20 +378,10 @@ if __name__ == "__main__":
                                     # [list_of_cities[7]],
                                     # [list_of_cities[8]],
                                     # [list_of_cities[9]],
-
+                                    list(config.rn_city_wise_bboxes.keys())
                                 ]
 
-    tod_list_of_list = [
-        # [6,7,8,9],
-        # [7]
-        [9],
-        # [9]
-        # [0,1,2,3,4,5],
-        # [10,11,12,13,14,15],
-        # [16,17,18,19],
-        # [20,21,22,23]
-    # range(24),
-    ]
+    tod_list_of_list = config.ps_tod_list
 
     common_features = [
         'betweenness',
@@ -360,12 +389,12 @@ if __name__ == "__main__":
         'global_betweenness',
         'k_avg',
         'lane_density',
-        # 'm',
+        'm',
         'metered_count',
-        # 'n',
+        'n',
         'non_metered_count',
         'street_length_total',
-        # 'streets_per_node_count_5',
+        'streets_per_node_count_5',
         'total_crossings'
     ]
 
@@ -377,226 +406,229 @@ if __name__ == "__main__":
             for scale in scale_list:
                 for city in list_of_cities:
 
-                    for tod in tod_list:
-                        x = []
-                        y = []
-                        fname = os.path.join(config.BASE_FOLDER, config.network_folder, city, f"_scale_{scale}_train_data_{tod}.pkl")
-                        try:
-                            temp_obj = CustomUnpicklerTrainDataVectors(open(fname, "rb")).load()
-                            if isinstance(temp_obj.X, pd.DataFrame):
-                                filtered_X = temp_obj.X[list(common_features)]
-                        except:
-                            print ("Error in :")
-                            sprint(list_of_cities, tod_list, scale, city)
-                            continue
+                    tod = tod_list
+                    x = []
+                    y = []
+                    fname = os.path.join(config.BASE_FOLDER, config.network_folder, city, f"_scale_{scale}_train_data_{tod}.pkl")
+                    try:
+                        temp_obj = CustomUnpicklerTrainDataVectors(open(fname, "rb")).load()
+                        if isinstance(temp_obj.X, pd.DataFrame):
+                            filtered_X = temp_obj.X[list(common_features)]
+                    except:
+                        print ("Error in :")
+                        sprint(list_of_cities, tod_list, scale, city)
+                        continue
 
 
-                        def calculate_strip_boundaries(bboxes, n_strips=7):
-                            # Extract all the longitude values from the bounding boxes
-                            all_lons = [list(bbox.keys())[0][3] for bbox in bboxes] + [list(bbox.keys())[0][2] for bbox
-                                                                                       in bboxes]
+                    def calculate_strip_boundaries(bboxes, n_strips=7):
+                        # Extract all the longitude values from the bounding boxes
+                        all_lons = [list(bbox.keys())[0][3] for bbox in bboxes] + [list(bbox.keys())[0][2] for bbox
+                                                                                   in bboxes]
 
-                            # Sort the longitude values
-                            sorted_lons = sorted(list(set(all_lons)))
+                        # Sort the longitude values
+                        sorted_lons = sorted(list(set(all_lons)))
 
-                            # Calculate the number of bboxes per strip
-                            bboxes_per_strip = len(sorted_lons) // n_strips
+                        # Calculate the number of bboxes per strip
+                        bboxes_per_strip = len(sorted_lons) // n_strips
 
-                            # Initialize the list of strip boundaries
-                            strip_boundaries = [sorted_lons[0]]
+                        # Initialize the list of strip boundaries
+                        strip_boundaries = [sorted_lons[0]]
 
-                            # Determine the boundaries of each strip
-                            for i in range(1, n_strips):
-                                boundary_index = i * bboxes_per_strip
-                                strip_boundaries.append(sorted_lons[boundary_index])
+                        # Determine the boundaries of each strip
+                        for i in range(1, n_strips):
+                            boundary_index = i * bboxes_per_strip
+                            strip_boundaries.append(sorted_lons[boundary_index])
 
-                            # Add the last longitude value as the end boundary of the last strip
-                            strip_boundaries.append(sorted_lons[-1])
+                        # Add the last longitude value as the end boundary of the last strip
+                        strip_boundaries.append(sorted_lons[-1])
 
-                            return strip_boundaries
+                        return strip_boundaries
 
-                        def assign_bboxes_to_strips(bboxes, strip_boundaries):
-                            strip_assignments = {}
-                            bbox_to_strip = {}
-                            for i, bbox in enumerate(bboxes):
-                                bbox_coords = list(bbox.keys())[0]
-                                West, East = bbox_coords[3], bbox_coords[
-                                    2]  # Assuming bbox_coords is in the format (North, South, East, West)
-
-
-                                # Find the strip that contains the bbox
-                                for strip_index in range(len(strip_boundaries) - 1):
-                                    left_boundary = strip_boundaries[strip_index]
-                                    right_boundary = strip_boundaries[strip_index + 1]
-
-                                    # Check if bbox is within the current strip's boundaries
-                                    if West >= left_boundary and East <= right_boundary:
-                                        if strip_index not in strip_assignments:
-                                            strip_assignments[strip_index] = []
-                                        strip_assignments[strip_index].append(bbox_coords)
-                                        bbox_to_strip[bbox_coords] = strip_index
-                                        break
-
-                            return strip_assignments, bbox_to_strip
+                    def assign_bboxes_to_strips(bboxes, strip_boundaries):
+                        strip_assignments = {}
+                        bbox_to_strip = {}
+                        for i, bbox in enumerate(bboxes):
+                            bbox_coords = list(bbox.keys())[0]
+                            West, East = bbox_coords[3], bbox_coords[
+                                2]  # Assuming bbox_coords is in the format (North, South, East, West)
 
 
-                        from shapely.geometry import Polygon
-                        def visualize_splits(bboxes, strip_assignments, strip_boundaries, bbox_to_strip,
-                                             split_direction='vertical'):
-                            # Create a GeoDataFrame for the bounding boxes
-                            gdf = gpd.GeoDataFrame({
-                                'geometry': [
-                                    Polygon([(West, North), (East, North), (East, South), (West, South)])
-                                    for bbox in bboxes
-                                    for North, South, East, West in [list(bbox.keys())[0]]
-                                ],
-                                'strip': [
-                                    bbox_to_strip[(North, South, East, West)]
-                                    for bbox in bboxes
-                                    for North, South, East, West in [list(bbox.keys())[0]]
-                                ]
-                            }, crs="EPSG:4326")
+                            # Find the strip that contains the bbox
+                            for strip_index in range(len(strip_boundaries) - 1):
+                                left_boundary = strip_boundaries[strip_index]
+                                right_boundary = strip_boundaries[strip_index + 1]
 
-                            # Plot the bounding boxes with different colors for each strip
-                            if config.MASTER_VISUALISE_EACH_STEP:
-                                fig, ax = plt.subplots(figsize=(10, 6))
-                                for strip, color in zip(range(len(strip_boundaries) - 1),
-                                                        ['red', 'green', 'blue', 'orange', 'purple', 'brown', 'cyan']):
-                                    gdf[gdf['strip'] == strip].plot(ax=ax, color=color, alpha=0.5, edgecolor='black')
+                                # Check if bbox is within the current strip's boundaries
+                                if West >= left_boundary and East <= right_boundary:
+                                    if strip_index not in strip_assignments:
+                                        strip_assignments[strip_index] = []
+                                    strip_assignments[strip_index].append(bbox_coords)
+                                    bbox_to_strip[bbox_coords] = strip_index
+                                    break
 
-                                # Add split boundaries
-                                if split_direction == 'vertical':
-                                    for lon in strip_boundaries:
-                                        plt.axvline(x=lon, color='black', linestyle='--', linewidth=3)
-                                elif split_direction == 'horizontal':
-                                    for lat in strip_boundaries:
-                                        plt.axhline(y=lat, color='black', linestyle='--', linewidth=3)
-
-                                plt.xlabel('Longitude')
-                                plt.ylabel('Latitude')
-                                plt.title('Spatial Splits')
-                                plt.show()
+                        return strip_assignments, bbox_to_strip
 
 
-                        bboxes = temp_obj.bbox_X
-                        n_strips = 3
+                    from shapely.geometry import Polygon
+                    def visualize_splits(bboxes, strip_assignments, strip_boundaries, bbox_to_strip,
+                                         split_direction='vertical'):
+                        # Create a GeoDataFrame for the bounding boxes
+                        gdf = gpd.GeoDataFrame({
+                            'geometry': [
+                                Polygon([(West, North), (East, North), (East, South), (West, South)])
+                                for bbox in bboxes
+                                for North, South, East, West in [list(bbox.keys())[0]]
+                            ],
+                            'strip': [
+                                bbox_to_strip[(North, South, East, West)]
+                                for bbox in bboxes
+                                for North, South, East, West in [list(bbox.keys())[0]]
+                            ]
+                        }, crs="EPSG:4326")
 
-                        strip_boundaries = calculate_strip_boundaries(bboxes, n_strips)
-                        strip_assignments, bbox_to_strip = assign_bboxes_to_strips(bboxes, strip_boundaries)
-                        from shapely.geometry import Polygon
+                        # Plot the bounding boxes with different colors for each strip
+                        if config.MASTER_VISUALISE_EACH_STEP:
+                            fig, ax = plt.subplots(figsize=(10, 6))
+                            for strip, color in zip(range(len(strip_boundaries) - 1),
+                                                    ['red', 'green', 'blue', 'orange', 'purple', 'brown', 'cyan']):
+                                gdf[gdf['strip'] == strip].plot(ax=ax, color=color, alpha=0.5, edgecolor='black')
 
-                        visualize_splits(bboxes, strip_assignments, strip_boundaries, bbox_to_strip,
-                                         split_direction='vertical')
-                        # After processing each city and time of day, concatenate data
-                        x.append(temp_obj.X)
-                        y.append(temp_obj.Y)
+                            # Add split boundaries
+                            if split_direction == 'vertical':
+                                for lon in strip_boundaries:
+                                    plt.axvline(x=lon, color='black', linestyle='--', linewidth=3)
+                            elif split_direction == 'horizontal':
+                                for lat in strip_boundaries:
+                                    plt.axhline(y=lat, color='black', linestyle='--', linewidth=3)
 
-                        # Concatenate the list of DataFrames in x and y
-                        X = pd.concat(x, ignore_index=True)
-                        # Convert any NumPy arrays in the list to Pandas Series
-                        y_series = [pd.Series(array) if isinstance(array, np.ndarray) else array for array in y]
+                            plt.xlabel('Longitude')
+                            plt.ylabel('Latitude')
+                            plt.title('Spatial Splits')
+                            plt.show()
 
-                        # Concatenate the list of Series and DataFrames
-                        Y = pd.concat(y_series, ignore_index=True)
 
-                        sprint (city, scale, tod, config.shift_tile_marker, X.shape, Y.shape)
+                    bboxes = temp_obj.bbox_X
+                    n_strips = 3
 
-                        # for column in common_features:
-                        #     # plt.hist(X[column], 50)
-                        #     # plt.title("Histogram for " + column)
-                        #     # plt.hist(X[column])
-                        #     # plt.show()
-                        #
-                        #     plt.title("Histogram for Y")
-                        #     plt.hist(Y)
-                        #     plt.show()
-                        #     break
+                    strip_boundaries = calculate_strip_boundaries(bboxes, n_strips)
+                    strip_assignments, bbox_to_strip = assign_bboxes_to_strips(bboxes, strip_boundaries)
+                    from shapely.geometry import Polygon
 
-                        # locs = (Y > 0.5)  # & (Y < 6 )
-                        # X = X[locs]
-                        # Y = Y[locs]
+                    visualize_splits(bboxes, strip_assignments, strip_boundaries, bbox_to_strip,
+                                     split_direction='vertical')
+                    # After processing each city and time of day, concatenate data
+                    x.append(temp_obj.X)
+                    y.append(temp_obj.Y)
 
-                        compare_models_gof_standard_cv(X, Y, common_features, cityname=city, scale=scale, include_interactions=False, scaling=True)
-                        # compare_models_gof_spatial_cv(X, Y, common_features, include_interactions=False, scaling=True,
-                        #                               bbox_to_strip=bbox_to_strip, n_strips=n_strips)
+                    # Concatenate the list of DataFrames in x and y
+                    X = pd.concat(x, ignore_index=True)
+                    # Convert any NumPy arrays in the list to Pandas Series
+                    y_series = [pd.Series(array) if isinstance(array, np.ndarray) else array for array in y]
+
+                    # Concatenate the list of Series and DataFrames
+                    Y = pd.concat(y_series, ignore_index=True)
+
+                    sprint (city, scale, tod, config.shift_tile_marker, X.shape, Y.shape)
+
+                    # for column in common_features:
+                    #     # plt.hist(X[column], 50)
+                    #     # plt.title("Histogram for " + column)
+                    #     # plt.hist(X[column])
+                    #     # plt.show()
+                    #
+                    #     plt.title("Histogram for Y")
+                    #     plt.hist(Y)
+                    #     plt.show()
+                    #     break
+
+                    # locs = (Y > 0.5)  # & (Y < 6 )
+                    # X = X[locs]
+                    # Y = Y[locs]
+
+                    compare_models_gof_standard_cv(X, Y, common_features, tod=tod, cityname=city, scale=scale, include_interactions=False, scaling=True)
+                    # compare_models_gof_spatial_cv(X, Y, common_features, include_interactions=False, scaling=True,
+                    #                               bbox_to_strip=bbox_to_strip, n_strips=n_strips)
+
+                    if config.MASTER_VISUALISE_EACH_STEP:
+                        # Plot the bboxes from scl_jf
+                        # Example list of bounding boxes
+                        for column in common_features:
+
+                            bboxes = [list(i.keys())[0] for i in temp_obj.bbox_X]
+                            from shapely.geometry import Polygon
+
+                            values_list = temp_obj.X[column]
+
+                            # Normalize the values for coloring
+                            values_normalized = (values_list - np.min(values_list)) / (
+                                        np.max(values_list) - np.min(values_list))
+
+                            # Create a GeoDataFrame including the values for heatmap
+                            try:
+                                gdf = gpd.GeoDataFrame({
+                                    'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)]) for
+                                                 lat1, lat2, lon1, lon2 in bboxes],
+                                    'value': values_normalized
+                                }, crs="EPSG:4326")  # EPSG:4326 is WGS84 latitude-longitude projection
+                            except:
+                                gdf = gpd.GeoDataFrame({
+                                    'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)])
+                                                 for
+                                                 lat1, lat2, lon1, lon2, _unused_len_ in bboxes],
+                                    'value': values_normalized
+                                }, crs="EPSG:4326")  # EPSG:4326 is WGS84 latitude-longitude projection
+
+                            # Convert the GeoDataFrame to the Web Mercator projection
+                            gdf_mercator = gdf.to_crs(epsg=3857)
+
+                            # Plotting with heatmap based on values and making boundaries invisible
+                            fig, ax = plt.subplots(figsize=(10, 10))
+                            gdf_mercator.plot(ax=ax, column='value', cmap='viridis', edgecolor='none',
+                                              alpha=0.7)  # Use 'viridis' or any other colormap
+                            ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
+                            ax.set_axis_off()
+                            plt.title(column)
+                            # plt.colorbar()
+                            plt.show()
 
                         if config.MASTER_VISUALISE_EACH_STEP:
                             # Plot the bboxes from scl_jf
                             # Example list of bounding boxes
-                            for column in common_features:
+                            bboxes = [list(i.keys())[0] for i in temp_obj.bbox_X]
+                            from shapely.geometry import Polygon
 
-                                bboxes = [list(i.keys())[0] for i in temp_obj.bbox_X]
-                                from shapely.geometry import Polygon
+                            values_list = temp_obj.Y
 
-                                values_list = temp_obj.X[column]
+                            # Normalize the values for coloring
+                            values_normalized = (values_list - np.min(values_list)) / (
+                                    np.max(values_list) - np.min(values_list))
 
-                                # Normalize the values for coloring
-                                values_normalized = (values_list - np.min(values_list)) / (
-                                            np.max(values_list) - np.min(values_list))
+                            try:
+                                gdf = gpd.GeoDataFrame({
+                                    'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)]) for
+                                                 lat1, lat2, lon1, lon2 in bboxes],
+                                    'value': values_normalized
+                                }, crs="EPSG:4326")  # EPSG:4326 is WGS84 latitude-longitude projection
+                            except:
+                                gdf = gpd.GeoDataFrame({
+                                    'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)])
+                                                 for
+                                                 lat1, lat2, lon1, lon2, _unused_len_ in bboxes],
+                                    'value': values_normalized
+                                }, crs="EPSG:4326")  # EPSG:4326 is WGS84 latitude-longitude projection
 
-                                # Create a GeoDataFrame including the values for heatmap
-                                try:
-                                    gdf = gpd.GeoDataFrame({
-                                        'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)]) for
-                                                     lat1, lat2, lon1, lon2 in bboxes],
-                                        'value': values_normalized
-                                    }, crs="EPSG:4326")  # EPSG:4326 is WGS84 latitude-longitude projection
-                                except:
-                                    gdf = gpd.GeoDataFrame({
-                                        'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)])
-                                                     for
-                                                     lat1, lat2, lon1, lon2, _unused_len_ in bboxes],
-                                        'value': values_normalized
-                                    }, crs="EPSG:4326")  # EPSG:4326 is WGS84 latitude-longitude projection
+                            # Convert the GeoDataFrame to the Web Mercator projection
+                            gdf_mercator = gdf.to_crs(epsg=3857)
 
-                                # Convert the GeoDataFrame to the Web Mercator projection
-                                gdf_mercator = gdf.to_crs(epsg=3857)
+                            # Plotting with heatmap based on values and making boundaries invisible
+                            fig, ax = plt.subplots(figsize=(10, 10))
+                            gdf_mercator.plot(ax=ax, column='value', cmap='viridis', edgecolor='none',
+                                              alpha=0.7)  # Use 'viridis' or any other colormap
+                            ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
+                            ax.set_axis_off()
+                            plt.title("Y")
+                            # plt.colorbar()
+                            plt.show()
+                        input("Enter any key to continue for different TOD")
 
-                                # Plotting with heatmap based on values and making boundaries invisible
-                                fig, ax = plt.subplots(figsize=(10, 10))
-                                gdf_mercator.plot(ax=ax, column='value', cmap='viridis', edgecolor='none',
-                                                  alpha=0.7)  # Use 'viridis' or any other colormap
-                                ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
-                                ax.set_axis_off()
-                                plt.title(column)
-                                # plt.colorbar()
-                                plt.show()
 
-                            if config.MASTER_VISUALISE_EACH_STEP:
-                                # Plot the bboxes from scl_jf
-                                # Example list of bounding boxes
-                                bboxes = [list(i.keys())[0] for i in temp_obj.bbox_X]
-                                from shapely.geometry import Polygon
-
-                                values_list = temp_obj.Y
-
-                                # Normalize the values for coloring
-                                values_normalized = (values_list - np.min(values_list)) / (
-                                        np.max(values_list) - np.min(values_list))
-
-                                try:
-                                    gdf = gpd.GeoDataFrame({
-                                        'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)]) for
-                                                     lat1, lat2, lon1, lon2 in bboxes],
-                                        'value': values_normalized
-                                    }, crs="EPSG:4326")  # EPSG:4326 is WGS84 latitude-longitude projection
-                                except:
-                                    gdf = gpd.GeoDataFrame({
-                                        'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)])
-                                                     for
-                                                     lat1, lat2, lon1, lon2, _unused_len_ in bboxes],
-                                        'value': values_normalized
-                                    }, crs="EPSG:4326")  # EPSG:4326 is WGS84 latitude-longitude projection
-
-                                # Convert the GeoDataFrame to the Web Mercator projection
-                                gdf_mercator = gdf.to_crs(epsg=3857)
-
-                                # Plotting with heatmap based on values and making boundaries invisible
-                                fig, ax = plt.subplots(figsize=(10, 10))
-                                gdf_mercator.plot(ax=ax, column='value', cmap='viridis', edgecolor='none',
-                                                  alpha=0.7)  # Use 'viridis' or any other colormap
-                                ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
-                                ax.set_axis_off()
-                                plt.title("Y")
-                                # plt.colorbar()
-                                plt.show()
