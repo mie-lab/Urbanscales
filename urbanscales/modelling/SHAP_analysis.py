@@ -368,11 +368,11 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, s
     for idx in filtered_features:
         feature = X.columns[idx]
         shap.dependence_plot(feature, shap_values_agg, X, show=False)
-        if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, "PDP_plots_spatial")):
-            os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, "PDP_plots_spatial"))
+        if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots_spatial")):
+            os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots_spatial"))
         plt.ylim(-1, 3)
         plt.tight_layout()
-        plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, "PDP_plots_spatial", f"spatial_shap_pdp_{feature}.png"))
+        plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname,"PDP_plots_spatial", f"spatial_shap_pdp_{feature}.png"))
         plt.clf()
 
 
@@ -595,7 +595,7 @@ if __name__ == "__main__":
                     # X = X[locs]
                     # Y = Y[locs]
 
-                    # compare_models_gof_standard_cv(X, Y, common_features, tod=tod, cityname=city, scale=scale, include_interactions=False, scaling=True)
+                    compare_models_gof_standard_cv(X, Y, common_features, tod=tod, cityname=city, scale=scale, include_interactions=False, scaling=True)
                     compare_models_gof_spatial_cv(X, Y, common_features, include_interactions=False, scaling=True,
                                                   bbox_to_strip=bbox_to_strip, n_strips=n_strips, cityname=city)
 
