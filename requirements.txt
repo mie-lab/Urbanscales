@@ -7,6 +7,7 @@ yellowbrick==1.5
 smartprint==1.0.5
 basemap==1.4.0
 shap==0.44.0
+xgboost==2.0.3
 # taxicab
 jupyterlab
 geopy==2.2.0

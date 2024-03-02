@@ -13,8 +13,11 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.decomposition import PCA
 from tqdm import tqdm
+from xgboost import XGBRegressor
 
+sys.path.append(os.path.join(os.path.dirname(__file__), "../../"))
 import config
+
 
 sys.path.append("../../../")
 from urbanscales.preprocessing.train_data import TrainDataVectors
@@ -133,6 +136,7 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
         "Linear Regression": LinearRegression(),
         "Random Forest": RandomForestRegressor(n_estimators=200, random_state=42, max_depth=200, min_samples_leaf=2),
         "Gradient Boosting Machine": GradientBoostingRegressor(n_estimators=100, random_state=42),
+        # "Gradient Boosting Machine": XGBRegressor(n_estimators=100, random_state=42),
         "Lasso": Lasso(random_state=42),
         "Ridge": Ridge(random_state=42)
     }
@@ -200,11 +204,23 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
 
     # Plot feature importance
     total_shap_values = np.abs(shap_values_agg).mean(axis=0)
-
-    # Rank features based on total SHAP values
-    sorted_features = np.argsort(-total_shap_values)
-
+    # After computing total_shap_values
     total_shap_values = np.abs(shap_values_agg).mean(axis=0)
+
+    # Create a list of tuples (feature name, total SHAP value)
+    feature_importance_list = [(feature, shap_value) for feature, shap_value in zip(X.columns, total_shap_values)]
+
+    # Sort the list based on SHAP values in descending order
+    sorted_feature_importance_list = sorted(feature_importance_list, key=lambda x: x[1], reverse=True)
+
+    # Write the sorted list to a file
+    output_file_path = os.path.join(config.BASE_FOLDER, config.network_folder, cityname,
+                                    f"tod_{tod}_total_feature_importance_scale_{scale}.csv")
+    with open(output_file_path, "w") as f:
+        csvwriter = csv.writer(f)
+        csvwriter.writerow(["Feature", "Total SHAP Value"])
+        for feature, shap_value in sorted_feature_importance_list:
+            csvwriter.writerow([feature, shap_value])
 
     # Compute Otsu threshold
     otsu_threshold = threshold_otsu(total_shap_values)
@@ -247,7 +263,7 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
             print(f"{name}: {score:.4f}")
             csvwriter.writerow([name, results_explained_variance[name], results_mse[name], tod, scale, cityname])
 
-def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, scaling=True, include_interactions=True, n_strips=3):
+def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, scaling=True, include_interactions=True, n_strips=3):
     # Use only the selected features
     X = X[feature_list]
 
@@ -262,6 +278,7 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, scaling=Tru
         "Linear Regression": LinearRegression(),
         "Random Forest": RandomForestRegressor(n_estimators=100, random_state=42, max_depth=20),
         "Gradient Boosting Machine": GradientBoostingRegressor(n_estimators=100, random_state=42),
+        # "Gradient Boosting Machine": XGBRegressor(n_estimators=100, random_state=42),
         "Lasso": Lasso(random_state=42),
         "Ridge": Ridge(random_state=42)
     }
@@ -290,17 +307,17 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, scaling=Tru
         sprint (X_train.shape, X_test.shape, strip_index)
 
         # Train and evaluate each model
-        # for name, model in models.items():
-        #     cloned_model = clone(model)
-        #     cloned_model.fit(X_train, Y_train)
-        #     score = explained_variance_score(Y_test, cloned_model.predict(X_test))
-        #     results[name].append(score)
-        #     models_trained[name] = cloned_model
+        for name, model in models.items():
+            cloned_model = clone(model)
+            cloned_model.fit(X_train, Y_train)
+            score = explained_variance_score(Y_test, cloned_model.predict(X_test))
+            results[name].append(score)
+            models_trained[name] = cloned_model
 
     # Print the results
     for name, scores in results.items():
         print(f"{name}:")
-        # print(f"Scores for each fold: {scores}")
+        print(f"Scores for each fold: {scores}")
         print(f"Average score explained variance: {np.mean(scores)}\n")
 
     import shap
@@ -313,18 +330,51 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, scaling=Tru
     shap_values_agg = shap_values
 
     # Plot feature importance
-    shap.summary_plot(shap_values_agg, X, plot_type="bar")
-
     total_shap_values = np.abs(shap_values_agg).mean(axis=0)
 
-    # Rank features based on total SHAP values
-    sorted_features = np.argsort(-total_shap_values)
+    # Create a list of tuples (feature name, total SHAP value)
+    feature_importance_list = [(feature, shap_value) for feature, shap_value in zip(X.columns, total_shap_values)]
 
-    # Plot SHAP-based PDP for the top 3 features
-    for idx in sorted_features[:3]:
-        # feature = feature_list[idx] #
+    # Sort the list based on SHAP values in descending order
+    sorted_feature_importance_list = sorted(feature_importance_list, key=lambda x: x[1], reverse=True)
+
+    # Write the sorted list to a file
+    if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "spatial")):
+        os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname,"spatial"))
+    output_file_path = os.path.join(config.BASE_FOLDER, config.network_folder, cityname,"spatial",
+                                    f"spatial_total_feature_importance.csv")
+    with open(output_file_path, "w") as f:
+        csvwriter = csv.writer(f)
+        csvwriter.writerow(["Feature", "Total SHAP Value"])
+        for feature, shap_value in sorted_feature_importance_list:
+            csvwriter.writerow([feature, shap_value])
+
+    plt.clf()
+    shap.summary_plot(shap_values_agg, X, plot_type="bar", show=False)
+    if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots_spatial")):
+        os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots_spatial"))
+    plt.title("Feature Importance (Spatial)")
+    plt.tight_layout()
+    plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots_spatial",
+                             f"spatial_shap_total_FI.png"))
+    plt.clf()
+
+    # Compute Otsu threshold
+    otsu_threshold = threshold_otsu(total_shap_values)
+
+    # Filter features based on Otsu threshold
+    filtered_features = [idx for idx, val in enumerate(total_shap_values) if val > otsu_threshold]
+
+    for idx in filtered_features:
         feature = X.columns[idx]
-        shap.dependence_plot(feature, shap_values_agg, X)
+        shap.dependence_plot(feature, shap_values_agg, X, show=False)
+        if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, "PDP_plots_spatial")):
+            os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, "PDP_plots_spatial"))
+        plt.ylim(-1, 3)
+        plt.tight_layout()
+        plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, "PDP_plots_spatial", f"spatial_shap_pdp_{feature}.png"))
+        plt.clf()
+
 
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
@@ -508,7 +558,7 @@ if __name__ == "__main__":
 
 
                     bboxes = temp_obj.bbox_X
-                    n_strips = 3
+                    n_strips = 5
 
                     strip_boundaries = calculate_strip_boundaries(bboxes, n_strips)
                     strip_assignments, bbox_to_strip = assign_bboxes_to_strips(bboxes, strip_boundaries)
@@ -545,9 +595,9 @@ if __name__ == "__main__":
                     # X = X[locs]
                     # Y = Y[locs]
 
-                    compare_models_gof_standard_cv(X, Y, common_features, tod=tod, cityname=city, scale=scale, include_interactions=False, scaling=True)
-                    # compare_models_gof_spatial_cv(X, Y, common_features, include_interactions=False, scaling=True,
-                    #                               bbox_to_strip=bbox_to_strip, n_strips=n_strips)
+                    # compare_models_gof_standard_cv(X, Y, common_features, tod=tod, cityname=city, scale=scale, include_interactions=False, scaling=True)
+                    compare_models_gof_spatial_cv(X, Y, common_features, include_interactions=False, scaling=True,
+                                                  bbox_to_strip=bbox_to_strip, n_strips=n_strips, cityname=city)
 
                     if config.MASTER_VISUALISE_EACH_STEP:
                         # Plot the bboxes from scl_jf
@@ -629,6 +679,6 @@ if __name__ == "__main__":
                             plt.title("Y")
                             # plt.colorbar()
                             plt.show()
-                        input("Enter any key to continue for different TOD")
+                        # input("Enter any key to continue for different TOD")
 
 

@@ -7,7 +7,7 @@ verbose = 2
 
 DEBUG = False
 DEBUG_TRUNCATE = False
-MASTER_VISUALISE_EACH_STEP = False
+MASTER_VISUALISE_EACH_STEP = True
 
 BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"
 BASE_FOLDER_server = "/home/niskumar/WCS"
@@ -88,15 +88,15 @@ ppl_list_of_correlations = ["pearson", "spearman"]  # , "kendall", "spearman"]
 if RUNNING_ON_SERVER:
     rn_city_wise_bboxes = {
         "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
-        "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
-        "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
-        "Auckland": [-36.681247, 174.925937, -36.965932, 174.63532],
-        "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
-        "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
-        "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
-        "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
-        "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
-        "London": [51.28676, -0.510375, 51.691874, 0.334015],
+        # "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
+        # "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
+        # "Auckland": [-36.681247, 174.925937, -36.965932, 174.63532],
+        # "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
+        # "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
+        # "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
+        # "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
+        # "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
+        # "London": [51.28676, -0.510375, 51.691874, 0.334015],
         # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
         # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
@@ -104,9 +104,9 @@ elif RUNNING_ON_LOCAL:
     rn_city_wise_bboxes = {
         # "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
         # "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
-        "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
+        # "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
         # "Auckland": [-36.681247, 174.925937, -36.965932, 174.63532],
-        # "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
+        "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
         # "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
         # "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
         # "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
@@ -172,7 +172,7 @@ rn_percentage_of_city_area = 100
 if rn_percentage_of_city_area != 100:
     assert rn_post_fix_road_network_object_file == "_road_network_object_small.pkl"
 
-rn_square_from_city_centre = 50  # 15 implies 15X15 sq.km.
+rn_square_from_city_centre = 75  # 15 implies 15X15 sq.km.
 if rn_square_from_city_centre != -1:
     assert rn_percentage_of_city_area == 100  # we cannot have two filtering techniques
     # basically it is not needed
@@ -208,7 +208,7 @@ scl_list_of_depths = [1]
 
 # test_small
 if RUNNING_ON_LOCAL:
-    scl_list_of_seeds = [25] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+    scl_list_of_seeds = [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 elif RUNNING_ON_SERVER:
     scl_list_of_seeds = [25, 50, 100] # , 70, 90] # list(range(50, 121, 20)) # list(range(10, 121, 40))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
 # forward
@@ -265,9 +265,14 @@ if RUNNING_ON_LOCAL:
         [6, 7, 8, 9, 10],  # peak hour morning
         [16, 17, 18, 19, 20],  # peak hour morning
         list(range(1,25))
-    ] # list(range(9, 10, 1))
+    ]
 elif RUNNING_ON_SERVER:
-    ps_tod_list = list(range(0, 24, 1))
+    ps_tod_list = [
+        [9, 10],
+        [6, 7, 8, 9, 10],  # peak hour morning
+        [16, 17, 18, 19, 20],  # peak hour morning
+        list(range(1,25))
+    ]
 assert isinstance(ps_tod_list, list)
 ps_set_all_speed_zero = False
 
