@@ -14,29 +14,41 @@ def run_command(command, message):
 
 
 os.chdir("../")
-import os
 cityname = ["Singapore", "Zurich", "Mumbai", "Auckland","Istanbul","MexicoCity","Bogota", "NewYorkCity", "Capetown","London"]
 counter = 1
 
 
+# The simpler solution of one line as shown below does not work on Ubuntu; so we now have this fancy 3-step solution
+# os.system('sed -i \'\' "s/single_city = .*/single_city = \\"' + cityname[counter] +'\\"/" config.py')
 
-
-os.system('sed -i \'\' "s/single_city = .*/single_city = \\"' + cityname[counter] +'\\"/" config.py')
+backup_extension = '.bak'
+os.system('sed -i' + backup_extension + ' "s/single_city = .*/single_city = \\"' + cityname[counter] + '\\"/" config.py')
+os.system('rm config.py' + backup_extension)
 run_command("python urbanscales/io/road_network.py", "python urbanscales/io/road_network.py")
 
-os.system('sed -i \'\' "s/single_city = .*/single_city = \\"' + cityname[counter] +'\\"/" config.py')
+backup_extension = '.bak'
+os.system('sed -i' + backup_extension + ' "s/single_city = .*/single_city = \\"' + cityname[counter] + '\\"/" config.py')
+os.system('rm config.py' + backup_extension)
 run_command("python urbanscales/io/speed_data.py", "python urbanscales/io/speed_data.py")
 
-os.system('sed -i \'\' "s/single_city = .*/single_city = \\"' + cityname[counter] +'\\"/" config.py')
+backup_extension = '.bak'
+os.system('sed -i' + backup_extension + ' "s/single_city = .*/single_city = \\"' + cityname[counter] + '\\"/" config.py')
+os.system('rm config.py' + backup_extension)
 run_command("python urbanscales/preprocessing/prep_network.py", "python urbanscales/preprocessing/prep_network.py")
 
-os.system('sed -i \'\' "s/single_city = .*/single_city = \\"' + cityname[counter] +'\\"/" config.py')
+backup_extension = '.bak'
+os.system('sed -i' + backup_extension + ' "s/single_city = .*/single_city = \\"' + cityname[counter] + '\\"/" config.py')
+os.system('rm config.py' + backup_extension)
 run_command("python urbanscales/preprocessing/prep_speed.py", "python urbanscales/preprocessing/prep_speed.py")
 
-os.system('sed -i \'\' "s/single_city = .*/single_city = \\"' + cityname[counter] +'\\"/" config.py')
+backup_extension = '.bak'
+os.system('sed -i' + backup_extension + ' "s/single_city = .*/single_city = \\"' + cityname[counter] + '\\"/" config.py')
+os.system('rm config.py' + backup_extension)
 run_command("python urbanscales/preprocessing/train_data.py", "python urbanscales/preprocessing/train_data.py")
 
-os.system('sed -i \'\' "s/single_city = .*/single_city = \\"' + cityname[counter] +'\\"/" config.py')
+backup_extension = '.bak'
+os.system('sed -i' + backup_extension + ' "s/single_city = .*/single_city = \\"' + cityname[counter] + '\\"/" config.py')
+os.system('rm config.py' + backup_extension)
 run_command("python urbanscales/modelling/SHAP_analysis.py", "python urbanscales/modelling/SHAP_analysis.py")
 
 # run_command("python urbanscales/modelling/ML_Pipeline.py", "python urbanscales/modelling/ML_Pipeline.py")

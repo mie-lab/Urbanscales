@@ -635,7 +635,7 @@ if __name__ == "__main__":
 
 
                     bboxes = temp_obj.bbox_X
-                    n_strips = 5
+                    n_strips = 4
 
                     strip_boundaries = calculate_strip_boundaries(bboxes, n_strips)
                     strip_assignments, bbox_to_strip = assign_bboxes_to_strips(bboxes, strip_boundaries)
@@ -672,7 +672,7 @@ if __name__ == "__main__":
                     # X = X[locs]
                     # Y = Y[locs]
 
-                    # compare_models_gof_standard_cv(X, Y, common_features, tod=tod, cityname=city, scale=scale, include_interactions=False, scaling=True)
+                    compare_models_gof_standard_cv(X, Y, common_features, tod=tod, cityname=city, scale=scale, include_interactions=False, scaling=True)
                     compare_models_gof_spatial_cv(X, Y, common_features, include_interactions=False, scaling=True,
                                                   bbox_to_strip=bbox_to_strip, n_strips=n_strips, tod=tod, cityname=city, scale=scale)
 
