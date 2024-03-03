@@ -100,7 +100,7 @@ if RUNNING_ON_SERVER:
         # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
         # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
-    single_city = "Singapore"
+    single_city = "Istanbul"
     rn_city_wise_bboxes = {single_city : rn_city_wise_bboxes[single_city]}
 
 
@@ -119,7 +119,7 @@ elif RUNNING_ON_LOCAL:
         # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
         # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
-    single_city = "Singapore"
+    single_city = "Istanbul"
     rn_city_wise_bboxes = {single_city : rn_city_wise_bboxes[single_city]}
 
 if RUNNING_ON_SERVER:
@@ -179,9 +179,9 @@ if rn_percentage_of_city_area != 100:
     assert rn_post_fix_road_network_object_file == "_road_network_object_small.pkl"
 
 if single_city == "Istanbul":
-    rn_square_from_city_centre = 75  # 15 implies 15X15 sq.km.
+    rn_square_from_city_centre = 7  # 15 implies 15X15 sq.km.
 else:
-    rn_square_from_city_centre = 50  # 15 implies 15X15 sq.km.
+    rn_square_from_city_centre = 5  # 15 implies 15X15 sq.km.
 if rn_square_from_city_centre != -1:
     assert rn_percentage_of_city_area == 100  # we cannot have two filtering techniques
     # basically it is not needed
@@ -218,14 +218,14 @@ scl_list_of_depths = [1]
 # test_small
 if RUNNING_ON_LOCAL:
     if single_city == "Istanbul":
-        scl_list_of_seeds = [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+        scl_list_of_seeds = [25] # [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
     else:
-        scl_list_of_seeds = [25, 50, 100]
+        scl_list_of_seeds = [25] # [25, 50, 100]
 elif RUNNING_ON_SERVER:
     if single_city == "Istanbul":
-        scl_list_of_seeds = [37, 75, 150]
+        scl_list_of_seeds = [25] # [37, 75, 150]
     else:
-        scl_list_of_seeds = [25, 50, 100]
+        scl_list_of_seeds = [25] # [25, 50, 100]
 # forward
 # scl_list_of_seeds = list(range(5, 350, 10))
 
