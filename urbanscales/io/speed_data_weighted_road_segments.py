@@ -86,4 +86,4 @@ for shape_ in [5000]:# [100, 500, 2500, 5000]:
     plt.colorbar()
     plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city_name) +
                 str(array.shape) + ".png", dpi=300)
-    plt.show()
+    plt.show(block=False)

@@ -100,7 +100,7 @@ if RUNNING_ON_SERVER:
         # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
         # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
-    single_city = "Istanbul"
+    single_city = "Zurich"
     rn_city_wise_bboxes = {single_city : rn_city_wise_bboxes[single_city]}
 
 
@@ -119,7 +119,7 @@ elif RUNNING_ON_LOCAL:
         # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
         # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
-    single_city = "Istanbul"
+    single_city = "Zurich"
     rn_city_wise_bboxes = {single_city : rn_city_wise_bboxes[single_city]}
 
 if RUNNING_ON_SERVER:
@@ -181,7 +181,8 @@ if rn_percentage_of_city_area != 100:
 if single_city == "Istanbul":
     rn_square_from_city_centre = 7  # 15 implies 15X15 sq.km.
 else:
-    rn_square_from_city_centre = 5  # 15 implies 15X15 sq.km.
+    rn_square_from_city_centre = 50  # 15 implies 15X15 sq.km.
+
 if rn_square_from_city_centre != -1:
     assert rn_percentage_of_city_area == 100  # we cannot have two filtering techniques
     # basically it is not needed
@@ -316,7 +317,7 @@ td_drop_feature_lists = [
 td_drop_collinear_features = True
 td_drop_collinear_features = True
 
-shift_tile_marker = 3
+shift_tile_marker = 2
 network_folder = "network_tmean_smean_" +str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" + str(shift_tile_marker)
 warnings_folder = "warnings"
 results_folder = "results_network_tmean_smean_"+str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" # "results_50x50_max_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi-max-max"

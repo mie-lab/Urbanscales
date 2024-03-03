@@ -172,7 +172,7 @@ class SpeedData:
                 r = str(int(np.random.rand() * 100000000))
                 plt.savefig(os.path.join(config.network_folder, self.city_name, "mean_day",
                                          f"mean_day_{r}" + ".png"), dpi=300)
-                plt.show()
+                plt.show(block=False)
 
             # self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy(jf_list)
             self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy( np.nanmean(np.array(a), axis=0).tolist() )

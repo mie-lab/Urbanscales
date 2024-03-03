@@ -165,7 +165,7 @@ class TrainDataVectors:
             gdf_mercator.boundary.plot(ax=ax, color='red')
             ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
             ax.set_axis_off()
-            plt.show()
+            plt.show(block=False)
 
         betweenness_fname = os.path.join(config.BASE_FOLDER, config.network_folder,
                                          self.city_name + "_mean_betweenness_centrality.pkl")

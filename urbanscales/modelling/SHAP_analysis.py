@@ -17,6 +17,7 @@ from xgboost import XGBRegressor
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../"))
 import config
+config.MASTER_VISUALISE_EACH_STEP = True
 
 
 sys.path.append("../../../")
@@ -30,15 +31,9 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 # parent_dir = os.path.join(current_dir, '..')
 os.chdir(current_dir)
 sprint (os.getcwd())
-from sklearn.model_selection import KFold, cross_val_score
-from sklearn.preprocessing import StandardScaler
-from sklearn.pipeline import make_pipeline
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-from sklearn.linear_model import LinearRegression, Lasso, Ridge
-from sklearn.metrics import make_scorer, explained_variance_score, r2_score
-import numpy as np
+
+from sklearn.metrics import make_scorer, explained_variance_score as explained_variance_scorer, r2_score
 import geopandas as gpd
-import matplotlib.pyplot as plt
 import contextily as ctx
 
 class CustomUnpicklerTrainDataVectors(pickle.Unpickler):
@@ -95,28 +90,13 @@ class CorrelationAnalysis:
         plt.ylabel('Importance')
         plt.legend()
 
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from itertools import product
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import r2_score
-from itertools import product
-from sklearn.preprocessing import PolynomialFeatures
 
+import matplotlib.pyplot as plt
 import pandas
 from sklearn.model_selection import KFold, cross_val_score
-from sklearn.metrics import make_scorer, explained_variance_score
+from sklearn.metrics import make_scorer
 from sklearn.preprocessing import StandardScaler, PolynomialFeatures
 from sklearn.base import clone
-from sklearn.pipeline import make_pipeline
-from sklearn.linear_model import LinearRegression, Lasso, Ridge
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-import numpy as np
 
 def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  scaling=True, include_interactions=True):
 
@@ -162,7 +142,7 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
         sprint (model, X_df.shape)
         # Perform cross-validation and store the mean explained variance score
         cv_results_explained_variance = cross_val_score(pipeline, X_df, Y, cv=kf,
-                                                        scoring=make_scorer(explained_variance_score))
+                                                        scoring=make_scorer(explained_variance_scorer))
         cv_results_mse = cross_val_score(pipeline, X_df, Y, cv=kf, scoring=make_scorer(mean_squared_error))
         results_explained_variance[name] = np.mean(cv_results_explained_variance)
         results_mse[name] = np.mean(cv_results_mse)
@@ -189,21 +169,19 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
 
     from sklearn.model_selection import cross_val_predict
     rf_model = models_trained["Random Forest"].named_steps['randomforestregressor']
-    if config.MASTER_VISUALISE_EACH_STEP:
-        for i, tree in enumerate(rf_model.estimators_):
-            print(f"Tree {i + 1}:")
-            print(f"  Depth: {tree.tree_.max_depth}")
-            print(f"  Number of leaves: {tree.tree_.n_leaves}")
-            print(f"  Number of features: {tree.tree_.n_features}")
-            print("---")
+    # if config.MASTER_VISUALISE_EACH_STEP:
+        # for i, tree in enumerate(rf_model.estimators_):
+        #     print(f"Tree {i + 1}:")
+        #     print(f"  Depth: {tree.tree_.max_depth}")
+        #     print(f"  Number of leaves: {tree.tree_.n_leaves}")
+        #     print(f"  Number of features: {tree.tree_.n_features}")
+        #     print("---")
     explainer = shap.TreeExplainer(rf_model)
     shap_values = explainer.shap_values(StandardScaler().fit_transform(X))
 
     # Aggregate SHAP values
     shap_values_agg = shap_values
 
-    # Plot feature importance
-    total_shap_values = np.abs(shap_values_agg).mean(axis=0)
     # After computing total_shap_values
     total_shap_values = np.abs(shap_values_agg).mean(axis=0)
 
@@ -263,7 +241,7 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
             print(f"{name}: {score:.4f}")
             csvwriter.writerow([name, results_explained_variance[name], results_mse[name], tod, scale, cityname])
 
-def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, scaling=True, include_interactions=True, n_strips=3):
+def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, tod, scale, scaling=True, include_interactions=True, n_strips=3):
     # Use only the selected features
     X = X[feature_list]
 
@@ -278,25 +256,57 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, s
         "Linear Regression": LinearRegression(),
         "Random Forest": RandomForestRegressor(n_estimators=100, random_state=42, max_depth=20),
         "Gradient Boosting Machine": GradientBoostingRegressor(n_estimators=100, random_state=42),
-        # "Gradient Boosting Machine": XGBRegressor(n_estimators=100, random_state=42),
         "Lasso": Lasso(random_state=42),
         "Ridge": Ridge(random_state=42)
     }
 
     # Results dictionary to store model scores
-    results = {name: [] for name in models}
+    results_explained_variance = {name: [] for name in models}
+    results_mse = {name: [] for name in models}
+
     models_trained = {}
+
+    bboxes = temp_obj.bbox_X
+    gdf = gpd.GeoDataFrame({
+        'geometry': [
+            Polygon([(West, North), (East, North), (East, South), (West, South)])
+            for bbox in bboxes
+            for North, South, East, West in [list(bbox.keys())[0]]
+        ],
+        'index': range(len(bboxes))
+    }, crs="EPSG:4326")
+
     # Perform spatial cross-validation using the spatial splits
     for strip_index in range(n_strips):
-        index_to_bbox = {i: tuple(bbox.keys())[0] for i, bbox in enumerate(bboxes)}
+        a = []
+        for i in range(len(temp_obj.bbox_X)):
+            if bbox_to_strip[list(temp_obj.bbox_X[i].keys())[0]] == strip_index:
+                a.append(i)
 
-        test_mask = X.index.isin(
-            [i for i, bbox_tuple in index_to_bbox.items() if bbox_to_strip[bbox_tuple] == strip_index])
+        test_mask = X.index.isin(a)
         train_mask = ~test_mask
 
         # Split the data into training and test sets based on spatial split
         X_train, X_test = X[train_mask], X[test_mask]
         Y_train, Y_test = Y[train_mask], Y[test_mask]
+        if X_train.shape[0] < 5 or X_test.shape[0] < 5:
+            print ("Skipped the strip since very few Test or train data in the strip, strip_index=", strip_index)
+            sprint (X_train.shape, X_test.shape)
+            continue
+
+        # Plot train and test sets
+        if config.MASTER_VISUALISE_EACH_STEP:
+            fig, ax = plt.subplots(figsize=(10, 6))
+            gdf_train = gdf[gdf['index'].isin(X_train.index)]
+            gdf_test = gdf[gdf['index'].isin(X_test.index)]
+            gdf_train.plot(ax=ax, color='green', alpha=0.5, edgecolor='black', label='Train Set')
+            gdf_test.plot(ax=ax, color='blue', alpha=0.5, edgecolor='black', label='Test Set')
+            plt.xlabel('Longitude')
+            plt.ylabel('Latitude')
+            plt.title('Spatial Split: Train and Test Sets')
+            plt.legend()
+            plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "Spatial_split_train_test_during_model_training" + str(scale)  + "_split_" +str(strip_index) + ".png"), dpi=300)
+            plt.show(block=False)
 
         # If scaling is required, scale the features
         if scaling:
@@ -304,22 +314,33 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, s
             X_train = scaler.fit_transform(X_train)
             X_test = scaler.transform(X_test)
 
-        sprint (X_train.shape, X_test.shape, strip_index)
-
         # Train and evaluate each model
         for name, model in models.items():
             cloned_model = clone(model)
             cloned_model.fit(X_train, Y_train)
-            score = explained_variance_score(Y_test, cloned_model.predict(X_test))
-            results[name].append(score)
+            explained_variance_score = explained_variance_scorer(Y_test, cloned_model.predict(X_test))
+            mse = mean_squared_error(Y_test, cloned_model.predict(X_test))
+            results_explained_variance[name].append(explained_variance_score)
+            results_mse[name].append(mse)
             models_trained[name] = cloned_model
 
+    for name in results_explained_variance:
+        results_explained_variance[name] = np.mean(results_explained_variance[name])
+        results_mse[name] = np.mean(results_mse[name])
+
     # Print the results
-    for name, scores in results.items():
+    for name, scores in results_explained_variance.items():
         print(f"{name}:")
         print(f"Scores for each fold: {scores}")
         print(f"Average score explained variance: {np.mean(scores)}\n")
 
+    # Print the results
+    for name, scores in results_explained_variance.items():
+        print(f"{name}:")
+        print(f"Scores for each fold: {scores}")
+        print(f"Average score explained variance: {np.mean(scores)}\n")
+
+    # SHAP analysis
     import shap
     from sklearn.model_selection import cross_val_predict
     rf_model = models_trained["Random Forest"]
@@ -339,10 +360,10 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, s
     sorted_feature_importance_list = sorted(feature_importance_list, key=lambda x: x[1], reverse=True)
 
     # Write the sorted list to a file
-    if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "spatial")):
-        os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname,"spatial"))
-    output_file_path = os.path.join(config.BASE_FOLDER, config.network_folder, cityname,"spatial",
-                                    f"spatial_total_feature_importance.csv")
+    spatial_folder = os.path.join(config.BASE_FOLDER, config.network_folder, cityname, f"spatial_tod_{tod}_scale_{scale}")
+    if not os.path.exists(spatial_folder):
+        os.makedirs(spatial_folder)
+    output_file_path = os.path.join(spatial_folder, "spatial_total_feature_importance.csv")
     with open(output_file_path, "w") as f:
         csvwriter = csv.writer(f)
         csvwriter.writerow(["Feature", "Total SHAP Value"])
@@ -351,12 +372,9 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, s
 
     plt.clf()
     shap.summary_plot(shap_values_agg, X, plot_type="bar", show=False)
-    if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots_spatial")):
-        os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots_spatial"))
     plt.title("Feature Importance (Spatial)")
     plt.tight_layout()
-    plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots_spatial",
-                             f"spatial_shap_total_FI.png"))
+    plt.savefig(os.path.join(spatial_folder, "spatial_shap_total_FI.png"))
     plt.clf()
 
     # Compute Otsu threshold
@@ -368,12 +386,23 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, s
     for idx in filtered_features:
         feature = X.columns[idx]
         shap.dependence_plot(feature, shap_values_agg, X, show=False)
-        if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots_spatial")):
-            os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots_spatial"))
         plt.ylim(-1, 3)
         plt.tight_layout()
-        plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname,"PDP_plots_spatial", f"spatial_shap_pdp_{feature}.png"))
+        plt.savefig(os.path.join(spatial_folder, f"spatial_shap_pdp_{feature}.png"))
         plt.clf()
+
+    # Write GOF results to a file
+    gof_file_path = os.path.join(spatial_folder, "GOF_spatial_tod_"+ str(tod) + "_scale_"+ str(scale) + ".csv")
+    if not os.path.exists(gof_file_path):
+        with open(gof_file_path, "w") as f:
+            csvwriter = csv.writer(f)
+            csvwriter.writerow(["model", "GoF_explained_Variance", "GoF_MSE", "TOD", "Scale", "cityname"])
+
+    with open(gof_file_path, "a") as f:
+        csvwriter = csv.writer(f)
+        for name, score in results_explained_variance.items():
+            csvwriter.writerow([name, score, results_mse[name], tod, scale, cityname])
+
 
 
 from sklearn.model_selection import train_test_split
@@ -450,7 +479,6 @@ if __name__ == "__main__":
 
     scale_list = config.scl_list_of_seeds
 
-    results = {}
     for list_of_cities in list_of_cities_list_of_list:
         for tod_list in tod_list_of_list:
             for scale in scale_list:
@@ -520,7 +548,7 @@ if __name__ == "__main__":
 
 
                     from shapely.geometry import Polygon
-                    def visualize_splits(bboxes, strip_assignments, strip_boundaries, bbox_to_strip,
+                    def visualize_splits(bboxes, strip_boundaries, bbox_to_strip,
                                          split_direction='vertical'):
                         # Create a GeoDataFrame for the bounding boxes
                         gdf = gpd.GeoDataFrame({
@@ -554,7 +582,56 @@ if __name__ == "__main__":
                             plt.xlabel('Longitude')
                             plt.ylabel('Latitude')
                             plt.title('Spatial Splits')
-                            plt.show()
+
+                            import geopy.distance
+
+                            # Calculate the average latitude of your bounding boxes
+                            a = []
+                            latlist = []
+                            lonlist = []
+                            for i in range(len(bboxes)):
+                                a.append( np.mean ( [list(bboxes[i].keys())[0][0], list(bboxes[i].keys())[0][1]]  ))
+                                latlist.append(list(bboxes[i].keys())[0][0])
+                                latlist.append(list(bboxes[i].keys())[0][1])  # The order is NSEW
+                                lonlist.append(list(bboxes[i].keys())[0][2])
+                                lonlist.append(list(bboxes[i].keys())[0][3])  # The order is NSEW
+
+
+                            average_latitude = np.mean(a)
+                            sprint (average_latitude)
+
+                            km_in_degrees_lon = \
+                            geopy.distance.distance(kilometers=1).destination((average_latitude, 0), bearing=90)[1]
+                            km_in_degrees_lat = \
+                            geopy.distance.distance(kilometers=1).destination((average_latitude, 0), bearing=0)[
+                                0] - average_latitude
+
+                            # Choose a corner for the scale box (e.g., bottom right)
+                            corner_lon = max(lonlist)
+                            corner_lat = min(latlist)
+
+                            # Create the scale box
+                            scale_box = Polygon([
+                                (corner_lon - km_in_degrees_lon, corner_lat),
+                                (corner_lon, corner_lat),
+                                (corner_lon, corner_lat + km_in_degrees_lat),
+                                (corner_lon - km_in_degrees_lon, corner_lat + km_in_degrees_lat),
+                                (corner_lon - km_in_degrees_lon, corner_lat)
+                            ])
+
+                            # Add the scale box to the plot
+                            ax.plot(*scale_box.exterior.xy, color='tab:blue')
+
+                            # Add labels for the 1 km edges
+                            ax.text(corner_lon - km_in_degrees_lon / 2, corner_lat - 0.0005, '1 km', ha='center',
+                                    fontsize=4)
+                            ax.text(corner_lon + 0.0005, corner_lat + km_in_degrees_lat / 2, '1 km', va='center',
+                                    rotation='vertical', fontsize=4)
+
+                            # Save and show the plot
+                            plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
+                                                     "Spatial_splits_for_spatial_CV" + str(scale) + ".png"), dpi=300)
+                            plt.show(block=False)
 
 
                     bboxes = temp_obj.bbox_X
@@ -564,7 +641,7 @@ if __name__ == "__main__":
                     strip_assignments, bbox_to_strip = assign_bboxes_to_strips(bboxes, strip_boundaries)
                     from shapely.geometry import Polygon
 
-                    visualize_splits(bboxes, strip_assignments, strip_boundaries, bbox_to_strip,
+                    visualize_splits(bboxes, strip_boundaries, bbox_to_strip,
                                      split_direction='vertical')
                     # After processing each city and time of day, concatenate data
                     x.append(temp_obj.X)
@@ -584,20 +661,20 @@ if __name__ == "__main__":
                     #     # plt.hist(X[column], 50)
                     #     # plt.title("Histogram for " + column)
                     #     # plt.hist(X[column])
-                    #     # plt.show()
+                    #     # plt.show(block=False)
                     #
                     #     plt.title("Histogram for Y")
                     #     plt.hist(Y)
-                    #     plt.show()
+                    #     plt.show(block=False)
                     #     break
 
                     # locs = (Y > 0.5)  # & (Y < 6 )
                     # X = X[locs]
                     # Y = Y[locs]
 
-                    compare_models_gof_standard_cv(X, Y, common_features, tod=tod, cityname=city, scale=scale, include_interactions=False, scaling=True)
+                    # compare_models_gof_standard_cv(X, Y, common_features, tod=tod, cityname=city, scale=scale, include_interactions=False, scaling=True)
                     compare_models_gof_spatial_cv(X, Y, common_features, include_interactions=False, scaling=True,
-                                                  bbox_to_strip=bbox_to_strip, n_strips=n_strips, cityname=city)
+                                                  bbox_to_strip=bbox_to_strip, n_strips=n_strips, tod=tod, cityname=city, scale=scale)
 
                     if config.MASTER_VISUALISE_EACH_STEP:
                         # Plot the bboxes from scl_jf
@@ -639,7 +716,7 @@ if __name__ == "__main__":
                             ax.set_axis_off()
                             plt.title(column)
                             # plt.colorbar()
-                            plt.show()
+                            plt.show(block=False)
 
                         if config.MASTER_VISUALISE_EACH_STEP:
                             # Plot the bboxes from scl_jf
@@ -678,7 +755,7 @@ if __name__ == "__main__":
                             ax.set_axis_off()
                             plt.title("Y")
                             # plt.colorbar()
-                            plt.show()
+                            plt.show(block=False)
                         # input("Enter any key to continue for different TOD")
 
 

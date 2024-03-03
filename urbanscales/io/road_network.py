@@ -215,7 +215,7 @@ class RoadNetwork:
         # Save or show the plot
         filepath = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, config.rn_base_map_filename)
         plt.savefig(filepath, dpi=300)
-        plt.show()
+        plt.show(block=False)
 
     def save_road_network_object(self):
         rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,

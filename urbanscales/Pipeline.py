@@ -16,7 +16,7 @@ def run_command(command, message):
 os.chdir("../")
 import os
 cityname = ["Singapore", "Zurich", "Mumbai", "Auckland","Istanbul","MexicoCity","Bogota", "NewYorkCity", "Capetown","London"]
-counter = 4
+counter = 1
 
 
 

@@ -271,7 +271,7 @@ class ScaleJF:
                     if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, self.Scale.RoadNetwork.city_name, "intersecting_seg_bbox")):
                         os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, self.Scale.RoadNetwork.city_name, "intersecting_seg_bbox"))
                     plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, self.Scale.RoadNetwork.city_name, "intersecting_seg_bbox", str(bbox_num) + ".png"), dpi=300)
-                    plt.show()
+                    plt.show(block=False)
 
             # Use np.mean or np.max as aggregation function based on config
             if config.ps_spatial_combination_method == "mean":

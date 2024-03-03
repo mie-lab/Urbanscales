@@ -249,7 +249,7 @@ class Scale:
                             os.path.join(config.BASE_FOLDER, config.network_folder, self.RoadNetwork.city_name,
                                          "OSM_bboxes",
                                          f"{self.scale}_bbox_counter_{counter_bbox}.png"))
-                        plt.show()
+                        plt.show(block=False)
 
                     G_sub = dict_of_subgraphs[bbox]
                     if 1==2 and config.MASTER_VISUALISE_EACH_STEP and G_sub != config.rn_no_stats_marker \
@@ -286,7 +286,7 @@ class Scale:
                             os.path.join(config.BASE_FOLDER, config.network_folder, self.RoadNetwork.city_name,
                                          "OSM_subgraphs",
                                          f"{self.scale}_bbox_counter_{counter_bbox}.png"))
-                        plt.show()
+                        plt.show(block=False)
 
 
                         bboxes = [list(self.dict_bbox_to_subgraph.keys())[counter_bbox-1]]
@@ -318,7 +318,7 @@ class Scale:
                             os.path.join(config.BASE_FOLDER, config.network_folder, self.RoadNetwork.city_name,
                                          "OSM_subgraphs",
                                          f"{self.scale}_bbox_counter_{counter_bbox}_Subgraph.png"))
-                        plt.show()
+                        plt.show(block=False)
 
 
 
