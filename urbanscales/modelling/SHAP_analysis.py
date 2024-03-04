@@ -335,10 +335,10 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
         print(f"Average score explained variance: {np.mean(scores)}\n")
 
     # Print the results
-    for name, scores in results_explained_variance.items():
+    for name, scores in results_mse.items():
         print(f"{name}:")
         print(f"Scores for each fold: {scores}")
-        print(f"Average score explained variance: {np.mean(scores)}\n")
+        print(f"Average score MSE: {np.mean(scores)}\n")
 
     # SHAP analysis
     import shap
