@@ -109,13 +109,13 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
         feature_list = poly.get_feature_names_out(feature_list)  # Update feature_list with new polynomial feature names
 
     # Cross-validation strategy
-    kf = KFold(n_splits=15, shuffle=True, random_state=42)
+    kf = KFold(n_splits=7, shuffle=True, random_state=42)
 
     # Define models
     models = {
         "Linear Regression": LinearRegression(),
-        "Random Forest": RandomForestRegressor(n_estimators=200, random_state=42, max_depth=200, min_samples_leaf=2),
-        "Gradient Boosting Machine": GradientBoostingRegressor(n_estimators=100, random_state=42),
+        "Random Forest": RandomForestRegressor(n_estimators=200, random_state=42), # , max_depth=200, min_samples_leaf=2),
+        "Gradient Boosting Machine": GradientBoostingRegressor(n_estimators=200, random_state=42),
         # "Gradient Boosting Machine": XGBRegressor(n_estimators=100, random_state=42),
         "Lasso": Lasso(random_state=42),
         "Ridge": Ridge(random_state=42)
@@ -166,21 +166,32 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
 
     import shap
 
+    # Initialize a list to store SHAP values for each fold
+    shap_values_list = []
 
-    from sklearn.model_selection import cross_val_predict
-    rf_model = models_trained["Random Forest"].named_steps['randomforestregressor']
-    # if config.MASTER_VISUALISE_EACH_STEP:
-        # for i, tree in enumerate(rf_model.estimators_):
-        #     print(f"Tree {i + 1}:")
-        #     print(f"  Depth: {tree.tree_.max_depth}")
-        #     print(f"  Number of leaves: {tree.tree_.n_leaves}")
-        #     print(f"  Number of features: {tree.tree_.n_features}")
-        #     print("---")
-    explainer = shap.TreeExplainer(rf_model)
-    shap_values = explainer.shap_values(StandardScaler().fit_transform(X))
+    # Perform cross-validation
+    for train_index, test_index in kf.split(X_df):
+        X_train, X_test = X_df.iloc[train_index], X_df.iloc[test_index]
+        Y_train, Y_test = Y.iloc[train_index], Y.iloc[test_index]
 
+        # Train the model on the training set
+        if scaling:
+            pipeline = make_pipeline(StandardScaler(), models["Random Forest"])
+        else:
+            pipeline = make_pipeline(model)
+        pipeline.fit(X_train, Y_train)
+
+        # Compute SHAP values for the trained model and append to the list
+        rf_model = pipeline.named_steps['randomforestregressor']
+        explainer = shap.TreeExplainer(rf_model)
+        shap_values = explainer.shap_values(pipeline.named_steps["standardscaler"].transform(X_test))
+        shap_values_list.append(shap_values)
+
+    # Average the SHAP values across all folds
+    concatenated_shap_values = np.concatenate(shap_values_list, axis=0)
+    average_shap_values = np.mean(concatenated_shap_values, axis=0)
     # Aggregate SHAP values
-    shap_values_agg = shap_values
+    shap_values_agg = concatenated_shap_values
 
     # After computing total_shap_values
     total_shap_values = np.abs(shap_values_agg).mean(axis=0)
@@ -241,7 +252,7 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
             print(f"{name}: {score:.4f}")
             csvwriter.writerow([name, results_explained_variance[name], results_mse[name], tod, scale, cityname])
 
-def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, tod, scale, scaling=True, include_interactions=True, n_strips=3):
+def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, tod, scale, temp_obj, scaling=True, include_interactions=True, n_strips=3):
     # Use only the selected features
     X = X[feature_list]
 
@@ -275,6 +286,7 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
         ],
         'index': range(len(bboxes))
     }, crs="EPSG:4326")
+
 
     # Perform spatial cross-validation using the spatial splits
     for strip_index in range(n_strips):
@@ -322,7 +334,40 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
             mse = mean_squared_error(Y_test, cloned_model.predict(X_test))
             results_explained_variance[name].append(explained_variance_score)
             results_mse[name].append(mse)
-            models_trained[name] = cloned_model
+            if name in models_trained:
+                models_trained[name].append (cloned_model)
+            else:
+                models_trained[name] = [cloned_model]
+
+    shap_values_list = []
+    for strip_index in range(n_strips):
+        a = []
+        for i in range(len(temp_obj.bbox_X)):
+            if bbox_to_strip[list(temp_obj.bbox_X[i].keys())[0]] == strip_index:
+                a.append(i)
+
+        test_mask = X.index.isin(a)
+        train_mask = ~test_mask
+
+        # Split the data into training and test sets based on spatial split
+        X_train, X_test = X[train_mask], X[test_mask]
+
+        # If scaling is required, scale the features
+        if scaling:
+            scaler = StandardScaler()
+            X_train = scaler.fit_transform(X_train)
+            X_test = scaler.transform(X_test)
+
+        if X_train.shape[0] < 5 or X_test.shape[0] < 5:
+            print("Skipped the strip since very few Test or train data in the strip, strip_index=", strip_index)
+            sprint(X_train.shape, X_test.shape)
+            continue
+
+        rf_model = models_trained["Random Forest"][strip_index]
+        import shap
+        explainer = shap.TreeExplainer(rf_model)
+        shap_values = explainer.shap_values(X_test)  #no post processing needed for statndardisation since the X_test is already standardised
+        shap_values_list.append(shap_values)
 
     for name in results_explained_variance:
         results_explained_variance[name] = np.mean(results_explained_variance[name])
@@ -340,15 +385,11 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
         print(f"Scores for each fold: {scores}")
         print(f"Average score MSE: {np.mean(scores)}\n")
 
-    # SHAP analysis
-    import shap
-    from sklearn.model_selection import cross_val_predict
-    rf_model = models_trained["Random Forest"]
-    explainer = shap.TreeExplainer(rf_model)
-    shap_values = explainer.shap_values(StandardScaler().fit_transform(X))
-
+    # Average the SHAP values across all folds
+    concatenated_shap_values = np.concatenate(shap_values_list, axis=0)
+    average_shap_values = np.mean(concatenated_shap_values, axis=0)
     # Aggregate SHAP values
-    shap_values_agg = shap_values
+    shap_values_agg = concatenated_shap_values
 
     # Plot feature importance
     total_shap_values = np.abs(shap_values_agg).mean(axis=0)
@@ -673,10 +714,10 @@ if __name__ == "__main__":
                     # Y = Y[locs]
 
                     compare_models_gof_standard_cv(X, Y, common_features, tod=tod, cityname=city, scale=scale, include_interactions=False, scaling=True)
-                    compare_models_gof_spatial_cv(X, Y, common_features, include_interactions=False, scaling=True,
+                    compare_models_gof_spatial_cv(X, Y, common_features, temp_obj=temp_obj, include_interactions=False, scaling=True,
                                                   bbox_to_strip=bbox_to_strip, n_strips=n_strips, tod=tod, cityname=city, scale=scale)
 
-                    if config.MASTER_VISUALISE_EACH_STEP:
+                    if 2==3 and config.MASTER_VISUALISE_EACH_STEP:
                         # Plot the bboxes from scl_jf
                         # Example list of bounding boxes
                         for column in common_features:
@@ -718,7 +759,7 @@ if __name__ == "__main__":
                             # plt.colorbar()
                             plt.show(block=False)
 
-                        if config.MASTER_VISUALISE_EACH_STEP:
+                        if 2==3 and config.MASTER_VISUALISE_EACH_STEP:
                             # Plot the bboxes from scl_jf
                             # Example list of bounding boxes
                             bboxes = [list(i.keys())[0] for i in temp_obj.bbox_X]

@@ -181,7 +181,7 @@ if rn_percentage_of_city_area != 100:
 if single_city == "Istanbul":
     rn_square_from_city_centre = 75  # 15 implies 15X15 sq.km.
 else:
-    rn_square_from_city_centre = 50  # 15 implies 15X15 sq.km.
+    rn_square_from_city_centre = 50 #   # 15 implies 15X15 sq.km.
 
 if rn_square_from_city_centre != -1:
     assert rn_percentage_of_city_area == 100  # we cannot have two filtering techniques
@@ -277,17 +277,17 @@ ps_spatial_combination_method = "length_weighted_mean"
 assert ps_spatial_combination_method in ["mean", "max", "length_weighted_mean", "variance"]
 if RUNNING_ON_LOCAL:
     ps_tod_list = [
-        [9, 10],
+        # [9, 10],
         [6, 7, 8, 9, 10],  # peak hour morning
         [16, 17, 18, 19, 20],  # peak hour morning
-        list(range(1,25))
+        list(range(1, 25))
     ]
 elif RUNNING_ON_SERVER:
     ps_tod_list = [
-        [9, 10],
+        # [9, 10],
         [6, 7, 8, 9, 10],  # peak hour morning
         [16, 17, 18, 19, 20],  # peak hour morning
-        list(range(1,25))
+        list(range(1, 25))
     ]
 assert isinstance(ps_tod_list, list)
 ps_set_all_speed_zero = False
