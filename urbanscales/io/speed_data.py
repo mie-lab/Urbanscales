@@ -174,6 +174,18 @@ class SpeedData:
                                          f"mean_day_{r}" + ".png"), dpi=300)
                 plt.show(block=False)
 
+                plt.plot(np.nanmedian(np.array(a), axis=0), linewidth=4, color="black", label="median_day")
+                plt.plot(np.nanmax(np.array(a), axis=0), linewidth=4, color="black", label="max_day")
+                plt.fill_between(range(a.shape[1]), np.nanmedian(np.array(a), axis=0), np.nanmax(np.array(a), axis=0),
+                                 color="gray", alpha=0.3)
+                plt.legend()
+                plt.ylim(0, 10)
+                if not os.path.exists(os.path.join(config.network_folder, self.city_name, "mean_day")):
+                    os.mkdir(os.path.join(config.network_folder, self.city_name, "mean_day"))
+                r = str(int(np.random.rand() * 100000000))
+                plt.savefig(os.path.join(config.network_folder, self.city_name, "mean_day",
+                                         f"_max_minus_median_day_{r}" + ".png"), dpi=300)
+
             # self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy(jf_list)
             if config.CONGESTION_TYPE == "RECURRENT":
                 self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy(
