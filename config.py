@@ -278,15 +278,15 @@ assert ps_spatial_combination_method in ["mean", "max", "length_weighted_mean", 
 if RUNNING_ON_LOCAL:
     ps_tod_list = [
         # [9, 10],
-        [6, 7, 8, 9, 10],  # peak hour morning
-        [16, 17, 18, 19, 20],  # peak hour morning
+        # [6, 7, 8, 9, 10],  # peak hour morning
+        # [16, 17, 18, 19, 20],  # peak hour morning
         list(range(1, 25))
     ]
 elif RUNNING_ON_SERVER:
     ps_tod_list = [
         # [9, 10],
-        [6, 7, 8, 9, 10],  # peak hour morning
-        [16, 17, 18, 19, 20],  # peak hour morning
+        # [6, 7, 8, 9, 10],  # peak hour morning
+        # [16, 17, 18, 19, 20],  # peak hour morning
         list(range(1, 25))
     ]
 assert isinstance(ps_tod_list, list)
