@@ -9,6 +9,9 @@ DEBUG = False
 DEBUG_TRUNCATE = False
 MASTER_VISUALISE_EACH_STEP = False
 
+CONGESTION_TYPE = "RECURRENT"
+assert CONGESTION_TYPE in ["RECURRENT", "NON-RECURRENT"]
+
 BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"
 BASE_FOLDER_server = "/home/niskumar/WCS"
 delete_results_folder = True
@@ -318,9 +321,9 @@ td_drop_collinear_features = True
 td_drop_collinear_features = True
 
 shift_tile_marker = 2
-network_folder = "network_tmean_smean_" +str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" + str(shift_tile_marker)
+network_folder = CONGESTION_TYPE + "network_tmean_smean_" +str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" + str(shift_tile_marker)
 warnings_folder = "warnings"
-results_folder = "results_network_tmean_smean_"+str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" # "results_50x50_max_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi-max-max"
+results_folder = CONGESTION_TYPE + "results_network_tmean_smean_"+str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" # "results_50x50_max_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi-max-max"
 
 
 temp_folder_for_robust_pickle_files = os.path.join(BASE_FOLDER, "pickle_slack_temp")

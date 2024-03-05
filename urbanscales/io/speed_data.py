@@ -175,7 +175,12 @@ class SpeedData:
                 plt.show(block=False)
 
             # self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy(jf_list)
-            self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy( np.nanmean(np.array(a), axis=0).tolist() )
+            if config.CONGESTION_TYPE == "RECURRENT":
+                self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy(
+                    np.nanmean(np.array(a), axis=0).tolist())
+            elif config.CONGESTION_TYPE == "NON-RECURRENT":
+                self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy(
+                    (np.nanmax(np.array(a), axis=0) - np.nanmedian(np.array(a), axis=0)).tolist())
 
         fname = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, "_speed_data_object.pkl")
 
