@@ -159,7 +159,7 @@ class SpeedData:
                     plt.plot(jf_list[i * 24: (i + 1) * 24], alpha=0.2, color="blue")
 
                 if len(jf_list[i * 24: (i + 1) * 24]) == 24:
-                    a.append(jf_list[i * 24: (i + 1) * 24]) # extract the mean day
+                    a.append(jf_list[i * 24: (i + 1) * 24]) # so that we can extract the mean day
                     # a.append(jf_list[i * 24 + 6 : i * 24 + 9])
 
 
@@ -291,28 +291,6 @@ class SpeedData:
     #     )
     #     sys.exit()
 
-    def _aggregation(self, jf_list, combine_how_many_t_steps):
-        """
-
-        Args:
-            jf_list:
-            combine_how_many_t_steps:
-
-        Returns:
-            shortened JF list
-
-        """
-        if config.sd_temporal_combination_method == "mean":
-            agg_func = np.nanmean
-        elif config.sd_temporal_combination_method == "max":
-            agg_func = np.nanmax
-        elif config.sd_temporal_combination_method == "variance":
-            agg_func = np.nanstd
-
-        a = []
-        for i in range(0, len(jf_list), combine_how_many_t_steps):
-            a.append(agg_func(jf_list[i : i + combine_how_many_t_steps]))
-        return a
 
     def _aggregation_mean(self, jf_list, combine_how_many_t_steps):
         """
