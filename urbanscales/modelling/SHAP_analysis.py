@@ -152,14 +152,14 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
         models_trained[name] = pipeline
 
     # Print the results
+    print("\n\n-------------------------------------------------------------")
     print("Model Performance Comparison (Explained variance):")
-    print("-------------------------------------------------------------")
 
     for name, score in results_explained_variance.items():
         print(f"{name}: {score:.4f}")
 
+    print("\n\n-------------------------------------------------------------")
     print("Model Performance Comparison (MSE):")
-    print("-------------------------------------------------------------")
 
     for name, score in results_mse.items():
         print(f"{name}: {score:.4f}")
@@ -184,14 +184,20 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
         # Compute SHAP values for the trained model and append to the list
         rf_model = pipeline.named_steps['randomforestregressor']
         explainer = shap.TreeExplainer(rf_model)
-        shap_values = explainer.shap_values(pipeline.named_steps["standardscaler"].transform(X_test))
+        # shap_values = explainer.shap_values(pipeline.named_steps["standardscaler"].transform(X_test))  # computing shap for test data
+        shap_values = explainer.shap_values(pipeline.named_steps["standardscaler"].transform(X))
         shap_values_list.append(shap_values)
 
     # Average the SHAP values across all folds
-    concatenated_shap_values = np.concatenate(shap_values_list, axis=0)
-    average_shap_values = np.mean(concatenated_shap_values, axis=0)
+    # concatenated_shap_values = np.concatenate(shap_values_list, axis=0)
+
+    shap_values_stack = np.stack(shap_values_list, axis=0)
+
+    # Compute the mean SHAP values across the first axis (the CV splits axis)
+    mean_shap_values = np.mean(shap_values_stack, axis=0)
+
     # Aggregate SHAP values
-    shap_values_agg = concatenated_shap_values
+    shap_values_agg = mean_shap_values
 
     # After computing total_shap_values
     total_shap_values = np.abs(shap_values_agg).mean(axis=0)
@@ -228,7 +234,8 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
 
 
     # Filter features based on Otsu threshold
-    filtered_features = [idx for idx, val in enumerate(total_shap_values) if val > otsu_threshold]
+    # filtered_features = [idx for idx, val in enumerate(total_shap_values) if val > otsu_threshold]
+    filtered_features = [idx for idx, val in enumerate(total_shap_values) if val > 0]  # Removed this filter to plot all cases
 
     for idx in filtered_features:
         feature = X.columns[idx]
@@ -357,6 +364,7 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
             scaler = StandardScaler()
             X_train = scaler.fit_transform(X_train)
             X_test = scaler.transform(X_test)
+            X_whole_data_standardised = scaler.transform(X)
 
         if X_train.shape[0] < 5 or X_test.shape[0] < 5:
             print("Skipped the strip since very few Test or train data in the strip, strip_index=", strip_index)
@@ -366,30 +374,41 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
         rf_model = models_trained["Random Forest"][strip_index]
         import shap
         explainer = shap.TreeExplainer(rf_model)
-        shap_values = explainer.shap_values(X_test)  #no post processing needed for statndardisation since the X_test is already standardised
+        # shap_values = explainer.shap_values(X_test)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
+        shap_values = explainer.shap_values(X_whole_data_standardised)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
         shap_values_list.append(shap_values)
 
     for name in results_explained_variance:
         results_explained_variance[name] = np.mean(results_explained_variance[name])
         results_mse[name] = np.mean(results_mse[name])
 
-    # Print the results
+    print("\n\n-------------------------------------------------------------")
+    print ("results_explained_variance spatial")
     for name, scores in results_explained_variance.items():
         print(f"{name}:")
         print(f"Scores for each fold: {scores}")
         print(f"Average score explained variance: {np.mean(scores)}\n")
 
     # Print the results
+    print("\n\n-------------------------------------------------------------")
+    print("results_MSE spatial")
     for name, scores in results_mse.items():
         print(f"{name}:")
         print(f"Scores for each fold: {scores}")
         print(f"Average score MSE: {np.mean(scores)}\n")
 
     # Average the SHAP values across all folds
-    concatenated_shap_values = np.concatenate(shap_values_list, axis=0)
-    average_shap_values = np.mean(concatenated_shap_values, axis=0)
+    # concatenated_shap_values = np.concatenate(shap_values_list, axis=0)
+
+    shap_values_stack = np.stack(shap_values_list, axis=0)
+
+    # Compute the mean SHAP values across the first axis (the CV splits axis)
+    mean_shap_values = np.mean(shap_values_stack, axis=0)
+
     # Aggregate SHAP values
-    shap_values_agg = concatenated_shap_values
+    shap_values_agg = mean_shap_values
+    # Aggregate SHAP values
+    shap_values_agg = mean_shap_values
 
     # Plot feature importance
     total_shap_values = np.abs(shap_values_agg).mean(axis=0)
@@ -422,7 +441,9 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
     otsu_threshold = threshold_otsu(total_shap_values)
 
     # Filter features based on Otsu threshold
-    filtered_features = [idx for idx, val in enumerate(total_shap_values) if val > otsu_threshold]
+    # filtered_features = [idx for idx, val in enumerate(total_shap_values) if val > otsu_threshold]
+    filtered_features = [idx for idx, val in enumerate(total_shap_values) if val > 0]  # Removed this filter to plot all cases
+
 
     for idx in filtered_features:
         feature = X.columns[idx]
@@ -514,7 +535,7 @@ if __name__ == "__main__":
         'n',
         'non_metered_count',
         'street_length_total',
-        'streets_per_node_count_5',
+        # 'streets_per_node_count_5',
         'total_crossings'
     ]
 
