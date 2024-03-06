@@ -7,9 +7,9 @@ verbose = 2
 
 DEBUG = False
 DEBUG_TRUNCATE = False
-MASTER_VISUALISE_EACH_STEP = True
+MASTER_VISUALISE_EACH_STEP = False
 
-CONGESTION_TYPE = "NON-RECURRENT"
+CONGESTION_TYPE = "RECURRENT"
 assert CONGESTION_TYPE in ["RECURRENT", "NON-RECURRENT"]
 
 BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"
@@ -222,14 +222,14 @@ scl_list_of_depths = [1]
 # test_small
 if RUNNING_ON_LOCAL:
     if single_city == "Istanbul":
-        scl_list_of_seeds = [75] # [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+        scl_list_of_seeds = [37, 75, 150] # [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
     else:
         scl_list_of_seeds = [50] # [25, 50, 100]
 elif RUNNING_ON_SERVER:
     if single_city == "Istanbul":
-        scl_list_of_seeds = [75] # [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+        scl_list_of_seeds = [37, 75, 150] # [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
     else:
-        scl_list_of_seeds = [50] # [25, 50, 100]
+        scl_list_of_seeds = [25, 50, 100] # [25, 50, 100]
 # forward
 # scl_list_of_seeds = list(range(5, 350, 10))
 
@@ -321,6 +321,8 @@ td_drop_collinear_features = True
 td_drop_collinear_features = True
 
 shift_tile_marker = 2
+SHAP_mode_spatial_CV = "grid"
+
 network_folder = CONGESTION_TYPE + "network_tmean_smean_" +str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" + str(shift_tile_marker)
 warnings_folder = "warnings"
 results_folder = CONGESTION_TYPE + "results_network_tmean_smean_"+str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" # "results_50x50_max_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi-max-max"
@@ -329,6 +331,8 @@ results_folder = CONGESTION_TYPE + "results_network_tmean_smean_"+str(rn_square_
 temp_folder_for_robust_pickle_files = os.path.join(BASE_FOLDER, "pickle_slack_temp")
 if not os.path.exists(temp_folder_for_robust_pickle_files):
     os.mkdir(temp_folder_for_robust_pickle_files)
+
+
 
 # To ensure that we don't overwrite the network folder of max with mean or vice-versa
 # When we use mean, we use mean in the network folder and
