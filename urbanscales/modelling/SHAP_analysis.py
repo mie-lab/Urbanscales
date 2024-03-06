@@ -127,8 +127,9 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
 
     results_explained_variance = {}
     results_mse = {}
-    models_trained = {}
+    models_trained = {name: [] for name in models}
     for name, model in models.items():
+
         if scaling:
             # If scaling is true, include a scaler in the pipeline
             pipeline = make_pipeline(StandardScaler(), model)
@@ -141,17 +142,27 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
         else:
             X_df = X
 
-        sprint (model, X_df.shape)
-        # Perform cross-validation and store the mean explained variance score
-        cv_results_explained_variance = cross_val_score(pipeline, X_df, Y, cv=kf,
-                                                        scoring=make_scorer(explained_variance_scorer))
-        cv_results_mse = cross_val_score(pipeline, X_df, Y, cv=kf, scoring=make_scorer(mean_squared_error))
-        results_explained_variance[name] = np.mean(cv_results_explained_variance)
-        results_mse[name] = np.mean(cv_results_mse)
+        for train_index, test_index in kf.split(X_df):
+            X_train, X_test = X_df.iloc[train_index], X_df.iloc[test_index]
+            Y_train, Y_test = Y.iloc[train_index], Y.iloc[test_index]
 
-        # Train the model on the full dataset and store it
-        pipeline.fit(X_df, Y)
-        models_trained[name] = pipeline
+            # Clone the model and fit it on the training data
+            cloned_model = clone(pipeline)
+            cloned_model.fit(X_train, Y_train)
+
+            # Evaluate the model on the test data
+            explained_variance_score = explained_variance_scorer(Y_test, cloned_model.predict(X_test))
+            mse = mean_squared_error(Y_test, cloned_model.predict(X_test))
+
+            # Store the results and the trained model
+            results_explained_variance.setdefault(name, []).append(explained_variance_score)
+            results_mse.setdefault(name, []).append(mse)
+            models_trained[name].append(cloned_model)
+
+    # Compute the mean scores for each model
+    for name in models:
+        results_explained_variance[name] = np.mean(results_explained_variance[name])
+        results_mse[name] = np.mean(results_mse[name])
 
     # Print the results
     print("\n\n-------------------------------------------------------------")
@@ -182,7 +193,7 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
 
 
         if X_train.shape[0] < 5 or X_test.shape[0] < 5:
-            print("Skipped the strip since very few Test or train data in the strip, strip_index=", strip_index)
+            print("Skipped the strip since very few Test or train data in the strip, split_counter=", split_counter)
             sprint(X_train.shape, X_test.shape)
             continue
 
@@ -197,7 +208,7 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
 
 
         # Compute SHAP values for the trained model and append to the list
-        rf_model = models_trained["Random Forest"].named_steps['randomforestregressor']
+        rf_model = models_trained["Random Forest"][split_counter].named_steps['randomforestregressor']
         import shap
         print ("Starting explainer: ")
         starttime = time.time()
