@@ -7,9 +7,9 @@ verbose = 2
 
 DEBUG = False
 DEBUG_TRUNCATE = False
-MASTER_VISUALISE_EACH_STEP = False
+MASTER_VISUALISE_EACH_STEP = True
 
-CONGESTION_TYPE = "RECURRENT"
+CONGESTION_TYPE = "NON-RECURRENT"
 assert CONGESTION_TYPE in ["RECURRENT", "NON-RECURRENT"]
 
 BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"
@@ -103,7 +103,7 @@ if RUNNING_ON_SERVER:
         # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
         # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
-    single_city = "Zurich"
+    single_city = "MexicoCity"
     rn_city_wise_bboxes = {single_city : rn_city_wise_bboxes[single_city]}
 
 
@@ -122,7 +122,7 @@ elif RUNNING_ON_LOCAL:
         # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
         # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
-    single_city = "Zurich"
+    single_city = "MexicoCity"
     rn_city_wise_bboxes = {single_city : rn_city_wise_bboxes[single_city]}
 
 if RUNNING_ON_SERVER:
