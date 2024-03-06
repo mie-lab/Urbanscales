@@ -66,29 +66,29 @@ class CorrelationAnalysis:
     # Example of how to call the function
     # compare_models_gof(X, Y, scaling=True)
 
-    def random_forest_feature_importance(self, common_features):
-        n_splits = 7
+    # def random_forest_feature_importance(self, common_features):
+    #     n_splits = 7
+    #
+    #     kfold = KFold(n_splits=n_splits, shuffle=True, random_state=42)
+    #     total_feature_importances = np.zeros(len(common_features))
+    #
+    #     for train_index, test_index in kfold.split(self.nparrayX, self.nparrayY):
+    #         X_train, X_test = self.nparrayX[train_index], self.nparrayX[test_index]
+    #         Y_train, Y_test = self.nparrayY[train_index], self.nparrayY[test_index]
+    #         rf = RandomForestRegressor(n_estimators=100, random_state=42)
+    #         rf.fit(X_train, Y_train)
+    #         total_feature_importances += rf.feature_importances_
+    #     total_feature_importances /= n_splits
+    #
+    #     return total_feature_importances
 
-        kfold = KFold(n_splits=n_splits, shuffle=True, random_state=42)
-        total_feature_importances = np.zeros(len(common_features))
-
-        for train_index, test_index in kfold.split(self.nparrayX, self.nparrayY):
-            X_train, X_test = self.nparrayX[train_index], self.nparrayX[test_index]
-            Y_train, Y_test = self.nparrayY[train_index], self.nparrayY[test_index]
-            rf = RandomForestRegressor(n_estimators=100, random_state=42)
-            rf.fit(X_train, Y_train)
-            total_feature_importances += rf.feature_importances_
-        total_feature_importances /= n_splits
-
-        return total_feature_importances
-
-    def plot_feature_importances(self, importances, scale, common_features, list_of_cities):
-        plt.title(f"Feature Importances RF " + list_of_cities)
-        plt.plot(range(len(common_features)), importances, marker='o', linestyle='-', label=f"Scale: {scale}")
-        plt.xticks(range(len(common_features)), common_features, rotation=90)
-        plt.xlabel('Feature')
-        plt.ylabel('Importance')
-        plt.legend()
+    # def plot_feature_importances(self, importances, scale, common_features, list_of_cities):
+    #     plt.title(f"Feature Importances RF " + list_of_cities)
+    #     plt.plot(range(len(common_features)), importances, marker='o', linestyle='-', label=f"Scale: {scale}")
+    #     plt.xticks(range(len(common_features)), common_features, rotation=90)
+    #     plt.xlabel('Feature')
+    #     plt.ylabel('Importance')
+    #     plt.legend()
 
 
 import matplotlib.pyplot as plt
@@ -115,8 +115,8 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
     models = {
         "Linear Regression": LinearRegression(),
         "Random Forest": RandomForestRegressor(n_estimators=200, random_state=42), # , max_depth=200, min_samples_leaf=2),
-        "Gradient Boosting Machine": GradientBoostingRegressor(n_estimators=200, random_state=42),
-        # "Gradient Boosting Machine": XGBRegressor(n_estimators=100, random_state=42),
+        # "Gradient Boosting Machine": GradientBoostingRegressor(n_estimators=200, random_state=42),
+        "Gradient Boosting Machine": XGBRegressor(n_estimators=200, random_state=42),
         "Lasso": Lasso(random_state=42),
         "Ridge": Ridge(random_state=42)
     }
@@ -153,13 +153,13 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
 
     # Print the results
     print("\n\n-------------------------------------------------------------")
-    print("Model Performance Comparison (Explained variance):")
+    print("Non Spatial CV Model Performance Comparison (Explained variance):")
 
     for name, score in results_explained_variance.items():
         print(f"{name}: {score:.4f}")
 
     print("\n\n-------------------------------------------------------------")
-    print("Model Performance Comparison (MSE):")
+    print("Non Spatial CV Model Performance Comparison (MSE):")
 
     for name, score in results_mse.items():
         print(f"{name}: {score:.4f}")
@@ -171,8 +171,8 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
 
     # Perform cross-validation
     for train_index, test_index in kf.split(X_df):
-        X_train, X_test = X_df.iloc[train_index], X_df.iloc[test_index]
-        Y_train, Y_test = Y.iloc[train_index], Y.iloc[test_index]
+        X_train, X_test = pd.DataFrame(X_df.iloc[train_index]), pd.DataFrame(X_df.iloc[test_index])
+        Y_train, Y_test = pd.DataFrame(Y.iloc[train_index]), pd.DataFrame(Y.iloc[test_index])
 
         # Train the model on the training set
         if scaling:
@@ -272,8 +272,9 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
     # Define models
     models = {
         "Linear Regression": LinearRegression(),
-        "Random Forest": RandomForestRegressor(n_estimators=100, random_state=42, max_depth=20),
-        "Gradient Boosting Machine": GradientBoostingRegressor(n_estimators=100, random_state=42),
+        "Random Forest": RandomForestRegressor(n_estimators=200, random_state=42), # , max_depth=20),
+        # "Gradient Boosting Machine": GradientBoostingRegressor(n_estimators=100, random_state=42),
+        "Gradient Boosting Machine": XGBRegressor(n_estimators=200, random_state=42),
         "Lasso": Lasso(random_state=42),
         "Ridge": Ridge(random_state=42)
     }
@@ -306,8 +307,8 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
         train_mask = ~test_mask
 
         # Split the data into training and test sets based on spatial split
-        X_train, X_test = X[train_mask], X[test_mask]
-        Y_train, Y_test = Y[train_mask], Y[test_mask]
+        X_train, X_test = pd.DataFrame(X[train_mask]), pd.DataFrame(X[test_mask])
+        Y_train, Y_test = pd.DataFrame(Y[train_mask]), pd.DataFrame(Y[test_mask])
         if X_train.shape[0] < 5 or X_test.shape[0] < 5:
             print ("Skipped the strip since very few Test or train data in the strip, strip_index=", strip_index)
             sprint (X_train.shape, X_test.shape)
@@ -347,43 +348,15 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
                 models_trained[name] = [cloned_model]
 
     shap_values_list = []
-    for strip_index in range(n_strips):
-        a = []
-        for i in range(len(temp_obj.bbox_X)):
-            if bbox_to_strip[list(temp_obj.bbox_X[i].keys())[0]] == strip_index:
-                a.append(i)
-
-        test_mask = X.index.isin(a)
-        train_mask = ~test_mask
-
-        # Split the data into training and test sets based on spatial split
-        X_train, X_test = X[train_mask], X[test_mask]
-
-        # If scaling is required, scale the features
-        if scaling:
-            scaler = StandardScaler()
-            X_train = scaler.fit_transform(X_train)
-            X_test = scaler.transform(X_test)
-            X_whole_data_standardised = scaler.transform(X)
-
-        if X_train.shape[0] < 5 or X_test.shape[0] < 5:
-            print("Skipped the strip since very few Test or train data in the strip, strip_index=", strip_index)
-            sprint(X_train.shape, X_test.shape)
-            continue
-
-        rf_model = models_trained["Random Forest"][strip_index]
-        import shap
-        explainer = shap.TreeExplainer(rf_model)
-        # shap_values = explainer.shap_values(X_test)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
-        shap_values = explainer.shap_values(X_whole_data_standardised)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
-        shap_values_list.append(shap_values)
 
     for name in results_explained_variance:
+        print("Before computing mean: ", name)
+        print(results_explained_variance[name])
         results_explained_variance[name] = np.mean(results_explained_variance[name])
         results_mse[name] = np.mean(results_mse[name])
 
     print("\n\n-------------------------------------------------------------")
-    print ("results_explained_variance spatial")
+    print("results_explained_variance spatial")
     for name, scores in results_explained_variance.items():
         print(f"{name}:")
         print(f"Scores for each fold: {scores}")
@@ -396,6 +369,41 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
         print(f"{name}:")
         print(f"Scores for each fold: {scores}")
         print(f"Average score MSE: {np.mean(scores)}\n")
+
+    for strip_index in range(n_strips):
+        a = []
+        for i in range(len(temp_obj.bbox_X)):
+            if bbox_to_strip[list(temp_obj.bbox_X[i].keys())[0]] == strip_index:
+                a.append(i)
+
+        test_mask = X.index.isin(a)
+        train_mask = ~test_mask
+
+        # Split the data into training and test sets based on spatial split
+        X_train, X_test = X[train_mask], X[test_mask]
+
+
+        if X_train.shape[0] < 5 or X_test.shape[0] < 5:
+            print("Skipped the strip since very few Test or train data in the strip, strip_index=", strip_index)
+            sprint(X_train.shape, X_test.shape)
+            continue
+
+        # If scaling is required, scale the features
+        if scaling:
+            scaler = StandardScaler()
+            X_train = scaler.fit_transform(X_train)
+            X_test = scaler.transform(X_test)
+            X_whole_data_standardised = scaler.transform(X)
+
+
+        rf_model = models_trained["Random Forest"][strip_index]
+        import shap
+        explainer = shap.TreeExplainer(rf_model)
+        # shap_values = explainer.shap_values(X_test)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
+        shap_values = explainer.shap_values(X_whole_data_standardised)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
+        shap_values_list.append(shap_values)
+
+
 
     # Average the SHAP values across all folds
     # concatenated_shap_values = np.concatenate(shap_values_list, axis=0)
@@ -609,7 +617,75 @@ if __name__ == "__main__":
                         return strip_assignments, bbox_to_strip
 
 
+
+                    def calculate_grid_boundaries(bboxes, n_strips=7):
+                        # Extract all the longitude and latitude values from the bounding boxes
+                        all_lons = [bbox_coords[3] for bbox in bboxes for bbox_coords in bbox.keys()] + \
+                                   [bbox_coords[2] for bbox in bboxes for bbox_coords in bbox.keys()]
+                        all_lats = [bbox_coords[0] for bbox in bboxes for bbox_coords in bbox.keys()] + \
+                                   [bbox_coords[1] for bbox in bboxes for bbox_coords in bbox.keys()]
+
+                        # Sort the longitude and latitude values
+                        sorted_lons = sorted(list(set(all_lons)))
+                        sorted_lats = sorted(list(set(all_lats)))
+
+                        # Calculate the number of bboxes per strip for both longitude and latitude
+                        lons_per_strip = len(sorted_lons) // n_strips
+                        lats_per_strip = len(sorted_lats) // n_strips
+
+                        # Initialize the list of grid boundaries for longitude and latitude
+                        lon_boundaries = [sorted_lons[0]]
+                        lat_boundaries = [sorted_lats[0]]
+
+                        # Determine the boundaries of each strip for longitude
+                        for i in range(1, n_strips):
+                            lon_boundary_index = i * lons_per_strip
+                            lon_boundaries.append(sorted_lons[lon_boundary_index])
+
+                        # Add the last longitude value as the end boundary of the last strip
+                        lon_boundaries.append(sorted_lons[-1])
+
+                        # Determine the boundaries of each strip for latitude
+                        for i in range(1, n_strips):
+                            lat_boundary_index = i * lats_per_strip
+                            lat_boundaries.append(sorted_lats[lat_boundary_index])
+
+                        # Add the last latitude value as the end boundary of the last strip
+                        lat_boundaries.append(sorted_lats[-1])
+
+                        return lon_boundaries, lat_boundaries
+
+
+                    def assign_bboxes_to_grid(bboxes, lon_boundaries, lat_boundaries, n_strips):
+                        grid_assignments = {}
+                        bbox_to_grid = {}
+                        for i, bbox in enumerate(bboxes):
+                            bbox_coords = list(bbox.keys())[0]
+                            North, South, East, West = bbox_coords
+
+                            # Find the grid cell that contains the bbox
+                            for lon_index in range(len(lon_boundaries) - 1):
+                                for lat_index in range(len(lat_boundaries) - 1):
+                                    left_boundary = lon_boundaries[lon_index]
+                                    right_boundary = lon_boundaries[lon_index + 1]
+                                    bottom_boundary = lat_boundaries[lat_index]
+                                    top_boundary = lat_boundaries[lat_index + 1]
+
+                                    # Check if bbox is within the current grid cell's boundaries
+                                    if West >= left_boundary and East <= right_boundary and North <= top_boundary and South >= bottom_boundary:
+                                        grid_index = lon_index * n_strips + lat_index # (lon_index, lat_index)
+                                        if grid_index not in grid_assignments:
+                                            grid_assignments[grid_index] = []
+                                        grid_assignments[grid_index].append(bbox_coords)
+                                        bbox_to_grid[bbox_coords] = grid_index
+                                        break
+
+                        return grid_assignments, bbox_to_grid
+
+
                     from shapely.geometry import Polygon
+
+
                     def visualize_splits(bboxes, strip_boundaries, bbox_to_strip,
                                          split_direction='vertical'):
                         # Create a GeoDataFrame for the bounding boxes
@@ -696,20 +772,71 @@ if __name__ == "__main__":
                             plt.show(block=False)
 
 
-                    bboxes = temp_obj.bbox_X
-                    n_strips = 4
 
-                    strip_boundaries = calculate_strip_boundaries(bboxes, n_strips)
-                    strip_assignments, bbox_to_strip = assign_bboxes_to_strips(bboxes, strip_boundaries)
+                    def visualize_grid(bboxes, lon_boundaries, lat_boundaries, bbox_to_grid, split_direction='grid'):
+                        # Create a GeoDataFrame for the bounding boxes
+                        gdf = gpd.GeoDataFrame({
+                            'geometry': [
+                                Polygon([(West, North), (East, North), (East, South), (West, South)])
+                                for bbox in bboxes
+                                for North, South, East, West in [list(bbox.keys())[0]]
+                            ],
+                            'grid_cell': [
+                                bbox_to_grid[list(bbox.keys())[0]]
+                                for bbox in bboxes
+                            ]
+                        }, crs="EPSG:4326")
+
+                        # Plot the bounding boxes with different colors for each grid cell
+                        if config.MASTER_VISUALISE_EACH_STEP:
+                            fig, ax = plt.subplots(figsize=(10, 6))
+                            unique_cells = set(gdf['grid_cell'])
+                            colors = plt.cm.get_cmap('tab20', len(unique_cells))
+
+                            for i, cell in enumerate(unique_cells):
+                                gdf[gdf['grid_cell'] == cell].plot(ax=ax, color=colors(i), alpha=0.5, edgecolor='black')
+
+                            # Add split boundaries
+                            if split_direction == 'grid':
+                                for lon in lon_boundaries:
+                                    plt.axvline(x=lon, color='black', linestyle='--', linewidth=1)
+                                for lat in lat_boundaries:
+                                    plt.axhline(y=lat, color='black', linestyle='--', linewidth=1)
+
+                            plt.xlabel('Longitude')
+                            plt.ylabel('Latitude')
+                            plt.title('Spatial Grid Splits')
+
+                            # Save and show the plot
+                            plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
+                                                     "Spatial_grid_splits_for_spatial_CV.png"), dpi=300)
+                            plt.show(block=False)
+
+
+                    bboxes = temp_obj.bbox_X
+                    n_strips = 2
+
                     from shapely.geometry import Polygon
 
-                    visualize_splits(bboxes, strip_boundaries, bbox_to_strip,
-                                     split_direction='vertical')
+                    if config.SHAP_mode_spatial_CV == "vertical":
+                        strip_boundaries = calculate_strip_boundaries(bboxes, n_strips)
+                        strip_assignments, bbox_to_strip = assign_bboxes_to_strips(bboxes, strip_boundaries)
+                        visualize_splits(bboxes, strip_boundaries, bbox_to_strip,
+                                         split_direction='vertical')
+                    elif config.SHAP_mode_spatial_CV == "grid":
+                        lon_boundaries, lat_boundaries = calculate_grid_boundaries(bboxes, n_strips=n_strips)
+                        grid_assignments, bbox_to_strip = assign_bboxes_to_grid(bboxes, lon_boundaries, lat_boundaries, n_strips)
+                        visualize_grid(bboxes, lon_boundaries, lat_boundaries, bbox_to_strip, split_direction='grid')
+                    else:
+                        raise Exception("Wrong split type; must be grid or vertical")
+
+
                     # After processing each city and time of day, concatenate data
                     x.append(temp_obj.X)
                     y.append(temp_obj.Y)
 
                     # Concatenate the list of DataFrames in x and y
+                    assert len(x) == 1
                     X = pd.concat(x, ignore_index=True)
                     # Convert any NumPy arrays in the list to Pandas Series
                     y_series = [pd.Series(array) if isinstance(array, np.ndarray) else array for array in y]
@@ -734,9 +861,17 @@ if __name__ == "__main__":
                     # X = X[locs]
                     # Y = Y[locs]
 
+                    if config.SHAP_mode_spatial_CV == "grid":
+                        N_STRIPS = n_strips ** 2
+                    elif config.SHAP_mode_spatial_CV == "vertical":
+                        N_STRIPS = n_strips
+                    else:
+                        raise Exception("Wrong split type; must be grid or vertical")
+
                     compare_models_gof_standard_cv(X, Y, common_features, tod=tod, cityname=city, scale=scale, include_interactions=False, scaling=True)
-                    compare_models_gof_spatial_cv(X, Y, common_features, temp_obj=temp_obj, include_interactions=False, scaling=True,
-                                                  bbox_to_strip=bbox_to_strip, n_strips=n_strips, tod=tod, cityname=city, scale=scale)
+                    # compare_models_gof_spatial_cv(X, Y, common_features, temp_obj=temp_obj, include_interactions=False, scaling=True,
+                    #                               bbox_to_strip=bbox_to_strip, n_strips=N_STRIPS, tod=tod, cityname=city, scale=scale)
+
 
                     if 2==3 and config.MASTER_VISUALISE_EACH_STEP:
                         # Plot the bboxes from scl_jf
