@@ -1,5 +1,7 @@
 import csv
 import os
+import time
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas
@@ -164,29 +166,50 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
     for name, score in results_mse.items():
         print(f"{name}: {score:.4f}")
 
-    import shap
+
 
     # Initialize a list to store SHAP values for each fold
     shap_values_list = []
+    import shap
+
 
     # Perform cross-validation
+    split_counter = -1
     for train_index, test_index in kf.split(X_df):
+        split_counter += 1
         X_train, X_test = pd.DataFrame(X_df.iloc[train_index]), pd.DataFrame(X_df.iloc[test_index])
         Y_train, Y_test = pd.DataFrame(Y.iloc[train_index]), pd.DataFrame(Y.iloc[test_index])
 
-        # Train the model on the training set
+
+        if X_train.shape[0] < 5 or X_test.shape[0] < 5:
+            print("Skipped the strip since very few Test or train data in the strip, strip_index=", strip_index)
+            sprint(X_train.shape, X_test.shape)
+            continue
+
+        # If scaling is required, scale the features
         if scaling:
-            pipeline = make_pipeline(StandardScaler(), models["Random Forest"])
-        else:
-            pipeline = make_pipeline(model)
-        pipeline.fit(X_train, Y_train)
+            scaler = StandardScaler()
+            X_train = scaler.fit_transform(X_train)
+            X_test = scaler.transform(X_test)
+            X_whole_data_standardised = scaler.transform(X)
+
+
+
 
         # Compute SHAP values for the trained model and append to the list
-        rf_model = pipeline.named_steps['randomforestregressor']
+        rf_model = models_trained["Random Forest"].named_steps['randomforestregressor']
+        import shap
+        print ("Starting explainer: ")
+        starttime = time.time()
         explainer = shap.TreeExplainer(rf_model)
-        # shap_values = explainer.shap_values(pipeline.named_steps["standardscaler"].transform(X_test))  # computing shap for test data
-        shap_values = explainer.shap_values(pipeline.named_steps["standardscaler"].transform(X))
+        print ("Explainer completed in ", time.time() - starttime, "seconds")
+        # shap_values = explainer.shap_values(X_test)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
+
+        starttime = time.time()
+        shap_values = explainer.shap_values(
+            X_whole_data_standardised)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
         shap_values_list.append(shap_values)
+        print ("explainer.shap_values() completed in ", time.time() - starttime, "seconds")
 
     # Average the SHAP values across all folds
     # concatenated_shap_values = np.concatenate(shap_values_list, axis=0)
@@ -219,7 +242,7 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
 
     # Compute Otsu threshold
     otsu_threshold = threshold_otsu(total_shap_values)
-    plt.clf()
+    plt.clf(); plt.close()
     shap.summary_plot(shap_values_agg, X, plot_type="bar", show=False)
     if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots")):
         os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots"))
@@ -227,7 +250,7 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
     plt.tight_layout()
     plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots",
                              f"tod_{tod}_shap_total_FI_scale_{scale}_.png"))
-    plt.clf()
+    plt.clf(); plt.close()
 
 
 
@@ -246,8 +269,9 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
         plt.ylim(-1, 3)
         plt.tight_layout()
         plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots", f"tod_{tod}_shap_pdp_{feature}_scale_{scale}.png"))
-        plt.clf()
+        plt.clf(); plt.close()
     # Plot SHAP-based PDP for filtered features
+
     if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "GOF" + f"tod_{tod}_scale_{scale}.csv")):
         with open(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "GOF" + f"tod_{tod}_scale_{scale}.csv"), "w") as f:
             csvwriter = csv.writer(f)
@@ -326,7 +350,7 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
             plt.title('Spatial Split: Train and Test Sets')
             plt.legend()
             plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "Spatial_split_train_test_during_model_training" + str(scale)  + "_split_" +str(strip_index) + ".png"), dpi=300)
-            plt.show(block=False)
+            plt.show(block=False); plt.close()
 
         # If scaling is required, scale the features
         if scaling:
@@ -438,12 +462,12 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
         for feature, shap_value in sorted_feature_importance_list:
             csvwriter.writerow([feature, shap_value])
 
-    plt.clf()
+    plt.clf(); plt.close()
     shap.summary_plot(shap_values_agg, X, plot_type="bar", show=False)
     plt.title("Feature Importance (Spatial)")
     plt.tight_layout()
     plt.savefig(os.path.join(spatial_folder, "spatial_shap_total_FI.png"))
-    plt.clf()
+    plt.clf(); plt.close()
 
     # Compute Otsu threshold
     otsu_threshold = threshold_otsu(total_shap_values)
@@ -459,7 +483,7 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
         plt.ylim(-1, 3)
         plt.tight_layout()
         plt.savefig(os.path.join(spatial_folder, f"spatial_shap_pdp_{feature}.png"))
-        plt.clf()
+        plt.clf(); plt.close()
 
     # Write GOF results to a file
     gof_file_path = os.path.join(spatial_folder, "GOF_spatial_tod_"+ str(tod) + "_scale_"+ str(scale) + ".csv")
@@ -769,7 +793,7 @@ if __name__ == "__main__":
                             # Save and show the plot
                             plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
                                                      "Spatial_splits_for_spatial_CV" + str(scale) + ".png"), dpi=300)
-                            plt.show(block=False)
+                            plt.show(block=False); plt.close()
 
 
 
@@ -810,7 +834,7 @@ if __name__ == "__main__":
                             # Save and show the plot
                             plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
                                                      "Spatial_grid_splits_for_spatial_CV.png"), dpi=300)
-                            plt.show(block=False)
+                            plt.show(block=False); plt.close()
 
 
                     bboxes = temp_obj.bbox_X
@@ -850,11 +874,11 @@ if __name__ == "__main__":
                     #     # plt.hist(X[column], 50)
                     #     # plt.title("Histogram for " + column)
                     #     # plt.hist(X[column])
-                    #     # plt.show(block=False)
+                    #     # plt.show(block=False); plt.close()
                     #
                     #     plt.title("Histogram for Y")
                     #     plt.hist(Y)
-                    #     plt.show(block=False)
+                    #     plt.show(block=False); plt.close()
                     #     break
 
                     # locs = (Y > 0.5)  # & (Y < 6 )
@@ -869,8 +893,8 @@ if __name__ == "__main__":
                         raise Exception("Wrong split type; must be grid or vertical")
 
                     compare_models_gof_standard_cv(X, Y, common_features, tod=tod, cityname=city, scale=scale, include_interactions=False, scaling=True)
-                    # compare_models_gof_spatial_cv(X, Y, common_features, temp_obj=temp_obj, include_interactions=False, scaling=True,
-                    #                               bbox_to_strip=bbox_to_strip, n_strips=N_STRIPS, tod=tod, cityname=city, scale=scale)
+                    compare_models_gof_spatial_cv(X, Y, common_features, temp_obj=temp_obj, include_interactions=False, scaling=True,
+                                                  bbox_to_strip=bbox_to_strip, n_strips=N_STRIPS, tod=tod, cityname=city, scale=scale)
 
 
                     if 2==3 and config.MASTER_VISUALISE_EACH_STEP:
@@ -913,7 +937,7 @@ if __name__ == "__main__":
                             ax.set_axis_off()
                             plt.title(column)
                             # plt.colorbar()
-                            plt.show(block=False)
+                            plt.show(block=False); plt.close()
 
                         if 2==3 and config.MASTER_VISUALISE_EACH_STEP:
                             # Plot the bboxes from scl_jf
@@ -952,7 +976,7 @@ if __name__ == "__main__":
                             ax.set_axis_off()
                             plt.title("Y")
                             # plt.colorbar()
-                            plt.show(block=False)
+                            plt.show(block=False); plt.close()
                         # input("Enter any key to continue for different TOD")
 
 

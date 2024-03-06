@@ -227,9 +227,9 @@ if RUNNING_ON_LOCAL:
         scl_list_of_seeds = [50] # [25, 50, 100]
 elif RUNNING_ON_SERVER:
     if single_city == "Istanbul":
-        scl_list_of_seeds = [37, 75, 150] # [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+        scl_list_of_seeds = [75] # [37, 75, 150] # [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
     else:
-        scl_list_of_seeds = [25, 50, 100] # [25, 50, 100]
+        scl_list_of_seeds = [50] # [25, 50, 100] # [25, 50, 100]
 # forward
 # scl_list_of_seeds = list(range(5, 350, 10))
 
