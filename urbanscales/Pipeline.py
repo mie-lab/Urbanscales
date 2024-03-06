@@ -1,4 +1,6 @@
 import os
+os.environ['OMP_NUM_THREADS'] = '8'
+
 import sys
 import subprocess
 
