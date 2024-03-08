@@ -77,7 +77,7 @@ class Scale:
             assert config.rn_square_from_city_centre != -1 and config.rn_percentage_of_city_area == 100
 
             self.set_bbox_sub_G_map()
-        if config.MASTER_VISUALISE_EACH_STEP:
+        if 1==2 and config.MASTER_VISUALISE_EACH_STEP:
             self.visualise()
 
     def create_subgraphs_from_bboxes_optimised(self, G, bboxes):

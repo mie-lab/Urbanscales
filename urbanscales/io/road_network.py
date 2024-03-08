@@ -163,7 +163,7 @@ class RoadNetwork:
                 self.G_osm = ox.speed.add_edge_speeds(self.G_osm)
                 self.G_osm = ox.speed.add_edge_travel_times(self.G_osm)
             self.save_road_network_object()
-        if config.MASTER_VISUALISE_EACH_STEP:
+        if 1==2 and config.MASTER_VISUALISE_EACH_STEP:
             self.visualise()
 
     def visualise(self):
