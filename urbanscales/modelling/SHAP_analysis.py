@@ -100,7 +100,7 @@ from sklearn.metrics import make_scorer
 from sklearn.preprocessing import StandardScaler, PolynomialFeatures
 from sklearn.base import clone
 
-def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  scaling=True, include_interactions=True):
+def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  n_splits,scaling=True, include_interactions=True):
 
     X = X[feature_list]
 
@@ -111,7 +111,7 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
         feature_list = poly.get_feature_names_out(feature_list)  # Update feature_list with new polynomial feature names
 
     # Cross-validation strategy
-    kf = KFold(n_splits=7, shuffle=True, random_state=42)
+    kf = KFold(n_splits=n_splits, shuffle=True, random_state=42)
 
     # Define models
     models = {
@@ -142,13 +142,22 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
         else:
             X_df = X
 
+        split_counter = -1
         for train_index, test_index in kf.split(X_df):
+            split_counter += 1
             X_train, X_test = X_df.iloc[train_index], X_df.iloc[test_index]
             Y_train, Y_test = Y.iloc[train_index], Y.iloc[test_index]
 
             # Clone the model and fit it on the training data
             cloned_model = clone(pipeline)
             cloned_model.fit(X_train, Y_train)
+
+            output_file_path = os.path.join(config.BASE_FOLDER, config.network_folder, cityname,
+                                            f"tod_{tod}_GOF_NON_SPATIAL_CV_SHAPE_of_dataframe_scale_{scale}_.csv")
+            with open(output_file_path, "a") as f:
+                csvwriter = csv.writer(f)
+                csvwriter.writerow([cityname, scale, config.CONGESTION_TYPE, tod, "X_train.shape", X_train.shape, "X_test.shape", X_test.shape, "split_index", split_counter ])
+
 
             # Evaluate the model on the test data
             explained_variance_score = explained_variance_scorer(Y_test, cloned_model.predict(X_test))
@@ -158,6 +167,21 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  sc
             results_explained_variance.setdefault(name, []).append(explained_variance_score)
             results_mse.setdefault(name, []).append(mse)
             models_trained[name].append(cloned_model)
+
+
+
+    output_file_path = os.path.join(config.BASE_FOLDER, config.network_folder, cityname,
+                                    f"tod_{tod}_GOF_CV_MEAN_AND_STD_scale_{scale}.csv")
+    with open(output_file_path, "w") as f:
+        csvwriter = csv.writer(f)
+        csvwriter.writerow(["Model", "Explained-var-Mean-across-CV", "Explained-var-STD-across-CV",
+                            "MSE-Mean-across-CV", "MSE-STD-across-CV"] + ["Explained-var-CV-values"+ str(x)
+                                                                          for x in range(1, len(results_explained_variance[name]) + 1)] +
+                           ["MSE-var-CV-values"+ str(x) for x in range(1, len(results_mse[name]) + 1)])
+        for name in models:
+            csvwriter.writerow([name, np.mean(results_explained_variance[name]), np.std(results_explained_variance[name]),
+                                np.mean(results_mse[name]), np.std(results_mse[name])] +
+                               results_explained_variance[name] + results_mse[name])
 
     # Compute the mean scores for each model
     for name in models:
@@ -382,7 +406,29 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
             else:
                 models_trained[name] = [cloned_model]
 
+
+            output_file_path = os.path.join(config.BASE_FOLDER, config.network_folder, cityname,
+                                            f"tod_{tod}_GOF_SPATIAL_CV_SHAPE_of_dataframe_scale_{scale}_.csv")
+            with open(output_file_path, "a") as f:
+                csvwriter = csv.writer(f)
+                csvwriter.writerow([cityname, scale, config.CONGESTION_TYPE, tod, "X_train.shape", X_train.shape, "X_test.shape", X_test.shape, "split_index", strip_index ])
+
     shap_values_list = []
+
+
+
+    output_file_path = os.path.join(config.BASE_FOLDER, config.network_folder, cityname,
+                                    f"tod_{tod}_GOF_SPATIAL_CV_MEAN_AND_STD_scale_{scale}.csv")
+    with open(output_file_path, "w") as f:
+        csvwriter = csv.writer(f)
+        csvwriter.writerow(["Model", "Explained-var-Mean-across-CV", "Explained-var-STD-across-CV",
+                            "MSE-Mean-across-CV", "MSE-STD-across-CV"] + ["Explained-var-CV-values"+ str(x)
+                                                                          for x in range(1, len(results_explained_variance[name]) + 1)] +
+                           ["MSE-var-CV-values"+ str(x) for x in range(1, len(results_mse[name]) + 1)])
+        for name in models:
+            csvwriter.writerow([name, np.mean(results_explained_variance[name]), np.std(results_explained_variance[name]),
+                                np.mean(results_mse[name]), np.std(results_mse[name])] +
+                               results_explained_variance[name] + results_mse[name])
 
     for name in results_explained_variance:
         print("Before computing mean: ", name)
@@ -854,6 +900,7 @@ if __name__ == "__main__":
                     from shapely.geometry import Polygon
 
                     if config.SHAP_mode_spatial_CV == "vertical":
+                        n_strips = 7
                         strip_boundaries = calculate_strip_boundaries(bboxes, n_strips)
                         strip_assignments, bbox_to_strip = assign_bboxes_to_strips(bboxes, strip_boundaries)
                         visualize_splits(bboxes, strip_boundaries, bbox_to_strip,
@@ -903,9 +950,13 @@ if __name__ == "__main__":
                     else:
                         raise Exception("Wrong split type; must be grid or vertical")
 
-                    compare_models_gof_standard_cv(X, Y, common_features, tod=tod, cityname=city, scale=scale, include_interactions=False, scaling=True)
-                    compare_models_gof_spatial_cv(X, Y, common_features, temp_obj=temp_obj, include_interactions=False, scaling=True,
-                                                  bbox_to_strip=bbox_to_strip, n_strips=N_STRIPS, tod=tod, cityname=city, scale=scale)
+                    model_fit_time_start = time.time()
+                    compare_models_gof_standard_cv(X, Y, common_features, tod=tod, cityname=city, scale=scale, n_splits=7, include_interactions=False, scaling=True)
+                    t_non_spatial = time.time() - model_fit_time_start
+                    # compare_models_gof_spatial_cv(X, Y, common_features, temp_obj=temp_obj, include_interactions=False, scaling=True,
+                    #                               bbox_to_strip=bbox_to_strip, n_strips=N_STRIPS, tod=tod, cityname=city, scale=scale)
+                    # t_spatial = time.time() - model_fit_time_start - t_non_spatial
+                    # sprint (t_spatial, t_non_spatial, "seconds")
 
 
                     if 2==3 and config.MASTER_VISUALISE_EACH_STEP:

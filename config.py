@@ -104,7 +104,7 @@ if RUNNING_ON_SERVER:
         # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
         # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
-    single_city = "MexicoCity"
+    single_city = "London"
     rn_city_wise_bboxes = {single_city : rn_city_wise_bboxes[single_city]}
 
 
@@ -123,7 +123,7 @@ elif RUNNING_ON_LOCAL:
         # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
         # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
-    single_city = "MexicoCity"
+    single_city = "London"
     rn_city_wise_bboxes = {single_city : rn_city_wise_bboxes[single_city]}
 
 if RUNNING_ON_SERVER:
@@ -221,16 +221,23 @@ scl_list_of_depths = [1]
 # ]  # 40, 45, 50, 55, 60, 65, 70, 80, 85, 90, 95, 100, 120]
 
 # test_small
+running_extended_scales = True
 if RUNNING_ON_LOCAL:
     if single_city == "Istanbul":
-        scl_list_of_seeds = [37, 75, 150] # [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+        scl_list_of_seeds = [75] # [37, 75, 150] # [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
     else:
         scl_list_of_seeds = [50] # [25, 50, 100]
 elif RUNNING_ON_SERVER:
     if single_city == "Istanbul":
-        scl_list_of_seeds = [75] # [37, 75, 150] # [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+        if running_extended_scales:
+            scl_list_of_seeds = [30, 45, 60, 75, 90, 105, 120, 135, 150]
+        else:
+            scl_list_of_seeds = [37, 75, 150] # [37, 75, 150] # [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
     else:
-        scl_list_of_seeds = [50] # [25, 50, 100] # [25, 50, 100]
+        if running_extended_scales:
+            scl_list_of_seeds = [20, 30, 40, 50, 60, 70, 80, 90, 100]
+        else:
+            scl_list_of_seeds = [25, 50, 100] # [25, 50, 100] # [25, 50, 100]
 # forward
 # scl_list_of_seeds = list(range(5, 350, 10))
 
@@ -322,7 +329,7 @@ td_drop_collinear_features = True
 td_drop_collinear_features = True
 
 shift_tile_marker = 2
-SHAP_mode_spatial_CV = "grid"
+SHAP_mode_spatial_CV = "vertical"
 
 network_folder = CONGESTION_TYPE + "network_tmean_smean_" +str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" + str(shift_tile_marker)
 warnings_folder = "warnings"
