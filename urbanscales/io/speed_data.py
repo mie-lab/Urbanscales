@@ -203,12 +203,12 @@ class SpeedData:
         fname = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, "_speed_data_object.pkl")
 
 
-        if config.MASTER_VISUALISE_EACH_STEP:
+        if 2==2 or config.MASTER_VISUALISE_EACH_STEP:
 
-
-            fig, ax = plt.subplots()
+            plt.clf()
 
             segment_counter = 0
+            hist = []
             for segment_str, values in tqdm(self.segment_jf_map.items(), desc="Plotting the linestrings for "
                                                                                   "visualisation"):
                 segment_counter += 1
@@ -217,54 +217,84 @@ class SpeedData:
                 multiline = loads(segment_str)
 
                 # Normalize mean_value for color mapping, adjust as per your color scale
-                color = plt.cm.gist_rainbow(np.random.rand() * 0.99)  # * 0.99 to ensure always less than 1
+                hist.append(np.mean(values))
+
+
+            # Finalizing and showing the plot
+            plt.hist(hist, bins=10)
+            if not os.path.exists(os.path.join(config.network_folder, self.city_name, "raw_speed_data")):
+                os.mkdir(os.path.join(config.network_folder, self.city_name, "raw_speed_data"))
+            plt.savefig(os.path.join(config.network_folder, self.city_name, "raw_speed_data",
+                                     "histogram" + ".png"), dpi=600)
+
+
+            from matplotlib.cm import ScalarMappable
+
+            fig, ax = plt.subplots()
+
+            # Define the color map and normalization
+            cmap = plt.cm.gist_rainbow
+            norm = plt.Normalize(vmin=0, vmax=1)  # Adjust vmin and vmax based on your data range
+
+            segment_counter = 0
+            for segment_str, values in tqdm(self.segment_jf_map.items(),
+                                            desc="Plotting the linestrings for visualisation"):
+                segment_counter += 1
+
+                # Use Shapely to parse the MULTILINESTRING
+                multiline = loads(segment_str)
+
+                # Normalize mean_value for color mapping, adjust as per your color scale
+                color = cmap(norm(np.mean(values) * 0.99))  # * 0.99 to ensure always less than 1
 
                 # Iterate through each line string in the multi-line string
                 for linestring in multiline:
                     x, y = linestring.xy
-                    ax.plot(x, y, color=color, linewidth=0.4)
+                    ax.plot(x, y, color=color, linewidth=0.3)
 
             # Finalizing and showing the plot
             ax.set_aspect('equal', adjustable='datalim')
+
+            # Create a ScalarMappable and use it to create the colorbar
+            sm = ScalarMappable(cmap=cmap, norm=norm)
+            sm.set_array([])  # You can set an empty array since the colorbar is based on the cmap and norm
+            cbar = plt.colorbar(sm, ax=ax)
+            cbar.set_label('Mean Values')  # Set the label for the colorbar
+
+            # Save the figure
             if not os.path.exists(os.path.join(config.network_folder, self.city_name, "raw_speed_data")):
                 os.mkdir(os.path.join(config.network_folder, self.city_name, "raw_speed_data"))
             plt.savefig(os.path.join(config.network_folder, self.city_name, "raw_speed_data",
-                                     "visualise_segment_boundaries" + ".png"), dpi=600)
+                                     "visualise_segment_boundaries.png"), dpi=600)
 
-            # Normalize color scale by the max mean of the values for dynamic color range
-            if config.MASTER_VISUALISE_EACH_STEP:
-                for tod_counter in [0] :# range(0, 1000):
-                    fig, ax = plt.subplots()
+        if 1 == 2 or config.MASTER_VISUALISE_EACH_STEP:  # same thing at different TOD
+            for tod in range(24):
+                fig, ax = plt.subplots()
 
-                    max_mean_value = -1
-                    for segment_str, values in tqdm(self.segment_jf_map.items(), desc="Plotting the linestrings for "
+                segment_counter = 0
+                for segment_str, values in tqdm(self.segment_jf_map.items(), desc="Plotting the linestrings for "
                                                                                       "visualisation"):
+                    segment_counter += 1
 
-                        # Calculate mean of values for color mapping
-                        # mean_value = np.nanmean(values)
-                        # max_mean_value = max(max_mean_value, values[tod_counter])
-                        max_mean_value = max(max_mean_value, self.segment_jf_map[segment_str][0])
+                    # Use Shapely to parse the MULTILINESTRING
+                    multiline = loads(segment_str)
+
+                    # Normalize mean_value for color mapping, adjust as per your color scale
+                    color = plt.cm.gist_rainbow(values[tod]/10 * 0.99)  # * 0.99 to ensure always less than 1
+
+                    # Iterate through each line string in the multi-line string
+                    for linestring in multiline:
+                        x, y = linestring.xy
+                        ax.plot(x, y, color=color, linewidth=0.4)
+
+                # Finalizing and showing the plot
+                ax.set_aspect('equal', adjustable='datalim')
+                if not os.path.exists(os.path.join(config.network_folder, self.city_name, "raw_speed_data")):
+                    os.mkdir(os.path.join(config.network_folder, self.city_name, "raw_speed_data"))
+                plt.savefig(os.path.join(config.network_folder, self.city_name, "raw_speed_data",
+                                         "visualise_segment_boundaries_with_tod_" +str(tod)+ ".png"), dpi=600)
 
 
-                    for segment_str, values in tqdm(self.segment_jf_map.items(), desc="Plotting the linestrings for "
-                                                                                      "visualisation"):
-                        # Use Shapely to parse the MULTILINESTRING
-                        multiline = loads(segment_str)
-
-                        # Normalize mean_value for color mapping, adjust as per your color scale
-                        # color = plt.cm.gist_rainbow(values[tod_counter] / max_mean_value * 0.99)  # Example color mapping
-                        color = plt.cm.gist_rainbow(self.segment_jf_map[segment_str][0] / max_mean_value * 0.99)  # Example color mapping
-
-                        # Iterate through each line string in the multi-line string
-                        for linestring in multiline:
-                            x, y = linestring.xy
-                            ax.plot(x, y, color=color, linewidth=0.1)
-
-                    # Finalizing and showing the plot
-                    ax.set_aspect('equal', adjustable='datalim')
-                    plt.savefig(os.path.join(config.network_folder, self.city_name, "raw_speed_data", "plot" + str(tod_counter)
-                                             + ".png"), dpi=1800)
-                print("Plot updated")
 
         avg_ = []
         for i in range(len(jf_list)//(1440//config.sd_target_speed_data_gran)):

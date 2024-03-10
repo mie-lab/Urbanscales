@@ -619,10 +619,10 @@ if __name__ == "__main__":
         'global_betweenness',
         'k_avg',
         'lane_density',
-        'm',
+        # 'm',
         'metered_count',
-        'n',
-        'non_metered_count',
+        # 'n',
+        # 'non_metered_count',
         'street_length_total',
         # 'streets_per_node_count_5',
         'total_crossings'
@@ -955,11 +955,11 @@ if __name__ == "__main__":
                     t_non_spatial = time.time() - model_fit_time_start
                     # compare_models_gof_spatial_cv(X, Y, common_features, temp_obj=temp_obj, include_interactions=False, scaling=True,
                     #                               bbox_to_strip=bbox_to_strip, n_strips=N_STRIPS, tod=tod, cityname=city, scale=scale)
-                    # t_spatial = time.time() - model_fit_time_start - t_non_spatial
-                    # sprint (t_spatial, t_non_spatial, "seconds")
+                    t_spatial = time.time() - model_fit_time_start - t_non_spatial
+                    sprint (t_spatial, t_non_spatial, "seconds")
 
 
-                    if 2==3 and config.MASTER_VISUALISE_EACH_STEP:
+                    if 2==2 and config.MASTER_VISUALISE_EACH_STEP:
                         # Plot the bboxes from scl_jf
                         # Example list of bounding boxes
                         for column in common_features:
@@ -1001,7 +1001,7 @@ if __name__ == "__main__":
                             # plt.colorbar()
                             plt.show(block=False); plt.close()
 
-                        if 2==3 and config.MASTER_VISUALISE_EACH_STEP:
+                        if 2==2 and config.MASTER_VISUALISE_EACH_STEP:
                             # Plot the bboxes from scl_jf
                             # Example list of bounding boxes
                             bboxes = [list(i.keys())[0] for i in temp_obj.bbox_X]

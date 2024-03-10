@@ -17,7 +17,7 @@ def run_command(command, message):
 
 os.chdir("../")
 cityname = ["Singapore", "Zurich", "Mumbai", "Auckland","Istanbul","MexicoCity","Bogota", "NewYorkCity", "Capetown","London"]
-counter = 9
+counter = int(sys.argv[1])
 
 
 # The simpler solution of one line as shown below does not work on Ubuntu; so we now have this fancy 3-step solution

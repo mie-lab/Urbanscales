@@ -10,7 +10,7 @@ DEBUG = False
 DEBUG_TRUNCATE = False
 MASTER_VISUALISE_EACH_STEP = False
 
-CONGESTION_TYPE = "RECURRENT"
+CONGESTION_TYPE = "NON-RECURRENT"
 assert CONGESTION_TYPE in ["RECURRENT", "NON-RECURRENT"]
 
 BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"
@@ -184,6 +184,8 @@ if rn_percentage_of_city_area != 100:
 
 if single_city == "Istanbul":
     rn_square_from_city_centre = 75  # 15 implies 15X15 sq.km.
+# elif single_city == "London":
+#     rn_square_from_city_centre = 25  # 15 implies 15X15 sq.km.
 else:
     rn_square_from_city_centre = 50 #   # 15 implies 15X15 sq.km.
 
@@ -221,10 +223,12 @@ scl_list_of_depths = [1]
 # ]  # 40, 45, 50, 55, 60, 65, 70, 80, 85, 90, 95, 100, 120]
 
 # test_small
-running_extended_scales = True
+running_extended_scales = False
 if RUNNING_ON_LOCAL:
     if single_city == "Istanbul":
         scl_list_of_seeds = [75] # [37, 75, 150] # [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+    # elif single_city == "London":
+    #     scl_list_of_seeds = [25] # [37, 75, 150] # [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
     else:
         scl_list_of_seeds = [50] # [25, 50, 100]
 elif RUNNING_ON_SERVER:
@@ -233,6 +237,11 @@ elif RUNNING_ON_SERVER:
             scl_list_of_seeds = [30, 45, 60, 75, 90, 105, 120, 135, 150]
         else:
             scl_list_of_seeds = [37, 75, 150] # [37, 75, 150] # [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+    # elif single_city =="London":
+    #     if running_extended_scales:
+    #         scl_list_of_seeds = [10, 15, 20, 25, 30, 35, 40, 45, 50]
+    #     else:
+    #         scl_list_of_seeds = [12, 25, 50] # [25, 50, 100] # [25, 50, 100]
     else:
         if running_extended_scales:
             scl_list_of_seeds = [20, 30, 40, 50, 60, 70, 80, 90, 100]
