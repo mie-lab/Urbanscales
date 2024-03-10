@@ -10,8 +10,8 @@ DEBUG = False
 DEBUG_TRUNCATE = False
 MASTER_VISUALISE_EACH_STEP = False
 
-CONGESTION_TYPE = "NON-RECURRENT"
-assert CONGESTION_TYPE in ["RECURRENT", "NON-RECURRENT"]
+CONGESTION_TYPE = "NON-RECURRENT-MMM"
+assert CONGESTION_TYPE in ["RECURRENT", "NON-RECURRENT", "NON-RECURRENT-MMM"]
 
 BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"
 BASE_FOLDER_server = "/home/niskumar/WCS"
@@ -223,7 +223,7 @@ scl_list_of_depths = [1]
 # ]  # 40, 45, 50, 55, 60, 65, 70, 80, 85, 90, 95, 100, 120]
 
 # test_small
-running_extended_scales = False
+running_extended_scales = True
 if RUNNING_ON_LOCAL:
     if single_city == "Istanbul":
         scl_list_of_seeds = [75] # [37, 75, 150] # [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
@@ -234,7 +234,7 @@ if RUNNING_ON_LOCAL:
 elif RUNNING_ON_SERVER:
     if single_city == "Istanbul":
         if running_extended_scales:
-            scl_list_of_seeds = [30, 45, 60, 75, 90, 105, 120, 135, 150]
+            scl_list_of_seeds = [30, 45, 60, 90, 105, 120, 135]
         else:
             scl_list_of_seeds = [37, 75, 150] # [37, 75, 150] # [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
     # elif single_city =="London":
@@ -244,7 +244,7 @@ elif RUNNING_ON_SERVER:
     #         scl_list_of_seeds = [12, 25, 50] # [25, 50, 100] # [25, 50, 100]
     else:
         if running_extended_scales:
-            scl_list_of_seeds = [20, 30, 40, 50, 60, 70, 80, 90, 100]
+            scl_list_of_seeds = [20, 30, 40, 60, 70, 80, 90]
         else:
             scl_list_of_seeds = [25, 50, 100] # [25, 50, 100] # [25, 50, 100]
 # forward
@@ -337,8 +337,9 @@ td_drop_feature_lists = [
 td_drop_collinear_features = True
 td_drop_collinear_features = True
 
-shift_tile_marker = 2
+shift_tile_marker = 3
 SHAP_mode_spatial_CV = "vertical"
+FAST_GEN_PDPs_for_multiple_runs = True  # True only when fast PDPs are needed for a large number of scenarios; this must be False for normal runs
 
 network_folder = CONGESTION_TYPE + "network_tmean_smean_" +str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" + str(shift_tile_marker)
 warnings_folder = "warnings"

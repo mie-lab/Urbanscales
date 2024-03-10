@@ -199,6 +199,14 @@ class SpeedData:
             elif config.CONGESTION_TYPE == "NON-RECURRENT":
                 self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy(
                     (np.nanmax(np.array(a), axis=0) - np.nanmedian(np.array(a), axis=0)).tolist())
+            elif config.CONGESTION_TYPE == "NON-RECURRENT-MMM":
+                daily_differences = np.array(a) - np.nanmedian(np.array(a), axis=0)
+                # Retain only positive differences, set negative differences to 0
+                daily_differences[daily_differences < 0] = 0
+                # Calculate the mean of these positive differences
+                mean_positive_differences = np.nanmean(daily_differences, axis=0).tolist()
+                self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy(
+                    mean_positive_differences)
 
         fname = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, "_speed_data_object.pkl")
 

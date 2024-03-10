@@ -246,6 +246,9 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  n_
         shap_values_list.append(shap_values)
         print ("explainer.shap_values() completed in ", time.time() - starttime, "seconds")
 
+        if config.FAST_GEN_PDPs_for_multiple_runs:
+            break # just a single run for SHAP values for fast prototyping
+
     # Average the SHAP values across all folds
     # concatenated_shap_values = np.concatenate(shap_values_list, axis=0)
 
