@@ -16,6 +16,7 @@ from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.decomposition import PCA
 from tqdm import tqdm
 from xgboost import XGBRegressor
+import interpret.glassbox
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../"))
 import config
@@ -123,6 +124,17 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  n_
         "Ridge": Ridge(random_state=42)
     }
 
+    if config.SHAP_additive_regression_model:
+        models = {
+            "Linear Regression": LinearRegression(),
+            "Random Forest": RandomForestRegressor(n_estimators=200, random_state=42),
+            # , max_depth=200, min_samples_leaf=2),
+            # "Gradient Boosting Machine": GradientBoostingRegressor(n_estimators=200, random_state=42),
+            "Gradient Boosting Machine": XGBRegressor(n_estimators=200, random_state=42, max_depth=1),
+            "Lasso": Lasso(random_state=42),
+            "Ridge": Ridge(random_state=42)
+        }
+
     # Results dictionary
 
     results_explained_variance = {}
@@ -143,6 +155,7 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  n_
             X_df = X
 
         split_counter = -1
+
         for train_index, test_index in kf.split(X_df):
             split_counter += 1
             X_train, X_test = X_df.iloc[train_index], X_df.iloc[test_index]
@@ -151,6 +164,15 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  n_
             # Clone the model and fit it on the training data
             cloned_model = clone(pipeline)
             cloned_model.fit(X_train, Y_train)
+
+            if name == "Random Forest":
+                estimators = cloned_model.named_steps['randomforestregressor'].estimators_
+                T = len(estimators)
+                L = max([estimator.get_n_leaves() for estimator in estimators])
+                D = max([estimator.tree_.max_depth for estimator in estimators])
+                print(f"{name}: T={T}, L={L}, D={D}")
+                sprint (cityname, scale, T*L*D)
+
 
             output_file_path = os.path.join(config.BASE_FOLDER, config.network_folder, cityname,
                                             f"tod_{tod}_GOF_NON_SPATIAL_CV_SHAPE_of_dataframe_scale_{scale}_.csv")
@@ -202,124 +224,167 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  n_
         print(f"{name}: {score:.4f}")
 
 
-
-    # Initialize a list to store SHAP values for each fold
-    shap_values_list = []
-    import shap
-
-
-    # Perform cross-validation
-    split_counter = -1
-    for train_index, test_index in kf.split(X_df):
-        split_counter += 1
-        X_train, X_test = pd.DataFrame(X_df.iloc[train_index]), pd.DataFrame(X_df.iloc[test_index])
-        Y_train, Y_test = pd.DataFrame(Y.iloc[train_index]), pd.DataFrame(Y.iloc[test_index])
-
-
-        if X_train.shape[0] < 5 or X_test.shape[0] < 5:
-            print("Skipped the strip since very few Test or train data in the strip, split_counter=", split_counter)
-            sprint(X_train.shape, X_test.shape)
-            continue
-
-        # If scaling is required, scale the features
-        if scaling:
-            scaler = StandardScaler()
-            X_train = scaler.fit_transform(X_train)
-            X_test = scaler.transform(X_test)
-            X_whole_data_standardised = scaler.transform(X)
-
-
-
-
-        # Compute SHAP values for the trained model and append to the list
-        rf_model = models_trained["Random Forest"][split_counter].named_steps['randomforestregressor']
+    if not config.SHAP_values_disabled:
+        # Initialize a list to store SHAP values for each fold
+        shap_values_list = []
         import shap
-        print ("Starting explainer: ")
-        starttime = time.time()
-        explainer = shap.TreeExplainer(rf_model)
-        print ("Explainer completed in ", time.time() - starttime, "seconds")
-        # shap_values = explainer.shap_values(X_test)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
-
-        starttime = time.time()
-        shap_values = explainer.shap_values(
-            X_whole_data_standardised)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
-        shap_values_list.append(shap_values)
-        print ("explainer.shap_values() completed in ", time.time() - starttime, "seconds")
-
-        if config.FAST_GEN_PDPs_for_multiple_runs:
-            break # just a single run for SHAP values for fast prototyping
-
-    # Average the SHAP values across all folds
-    # concatenated_shap_values = np.concatenate(shap_values_list, axis=0)
-
-    shap_values_stack = np.stack(shap_values_list, axis=0)
-
-    # Compute the mean SHAP values across the first axis (the CV splits axis)
-    mean_shap_values = np.mean(shap_values_stack, axis=0)
-
-    # Aggregate SHAP values
-    shap_values_agg = mean_shap_values
-
-    # After computing total_shap_values
-    total_shap_values = np.abs(shap_values_agg).mean(axis=0)
-
-    # Create a list of tuples (feature name, total SHAP value)
-    feature_importance_list = [(feature, shap_value) for feature, shap_value in zip(X.columns, total_shap_values)]
-
-    # Sort the list based on SHAP values in descending order
-    sorted_feature_importance_list = sorted(feature_importance_list, key=lambda x: x[1], reverse=True)
-
-    # Write the sorted list to a file
-    output_file_path = os.path.join(config.BASE_FOLDER, config.network_folder, cityname,
-                                    f"tod_{tod}_total_feature_importance_scale_{scale}.csv")
-    with open(output_file_path, "w") as f:
-        csvwriter = csv.writer(f)
-        csvwriter.writerow(["Feature", "Total SHAP Value"])
-        for feature, shap_value in sorted_feature_importance_list:
-            csvwriter.writerow([feature, shap_value])
-
-    # Compute Otsu threshold
-    otsu_threshold = threshold_otsu(total_shap_values)
-    plt.clf(); plt.close()
-    shap.summary_plot(shap_values_agg, X, plot_type="bar", show=False)
-    if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots")):
-        os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots"))
-    plt.title("Otsu: " + str(otsu_threshold))
-    plt.tight_layout()
-    plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots",
-                             f"tod_{tod}_shap_total_FI_scale_{scale}_.png"))
-    plt.clf(); plt.close()
 
 
+        # Perform cross-validation
+        split_counter = -1
+        for train_index, test_index in kf.split(X_df):
+            split_counter += 1
+            X_train, X_test = pd.DataFrame(X_df.iloc[train_index]), pd.DataFrame(X_df.iloc[test_index])
+            Y_train, Y_test = pd.DataFrame(Y.iloc[train_index]), pd.DataFrame(Y.iloc[test_index])
 
 
+            try:
+                if X_train.shape[0] < 5 or X_test.shape[0] < 5:
+                    print("Skipped the strip since very few Test or train data in the strip, split_counter=", split_counter)
+                    sprint(X_train.shape, X_test.shape)
+                continue
+            except:
+                # to skip when empty
+                print("Skipped the strip since very few Test or train data in the strip, split_counter=", split_counter)
+                continue
 
-    # Filter features based on Otsu threshold
-    # filtered_features = [idx for idx, val in enumerate(total_shap_values) if val > otsu_threshold]
-    filtered_features = [idx for idx, val in enumerate(total_shap_values) if val > 0]  # Removed this filter to plot all cases
+            # If scaling is required, scale the features
+            if scaling:
+                scaler = StandardScaler()
+                X_train = scaler.fit_transform(X_train)
+                X_test = scaler.transform(X_test)
+                X_whole_data_standardised = scaler.transform(X)
 
-    for idx in filtered_features:
-        feature = X.columns[idx]
-        # feature = feature_list[idx] # X.columns[idx]
-        shap.dependence_plot(feature, shap_values_agg, X, show=False)
+            # Compute SHAP values for the trained model and append to the list
+            if config.SHAP_additive_regression_model:
+                rf_model = models_trained["Gradient Boosting Machine"][split_counter].named_steps['xgbregressor']
+            else:
+                rf_model = models_trained["Random Forest"][split_counter].named_steps['randomforestregressor']
+            import shap
+            print("Starting explainer: ")
+            starttime = time.time()
+            explainer = shap.TreeExplainer(rf_model)
+            print("Explainer completed in ", time.time() - starttime, "seconds")
+            # shap_values = explainer.shap_values(X_test)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
+
+            starttime = time.time()
+            shap_values = explainer.shap_values(
+                X_whole_data_standardised)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
+            shap_values_list.append(shap_values)
+            print("explainer.shap_values() completed in ", time.time() - starttime, "seconds")
+            if config.FAST_GEN_PDPs_for_multiple_runs and split_counter > 2:
+                break # just a single run for SHAP values for fast prototyping
+
+        # Average the SHAP values across all folds
+        # concatenated_shap_values = np.concatenate(shap_values_list, axis=0)
+
+        shap_values_stack = np.stack(shap_values_list, axis=0)
+
+        # Compute the mean SHAP values across the first axis (the CV splits axis)
+        mean_shap_values = np.mean(shap_values_stack, axis=0)
+
+        # Aggregate SHAP values
+        shap_values_agg = mean_shap_values
+
+        # After computing total_shap_values
+        total_shap_values = np.abs(shap_values_agg).mean(axis=0)
+
+        # Create a list of tuples (feature name, total SHAP value)
+        feature_importance_list = [(feature, shap_value) for feature, shap_value in zip(X.columns, total_shap_values)]
+
+        # Sort the list based on SHAP values in descending order
+        sorted_feature_importance_list = sorted(feature_importance_list, key=lambda x: x[1], reverse=True)
+
+        # Write the sorted list to a file
+        output_file_path = os.path.join(config.BASE_FOLDER, config.network_folder, cityname,
+                                        f"tod_{tod}_total_feature_importance_scale_{scale}.csv")
+        with open(output_file_path, "w") as f:
+            csvwriter = csv.writer(f)
+            csvwriter.writerow(["Feature", "Total SHAP Value"])
+            for feature, shap_value in sorted_feature_importance_list:
+                csvwriter.writerow([feature, shap_value])
+
+        # Compute Otsu threshold
+
+        if config.SHAP_sort_features_alphabetical_For_heatmaps:
+            feature_order = np.argsort(X.columns)
+            X = X.iloc[:, feature_order]
+            shap_values_agg = shap_values_agg[:, feature_order]
+
+
+        otsu_threshold = threshold_otsu(total_shap_values)
+        plt.clf(); plt.close()
+        shap.plots.bar(explainer(pd.DataFrame(X_whole_data_standardised, columns=X.columns)), show=False)
         if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots")):
             os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots"))
-        plt.ylim(-1, 3)
+        plt.title("Otsu: " + str(otsu_threshold))
         plt.tight_layout()
-        plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots", f"tod_{tod}_shap_pdp_{feature}_scale_{scale}.png"))
+        plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots",
+                                 f"tod_{tod}_shap_total_FI_scale_{scale}_samething_.png"))
         plt.clf(); plt.close()
-    # Plot SHAP-based PDP for filtered features
 
-    if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "GOF" + f"tod_{tod}_scale_{scale}.csv")):
-        with open(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "GOF" + f"tod_{tod}_scale_{scale}.csv"), "w") as f:
+        otsu_threshold = threshold_otsu(total_shap_values)
+        plt.clf(); plt.close()
+        shap.summary_plot(shap_values_agg, X, plot_type="bar", show=False)
+        if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots")):
+            os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots"))
+        plt.title("Otsu: " + str(otsu_threshold))
+        plt.tight_layout()
+        plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots",
+                                 f"tod_{tod}_shap_total_FI_scale_{scale}_.png"))
+        plt.clf(); plt.close()
+
+
+        plt.clf(); plt.close()
+        shap.plots.beeswarm(explainer(pd.DataFrame(X_whole_data_standardised, columns=X.columns)), show=False)
+        if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots")):
+            os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots"))
+        plt.title("Otsu: " + str(otsu_threshold))
+        plt.tight_layout()
+        plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots",
+                                 f"tod_{tod}_shap_total_FI_beeswarm_{scale}_.png"))
+        plt.clf(); plt.close()
+
+        plt.clf(); plt.close()
+        shap.plots.heatmap(explainer(pd.DataFrame(X_whole_data_standardised, columns=X.columns)), show=False)
+        if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots")):
+            os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots"))
+        plt.title("Otsu: " + str(otsu_threshold))
+        plt.tight_layout()
+        plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots",
+                                 f"tod_{tod}_shap_total_FI_heatmap_{scale}_.png"))
+        plt.clf(); plt.close()
+
+
+
+
+
+        # Filter features based on Otsu threshold
+        # filtered_features = [idx for idx, val in enumerate(total_shap_values) if val > otsu_threshold]
+        filtered_features = [idx for idx, val in enumerate(total_shap_values) if val > 0]  # Removed this filter to plot all cases
+
+        for idx in filtered_features:
+            feature = X.columns[idx]
+            # feature = feature_list[idx] # X.columns[idx]
+            shap.dependence_plot(feature, shap_values_agg, X, show=False)
+            if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots")):
+                os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots"))
+            plt.ylim(-1, 3)
+            plt.tight_layout()
+            plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots", f"tod_{tod}_shap_pdp_{feature}_scale_{scale}.png"))
+            plt.clf(); plt.close()
+        # Plot SHAP-based PDP for filtered features
+
+        if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "GOF" + f"tod_{tod}_scale_{scale}.csv")):
+            with open(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "GOF" + f"tod_{tod}_scale_{scale}.csv"), "w") as f:
+                csvwriter = csv.writer(f)
+                csvwriter.writerow(["model", "GoF_explained_Variance", "GoF_MSE", "TOD", "Scale", "cityname"])
+
+        with open(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "GOF" + f"tod_{tod}_scale_{scale}.csv"), "a") as f:
             csvwriter = csv.writer(f)
-            csvwriter.writerow(["model", "GoF_explained_Variance", "GoF_MSE", "TOD", "Scale", "cityname"])
-
-    with open(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "GOF" + f"tod_{tod}_scale_{scale}.csv"), "a") as f:
-        csvwriter = csv.writer(f)
-        for name, score in results_explained_variance.items():
-            print(f"{name}: {score:.4f}")
-            csvwriter.writerow([name, results_explained_variance[name], results_mse[name], tod, scale, cityname])
+            for name, score in results_explained_variance.items():
+                print(f"{name}: {score:.4f}")
+                csvwriter.writerow([name, results_explained_variance[name], results_mse[name], tod, scale, cityname])
 
 def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, tod, scale, temp_obj, scaling=True, include_interactions=True, n_strips=3):
     # Use only the selected features
@@ -466,10 +531,14 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
         # Split the data into training and test sets based on spatial split
         X_train, X_test = X[train_mask], X[test_mask]
 
-
-        if X_train.shape[0] < 5 or X_test.shape[0] < 5:
-            print("Skipped the strip since very few Test or train data in the strip, strip_index=", strip_index)
-            sprint(X_train.shape, X_test.shape)
+        try:
+            if X_train.shape[0] < 5 or X_test.shape[0] < 5:
+                print("Skipped the strip since very few Test or train data in the strip, split_counter=", split_counter)
+                sprint(X_train.shape, X_test.shape)
+            continue
+        except:
+            # to skip when empty
+            print("Skipped the strip since very few Test or train data in the strip, split_counter=", split_counter)
             continue
 
         # If scaling is required, scale the features
@@ -487,6 +556,8 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
         shap_values = explainer.shap_values(X_whole_data_standardised)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
         shap_values_list.append(shap_values)
 
+        if config.FAST_GEN_PDPs_for_multiple_runs:
+            break # just a single run for SHAP values for fast prototyping
 
 
     # Average the SHAP values across all folds
@@ -630,6 +701,16 @@ if __name__ == "__main__":
         # 'streets_per_node_count_5',
         'total_crossings'
     ]
+
+    all_features = ['n', 'm', 'k_avg', 'edge_length_total', 'edge_length_avg',
+       'streets_per_node_avg', 'street_length_total', 'circuity_avg',
+       'metered_count', 'non_metered_count', 'total_crossings', 'betweenness',
+       'lane_density', 'streets_per_node_proportion_1',
+       'streets_per_node_proportion_2', 'streets_per_node_count_3',
+       'streets_per_node_proportion_4', 'streets_per_node_count_5',
+       'streets_per_node_proportion_5', 'streets_per_node_count_6',
+       'global_betweenness']
+    # common_features = all_features
 
     scale_list = config.scl_list_of_seeds
 
@@ -898,12 +979,12 @@ if __name__ == "__main__":
 
 
                     bboxes = temp_obj.bbox_X
-                    n_strips = 2
+                    n_strips = 4
 
                     from shapely.geometry import Polygon
 
                     if config.SHAP_mode_spatial_CV == "vertical":
-                        n_strips = 7
+                        n_strips = 6
                         strip_boundaries = calculate_strip_boundaries(bboxes, n_strips)
                         strip_assignments, bbox_to_strip = assign_bboxes_to_strips(bboxes, strip_boundaries)
                         visualize_splits(bboxes, strip_boundaries, bbox_to_strip,
@@ -962,7 +1043,7 @@ if __name__ == "__main__":
                     sprint (t_spatial, t_non_spatial, "seconds")
 
 
-                    if 2==2 and config.MASTER_VISUALISE_EACH_STEP:
+                    if 2==1 and config.MASTER_VISUALISE_EACH_STEP:
                         # Plot the bboxes from scl_jf
                         # Example list of bounding boxes
                         for column in common_features:
@@ -1004,7 +1085,7 @@ if __name__ == "__main__":
                             # plt.colorbar()
                             plt.show(block=False); plt.close()
 
-                        if 2==2 and config.MASTER_VISUALISE_EACH_STEP:
+                        if 2==1 and config.MASTER_VISUALISE_EACH_STEP:
                             # Plot the bboxes from scl_jf
                             # Example list of bounding boxes
                             bboxes = [list(i.keys())[0] for i in temp_obj.bbox_X]

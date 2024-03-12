@@ -10,10 +10,10 @@ DEBUG = False
 DEBUG_TRUNCATE = False
 MASTER_VISUALISE_EACH_STEP = False
 
-CONGESTION_TYPE = "NON-RECURRENT-MMM"
+CONGESTION_TYPE = "RECURRENT"
 assert CONGESTION_TYPE in ["RECURRENT", "NON-RECURRENT", "NON-RECURRENT-MMM"]
 
-BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"
+BASE_FOLDER_local = "/Users/nishant/Downloads/WCS_from_server_local_copy_withy_new_plots" # "/Users/nishant/Documents/GitHub/WCS"
 BASE_FOLDER_server = "/home/niskumar/WCS"
 delete_results_folder = True
 cur_dir = os.getcwd()
@@ -223,30 +223,48 @@ scl_list_of_depths = [1]
 # ]  # 40, 45, 50, 55, 60, 65, 70, 80, 85, 90, 95, 100, 120]
 
 # test_small
-running_extended_scales = True
+running_extended_scales = 0 # 0 implies single scale (1 sq.km), 1 implies 3 scales (1 sqkm, 4 swkm and 0.25 sqkm.) and 2 implies all from 20 to 100
+
 if RUNNING_ON_LOCAL:
     if single_city == "Istanbul":
-        scl_list_of_seeds = [75] # [37, 75, 150] # [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
-    # elif single_city == "London":
-    #     scl_list_of_seeds = [25] # [37, 75, 150] # [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
-    else:
-        scl_list_of_seeds = [50] # [25, 50, 100]
-elif RUNNING_ON_SERVER:
-    if single_city == "Istanbul":
-        if running_extended_scales:
-            scl_list_of_seeds = [30, 45, 60, 90, 105, 120, 135]
-        else:
+        if running_extended_scales == 2:
+            scl_list_of_seeds = [30, 45, 60, 90, 105, 120, 135, 37, 75, 150]
+        elif running_extended_scales == 1:
             scl_list_of_seeds = [37, 75, 150] # [37, 75, 150] # [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+        elif running_extended_scales == 0:
+            scl_list_of_seeds = [75]
     # elif single_city =="London":
     #     if running_extended_scales:
     #         scl_list_of_seeds = [10, 15, 20, 25, 30, 35, 40, 45, 50]
     #     else:
     #         scl_list_of_seeds = [12, 25, 50] # [25, 50, 100] # [25, 50, 100]
     else:
-        if running_extended_scales:
-            scl_list_of_seeds = [20, 30, 40, 60, 70, 80, 90]
-        else:
+        if running_extended_scales == 2:
+            scl_list_of_seeds = [20, 30, 40, 60, 70, 80, 90, 25, 50, 100]
+        elif running_extended_scales == 1:
             scl_list_of_seeds = [25, 50, 100] # [25, 50, 100] # [25, 50, 100]
+        elif running_extended_scales == 0:
+            scl_list_of_seeds = [50]
+elif RUNNING_ON_SERVER:
+    if single_city == "Istanbul":
+        if running_extended_scales == 2:
+            scl_list_of_seeds = [30, 45, 60, 90, 105, 120, 135, 37, 75, 150]
+        elif running_extended_scales == 1:
+            scl_list_of_seeds = [37, 75, 150] # [37, 75, 150] # [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
+        elif running_extended_scales == 0:
+            scl_list_of_seeds = [75]
+    # elif single_city =="London":
+    #     if running_extended_scales:
+    #         scl_list_of_seeds = [10, 15, 20, 25, 30, 35, 40, 45, 50]
+    #     else:
+    #         scl_list_of_seeds = [12, 25, 50] # [25, 50, 100] # [25, 50, 100]
+    else:
+        if running_extended_scales == 2:
+            scl_list_of_seeds = [20, 30, 40, 60, 70, 80, 90, 25, 50, 100]
+        elif running_extended_scales == 1:
+            scl_list_of_seeds = [25, 50, 100] # [25, 50, 100] # [25, 50, 100]
+        elif running_extended_scales == 0:
+            scl_list_of_seeds = [50]
 # forward
 # scl_list_of_seeds = list(range(5, 350, 10))
 
@@ -338,8 +356,11 @@ td_drop_collinear_features = True
 td_drop_collinear_features = True
 
 shift_tile_marker = 3
-SHAP_mode_spatial_CV = "vertical"
+SHAP_mode_spatial_CV = "grid"
+SHAP_additive_regression_model = False # Poor GoF; no longer used
+SHAP_sort_features_alphabetical_For_heatmaps = False
 FAST_GEN_PDPs_for_multiple_runs = True  # True only when fast PDPs are needed for a large number of scenarios; this must be False for normal runs
+SHAP_values_disabled = True # True only when we are interested in capturing the just the GoF for a large number of scenarios
 
 network_folder = CONGESTION_TYPE + "network_tmean_smean_" +str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" + str(shift_tile_marker)
 warnings_folder = "warnings"
