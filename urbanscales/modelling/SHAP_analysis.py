@@ -533,12 +533,12 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
 
         try:
             if X_train.shape[0] < 5 or X_test.shape[0] < 5:
-                print("Skipped the strip since very few Test or train data in the strip, split_counter=", split_counter)
+                print("Skipped the strip since very few Test or train data in the strip, split_counter=", strip_index)
                 sprint(X_train.shape, X_test.shape)
                 continue
         except:
             # to skip when empty
-            print("Skipped the strip since very few Test or train data in the strip, split_counter=", split_counter)
+            print("Skipped the strip since very few Test or train data in the strip, split_counter=", strip_index)
             continue
 
         # If scaling is required, scale the features
