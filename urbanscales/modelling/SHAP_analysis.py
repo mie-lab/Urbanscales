@@ -519,114 +519,115 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
         print(f"Scores for each fold: {scores}")
         print(f"Average score MSE: {np.mean(scores)}\n")
 
-    for strip_index in range(n_strips):
-        a = []
-        for i in range(len(temp_obj.bbox_X)):
-            if bbox_to_strip[list(temp_obj.bbox_X[i].keys())[0]] == strip_index:
-                a.append(i)
+    if not config.SHAP_values_disabled:
+        for strip_index in range(n_strips):
+            a = []
+            for i in range(len(temp_obj.bbox_X)):
+                if bbox_to_strip[list(temp_obj.bbox_X[i].keys())[0]] == strip_index:
+                    a.append(i)
 
-        test_mask = X.index.isin(a)
-        train_mask = ~test_mask
+            test_mask = X.index.isin(a)
+            train_mask = ~test_mask
 
-        # Split the data into training and test sets based on spatial split
-        X_train, X_test = X[train_mask], X[test_mask]
+            # Split the data into training and test sets based on spatial split
+            X_train, X_test = X[train_mask], X[test_mask]
 
-        try:
-            if X_train.shape[0] < 5 or X_test.shape[0] < 5:
+            try:
+                if X_train.shape[0] < 5 or X_test.shape[0] < 5:
+                    print("Skipped the strip since very few Test or train data in the strip, split_counter=", strip_index)
+                    sprint(X_train.shape, X_test.shape)
+                    continue
+            except:
+                # to skip when empty
                 print("Skipped the strip since very few Test or train data in the strip, split_counter=", strip_index)
-                sprint(X_train.shape, X_test.shape)
                 continue
-        except:
-            # to skip when empty
-            print("Skipped the strip since very few Test or train data in the strip, split_counter=", strip_index)
-            continue
 
-        # If scaling is required, scale the features
-        if scaling:
-            scaler = StandardScaler()
-            X_train = scaler.fit_transform(X_train)
-            X_test = scaler.transform(X_test)
-            X_whole_data_standardised = scaler.transform(X)
+            # If scaling is required, scale the features
+            if scaling:
+                scaler = StandardScaler()
+                X_train = scaler.fit_transform(X_train)
+                X_test = scaler.transform(X_test)
+                X_whole_data_standardised = scaler.transform(X)
 
 
-        rf_model = models_trained["Random Forest"][strip_index]
-        import shap
-        explainer = shap.TreeExplainer(rf_model)
-        # shap_values = explainer.shap_values(X_test)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
-        shap_values = explainer.shap_values(X_whole_data_standardised)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
-        shap_values_list.append(shap_values)
+            rf_model = models_trained["Random Forest"][strip_index]
+            import shap
+            explainer = shap.TreeExplainer(rf_model)
+            # shap_values = explainer.shap_values(X_test)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
+            shap_values = explainer.shap_values(X_whole_data_standardised)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
+            shap_values_list.append(shap_values)
 
-        if config.FAST_GEN_PDPs_for_multiple_runs:
-            break # just a single run for SHAP values for fast prototyping
-
-
-    # Average the SHAP values across all folds
-    # concatenated_shap_values = np.concatenate(shap_values_list, axis=0)
-
-    shap_values_stack = np.stack(shap_values_list, axis=0)
-
-    # Compute the mean SHAP values across the first axis (the CV splits axis)
-    mean_shap_values = np.mean(shap_values_stack, axis=0)
-
-    # Aggregate SHAP values
-    shap_values_agg = mean_shap_values
-    # Aggregate SHAP values
-    shap_values_agg = mean_shap_values
-
-    # Plot feature importance
-    total_shap_values = np.abs(shap_values_agg).mean(axis=0)
-
-    # Create a list of tuples (feature name, total SHAP value)
-    feature_importance_list = [(feature, shap_value) for feature, shap_value in zip(X.columns, total_shap_values)]
-
-    # Sort the list based on SHAP values in descending order
-    sorted_feature_importance_list = sorted(feature_importance_list, key=lambda x: x[1], reverse=True)
-
-    # Write the sorted list to a file
-    spatial_folder = os.path.join(config.BASE_FOLDER, config.network_folder, cityname, f"spatial_tod_{tod}_scale_{scale}")
-    if not os.path.exists(spatial_folder):
-        os.makedirs(spatial_folder)
-    output_file_path = os.path.join(spatial_folder, "spatial_total_feature_importance.csv")
-    with open(output_file_path, "w") as f:
-        csvwriter = csv.writer(f)
-        csvwriter.writerow(["Feature", "Total SHAP Value"])
-        for feature, shap_value in sorted_feature_importance_list:
-            csvwriter.writerow([feature, shap_value])
-
-    plt.clf(); plt.close()
-    shap.summary_plot(shap_values_agg, X, plot_type="bar", show=False)
-    plt.title("Feature Importance (Spatial)")
-    plt.tight_layout()
-    plt.savefig(os.path.join(spatial_folder, "spatial_shap_total_FI.png"))
-    plt.clf(); plt.close()
-
-    # Compute Otsu threshold
-    otsu_threshold = threshold_otsu(total_shap_values)
-
-    # Filter features based on Otsu threshold
-    # filtered_features = [idx for idx, val in enumerate(total_shap_values) if val > otsu_threshold]
-    filtered_features = [idx for idx, val in enumerate(total_shap_values) if val > 0]  # Removed this filter to plot all cases
+            if config.FAST_GEN_PDPs_for_multiple_runs:
+                break # just a single run for SHAP values for fast prototyping
 
 
-    for idx in filtered_features:
-        feature = X.columns[idx]
-        shap.dependence_plot(feature, shap_values_agg, X, show=False)
-        plt.ylim(-1, 3)
+        # Average the SHAP values across all folds
+        # concatenated_shap_values = np.concatenate(shap_values_list, axis=0)
+
+        shap_values_stack = np.stack(shap_values_list, axis=0)
+
+        # Compute the mean SHAP values across the first axis (the CV splits axis)
+        mean_shap_values = np.mean(shap_values_stack, axis=0)
+
+        # Aggregate SHAP values
+        shap_values_agg = mean_shap_values
+        # Aggregate SHAP values
+        shap_values_agg = mean_shap_values
+
+        # Plot feature importance
+        total_shap_values = np.abs(shap_values_agg).mean(axis=0)
+
+        # Create a list of tuples (feature name, total SHAP value)
+        feature_importance_list = [(feature, shap_value) for feature, shap_value in zip(X.columns, total_shap_values)]
+
+        # Sort the list based on SHAP values in descending order
+        sorted_feature_importance_list = sorted(feature_importance_list, key=lambda x: x[1], reverse=True)
+
+        # Write the sorted list to a file
+        spatial_folder = os.path.join(config.BASE_FOLDER, config.network_folder, cityname, f"spatial_tod_{tod}_scale_{scale}")
+        if not os.path.exists(spatial_folder):
+            os.makedirs(spatial_folder)
+        output_file_path = os.path.join(spatial_folder, "spatial_total_feature_importance.csv")
+        with open(output_file_path, "w") as f:
+            csvwriter = csv.writer(f)
+            csvwriter.writerow(["Feature", "Total SHAP Value"])
+            for feature, shap_value in sorted_feature_importance_list:
+                csvwriter.writerow([feature, shap_value])
+
+        plt.clf(); plt.close()
+        shap.summary_plot(shap_values_agg, X, plot_type="bar", show=False)
+        plt.title("Feature Importance (Spatial)")
         plt.tight_layout()
-        plt.savefig(os.path.join(spatial_folder, f"spatial_shap_pdp_{feature}.png"))
+        plt.savefig(os.path.join(spatial_folder, "spatial_shap_total_FI.png"))
         plt.clf(); plt.close()
 
-    # Write GOF results to a file
-    gof_file_path = os.path.join(spatial_folder, "GOF_spatial_tod_"+ str(tod) + "_scale_"+ str(scale) + ".csv")
-    if not os.path.exists(gof_file_path):
-        with open(gof_file_path, "w") as f:
-            csvwriter = csv.writer(f)
-            csvwriter.writerow(["model", "GoF_explained_Variance", "GoF_MSE", "TOD", "Scale", "cityname"])
+        # Compute Otsu threshold
+        otsu_threshold = threshold_otsu(total_shap_values)
 
-    with open(gof_file_path, "a") as f:
-        csvwriter = csv.writer(f)
-        for name, score in results_explained_variance.items():
-            csvwriter.writerow([name, score, results_mse[name], tod, scale, cityname])
+        # Filter features based on Otsu threshold
+        # filtered_features = [idx for idx, val in enumerate(total_shap_values) if val > otsu_threshold]
+        filtered_features = [idx for idx, val in enumerate(total_shap_values) if val > 0]  # Removed this filter to plot all cases
+
+
+        for idx in filtered_features:
+            feature = X.columns[idx]
+            shap.dependence_plot(feature, shap_values_agg, X, show=False)
+            plt.ylim(-1, 3)
+            plt.tight_layout()
+            plt.savefig(os.path.join(spatial_folder, f"spatial_shap_pdp_{feature}.png"))
+            plt.clf(); plt.close()
+
+        # Write GOF results to a file
+        gof_file_path = os.path.join(spatial_folder, "GOF_spatial_tod_"+ str(tod) + "_scale_"+ str(scale) + ".csv")
+        if not os.path.exists(gof_file_path):
+            with open(gof_file_path, "w") as f:
+                csvwriter = csv.writer(f)
+                csvwriter.writerow(["model", "GoF_explained_Variance", "GoF_MSE", "TOD", "Scale", "cityname"])
+
+        with open(gof_file_path, "a") as f:
+            csvwriter = csv.writer(f)
+            for name, score in results_explained_variance.items():
+                csvwriter.writerow([name, score, results_mse[name], tod, scale, cityname])
 
 
 
@@ -733,7 +734,7 @@ if __name__ == "__main__":
                         continue
 
 
-                    def calculate_strip_boundaries(bboxes, n_strips=7):
+                    def calculate_strip_boundaries_vertical(bboxes, n_strips=7):
                         # Extract all the longitude values from the bounding boxes
                         all_lons = [list(bbox.keys())[0][3] for bbox in bboxes] + [list(bbox.keys())[0][2] for bbox
                                                                                    in bboxes]
@@ -757,7 +758,7 @@ if __name__ == "__main__":
 
                         return strip_boundaries
 
-                    def assign_bboxes_to_strips(bboxes, strip_boundaries):
+                    def assign_bboxes_to_strips_vertical(bboxes, strip_boundaries):
                         strip_assignments = {}
                         bbox_to_strip = {}
                         for i, bbox in enumerate(bboxes):
@@ -781,6 +782,53 @@ if __name__ == "__main__":
 
                         return strip_assignments, bbox_to_strip
 
+                    def calculate_strip_boundaries_horizontal(bboxes, n_strips=7):
+                        # Extract all the longitude values from the bounding boxes
+                        all_lats = [list(bbox.keys())[0][0] for bbox in bboxes] + [list(bbox.keys())[0][1] for bbox
+                                                                                   in bboxes]
+
+                        # Sort the longitude values
+                        sorted_lats = sorted(list(set(all_lats)))
+
+                        # Calculate the number of bboxes per strip
+                        bboxes_per_strip = len(sorted_lats) // n_strips
+
+                        # Initialize the list of strip boundaries
+                        strip_boundaries = [sorted_lats[0]]
+
+                        # Determine the boundaries of each strip
+                        for i in range(1, n_strips):
+                            boundary_index = i * bboxes_per_strip
+                            strip_boundaries.append(sorted_lats[boundary_index])
+
+                        # Add the last longitude value as the end boundary of the last strip
+                        strip_boundaries.append(sorted_lats[-1])
+
+                        return strip_boundaries
+
+                    def assign_bboxes_to_strips_horizontal(bboxes, strip_boundaries):
+                        strip_assignments = {}
+                        bbox_to_strip = {}
+                        for i, bbox in enumerate(bboxes):
+                            bbox_coords = list(bbox.keys())[0]
+                            South, North = bbox_coords[1], bbox_coords[
+                                0]  # Assuming bbox_coords is in the format (North, South, East, West)
+
+
+                            # Find the strip that contains the bbox
+                            for strip_index in range(len(strip_boundaries) - 1):
+                                left_boundary = strip_boundaries[strip_index]
+                                right_boundary = strip_boundaries[strip_index + 1]
+
+                                # Check if bbox is within the current strip's boundaries
+                                if South >= left_boundary and North <= right_boundary:
+                                    if strip_index not in strip_assignments:
+                                        strip_assignments[strip_index] = []
+                                    strip_assignments[strip_index].append(bbox_coords)
+                                    bbox_to_strip[bbox_coords] = strip_index
+                                    break
+
+                        return strip_assignments, bbox_to_strip
 
 
                     def calculate_grid_boundaries(bboxes, n_strips=7):
@@ -985,10 +1033,16 @@ if __name__ == "__main__":
 
                     if config.SHAP_mode_spatial_CV == "vertical":
                         n_strips = 6
-                        strip_boundaries = calculate_strip_boundaries(bboxes, n_strips)
-                        strip_assignments, bbox_to_strip = assign_bboxes_to_strips(bboxes, strip_boundaries)
+                        strip_boundaries = calculate_strip_boundaries_vertical(bboxes, n_strips)
+                        strip_assignments, bbox_to_strip = assign_bboxes_to_strips_vertical(bboxes, strip_boundaries)
                         visualize_splits(bboxes, strip_boundaries, bbox_to_strip,
                                          split_direction='vertical')
+                    elif config.SHAP_mode_spatial_CV == "horizontal":
+                        n_strips = 6
+                        strip_boundaries = calculate_strip_boundaries_horizontal(bboxes, n_strips)
+                        strip_assignments, bbox_to_strip = assign_bboxes_to_strips_horizontal(bboxes, strip_boundaries)
+                        visualize_splits(bboxes, strip_boundaries, bbox_to_strip,
+                                         split_direction='horizontal')
                     elif config.SHAP_mode_spatial_CV == "grid":
                         lon_boundaries, lat_boundaries = calculate_grid_boundaries(bboxes, n_strips=n_strips)
                         grid_assignments, bbox_to_strip = assign_bboxes_to_grid(bboxes, lon_boundaries, lat_boundaries, n_strips)
@@ -1029,16 +1083,16 @@ if __name__ == "__main__":
 
                     if config.SHAP_mode_spatial_CV == "grid":
                         N_STRIPS = n_strips ** 2
-                    elif config.SHAP_mode_spatial_CV == "vertical":
+                    elif config.SHAP_mode_spatial_CV == "vertical" or config.SHAP_mode_spatial_CV == "horizontal":
                         N_STRIPS = n_strips
                     else:
                         raise Exception("Wrong split type; must be grid or vertical")
 
                     model_fit_time_start = time.time()
-                    compare_models_gof_standard_cv(X, Y, common_features, tod=tod, cityname=city, scale=scale, n_splits=7, include_interactions=False, scaling=True)
+                    # compare_models_gof_standard_cv(X, Y, common_features, tod=tod, cityname=city, scale=scale, n_splits=7, include_interactions=False, scaling=True)
                     t_non_spatial = time.time() - model_fit_time_start
-                    # compare_models_gof_spatial_cv(X, Y, common_features, temp_obj=temp_obj, include_interactions=False, scaling=True,
-                    #                               bbox_to_strip=bbox_to_strip, n_strips=N_STRIPS, tod=tod, cityname=city, scale=scale)
+                    compare_models_gof_spatial_cv(X, Y, common_features, temp_obj=temp_obj, include_interactions=False, scaling=True,
+                                                  bbox_to_strip=bbox_to_strip, n_strips=N_STRIPS, tod=tod, cityname=city, scale=scale)
                     t_spatial = time.time() - model_fit_time_start - t_non_spatial
                     sprint (t_spatial, t_non_spatial, "seconds")
 

@@ -357,6 +357,8 @@ td_drop_collinear_features = True
 
 shift_tile_marker = 3
 SHAP_mode_spatial_CV = "grid"
+assert SHAP_mode_spatial_CV in ["vertical", "horizontal", "grid"]
+
 SHAP_additive_regression_model = False # Poor GoF; no longer used
 SHAP_sort_features_alphabetical_For_heatmaps = False
 FAST_GEN_PDPs_for_multiple_runs = True  # True only when fast PDPs are needed for a large number of scenarios; this must be False for normal runs
