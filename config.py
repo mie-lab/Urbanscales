@@ -13,7 +13,7 @@ MASTER_VISUALISE_EACH_STEP = False
 CONGESTION_TYPE = "RECURRENT"
 assert CONGESTION_TYPE in ["RECURRENT", "NON-RECURRENT", "NON-RECURRENT-MMM"]
 
-BASE_FOLDER_local = "/Users/nishant/Downloads/WCS_from_server_local_copy_withy_new_plots" # "/Users/nishant/Documents/GitHub/WCS"
+BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"  # "/Users/nishant/Downloads/WCS_from_server_local_copy_withy_new_plots" # "/Users/nishant/Documents/GitHub/WCS"
 BASE_FOLDER_server = "/home/niskumar/WCS"
 delete_results_folder = True
 cur_dir = os.getcwd()
@@ -356,13 +356,13 @@ td_drop_collinear_features = True
 td_drop_collinear_features = True
 
 shift_tile_marker = 3
-SHAP_mode_spatial_CV = "grid"
+SHAP_mode_spatial_CV = "vertical"
 assert SHAP_mode_spatial_CV in ["vertical", "horizontal", "grid"]
 
 SHAP_additive_regression_model = False # Poor GoF; no longer used
 SHAP_sort_features_alphabetical_For_heatmaps = False
 FAST_GEN_PDPs_for_multiple_runs = True  # True only when fast PDPs are needed for a large number of scenarios; this must be False for normal runs
-SHAP_values_disabled = True # True only when we are interested in capturing the just the GoF for a large number of scenarios
+SHAP_values_disabled = False # True only when we are interested in capturing the just the GoF for a large number of scenarios
 
 network_folder = CONGESTION_TYPE + "network_tmean_smean_" +str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" + str(shift_tile_marker)
 warnings_folder = "warnings"

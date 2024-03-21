@@ -205,6 +205,11 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  n_
                                 np.mean(results_mse[name]), np.std(results_mse[name])] +
                                results_explained_variance[name] + results_mse[name])
 
+    for name in models:
+        if name == "Random Forest":
+            print("logging_for_NON-SPATIAL_explained_var", cityname, scale, np.mean(results_explained_variance[name]),
+              np.median(results_explained_variance[name]), "STANDARD_CV", config.CONGESTION_TYPE, sep=",")
+
     # Compute the mean scores for each model
     for name in models:
         results_explained_variance[name] = np.mean(results_explained_variance[name])
@@ -498,6 +503,11 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
                                 np.mean(results_mse[name]), np.std(results_mse[name])] +
                                results_explained_variance[name] + results_mse[name])
 
+        for name in models:
+            if name == "Random Forest":
+                print("logging_for_SPATIAL_explained_var", cityname, scale, np.mean(results_explained_variance[name]),
+                      np.median(results_explained_variance[name]), config.SHAP_mode_spatial_CV, config.CONGESTION_TYPE, sep=",")
+
     for name in results_explained_variance:
         print("Before computing mean: ", name)
         print(results_explained_variance[name])
@@ -518,6 +528,8 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
         print(f"{name}:")
         print(f"Scores for each fold: {scores}")
         print(f"Average score MSE: {np.mean(scores)}\n")
+
+
 
     if not config.SHAP_values_disabled:
         for strip_index in range(n_strips):
@@ -932,7 +944,7 @@ if __name__ == "__main__":
 
                             plt.xlabel('Longitude')
                             plt.ylabel('Latitude')
-                            plt.title('Spatial Splits')
+                            # plt.title('Spatial Splits')
 
                             import geopy.distance
 
@@ -980,6 +992,7 @@ if __name__ == "__main__":
                                     rotation='vertical', fontsize=4)
 
                             # Save and show the plot
+                            plt.title("Spatial Cross validation splits " + city + "_scale_" + str(scale))
                             plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
                                                      "Spatial_splits_for_spatial_CV" + str(scale) + ".png"), dpi=300)
                             plt.show(block=False); plt.close()
@@ -1089,15 +1102,15 @@ if __name__ == "__main__":
                         raise Exception("Wrong split type; must be grid or vertical")
 
                     model_fit_time_start = time.time()
-                    # compare_models_gof_standard_cv(X, Y, common_features, tod=tod, cityname=city, scale=scale, n_splits=7, include_interactions=False, scaling=True)
+                    compare_models_gof_standard_cv(X, Y, common_features, tod=tod, cityname=city, scale=scale, n_splits=7, include_interactions=False, scaling=True)
                     t_non_spatial = time.time() - model_fit_time_start
-                    compare_models_gof_spatial_cv(X, Y, common_features, temp_obj=temp_obj, include_interactions=False, scaling=True,
-                                                  bbox_to_strip=bbox_to_strip, n_strips=N_STRIPS, tod=tod, cityname=city, scale=scale)
+                    # compare_models_gof_spatial_cv(X, Y, common_features, temp_obj=temp_obj, include_interactions=False, scaling=True,
+                    #                               bbox_to_strip=bbox_to_strip, n_strips=N_STRIPS, tod=tod, cityname=city, scale=scale)
                     t_spatial = time.time() - model_fit_time_start - t_non_spatial
                     sprint (t_spatial, t_non_spatial, "seconds")
 
 
-                    if 2==1 and config.MASTER_VISUALISE_EACH_STEP:
+                    if 2==2 and config.MASTER_VISUALISE_EACH_STEP:
                         # Plot the bboxes from scl_jf
                         # Example list of bounding boxes
                         for column in common_features:
@@ -1137,9 +1150,12 @@ if __name__ == "__main__":
                             ax.set_axis_off()
                             plt.title(column)
                             # plt.colorbar()
+                            plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
+                                                     "_feature_" + str(column) + "_" + str(scale) + ".png"), dpi=300)
                             plt.show(block=False); plt.close()
 
-                        if 2==1 and config.MASTER_VISUALISE_EACH_STEP:
+
+                        if 2==2 and config.MASTER_VISUALISE_EACH_STEP:
                             # Plot the bboxes from scl_jf
                             # Example list of bounding boxes
                             bboxes = [list(i.keys())[0] for i in temp_obj.bbox_X]
@@ -1176,6 +1192,8 @@ if __name__ == "__main__":
                             ax.set_axis_off()
                             plt.title("Y")
                             # plt.colorbar()
+                            plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
+                                                     "_Y_distribution" + str(scale) + ".png"), dpi=300)
                             plt.show(block=False); plt.close()
                         # input("Enter any key to continue for different TOD")
 
