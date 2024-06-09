@@ -66,33 +66,6 @@ class CorrelationAnalysis:
 
 
 
-    # Example of how to call the function
-    # compare_models_gof(X, Y, scaling=True)
-
-    # def random_forest_feature_importance(self, common_features):
-    #     n_splits = 7
-    #
-    #     kfold = KFold(n_splits=n_splits, shuffle=True, random_state=42)
-    #     total_feature_importances = np.zeros(len(common_features))
-    #
-    #     for train_index, test_index in kfold.split(self.nparrayX, self.nparrayY):
-    #         X_train, X_test = self.nparrayX[train_index], self.nparrayX[test_index]
-    #         Y_train, Y_test = self.nparrayY[train_index], self.nparrayY[test_index]
-    #         rf = RandomForestRegressor(n_estimators=100, random_state=42)
-    #         rf.fit(X_train, Y_train)
-    #         total_feature_importances += rf.feature_importances_
-    #     total_feature_importances /= n_splits
-    #
-    #     return total_feature_importances
-
-    # def plot_feature_importances(self, importances, scale, common_features, list_of_cities):
-    #     plt.title(f"Feature Importances RF " + list_of_cities)
-    #     plt.plot(range(len(common_features)), importances, marker='o', linestyle='-', label=f"Scale: {scale}")
-    #     plt.xticks(range(len(common_features)), common_features, rotation=90)
-    #     plt.xlabel('Feature')
-    #     plt.ylabel('Importance')
-    #     plt.legend()
-
 
 import matplotlib.pyplot as plt
 import pandas
@@ -102,6 +75,23 @@ from sklearn.preprocessing import StandardScaler, PolynomialFeatures
 from sklearn.base import clone
 
 def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  n_splits,scaling=True, include_interactions=True):
+    """
+    Compares different regression models on their goodness-of-fit (GoF) using standard cross-validation.
+
+    Parameters:
+        X (DataFrame): The input features.
+        Y (DataFrame): The output/target variable.
+        feature_list (list): List of features to be used in the model.
+        cityname (str): Name of the city for which the model is being evaluated.
+        scale (int): Scale parameter that may represent a model-specific or data-specific scale.
+        tod (str): Time of day or other temporal identifier.
+        n_splits (int): Number of splits for cross-validation.
+        scaling (bool, optional): If True, apply feature scaling. Defaults to True.
+        include_interactions (bool, optional): If True, includes polynomial interaction terms. Defaults to True.
+
+    Returns:
+        None: The function internally prints out the performance metrics and may save them to files.
+    """
 
     X = X[feature_list]
 
@@ -392,6 +382,26 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod,  n_
                 csvwriter.writerow([name, results_explained_variance[name], results_mse[name], tod, scale, cityname])
 
 def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, tod, scale, temp_obj, scaling=True, include_interactions=True, n_strips=3):
+    """
+    Compares different regression models on their goodness-of-fit (GoF) using spatial cross-validation.
+
+    Parameters:
+        X (DataFrame): The input features.
+        Y (DataFrame): The output/target variable.
+        feature_list (list): List of features to be used in the model.
+        bbox_to_strip (dict): Mapping of bounding box coordinates to spatial strips.
+        cityname (str): Name of the city for which the model is being evaluated.
+        tod (str): Time of day or other temporal identifier.
+        scale (int): Scale parameter that may represent a model-specific or data-specific scale.
+        temp_obj (object): An object that includes bbox_X which helps in spatial partitioning of data.
+        scaling (bool, optional): If True, apply feature scaling. Defaults to True.
+        include_interactions (bool, optional): If True, includes polynomial interaction terms. Defaults to True.
+        n_strips (int, optional): Number of spatial strips to divide the data into. Defaults to 3.
+
+    Returns:
+        None: The function internally prints out the performance metrics and may save them to files.
+    """
+
     # Use only the selected features
     X = X[feature_list]
 
@@ -1110,7 +1120,7 @@ if __name__ == "__main__":
                     sprint (t_spatial, t_non_spatial, "seconds")
 
 
-                    if 2==2 and config.MASTER_VISUALISE_EACH_STEP:
+                    if config.MASTER_VISUALISE_EACH_STEP_INSIDE_ShapAnalysisScript:
                         # Plot the bboxes from scl_jf
                         # Example list of bounding boxes
                         for column in common_features:
@@ -1155,7 +1165,7 @@ if __name__ == "__main__":
                             plt.show(block=False); plt.close()
 
 
-                        if 2==2 and config.MASTER_VISUALISE_EACH_STEP:
+                        if config.MASTER_VISUALISE_EACH_STEP_INSIDE_ShapAnalysisScript:
                             # Plot the bboxes from scl_jf
                             # Example list of bounding boxes
                             bboxes = [list(i.keys())[0] for i in temp_obj.bbox_X]

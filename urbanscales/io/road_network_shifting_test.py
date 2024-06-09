@@ -38,13 +38,39 @@ from geopy.point import Point
 
 
 class SquareFilterShifting:
+    """
+    A class that adjusts a geographical bounding box by shifting its center or resizing it based on given parameters.
+
+    Attributes:
+        N (float): Northern latitude of the bounding box.
+        E (float): Eastern longitude of the bounding box.
+        S (float): Southern latitude of the bounding box.
+        W (float): Western longitude of the bounding box.
+    """
     def __init__(self, N, E, S, W):
+        """
+        Initializes the SquareFilterShifting with the boundaries of a geographic area.
+
+        Parameters:
+            N (float): Northern latitude.
+            E (float): Eastern longitude.
+            S (float): Southern latitude.
+            W (float): Western longitude.
+        """
         self.N = N
         self.E = E
         self.S = S
         self.W = W
 
     def filter_square_from_road_network(self, square_side_in_kms, shift_tiles=0):
+        """
+        Adjusts the center of the bounding box and recalculates its boundaries to form a square with a specified side length.
+
+        Parameters:
+            square_side_in_kms (float): The side length of the square in kilometers.
+            shift_tiles (int): An option to shift the center of the bounding box.
+                               Values range from 0 (no shift) to 8, with each number representing different directions and magnitudes of shift.
+        """
         # Calculate the original center of the bounding box
         center = Point((self.N + self.S) / 2, (self.E + self.W) / 2)
 
@@ -94,17 +120,46 @@ class SquareFilterShifting:
 
 
 class CustomUnpicklerRoadNetworkShifting(pickle.Unpickler):
+    """
+    A custom unpickler for loading objects of RoadNetworkShifting class, allowing for safe loading of pickle files.
+
+    Methods:
+        find_class: Overrides the default method to ensure the correct class is used during unpickling.
+    """
     def find_class(self, module, name):
+        """
+        Ensures that during unpickling, the correct class is used instead of a potentially harmful or incorrect class.
+
+        Parameters:
+            module (str): The module from which to load the class.
+            name (str): The name of the class to be loaded.
+
+        Returns:
+            type: The class type that matches the given name, specifically checking for 'RoadNetwork'.
+        """
         if name == "RoadNetwork":
             return RoadNetworkShifting
         return super().find_class(module, name)
 
 
 class RoadNetworkShifting:
+    """
+    Manages the road network data for a specific city, including loading, modifying, and saving the network.
+
+    Attributes:
+        rn_fname (str): The filename where the road network data is stored.
+        osm_pickle (str): The filename suffix for the OpenStreetMap pickle data.
+        city_name (str): The name of the city for which the road network is managed.
+        N, E, S, W (float): Geographic coordinates defining the bounding box of the road network.
+        G_osm (networkx.MultiDiGraph): The graph object representing the road network.
+    """
     def __init__(self, cityname, mode_of_retreival="bbox"):
         """
-        Example: SG = RoadNetwork("Singapore")
-        mode_of_retreival = "place"/"bbox"
+        Initializes the RoadNetworkShifting with city name and retrieval mode.
+
+        Parameters:
+            cityname (str): The name of the city.
+            mode_of_retrieval (str): The mode of data retrieval; 'place' to use place names, 'bbox' to use a bounding box.
         """
         self.rn_fname = os.path.join(
             config.BASE_FOLDER, config.network_folder, cityname, config.rn_post_fix_road_network_object_file
@@ -163,6 +218,9 @@ class RoadNetworkShifting:
             self.save_road_network_object()
 
     def save_road_network_object(self):
+        """
+         Saves the current state of the road network to a file using a secure temporary naming scheme to prevent data corruption.
+         """
         rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,
                                           str(int(np.random.rand() * 100000000000000)))
         with open(rand_pickle_marker, "wb") as f:
@@ -170,6 +228,12 @@ class RoadNetworkShifting:
         os.rename(rand_pickle_marker, self.rn_fname)
 
     def get_osm_from_place(self):
+        """
+        Retrieves the OpenStreetMap data for the specified city using its place name.
+
+        Returns:
+            networkx.MultiDiGraph: The graph object representing the road network.
+        """
         if self.G_osm == None:
             fname = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, self.osm_pickle)
             if os.path.isfile(fname):
@@ -188,6 +252,12 @@ class RoadNetworkShifting:
         return self.G_osm
 
     def get_osm_from_bbox(self):
+        """
+        Retrieves the OpenStreetMap data for the specified city using a bounding box defined by the class attributes N, E, S, and W.
+
+        Returns:
+            networkx.MultiDiGraph: The graph object representing the road network.
+        """
         if self.G_osm == None:
             fname = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, self.osm_pickle)
 
@@ -227,6 +297,12 @@ class RoadNetworkShifting:
         return self.G_osm
 
     def get_osm_from_address(self):
+        """
+        Retrieves the OpenStreetMap data for the specified city using an address string.
+
+        Returns:
+            networkx.MultiDiGraph: The graph object representing the road network.
+        """
         fname = os.path.join(config.BASE_FOLDER, config.network_folder, self.city_name, self.osm_pickle)
 
         # create the directory structure if it doesn't exists
@@ -249,10 +325,19 @@ class RoadNetworkShifting:
         return self.G_osm
 
     def set_graph_features(self):
+        """
+        Computes and assigns statistical features to the road network graph, such as connectivity and centrality measures.
+        """
         assert self.G_osm is not None
         self.graph_features = Tile(self.G_osm).set_stats_for_tile()
 
     def get_graph_features_as_list(self):
+        """
+        Compiles and returns a list of statistical features of the road network for analytical or reporting purposes.
+
+        Returns:
+            list: A list of feature values associated with the road network.
+        """
         assert config.rn_square_from_city_centre != -1
         list_of_graph_features = Tile(None, config.rn_square_from_city_centre**2).get_list_of_features()
         list_of_values = [self.city_name]
@@ -261,6 +346,9 @@ class RoadNetworkShifting:
         return list_of_values
 
     def plot_basemap(self):
+        """
+        Generates and saves a graphical representation of the road network with a basemap for visualization.
+        """
         if not config.rn_plotting_enabled:
             return
 
@@ -287,6 +375,9 @@ class RoadNetworkShifting:
         )
 
     def set_boundaries_x_y(self):
+        """
+        Updates the geographic boundaries of the road network based on the extents of the nodes in the graph.
+        """
         min_x = 99999999
         min_y = 99999999
         max_x = -99999999
@@ -300,6 +391,12 @@ class RoadNetworkShifting:
         self.min_x, self.max_x, self.min_y, self.max_y = (self.W, self.E, self.S, self.N)
 
     def get_geojson_file_to_single_polygon(self):
+        """
+        Converts a GeoJSON file of the city's boundaries into a single Shapely Polygon object for use in spatial operations.
+
+        Returns:
+            shapely.geometry.Polygon: A polygon representing the city's geographic boundaries.
+        """
         fname = os.path.join(
             config.BASE_FOLDER,
             config.network_folder,
@@ -329,6 +426,12 @@ class RoadNetworkShifting:
         return convex_hull_poly
 
     def filter_OSM(self):
+        """
+        Applies a geographic filter to the road network, truncating it to fit within a defined polygon representing the city's boundaries.
+
+        Returns:
+            networkx.MultiDiGraph: The filtered road network graph.
+        """
         try:
             self.G_osm = ox.truncate.truncate_graph_polygon(self.G_osm, self.get_geojson_file_to_single_polygon())
         except ValueError:
@@ -339,12 +442,10 @@ class RoadNetworkShifting:
 
     def filter_a_patch_from_road_network(self, percentage):
         """
-        Choose a patch from the centre
-        Args:
-            percentage: % of length (width or height) of the overall bbox
+        Reduces the road network to a specified percentage of its original geographic extent, centered on the middle of the bounding box.
 
-        Returns:
-            None; updates the object with new boundaries
+        Parameters:
+            percentage (float): The percentage of the original dimensions to retain, specified as a percentage of each side's length.
         """
         ns = self.N - self.S
         ns_center = self.S + ns / 2
@@ -358,11 +459,23 @@ class RoadNetworkShifting:
         self.W = ew_center - ew * 0.5 * (percentage / 100)
 
     def filter_a_square_from_road_network(self, square_side_in_kms):
+        """
+        Reduces the road network to a specified percentage of its original geographic extent, centered on the middle of the bounding box.
+
+        Parameters:
+            percentage (float): The percentage of the original dimensions to retain, specified as a percentage of each side's length.
+        """
         square_filter = SquareFilterShifting(N=self.N, E=self.E, S=self.S, W=self.W)
         square_filter.filter_square_from_road_network(square_side_in_kms)
         self.N, self.S, self.E, self.W = square_filter.N, square_filter.S, square_filter.E, square_filter.W
 
     def __repr__(self):
+        """
+        Provides a string representation of the RoadNetworkShifting object, detailing its current state.
+
+        Returns:
+            str: A string representation of the RoadNetworkShifting object.
+        """
         class_attrs = vars(self)
         repr_str = f"{self.__class__.__name__}(\n"
         for attr, value in class_attrs.items():
@@ -374,6 +487,10 @@ class RoadNetworkShifting:
 
     @staticmethod
     def generate_road_nw_object_for_all_cities():
+        """
+        Generates and saves road network objects and their graphical features for all cities specified in the configuration.
+        This method handles directory creation, road network retrieval, feature calculation, and data logging for each city.
+        """
         if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder)):
             os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder))
 
@@ -404,6 +521,16 @@ class RoadNetworkShifting:
 
     @staticmethod
     def get_object(city):
+        """
+        Retrieves an instance of the RoadNetworkShifting for a specific city. This method ensures that a road network object
+        is consistently retrieved with the latest configuration and updates.
+
+        Parameters:
+            city (str): The name of the city for which to retrieve the road network object.
+
+        Returns:
+            RoadNetworkShifting: An instance of the RoadNetworkShifting class loaded with the road network data for the specified city.
+        """
         rn = RoadNetworkShifting(city)
         return rn
 

@@ -42,6 +42,10 @@ import pickle
 # All custom unpicklers are due to SO user Pankaj Saini's answer:  https://stackoverflow.com/a/51397373/3896008
 class CustomUnpicklerScale(pickle.Unpickler):
     def find_class(self, module, name):
+        """
+         Custom unpickler class to handle the loading of Scale objects, ensuring compatibility
+         and flexibility with changes in module and class definitions.
+         """
         if name == "Scale":
             return Scale
         return super().find_class(module, name)
@@ -49,6 +53,11 @@ class CustomUnpicklerScale(pickle.Unpickler):
 
 class Scale:
     def __init__(self, RoadNetwork, scale):
+        """
+        Initializes a Scale object with a given RoadNetwork and a scale level. Manages the creation
+        or loading of scale-related data from a pickle file, setting up graph truncation and tiling
+        based on configuration settings.
+        """
         try:
             fname = os.path.join(
                 config.BASE_FOLDER, config.network_folder, RoadNetwork.city_name, "_scale_" + str(scale) + ".pkl"
@@ -81,6 +90,10 @@ class Scale:
             self.visualise()
 
     def create_subgraphs_from_bboxes_optimised(self, G, bboxes):
+        """
+        Creates subgraphs from specified bounding boxes, optimized for performance. It involves
+        spatial joins and graph operations to extract relevant portions of the graph.
+        """
         print ("Converting graph to GDF's")
         starttime = time.time()
         gdf_nodes, _ = ox.graph_to_gdfs(G)
@@ -118,6 +131,10 @@ class Scale:
         return subgraphs
 
     def create_subgraphs_from_bboxes(self, G, bboxes):
+        """
+        Creates subgraphs from bounding boxes without optimization. Directly processes the graph
+        to extract subgraphs corresponding to the bounding boxes.
+        """
         gdf_nodes, gdf_edges = ox.graph_to_gdfs(G)
 
         bbox_gdf = gpd.GeoDataFrame({'bbox_id': range(len(bboxes))},
@@ -146,6 +163,10 @@ class Scale:
 
     # @profile
     def set_bbox_sub_G_map(self, save_to_pickle=True):
+        """
+        Defines the mapping from bounding boxes to subgraphs and manages the persistence of these mappings
+        through pickle files if required.
+        """
         fname = os.path.join(
             config.BASE_FOLDER, config.network_folder, self.RoadNetwork.city_name, "_scale_" + str(self.scale) + ".pkl"
         )
@@ -219,7 +240,7 @@ class Scale:
                     counter_bbox += 1
 
                     debug_stop = True
-                    if 1==2 and counter_bbox % 100 == 0 and config.MASTER_VISUALISE_EACH_STEP:
+                    if counter_bbox % 100 == 0 and config.MASTER_VISUALISE_EACH_STEP_INSIDE_PrepNetwork_class:
                         # Plot the bboxes from scl_jf
                         # Example list of bounding boxes
                         # bboxes = list(scl_jf.bbox_segment_map.keys())
@@ -252,7 +273,7 @@ class Scale:
                         plt.show(block=False)
 
                     G_sub = dict_of_subgraphs[bbox]
-                    if 1==2 and config.MASTER_VISUALISE_EACH_STEP and G_sub != config.rn_no_stats_marker \
+                    if config.MASTER_VISUALISE_EACH_STEP_INSIDE_PrepNetwork_class and G_sub != config.rn_no_stats_marker \
                             and len(G_sub.nodes()) != 0 and len(G_sub.edges()) != 0:
                         # Plot the bboxes from scl_jf
                         # Example list of bounding boxes
@@ -347,7 +368,7 @@ class Scale:
             raise Exception("Wrong number of threads specified in config file.")
 
         if config.rn_truncate_method != "GPD_CUSTOM":
-            # For other cases, we need this, for GPD_custom, this is already saved above directly
+            # For other cases, we need this. for GPD_custom, this is already saved above directly
             # into the dictionary
             self.dict_bbox_to_subgraph = dict(list_of_tuples)
 
@@ -376,6 +397,10 @@ class Scale:
             os.rename(rand_pickle_marker, fname)
 
     def process_bbox(self, bbox, dict_of_subgraphs, tile_area):
+        """
+        Processes a single bounding box to generate a Tile object based on the subgraph extracted for
+        that bounding box.
+        """
         N, S, E, W, _ = bbox
         try:
             tile = Tile(dict_of_subgraphs[bbox], tile_area)
@@ -384,6 +409,10 @@ class Scale:
             return (N, S, E, W), config.rn_no_stats_marker
 
     def process_subgraphs(self, dict_of_subgraphs, tile_area):
+        """
+        Processes all subgraphs using parallel processing to convert them into Tile objects and compiles
+        the results into a dictionary mapping bounding boxes to Tiles.
+        """
         results = []
         with ProcessPoolExecutor(max_workers=config.scl_n_jobs_parallel) as executor:
             # Submit tasks
@@ -402,6 +431,9 @@ class Scale:
         return dict_bbox_to_subgraph
 
     def _set_list_of_bbox(self):
+        """
+        Generates a list of bounding boxes based on the scale and configuration settings of the RoadNetwork.
+        """
         self.list_of_bbox = []
 
         # X: lon
@@ -438,6 +470,10 @@ class Scale:
             self.list_of_bbox[i] = tuple(self.list_of_bbox[i] + [len_])
 
     def _helper_compute_deltas(self):
+        """
+        Helper function to compute delta values for latitude and longitude based on the scale and dimensions
+        of the road network.
+        """
         srn = self.RoadNetwork
         diagonal = geodesic((srn.max_y, srn.max_x), ((srn.min_y, srn.min_x))).meters
         y_edge_1 = geodesic((srn.max_y, srn.max_x), ((srn.min_y, srn.max_x))).meters
@@ -466,6 +502,9 @@ class Scale:
         self.delta_x = (srn.max_x - srn.min_x) / self.scale * self.aspect_y_by_x
 
     def create_file_marker(self):
+        """
+        Creates a temporary marker file used in parallel processing to track progress and manage state.
+        """
         with open(
             os.path.join(
                 config.BASE_FOLDER,
@@ -485,6 +524,9 @@ class Scale:
             f.write("Done")
 
     def keep_counting(self):
+        """
+        Background process to count and update the progress of file processing during parallel execution.
+        """
         oldcount = 0
         with tqdm(total=self.list_of_bbox[0][-1], desc="Counting files ") as pbar:
             while self.keep_countin_state:
@@ -506,6 +548,10 @@ class Scale:
 
     # @profile
     def _helper_create_dict_in_parallel(self, key):
+        """
+        Helper function to process a single tile or bounding box in parallel, handling graph truncation
+        and tile creation.
+        """
         if config.scl_temp_file_counter:
             self.create_file_marker()
 
@@ -514,11 +560,19 @@ class Scale:
 
             from shapely.geometry import box as bboxShapely
             def do_not_overlap(N, S, E, W, N_JF_data, S_JF_data, E_JF_data, W_JF_data):
+                """
+                Checks if two bounding boxes overlap. This function ensures that graph processing occurs only for areas
+                that have relevant data by comparing geographic boundaries.
+                """
                 bbox1 = bboxShapely(W, S, E, N)
                 bbox2 = bboxShapely(W_JF_data, S_JF_data, E_JF_data, N_JF_data)
                 return not bbox1.intersects(bbox2)
 
             def debug_by_plotting_bboxes(color, small_G=None):
+                """
+                Provides a debugging visualization tool that plots bounding boxes with optional graph data to identify
+                and diagnose issues with graph processing based on geographic boundaries.
+                """
                 fig, ax = ox.plot.plot_graph(
                     self.RoadNetwork.G_osm,
                     ax=None,
@@ -537,24 +591,7 @@ class Scale:
                     save=False,
                     bbox=None,
                 )
-                # if color == "green":
-                #     ox.plot.plot_graph(
-                #     small_G,
-                #     ax=ax,
-                #     bgcolor="white",
-                #     node_color="green",
-                #     node_size=10,
-                #     node_alpha=None,
-                #     node_edgecolor="none",
-                #     node_zorder=1,
-                #     edge_color="black",
-                #     edge_linewidth=0.1,
-                #     edge_alpha=None,
-                #     show=False,
-                #     close=False,
-                #     save=False,
-                #     bbox=None,
-                # )
+
                 rect = plt.Rectangle((W, S), E - W, N - S, facecolor=color, alpha=0.3, edgecolor=None)
                 ax.add_patch(rect)
                 plt.savefig(
@@ -614,27 +651,13 @@ class Scale:
                     return (key, config.rn_no_stats_marker)
                 return (key, tile)
 
-        # elif config.rn_truncate_method == "GPD_CUSTOM":
-            # assert config.scl_n_jobs_parallel == 1
-            # def retain_subg(bbox):
-            #     north, south, east, west = bbox
-            #     # nodes_in_bbox = gdf_nodes.cx[west:east, south:north]
-            #     # edges_in_bbox = gdf_edges[gdf_edges.index.map(lambda x: x[0] in nodes_in_bbox.index or x[1] in nodes_in_bbox.index)]
-            #     # edge_node_ids = set(edges_in_bbox.index.get_level_values(0)) | set(
-            #     #     edges_in_bbox.index.get_level_values(1))
-            #     # G_sub = G_osm_.edge_subgraph(edge_node_ids).copy()
-            #
-            #     nodes_in_bbox = self.RoadNetwork.G_OSM_nodes.cx[west:east, south:north]
-            #     edges_in_bbox = self.RoadNetwork.G_OSM_edges[self.RoadNetwork.G_OSM_edges.index.map(lambda x: x[0] in nodes_in_bbox.index or x[1] in nodes_in_bbox.index)]
-            #     edge_node_ids = set(edges_in_bbox.index.get_level_values(0)) | set(
-            #         edges_in_bbox.index.get_level_values(1))
-            #     G_sub = self.RoadNetwork.G_osm.edge_subgraph(edge_node_ids).copy()
-            #
-            #     return G_sub
-            #
 
 
             def create_subgraph_within_bbox(bbox):
+                """
+                Creates a subgraph from the main road network graph within the specified bounding box. This function is
+                utilized in the context of preparing smaller, manageable sections of a larger road network for detailed analysis.
+                """
                 north, south, east, west = bbox
 
                 # Identify nodes within the bounding box
@@ -692,13 +715,12 @@ class Scale:
                 pickle.dump((N, S, E, W, tile), f, protocol=config.pickle_protocol)
             os.rename(rand_pickle_marker, fname)
 
-    import geopandas as gpd
-    import matplotlib.pyplot as plt
-    import contextily as ctx
-    from shapely.geometry import box
-    import config  # Ensure this is the module where rn_no_stats_marker is defined
+
 
     def visualise(self):
+        """
+        Generates a visualization of bounding boxes processed in the Scale, overlaying them on a basemap.
+        """
         identifier = self.RoadNetwork.city_name + "_" + str(self.scale) + "_" + str(config.shift_tile_marker)
         # Ensure that dict_bbox_to_subgraph attribute exists
         if not hasattr(self, 'dict_bbox_to_subgraph'):
@@ -734,6 +756,9 @@ class Scale:
 
     @staticmethod
     def generate_scales_for_all_cities():
+        """
+        Generates scale objects for all cities as per configuration, useful for batch processing across multiple scales.
+        """
         for city in config.scl_master_list_of_cities:
             for seed in config.scl_list_of_seeds:
                 for depth in config.scl_list_of_depths:
@@ -744,13 +769,10 @@ class Scale:
     @staticmethod
     def get_object(cityname, scale):
         """
-
-        Args:
-            scale:
-
-        Returns: (Saved) Object of this class (Scale)
-
+        Retrieves a saved Scale object from disk using the specified city name and scale, handling
+        file access and custom unpickling.
         """
+
         fname = os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "_scale_" + str(scale) + ".pkl")
         if os.path.exists(fname):
             obj = CustomUnpicklerScale(open(fname, "rb")).load()
@@ -764,6 +786,9 @@ class Scale:
 
 
     def __repr__(self):
+        """
+        Representation function for the Scale object, providing a concise identifier.
+        """
         return f"ScaleJF(scale={self.scale})"
 
 

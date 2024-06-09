@@ -29,6 +29,21 @@ north, west, south, east = 51.595537326042965, -0.26768329676877245, 51.37083422
 
 # Function to map geographic coordinates to array indices
 def map_coords_to_indices(lat, lon, north, south, east, west, array_shape):
+    """
+    Maps geographic coordinates to indices in a numpy array.
+
+    Args:
+        lat (float): Latitude.
+        lon (float): Longitude.
+        north (float): Northern boundary of the area.
+        south (float): Southern boundary of the area.
+        east (float): Eastern boundary of the area.
+        west (float): Western boundary of the area.
+        array_shape (tuple): Shape of the numpy array.
+
+    Returns:
+        tuple: (row index, column index, status) where status indicates if the point is inside or outside the array bounds.
+    """
     lat_range = north - south
     lon_range = east - west
 

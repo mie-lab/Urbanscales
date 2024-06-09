@@ -19,7 +19,6 @@ os.chdir("../")
 cityname = ["Singapore", "Zurich", "Mumbai", "Auckland","Istanbul","MexicoCity","Bogota", "NewYorkCity", "Capetown","London"]
 counter = int(sys.argv[1])
 
-
 # The simpler solution of one line as shown below does not work on Ubuntu; so we now have this fancy 3-step solution
 # os.system('sed -i \'\' "s/single_city = .*/single_city = \\"' + cityname[counter] +'\\"/" config.py')
 

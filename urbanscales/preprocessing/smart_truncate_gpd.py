@@ -34,25 +34,31 @@ from smartprint import smartprint as sprint
 def smart_truncate(
     graph, gs_nodes, gs_edges, N, S, E, W, get_subgraph=True, get_features=False, scale=-1, legacy=False
 ):
-    ss = time.time()
     """
+    Truncates a graph within specified geographic boundaries, optionally extracting features or subgraphs.
+
+    This function performs graph truncation within a bounding box defined by north (N), south (S), east (E), and west (W) coordinates.
+    It can operate in two modes based on `get_subgraph` and `get_features` flags: extracting a subgraph or computing features within the specified region.
+    The function supports a legacy mode for compatibility and offers additional configuration through the `scale` parameter.
 
     Args:
-        graph:
-        gs_nodes:
-        gs_edges:
-        N:
-        S:
-        E:
-        W:
-        get_subgraph:
-        get_features:
-        scale:
-        legacy: If True, revertes back to the more inefficient code; which is easier to debug
+        graph (networkx.Graph): The graph to truncate.
+        gs_nodes (GeoDataFrame): GeoDataFrame containing the nodes of the graph.
+        gs_edges (GeoDataFrame): GeoDataFrame containing the edges of the graph.
+        N (float): North boundary of the bounding box.
+        S (float): South boundary of the bounding box.
+        E (float): East boundary of the bounding box.
+        W (float): West boundary of the bounding box.
+        get_subgraph (bool): If True, returns the largest connected component of the truncated graph.
+        get_features (bool): If True, calculates and returns features of the truncated graph. Requires `scale` to be set.
+        scale (int): Scale factor for feature extraction, defaults to -1 (unused unless `get_features` is True).
+        legacy (bool): If True, uses a legacy method for truncation that might be slower or more robust.
 
     Returns:
-
+        networkx.Graph or Tile: Depending on `get_subgraph` and `get_features` flags, returns either a subgraph or a Tile object with extracted features.
     """
+    ss = time.time()
+
     gs_nodes, gs_edges = gdf.GeoDataFrame(gs_nodes), gdf.GeoDataFrame(gs_edges)
     # graph = gdf.GeoDataFrame(graph)
 

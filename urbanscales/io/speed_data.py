@@ -1,11 +1,10 @@
 import glob
+import os
 import pickle
 import sys
 import time
 
 import numpy as np
-
-import os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 
@@ -24,24 +23,36 @@ from shapely.wkt import loads
 
 class SpeedData:
     """
-    self.city_name = city_name
-    self.time_gran_minutes_raw = time_gran_minutes_raw
-    self.time_gran_minutes_target = time_gran_minutes_target
+    A class for handling and processing speed data for a specific city. It manages data loading,
+    road segment mapping, and speed data aggregation for different temporal granularities.
 
-    self.road_segments = None
-    self.NIDs = None
-    self.NID_road_segment_map = {}
-    self.nid_jf_map = {}
-    self.segment_jf_map = {}
+    Attributes:
+        city_name (str): The name of the city for which the speed data is processed.
+        time_gran_minutes_raw (int): The granularity, in minutes, of the raw speed data.
+        time_gran_minutes_target (int): The target granularity, in minutes, for aggregated speed data.
+        road_segments (list): A list of road segments represented by line strings.
+        NIDs (list): Node IDs corresponding to the road segments.
+        NID_road_segment_map (dict): A mapping from node IDs to their corresponding road segments.
+        nid_jf_map (dict): A mapping from node IDs to their jam factor (jf) values across time.
+        segment_jf_map (dict): A mapping from road segments to their jam factor (jf) values.
+
+    Methods:
+        __init__(city_name, time_gran_minutes_raw, time_gran_minutes_target): Initializes the SpeedData object.
+        set_road_segments(): Processes and sets the road segments from configuration data.
+        set_segment_jf_map(): Processes and sets the jam factor mapping for road segments.
+        _aggregation_mean(jf_list, combine_how_many_t_steps): Helper method for aggregating jam factor data.
+
+    Example:
+        >>> sd = SpeedData('New York', 5, 60)
     """
-
     def __init__(self, city_name, time_gran_minutes_raw, time_gran_minutes_target):
         """
+        Initializes the SpeedData object with specified city and granularity of time for raw and target speed data.
 
-        Args:
-            city_name:
-            time_gran_minutes_raw:
-            time_gran_minutes_target:
+        Parameters:
+            city_name (str): The city for which to process the speed data.
+            time_gran_minutes_raw (int): The granularity, in minutes, of the raw speed data.
+            time_gran_minutes_target (int): The granularity, in minutes, targeted for aggregated speed data processing.
         """
 
         fname = os.path.join(config.BASE_FOLDER, config.network_folder, city_name, "_speed_data_object.pkl")
@@ -69,8 +80,12 @@ class SpeedData:
             self.set_segment_jf_map()
 
     def set_road_segments(self):
+        """
+        Loads and processes road segments from a specified data source. This method is configured to handle data path
+        issues and set up necessary directories if missing.
+        """
         # this chdir might not be needed;
-        # tgere was some trouble with paths in my case.
+        # there was some trouble with paths in my case.
         os.chdir(config.home_folder_path)
 
         if not os.path.exists(os.path.join(config.sd_base_folder_path, self.city_name)):
@@ -94,6 +109,10 @@ class SpeedData:
         debug_stop = 2
 
     def set_segment_jf_map(self):
+        """
+        Processes and maps jam factor data to corresponding road segments based on node IDs and timestamps. This method
+        handles the temporal aggregation of jam factors to match the target time granularity.
+        """
         if not os.path.exists(
             os.path.join(config.sd_base_folder_path, self.city_name, config.sd_jf_file_path_within_city)
         ):
@@ -324,45 +343,18 @@ class SpeedData:
                 pickle.dump(self, f, protocol=config.pickle_protocol)
             os.rename(rand_pickle_marker, fname)
 
-    # def get_object(cityname):
-    #     """
-    #
-    #     Args:
-    #         scale:
-    #
-    #     Returns: (Saved) Object of this class (Scale)
-    #
-    #     """
-    #     fname = os.path.join("network", cityname, "_speed_data_object.pkl")
-    #     if os.path.exists(fname):
-    #         with open(fname, "rb") as f:
-    #             # try:
-    #             obj = pickle.load(f)
-    #             return obj
-    #             # except AttributeError:
-    #             #     raise Exception("Something wrong with speed data object pickle, run again after deleting\
-    #             #                     the pickle file _speed_data_object.pkl and run speed_data.py again")
-
-    # try:
-    #     return obj
-    # except UnboundLocalError:
-    #     print(
-    #         "Error in get_object(), probably due to speed data not \
-    #                    processed; existing execution"
-    #     )
-    #     sys.exit()
 
 
     def _aggregation_mean(self, jf_list, combine_how_many_t_steps):
         """
+        Aggregates jam factor data into a specified time granularity by averaging values.
 
-        Args:
-            jf_list:
-            combine_how_many_t_steps:
+        Parameters:
+            jf_list (list): A list of jam factor values.
+            combine_how_many_t_steps (int): Number of raw time steps to combine into a single target time step.
 
         Returns:
-            shortened JF list
-
+            list: A list of aggregated jam factor values.
         """
 
         agg_func = np.nanmean
@@ -374,6 +366,17 @@ class SpeedData:
 
     @staticmethod
     def organise_files_into_folders_all_cities(root_path):
+        """
+        Organizes files into designated folders for all cities. This method assumes that city-specific data files
+        are scattered in a common directory and need to be moved into organized, city-specific subdirectories.
+
+        Parameters:
+            root_path (str): The root directory path where city-specific folders will be created and files moved into.
+
+        This method moves each city's relevant files from a common directory to a dedicated subdirectory for that city,
+        creating a structured data repository. It specifically handles 'linestring' and 'jam factor' (jf) files,
+        sorting them into the appropriate city folders as configured.
+        """
         for city in config.scl_master_list_of_cities:
             if not os.path.exists(os.path.join(config.BASE_FOLDER, root_path, city)):
                 os.mkdir(os.path.join(root_path, city))
@@ -393,6 +396,10 @@ class SpeedData:
 
     @staticmethod
     def preprocess_speed_data_for_all_cities():
+        """
+        Processes and organizes speed data files for all cities specified in the configuration. This includes file
+        sorting, directory organization, and initial processing of speed data objects for each city.
+        """
         SpeedData.organise_files_into_folders_all_cities(config.sd_base_folder_path)
         for city in config.scl_master_list_of_cities:
             for seed in config.scl_list_of_seeds:
@@ -405,31 +412,43 @@ class SpeedData:
 
 
 class Segment:
+    """
+    Represents a road segment as a linestring. This class encapsulates the functionality for managing and manipulating
+    geographical line data, specifically linestrings representing road segments.
+
+    Attributes:
+        line_string (shapely.geometry.LineString): A Shapely LineString object derived from the provided WKT linestring.
+    """
+
     def __init__(self, linestring):
         """
+        Initializes a Segment object from a Well-Known Text (WKT) linestring representation.
 
-        Args:
-            linestring: format of linestring
-                        MULTILINESTRING ((103.81404 1.32806 0,103.81401 ....... 103.81363 1.32444 0,103.81353 1.32388 0
-                        ,103.81344 1.32346 0))
+        Parameters:
+            linestring (str): A WKT representation of a linestring, typically representing a road segment.
+                              Format example: "MULTILINESTRING ((103.81404 1.32806 0, 103.81401 ...))"
         """
         self.line_string = shapely.wkt.loads(linestring)
 
     def get_shapely_linestring(self):
+        """
+        Returns the Shapely LineString object associated with this segment.
+
+        Returns:
+            shapely.geometry.LineString: The Shapely object representing the linestring.
+        """
         return self.line_string
 
     def seg_hash(shapely_poly):
         """
+        Generates a hash representation for a given Shapely polygon or linestring.
 
-        Args:
-            shapely_poly: Shapely polygon
-                    if it is in string (wkt), no need for this function, but no harm as well
-                                            just make sure that it is the same throughout
-                                            don't mix with and without hash
+        Parameters:
+            shapely_poly (shapely.geometry.Polygon or shapely.geometry.MultiLineString or Segment): The Shapely geometry
+            object or another Segment instance for which a hash (WKT string) is desired.
 
         Returns:
-            hash
-
+            str: The Well-Known Text (WKT) string of the geometry, which serves as a hash.
         """
         assert (
             isinstance(shapely_poly, str)
@@ -443,11 +462,19 @@ class Segment:
 
 
 class SegmentList:
+    """
+    A collection of Segment objects. This class is used to manage and manipulate lists of road segments represented
+    as linestrings.
+
+    Attributes:
+        list_of_linestrings (list of Segment): A list of Segment objects representing road segments.
+    """
     def __init__(self, list_of_linestrings):
         """
+        Initializes the SegmentList with a list of linestrings, each represented as a Segment object.
 
-        Args:
-            list_of_linestrings:
+        Parameters:
+            list_of_linestrings (list of str): A list of Well-Known Text (WKT) linestring representations.
         """
         self.list_of_linestrings = []
         for ls in list_of_linestrings:

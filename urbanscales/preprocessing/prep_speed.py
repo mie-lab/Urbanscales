@@ -82,6 +82,11 @@ class ScaleJF:
 
 
     def set_bbox_segment_map(self):
+        """
+        Establishes a mapping of geographical bounding boxes to road network segments. This method initializes or updates
+        the bbox_segment_map attribute based on available segment data, ensuring that each bounding box is associated
+        with the correct road network segments for further processing.
+        """
         fname = os.path.join(
             config.BASE_FOLDER,
             config.network_folder,
@@ -138,8 +143,9 @@ class ScaleJF:
 
     def set_bbox_jf_map(self):
         """
-        Input: object of class Scale JF
-        For the current tod, this function sets its Y (JF mean/median) depending on config
+        Calculates and assigns journey factor (JF) data to each bounding box. This function processes the segments within
+        each bounding box to compute aggregate journey factors, facilitating detailed traffic analysis and optimization
+        based on time of day and other parameters.
         """
 
         # Convert bbox_segment_map to DataFrame for vectorized operations
@@ -317,11 +323,16 @@ class ScaleJF:
 
     def get_object(cityname, scale, tod):
         """
-        This function uses the idea that the network and its maps are the same for all tod's
-        Hence, it reads the static part (bbox to segment map) from the pickle and then
-        create bbox_jf_map for the particular tod of this object
-        Returns: (Saved) Object of this class (Scale)
+        Retrieves a ScaleJF object from a pickle file, if available. This function is crucial for accessing pre-computed
+        ScaleJF data, enhancing efficiency by avoiding redundant calculations.
 
+        Args:
+            cityname (str): The name of the city for which data is being retrieved.
+            scale (int): The scale level at which the road network data is processed.
+            tod (int): Time of day index for which data is needed.
+
+        Returns:
+            ScaleJF: An instance of the ScaleJF class loaded from the pickle file.
         """
         fname = os.path.join(
             config.BASE_FOLDER,
@@ -345,11 +356,27 @@ class ScaleJF:
         return obj
 
     def preprocess_different_tods(range_element, scl: Scale, sd: SpeedData):
+        """
+        Processes data across different times of day (ToDs). This function applies traffic data processing to different
+        time intervals, aiding in the analysis of traffic patterns at various times.
+
+        Args:
+            range_element (list): A list of time of day indices to process.
+            scl (Scale): An instance of the Scale class representing the scale at which data is analyzed.
+            sd (SpeedData): An instance of the SpeedData class containing raw speed data.
+        """
         for tod in tqdm(range_element, desc="Processing for different ToDs"):
             scl_jf = ScaleJF(scl, sd, tod=tod)
 
     @staticmethod
     def helper_parallel(params):
+        """
+        A helper function designed for parallel execution to handle data processing for multiple city configurations concurrently.
+        This function is typically used to distribute data processing tasks across multiple processors.
+
+        Args:
+            params (tuple): A tuple containing the city name, seed, and depth level for data processing.
+        """
         city, seed, depth = params
         sd = SpeedData(city, config.sd_raw_speed_data_gran, config.sd_target_speed_data_gran)
         try:
@@ -362,6 +389,10 @@ class ScaleJF:
 
     @staticmethod
     def connect_speed_and_nw_data_for_all_cities():
+        """
+        Coordinates the linking of speed data with network data across all configured cities. This method manages the parallel
+        processing workflow, ensuring that data for each city is processed efficiently and concurrently where possible.
+        """
         list_of_parallel_items = []
         for city in config.scl_master_list_of_cities:
             for seed in config.scl_list_of_seeds:
@@ -376,6 +407,10 @@ class ScaleJF:
                 ScaleJF.helper_parallel(params)
 
     def __repr__(self):
+        """
+        Represents the ScaleJF object as a string. This method enhances debugging by providing a quick overview of the object's
+        state, including its scale, city name, and time of day.
+        """
         return f"ScaleJF(scale={self.Scale.scale}, city_name={self.Scale.RoadNetwork.city_name}, tod={self.tod})"
 
 

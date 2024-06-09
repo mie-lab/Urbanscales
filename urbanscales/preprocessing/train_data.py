@@ -14,7 +14,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 import config
 
 # RoadNetwork is greyed out in IDEs like PyCharm hinting that the import is not being used but it is needed for pickle loadings
-from urbanscales.io.road_network import RoadNetwork
+from urbanscales.io.road_network import RoadNetwork   # Remember not to comment out; specifically need to be careful with
+# automatic Optimise Imports button in pycharm. That will delete this line and result in a crash.
 
 from urbanscales.preprocessing.prep_network import Scale
 from urbanscales.preprocessing.prep_speed import ScaleJF
@@ -34,17 +35,67 @@ import contextily as ctx
 
 # All custom unpicklers are due to SO user Pankaj Saini's answer:  https://stackoverflow.com/a/51397373/3896008
 class CustomUnpicklerTrainDataVectors(pickle.Unpickler):
+    """
+    A custom unpickler that extends the standard pickle.Unpickler to provide additional functionality or restrictions
+    during the unpickling process. It is designed to handle specific class loading behaviors, ensuring that module
+    dependencies are respected correctly.
+
+    Methods:
+        find_class(module, name): Redirects the loading process for classes to the superclass's method, ensuring
+        compatibility and security during the unpickling process.
+    """
     def find_class(self, module, name):
+        """`
+        Ensures that the class specified is correctly loaded from the correct module, leveraging the super class's
+        functionality. This method can be customized to handle specific class loading rules or to implement security
+        measures.
+
+        Parameters:
+            module (str): The module where the class is located.
+            name (str): The name of the class to be loaded.
+
+        Returns:
+            type: The class type that is to be loaded.
+        """
         return super().find_class(module, name)
 
 
 class TrainDataVectors:
+    """
+    Represents training data vectors for a given city, scale, and time of day. This class manages the loading,
+    processing, and manipulation of training data from stored pickle files or by generating new training vectors.
+
+    Attributes:
+        X (DataFrame or list): The feature vectors for the training data.
+        Y (DataFrame or list): The target values associated with the feature vectors.
+        bbox_X (list): Bounding boxes associated with each feature vector in X.
+        bbox_Y (list): Bounding boxes associated with each target value in Y.
+        city_name (str): The name of the city for which the training data is generated.
+        scale (int): The scale or resolution of the data.
+        tod (int): Time of day identifier for the training data.
+        empty_train_data (bool): Flag to indicate if the training data is empty.
+
+    Methods:
+        __init__(city_name, scale, tod): Initializes the TrainDataVectors object, potentially loading existing data or
+                                        generating new vectors.
+        plot_collinearity_heatmap(): Plots a heatmap representing the collinearity between features in X.
+        set_X_and_Y(process_X=True): Processes and sets the X and Y attributes based on provided or existing data.
+        viz_y_hist(): Visualizes the histogram of the Y values, useful for understanding the distribution of target values.
+        filter_infs(df1, df2): Filters out rows from two dataframes that contain infinite values, ensuring the integrity
+                               of the training data.
+        compute_training_data_for_all_cities(): Static method to compute training data for all configured cities,
+                                                scales, and times of day.
+    """
+
     def __init__(self, city_name, scale, tod):
         """
+        Initializes the TrainDataVectors object by either loading existing training data from pickle files or by
+        generating new training vectors based on the specified city, scale, and time of day.
 
-        Args:
-            city_name & scale: Trivial
-            tod: single number based on granularity
+        Parameters:
+            city_name (str): The city for which the training data is to be generated or loaded.
+            scale (int): The scale or resolution of the data.
+            tod (int): Time of day identifier, used to specify or load different sets of training data.
         """
         fname = os.path.join(
             config.BASE_FOLDER,
@@ -122,9 +173,8 @@ class TrainDataVectors:
 
     def plot_collinearity_heatmap(self):
         """
-        Plots a heatmap of the collinearity between features of self.X
-        Returns:
-        - A heatmap plot.
+        Generates and displays a heatmap of the collinearity between features in the dataset. This helps in identifying
+        highly correlated features that might affect model performance.
         """
         df = self.X
         # Compute the correlation matrix
@@ -141,6 +191,13 @@ class TrainDataVectors:
         plt.show(block=False)
 
     def set_X_and_Y(self, process_X=True):
+        """
+        Processes and sets the X and Y attributes by loading or calculating feature vectors and target values. This method
+        can either process both X and Y or just update Y based on the 'process_X' flag.
+
+        Parameters:
+            process_X (bool): If True, processes both X and Y; otherwise, only processes Y.
+        """
         scl = Scale.get_object(self.city_name, self.scale)
         scl_jf = ScaleJF.get_object(self.city_name, self.scale, self.tod)
         assert isinstance(scl_jf, ScaleJF)
@@ -258,97 +315,12 @@ class TrainDataVectors:
 
         debug_stop = 2
 
-    # def set_Y_only(self):
-    #     # sd = SpeedData(self.city_name, c)
-    #     # rn = RoadNetwork.get_object(self.city_name)
-    #     scl = Scale.get_object(self.city_name, self.scale)
-    #     # scl_jf = ScaleJF(scl, sd )
-    #
-    #     scl_jf = ScaleJF.get_object(self.city_name, self.scale, self.tod)
-    #
-    #     assert isinstance(scl_jf, ScaleJF)
-    #
-    #     # get same list of bbox as the precomputed X since the ordering insdie the keys of the dict
-    #     # self_jf.bbox_segment_map is not guaranteed :)
-    #     bbox_list = [bbox for bbox_dict in self.bbox_X for bbox in bbox_dict.keys()]
-    #
-    #     for bbox in tqdm(
-    #         bbox_list,  # this time we iterature through existing bbox_list instead of scl_jf.bbox_segment_map,
-    #         #                                                           in the func set_X_and_Y
-    #         desc="Recomputing only Y vectors for city, scale, tod: "
-    #         + self.city_name
-    #         + "-"
-    #         + str(self.scale)
-    #         + "-"
-    #         + str(self.tod),
-    #     ):
-    #         # assert bbox in scl_jf.bbox_jf_map
-    #         assert isinstance(scl, Scale)
-    #         subg = scl.dict_bbox_to_subgraph[bbox]
-    #         if isinstance(subg, str):
-    #             if subg == config.rn_no_stats_marker:
-    #                 # we skip creating X and Y for this empty tile
-    #                 # which does not have any roads OR
-    #                 # is outside the scope of the administrative area
-    #                 continue
-    #
-    #         assert isinstance(subg, Tile)
-    #
-    #         # We don't update X this time
-    #         # self.X.append(subg.get_vector_of_features())
-    #
-    #         self.Y.append(scl_jf.bbox_jf_map[bbox])
-    #
-    #         # we don't update X this time, just keep the same order using self.bbox_X
-    #         # self.bbox_X.append({bbox: self.X[-1]})
-    #
-    #         self.bbox_Y.append({bbox: self.Y[-1]})
-    #
-    #     fname = os.path.join(
-    #         config.BASE_FOLDER,
-    #         config.network_folder,
-    #         scl.RoadNetwork.city_name,
-    #         "_scale_" + str(scl.scale) + "_train_data_" + str(self.tod) + ".pkl",
-    #     )
-    #     sprint (fname)
-    #     if not os.path.exists(fname):
-    #         nparrayX = np.array(self.X)
-    #         nparrayY = np.array(self.Y)
-    #         print  ("Reached here!! ")
-    #         # if not nparrayY.size < 30:  # we ignore cases with less than 100 data points
-    #         self.empty_train_data = False
-    #
-    #         self.X = pd.DataFrame(data=nparrayX, columns=Tile.get_feature_names())
-    #         self.Y = pd.DataFrame(data=nparrayY)
-    #
-    #         self.X, self.Y = TrainDataVectors.filter_infs(self.X, self.Y)
-    #         if config.td_plot_raw_variance_before_scaling:
-    #             df = pd.DataFrame(self.X, columns=Tile.get_feature_names())
-    #             if not os.path.exists(os.path.join(config.BASE_FOLDER, config.results_folder)):
-    #                 os.mkdir(os.path.join(config.BASE_FOLDER, config.results_folder))
-    #
-    #             df.var().to_csv(
-    #                 os.path.join(
-    #                     config.BASE_FOLDER,
-    #                     config.results_folder,
-    #                     slugify(
-    #                         "pre-norm-feat-variance-" + self.city_name + "-" + str(self.scale) + "-" + str(self.tod)
-    #                     ),
-    #                 )
-    #                 + ".csv"
-    #             )
-    #
-    #         self.Y = self.Y.values.reshape(self.Y.shape[0])
-    #         rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,
-    #                                           str(int(np.random.rand() * 100000000000000)))
-    #         with open(rand_pickle_marker, "wb") as f:
-    #             pickle.dump(self, f, protocol=config.pickle_protocol)
-    #             print("Pickle saved! ")
-    #         os.rename(rand_pickle_marker, fname)
-    #         print  ("Pickle saved!! ")
-    #     debug_stop = 2
 
     def viz_y_hist(self):
+        """
+        Visualizes a histogram of the Y values to provide insights into the distribution of target values across the dataset.
+        Useful for initial data analysis and to check data quality.
+        """
         plt.clf()
         if isinstance(self.Y, list):
             # case when number of data points less than 30; Training data not generated.
@@ -368,30 +340,19 @@ class TrainDataVectors:
         plt.title(ttl)
         plt.savefig(os.path.join(config.sd_base_folder_path, ttl + ".png"), dpi=300)
 
-    # @staticmethod
-    # def get_object(cityname, scale, tod):
-    #     fname = os.path.join("network", cityname, "_scale_" + str(scale) + "_train_data_" + str(tod) + ".pkl")
-    #     assert os.path.exists(fname)
-    #     with open(fname, "rb") as f:
-    #         obj = pickle.load(f)
-    #     nparrayX = np.array(obj.X)
-    #     nparrayY = np.array(obj.Y)
-    #
-    #     obj.X = pd.DataFrame(data=nparrayX, columns=Tile.get_feature_names())
-    #     obj.Y = pd.DataFrame(data=nparrayY)
-    #
-    #     return obj
 
     @staticmethod
     def filter_infs(df1, df2):
         """
+        Static method that filters out infinite values from two provided dataframes, ensuring data integrity for machine
+        learning models.
 
-        Args:
-            df1, df2: Pandas dataframe
-            refer to X and Y respectively
+        Parameters:
+            df1 (DataFrame): The first dataframe, typically feature vectors.
+            df2 (DataFrame): The second dataframe, typically target values.
 
-        Returns: dataframe with rows removed
-
+        Returns:
+            tuple: A tuple containing the filtered dataframes (df1, df2).
         """
         initial_numrows = df1.shape[0]
 
@@ -417,6 +378,10 @@ class TrainDataVectors:
 
     @staticmethod
     def compute_training_data_for_all_cities():
+        """
+        Computes and stores training data for all configured cities, scales, and times of day. This method orchestrates
+        the entire process, leveraging other methods in the class to generate or update training data as necessary.
+        """
         for city in config.scl_master_list_of_cities:
             for seed in config.scl_list_of_seeds:
                 for depth in config.scl_list_of_depths:
@@ -429,6 +394,15 @@ class TrainDataVectors:
                         print("Inside train_data.py ", city, seed, depth, tod)
 
     def __repr__(self):
+        """
+        Returns a formal string representation of the TrainDataVectors object, providing a quick summary of its main
+        attributes. This representation includes the city name, scale, time of day, whether the training data is empty,
+        and the shapes of the X and Y datasets if they are available.
+
+        Returns:
+            str: A string representation of the TrainDataVectors object, which can be useful for debugging and logging
+                 purposes to quickly identify the state of the object.
+        """
         x_shape = self.X.shape if hasattr(self.X, 'shape') else 'N/A'
         y_shape = self.Y.shape if hasattr(self.Y, 'shape') else 'N/A'
 
