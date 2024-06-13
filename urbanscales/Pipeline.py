@@ -32,6 +32,7 @@ backup_extension = '.bak'
 os.system('sed -i' + backup_extension + ' "s/single_city = .*/single_city = \\"' + cityname[counter] + '\\"/" config.py')
 os.system('rm config.py' + backup_extension)
 run_command("python urbanscales/io/speed_data.py", "python urbanscales/io/speed_data.py")
+"""
 
 backup_extension = '.bak'
 os.system('sed -i' + backup_extension + ' "s/single_city = .*/single_city = \\"' + cityname[counter] + '\\"/" config.py')
@@ -43,11 +44,11 @@ os.system('sed -i' + backup_extension + ' "s/single_city = .*/single_city = \\"'
 os.system('rm config.py' + backup_extension)
 run_command("python urbanscales/preprocessing/prep_speed.py", "python urbanscales/preprocessing/prep_speed.py")
 
+
 backup_extension = '.bak'
 os.system('sed -i' + backup_extension + ' "s/single_city = .*/single_city = \\"' + cityname[counter] + '\\"/" config.py')
 os.system('rm config.py' + backup_extension)
 run_command("python urbanscales/preprocessing/train_data.py", "python urbanscales/preprocessing/train_data.py")
-"""
 
 backup_extension = '.bak'
 os.system('sed -i' + backup_extension + ' "s/single_city = .*/single_city = \\"' + cityname[counter] + '\\"/" config.py')

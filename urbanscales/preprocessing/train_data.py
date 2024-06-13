@@ -81,8 +81,7 @@ class TrainDataVectors:
         plot_collinearity_heatmap(): Plots a heatmap representing the collinearity between features in X.
         set_X_and_Y(process_X=True): Processes and sets the X and Y attributes based on provided or existing data.
         viz_y_hist(): Visualizes the histogram of the Y values, useful for understanding the distribution of target values.
-        filter_infs(df1, df2): Filters out rows from two dataframes that contain infinite values, ensuring the integrity
-                               of the training data.
+
         compute_training_data_for_all_cities(): Static method to compute training data for all configured cities,
                                                 scales, and times of day.
     """
@@ -341,40 +340,6 @@ class TrainDataVectors:
         plt.savefig(os.path.join(config.sd_base_folder_path, ttl + ".png"), dpi=300)
 
 
-    @staticmethod
-    def filter_infs(df1, df2):
-        """
-        Static method that filters out infinite values from two provided dataframes, ensuring data integrity for machine
-        learning models.
-
-        Parameters:
-            df1 (DataFrame): The first dataframe, typically feature vectors.
-            df2 (DataFrame): The second dataframe, typically target values.
-
-        Returns:
-            tuple: A tuple containing the filtered dataframes (df1, df2).
-        """
-        initial_numrows = df1.shape[0]
-
-        try:
-            assert df2.shape[0] == df1.shape[0]
-        except:
-            sprint (df2.shape, df1.shape)
-            raise AssertionError
-
-        df2 = df2[np.isfinite(df1).all(1)]
-        df1 = df1[np.isfinite(df1).all(1)]
-
-        final_numrows = df1.shape[0]
-        if initial_numrows != final_numrows:
-            print(
-                "Number & percentage of rows removed ",
-                initial_numrows - final_numrows,
-                (final_numrows - initial_numrows) / initial_numrows * 100,
-                "%",
-            )
-
-        return df1, df2
 
     @staticmethod
     def compute_training_data_for_all_cities():
@@ -392,6 +357,7 @@ class TrainDataVectors:
                             tdv.viz_y_hist()
                         print(time.time() - startime)
                         print("Inside train_data.py ", city, seed, depth, tod)
+                        print (tdv)
 
     def __repr__(self):
         """
