@@ -1114,6 +1114,7 @@ if __name__ == "__main__":
         'lane_density',  # Density of lanes
         'streets_per_node_proportion_1',  # Proportion of nodes with 1 connecting street
         'streets_per_node_proportion_2',  # Proportion of nodes with 2 connecting streets
+        'streets_per_node_proportion_3',  # Proportion of nodes with 4 connecting streets
         'streets_per_node_proportion_4',  # Proportion of nodes with 4 connecting streets
         'streets_per_node_proportion_5',  # Proportion of nodes with 5 connecting streets
         'global_betweenness'  # Global betweenness centrality
@@ -1122,10 +1123,19 @@ if __name__ == "__main__":
     all_features = ['n', 'm', 'k_avg', 'edge_length_total', 'edge_length_avg',
                     'streets_per_node_avg', 'street_length_total', 'circuity_avg',
                     'metered_count', 'non_metered_count', 'total_crossings', 'betweenness',
-                    'lane_density', 'streets_per_node_proportion_1',
-                    'streets_per_node_proportion_2', 'streets_per_node_count_3',
-                    'streets_per_node_proportion_4', 'streets_per_node_count_5',
-                    'streets_per_node_proportion_5', 'streets_per_node_count_6',
+                    'lane_density',
+                    'streets_per_node_proportion_0',
+                    'streets_per_node_proportion_1',
+                    'streets_per_node_proportion_2',
+                    'streets_per_node_proportion_3',
+                    'streets_per_node_proportion_4',
+                    'streets_per_node_proportion_5',
+                    'streets_per_node_count_0',
+                    'streets_per_node_count_1',
+                    'streets_per_node_count_2',
+                    'streets_per_node_count_3',
+                    'streets_per_node_count_4',
+                    'streets_per_node_count_5',
                     'global_betweenness']
 
     if config.SHAP_use_all_features_including_highly_correlated:
