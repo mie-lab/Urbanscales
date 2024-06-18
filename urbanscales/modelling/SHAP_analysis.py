@@ -449,10 +449,10 @@ def compare_models_gof_standard_cv_HPT_new(X, Y, feature_list, cityname, scale, 
 
     rf_params = {
         'randomforestregressor__n_estimators': [100, 200, 300, 400, 500, 1000],  # Number of trees
-        # 'randomforestregressor__max_depth': [10, 20, 50, 100],  # Maximum depth of each tree
+        'randomforestregressor__max_depth': [10, 20, 50, 100],  # Maximum depth of each tree
         # 'randomforestregressor__min_samples_split': [2, 5, 10],
         # Minimum number of samples required to split an internal node
-        'randomforestregressor__min_samples_leaf': [1, 2, 4, 5],  # Minimum number of samples required at a leaf node
+        # 'randomforestregressor__min_samples_leaf': [1, 2, 4, 5],  # Minimum number of samples required at a leaf node
         'randomforestregressor__max_features': ['sqrt', 'log2']
         # Number of features to consider when looking for the best split
     }
@@ -516,9 +516,7 @@ def compare_models_gof_standard_cv_HPT_new(X, Y, feature_list, cityname, scale, 
                 model_best = RandomForestRegressor(
                     random_state=42,
                     n_estimators=best_params_dict["randomforestregressor__n_estimators"],
-                    min_samples_leaf=best_params_dict["randomforestregressor__min_samples_leaf"],
-                    # max_depth=best_params_dict["randomforestregressor__max_depth"],
-                    # min_samples_split=best_params_dict["randomforestregressor__min_samples_split"],
+                    max_depth=best_params_dict["randomforestregressor__max_depth"],
                     max_features=best_params_dict["randomforestregressor__max_features"]
                 )
                 rf_model_best = clone(model_best)
@@ -532,8 +530,6 @@ def compare_models_gof_standard_cv_HPT_new(X, Y, feature_list, cityname, scale, 
                     max_depth=best_params_dict["xgbregressor__max_depth"],
                     n_estimators=best_params_dict["xgbregressor__n_estimators"],
                     learning_rate=best_params_dict["xgbregressor__learning_rate"],
-                    # min_samples_split=best_params_dict["xgbregressor__min_samples_split"],
-                    # subsample=best_params_dict["xgbregressor__subsample"]
                 )
             elif name == "LR":
                 model_best = LinearRegression()
