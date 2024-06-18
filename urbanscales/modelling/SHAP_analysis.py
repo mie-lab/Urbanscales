@@ -5,8 +5,11 @@ import time
 
 import contextily as ctx
 import geopandas as gpd
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import pandas
+import shap
 from skimage.filters import threshold_otsu
 from skimage.metrics import mean_squared_error
 from sklearn.base import clone
@@ -36,6 +39,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 # parent_dir = os.path.join(current_dir, '..')
 os.chdir(current_dir)
 sprint(os.getcwd())
+from slugify import slugify
 
 
 class CustomUnpicklerTrainDataVectors(pickle.Unpickler):
@@ -444,21 +448,21 @@ def compare_models_gof_standard_cv_HPT_new(X, Y, feature_list, cityname, scale, 
     }
 
     rf_params = {
-        'randomforestregressor__n_estimators': [100, 200, 300, 400, 500],  # Number of trees
-        'randomforestregressor__max_depth': [10, 20, 30, None],  # Maximum depth of each tree
-        'randomforestregressor__min_samples_split': [2, 5, 10],
+        'randomforestregressor__n_estimators': [100, 200, 300, 400, 500, 1000],  # Number of trees
+        # 'randomforestregressor__max_depth': [10, 20, 50, 100],  # Maximum depth of each tree
+        # 'randomforestregressor__min_samples_split': [2, 5, 10],
         # Minimum number of samples required to split an internal node
-        'randomforestregressor__min_samples_leaf': [1, 2, 4],  # Minimum number of samples required at a leaf node
+        'randomforestregressor__min_samples_leaf': [1, 2, 4, 5],  # Minimum number of samples required at a leaf node
         'randomforestregressor__max_features': ['sqrt', 'log2']
         # Number of features to consider when looking for the best split
     }
 
     gbm_params = {
-        'xgbregressor__n_estimators': [100, 200, 300],  # Number of boosting stages to perform
-        'xgbregressor__learning_rate': [0.01, 0.1, 0.2],  # Step size shrinkage used to prevent overfitting
-        'xgbregressor__max_depth': [3, 5, 7],  # Maximum depth of each tree
-        # 'xgbregressor__min_samples_split': [2, 5, 10],  # Minimum number of samples required to split an internal node
-        'xgbregressor__subsample': [0.6, 0.8, 1.0]  # Subsample ratio of the training instances
+        'xgbregressor__n_estimators':  [100, 200, 300, 400, 500, 1000],  # Number of boosting stages to perform
+        'xgbregressor__learning_rate': [0.001, 0.01, 0.1, 0.2],  # Step size shrinkage used to prevent overfitting
+        'xgbregressor__max_depth': [10, 20, 50, 100],  # Maximum depth of each tree
+        # 'xgbregressor__min_samples_split': [2, 10],  # Minimum number of samples required to split an internal node
+        # 'xgbregressor__subsample': [0.6, 0.8, 1.0]  # Subsample ratio of the training instances
     }
 
     best_params = {}  # Store the best parameters
@@ -482,8 +486,12 @@ def compare_models_gof_standard_cv_HPT_new(X, Y, feature_list, cityname, scale, 
         model_trials = clone(model)
         if name in ["RF", "GBM"]:
             param_grid = rf_params if name == "RF" else gbm_params
-            model_trials = RandomizedSearchCV(model, param_grid, cv=3, scoring='neg_mean_squared_error', refit=True,
-                                              n_iter=config.SHAP_HPT_num_iters, verbose=0)
+            if config.SHAP_random_search_CV:
+                model_trials = RandomizedSearchCV(model, param_grid, cv=3, scoring='neg_mean_squared_error', refit=True,
+                                                  n_iter=config.SHAP_HPT_num_iters, verbose=0)
+            elif config.SHAP_Grid_search_CV:
+                model_trials = GridSearchCV(model, param_grid, cv=3, scoring='neg_mean_squared_error', refit=True, verbose=0)
+
             model_trials.fit(X, Y)
 
         # for train_index, test_index in kf.split(X):
@@ -509,10 +517,15 @@ def compare_models_gof_standard_cv_HPT_new(X, Y, feature_list, cityname, scale, 
                     random_state=42,
                     n_estimators=best_params_dict["randomforestregressor__n_estimators"],
                     min_samples_leaf=best_params_dict["randomforestregressor__min_samples_leaf"],
-                    max_depth=best_params_dict["randomforestregressor__max_depth"],
+                    # max_depth=best_params_dict["randomforestregressor__max_depth"],
                     # min_samples_split=best_params_dict["randomforestregressor__min_samples_split"],
                     max_features=best_params_dict["randomforestregressor__max_features"]
                 )
+                rf_model_best = clone(model_best)
+
+
+
+
             elif name == "GBM":
                 model_best = XGBRegressor(
                     random_state=42,
@@ -520,7 +533,7 @@ def compare_models_gof_standard_cv_HPT_new(X, Y, feature_list, cityname, scale, 
                     n_estimators=best_params_dict["xgbregressor__n_estimators"],
                     learning_rate=best_params_dict["xgbregressor__learning_rate"],
                     # min_samples_split=best_params_dict["xgbregressor__min_samples_split"],
-                    subsample=best_params_dict["xgbregressor__subsample"]
+                    # subsample=best_params_dict["xgbregressor__subsample"]
                 )
             elif name == "LR":
                 model_best = LinearRegression()
@@ -535,10 +548,29 @@ def compare_models_gof_standard_cv_HPT_new(X, Y, feature_list, cityname, scale, 
             results_mse[name].append(mse)
             results_r2_Score[name].append(r2)
 
-    # Output the best parameters for RF and GBM
-    # for model_name in ["RF", "GBM"]:
-    #     if model_name in best_params:
-    #         print(f"Best parameters for {model_name}: {best_params[model_name]}")
+
+    if not config.SHAP_values_disabled:
+        rf_model_best.fit(X, Y)
+        explainer = shap.TreeExplainer(rf_model_best)
+        shap_values = explainer.shap_values(X)
+        shap.summary_plot(shap_values, X, plot_type="bar")
+        shap_values_df = pd.DataFrame(shap_values, columns=feature_list)
+        print("SHAP Values for each feature:")
+        # print(slugify(str((config.CONGESTION_TYPE, cityname, scale, tod))), shap_values_df.abs().mean(axis=0))
+
+
+        mean_abs_shap = shap_values_df.abs().mean(axis=0)
+        print(f"{'Slug':<30} {'Feature Name':<20} {'Mean Abs SHAP Value':>15}")
+        slug = slugify(str((config.CONGESTION_TYPE, cityname, scale, tod)))
+        for feature, value in mean_abs_shap.iteritems():
+            print(f"SHAP-- {slug:<30} {feature:<20} {value:>15.4f}")
+
+
+        if not os.path.exists(os.path.join(config.BASE_FOLDER, "results")):
+            os.mkdir(os.path.join(config.BASE_FOLDER, "results"))
+        shap_values_df.mean(axis=0).to_csv(
+            os.path.join(config.BASE_FOLDER, "results", slugify(str((config.CONGESTION_TYPE, cityname, scale, tod))) + "shap_values.csv"))
+
 
     for name, score in results_explained_variance.items():
         print(city, scale, name, np.mean(score), "XpVar")
@@ -728,325 +760,6 @@ def compare_models_gof_standard_cv_HPT_new(X, Y, feature_list, cityname, scale, 
     #             print(f"{name}: {score:.4f}")
     #             csvwriter.writerow([name, results_explained_variance[name], results_mse[name], tod, scale, cityname])
 
-
-#
-# def compare_models_gof_standard_cv_HPT(X, Y, feature_list, cityname, scale, tod,  n_splits,
-#                                        scaling=True, include_interactions=True):
-#     """
-#     same as compare_models_gof_standard_cv with Hyper paramter turing for RF and GBM
-#     """
-#     xgb_grid = {
-#         'n_estimators': [int(x) for x in np.linspace(start=100, stop=1000, num=10)],
-#         # 'learning_rate': [0.01, 0.05, 0.1, 0.2],
-#         'max_depth': [3, 5, 7, 9],
-#         # 'colsample_bytree': [0.3, 0.5, 0.7],
-#         'subsample': [0.6, 0.8, 1.0]
-#     }
-#
-#     # Random Forest parameter grid
-#     rf_grid = {
-#         'n_estimators': [int(x) for x in np.linspace(start=200, stop=2000, num=10)],
-#         'max_features': ['log2', 'sqrt'],
-#         'max_depth': [int(x) for x in np.linspace(10, 110, num=11)] + [None],
-#         'min_samples_split': [2, 5, 10],
-#         'min_samples_leaf': [1, 2, 4],
-#         'bootstrap': [True, False]
-#     }
-#     X = X[feature_list]
-#
-#     if include_interactions:
-#         # Generate interaction terms (degree=2 includes original features, their squares, and interaction terms)
-#         poly = PolynomialFeatures(degree=2, include_bias=False)
-#         X = poly.fit_transform(X)
-#         feature_list = poly.get_feature_names_out(feature_list)  # Update feature_list with new polynomial feature names
-#
-#     # Cross-validation strategy
-#     kf = KFold(n_splits=n_splits, shuffle=True, random_state=42)
-#
-#     # Define models
-#     models = {
-#         "LR": LinearRegression(),
-#         "RF": RandomizedSearchCV(RandomForestRegressor(random_state=42), rf_grid, n_iter=5, cv=3,
-#                                             verbose=2, random_state=42, n_jobs=-1),
-#         "GBM": RandomizedSearchCV(XGBRegressor(random_state=42), xgb_grid, n_iter=5, cv=3,
-#                                                         verbose=2, random_state=42, n_jobs=-1),
-#         "LLR": Lasso(random_state=42),
-#         "RLR": Ridge(random_state=42)
-#     }
-#
-#
-#     # Results dictionary
-#
-#     # Results dictionary
-#     results_explained_variance = {}
-#     results_mse = {}
-#     results_r2_Score = {}
-#     models_trained = {name: [] for name in models}
-#
-#     for name, model in models.items():
-#         if scaling:
-#             # If scaling is true, include a StandardScaler in the pipeline
-#             pipeline = make_pipeline(StandardScaler(), model)
-#         else:
-#             pipeline = make_pipeline(model)
-#
-#         # Convert X back to DataFrame if it was transformed to numpy array by PolynomialFeatures
-#         if isinstance(X, np.ndarray):
-#             X_df = pandas.DataFrame(X, columns=feature_list)
-#         else:
-#             X_df = X
-#
-#         split_counter = -1
-#
-#         for train_index, test_index in kf.split(X_df):
-#             split_counter += 1
-#             X_train, X_test = X_df.iloc[train_index], X_df.iloc[test_index]
-#             Y_train, Y_test = Y.iloc[train_index], Y.iloc[test_index]
-#
-#             # Fit the pipeline
-#             # pipeline.fit(X_train, Y_train)
-#             cloned_model = clone(pipeline)
-#             cloned_model.fit(X_train, Y_train)
-#             sprint (name, X_train.shape) # , train_index, test_index)
-#
-#             # Retrieve the best model from RandomizedSearchCV or the direct model from the pipeline
-#             if isinstance(cloned_model[-1], RandomizedSearchCV):
-#                 best_model = cloned_model[-1].best_estimator_
-#             else:
-#                 best_model = cloned_model[-1]
-#
-#             if name == "RF":
-#                 # Check directly for the RandomForestRegressor object
-#                 if isinstance(best_model, RandomForestRegressor):
-#                     estimators = best_model.estimators_
-#                     T = len(estimators)
-#                     L = max([estimator.get_n_leaves() for estimator in estimators])
-#                     D = max([estimator.tree_.max_depth for estimator in estimators])
-#                     print(f"{name}: T={T}, L={L}, D={D}")
-#                     # sprint function may need to be replaced with your specific implementation for outputting
-#                     sprint(cityname, scale, T * L * D)
-#
-#             # Evaluate the model on the test data
-#             explained_variance_score = explained_variance_scorer(Y_test, best_model.predict(X_test))
-#             mse = mean_squared_error(Y_test, best_model.predict(X_test))
-#             r2_score = r2_scorer(Y_test, best_model.predict(X_test))
-#
-#             # Store the results and the trained model
-#             results_explained_variance.setdefault(name, []).append(explained_variance_score)
-#             results_mse.setdefault(name, []).append(mse)
-#             results_r2_Score.setdefault(name, []).append(r2_score)
-#
-#             models_trained[name].append(best_model)
-#
-#     output_file_path = os.path.join(config.BASE_FOLDER, config.network_folder, cityname,
-#                                     f"tod_{tod}_GOF_CV_MEAN_AND_STD_scale_{scale}.csv")
-#     with open(output_file_path, "w") as f:
-#         csvwriter = csv.writer(f)
-#         csvwriter.writerow(["Model", "Explained-var-Mean-across-CV", "Explained-var-STD-across-CV",
-#                             "MSE-Mean-across-CV", "MSE-STD-across-CV"] + ["Explained-var-CV-values"+ str(x)
-#                                                                           for x in range(1, len(results_explained_variance[name]) + 1)] +
-#                            ["MSE-var-CV-values"+ str(x) for x in range(1, len(results_mse[name]) + 1)])
-#         for name in models:
-#             csvwriter.writerow([name, np.mean(results_explained_variance[name]), np.std(results_explained_variance[name]),
-#                                 np.mean(results_mse[name]), np.std(results_mse[name])] +
-#                                results_explained_variance[name] + results_mse[name])
-#
-#     for name in models:
-#         if name == "RF":
-#             print("logging_for_NON-SPATIAL_explained_var", cityname, scale, np.mean(results_explained_variance[name]),
-#               np.median(results_explained_variance[name]), "STANDARD_CV", config.CONGESTION_TYPE, sep=",")
-#
-#     # Compute the mean scores for each model
-#     for name in models:
-#         results_explained_variance[name] = np.mean(results_explained_variance[name])
-#         results_mse[name] = np.mean(results_mse[name])
-#         results_r2_Score[name] = np.mean(results_r2_Score[name])
-#
-#     # Print the results
-#     # print("\n\n-------------------------------------------------------------")
-#     # print("Non Spatial CV Model Performance Comparison (Explained variance):")
-#
-#     for name, score in results_explained_variance.items():
-#         print(city, scale, name, score, "XpVar")
-#
-#     # print("\n\n-------------------------------------------------------------")
-#     # print("Non Spatial CV Model Performance Comparison (MSE):")
-#
-#     for name, score in results_mse.items():
-#         print(city, scale, name, score, "MSE")
-#
-#     # print("\n\n-------------------------------------------------------------")
-#     # print("Non Spatial CV Model Performance Comparison Coefficient of Variation (R2):")
-#
-#     for name, score in results_r2_Score.items():
-#         print(city, scale, name, score, "R2")
-#
-#
-#     if not config.SHAP_values_disabled:
-#         # Initialize a list to store SHAP values for each fold
-#         shap_values_list = []
-#         import shap
-#
-#
-#         # Perform cross-validation
-#         split_counter = -1
-#         for train_index, test_index in kf.split(X_df):
-#             split_counter += 1
-#             X_train, X_test = pd.DataFrame(X_df.iloc[train_index]), pd.DataFrame(X_df.iloc[test_index])
-#             Y_train, Y_test = pd.DataFrame(Y.iloc[train_index]), pd.DataFrame(Y.iloc[test_index])
-#
-#
-#             try:
-#                 if X_train.shape[0] < 5 or X_test.shape[0] < 5:
-#                     print("Skipped the strip since very few Test or train data in the strip, split_counter=", split_counter)
-#                     sprint(X_train.shape, X_test.shape)
-#                     continue
-#             except:
-#                 # to skip when empty
-#                 print("Skipped the strip since very few Test or train data in the strip, split_counter=", split_counter)
-#                 continue
-#
-#             # If scaling is required, scale the features
-#             if scaling:
-#                 scaler = StandardScaler()
-#                 X_train = scaler.fit_transform(X_train)
-#                 X_test = scaler.transform(X_test)
-#                 X_whole_data_standardised = scaler.transform(X)
-#
-#             else:
-#                 X_whole_data_standardised = X
-#
-#             # Compute SHAP values for the trained model and append to the list
-#             if config.SHAP_additive_regression_model:
-#                 rf_model = models_trained["Gradient Boosting Machine"][split_counter].named_steps['xgbregressor']
-#             else:
-#                 rf_model = models_trained["Random Forest"][split_counter].named_steps['randomforestregressor']
-#             import shap
-#             print("Starting explainer: ")
-#             starttime = time.time()
-#             explainer = shap.TreeExplainer(rf_model)
-#             print("Explainer completed in ", time.time() - starttime, "seconds")
-#             # shap_values = explainer.shap_values(X_test)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
-#
-#             starttime = time.time()
-#             shap_values = explainer.shap_values(
-#                 X_whole_data_standardised)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
-#             shap_values_list.append(shap_values)
-#             print("explainer.shap_values() completed in ", time.time() - starttime, "seconds")
-#             if config.FAST_GEN_PDPs_for_multiple_runs and split_counter > 2:
-#                 break # just a single run for SHAP values for fast prototyping
-#
-#         # Average the SHAP values across all folds
-#         # concatenated_shap_values = np.concatenate(shap_values_list, axis=0)
-#
-#         shap_values_stack = np.stack(shap_values_list, axis=0)
-#
-#         # Compute the mean SHAP values across the first axis (the CV splits axis)
-#         mean_shap_values = np.mean(shap_values_stack, axis=0)
-#
-#         # Aggregate SHAP values
-#         shap_values_agg = mean_shap_values
-#
-#         # After computing total_shap_values
-#         total_shap_values = np.abs(shap_values_agg).mean(axis=0)
-#
-#         # Create a list of tuples (feature name, total SHAP value)
-#         feature_importance_list = [(feature, shap_value) for feature, shap_value in zip(X.columns, total_shap_values)]
-#
-#         # Sort the list based on SHAP values in descending order
-#         sorted_feature_importance_list = sorted(feature_importance_list, key=lambda x: x[1], reverse=True)
-#
-#         # Write the sorted list to a file
-#         output_file_path = os.path.join(config.BASE_FOLDER, config.network_folder, cityname,
-#                                         f"tod_{tod}_total_feature_importance_scale_{scale}.csv")
-#         with open(output_file_path, "w") as f:
-#             csvwriter = csv.writer(f)
-#             csvwriter.writerow(["Feature", "Total SHAP Value"])
-#             for feature, shap_value in sorted_feature_importance_list:
-#                 csvwriter.writerow([feature, shap_value])
-#
-#         # Compute Otsu threshold
-#
-#         if config.SHAP_sort_features_alphabetical_For_heatmaps:
-#             feature_order = np.argsort(X.columns)
-#             X = X.iloc[:, feature_order]
-#             shap_values_agg = shap_values_agg[:, feature_order]
-#
-#
-#         otsu_threshold = threshold_otsu(total_shap_values)
-#         plt.clf(); plt.close()
-#         shap.plots.bar(explainer(pd.DataFrame(X_whole_data_standardised, columns=X.columns)), show=False)
-#         if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots")):
-#             os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots"))
-#         plt.title("Otsu: " + str(otsu_threshold))
-#         plt.tight_layout()
-#         plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots",
-#                                  f"tod_{tod}_shap_total_FI_scale_{scale}_samething_.png"))
-#         plt.clf(); plt.close()
-#
-#         otsu_threshold = threshold_otsu(total_shap_values)
-#         plt.clf(); plt.close()
-#         shap.summary_plot(shap_values_agg, X, plot_type="bar", show=False)
-#         if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots")):
-#             os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots"))
-#         plt.title("Otsu: " + str(otsu_threshold))
-#         plt.tight_layout()
-#         plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots",
-#                                  f"tod_{tod}_shap_total_FI_scale_{scale}_.png"))
-#         plt.clf(); plt.close()
-#
-#
-#         plt.clf(); plt.close()
-#         shap.plots.beeswarm(explainer(pd.DataFrame(X_whole_data_standardised, columns=X.columns)), show=False)
-#         if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots")):
-#             os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots"))
-#         plt.title("Otsu: " + str(otsu_threshold))
-#         plt.tight_layout()
-#         plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots",
-#                                  f"tod_{tod}_shap_total_FI_beeswarm_{scale}_.png"))
-#         plt.clf(); plt.close()
-#
-#         plt.clf(); plt.close()
-#         shap.plots.heatmap(explainer(pd.DataFrame(X_whole_data_standardised, columns=X.columns)), show=False)
-#         if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots")):
-#             os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots"))
-#         plt.title("Otsu: " + str(otsu_threshold))
-#         plt.tight_layout()
-#         plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots",
-#                                  f"tod_{tod}_shap_total_FI_heatmap_{scale}_.png"))
-#         plt.clf(); plt.close()
-#
-#
-#
-#
-#
-#         # Filter features based on Otsu threshold
-#         # filtered_features = [idx for idx, val in enumerate(total_shap_values) if val > otsu_threshold]
-#         filtered_features = [idx for idx, val in enumerate(total_shap_values) if val > 0]  # Removed this filter to plot all cases
-#
-#         for idx in filtered_features:
-#             feature = X.columns[idx]
-#             # feature = feature_list[idx] # X.columns[idx]
-#             shap.dependence_plot(feature, shap_values_agg, X, show=False)
-#             if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots")):
-#                 os.mkdir(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots"))
-#             plt.ylim(-1, 3)
-#             plt.tight_layout()
-#             plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "PDP_plots", f"tod_{tod}_shap_pdp_{feature}_scale_{scale}.png"))
-#             plt.clf(); plt.close()
-#         # Plot SHAP-based PDP for filtered features
-#
-#         if not os.path.exists(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "GOF" + f"tod_{tod}_scale_{scale}.csv")):
-#             with open(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "GOF" + f"tod_{tod}_scale_{scale}.csv"), "w") as f:
-#                 csvwriter = csv.writer(f)
-#                 csvwriter.writerow(["model", "GoF_explained_Variance", "GoF_MSE", "TOD", "Scale", "cityname"])
-#
-#         with open(os.path.join(config.BASE_FOLDER, config.network_folder, cityname, "GOF" + f"tod_{tod}_scale_{scale}.csv"), "a") as f:
-#             csvwriter = csv.writer(f)
-#             for name, score in results_explained_variance.items():
-#                 print(f"{name}: {score:.4f}")
-#                 csvwriter.writerow([name, results_explained_variance[name], results_mse[name], tod, scale, cityname])
-#
 
 def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, tod, scale, temp_obj,
                                   scaling=True, include_interactions=True, n_strips=3):
@@ -1326,6 +1039,11 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
                 csvwriter.writerow([name, score, results_mse[name], tod, scale, cityname])
 
 
+
+# Example call to the function
+# compare_models_gof_spatial_cv_HPT(X_data, Y_data, features, bbox_to_strip_dict, 'NewYork', 'morning', 100, temp_obj_data)
+
+
 from sklearn.metrics import mean_squared_error
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
@@ -1384,18 +1102,21 @@ if __name__ == "__main__":
     tod_list_of_list = config.ps_tod_list
 
     common_features = [
-        'betweenness',
-        'circuity_avg',
-        'global_betweenness',
-        'k_avg',
-        'lane_density',
-        # 'm',
-        'metered_count',
-        # 'n',
-        # 'non_metered_count',
-        'street_length_total',
-        # 'streets_per_node_count_5',
-        'total_crossings'
+        'n',  # Number of nodes
+        'm',  # Number of edges
+        'k_avg',  # Average degree of nodes
+        'streets_per_node_avg',  # Average number of streets per node
+        'circuity_avg',  # Average circuity of streets
+        'metered_count',  # Count of metered areas
+        'non_metered_count',  # Count of non-metered areas
+        'total_crossings',  # Total number of crossings
+        'betweenness',  # Betweenness centrality of nodes/edges
+        'lane_density',  # Density of lanes
+        'streets_per_node_proportion_1',  # Proportion of nodes with 1 connecting street
+        'streets_per_node_proportion_2',  # Proportion of nodes with 2 connecting streets
+        'streets_per_node_proportion_4',  # Proportion of nodes with 4 connecting streets
+        'streets_per_node_proportion_5',  # Proportion of nodes with 5 connecting streets
+        'global_betweenness'  # Global betweenness centrality
     ]
 
     all_features = ['n', 'm', 'k_avg', 'edge_length_total', 'edge_length_avg',
@@ -1428,6 +1149,17 @@ if __name__ == "__main__":
                             #  we only choose the features which exist in this dataframe
                             common_features_list = list(set(temp_obj.X.columns.to_list()).intersection(common_features))
                             filtered_X = temp_obj.X[common_features_list]
+                            import seaborn as sns
+                            plt.figure(figsize=(10, 10))
+                            corr = (temp_obj.X[common_features_list]).corr()
+                            sns.heatmap(corr)
+                            if not os.path.exists(config.results_folder):
+                                os.mkdir(config.results_folder)
+                            plt.tight_layout()
+                            plt.savefig(os.path.join(config.results_folder, "cross-corr-" + slugify(str((city, str(scale), str(tod))))) + ".png")
+
+                            plt.show(block=False);
+                            plt.close()
                     except:
                         print("Error in :")
                         sprint(list_of_cities, tod_list, scale, city)
@@ -1793,14 +1525,14 @@ if __name__ == "__main__":
                     model_fit_time_start = time.time()
 
                     assert X.shape[0] == Y.shape[0] # same number of lines in both X and Y
-                    compare_models_gof_standard_cv_HPT_new(X, Y, common_features_list, tod=tod, cityname=city,
-                                                           scale=scale,
-                                                           n_splits=7, include_interactions=False,
-                                                           scaling=config.SHAP_ScalingOfInputVector)
+                    # compare_models_gof_standard_cv_HPT_new(X, Y, common_features_list, tod=tod, cityname=city,
+                    #                                        scale=scale,
+                    #                                        n_splits=7, include_interactions=False,
+                    #                                        scaling=config.SHAP_ScalingOfInputVector)
                     t_non_spatial = time.time() - model_fit_time_start
-                    # compare_models_gof_spatial_cv(X, Y, common_features, temp_obj=temp_obj, include_interactions=False, scaling=True,
-                    #                               bbox_to_strip=bbox_to_strip, n_strips=N_STRIPS, tod=tod, cityname=city,
-                    #                               scale=config.ScalingOfInputVector)
+                    compare_models_gof_spatial_cv(X, Y, common_features, temp_obj=temp_obj, include_interactions=False,
+                                                  bbox_to_strip=bbox_to_strip, n_strips=N_STRIPS, tod=tod, cityname=city,
+                                                  scale=config.SHAP_ScalingOfInputVector)
                     t_spatial = time.time() - model_fit_time_start - t_non_spatial
                     sprint(t_spatial, t_non_spatial, "seconds")
 

@@ -9,8 +9,11 @@ verbose = 2
 DEBUG = False
 DEBUG_TRUNCATE = False
 MASTER_VISUALISE_EACH_STEP = False
+MASTER_VISUALISE_EACH_STEP_INSIDE_RN_class = False
+MASTER_VISUALISE_EACH_STEP_INSIDE_PrepNetwork_class = False
+MASTER_VISUALISE_EACH_STEP_INSIDE_ShapAnalysisScript = False
 
-CONGESTION_TYPE = "RECURRENT"
+CONGESTION_TYPE = "NON-RECURRENT-MMM"
 assert CONGESTION_TYPE in ["RECURRENT", "NON-RECURRENT", "NON-RECURRENT-MMM"]
 
 BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"  # "/Users/nishant/Downloads/WCS_from_server_local_copy_withy_new_plots" # "/Users/nishant/Documents/GitHub/WCS"
@@ -104,7 +107,7 @@ if RUNNING_ON_SERVER:
         # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
         # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
-    single_city = "London"
+    single_city = "Mumbai"
     rn_city_wise_bboxes = {single_city : rn_city_wise_bboxes[single_city]}
 
 
@@ -123,7 +126,7 @@ elif RUNNING_ON_LOCAL:
         # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
         # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
-    single_city = "London"
+    single_city = "Mumbai"
     rn_city_wise_bboxes = {single_city : rn_city_wise_bboxes[single_city]}
 
 if RUNNING_ON_SERVER:
@@ -233,11 +236,6 @@ if RUNNING_ON_LOCAL:
             scl_list_of_seeds = [37, 75, 150] # [37, 75, 150] # [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
         elif running_extended_scales == 0:
             scl_list_of_seeds = [75]
-    # elif single_city =="London":
-    #     if running_extended_scales:
-    #         scl_list_of_seeds = [10, 15, 20, 25, 30, 35, 40, 45, 50]
-    #     else:
-    #         scl_list_of_seeds = [12, 25, 50] # [25, 50, 100] # [25, 50, 100]
     else:
         if running_extended_scales == 2:
             scl_list_of_seeds = [20, 30, 40, 60, 70, 80, 90, 25, 50, 100]
@@ -253,11 +251,6 @@ elif RUNNING_ON_SERVER:
             scl_list_of_seeds = [37, 75, 150] # [37, 75, 150] # [37, 75, 150] #, 50]  # , 50, 25] # , 25, 50] # , 50, 100] # list(range(50, 121, 40)) # [10, 25, 30, 45, 50, 65, 70, 85, 90, 105]  # list(range(5, 6, 1))  # list(range(5, 50, 5)) + list(range(50, 300, 10))
         elif running_extended_scales == 0:
             scl_list_of_seeds = [75]
-    # elif single_city =="London":
-    #     if running_extended_scales:
-    #         scl_list_of_seeds = [10, 15, 20, 25, 30, 35, 40, 45, 50]
-    #     else:
-    #         scl_list_of_seeds = [12, 25, 50] # [25, 50, 100] # [25, 50, 100]
     else:
         if running_extended_scales == 2:
             scl_list_of_seeds = [20, 30, 40, 60, 70, 80, 90, 25, 50, 100]
@@ -265,11 +258,7 @@ elif RUNNING_ON_SERVER:
             scl_list_of_seeds = [25, 50, 100] # [25, 50, 100] # [25, 50, 100]
         elif running_extended_scales == 0:
             scl_list_of_seeds = [50]
-# forward
-# scl_list_of_seeds = list(range(5, 350, 10))
 
-# backward
-# scl_list_of_seeds = list(range(345, 120, -10))
 
 scl_error_percentage_tolerance = 1
 scl_basemap_zoom_level = 19
@@ -342,18 +331,16 @@ td_viz_y_hist = True
 
 td_reuse_Graph_features = True
 
-## maybe we should simply remove this
+## drop features showing high collinearity, some of them were removed initially
 td_drop_feature_lists = [
-    "self_loop_proportion",
-    "streets_per_node_count_1",
-    "streets_per_node_count_4",
-    "street_length_avg",
-    "street_segment_count",
-    "streets_per_node_count_2",
-    "mean_lanes",
+    # "self_loop_proportion",
+    # "streets_per_node_count_1",
+    # "streets_per_node_count_4",
+    # "street_length_avg",
+    # "street_segment_count",
+    # "streets_per_node_count_2",
+    # "mean_lanes",
 ]
-td_drop_collinear_features = True
-td_drop_collinear_features = True
 
 shift_tile_marker = 3
 SHAP_mode_spatial_CV = "vertical"
@@ -362,11 +349,10 @@ assert SHAP_mode_spatial_CV in ["vertical", "horizontal", "grid"]
 SHAP_additive_regression_model = False # Poor GoF; no longer used
 SHAP_sort_features_alphabetical_For_heatmaps = False
 FAST_GEN_PDPs_for_multiple_runs = True  # True only when fast PDPs are needed for a large number of scenarios; this must be False for normal runs
-SHAP_values_disabled = False # True only when we are interested in capturing the just the GoF for a large number of scenarios
 
 network_folder = CONGESTION_TYPE + "network_tmean_smean_" +str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" + str(shift_tile_marker)
 warnings_folder = "warnings"
-results_folder = CONGESTION_TYPE + "results_network_tmean_smean_"+str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" # "results_50x50_max_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi-max-max"
+results_folder = CONGESTION_TYPE + "results_network_tmean_smean_"+str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" + str(shift_tile_marker)  # "results_50x50_max_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi-max-max"
 
 
 temp_folder_for_robust_pickle_files = os.path.join(BASE_FOLDER, "pickle_slack_temp")
@@ -374,6 +360,17 @@ if not os.path.exists(temp_folder_for_robust_pickle_files):
     os.mkdir(temp_folder_for_robust_pickle_files)
 
 
+SHAP_ScalingOfInputVector = True
+SHAP_use_all_features_including_highly_correlated = False
+SHAP_random_search_CV = False
+if SHAP_random_search_CV:
+    SHAP_HPT_num_iters = 50
+    SHAP_Grid_search_CV = False
+else:
+    SHAP_Grid_search_CV = True
+
+SHAP_values_disabled = False # True only when we are interested in capturing the just the GoF for a large number of scenarios
+SHAP_disable_all_plots_for_server = True
 
 # To ensure that we don't overwrite the network folder of max with mean or vice-versa
 # When we use mean, we use mean in the network folder and
