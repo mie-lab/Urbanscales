@@ -28,4 +28,5 @@ matplotlib==3.7.2
 area==1.1.1
 geographiclib==1.49
 interpret==0.5.1
+pdoc3==0.10.0
 ## works with python 3.8
