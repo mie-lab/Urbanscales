@@ -29,7 +29,7 @@ class Tile:
         'streets_per_node_avg', 'street_length_total', 'street_segment_count',
         'street_length_avg', 'circuity_avg', 'self_loop_proportion',
         'metered_count', 'non_metered_count', 'total_crossings',
-        'betweenness', 'mean_lanes', 'lane_density'
+        'betweenness', 'mean_lanes', 'lane_density', 'maxspeed',
     ]
 
     # Initializing feature names for streets_per_node_counts and streets_per_node_proportions
@@ -62,6 +62,8 @@ class Tile:
                     self.set_betweenness_centrality_local()
                 if config.tls_add_edge_speed_and_tt:
                     self.set_average_edge_speed()
+                if config.tls_add_max_speed:
+                    self.set_average_max_edge_speed()
                 if config.tls_number_of_lanes:
                     self.set_number_of_lanes()
                 if config.tls_add_metered_intersections:
@@ -196,6 +198,24 @@ class Tile:
         """
         self.lane_density = self.mean_lanes / self.tile_area
 
+    def set_average_max_edge_speed(self):
+        edges = ox.graph_to_gdfs(self.G, nodes=False, edges=True)
+        if not os.path.exists(config.warnings_folder):
+            os.mkdir(config.warnings_folder)
+        try:
+            self.mean_speed_limit = np.nanmean(list(edges["maxspeed"].value_counts()))
+            if config.verbose >= 2:
+                with open(os.path.join(config.warnings_folder, "speed_data_present.txt"), "a") as f:
+                    csvwriter = csv.writer(f)
+                    csvwriter.writerow(["present"])
+        except:
+            self.mean_lanes = 2
+            if config.verbose >= 1:
+                with open(os.path.join(config.warnings_folder, "speed_data_absent.txt"), "a") as f:
+                    csvwriter = csv.writer(f)
+                    csvwriter.writerow(["missing; set to nan"])
+                    self.mean_speed_limit = np.nan
+
     def set_average_edge_speed(self):
         pass
 
@@ -220,7 +240,8 @@ class Tile:
             self.total_crossings,
             self.betweenness,
             self.mean_lanes,
-            self.lane_density
+            self.lane_density,
+            self.maxspeed,
             # Add other features as needed
         ]
 
