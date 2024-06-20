@@ -168,12 +168,13 @@ class Tile:
         if not os.path.exists(config.warnings_folder):
             os.mkdir(config.warnings_folder)
         try:
-            self.mean_lanes = np.mean(list(edges["lanes"].value_counts()))
+            self.mean_lanes = np.nanmean(list(edges["lanes"].value_counts()))
             if config.verbose >= 2:
                 with open(os.path.join(config.warnings_folder, "lane_present.txt"), "a") as f:
                     csvwriter = csv.writer(f)
                     csvwriter.writerow(["present"])
         except:
+            self.mean_lanes = 2
             if config.verbose >= 1:
                 with open(os.path.join(config.warnings_folder, "lane_absent.txt"), "a") as f:
                     csvwriter = csv.writer(f)

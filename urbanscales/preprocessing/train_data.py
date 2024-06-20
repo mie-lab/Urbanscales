@@ -4,6 +4,9 @@ import os
 import pickle
 import sys
 import time
+import matplotlib
+matplotlib.use('Agg')
+
 from random import random
 
 import networkx as nx
@@ -28,6 +31,7 @@ import geopandas as gpd
 from shapely.geometry import Polygon
 import matplotlib.pyplot as plt
 import contextily as ctx
+from slugify import slugify
 
 # from urbanscales.io.speed_data import Segment  # this line if not present gives
 # # an error while depickling a file.
@@ -187,7 +191,11 @@ class TrainDataVectors:
 
         plt.tight_layout()
         # Show the plot
-        plt.show(block=False)
+
+        plt.savefig(os.path.join(config.BASE_FOLDER, config.results_folder, "collinearity_heatmap" +
+                                 slugify(str((config.CONGESTION_TYPE, self.city_name, self.scale, self.tod))) + ".png"))
+        plt.show(block=False);
+        plt.close()
 
     def set_X_and_Y(self, process_X=True):
         """
@@ -286,16 +294,12 @@ class TrainDataVectors:
             if process_X:
                 self.X = pd.DataFrame(data=np.array(self.X), columns=Tile.get_feature_names() + ["global_betweenness"])
                 # Drop columns with more than 10% NaN values
-                self.X = self.X.loc[:, self.X.isnull().mean() <= 0.1]
-                # Fill NaN values with the mean of the respective column
-                self.X.fillna(self.X.mean(), inplace=True)
 
 
                 if len(config.td_drop_feature_lists) > 0:
                     for feat in config.td_drop_feature_lists:
                         self.X.drop(feat, axis=1, inplace=True)
 
-                assert not self.X.isna().any().any(), "The DataFrame self.X contains NaN values."
 
                 self.plot_collinearity_heatmap()
 
