@@ -89,10 +89,10 @@ class Tile:
         self.edge_length_avg = basic_stats.get('edge_length_avg', np.nan)
         self.streets_per_node_avg = basic_stats.get('streets_per_node_avg', np.nan)
         self.streets_per_node_counts = [
-            basic_stats['streets_per_node_counts'].get(i, np.nan) for i in range(6)
+            basic_stats['streets_per_node_counts'].get(i, 0) for i in range(6)
         ]
         self.streets_per_node_proportions = [
-            basic_stats['streets_per_node_proportions'].get(i, np.nan) for i in range(6)
+            basic_stats['streets_per_node_proportions'].get(i, 0) for i in range(6)
         ]
         self.street_length_total = basic_stats.get('street_length_total', np.nan)
         self.street_segment_count = basic_stats.get('street_segment_count', np.nan)
@@ -266,7 +266,7 @@ class Tile:
 if __name__ == "__main__":
     point = 40.70443736361541, -73.93851957710785
     dist = 300
-    Gu = ox.graph_from_point(point, dist=dist, network_type="drive")
+    Gu = ox.graph_from_point(point, dist=dist, network_type="drive", simplify=False)
 
     tile = Tile(Gu, config.rn_square_from_city_centre**2)
     print(tile)
