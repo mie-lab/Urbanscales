@@ -192,6 +192,8 @@ class TrainDataVectors:
         plt.tight_layout()
         # Show the plot
 
+        if not os.path.exists(os.path.join(config.BASE_FOLDER, config.results_folder)):
+            os.mkdir(os.path.join(config.BASE_FOLDER, config.results_folder))
         plt.savefig(os.path.join(config.BASE_FOLDER, config.results_folder, "collinearity_heatmap" +
                                  slugify(str((config.CONGESTION_TYPE, self.city_name, self.scale, self.tod))) + ".png"))
         plt.show(block=False);
