@@ -50,7 +50,7 @@ class Tile:
             self.tile_area = tile_area
 
         self.G = G
-        self.edges_gdf = ox.graph_to_gdfs(self.G, nodes=False, edges=True)
+
 
         if self.G is not None:
             # because we use some functions of this class for
@@ -58,6 +58,7 @@ class Tile:
             # graphs as well to simply view the list of features
             if not config.tls_garbage_Test_Speed:
                 self.set_basic_stats_for_tile()
+                self.edges_gdf = ox.graph_to_gdfs(self.G, nodes=False, edges=True)
 
                 if config.tls_betweenness_features:
                     self.set_betweenness_centrality_local()
