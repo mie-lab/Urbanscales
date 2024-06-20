@@ -13,7 +13,7 @@ MASTER_VISUALISE_EACH_STEP_INSIDE_RN_class = False
 MASTER_VISUALISE_EACH_STEP_INSIDE_PrepNetwork_class = False
 MASTER_VISUALISE_EACH_STEP_INSIDE_ShapAnalysisScript = False
 
-CONGESTION_TYPE = "NON-RECURRENT-MMM"
+CONGESTION_TYPE = "RECURRENT"
 assert CONGESTION_TYPE in ["RECURRENT", "NON-RECURRENT", "NON-RECURRENT-MMM"]
 
 BASE_FOLDER_local = "/Users/nishant/Documents/GitHub/WCS"  # "/Users/nishant/Downloads/WCS_from_server_local_copy_withy_new_plots" # "/Users/nishant/Documents/GitHub/WCS"
@@ -107,7 +107,7 @@ if RUNNING_ON_SERVER:
         # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
         # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
-    single_city = "Mumbai"
+    single_city = "London"
     rn_city_wise_bboxes = {single_city : rn_city_wise_bboxes[single_city]}
 
 
@@ -126,7 +126,7 @@ elif RUNNING_ON_LOCAL:
         # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
         # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
-    single_city = "Mumbai"
+    single_city = "London"
     rn_city_wise_bboxes = {single_city : rn_city_wise_bboxes[single_city]}
 
 if RUNNING_ON_SERVER:
@@ -269,9 +269,12 @@ scl_basemap_zoom_level = 19
 tls_garbage_Test_Speed = False   # tls_garbage_Test_Speed set to True for debugging, otherwise MUST BE FALSE;
                                  # if set to True, will return all zeros; Zeros are used to ensure that a
                                  # wrongly set config is easy to spot
+
+
 tls_betweenness_features = True
 tls_number_of_lanes = True
 tls_add_edge_speed_and_tt = False
+tls_add_max_speed = True
 tls_add_metered_intersections = True
 
 if tls_add_edge_speed_and_tt == True:

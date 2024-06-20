@@ -50,6 +50,7 @@ class Tile:
             self.tile_area = tile_area
 
         self.G = G
+        self.edges_gdf = ox.graph_to_gdfs(self.G, nodes=False, edges=True)
 
         if self.G is not None:
             # because we use some functions of this class for
@@ -166,7 +167,7 @@ class Tile:
         return np.mean(valid_bc_values)
 
     def set_number_of_lanes(self):
-        edges = ox.graph_to_gdfs(self.G, nodes=False, edges=True)
+        edges = self.edges_gdf
         if not os.path.exists(config.warnings_folder):
             os.mkdir(config.warnings_folder)
         try:
@@ -199,7 +200,7 @@ class Tile:
         self.lane_density = self.mean_lanes / self.tile_area
 
     def set_average_max_edge_speed(self):
-        edges = ox.graph_to_gdfs(self.G, nodes=False, edges=True)
+        edges = self.edges_gdf
         if not os.path.exists(config.warnings_folder):
             os.mkdir(config.warnings_folder)
         try:
