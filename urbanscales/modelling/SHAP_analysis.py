@@ -18,6 +18,8 @@ from sklearn.metrics import explained_variance_score as explained_variance_score
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.preprocessing import PolynomialFeatures
 from xgboost import XGBRegressor
+import joblib
+
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../"))
 import config
@@ -534,7 +536,15 @@ def compare_models_gof_standard_cv_HPT_new(X, Y, feature_list, cityname, scale, 
             elif name == "LR":
                 model_best = LinearRegression()
 
+            if not os.path.exists(os.path.join(config.BASE_FOLDER,  "results")):
+                os.mkdir(os.path.join(config.BASE_FOLDER,  "results"))
+
             model_best.fit(X_train, Y_train)
+            joblib.dump(model_best, os.path.join(config.BASE_FOLDER,  "results", "RF-" + slugify(str((config.CONGESTION_TYPE, cityname, scale, tod))) + ".joblib"))
+
+            # if we wish to looad: just use this
+            # loaded_rf = joblib.load("my_random_forest.joblib")
+
             y_pred = model_best.predict(X_test)
             explained_variance = explained_variance_score(Y_test, y_pred)
             mse = mean_squared_error(Y_test, y_pred)
@@ -1097,42 +1107,70 @@ if __name__ == "__main__":
 
     tod_list_of_list = config.ps_tod_list
 
-    common_features = [
-        'n',  # Number of nodes
-        'm',  # Number of edges
-        'k_avg',  # Average degree of nodes
-        'streets_per_node_avg',  # Average number of streets per node
-        'circuity_avg',  # Average circuity of streets
-        'metered_count',  # Count of metered areas
-        'non_metered_count',  # Count of non-metered areas
-        'total_crossings',  # Total number of crossings
-        'betweenness',  # Betweenness centrality of nodes/edges
-        'lane_density',  # Density of lanes
-        'streets_per_node_proportion_1',  # Proportion of nodes with 1 connecting street
-        'streets_per_node_proportion_2',  # Proportion of nodes with 2 connecting streets
-        'streets_per_node_proportion_3',  # Proportion of nodes with 4 connecting streets
-        'streets_per_node_proportion_4',  # Proportion of nodes with 4 connecting streets
-        'streets_per_node_proportion_5',  # Proportion of nodes with 5 connecting streets
-        'global_betweenness'  # Global betweenness centrality
-    ]
+    common_features = [ 'n',
+                     'm',
+                     'k_avg',
+                     # 'edge_length_total',
+                     # 'edge_length_avg',
+                     'streets_per_node_avg',
+                     # 'street_length_total',
+                     # 'street_segment_count',
+                     # 'street_length_avg',
+                     'circuity_avg',
+                     # 'self_loop_proportion',
+                     'metered_count',
+                     'non_metered_count',
+                     'total_crossings',
+                     'betweenness',
+                     # 'mean_lanes',
+                     'lane_density',
+                     'maxspeed',
+                     'streets_per_node_count_1',
+                     # 'streets_per_node_proportion_1',
+                     'streets_per_node_count_2',
+                     # 'streets_per_node_proportion_2',
+                     'streets_per_node_count_3',
+                     # 'streets_per_node_proportion_3',
+                     'streets_per_node_count_4',
+                     # 'streets_per_node_proportion_4',
+                     'streets_per_node_count_5',
+                     # 'streets_per_node_proportion_5',
+                     'streets_per_node_count_6',
+                     # 'streets_per_node_proportion_6',
+                     'global_betweenness'  ]
 
-    all_features = ['n', 'm', 'k_avg', 'edge_length_total', 'edge_length_avg',
-                    'streets_per_node_avg', 'street_length_total', 'circuity_avg',
-                    'metered_count', 'non_metered_count', 'total_crossings', 'betweenness',
-                    'lane_density',
-                    'streets_per_node_proportion_0',
-                    'streets_per_node_proportion_1',
-                    'streets_per_node_proportion_2',
-                    'streets_per_node_proportion_3',
-                    'streets_per_node_proportion_4',
-                    'streets_per_node_proportion_5',
-                    'streets_per_node_count_0',
-                    'streets_per_node_count_1',
-                    'streets_per_node_count_2',
-                    'streets_per_node_count_3',
-                    'streets_per_node_count_4',
-                    'streets_per_node_count_5',
-                    'global_betweenness']
+
+    all_features = [ 'n',
+                     'm',
+                     'k_avg',
+                     'edge_length_total',
+                     'edge_length_avg',
+                     'streets_per_node_avg',
+                     'street_length_total',
+                     'street_segment_count',
+                     'street_length_avg',
+                     'circuity_avg',
+                     'self_loop_proportion',
+                     'metered_count',
+                     'non_metered_count',
+                     'total_crossings',
+                     'betweenness',
+                     'mean_lanes',
+                     'lane_density',
+                     'maxspeed',
+                     'streets_per_node_count_1',
+                     'streets_per_node_proportion_1',
+                     'streets_per_node_count_2',
+                     'streets_per_node_proportion_2',
+                     'streets_per_node_count_3',
+                     'streets_per_node_proportion_3',
+                     'streets_per_node_count_4',
+                     'streets_per_node_proportion_4',
+                     'streets_per_node_count_5',
+                     'streets_per_node_proportion_5',
+                     'streets_per_node_count_6',
+                     'streets_per_node_proportion_6',
+                     'global_betweenness'  ]
 
     if config.SHAP_use_all_features_including_highly_correlated:
         common_features = all_features
@@ -1154,20 +1192,42 @@ if __name__ == "__main__":
                         if isinstance(temp_obj.X, pd.DataFrame):
                             #  we only choose the features which exist in this dataframe
                             common_features_list = list(set(temp_obj.X.columns.to_list()).intersection(common_features))
+
+
+
+                            filtered_columns = temp_obj.X.filter(
+                                regex='streets_per_node_count_|streets_per_node_proportion_').columns
+                            # Fill NaN values with 0 in these filtered columns and update the original DataFrame
+                            temp_obj.X[filtered_columns] = temp_obj.X[filtered_columns].fillna(0)
+
                             filtered_X = temp_obj.X[common_features_list]
+
+                            percentage_nan_per_column = temp_obj.X.isna().mean() * 100
+                            # Sort these percentages in descending order
+                            sorted_percentage_nan_per_column = percentage_nan_per_column.sort_values(ascending=False)
+                            # Print the sorted percentages
+                            sprint(sorted_percentage_nan_per_column)
+
                             import seaborn as sns
+
                             plt.figure(figsize=(10, 10))
-                            corr = (temp_obj.X[common_features_list]).corr()
+                            corr = (filtered_X).corr()
                             sns.heatmap(corr)
                             if not os.path.exists(config.results_folder):
                                 os.mkdir(config.results_folder)
                             plt.tight_layout()
-                            plt.savefig(os.path.join(config.results_folder, "cross-corr-" + slugify(str((city, str(scale), str(tod))))) + ".png")
+                            if not os.path.exists(os.path.join(config.BASE_FOLDER, "results")):
+                                os.mkdir(os.path.join(config.BASE_FOLDER, "results"))
+                            plt.savefig(os.path.join(config.BASE_FOLDER, "results", "cross-corr-" + slugify(
+                                str((city, str(scale), str(tod))))) + ".png")
 
                             plt.show(block=False);
                             plt.close()
-                    except:
+
+
+                    except Exception as e:
                         print("Error in :")
+                        print (e)
                         sprint(list_of_cities, tod_list, scale, city)
                         continue
 
@@ -1531,14 +1591,14 @@ if __name__ == "__main__":
                     model_fit_time_start = time.time()
 
                     assert X.shape[0] == Y.shape[0] # same number of lines in both X and Y
-                    # compare_models_gof_standard_cv_HPT_new(X, Y, common_features_list, tod=tod, cityname=city,
-                    #                                        scale=scale,
-                    #                                        n_splits=7, include_interactions=False,
-                    #                                        scaling=config.SHAP_ScalingOfInputVector)
+                    compare_models_gof_standard_cv_HPT_new(X, Y, common_features_list, tod=tod, cityname=city,
+                                                           scale=scale,
+                                                           n_splits=7, include_interactions=False,
+                                                           scaling=config.SHAP_ScalingOfInputVector)
                     t_non_spatial = time.time() - model_fit_time_start
-                    compare_models_gof_spatial_cv(X, Y, common_features, temp_obj=temp_obj, include_interactions=False,
-                                                  bbox_to_strip=bbox_to_strip, n_strips=N_STRIPS, tod=tod, cityname=city,
-                                                  scale=config.SHAP_ScalingOfInputVector)
+                    # compare_models_gof_spatial_cv(X, Y, common_features, temp_obj=temp_obj, include_interactions=False,
+                    #                               bbox_to_strip=bbox_to_strip, n_strips=N_STRIPS, tod=tod, cityname=city,
+                    #                               scale=config.SHAP_ScalingOfInputVector)
                     t_spatial = time.time() - model_fit_time_start - t_non_spatial
                     sprint(t_spatial, t_non_spatial, "seconds")
 

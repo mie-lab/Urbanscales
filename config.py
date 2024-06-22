@@ -107,7 +107,7 @@ if RUNNING_ON_SERVER:
         # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
         # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
-    single_city = "London"
+    single_city = "Mumbai"
     rn_city_wise_bboxes = {single_city : rn_city_wise_bboxes[single_city]}
 
 
@@ -126,7 +126,7 @@ elif RUNNING_ON_LOCAL:
         # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
         # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
-    single_city = "London"
+    single_city = "Mumbai"
     rn_city_wise_bboxes = {single_city : rn_city_wise_bboxes[single_city]}
 
 if RUNNING_ON_SERVER:
