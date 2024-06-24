@@ -22,7 +22,7 @@ counter = int(sys.argv[1])
 # The simpler solution of one line as shown below does not work on Ubuntu; so we now have this fancy 3-step solution
 # os.system('sed -i \'\' "s/single_city = .*/single_city = \\"' + cityname[counter] +'\\"/" config.py')
 
-
+"""
 backup_extension = '.bak'
 os.system('sed -i' + backup_extension + ' "s/single_city = .*/single_city = \\"' + cityname[counter] + '\\"/" config.py')
 os.system('rm config.py' + backup_extension)
@@ -44,7 +44,7 @@ os.system('sed -i' + backup_extension + ' "s/single_city = .*/single_city = \\"'
 os.system('rm config.py' + backup_extension)
 run_command("python urbanscales/preprocessing/prep_speed.py", "python urbanscales/preprocessing/prep_speed.py")
 
-
+"""
 backup_extension = '.bak'
 os.system('sed -i' + backup_extension + ' "s/single_city = .*/single_city = \\"' + cityname[counter] + '\\"/" config.py')
 os.system('rm config.py' + backup_extension)

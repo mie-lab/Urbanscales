@@ -475,6 +475,17 @@ class Scale:
         of the road network.
         """
         srn = self.RoadNetwork
+
+        # to take care of negative (southern hemisphere cases)
+        if srn.max_y < srn.min_y:
+            srn.max_y, srn.min_y = srn.min_y, srn.max_y
+
+        if srn.max_x < srn.min_x:
+            srn.max_x, srn.min_x = srn.min_x, srn.max_x
+
+        assert srn.max_y > srn.min_y
+        assert srn.max_x > srn.min_x
+
         diagonal = geodesic((srn.max_y, srn.max_x), ((srn.min_y, srn.min_x))).meters
         y_edge_1 = geodesic((srn.max_y, srn.max_x), ((srn.min_y, srn.max_x))).meters
         x_edge_1 = geodesic((srn.max_y, srn.max_x), ((srn.max_y, srn.min_x))).meters
@@ -787,9 +798,16 @@ class Scale:
 
     def __repr__(self):
         """
-        Representation function for the Scale object, providing a concise identifier.
+        Return a string representation of the Scale object that includes all relevant attributes
+        for debugging and object state reproduction.
         """
-        return f"ScaleJF(scale={self.scale})"
+        return (f"Scale(RoadNetwork={self.RoadNetwork.__repr__()}, "
+                f"scale={self.scale}, "
+                f"global_G_OSM={'Loaded' if self.global_G_OSM else 'None'}, "
+                f"tile_area={self.tile_area}, "
+                f"list_of_bbox={self.list_of_bbox}, "
+                f"dict_bbox_to_subgraph=Length {len(self.dict_bbox_to_subgraph)})")
+
 
 
 if __name__ == "__main__":

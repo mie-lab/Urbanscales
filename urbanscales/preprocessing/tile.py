@@ -202,6 +202,7 @@ class Tile:
 
     def set_average_max_edge_speed(self):
         edges = self.edges_gdf
+        self.maxspeed = np.nan
         if not os.path.exists(config.warnings_folder):
             os.mkdir(config.warnings_folder)
         try:
@@ -211,12 +212,11 @@ class Tile:
                     csvwriter = csv.writer(f)
                     csvwriter.writerow(["present"])
         except:
-            self.mean_lanes = 2
             if config.verbose >= 1:
                 with open(os.path.join(config.warnings_folder, "speed_data_absent.txt"), "a") as f:
                     csvwriter = csv.writer(f)
                     csvwriter.writerow(["missing; set to nan"])
-                    self.maxspeed = np.nan
+                    # self.maxspeed = np.nan
 
     def set_average_edge_speed(self):
         pass
