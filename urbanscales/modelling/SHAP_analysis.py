@@ -400,6 +400,42 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod, n_s
                 csvwriter.writerow([name, results_explained_variance[name], results_mse[name], tod, scale, cityname])
 
 
+def plot_feature_influence(df, slugifiedstring):
+    # Compute MeanSHAP_pos, MeanSHAP_neg, MeanX_pos, MeanX_neg for each feature
+    means = {}
+    for column in df.columns:
+        pos_indices = df[column] > 0
+        neg_indices = df[column] < 0
+
+        MeanSHAP_pos = df.loc[pos_indices, column].mean()
+        MeanSHAP_neg = df.loc[neg_indices, column].mean()
+
+        # Convert index to a numerical series before calculating mean
+        MeanX_pos = pd.Series(df.loc[pos_indices].index).mean()
+        MeanX_neg = pd.Series(df.loc[neg_indices].index).mean()
+
+        # Calculate ExtendedDirection
+        if pd.isna(MeanX_pos) or pd.isna(MeanX_neg):  # Handle cases where all SHAP are positive or negative
+            ExtendedDirection = 0
+        else:
+            ExtendedDirection = (MeanSHAP_pos - MeanSHAP_neg) / (MeanX_pos - MeanX_neg)
+
+        means[column] = ExtendedDirection
+
+    # Plotting
+    fig, ax = plt.subplots()
+    for i, (key, value) in enumerate(means.items()):
+        ax.arrow(i, 0, 0, value * 0.5, head_width=0.1, head_length=0.1, fc='blue', ec='blue')
+        # ax.arrow(i, 0, 0, 1 * np.sign(value), head_width=0.1, head_length=0.1,width=abs(value) * 0.1, fc='blue', ec='blue')
+        sprint(slugifiedstring, i, key, value)
+
+    ax.set_ylim(min(means.values()) - 1, max(means.values()) + 1)
+    plt.xticks(range(len(df.columns)), df.columns, rotation='vertical')
+    plt.xlabel("Features")
+    plt.ylabel("SHAP-Dir")
+    plt.show(block=False);
+    plt.close()
+
 def compare_models_gof_standard_cv_HPT_new(X, Y, feature_list, cityname, scale, tod, n_splits,
                                            scaling=True, include_interactions=True):
     """
@@ -561,6 +597,10 @@ def compare_models_gof_standard_cv_HPT_new(X, Y, feature_list, cityname, scale, 
         shap_values = explainer.shap_values(X)
         shap.summary_plot(shap_values, X, plot_type="bar")
         shap_values_df = pd.DataFrame(shap_values, columns=feature_list)
+
+        plot_feature_influence(shap_values_df, slugifiedstring=slugify(str((config.CONGESTION_TYPE, cityname, scale, tod))))
+
+
         print("SHAP Values for each feature:")
         # print(slugify(str((config.CONGESTION_TYPE, cityname, scale, tod))), shap_values_df.abs().mean(axis=0))
 
@@ -765,6 +805,8 @@ def compare_models_gof_standard_cv_HPT_new(X, Y, feature_list, cityname, scale, 
     #         for name, score in results_explained_variance.items():
     #             print(f"{name}: {score:.4f}")
     #             csvwriter.writerow([name, results_explained_variance[name], results_mse[name], tod, scale, cityname])
+
+
 
 
 def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, tod, scale, temp_obj,
