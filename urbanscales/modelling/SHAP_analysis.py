@@ -417,24 +417,28 @@ def plot_feature_influence(df, slugifiedstring):
         # Calculate ExtendedDirection
         if pd.isna(MeanX_pos) or pd.isna(MeanX_neg):  # Handle cases where all SHAP are positive or negative
             ExtendedDirection = 0
+            numerator = 0
+            denominator = 0
         else:
-            ExtendedDirection = (MeanSHAP_pos - MeanSHAP_neg) / (MeanX_pos - MeanX_neg)
+            numerator = (MeanSHAP_pos - MeanSHAP_neg)
+            denominator = (MeanX_pos - MeanX_neg)
+            ExtendedDirection = numerator / denominator
 
-        means[column] = ExtendedDirection
+        means[column] = (numerator, denominator, ExtendedDirection)
 
     # Plotting
-    fig, ax = plt.subplots()
+    # fig, ax = plt.subplots()
     for i, (key, value) in enumerate(means.items()):
-        ax.arrow(i, 0, 0, value * 0.5, head_width=0.1, head_length=0.1, fc='blue', ec='blue')
+        # ax.arrow(i, 0, 0, value * 0.5, head_width=0.1, head_length=0.1, fc='blue', ec='blue')
         # ax.arrow(i, 0, 0, 1 * np.sign(value), head_width=0.1, head_length=0.1,width=abs(value) * 0.1, fc='blue', ec='blue')
-        sprint(slugifiedstring, i, key, value)
+        sprint(config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1])
 
-    ax.set_ylim(min(means.values()) - 1, max(means.values()) + 1)
-    plt.xticks(range(len(df.columns)), df.columns, rotation='vertical')
-    plt.xlabel("Features")
-    plt.ylabel("SHAP-Dir")
-    plt.show(block=False);
-    plt.close()
+    # ax.set_ylim(min(means.values()) - 1, max(means.values()) + 1)
+    # plt.xticks(range(len(df.columns)), df.columns, rotation='vertical')
+    # plt.xlabel("Features")
+    # plt.ylabel("SHAP-Dir")
+    # plt.show(block=False);
+    # plt.close()
 
 def compare_models_gof_standard_cv_HPT_new(X, Y, feature_list, cityname, scale, tod, n_splits,
                                            scaling=True, include_interactions=True):
@@ -619,19 +623,19 @@ def compare_models_gof_standard_cv_HPT_new(X, Y, feature_list, cityname, scale, 
 
 
     for name, score in results_explained_variance.items():
-        print(city, scale, name, np.mean(score), "XpVar")
+        print(config.CONGESTION_TYPE, city, scale, name, np.mean(score), "XpVar")
 
     # print("\n\n-------------------------------------------------------------")
     # print("Non Spatial CV Model Performance Comparison (MSE):")
 
     for name, score in results_mse.items():
-        print(city, scale, name, np.mean(score), "MSE")
+        print(config.CONGESTION_TYPE, city, scale, name, np.mean(score), "MSE")
 
     # print("\n\n-------------------------------------------------------------")
     # print("Non Spatial CV Model Performance Comparison Coefficient of Variation (R2):")
 
     for name, score in results_r2_Score.items():
-        print(city, scale, name, np.mean(score), "R2")
+        print(config.CONGESTION_TYPE, city, scale, name, np.mean(score), "R2")
 
     # if not config.SHAP_values_disabled:
     #
@@ -1164,9 +1168,9 @@ if __name__ == "__main__":
                      'non_metered_count',
                      'total_crossings',
                      'betweenness',
-                     # 'mean_lanes',
-                     'lane_density',
-                     'maxspeed',
+                     'mean_lanes',
+                     # 'lane_density',
+                     # 'maxspeed',
                      'streets_per_node_count_1',
                      # 'streets_per_node_proportion_1',
                      'streets_per_node_count_2',
@@ -1633,6 +1637,12 @@ if __name__ == "__main__":
                     model_fit_time_start = time.time()
 
                     assert X.shape[0] == Y.shape[0] # same number of lines in both X and Y
+
+                    # remove the Nan columns
+                    X = X.dropna(axis='columns')
+                    common_features_list = list(set(common_features_list).intersection(set(X.columns.to_list())))
+
+
                     compare_models_gof_standard_cv_HPT_new(X, Y, common_features_list, tod=tod, cityname=city,
                                                            scale=scale,
                                                            n_splits=7, include_interactions=False,
