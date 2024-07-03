@@ -1,0 +1,995 @@
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+Loaded config file: Prefix for name of road network object pickle file!
+os.getcwd() : /home/niskumar/WCS/urbanscales/modelling
+sorted_percentage_nan_per_column : maxspeed                         26.5625
+n                                 0.0000
+lane_density                      0.0000
+streets_per_node_proportion_6     0.0000
+streets_per_node_count_6          0.0000
+streets_per_node_proportion_5     0.0000
+streets_per_node_count_5          0.0000
+streets_per_node_proportion_4     0.0000
+streets_per_node_count_4          0.0000
+streets_per_node_proportion_3     0.0000
+streets_per_node_count_3          0.0000
+streets_per_node_proportion_2     0.0000
+streets_per_node_count_2          0.0000
+streets_per_node_proportion_1     0.0000
+streets_per_node_count_1          0.0000
+mean_lanes                        0.0000
+m                                 0.0000
+betweenness                       0.0000
+total_crossings                   0.0000
+non_metered_count                 0.0000
+metered_count                     0.0000
+self_loop_proportion              0.0000
+circuity_avg                      0.0000
+street_length_avg                 0.0000
+street_segment_count              0.0000
+street_length_total               0.0000
+streets_per_node_avg              0.0000
+edge_length_avg                   0.0000
+edge_length_total                 0.0000
+k_avg                             0.0000
+global_betweenness                0.0000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Bogota 20 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (128, 17) (128,)
+X.shape, Y.shape, "Inside the model-fitting function" : (128, 17) (128,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 300}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 20,
+ 'xgbregressor__n_estimators': 200}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 n -0.01006012681453045 0.06172959348238277 -6.136065143157339
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 streets_per_node_avg -0.017983071188762693 0.10969673425145245 -6.100000000000001
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_count_3 -0.022798683361676283 0.32755659360449196 -14.367346938775512
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 global_betweenness 0.009415087498692973 0.05743908715296646 6.1007491604236606
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 metered_count -0.05771253951029847 0.12503670531907513 -2.1665431183592787
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_6 -0.0158417924959013 0.2053255721732919 -12.96100628930818
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_5 0.0892918046104031 0.09919814066906693 1.1109433962264177
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 non_metered_count -0.038255165284999115 0.11476549585499735 -3.0
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 streets_per_node_count_4 -0.038255165284999115 0.11476549585499735 -3.0
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 streets_per_node_count_2 2.805143317330681 0.0439268833641338 0.01565940787864406
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 m 0.03951490250300272 0.04484844106744759 1.1349753694581324
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 circuity_avg 0.001797415692341418 0.03834486810328359 21.333333333333336
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 total_crossings -0.043465316053256896 0.16995235993453317 -3.910068426197455
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 k_avg 0.005589232598371228 0.04475756935078895 8.007820136852395
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 mean_lanes 0.036052915015219275 0.05796882493087474 1.607881773399015
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0.036052915015219275 0.05796882493087474 1.607881773399015
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 betweenness -0.015114220343498908 0.12213873538764228 -8.081047689646653
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0303
+SHAP-- recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0516
+SHAP-- recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.1546
+SHAP-- recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0270
+SHAP-- recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0623
+SHAP-- recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_6          0.0991
+SHAP-- recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0494
+SHAP-- recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0574
+SHAP-- recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0000
+SHAP-- recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0220
+SHAP-- recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0225
+SHAP-- recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0124
+SHAP-- recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0848
+SHAP-- recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0224
+SHAP-- recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0291
+SHAP-- recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-bogota-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0602
+RECURRENT Bogota 20 LR 0.3662416158364263 XpVar
+RECURRENT Bogota 20 RF 0.4857445661881699 XpVar
+RECURRENT Bogota 20 GBM 0.3733305159092393 XpVar
+RECURRENT Bogota 20 LLR -3.172065784643304e-17 XpVar
+RECURRENT Bogota 20 RLR 0.3984274225833507 XpVar
+RECURRENT Bogota 20 LR 0.4617959325049171 MSE
+RECURRENT Bogota 20 RF 0.3815391473666585 MSE
+RECURRENT Bogota 20 GBM 0.4660699773750929 MSE
+RECURRENT Bogota 20 LLR 0.7083570802957749 MSE
+RECURRENT Bogota 20 RLR 0.4490695824318709 MSE
+RECURRENT Bogota 20 LR 0.28711846683804115 R2
+RECURRENT Bogota 20 RF 0.42439666167805334 R2
+RECURRENT Bogota 20 GBM 0.3167261712829631 R2
+RECURRENT Bogota 20 LLR -0.04603414880537431 R2
+RECURRENT Bogota 20 RLR 0.3156584558914203 R2
+t_spatial, t_non_spatial, "seconds" : 1.1920928955078125e-06 132.19470953941345 seconds
+sorted_percentage_nan_per_column : Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+maxspeed                         30.837004
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Bogota 30 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (227, 17) (227,)
+X.shape, Y.shape, "Inside the model-fitting function" : (227, 17) (227,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 100}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 20,
+ 'xgbregressor__n_estimators': 100}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 n 0.004631473629055159 0.038516749473416975 8.316305469556255
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 streets_per_node_avg -0.009660281769509883 0.1447797784683229 -14.98711755233495
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_count_3 -0.009489002688214059 0.27893938797179235 -29.396070075757564
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 global_betweenness 0.05898569727200304 0.09050008181164915 1.534271628498729
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 metered_count -0.008591320326528968 0.12978652392813692 -15.1067029275316
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_6 -0.006167379951908579 0.15859918111008564 -25.71581163262124
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_5 -0.024984698114364774 0.25204819031792136 -10.088102292218935
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 non_metered_count -0.00425265378045277 0.09186684400491692 -21.602239154097347
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 streets_per_node_count_4 -0.00425265378045277 0.09186684400491692 -21.602239154097347
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 streets_per_node_count_2 0.001645889252164094 0.045185465740263074 27.453527435610297
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 m 0.004255048847358814 0.048114599923427356 11.307649253731356
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 circuity_avg 0.0008050218160250902 0.015343820474996104 19.060130010834243
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 total_crossings -0.016397348931719992 0.22167655317565976 -13.51904835950863
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 k_avg 0.003278942854305321 0.09211063608645373 28.09156492785793
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 mean_lanes -0.011433837175593195 0.08344418814210522 -7.2980038862391865
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 -0.011433837175593195 0.08344418814210522 -7.2980038862391865
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 betweenness -0.02734744673675267 0.06520235163591684 -2.3842208109428498
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0252
+SHAP-- recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0725
+SHAP-- recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.1338
+SHAP-- recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0437
+SHAP-- recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0662
+SHAP-- recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_6          0.0784
+SHAP-- recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.1254
+SHAP-- recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0458
+SHAP-- recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0000
+SHAP-- recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0242
+SHAP-- recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0262
+SHAP-- recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0066
+SHAP-- recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.1103
+SHAP-- recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0401
+SHAP-- recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0397
+SHAP-- recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-bogota-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0306
+RECURRENT Bogota 30 LR 0.36603172432413816 XpVar
+RECURRENT Bogota 30 RF 0.4002095649701003 XpVar
+RECURRENT Bogota 30 GBM 0.28933340003858304 XpVar
+RECURRENT Bogota 30 LLR 3.172065784643304e-17 XpVar
+RECURRENT Bogota 30 RLR 0.3717378909554146 XpVar
+RECURRENT Bogota 30 LR 0.5029050510392391 MSE
+RECURRENT Bogota 30 RF 0.4916372953123001 MSE
+RECURRENT Bogota 30 GBM 0.575321646217185 MSE
+RECURRENT Bogota 30 LLR 0.7971473732604052 MSE
+RECURRENT Bogota 30 RLR 0.5048495379178435 MSE
+RECURRENT Bogota 30 LR 0.35072794100426236 R2
+RECURRENT Bogota 30 RF 0.3721011538054753 R2
+RECURRENT Bogota 30 GBM 0.25807387149912536 R2
+RECURRENT Bogota 30 LLR -0.031928917203851305 R2
+RECURRENT Bogota 30 RLR 0.353037980687347 R2
+t_spatial, t_non_spatial, "seconds" : 4.0531158447265625e-06 174.5740044116974 seconds
+sorted_percentage_nan_per_column : Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+maxspeed                         30.409357
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Bogota 40 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (342, 17) (342,)
+X.shape, Y.shape, "Inside the model-fitting function" : (342, 17) (342,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 50,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 500}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 10,
+ 'xgbregressor__n_estimators': 200}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 n -0.008744386914103335 0.04416275484168937 -5.0504117985060475
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 streets_per_node_avg -0.006764715276938471 0.15470822789944538 -22.869880189467807
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_count_3 -0.004245879259947835 0.22246154349836744 -52.39469374385851
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 global_betweenness 0.008307537923298414 0.08272672548465035 9.958031639271127
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 metered_count -0.005938098101799272 0.17926333092398494 -30.188677898343798
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_6 -0.005271449371814596 0.2158306284990229 -40.94331810394061
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_5 -0.011970367075968998 0.18144971807243554 -15.158241758241758
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 non_metered_count -0.006132828368609678 0.13326195565603238 -21.729281767955797
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 streets_per_node_count_4 -0.006132828368609678 0.13326195565603238 -21.729281767955797
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 streets_per_node_count_2 0.014594931203264475 0.037260242674700385 2.5529577464788815
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 m -0.009451063358039878 0.058499419914898425 -6.18971830985916
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 circuity_avg -0.002463534183801272 0.016288032068049317 -6.611652549881256
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 total_crossings -0.014241468138231945 0.22020493191946894 -15.462235338526483
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 k_avg 0.0028882185405620336 0.09682655809369595 33.52466467958271
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 mean_lanes -0.07978268960811799 0.07644587102058915 -0.9581761582127797
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 -0.07978268960811799 0.07644587102058915 -0.9581761582127797
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 betweenness -0.012713364200385272 0.06682087828185818 -5.255955640744816
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0235
+SHAP-- recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0753
+SHAP-- recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.1049
+SHAP-- recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0409
+SHAP-- recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0919
+SHAP-- recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_6          0.1005
+SHAP-- recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0910
+SHAP-- recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0663
+SHAP-- recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0000
+SHAP-- recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0194
+SHAP-- recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0299
+SHAP-- recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0079
+SHAP-- recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.1094
+SHAP-- recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0451
+SHAP-- recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0407
+SHAP-- recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-bogota-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0332
+RECURRENT Bogota 40 LR 0.44248759335067656 XpVar
+RECURRENT Bogota 40 RF 0.4844721898606185 XpVar
+RECURRENT Bogota 40 GBM 0.36413697190684297 XpVar
+RECURRENT Bogota 40 LLR 0.0 XpVar
+RECURRENT Bogota 40 RLR 0.44373246534595934 XpVar
+RECURRENT Bogota 40 LR 0.45758166779241966 MSE
+RECURRENT Bogota 40 RF 0.4218122903665888 MSE
+RECURRENT Bogota 40 GBM 0.5202757221895833 MSE
+RECURRENT Bogota 40 LLR 0.8065210593331965 MSE
+RECURRENT Bogota 40 RLR 0.4566694699981148 MSE
+RECURRENT Bogota 40 LR 0.4315299454865113 R2
+RECURRENT Bogota 40 RF 0.47478437184515826 R2
+RECURRENT Bogota 40 GBM 0.3546231677896246 R2
+RECURRENT Bogota 40 LLR -0.02501849905453254 R2
+RECURRENT Bogota 40 RLR 0.4331735381216209 R2
+t_spatial, t_non_spatial, "seconds" : 2.1457672119140625e-06 311.37067008018494 seconds
+sorted_percentage_nan_per_column : Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+maxspeed                         32.636656
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Bogota 60 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (622, 17) (622,)
+X.shape, Y.shape, "Inside the model-fitting function" : (622, 17) (622,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 20,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 300}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 10,
+ 'xgbregressor__n_estimators': 200}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 n -0.003783574410247484 0.0484647738565282 -12.809256169315859
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 streets_per_node_avg -0.002914624428518833 0.1279789723526178 -43.909249884951635
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_count_3 -0.0031741301045709065 0.30363909446373 -95.66056981296214
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 global_betweenness 0.005281879890424055 0.08201300113410691 15.527237051110319
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 metered_count -0.005783158400976662 0.28787387056668345 -49.77796743697479
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_6 -0.001862009961303989 0.1418302633285332 -76.17051802945656
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_5 0.1760882520117371 0.14674554165516426 0.8333636115905279
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 non_metered_count -0.005135259415473467 0.10635856648132382 -20.71143011019973
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 streets_per_node_count_4 -0.005135259415473467 0.10635856648132382 -20.71143011019973
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 streets_per_node_count_2 0.0008546697467233668 0.05124839732718379 59.96280729914673
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 m 0.0011024994914166039 0.04389374997603873 39.81294351405057
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 circuity_avg 0.000636662228337763 0.01917049118948621 30.110929055015106
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 total_crossings -0.004985383687661148 0.1853999399961133 -37.1887003311258
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 k_avg 0.0014262601084822073 0.09438800851822826 66.17867803837953
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 mean_lanes -0.004248412612292125 0.13049924597239945 -30.717177892472137
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 -0.004248412612292125 0.13049924597239945 -30.717177892472137
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 betweenness 0.012329769366798957 0.05532686347923884 4.487258588000884
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0251
+SHAP-- recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0602
+SHAP-- recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.1415
+SHAP-- recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0410
+SHAP-- recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.1446
+SHAP-- recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_6          0.0685
+SHAP-- recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0704
+SHAP-- recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0532
+SHAP-- recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0000
+SHAP-- recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0264
+SHAP-- recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0225
+SHAP-- recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0090
+SHAP-- recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0925
+SHAP-- recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0472
+SHAP-- recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0608
+SHAP-- recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-bogota-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0276
+RECURRENT Bogota 60 LR 0.3936187951156775 XpVar
+RECURRENT Bogota 60 RF 0.43279938230207726 XpVar
+RECURRENT Bogota 60 GBM 0.3641867391622879 XpVar
+RECURRENT Bogota 60 LLR 4.7580986769649563e-17 XpVar
+RECURRENT Bogota 60 RLR 0.3928920245228234 XpVar
+RECURRENT Bogota 60 LR 0.5135275693967668 MSE
+RECURRENT Bogota 60 RF 0.4782103966798055 MSE
+RECURRENT Bogota 60 GBM 0.5347224628044965 MSE
+RECURRENT Bogota 60 LLR 0.8505871171417958 MSE
+RECURRENT Bogota 60 RLR 0.5138165171382415 MSE
+RECURRENT Bogota 60 LR 0.389709037011342 R2
+RECURRENT Bogota 60 RF 0.42981473401819287 R2
+RECURRENT Bogota 60 GBM 0.36111278699866417 R2
+RECURRENT Bogota 60 LLR -0.013361446381196249 R2
+RECURRENT Bogota 60 RLR 0.38936412562596395 R2
+t_spatial, t_non_spatial, "seconds" : 1.430511474609375e-06 467.8973467350006 seconds
+sorted_percentage_nan_per_column : Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+maxspeed                         32.192649
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Bogota 70 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (789, 17) (789,)
+X.shape, Y.shape, "Inside the model-fitting function" : (789, 17) (789,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 1000}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 10,
+ 'xgbregressor__n_estimators': 200}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 n -0.0015116709883133384 0.07434541869082917 -49.18095224793643
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 streets_per_node_avg -0.002405965577586699 0.08711755694322462 -36.20897894582839
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_count_3 -0.002469290618845174 0.2696351340227728 -109.19538265968646
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 global_betweenness -0.011851610264001378 0.10418752502150733 -8.79100161924589
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 metered_count -0.003740280976132622 0.19952458342294604 -53.34481144495476
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_6 -0.001528998022161555 0.15355199494281155 -100.42654909764633
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_5 -0.9978563855091566 0.12154065983725101 -0.12180175584609287
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 non_metered_count -0.003694684071592074 0.14415649104830244 -39.017271370156436
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 streets_per_node_count_4 -0.003694684071592074 0.14415649104830244 -39.017271370156436
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 streets_per_node_count_2 0.0005660946835948174 0.05925066518930424 104.66564499961447
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 m 0.002564391935469635 0.06171142926968302 24.064741592778944
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 circuity_avg -0.0006414567424539107 0.012244410243294822 -19.088442653909112
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 total_crossings -0.007304709560408657 0.22565735506022866 -30.89203659558018
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 k_avg 0.0013101352204773582 0.09286921390947679 70.88521280699496
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 mean_lanes -0.008606574029237013 0.15065737749799984 -17.504918564135778
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 -0.008606574029237013 0.15065737749799984 -17.504918564135778
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 betweenness -0.0022769900057341046 0.054138980624381244 -23.77655610610674
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0365
+SHAP-- recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0413
+SHAP-- recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.1255
+SHAP-- recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0521
+SHAP-- recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0968
+SHAP-- recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_6          0.0717
+SHAP-- recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0599
+SHAP-- recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0709
+SHAP-- recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0000
+SHAP-- recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0296
+SHAP-- recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0321
+SHAP-- recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0058
+SHAP-- recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.1117
+SHAP-- recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0464
+SHAP-- recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0662
+SHAP-- recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-bogota-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0271
+RECURRENT Bogota 70 LR 0.37734849223081 XpVar
+RECURRENT Bogota 70 RF 0.42564619897972733 XpVar
+RECURRENT Bogota 70 GBM 0.3278486057486954 XpVar
+RECURRENT Bogota 70 LLR -6.344131569286608e-17 XpVar
+RECURRENT Bogota 70 RLR 0.37678049898027677 XpVar
+RECURRENT Bogota 70 LR 0.5436811436158597 MSE
+RECURRENT Bogota 70 RF 0.5009456519033446 MSE
+RECURRENT Bogota 70 GBM 0.5835566155090193 MSE
+RECURRENT Bogota 70 LLR 0.8663432587722257 MSE
+RECURRENT Bogota 70 RLR 0.5443661715081436 MSE
+RECURRENT Bogota 70 LR 0.3697743638684578 R2
+RECURRENT Bogota 70 RF 0.4195941263489651 R2
+RECURRENT Bogota 70 GBM 0.3252943602988738 R2
+RECURRENT Bogota 70 LLR -0.004103830648063823 R2
+RECURRENT Bogota 70 RLR 0.36925174668331334 R2
+t_spatial, t_non_spatial, "seconds" : 2.6226043701171875e-06 641.2689113616943 seconds
+sorted_percentage_nan_per_column : Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+maxspeed                         32.676349
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Bogota 80 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (964, 17) (964,)
+X.shape, Y.shape, "Inside the model-fitting function" : (964, 17) (964,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 1000}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 10,
+ 'xgbregressor__n_estimators': 200}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 n 0.0027784703495824536 0.0498804849725424 17.952498568155818
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 streets_per_node_avg -0.004136547145257001 0.11534390659999783 -27.884102984841377
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_count_3 -0.0013535455217356805 0.20248855867766602 -149.59863220411722
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 global_betweenness 0.005778519499414006 0.08353216910407073 14.455635065788329
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 metered_count -0.0047583144344282855 0.2847677515463125 -59.8463501037059
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_6 -0.0010441269945225171 0.13007736293612182 -124.58002103049415
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_5 -0.008897307188042195 0.13447781258719554 -15.114439655172418
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 non_metered_count -0.0021344573001133168 0.13580147045048385 -63.62341867568597
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 streets_per_node_count_4 -0.0021344573001133168 0.13580147045048385 -63.62341867568597
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 streets_per_node_count_2 0.0004900318269938155 0.04067459655469011 83.00398936170211
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 m 0.0013756704528997959 0.06016856410128463 43.737629149811596
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 circuity_avg 0.0006244682938599562 0.01664867285915474 26.660557506044313
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 total_crossings -0.003418708824069906 0.25255736153756453 -73.87507229612493
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 k_avg 0.0009841456354284992 0.06882311145213005 69.93183627966232
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 mean_lanes -0.011914432866997704 0.12133458144768162 -10.183831895496382
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 -0.011914432866997704 0.12133458144768162 -10.183831895496382
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 betweenness -0.10412538159040584 0.08098477768000521 -0.7777621214256101
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0256
+SHAP-- recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0519
+SHAP-- recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0912
+SHAP-- recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0412
+SHAP-- recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.1427
+SHAP-- recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_6          0.0609
+SHAP-- recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0661
+SHAP-- recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0670
+SHAP-- recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0000
+SHAP-- recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0210
+SHAP-- recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0308
+SHAP-- recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0077
+SHAP-- recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.1235
+SHAP-- recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0344
+SHAP-- recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0572
+SHAP-- recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-bogota-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0382
+RECURRENT Bogota 80 LR 0.37621805975661243 XpVar
+RECURRENT Bogota 80 RF 0.42512459447075396 XpVar
+RECURRENT Bogota 80 GBM 0.36890497614983264 XpVar
+RECURRENT Bogota 80 LLR -3.172065784643304e-17 XpVar
+RECURRENT Bogota 80 RLR 0.37654179562327617 XpVar
+RECURRENT Bogota 80 LR 0.5639105163156023 MSE
+RECURRENT Bogota 80 RF 0.5215176425372129 MSE
+RECURRENT Bogota 80 GBM 0.570638738363454 MSE
+RECURRENT Bogota 80 LLR 0.9040641254040064 MSE
+RECURRENT Bogota 80 RLR 0.5636766593741458 MSE
+RECURRENT Bogota 80 LR 0.3730601358971338 R2
+RECURRENT Bogota 80 RF 0.42015097765804815 R2
+RECURRENT Bogota 80 GBM 0.3653725240541746 R2
+RECURRENT Bogota 80 LLR -0.005832522891429548 R2
+RECURRENT Bogota 80 RLR 0.3733088860293812 R2
+t_spatial, t_non_spatial, "seconds" : 1.6689300537109375e-06 624.3547530174255 seconds
+sorted_percentage_nan_per_column : Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+maxspeed                         32.633421
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Bogota 90 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (1143, 17) (1143,)
+X.shape, Y.shape, "Inside the model-fitting function" : (1143, 17) (1143,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 1000}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 10,
+ 'xgbregressor__n_estimators': 200}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 n -0.0009590651874404935 0.06861294744907255 -71.54148471615724
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 streets_per_node_avg -0.0024048819212184646 0.1387950108011023 -57.71385679126399
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_count_3 -0.0009442398767023465 0.16131581938546963 -170.84198980120107
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 global_betweenness 0.757098630606511 0.09349219260846202 0.12348746758868856
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 metered_count -0.004354075005381141 0.2906484644747325 -66.75320570167582
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_6 -0.0008543871164549008 0.1343151025637439 -157.20637633331376
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_5 -0.00301062737534812 0.126328476767389 -41.9608476963316
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 non_metered_count -0.002056323917082308 0.15337117642673098 -74.58512501490884
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 streets_per_node_count_4 -0.002056323917082308 0.15337117642673098 -74.58512501490884
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 streets_per_node_count_2 0.00035011775502280474 0.03748520053579407 107.064551848713
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 m 0.001488776780909377 0.05542118100082882 37.2259842519685
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 circuity_avg 0.0021088271003559867 0.021923841743681716 10.39622534250475
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 total_crossings -0.0032568913611875994 0.25864670478386154 -79.41520796983173
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 k_avg 0.0006098149092208065 0.07656920518917816 125.56138597367976
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 mean_lanes 0.006130905764555382 0.07924713575063372 12.925844694724447
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0.006130905764555382 0.07924713575063372 12.925844694724447
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 betweenness -0.0029943057717800245 0.07196420144427418 -24.03368491037361
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0339
+SHAP-- recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0581
+SHAP-- recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0737
+SHAP-- recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0466
+SHAP-- recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.1443
+SHAP-- recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_6          0.0649
+SHAP-- recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0598
+SHAP-- recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0753
+SHAP-- recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0000
+SHAP-- recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0190
+SHAP-- recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0286
+SHAP-- recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0098
+SHAP-- recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.1263
+SHAP-- recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0383
+SHAP-- recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0399
+SHAP-- recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-bogota-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0350
+RECURRENT Bogota 90 LR 0.35224202597090504 XpVar
+RECURRENT Bogota 90 RF 0.40723221994490955 XpVar
+RECURRENT Bogota 90 GBM 0.33739642929297037 XpVar
+RECURRENT Bogota 90 LLR -6.344131569286608e-17 XpVar
+RECURRENT Bogota 90 RLR 0.3524828674684937 XpVar
+RECURRENT Bogota 90 LR 0.5886886466564273 MSE
+RECURRENT Bogota 90 RF 0.5402408069539575 MSE
+RECURRENT Bogota 90 GBM 0.603357868719964 MSE
+RECURRENT Bogota 90 LLR 0.90815733765144 MSE
+RECURRENT Bogota 90 RLR 0.5884920175351366 MSE
+RECURRENT Bogota 90 LR 0.35134792187087754 R2
+RECURRENT Bogota 90 RF 0.4056584106316517 R2
+RECURRENT Bogota 90 GBM 0.3345529273581759 R2
+RECURRENT Bogota 90 LLR -0.0031085623051630507 R2
+RECURRENT Bogota 90 RLR 0.3515353268776865 R2
+t_spatial, t_non_spatial, "seconds" : 2.6226043701171875e-06 745.7784037590027 seconds
+sorted_percentage_nan_per_column : Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+maxspeed                         25.443787
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Bogota 25 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (169, 17) (169,)
+X.shape, Y.shape, "Inside the model-fitting function" : (169, 17) (169,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 1000}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 10,
+ 'xgbregressor__n_estimators': 200}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 n -0.008502938180537168 0.05378108399189761 -6.325000000000003
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 streets_per_node_avg -0.011065485160949491 0.07748170824426076 -7.00210674157303
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_count_3 -0.007546653022052712 0.16271750154826678 -21.56154537286612
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 global_betweenness 0.007531175677932976 0.07942547292390176 10.546224961479197
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 metered_count -0.014404835452559382 0.23184925633167014 -16.095238095238102
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_6 -0.013188755983759333 0.1758955037708233 -13.336777478286919
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_5 -0.04528156621299819 0.32424317775029665 -7.1605998835177616
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 non_metered_count -0.009176765995007356 0.09500023815941658 -10.352256798430048
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 streets_per_node_count_4 -0.009176765995007356 0.09500023815941658 -10.352256798430048
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 streets_per_node_count_2 0.0018774601634781877 0.03957231936323322 21.077581369248037
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 m -0.004587843094997607 0.057597744769427896 -12.554427772874377
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 circuity_avg 0.0011751226986487734 0.013709764817569027 11.666666666666671
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 total_crossings -0.011681179340591393 0.1445693433036324 -12.37626262626263
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 k_avg 0.0029622882993399946 0.06351020564338128 21.43957617411226
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 mean_lanes -0.00571092624474689 0.061864810976078224 -10.83271054900834
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 -0.00571092624474689 0.061864810976078224 -10.83271054900834
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 betweenness -0.006737208837897534 0.08745678197253365 -12.981159420289856
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0262
+SHAP-- recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0386
+SHAP-- recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0761
+SHAP-- recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0357
+SHAP-- recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.1165
+SHAP-- recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_6          0.0819
+SHAP-- recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.1566
+SHAP-- recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0475
+SHAP-- recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0000
+SHAP-- recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0195
+SHAP-- recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0292
+SHAP-- recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0062
+SHAP-- recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0721
+SHAP-- recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0310
+SHAP-- recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0305
+SHAP-- recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-bogota-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0421
+RECURRENT Bogota 25 LR 0.49357254597460987 XpVar
+RECURRENT Bogota 25 RF 0.46170102154438747 XpVar
+RECURRENT Bogota 25 GBM 0.40312123914979436 XpVar
+RECURRENT Bogota 25 LLR -6.344131569286608e-17 XpVar
+RECURRENT Bogota 25 RLR 0.4840609866626184 XpVar
+RECURRENT Bogota 25 LR 0.3699344787228832 MSE
+RECURRENT Bogota 25 RF 0.38435468744405465 MSE
+RECURRENT Bogota 25 GBM 0.4309229326781499 MSE
+RECURRENT Bogota 25 LLR 0.7139786558263038 MSE
+RECURRENT Bogota 25 RLR 0.3746560483258257 MSE
+RECURRENT Bogota 25 LR 0.46026244351908957 R2
+RECURRENT Bogota 25 RF 0.4275021869171508 R2
+RECURRENT Bogota 25 GBM 0.3693815908946262 R2
+RECURRENT Bogota 25 LLR -0.02811347324177062 R2
+RECURRENT Bogota 25 RLR 0.45250794887985124 R2
+t_spatial, t_non_spatial, "seconds" : 3.0994415283203125e-06 178.1051733493805 seconds
+sorted_percentage_nan_per_column : Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+maxspeed                         32.704403
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Bogota 50 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (477, 17) (477,)
+X.shape, Y.shape, "Inside the model-fitting function" : (477, 17) (477,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 200}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 10,
+ 'xgbregressor__n_estimators': 200}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 n -0.002031301425681484 0.07564137064573892 -37.237885864409265
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 streets_per_node_avg -0.007054793510684417 0.17978931879674764 -25.48470320562302
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_count_3 -0.003445569643286751 0.25546573536749967 -74.14325113562623
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 global_betweenness 0.006476365231995401 0.07990840703566315 12.338465199721753
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 metered_count -0.004913187569733125 0.17534526404280312 -35.688697318007655
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_6 -0.0026679419696394027 0.16241401045650394 -60.87614060003551
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_5 0.013964226931164331 0.15409863121583164 11.035242550514965
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 non_metered_count -0.002689631964139456 0.06901970125698367 -25.661392405063282
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 streets_per_node_count_4 -0.002689631964139456 0.06901970125698367 -25.661392405063282
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 streets_per_node_count_2 0.0019841114024714604 0.0484827291050917 24.43548736462094
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 m 0.06793137108537628 0.0743692722891873 1.0947706648776432
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 circuity_avg 0.001377460125153786 0.012667847376362562 9.19652565256527
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 total_crossings -0.004985313465900841 0.1919669713940788 -38.50649968294232
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 k_avg 0.0019231301212748392 0.08668748817673128 45.0762469048461
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 mean_lanes 0.004955873366834778 0.10097109269987536 20.374025974025983
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0.004955873366834778 0.10097109269987536 20.374025974025983
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 betweenness -0.005754313314083312 0.06120589348838389 -10.636524316217958
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0372
+SHAP-- recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0777
+SHAP-- recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.1242
+SHAP-- recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0400
+SHAP-- recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0887
+SHAP-- recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_6          0.0793
+SHAP-- recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0736
+SHAP-- recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0345
+SHAP-- recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0000
+SHAP-- recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0251
+SHAP-- recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0373
+SHAP-- recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0063
+SHAP-- recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0956
+SHAP-- recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0434
+SHAP-- recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0457
+SHAP-- recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-bogota-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0306
+RECURRENT Bogota 50 LR 0.41447020628986303 XpVar
+RECURRENT Bogota 50 RF 0.4567810696151599 XpVar
+RECURRENT Bogota 50 GBM 0.38937531390198943 XpVar
+RECURRENT Bogota 50 LLR -9.516197353929913e-17 XpVar
+RECURRENT Bogota 50 RLR 0.41508972314030884 XpVar
+RECURRENT Bogota 50 LR 0.48400615483926096 MSE
+RECURRENT Bogota 50 RF 0.449361061368771 MSE
+RECURRENT Bogota 50 GBM 0.49973014961593953 MSE
+RECURRENT Bogota 50 LLR 0.8207366567275074 MSE
+RECURRENT Bogota 50 RLR 0.4833373442246453 MSE
+RECURRENT Bogota 50 LR 0.401592203999883 R2
+RECURRENT Bogota 50 RF 0.4466050904078184 R2
+RECURRENT Bogota 50 GBM 0.3810823579373231 R2
+RECURRENT Bogota 50 LLR -0.013744174764075094 R2
+RECURRENT Bogota 50 RLR 0.4027096323232594 R2
+t_spatial, t_non_spatial, "seconds" : 2.384185791015625e-06 343.6629784107208 seconds
+sorted_percentage_nan_per_column : Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+maxspeed                         31.681682
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Bogota 100 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (1332, 17) (1332,)
+X.shape, Y.shape, "Inside the model-fitting function" : (1332, 17) (1332,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 1000}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 10,
+ 'xgbregressor__n_estimators': 200}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 n -0.0008294749672132306 0.059557881337001455 -71.80190324139232
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 streets_per_node_avg -0.0022815758182051678 0.17692954765138416 -77.54708225763375
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_count_3 -0.0008808958815994368 0.17737724064370486 -201.36005213424562
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 global_betweenness -0.00240833656926532 0.10257705296874939 -42.59249071654517
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 metered_count -0.0028275566630586845 0.29973578345700924 -106.00522612790814
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_6 -0.0006571482463294423 0.1024121340413516 -155.84327374132602
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_5 -0.007022827980476883 0.11174323369984102 -15.911429699044561
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 non_metered_count -0.001456671356949023 0.11067355905641205 -75.97702702702702
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 streets_per_node_count_4 -0.001456671356949023 0.11067355905641205 -75.97702702702702
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 streets_per_node_count_2 0.00022972433472043534 0.04121410991556054 179.40680932090345
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 m 0.0028544091694016065 0.056313210566693334 19.728499743608495
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 circuity_avg 0.0009112911942368038 0.018047375852415785 19.804181107587965
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 total_crossings -0.0023917888175537683 0.2515470007202792 -105.17107483492293
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 k_avg 0.000637006369819552 0.09345257475814298 146.70587169264218
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 mean_lanes 0.004514879945130612 0.10773439144762902 23.86207224930149
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0.004514879945130612 0.10773439144762902 23.86207224930149
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 betweenness -0.0014074690256179218 0.10556906741765604 -75.00631665503829
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0286
+SHAP-- recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0732
+SHAP-- recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0795
+SHAP-- recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0513
+SHAP-- recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.1515
+SHAP-- recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_6          0.0488
+SHAP-- recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0557
+SHAP-- recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0553
+SHAP-- recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0000
+SHAP-- recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0223
+SHAP-- recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0282
+SHAP-- recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0088
+SHAP-- recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.1227
+SHAP-- recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0468
+SHAP-- recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0519
+SHAP-- recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-bogota-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0421
+RECURRENT Bogota 100 LR 0.32349316855995053 XpVar
+RECURRENT Bogota 100 RF 0.37263333228878537 XpVar
+RECURRENT Bogota 100 GBM 0.30340148114313603 XpVar
+RECURRENT Bogota 100 LLR -9.516197353929913e-17 XpVar
+RECURRENT Bogota 100 RLR 0.32363863131320425 XpVar
+RECURRENT Bogota 100 LR 0.6311171066394191 MSE
+RECURRENT Bogota 100 RF 0.5869912091169045 MSE
+RECURRENT Bogota 100 GBM 0.6514227716943174 MSE
+RECURRENT Bogota 100 LLR 0.9389578159881652 MSE
+RECURRENT Bogota 100 RLR 0.631028552274904 MSE
+RECURRENT Bogota 100 LR 0.320337517087192 R2
+RECURRENT Bogota 100 RF 0.36982176178530424 R2
+RECURRENT Bogota 100 GBM 0.3009221544961568 R2
+RECURRENT Bogota 100 LLR -0.005063335103511234 R2
+RECURRENT Bogota 100 RLR 0.32050867788997234 R2
+t_spatial, t_non_spatial, "seconds" : 2.1457672119140625e-06 786.3537275791168 seconds
+
+ Complete: python urbanscales/modelling/SHAP_analysis.py
+

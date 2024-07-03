@@ -1,0 +1,60 @@
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+Loaded config file: Prefix for name of road network object pickle file!
+os.getcwd() : /home/niskumar/WCS/urbanscales/modelling
+sorted_percentage_nan_per_column : maxspeed                         4.191617
+n                                0.000000
+lane_density                     0.000000
+streets_per_node_proportion_6    0.000000
+streets_per_node_count_6         0.000000
+streets_per_node_proportion_5    0.000000
+streets_per_node_count_5         0.000000
+streets_per_node_proportion_4    0.000000
+streets_per_node_count_4         0.000000
+streets_per_node_proportion_3    0.000000
+streets_per_node_count_3         0.000000
+streets_per_node_proportion_2    0.000000
+streets_per_node_count_2         0.000000
+streets_per_node_proportion_1    0.000000
+streets_per_node_count_1         0.000000
+mean_lanes                       0.000000
+m                                0.000000
+betweenness                      0.000000
+total_crossings                  0.000000
+non_metered_count                0.000000
+metered_count                    0.000000
+self_loop_proportion             0.000000
+circuity_avg                     0.000000
+street_length_avg                0.000000
+street_segment_count             0.000000
+street_length_total              0.000000
+streets_per_node_avg             0.000000
+edge_length_avg                  0.000000
+edge_length_total                0.000000
+k_avg                            0.000000
+global_betweenness               0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : MexicoCity 20 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (167, 17) (167,)
+X.shape, Y.shape, "Inside the model-fitting function" : (167, 17) (167,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 20,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 1000}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 20,
+ 'xgbregressor__n_estimators': 1000}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+Traceback (most recent call last):
+  File "/home/niskumar/WCS/urbanscales/modelling/SHAP_analysis.py", line 1644, in <module>
+    compare_models_gof_standard_cv_HPT_new(X, Y, common_features_list, tod=tod, cityname=city,
+  File "/home/niskumar/WCS/urbanscales/modelling/SHAP_analysis.py", line 603, in compare_models_gof_standard_cv_HPT_new
+    plot_feature_influence(shap_values_df, slugifiedstring=slugify(str((config.CONGESTION_TYPE, cityname, scale, tod))))
+  File "/home/niskumar/WCS/urbanscales/modelling/SHAP_analysis.py", line 425, in plot_feature_influence
+    means[column] = (numerator, denominator, numerator/denominator)
+UnboundLocalError: local variable 'numerator' referenced before assignment
+
+ Failed: python urbanscales/modelling/SHAP_analysis.py
+

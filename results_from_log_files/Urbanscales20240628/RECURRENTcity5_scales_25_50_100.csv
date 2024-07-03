@@ -1,0 +1,293 @@
+Loaded config file: Prefix for name of road network object pickle file!
+os.getcwd() : /home/niskumar/WCS/urbanscales/modelling
+sorted_percentage_nan_per_column : maxspeed                         4.938272
+n                                0.000000
+lane_density                     0.000000
+streets_per_node_proportion_6    0.000000
+streets_per_node_count_6         0.000000
+streets_per_node_proportion_5    0.000000
+streets_per_node_count_5         0.000000
+streets_per_node_proportion_4    0.000000
+streets_per_node_count_4         0.000000
+streets_per_node_proportion_3    0.000000
+streets_per_node_count_3         0.000000
+streets_per_node_proportion_2    0.000000
+streets_per_node_count_2         0.000000
+streets_per_node_proportion_1    0.000000
+streets_per_node_count_1         0.000000
+mean_lanes                       0.000000
+m                                0.000000
+betweenness                      0.000000
+total_crossings                  0.000000
+non_metered_count                0.000000
+metered_count                    0.000000
+self_loop_proportion             0.000000
+circuity_avg                     0.000000
+street_length_avg                0.000000
+street_segment_count             0.000000
+street_length_total              0.000000
+streets_per_node_avg             0.000000
+edge_length_avg                  0.000000
+edge_length_total                0.000000
+k_avg                            0.000000
+global_betweenness               0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : MexicoCity 25 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (243, 17) (243,)
+X.shape, Y.shape, "Inside the model-fitting function" : (243, 17) (243,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 20,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 500}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 10,
+ 'xgbregressor__n_estimators': 200}
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 mean_lanes -0.000928965442943492 0.02677291399086823 -28.820139860139875
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 n -0.00825100896988914 0.05625291436627726 -6.81770127405801
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_avg 0.005318218036025218 0.2337061370275526 43.94444444444444
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 streets_per_node_count_4 0 0 0
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 global_betweenness -0.0038080667196230874 0.1013953083275845 -26.626452684006637
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_2 -0.006883457670173506 0.039430708845563864 -5.728328804347825
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 non_metered_count 0.002545844152591376 0.05144660838792574 20.208074534161497
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 k_avg -0.0016121940216209467 0.035337269517140654 -21.91874491732176
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 m -0.017567091649686152 0.05964985201414613 -3.395545102379643
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 streets_per_node_count_6 0.004694009295786083 0.2388328448203745 50.88035190615837
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 total_crossings 0.0034258731060604866 0.1375374105376922 40.14667393675026
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 metered_count 0.035828337162158476 0.2946742930290759 8.22461538461539
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 streets_per_node_count_3 0.005308074403110145 0.2702370191688146 50.91055600322319
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 circuity_avg -0.00011675635863895937 0.0031566367439121276 -27.036101337086563
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 betweenness 0.045451291038258713 0.06333857331783138 1.3935483870967715
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 streets_per_node_count_5 0.016474443029665567 0.15397267908495116 9.34615384615384
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0134
+SHAP-- recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0281
+SHAP-- recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.1049
+SHAP-- recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0000
+SHAP-- recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0496
+SHAP-- recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0196
+SHAP-- recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0255
+SHAP-- recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0177
+SHAP-- recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0297
+SHAP-- recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_6          0.1107
+SHAP-- recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0682
+SHAP-- recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.1460
+SHAP-- recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.1144
+SHAP-- recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0016
+SHAP-- recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0308
+SHAP-- recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-mexicocity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0759
+RECURRENT MexicoCity 25 LR 0.5343424915117347 XpVar
+RECURRENT MexicoCity 25 RF 0.5569242229525094 XpVar
+RECURRENT MexicoCity 25 GBM 0.4563618219149954 XpVar
+RECURRENT MexicoCity 25 LLR 3.172065784643304e-17 XpVar
+RECURRENT MexicoCity 25 RLR 0.539050869511434 XpVar
+RECURRENT MexicoCity 25 LR 0.30167198104720067 MSE
+RECURRENT MexicoCity 25 RF 0.2812217356167634 MSE
+RECURRENT MexicoCity 25 GBM 0.3484658179237487 MSE
+RECURRENT MexicoCity 25 LLR 0.7055389982333626 MSE
+RECURRENT MexicoCity 25 RLR 0.29825848519903875 MSE
+RECURRENT MexicoCity 25 LR 0.504150679049131 R2
+RECURRENT MexicoCity 25 RF 0.5395645590674938 R2
+RECURRENT MexicoCity 25 GBM 0.42699570588041774 R2
+RECURRENT MexicoCity 25 LLR -0.1504034142979369 R2
+RECURRENT MexicoCity 25 RLR 0.5088258467307242 R2
+t_spatial, t_non_spatial, "seconds" : 1.6689300537109375e-06 170.58857202529907 seconds
+sorted_percentage_nan_per_column : maxspeed                         22.094508
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : MexicoCity 50 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (783, 17) (783,)
+X.shape, Y.shape, "Inside the model-fitting function" : (783, 17) (783,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 1000}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 50,
+ 'xgbregressor__n_estimators': 200}
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 mean_lanes -0.0005444673693521603 0.03238899289523921 -59.487482112615055
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 n 0.00778123960783978 0.05151824728341471 6.620827770360506
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_avg 0.0018772719047337439 0.20652999992996504 110.01602879645583
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 streets_per_node_count_4 0 0 0
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 global_betweenness -0.0009250650473495113 0.07290424999449206 -78.8098633748802
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_2 0.0056601479996630615 0.06501610970688668 11.486644821081882
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 non_metered_count 0.001087805702311188 0.040749865228104254 37.460610053363155
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 k_avg 0.004305133916785126 0.06218158952635511 14.443590078328953
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 m 0.054441748586250456 0.06597107043815471 1.2117735405511212
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 streets_per_node_count_6 0.002543911888056579 0.2354121590344846 92.53943115707818
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 total_crossings 0.0027433041779933573 0.15926150023962476 58.05462679538499
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 metered_count -0.15349655014007388 0.3202454807078601 -2.08633666630044
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 streets_per_node_count_3 0.0033496764143346376 0.31705033668810134 94.65103415103414
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 circuity_avg -0.00018315155811860168 0.01090987201182498 -59.56745399217505
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 betweenness -0.0007679948758866707 0.04158218998729016 -54.1438377948582
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 streets_per_node_count_5 0.004160196610335524 0.16328801234026263 39.250071002556126
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0164
+SHAP-- recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0251
+SHAP-- recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0881
+SHAP-- recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0000
+SHAP-- recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0359
+SHAP-- recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0313
+SHAP-- recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0201
+SHAP-- recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0311
+SHAP-- recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0330
+SHAP-- recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_6          0.1059
+SHAP-- recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0795
+SHAP-- recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.1555
+SHAP-- recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.1138
+SHAP-- recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0049
+SHAP-- recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0208
+SHAP-- recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-mexicocity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0777
+RECURRENT MexicoCity 50 LR 0.41960271388306947 XpVar
+RECURRENT MexicoCity 50 RF 0.4755622695261405 XpVar
+RECURRENT MexicoCity 50 GBM 0.3412225031228869 XpVar
+RECURRENT MexicoCity 50 LLR -1.586032892321652e-17 XpVar
+RECURRENT MexicoCity 50 RLR 0.4204569027824454 XpVar
+RECURRENT MexicoCity 50 LR 0.45339876728245176 MSE
+RECURRENT MexicoCity 50 RF 0.4098064405027572 MSE
+RECURRENT MexicoCity 50 GBM 0.5169506410913176 MSE
+RECURRENT MexicoCity 50 LLR 0.784923309873501 MSE
+RECURRENT MexicoCity 50 RLR 0.4527328547682986 MSE
+RECURRENT MexicoCity 50 LR 0.41689489442967737 R2
+RECURRENT MexicoCity 50 RF 0.4737446921200533 R2
+RECURRENT MexicoCity 50 GBM 0.3368829327793952 R2
+RECURRENT MexicoCity 50 LLR -0.007939022845148549 R2
+RECURRENT MexicoCity 50 RLR 0.41774078023559164 R2
+t_spatial, t_non_spatial, "seconds" : 2.86102294921875e-06 467.9635305404663 seconds
+sorted_percentage_nan_per_column : maxspeed                         37.5
+n                                 0.0
+lane_density                      0.0
+streets_per_node_proportion_6     0.0
+streets_per_node_count_6          0.0
+streets_per_node_proportion_5     0.0
+streets_per_node_count_5          0.0
+streets_per_node_proportion_4     0.0
+streets_per_node_count_4          0.0
+streets_per_node_proportion_3     0.0
+streets_per_node_count_3          0.0
+streets_per_node_proportion_2     0.0
+streets_per_node_count_2          0.0
+streets_per_node_proportion_1     0.0
+streets_per_node_count_1          0.0
+mean_lanes                        0.0
+m                                 0.0
+betweenness                       0.0
+total_crossings                   0.0
+non_metered_count                 0.0
+metered_count                     0.0
+self_loop_proportion              0.0
+circuity_avg                      0.0
+street_length_avg                 0.0
+street_segment_count              0.0
+street_length_total               0.0
+streets_per_node_avg              0.0
+edge_length_avg                   0.0
+edge_length_total                 0.0
+k_avg                             0.0
+global_betweenness                0.0
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : MexicoCity 100 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (2184, 17) (2184,)
+X.shape, Y.shape, "Inside the model-fitting function" : (2184, 17) (2184,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 400}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 10,
+ 'xgbregressor__n_estimators': 200}
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 mean_lanes 0.001513251336325146 0.04338053993931455 28.66710829719932
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 n -0.002457152420096104 0.03515585015275251 -14.30755775068178
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_avg 0.0009733127541554638 0.2917639616039622 299.7638327025968
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 streets_per_node_count_4 0 0 0
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 global_betweenness -0.0007561620656030154 0.07340850646146717 -97.08038765859828
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_2 -0.002297251202302869 0.05980772262356613 -26.03447222646446
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 non_metered_count 0.0006119680889971137 0.031819249530627605 51.99494892417124
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 k_avg 0.0013275231931486105 0.133080803572449 100.2474414453045
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 m 0.0036014496872840834 0.06056563166572681 16.817014514896755
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 streets_per_node_count_6 0.0010454035914358242 0.24985432719200446 239.00274424046938
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 total_crossings 0.002954587240983253 0.1752082579480823 59.30041784441437
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 metered_count -0.009562998332558224 0.30056095191855997 -31.429572762265252
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 streets_per_node_count_3 0.0009764035747468133 0.1726401657356476 176.81230405205565
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 circuity_avg -6.666657870157759e-05 0.012407532349292046 -186.1132308113846
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 betweenness -0.0005298148548834054 0.04567852965874175 -86.21602289500561
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 streets_per_node_count_5 0.0015174556888525616 0.17746258084257024 116.94745497099836
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0217
+SHAP-- recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0173
+SHAP-- recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.1211
+SHAP-- recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0000
+SHAP-- recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0345
+SHAP-- recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0295
+SHAP-- recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0145
+SHAP-- recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0645
+SHAP-- recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0297
+SHAP-- recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_6          0.1171
+SHAP-- recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0860
+SHAP-- recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.1243
+SHAP-- recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0742
+SHAP-- recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0053
+SHAP-- recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0219
+SHAP-- recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-mexicocity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0793
+RECURRENT MexicoCity 100 LR 0.32118053307210265 XpVar
+RECURRENT MexicoCity 100 RF 0.40837462383641093 XpVar
+RECURRENT MexicoCity 100 GBM 0.35943399920351915 XpVar
+RECURRENT MexicoCity 100 LLR 0.0 XpVar
+RECURRENT MexicoCity 100 RLR 0.32138736843172405 XpVar
+RECURRENT MexicoCity 100 LR 0.5879766536945209 MSE
+RECURRENT MexicoCity 100 RF 0.5131192847621404 MSE
+RECURRENT MexicoCity 100 GBM 0.5555438871977422 MSE
+RECURRENT MexicoCity 100 LLR 0.8662085743523218 MSE
+RECURRENT MexicoCity 100 RLR 0.5878034299691415 MSE
+RECURRENT MexicoCity 100 LR 0.3172043470564517 R2
+RECURRENT MexicoCity 100 RF 0.403983527282501 R2
+RECURRENT MexicoCity 100 GBM 0.3556160988463386 R2
+RECURRENT MexicoCity 100 LLR -0.004488238927054792 R2
+RECURRENT MexicoCity 100 RLR 0.31740591335274415 R2
+t_spatial, t_non_spatial, "seconds" : 1.6689300537109375e-06 970.6105575561523 seconds
+
+ Complete: python urbanscales/modelling/SHAP_analysis.py
+

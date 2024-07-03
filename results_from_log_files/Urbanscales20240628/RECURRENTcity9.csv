@@ -1,0 +1,35 @@
+Loaded config file: Prefix for name of road network object pickle file!
+os.getcwd() : /home/niskumar/WCS/urbanscales/modelling
+Error in :
+[Errno 2] No such file or directory: '/home/niskumar/WCS/RECURRENTnetwork_tmean_smean_50x50_shifting_3/London/_scale_20_train_data_[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].pkl'
+list_of_cities, tod_list, scale, city : ['London'] [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 20 London
+Error in :
+[Errno 2] No such file or directory: '/home/niskumar/WCS/RECURRENTnetwork_tmean_smean_50x50_shifting_3/London/_scale_30_train_data_[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].pkl'
+list_of_cities, tod_list, scale, city : ['London'] [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 30 London
+Error in :
+[Errno 2] No such file or directory: '/home/niskumar/WCS/RECURRENTnetwork_tmean_smean_50x50_shifting_3/London/_scale_40_train_data_[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].pkl'
+list_of_cities, tod_list, scale, city : ['London'] [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 40 London
+Error in :
+[Errno 2] No such file or directory: '/home/niskumar/WCS/RECURRENTnetwork_tmean_smean_50x50_shifting_3/London/_scale_60_train_data_[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].pkl'
+list_of_cities, tod_list, scale, city : ['London'] [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 60 London
+Error in :
+[Errno 2] No such file or directory: '/home/niskumar/WCS/RECURRENTnetwork_tmean_smean_50x50_shifting_3/London/_scale_70_train_data_[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].pkl'
+list_of_cities, tod_list, scale, city : ['London'] [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 70 London
+Error in :
+[Errno 2] No such file or directory: '/home/niskumar/WCS/RECURRENTnetwork_tmean_smean_50x50_shifting_3/London/_scale_80_train_data_[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].pkl'
+list_of_cities, tod_list, scale, city : ['London'] [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 80 London
+Error in :
+[Errno 2] No such file or directory: '/home/niskumar/WCS/RECURRENTnetwork_tmean_smean_50x50_shifting_3/London/_scale_90_train_data_[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].pkl'
+list_of_cities, tod_list, scale, city : ['London'] [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 90 London
+Error in :
+[Errno 2] No such file or directory: '/home/niskumar/WCS/RECURRENTnetwork_tmean_smean_50x50_shifting_3/London/_scale_25_train_data_[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].pkl'
+list_of_cities, tod_list, scale, city : ['London'] [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 25 London
+Error in :
+[Errno 2] No such file or directory: '/home/niskumar/WCS/RECURRENTnetwork_tmean_smean_50x50_shifting_3/London/_scale_50_train_data_[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].pkl'
+list_of_cities, tod_list, scale, city : ['London'] [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 50 London
+Error in :
+[Errno 2] No such file or directory: '/home/niskumar/WCS/RECURRENTnetwork_tmean_smean_50x50_shifting_3/London/_scale_100_train_data_[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].pkl'
+list_of_cities, tod_list, scale, city : ['London'] [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 100 London
+
+ Complete: python urbanscales/modelling/SHAP_analysis.py
+
