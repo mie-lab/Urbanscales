@@ -500,9 +500,9 @@ def compare_models_gof_standard_cv_HPT_new(X, Y, feature_list, cityname, scale, 
     }
 
     gbm_params = {
-        'xgbregressor__n_estimators':  [100, 200, 300, 400, 500, 1000],  # Number of boosting stages to perform
-        'xgbregressor__learning_rate': [0.001, 0.01, 0.1, 0.2],  # Step size shrinkage used to prevent overfitting
-        'xgbregressor__max_depth': [10, 20, 50, 100],  # Maximum depth of each tree
+        'xgbregressor__n_estimators':  [1], #  [100, 200, 300, 400, 500, 1000],  # Number of boosting stages to perform
+        'xgbregressor__learning_rate': [0.01], # [0.001, 0.01, 0.1, 0.2],  # Step size shrinkage used to prevent overfitting
+        'xgbregressor__max_depth': [1] # [10, 20, 50, 100],  # Maximum depth of each tree
         # 'xgbregressor__min_samples_split': [2, 10],  # Minimum number of samples required to split an internal node
         # 'xgbregressor__subsample': [0.6, 0.8, 1.0]  # Subsample ratio of the training instances
     }
@@ -596,6 +596,8 @@ def compare_models_gof_standard_cv_HPT_new(X, Y, feature_list, cityname, scale, 
 
 
     if not config.SHAP_values_disabled:
+        if scaling:
+            X = StandardScaler().fit_transform(X)
         rf_model_best.fit(X, Y)
         explainer = shap.TreeExplainer(rf_model_best)
         shap_values = explainer.shap_values(X)
