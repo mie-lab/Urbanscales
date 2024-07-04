@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from smartprint import smartprint as sprint
 
-NANCOUNTPERCITY = 6  # Set this to the desired threshold
+NANCOUNTPERCITY = 4  # Set this to the desired threshold
 
 # Load and prepare your data
 def load_data(file_path):
@@ -43,7 +43,7 @@ colors = {
 # Plotting function for each model type with lines for each city
 def plot_data_by_model(df, model_types, city_list):
     for model in model_types:
-        plt.figure(figsize=(10, 5))
+        plt.figure(figsize=(7, 5))
         for city in city_list:
             subset = df[(df['City'] == city) & (df['Model'] == model)]
             subset = subset.sort_values(by='TileArea')
@@ -51,13 +51,15 @@ def plot_data_by_model(df, model_types, city_list):
                 plt.plot(subset['TileArea'], subset['GoF'], marker='o', linestyle='-', label=f"{city} ({model})",
                          color=colors[city])
 
-        plt.title(f'GoF (GoF) vs Tile Area for {model} Model Across Cities')
+        plt.title(r'GoF (R$^2$) vs '+f'Tile Area for {model} Model Across Cities')
         plt.xlabel(r'Tile Area $km^2$')
         plt.ylabel('Goodness of Fit (GoF)')
         plt.grid(True, alpha=0.2)
         plt.legend()
         plt.ylim(0, 1)
-        plt.tight_layout(); plt.show()
+        plt.tight_layout();
+        plt.savefig("recurrent_Fi_1.png",dpi=300)
+        plt.show()
 
 
 # Example usage
@@ -95,12 +97,14 @@ heatmap_data = all_data.pivot_table(index='feature', columns='City-Scale', value
 heatmap_data_backup = heatmap_data.copy() # pd.DataFrame(heatmap_data)
 # Choose the thresholding method: 'otsu', 'mean_std', 'quantile', 'top_n'
 plt.figure(figsize=(15, 8))
-sns.heatmap(heatmap_data, annot=False, cmap="coolwarm", center=0, cbar_kws={'label': 'Ratio Value'},
+sns.heatmap(heatmap_data, annot=False, cmap="coolwarm", center=0, cbar_kws={'label': 'Feature Importance (mean |SHAP|)'},
             yticklabels=True, xticklabels=True)
 plt.title("Raw heatmap without filtering")
 plt.ylabel("Feature")
 plt.xlabel("City-Scale Combination")
-plt.tight_layout(); plt.show()
+plt.tight_layout();
+plt.savefig("recurrent_Fi_2a.png", dpi=300)
+plt.show()
 
 
 method = 'otsu'  # Change this variable to switch methods
@@ -135,12 +139,14 @@ for column in heatmap_data.columns:
     heatmap_data[column] = heatmap_data[column].apply(lambda x: x if x >= thresh else np.nan)
 
 plt.figure(figsize=(15, 8))
-sns.heatmap(heatmap_data, annot=False, cmap="coolwarm", center=0, cbar_kws={'label': 'Ratio Value'},
+sns.heatmap(heatmap_data, annot=False, cmap="coolwarm", center=0, cbar_kws={'label': 'Feature Importance (mean |SHAP|)'},
             yticklabels=True, xticklabels=True)
 plt.title("Heatmap with column wise Otsu")
 plt.ylabel("Feature")
 plt.xlabel("City-Scale Combination")
-plt.tight_layout(); plt.show()
+plt.tight_layout();
+plt.savefig("recurrent_Fi_2b.png", dpi=300)
+plt.show()
 
 
 backup_recurrent_nans = np.sign(pd.DataFrame(heatmap_data))
@@ -180,13 +186,15 @@ original_xticks = heatmap_data.columns.tolist()  # Save original x-tick labels
 
 heatmap_data.columns = original_xticks
 plt.figure(figsize=(15, 8))
-sns.heatmap(heatmap_data, annot=False, cmap="coolwarm", center=0, cbar_kws={'label': 'Ratio Value'},
+sns.heatmap(heatmap_data, annot=False, cmap="coolwarm", center=0, cbar_kws={'label': 'Feature Importance (mean |SHAP|)'},
             yticklabels=True, xticklabels=True)
 plt.title("Heatmap with Otsu and > 50% scales importance")
 plt.ylabel("Feature")
 plt.xlabel("City-Scale Combination")
 plt.tight_layout()
-plt.tight_layout(); plt.show()
+plt.tight_layout();
+plt.savefig("recurrent_Fi_2c.png", dpi=300)
+plt.show()
 
 
 
@@ -286,7 +294,7 @@ if 1==1: # trick to allow code folding :)
             # arealist = [x * 1.5 for x in scales_list]
         else:
             arealist = [(75 / x) ** 2 for x in scales_list]
-            arealist = [x for x in scales_list]
+            # arealist = [x for x in scales_list]
         plt.plot(arealist, values, label=f"{city}-{feature}", color=colors[city], marker='o')
         # FI_as_timeseries.append(np.array(values) / np.array(arealist))
         FI_as_timeseries.append(values)
@@ -294,12 +302,13 @@ if 1==1: # trick to allow code folding :)
     FI_as_timeseries = np.array(FI_as_timeseries)
 
     # Add labels and title
-    plt.xlabel('Scale')
+    plt.xlabel('Tile Area')
     plt.ylabel('Feature Importance')
     plt.title('Feature Importance vs. Scale for Each City-Feature Combination')
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
+    plt.savefig("recurrent_Fi_3a.png", dpi=300)
     plt.show()
     # Display the dictionary
 
@@ -330,15 +339,16 @@ if 1==1: # trick to allow code folding :)
             wcss.append(km.inertia_)  # WCSS
             silhouette_scores.append(ts_silhouette_score(timeseries_data, clusters, metric='dtw'))
 
-        # Plot Elbow method
-        plt.figure(figsize=(14, 8))
-        plt.plot(range(2, max_clusters + 1), wcss, marker='o')
-        plt.xlabel('Number of Clusters')
-        plt.ylabel('WCSS (Within-cluster sum of squares)')
-        plt.title('Elbow Method for Determining the Optimal Number of Clusters')
-        plt.grid(True)
-        plt.tight_layout();
-        plt.show()
+        # # Plot Elbow method
+        # plt.figure(figsize=(14, 8))
+        # plt.plot(range(2, max_clusters + 1), wcss, marker='o')
+        # plt.xlabel('Number of Clusters')
+        # plt.ylabel('WCSS (Within-cluster sum of squares)')
+        # plt.title('Elbow Method for Determining the Optimal Number of Clusters')
+        # plt.grid(True)
+        # plt.tight_layout();
+        # 
+        # plt.show()
 
         # Plot Silhouette scores
         plt.figure(figsize=(14, 8))
@@ -348,6 +358,7 @@ if 1==1: # trick to allow code folding :)
         plt.title('Silhouette Analysis for Determining the Optimal Number of Clusters')
         plt.grid(True)
         plt.tight_layout();
+        plt.savefig("recurrent_Fi_3b.png", dpi=300)
         plt.show()
 
         # Choose the optimal number of clusters (based on the Elbow or Silhouette)
@@ -405,6 +416,7 @@ if 1==1: # trick to allow code folding :)
     plt.legend(loc='best', fontsize='small')
     plt.grid(True)
     plt.tight_layout();
+    plt.savefig("recurrent_Fi_3c.png", dpi=300)
     plt.show()
 
     # Display the number of time series in each cluster
@@ -427,20 +439,21 @@ if 1==1: # trick to allow code folding :)
         scales_list = sorted(scales.keys())
         values = [scales[scale] for scale in scales_list]
         if city.lower() != "istanbul":
-            # arealist = [(50 / x) ** 2 for x in scales_list]
-            arealist = [x * 1.5 for x in scales_list]
+            arealist = [(50 / x) ** 2 for x in scales_list]
+            # arealist = [x * 1.5 for x in scales_list]
         else:
-            # arealist = [(75 / x) ** 2 for x in scales_list]
-            arealist = [x for x in scales_list]
+            arealist = [(75 / x) ** 2 for x in scales_list]
+            # arealist = [x for x in scales_list]
         plt.plot(arealist, values, label=f"{city}-{feature}", color=cluster_color[dictzip[city.lower(), feature]], marker='o')
         # FI_as_timeseries.append(np.array(values) / np.array(arealist))
     # Add labels and title
-    plt.xlabel('Scale')
+    plt.xlabel('Tile Area')
     plt.ylabel('Feature Importance')
     plt.title('ABSSHAP for Each City-Feature Combination')
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
+    plt.savefig("recurrent_Fi_3d.png", dpi=300)
     plt.show()
 
 
@@ -497,9 +510,11 @@ if 1==1: # allow code folding
     original_xticks = heatmap_data.columns.tolist()  # Save original x-tick labels\
     # heatmap_data = heatmap_data.apply(lambda row: adjust_row_based_on_nan_count(row), axis=1)
     plt.figure(figsize=(14, 8))
-    sns.heatmap(heatmap_data, annot=False, cmap="seismic", cbar_kws={'label': 'Signed Denominator'}, center=0,
+    sns.heatmap(heatmap_data, annot=False, cmap="seismic", cbar_kws={'label': 'Signed Numerator'}, center=0,
                 yticklabels=True, xticklabels=original_xticks)
-    plt.tight_layout(); plt.show()
+    plt.tight_layout(); 
+    plt.savefig("recurrent_Fi_4a.png", dpi=300)
+    plt.show()
 
 
 
@@ -547,9 +562,22 @@ if 1==1: # allow code folding
     heatmap_data.columns = original_xticks
     # heatmap_data = heatmap_data.clip(-0.000000001, 0.000000001)
     plt.figure(figsize=(14, 8))
-    sns.heatmap(heatmap_data, annot=False, cmap="seismic", cbar_kws={'label': 'Signed Denominator'}, center=0,
+    sns.heatmap(heatmap_data, annot=False, cmap="seismic", cbar_kws={'label': 'Sensitivity Ratio'}, center=0,
                 yticklabels=True, xticklabels=True)
-    plt.tight_layout(); plt.show()
+    plt.title("Sensitivity")
+    plt.tight_layout();
+    plt.savefig("recurrent_Fi_4b.png", dpi=300)
+    plt.show()
+
+
+    plt.figure(figsize=(14, 8))
+    sns.heatmap(np.log(heatmap_data+0.127), annot=False, cmap="seismic", cbar_kws={'label': 'Sensitivity Ratio'},
+                yticklabels=True, xticklabels=True)
+    plt.title("Log of sensitivity")
+    plt.savefig("recurrent_Fi_4c.png", dpi=300)
+    plt.tight_layout();
+    plt.show()
+
 
 
     # trick to allow code folding :)
@@ -659,6 +687,7 @@ if 1==1: # allow code folding
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
+    plt.savefig("recurrent_Fi_4d.png", dpi=300)
     plt.show()
     # Display the dictionary
 
@@ -697,6 +726,7 @@ if 1==1: # allow code folding
         plt.title('Elbow Method for Determining the Optimal Number of Clusters')
         plt.grid(True)
         plt.tight_layout();
+        plt.savefig("recurrent_Fi_4e.png", dpi=300)
         plt.show()
 
         # Plot Silhouette scores
@@ -707,6 +737,7 @@ if 1==1: # allow code folding
         plt.title('Silhouette Analysis for Determining the Optimal Number of Clusters')
         plt.grid(True)
         plt.tight_layout();
+        plt.savefig("recurrent_Fi_4f.png", dpi=300)
         plt.show()
 
         # Choose the optimal number of clusters (based on the Elbow or Silhouette)
@@ -759,12 +790,13 @@ if 1==1: # allow code folding
             plt.plot(area_list, timeseries_data[idx].ravel(), alpha=0.1, color=cluster_color[i])
         plt.plot(area_list, cluster_representatives[i], label=f"Cluster {i + 1} (Representative)", linewidth=2, color=cluster_color[i])
 
-    plt.xlabel('Scale')
+    plt.xlabel('Tile Area')
     plt.ylabel('Feature Importance')
     plt.title(f'Clustered Feature Importance vs. Scale (n_clusters={HARDCODED_CLUSTER})')
     plt.legend(loc='best', fontsize='small')
     plt.grid(True)
     plt.tight_layout();
+    plt.savefig("recurrent_Fi_4g.png", dpi=300)
     plt.show()
 
     # Display the number of time series in each cluster
@@ -787,21 +819,16 @@ if 1==1: # allow code folding
     for (city, feature), scales in collated_data.items():
         scales_list = sorted(scales.keys())
         values = [scales[scale] for scale in scales_list]
-        if city.lower() != "istanbul":
-            arealist = [(50 / x) ** 2 for x in scales_list]
-            # arealist = [x * 1.5 for x in scales_list]
-        else:
-            arealist = [(75 / x) ** 2 for x in scales_list]
-            # arealist = [x for x in scales_list]
         plt.plot(arealist, values, label=f"{city}-{feature}", color=cluster_color[dictzip[city.lower(), feature]], marker='o')
         # FI_as_timeseries.append(np.array(values) / np.array(arealist))
     # Add labels and title
-    plt.xlabel('Scale')
+    plt.xlabel('Tile Area')
     plt.ylabel('Feature Importance')
     plt.title('Ratio vs. Scale for Each City-Feature Combination')
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
+    plt.savefig("recurrent_Fi_4h.png", dpi=300)
     plt.show()
 
 
