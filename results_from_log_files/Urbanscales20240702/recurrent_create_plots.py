@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from smartprint import smartprint as sprint
 
-NANCOUNTPERCITY = 4  # Set this to the desired threshold
+NANCOUNTPERCITY = 5  # Set this to the desired threshold
 
 # Load and prepare your data
 def load_data(file_path):
@@ -97,7 +97,7 @@ heatmap_data = all_data.pivot_table(index='feature', columns='City-Scale', value
 heatmap_data_backup = heatmap_data.copy() # pd.DataFrame(heatmap_data)
 # Choose the thresholding method: 'otsu', 'mean_std', 'quantile', 'top_n'
 plt.figure(figsize=(15, 8))
-sns.heatmap(heatmap_data, annot=False, cmap="coolwarm", center=0, cbar_kws={'label': 'Feature Importance (mean |SHAP|)'},
+sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': 'Feature Importance (mean |SHAP|)'},
             yticklabels=True, xticklabels=True)
 plt.title("Raw heatmap without filtering")
 plt.ylabel("Feature")
@@ -139,7 +139,7 @@ for column in heatmap_data.columns:
     heatmap_data[column] = heatmap_data[column].apply(lambda x: x if x >= thresh else np.nan)
 
 plt.figure(figsize=(15, 8))
-sns.heatmap(heatmap_data, annot=False, cmap="coolwarm", center=0, cbar_kws={'label': 'Feature Importance (mean |SHAP|)'},
+sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': 'Feature Importance (mean |SHAP|)'},
             yticklabels=True, xticklabels=True)
 plt.title("Heatmap with column wise Otsu")
 plt.ylabel("Feature")
@@ -186,7 +186,7 @@ original_xticks = heatmap_data.columns.tolist()  # Save original x-tick labels
 
 heatmap_data.columns = original_xticks
 plt.figure(figsize=(15, 8))
-sns.heatmap(heatmap_data, annot=False, cmap="coolwarm", center=0, cbar_kws={'label': 'Feature Importance (mean |SHAP|)'},
+sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': 'Feature Importance (mean |SHAP|)'},
             yticklabels=True, xticklabels=True)
 plt.title("Heatmap with Otsu and > 50% scales importance")
 plt.ylabel("Feature")
@@ -395,7 +395,13 @@ if 1==1: # trick to allow code folding :)
     # Extract city names from labels
     city_labels = [label.split('-')[0] for label in heatmap_data.columns]
 
-    cluster_color = {0: "#E69F00", 1:"#F0E442", 2:"#CC79A7"}
+    ratio_of_last_to_first_element = []
+    for row in cluster_representatives:
+        ratio_of_last_to_first_element.append((row[-1] - row[0]))
+
+    sorted_indices = sorted(range(len(ratio_of_last_to_first_element)), key=lambda k: ratio_of_last_to_first_element[k])
+    colors = ["#1f77b4", "#2ca02c", "#ff7f0e"]  # Tab Blue, Tab Green, Tab Orange
+    cluster_color = {sorted_indices[i]: colors[i] for i in range(3)}
 
     # Plot the clustered time series
     plt.figure(figsize=(5, 6))
@@ -483,7 +489,7 @@ if 1==1: # allow code folding
         df['Scale'] = split_columns[2].astype(str)
         df['Scale'] = df['Scale'].apply(lambda x: x.zfill(3))
         df['City-Scale'] = df['City'] + '-' + df['Scale'].astype(str)
-        df["signeddenominator"] = np.sign(df["ratio"]) * np.abs(df["num"])
+        df["signeddenominator"] = np.sign(df["ratio"]) # * np.abs(df["num"])
 
         #     for i in df.index:
         #         city_scale_tuple = (df.loc[i, 'City'], df.loc[i, 'Scale'])
@@ -510,9 +516,19 @@ if 1==1: # allow code folding
     original_xticks = heatmap_data.columns.tolist()  # Save original x-tick labels\
     # heatmap_data = heatmap_data.apply(lambda row: adjust_row_based_on_nan_count(row), axis=1)
     plt.figure(figsize=(14, 8))
-    sns.heatmap(heatmap_data, annot=False, cmap="seismic", cbar_kws={'label': 'Signed Numerator'}, center=0,
+    # sns.heatmap(heatmap_data, annot=False, cmap="seismic", cbar_kws={'label': 'Signed Numerator'}, center=0,
+    #             yticklabels=True, xticklabels=original_xticks)
+    from matplotlib.colors import LinearSegmentedColormap
+
+    colors = ["#fb8072", "#8dd3c7"]  # Crimson Red for -1, Teal Green for +1
+    cmap = LinearSegmentedColormap.from_list("custom_cmap", colors, N=2)
+
+    # Create the heatmap
+    sns.heatmap(heatmap_data, annot=False, cmap=cmap, cbar_kws={'label': 'Direction of Relationship'}, center=0,
                 yticklabels=True, xticklabels=original_xticks)
-    plt.tight_layout(); 
+
+    plt.tight_layout();
+
     plt.savefig("recurrent_Fi_4a.png", dpi=300)
     plt.show()
 
@@ -774,7 +790,14 @@ if 1==1: # allow code folding
     # Extract city names from labels
     city_labels = [label.split('-')[0] for label in heatmap_data.columns]
 
-    cluster_color = {0: "#E69F00", 1:"#F0E442", 2:"#CC79A7"}
+    ratio_of_last_to_first_element = []
+    for row in cluster_representatives:
+        ratio_of_last_to_first_element.append((row[-1] - row[0]))
+
+    sorted_indices = sorted(range(len(ratio_of_last_to_first_element)), key=lambda k: ratio_of_last_to_first_element[k])
+    colors = ["#1f77b4", "#2ca02c", "#ff7f0e"]  # Tab Blue, Tab Green, Tab Orange
+    cluster_color = {sorted_indices[i]: colors[i] for i in range(3)}
+
 
     # Plot the clustered time series
     area_list = [(50/x)**2 for x in [20, 25, 30, 40, 50, 60, 70, 80, 90, 100]]
@@ -791,10 +814,10 @@ if 1==1: # allow code folding
         plt.plot(area_list, cluster_representatives[i], label=f"Cluster {i + 1} (Representative)", linewidth=2, color=cluster_color[i])
 
     plt.xlabel('Tile Area')
-    plt.ylabel('Feature Importance')
+    plt.ylabel('Sensitivity Ratio (z-normalised)')
     plt.title(f'Clustered Feature Importance vs. Scale (n_clusters={HARDCODED_CLUSTER})')
     plt.legend(loc='best', fontsize='small')
-    plt.grid(True)
+    plt.grid(True, alpha=0.0)
     plt.tight_layout();
     plt.savefig("recurrent_Fi_4g.png", dpi=300)
     plt.show()
