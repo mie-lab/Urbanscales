@@ -1053,12 +1053,22 @@ if 1==1: # allow code folding
 
     sorted_indices = sorted(range(len(ratio_of_last_to_first_element)), key=lambda k: ratio_of_last_to_first_element[k])
     colors = ["#1f77b4", "#2ca02c", "#ff7f0e"]  # Tab Blue, Tab Green, Tab Orange
-    cluster_color = {sorted_indices[i]: colors[i] for i in range(3)}
 
+    cluster_color = {sorted_indices[i]: colors[i] for i in range(3)}
+    cluster_names = {}
+    for key in cluster_color:
+        if cluster_color[key] == "#1f77b4":
+            # blue increasein
+            cluster_names[key] = "Increasing"
+        if cluster_color[key] == "#ff7f0e":
+            # blue increasein
+            cluster_names[key] = "Decreasing"
+        if cluster_color[key] == "#2ca02c":
+            # blue increasein
+            cluster_names[key] = "Indeterminate"
 
     # Plot the clustered time series
     area_list = [(50/x)**2 for x in [20, 25, 30, 40, 50, 60, 70, 80, 90, 100]]
-    plt.figure(figsize=(5, 6))
     for i in range(HARDCODED_CLUSTER):
         cluster_indices = np.where(clusters == i)[0]
         for idx in cluster_indices:
@@ -1068,15 +1078,15 @@ if 1==1: # allow code folding
                 debug_pitstop = True
                 raise e
             plt.plot(area_list, timeseries_data[idx].ravel(), alpha=0.1, color=cluster_color[i])
-        plt.plot(area_list, cluster_representatives[i], label=f"Cluster {i + 1} (Representative)", linewidth=2, color=cluster_color[i])
+        plt.plot(area_list, cluster_representatives[i], label=f"Cluster Representative ({cluster_names[i]})", linewidth=2, color=cluster_color[i])
 
     plt.xlabel(r'Tile Area (k.m.$^2$)')
     plt.ylabel('Sensitivity Ratio (z-normalised)')
     # plt.title(f'Clustered Feature Importance vs. Scale (n_clusters={HARDCODED_CLUSTER})')
-    plt.legend(loc='best', fontsize='small')
+    plt.legend(loc='best', fontsize=5)
     plt.grid(True, alpha=0.0)
     plt.tight_layout();
-    plt.savefig("recurrent_Fi_4g.png", dpi=300)
+    plt.savefig("nonrecurrent_Fi_4g.png", dpi=300)
     plt.show()
 
     # Display the number of time series in each cluster
