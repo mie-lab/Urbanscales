@@ -3,6 +3,21 @@ import matplotlib.pyplot as plt
 import numpy as np
 from smartprint import smartprint as sprint
 
+
+def set_global_rc_params():
+    plt.rcParams.update({
+        'font.size': 20,          # General font size
+        'axes.titlesize': 16,     # Title font size
+        'axes.labelsize': 14,     # Axis label font size
+        'xtick.labelsize': 12,    # X-tick label font size
+        'ytick.labelsize': 12,    # Y-tick label font size
+        'legend.fontsize': 12,    # Legend font size
+        'figure.titlesize': 16,   # Figure title font size
+        # 'cbar.labelsize': 14,     # Colorbar label font size
+        # 'cbar.tick.size': 12,     # Colorbar tick label size
+    })
+set_global_rc_params();
+
 NANCOUNTPERCITY = 5  # Set this to the desired threshold
 
 # Load and prepare your data
@@ -48,14 +63,14 @@ def plot_data_by_model(df, model_types, city_list):
             subset = df[(df['City'] == city) & (df['Model'] == model)]
             subset = subset.sort_values(by='TileArea')
             if not subset.empty:
-                plt.plot(subset['TileArea'], subset['GoF'], marker='o', linestyle='-', label=f"{city} ({model})",
+                plt.plot(subset['TileArea'], subset['GoF'], marker='o', linestyle='-', label=f"{city} ",
                          color=colors[city])
 
-        plt.title(r'GoF (R$^2$) vs '+f'Tile Area for {model} Model Across Cities')
-        plt.xlabel(r'Tile Area $km^2$')
-        plt.ylabel('Goodness of Fit (GoF)')
+        # plt.title(r'GoF (R$^2$) vs '+f'Tile Area for {model} Model Across Cities')
+        plt.xlabel(r'Tile Area k.m.$^2$')
+        plt.ylabel('Goodness of Fit '+ r'($R^2$)')
         plt.grid(True, alpha=0.2)
-        plt.legend()
+        plt.legend(ncol=2)
         plt.ylim(0, 1)
         plt.tight_layout();
         plt.savefig("recurrent_Fi_1.png",dpi=300)
@@ -99,12 +114,72 @@ heatmap_data_backup = heatmap_data.copy() # pd.DataFrame(heatmap_data)
 plt.figure(figsize=(15, 8))
 sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': 'Feature Importance (mean |SHAP|)'},
             yticklabels=True, xticklabels=True)
-plt.title("Raw heatmap without filtering")
+# plt.title("Raw heatmap without filtering")
 plt.ylabel("Feature")
 plt.xlabel("City-Scale Combination")
 plt.tight_layout();
-plt.savefig("recurrent_Fi_2a.png", dpi=300)
+plt.savefig("recurrent_Fi_2a_orig.png", dpi=300)
 plt.show()
+
+if "heatmapplotunfiltered" == "heatmapplotunfiltered":
+    tick_positions = np.concatenate([np.arange(0, 8, 4), np.array([9]), np.arange(14, heatmap_data.columns.size, 10)])
+    tick_labels = ["6.25 $km^2$", "4.0 $km^2$", "2.78 $km^2$", "1.56 $km^2$", "1.0 $km^2$", "0.69 $km^2$",
+                   "0.51 $km^2$", "0.39 $km^2$", "0.31 $km^2$", "0.25 $km^2$"]
+    tick_labels = tick_labels + tick_labels + tick_labels + tick_labels + tick_labels + tick_labels + tick_labels
+    # Repeating the sequence for as many times as needed (or slice it to the number of ticks)
+    tick_labels = np.array(tick_labels)[tick_positions]
+    plt.figure(figsize=(15, 8))
+    ax = sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': 'Feature Importance (mean |SHAP|)'},
+                     yticklabels=True, xticklabels=tick_positions)  # Pass only the positions where labels should be shown
+
+
+
+    # Assuming heatmap_data is already loaded and processed
+    # Let's compute the mid-points for the city labels
+    city_positions = {}
+    for col in heatmap_data.columns:
+        city = col.split('-')[0]
+        if city not in city_positions:
+            city_positions[city] = []
+        city_positions[city].append(heatmap_data.columns.get_loc(col))
+
+    # Calculate mid-points for placing city labels
+    city_labels = {}
+    for city, positions in city_positions.items():
+        city_labels[city] = np.mean(positions)
+
+    plt.figure(figsize=(15, 8))
+    ax = sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': r'${Feature~Importance}_j = \mathbb{E} \left[ |\phi_j| \right]$'},
+                     yticklabels=True, xticklabels=tick_positions)
+    cbar = ax.collections[0].colorbar
+    cbar.ax.tick_params(labelsize=24)  # Adjust the tick font size as needed
+    cbar.set_label(r'${Feature~Importance}_j = \mathbb{E} \left[ |\phi_j| \right]$',
+                   size=24)  # Adjust the label font size as needed
+
+    # Set custom x-tick labels
+    ax.set_xticks(tick_positions)
+    ax.set_xticklabels(tick_labels, rotation=90, fontsize=20)  # Rotate labels for better visibility
+    ax.set_yticklabels(heatmap_data.index, rotation=0, fontsize=20)  # Rotate labels for better visibility
+
+    # Annotate with city names
+    for city, pos in city_labels.items():
+        ax.text(pos, -0.5, city.title().replace("Newyorkcity", "New York City").replace("Mexicocity", "Mexico City"), va='center', ha='center', color='black', rotation=0, fontsize=12)
+
+    # Add vertical lines to separate groups of cities every 10 columns
+    for i in range(10, len(heatmap_data.columns), 10):
+        ax.axvline(x=i, color='white', linestyle='--', lw=1)  # Change color and style if needed
+
+
+    # Set custom x-tick labels
+    ax.set_xticks(tick_positions)
+    ax.set_xticklabels(tick_labels, rotation=90)  # Rotate labels for better visibility
+    plt.ylabel("Feature", fontsize=25)
+    plt.xlabel("City-Scale Combination", fontsize=25)
+    plt.tight_layout()
+    plt.savefig("recurrent_Fi_2a.png", dpi=300)
+    plt.show()
+
+
 
 
 method = 'otsu'  # Change this variable to switch methods
@@ -141,12 +216,71 @@ for column in heatmap_data.columns:
 plt.figure(figsize=(15, 8))
 sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': 'Feature Importance (mean |SHAP|)'},
             yticklabels=True, xticklabels=True)
-plt.title("Heatmap with column wise Otsu")
+# plt.title("Heatmap with column wise Otsu")
 plt.ylabel("Feature")
 plt.xlabel("City-Scale Combination")
 plt.tight_layout();
-plt.savefig("recurrent_Fi_2b.png", dpi=300)
+plt.savefig("recurrent_Fi_2b_orig.png", dpi=300)
 plt.show()
+
+if "heatmapplotunOtsu" == "heatmapplotunOtsu":
+    tick_positions = np.concatenate([np.arange(0, 8, 4), np.array([9]), np.arange(14, heatmap_data.columns.size, 10)])
+    tick_labels = ["6.25 $km^2$", "4.0 $km^2$", "2.78 $km^2$", "1.56 $km^2$", "1.0 $km^2$", "0.69 $km^2$",
+                   "0.51 $km^2$", "0.39 $km^2$", "0.31 $km^2$", "0.25 $km^2$"]
+    tick_labels = tick_labels + tick_labels + tick_labels + tick_labels + tick_labels + tick_labels + tick_labels
+    # Repeating the sequence for as many times as needed (or slice it to the number of ticks)
+    tick_labels = np.array(tick_labels)[tick_positions]
+    plt.figure(figsize=(15, 8))
+    ax = sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': 'Feature Importance (mean |SHAP|)'},
+                     yticklabels=True, xticklabels=tick_positions)  # Pass only the positions where labels should be shown
+
+
+
+    # Assuming heatmap_data is already loaded and processed
+    # Let's compute the mid-points for the city labels
+    city_positions = {}
+    for col in heatmap_data.columns:
+        city = col.split('-')[0]
+        if city not in city_positions:
+            city_positions[city] = []
+        city_positions[city].append(heatmap_data.columns.get_loc(col))
+
+    # Calculate mid-points for placing city labels
+    city_labels = {}
+    for city, positions in city_positions.items():
+        city_labels[city] = np.mean(positions)
+
+    plt.figure(figsize=(15, 8))
+    ax = sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': r'${Feature~Importance}_j = \mathbb{E} \left[ |\phi_j| \right]$'},
+                     yticklabels=True, xticklabels=tick_positions)
+    cbar = ax.collections[0].colorbar
+    cbar.ax.tick_params(labelsize=24)  # Adjust the tick font size as needed
+    cbar.set_label(r'${Feature~Importance}_j = \mathbb{E} \left[ |\phi_j| \right]$',
+                   size=24)  # Adjust the label font size as needed
+
+    # Set custom x-tick labels
+    ax.set_xticks(tick_positions)
+    ax.set_xticklabels(tick_labels, rotation=90, fontsize=20)  # Rotate labels for better visibility
+    ax.set_yticklabels(heatmap_data.index, rotation=0, fontsize=20)  # Rotate labels for better visibility
+
+    # Annotate with city names
+    for city, pos in city_labels.items():
+        ax.text(pos, -0.5, city.title().replace("Newyorkcity", "New York City").replace("Mexicocity", "Mexico City"), va='center', ha='center', color='black', rotation=0, fontsize=12)
+
+    # Add vertical lines to separate groups of cities every 10 columns
+    for i in range(10, len(heatmap_data.columns), 10):
+        ax.axvline(x=i, color='white', linestyle='--', lw=1)  # Change color and style if needed
+
+
+    # Set custom x-tick labels
+    ax.set_xticks(tick_positions)
+    ax.set_xticklabels(tick_labels, rotation=90)  # Rotate labels for better visibility
+    plt.ylabel("Feature", fontsize=25)
+    plt.xlabel("City-Scale Combination", fontsize=25)
+    plt.tight_layout()
+    plt.savefig("recurrent_Fi_2b.png", dpi=300)
+    plt.show()
+
 
 
 backup_recurrent_nans = np.sign(pd.DataFrame(heatmap_data))
@@ -188,16 +322,74 @@ heatmap_data.columns = original_xticks
 plt.figure(figsize=(15, 8))
 sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': 'Feature Importance (mean |SHAP|)'},
             yticklabels=True, xticklabels=True)
-plt.title("Heatmap with Otsu and > 50% scales importance")
+# plt.title("Heatmap with Otsu and > 50% scales importance")
 plt.ylabel("Feature")
 plt.xlabel("City-Scale Combination")
 plt.tight_layout()
 plt.tight_layout();
-plt.savefig("recurrent_Fi_2c.png", dpi=300)
+plt.savefig("recurrent_Fi_2c_orig.png", dpi=300)
 plt.show()
 
 
 
+
+if "heatmapplotunOtsuSelected50" == "heatmapplotunOtsuSelected50":
+    tick_positions = np.concatenate([np.arange(0, 8, 4), np.array([9]), np.arange(14, heatmap_data.columns.size, 10)])
+    tick_labels = ["6.25 $km^2$", "4.0 $km^2$", "2.78 $km^2$", "1.56 $km^2$", "1.0 $km^2$", "0.69 $km^2$",
+                   "0.51 $km^2$", "0.39 $km^2$", "0.31 $km^2$", "0.25 $km^2$"]
+    tick_labels = tick_labels + tick_labels + tick_labels + tick_labels + tick_labels + tick_labels + tick_labels
+    # Repeating the sequence for as many times as needed (or slice it to the number of ticks)
+    tick_labels = np.array(tick_labels)[tick_positions]
+    plt.figure(figsize=(15, 8))
+    ax = sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': 'Feature Importance (mean |SHAP|)'},
+                     yticklabels=True, xticklabels=tick_positions)  # Pass only the positions where labels should be shown
+
+
+
+    # Assuming heatmap_data is already loaded and processed
+    # Let's compute the mid-points for the city labels
+    city_positions = {}
+    for col in heatmap_data.columns:
+        city = col.split('-')[0]
+        if city not in city_positions:
+            city_positions[city] = []
+        city_positions[city].append(heatmap_data.columns.get_loc(col))
+
+    # Calculate mid-points for placing city labels
+    city_labels = {}
+    for city, positions in city_positions.items():
+        city_labels[city] = np.mean(positions)
+
+    plt.figure(figsize=(15, 8))
+    ax = sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': r'${Feature~Importance}_j = \mathbb{E} \left[ |\phi_j| \right]$'},
+                     yticklabels=True, xticklabels=tick_positions)
+    cbar = ax.collections[0].colorbar
+    cbar.ax.tick_params(labelsize=24)  # Adjust the tick font size as needed
+    cbar.set_label(r'${Feature~Importance}_j = \mathbb{E} \left[ |\phi_j| \right]$',
+                   size=24)  # Adjust the label font size as needed
+
+    # Set custom x-tick labels
+    ax.set_xticks(tick_positions)
+    ax.set_xticklabels(tick_labels, rotation=90, fontsize=20)  # Rotate labels for better visibility
+    ax.set_yticklabels(heatmap_data.index, rotation=0, fontsize=20)  # Rotate labels for better visibility
+
+    # Annotate with city names
+    for city, pos in city_labels.items():
+        ax.text(pos, -0.5, city.title().replace("Newyorkcity", "New York City").replace("Mexicocity", "Mexico City"), va='center', ha='center', color='black', rotation=0, fontsize=12)
+
+    # Add vertical lines to separate groups of cities every 10 columns
+    for i in range(10, len(heatmap_data.columns), 10):
+        ax.axvline(x=i, color='white', linestyle='--', lw=1)  # Change color and style if needed
+
+
+    # Set custom x-tick labels
+    ax.set_xticks(tick_positions)
+    ax.set_xticklabels(tick_labels, rotation=90)  # Rotate labels for better visibility
+    plt.ylabel("Feature", fontsize=25)
+    plt.xlabel("City-Scale Combination", fontsize=25)
+    plt.tight_layout()
+    plt.savefig("recurrent_Fi_2c.png", dpi=300)
+    plt.show()
 
 
 ################ FIGURE 2
@@ -302,9 +494,9 @@ if 1==1: # trick to allow code folding :)
     FI_as_timeseries = np.array(FI_as_timeseries)
 
     # Add labels and title
-    plt.xlabel('Tile Area')
+    plt.xlabel(r'Tile Area (k.m.$^2$)')
     plt.ylabel('Feature Importance')
-    plt.title('Feature Importance vs. Scale for Each City-Feature Combination')
+    # plt.title('Feature Importance vs. Scale for Each City-Feature Combination')
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
@@ -344,8 +536,8 @@ if 1==1: # trick to allow code folding :)
         # plt.plot(range(2, max_clusters + 1), wcss, marker='o')
         # plt.xlabel('Number of Clusters')
         # plt.ylabel('WCSS (Within-cluster sum of squares)')
-        # plt.title('Elbow Method for Determining the Optimal Number of Clusters')
-        # plt.grid(True)
+        # # plt.title('Elbow Method for Determining the Optimal Number of Clusters')
+        # plt.grid(True, alpha=0.3)
         # plt.tight_layout();
         # 
         # plt.show()
@@ -355,8 +547,8 @@ if 1==1: # trick to allow code folding :)
         plt.plot(range(2, max_clusters + 1), silhouette_scores, marker='o')
         plt.xlabel('Number of Clusters')
         plt.ylabel('Silhouette Score')
-        plt.title('Silhouette Analysis for Determining the Optimal Number of Clusters')
-        plt.grid(True)
+        # plt.title('Silhouette Analysis for Determining the Optimal Number of Clusters')
+        plt.grid(True, alpha=0.3)
         plt.tight_layout();
         plt.savefig("recurrent_Fi_3b.png", dpi=300)
         plt.show()
@@ -418,9 +610,9 @@ if 1==1: # trick to allow code folding :)
 
     plt.xlabel('Scale')
     plt.ylabel('Feature Importance')
-    plt.title(f'Clustered Feature Importance vs. Scale (n_clusters={HARDCODED_CLUSTER})')
+    # plt.title(f'Clustered Feature Importance vs. Scale (n_clusters={HARDCODED_CLUSTER})')
     plt.legend(loc='best', fontsize='small')
-    plt.grid(True)
+    plt.grid(True, alpha=0.3)
     plt.tight_layout();
     plt.savefig("recurrent_Fi_3c.png", dpi=300)
     plt.show()
@@ -453,9 +645,9 @@ if 1==1: # trick to allow code folding :)
         plt.plot(arealist, values, label=f"{city}-{feature}", color=cluster_color[dictzip[city.lower(), feature]], marker='o')
         # FI_as_timeseries.append(np.array(values) / np.array(arealist))
     # Add labels and title
-    plt.xlabel('Tile Area')
+    plt.xlabel(r'Tile Area (k.m.$^2$)')
     plt.ylabel('Feature Importance')
-    plt.title('ABSSHAP for Each City-Feature Combination')
+    # plt.title('ABSSHAP for Each City-Feature Combination')
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
@@ -529,8 +721,73 @@ if 1==1: # allow code folding
 
     plt.tight_layout();
 
-    plt.savefig("recurrent_Fi_4a.png", dpi=300)
+    plt.savefig("recurrent_Fi_4a_orig.png", dpi=300)
     plt.show()
+
+
+    if "heatmaptratioSign" == "heatmaptratioSign":
+        tick_positions = np.concatenate(
+            [np.arange(0, 8, 4), np.array([9]), np.arange(14, heatmap_data.columns.size, 10)])
+        tick_labels = ["6.25 $km^2$", "4.0 $km^2$", "2.78 $km^2$", "1.56 $km^2$", "1.0 $km^2$", "0.69 $km^2$",
+                       "0.51 $km^2$", "0.39 $km^2$", "0.31 $km^2$", "0.25 $km^2$"]
+        tick_labels = tick_labels + tick_labels + tick_labels + tick_labels + tick_labels + tick_labels + tick_labels
+        # Repeating the sequence for as many times as needed (or slice it to the number of ticks)
+        tick_labels = np.array(tick_labels)[tick_positions]
+        plt.figure(figsize=(15, 8))
+
+        import matplotlib.pyplot as plt
+        import seaborn as sns
+        import numpy as np
+        import pandas as pd
+
+        plt.figure(figsize=(15, 8))
+
+        # Create the heatmap
+        ax = sns.heatmap(heatmap_data, annot=False, cmap=cmap, cbar_kws={'label': 'Direction of Relationship'},
+                         center=0,
+                         yticklabels=True, xticklabels=tick_positions)
+
+        # Assuming heatmap_data is already loaded and processed
+        # Let's compute the mid-points for the city labels
+        city_positions = {}
+        for col in heatmap_data.columns:
+            city = col.split('-')[0]
+            if city not in city_positions:
+                city_positions[city] = []
+            city_positions[city].append(heatmap_data.columns.get_loc(col))
+
+        # Calculate mid-points for placing city labels
+        city_labels = {}
+        for city, positions in city_positions.items():
+            city_labels[city] = np.mean(positions)
+
+
+        # Adjust the colorbar
+        cbar = ax.collections[0].colorbar
+        cbar.set_ticks([-0.5, 0.5])  # Set ticks for your two values
+        cbar.set_ticklabels(['-ve', '+ve'])  # Label the ticks
+        cbar.ax.tick_params(labelsize=24)  # Adjust the tick font size
+
+        # Set custom x-tick labels properly
+        ax.set_xticks(tick_positions + 0.5)  # Center ticks in the middle of the cells
+        ax.set_xticklabels(tick_labels, rotation=90, fontsize=20)
+
+        # Annotate with city names
+        for city, pos in city_labels.items():
+            ax.text(pos, -0.5,
+                    city.title().replace("Newyorkcity", "New York City").replace("Mexicocity", "Mexico City"),
+                    va='center', ha='center', color='black', rotation=0, fontsize=12)
+
+        # Add vertical lines to separate groups of cities every 10 columns
+        for i in range(10, len(heatmap_data.columns), 10):
+            ax.axvline(x=i, color='white', linestyle='--', lw=1)
+
+        plt.ylabel("Feature", fontsize=25)
+        plt.xlabel("City-Scale Combination", fontsize=25)
+        plt.tight_layout()
+        plt.savefig("recurrent_Fi_4a.png", dpi=300)
+        plt.show()
+
 
 
 
@@ -580,7 +837,7 @@ if 1==1: # allow code folding
     plt.figure(figsize=(14, 8))
     sns.heatmap(heatmap_data, annot=False, cmap="seismic", cbar_kws={'label': 'Sensitivity Ratio'}, center=0,
                 yticklabels=True, xticklabels=True)
-    plt.title("Sensitivity")
+    # plt.title("Sensitivity")
     plt.tight_layout();
     plt.savefig("recurrent_Fi_4b.png", dpi=300)
     plt.show()
@@ -589,7 +846,7 @@ if 1==1: # allow code folding
     plt.figure(figsize=(14, 8))
     sns.heatmap(np.log(heatmap_data+0.127), annot=False, cmap="seismic", cbar_kws={'label': 'Sensitivity Ratio'},
                 yticklabels=True, xticklabels=True)
-    plt.title("Log of sensitivity")
+    # plt.title("Log of sensitivity")
     plt.savefig("recurrent_Fi_4c.png", dpi=300)
     plt.tight_layout();
     plt.show()
@@ -699,7 +956,7 @@ if 1==1: # allow code folding
     # Add labels and title
     plt.xlabel('Scale')
     plt.ylabel('Feature Importance')
-    plt.title('Feature Importance vs. Scale for Each City-Feature Combination')
+    # plt.title('Feature Importance vs. Scale for Each City-Feature Combination')
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
@@ -739,8 +996,8 @@ if 1==1: # allow code folding
         plt.plot(range(2, max_clusters + 1), wcss, marker='o')
         plt.xlabel('Number of Clusters')
         plt.ylabel('WCSS (Within-cluster sum of squares)')
-        plt.title('Elbow Method for Determining the Optimal Number of Clusters')
-        plt.grid(True)
+        # plt.title('Elbow Method for Determining the Optimal Number of Clusters')
+        plt.grid(True, alpha=0.3)
         plt.tight_layout();
         plt.savefig("recurrent_Fi_4e.png", dpi=300)
         plt.show()
@@ -750,8 +1007,8 @@ if 1==1: # allow code folding
         plt.plot(range(2, max_clusters + 1), silhouette_scores, marker='o')
         plt.xlabel('Number of Clusters')
         plt.ylabel('Silhouette Score')
-        plt.title('Silhouette Analysis for Determining the Optimal Number of Clusters')
-        plt.grid(True)
+        # plt.title('Silhouette Analysis for Determining the Optimal Number of Clusters')
+        plt.grid(True, alpha=0.3)
         plt.tight_layout();
         plt.savefig("recurrent_Fi_4f.png", dpi=300)
         plt.show()
@@ -813,9 +1070,9 @@ if 1==1: # allow code folding
             plt.plot(area_list, timeseries_data[idx].ravel(), alpha=0.1, color=cluster_color[i])
         plt.plot(area_list, cluster_representatives[i], label=f"Cluster {i + 1} (Representative)", linewidth=2, color=cluster_color[i])
 
-    plt.xlabel('Tile Area')
+    plt.xlabel(r'Tile Area (k.m.$^2$)')
     plt.ylabel('Sensitivity Ratio (z-normalised)')
-    plt.title(f'Clustered Feature Importance vs. Scale (n_clusters={HARDCODED_CLUSTER})')
+    # plt.title(f'Clustered Feature Importance vs. Scale (n_clusters={HARDCODED_CLUSTER})')
     plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.0)
     plt.tight_layout();
@@ -845,9 +1102,9 @@ if 1==1: # allow code folding
         plt.plot(arealist, values, label=f"{city}-{feature}", color=cluster_color[dictzip[city.lower(), feature]], marker='o')
         # FI_as_timeseries.append(np.array(values) / np.array(arealist))
     # Add labels and title
-    plt.xlabel('Tile Area')
+    plt.xlabel(r'Tile Area (k.m.$^2$)')
     plt.ylabel('Feature Importance')
-    plt.title('Ratio vs. Scale for Each City-Feature Combination')
+    # plt.title('Ratio vs. Scale for Each City-Feature Combination')
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
