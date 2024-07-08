@@ -93,10 +93,10 @@ class Tile:
         self.edge_length_avg = basic_stats.get('edge_length_avg', np.nan)
         self.streets_per_node_avg = basic_stats.get('streets_per_node_avg', np.nan)
         self.streets_per_node_counts = [
-            basic_stats['streets_per_node_counts'].get(i, 0) for i in range(6)
+            basic_stats['streets_per_node_counts'].get(i, 0) for i in range(1, 7)
         ]
         self.streets_per_node_proportions = [
-            basic_stats['streets_per_node_proportions'].get(i, 0) for i in range(6)
+            basic_stats['streets_per_node_proportions'].get(i, 0) for i in range(1, 7)
         ]
         self.street_length_total = basic_stats.get('street_length_total', np.nan)
         self.street_segment_count = basic_stats.get('street_segment_count', np.nan)
