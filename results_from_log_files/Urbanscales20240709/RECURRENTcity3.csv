@@ -1,0 +1,975 @@
+Loaded config file: Prefix for name of road network object pickle file!
+os.getcwd() : /home/niskumar/WCS/urbanscales/modelling
+sorted_percentage_nan_per_column : maxspeed                         1.775148
+n                                0.000000
+lane_density                     0.000000
+streets_per_node_proportion_6    0.000000
+streets_per_node_count_6         0.000000
+streets_per_node_proportion_5    0.000000
+streets_per_node_count_5         0.000000
+streets_per_node_proportion_4    0.000000
+streets_per_node_count_4         0.000000
+streets_per_node_proportion_3    0.000000
+streets_per_node_count_3         0.000000
+streets_per_node_proportion_2    0.000000
+streets_per_node_count_2         0.000000
+streets_per_node_proportion_1    0.000000
+streets_per_node_count_1         0.000000
+mean_lanes                       0.000000
+m                                0.000000
+betweenness                      0.000000
+total_crossings                  0.000000
+non_metered_count                0.000000
+metered_count                    0.000000
+self_loop_proportion             0.000000
+circuity_avg                     0.000000
+street_length_avg                0.000000
+street_segment_count             0.000000
+street_length_total              0.000000
+streets_per_node_avg             0.000000
+edge_length_avg                  0.000000
+edge_length_total                0.000000
+k_avg                            0.000000
+global_betweenness               0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Auckland 20 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (169, 17) (169,)
+X.shape, Y.shape, "Inside the model-fitting function" : (169, 17) (169,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 1000}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 2,
+ 'xgbregressor__n_estimators': 2}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_3 -0.006639077176763344 0.061928794574159396 -9.327922077922082
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 betweenness -0.0020470904053622144 0.03629589415742011 -17.730479348809155
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_proportion_3 -0.002495056921666153 0.018518127413081762 -7.421925829538068
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 non_metered_count -0.008392404612382996 0.07227879045172594 -8.612405358182869
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 n -0.0010989478419220408 0.01975200015963932 -17.97355561943087
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 metered_count -0.023267701189937772 0.15647529050233172 -6.7250000000000085
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_proportion_2 -0.011640640852763416 0.05126615569148005 -4.404066437571586
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 global_betweenness -0.013707231775233258 0.041611751571587835 -3.035751656784086
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 mean_lanes -0.0004197365234930598 0.014753432376167759 -35.1492699596148
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 m -0.00045370525869529207 0.010245243939542285 -22.581276595744683
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 streets_per_node_avg -0.004652274576401916 0.06255691122799219 -13.446521739130432
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 total_crossings -0.04550816276677795 0.08926706694062075 -1.9615616520952557
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 streets_per_node_proportion_1 -0.0017903405592202498 0.020611816734247966 -11.51279103190572
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 k_avg -0.006905270992516589 0.03721173812633937 -5.388888888888886
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 circuity_avg -0.0006253750320140479 0.014003630747771905 -22.39237262586674
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 streets_per_node_count_2 -0.0008992449795888596 0.016427124332851616 -18.267685342388233
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0310
+SHAP-- recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0172
+SHAP-- recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_3          0.0083
+SHAP-- recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0350
+SHAP-- recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0097
+SHAP-- recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0751
+SHAP-- recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_2          0.0252
+SHAP-- recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0176
+SHAP-- recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0072
+SHAP-- recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0050
+SHAP-- recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0302
+SHAP-- recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0424
+SHAP-- recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_1          0.0102
+SHAP-- recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0169
+SHAP-- recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0068
+SHAP-- recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-auckland-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0082
+RECURRENT Auckland 20 LR 0.41189348238525164 XpVar
+RECURRENT Auckland 20 RF 0.5884511186570641 XpVar
+RECURRENT Auckland 20 GBM 0.019914522174433347 XpVar
+RECURRENT Auckland 20 LLR 0.0 XpVar
+RECURRENT Auckland 20 RLR 0.37400678916548624 XpVar
+RECURRENT Auckland 20 LR 0.06445931401724621 MSE
+RECURRENT Auckland 20 RF 0.04565943220802635 MSE
+RECURRENT Auckland 20 GBM 0.1143276934704487 MSE
+RECURRENT Auckland 20 LLR 0.11666926229940112 MSE
+RECURRENT Auckland 20 RLR 0.06813004031029159 MSE
+RECURRENT Auckland 20 LR 0.40315247405261356 R2
+RECURRENT Auckland 20 RF 0.5842538627684422 R2
+RECURRENT Auckland 20 GBM -0.011930219813528773 R2
+RECURRENT Auckland 20 LLR -0.032767478625726536 R2
+RECURRENT Auckland 20 RLR 0.36713982228417946 R2
+t_spatial, t_non_spatial, "seconds" : 1.9073486328125e-06 64.75986695289612 seconds
+sorted_percentage_nan_per_column : maxspeed                         3.012048
+n                                0.000000
+lane_density                     0.000000
+streets_per_node_proportion_6    0.000000
+streets_per_node_count_6         0.000000
+streets_per_node_proportion_5    0.000000
+streets_per_node_count_5         0.000000
+streets_per_node_proportion_4    0.000000
+streets_per_node_count_4         0.000000
+streets_per_node_proportion_3    0.000000
+streets_per_node_count_3         0.000000
+streets_per_node_proportion_2    0.000000
+streets_per_node_count_2         0.000000
+streets_per_node_proportion_1    0.000000
+streets_per_node_count_1         0.000000
+mean_lanes                       0.000000
+m                                0.000000
+betweenness                      0.000000
+total_crossings                  0.000000
+non_metered_count                0.000000
+metered_count                    0.000000
+self_loop_proportion             0.000000
+circuity_avg                     0.000000
+street_length_avg                0.000000
+street_segment_count             0.000000
+street_length_total              0.000000
+streets_per_node_avg             0.000000
+edge_length_avg                  0.000000
+edge_length_total                0.000000
+k_avg                            0.000000
+global_betweenness               0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Auckland 30 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (332, 17) (332,)
+X.shape, Y.shape, "Inside the model-fitting function" : (332, 17) (332,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 200}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 2,
+ 'xgbregressor__n_estimators': 2}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_3 -0.006902535932882612 0.08649712307591098 -12.531209386951843
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 betweenness -0.0006405138560814423 0.015374246966811136 -24.002988882813924
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_proportion_3 -0.0010532908648789158 0.014699646741359379 -13.9559235074627
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 non_metered_count -0.0007396869141191932 0.019673070818729682 -26.596483516483516
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 n -0.0013190010597014061 0.02655055015052827 -20.129286443893193
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 metered_count -0.011418692206181996 0.1602412642549756 -14.03324140466998
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_proportion_2 -0.005104965651576766 0.056533897342132274 -11.074295343137265
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 global_betweenness -0.001111242943276069 0.020660623276296093 -18.592354985298044
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 mean_lanes -0.0004636835420279588 0.024731651091057506 -53.337349397590344
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 m -0.003577526902434442 0.028704134496882076 -8.023457343493192
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 streets_per_node_avg -0.0016171352215438165 0.053684842250674915 -33.197497361676454
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 total_crossings 0.007188681155311401 0.07522236841883675 10.464001225490193
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 streets_per_node_proportion_1 -0.0028782339097164025 0.04988012225779679 -17.330114168070367
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 k_avg -0.0010714822610652466 0.02114870779919637 -19.73780487804879
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 circuity_avg -0.0005523459484674353 0.009662131859272189 -17.492898945092634
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 streets_per_node_count_2 -0.0007285538047251578 0.01966935151042602 -26.9978021978022
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0426
+SHAP-- recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0077
+SHAP-- recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_3          0.0051
+SHAP-- recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0098
+SHAP-- recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0134
+SHAP-- recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0795
+SHAP-- recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_2          0.0276
+SHAP-- recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0102
+SHAP-- recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0124
+SHAP-- recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0143
+SHAP-- recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0260
+SHAP-- recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0352
+SHAP-- recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_1          0.0243
+SHAP-- recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0106
+SHAP-- recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0048
+SHAP-- recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-auckland-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0099
+RECURRENT Auckland 30 LR 0.3680618795437772 XpVar
+RECURRENT Auckland 30 RF 0.5526234086538431 XpVar
+RECURRENT Auckland 30 GBM 0.020545278972102947 XpVar
+RECURRENT Auckland 30 LLR -3.172065784643304e-17 XpVar
+RECURRENT Auckland 30 RLR 0.36835808048271007 XpVar
+RECURRENT Auckland 30 LR 0.07373742934422525 MSE
+RECURRENT Auckland 30 RF 0.051670227155080496 MSE
+RECURRENT Auckland 30 GBM 0.11401628302710719 MSE
+RECURRENT Auckland 30 LLR 0.11639019083643455 MSE
+RECURRENT Auckland 30 RLR 0.07423328743802826 MSE
+RECURRENT Auckland 30 LR 0.3562551410831158 R2
+RECURRENT Auckland 30 RF 0.543110073264688 R2
+RECURRENT Auckland 30 GBM -0.006336506065742383 R2
+RECURRENT Auckland 30 LLR -0.02738535683398489 R2
+RECURRENT Auckland 30 RLR 0.3532952772807609 R2
+t_spatial, t_non_spatial, "seconds" : 2.1457672119140625e-06 66.71993446350098 seconds
+sorted_percentage_nan_per_column : maxspeed                         2.45283
+n                                0.00000
+lane_density                     0.00000
+streets_per_node_proportion_6    0.00000
+streets_per_node_count_6         0.00000
+streets_per_node_proportion_5    0.00000
+streets_per_node_count_5         0.00000
+streets_per_node_proportion_4    0.00000
+streets_per_node_count_4         0.00000
+streets_per_node_proportion_3    0.00000
+streets_per_node_count_3         0.00000
+streets_per_node_proportion_2    0.00000
+streets_per_node_count_2         0.00000
+streets_per_node_proportion_1    0.00000
+streets_per_node_count_1         0.00000
+mean_lanes                       0.00000
+m                                0.00000
+betweenness                      0.00000
+total_crossings                  0.00000
+non_metered_count                0.00000
+metered_count                    0.00000
+self_loop_proportion             0.00000
+circuity_avg                     0.00000
+street_length_avg                0.00000
+street_segment_count             0.00000
+street_length_total              0.00000
+streets_per_node_avg             0.00000
+edge_length_avg                  0.00000
+edge_length_total                0.00000
+k_avg                            0.00000
+global_betweenness               0.00000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Auckland 40 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (530, 17) (530,)
+X.shape, Y.shape, "Inside the model-fitting function" : (530, 17) (530,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 20,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 500}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 2,
+ 'xgbregressor__n_estimators': 2}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_3 -0.004805597586344901 0.07761661515428003 -16.151293103448268
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 betweenness -0.0003041860957732715 0.016448010783735232 -54.07219794817624
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_proportion_3 -0.001144662245480261 0.03126527134556363 -27.31397097180033
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 non_metered_count -0.0005844912079332566 0.020175252018852605 -34.517631309103336
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 n -0.0008588632839308484 0.024790815642368205 -28.86468208176919
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 metered_count -0.007466931815476696 0.16401870359829254 -21.966010625452782
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_proportion_2 -0.007627142792863226 0.10420923780794873 -13.662945697759596
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 global_betweenness -0.0009193915349281145 0.028255517938071895 -30.732845435955795
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 mean_lanes -0.00031527596333324185 0.02855777560471793 -90.58025008564576
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 m -0.00047402428447163356 0.01826373628244939 -38.529115238909924
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 streets_per_node_avg -0.0035519583914355828 0.10447765481888824 -29.414098732350823
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 total_crossings -0.2121834885508344 0.06607169560658059 -0.3113894302418885
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 streets_per_node_proportion_1 -0.002895745991092973 0.05904989397874229 -20.39194534340163
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 k_avg -0.00301687118363137 0.02317724986678916 -7.6825454108023905
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 circuity_avg -0.0013113386631112642 0.03336817492524278 -25.44588660725819
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 streets_per_node_count_2 -0.00033909559077776404 0.01664393224986157 -49.08330483356136
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0380
+SHAP-- recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0088
+SHAP-- recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_3          0.0084
+SHAP-- recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0101
+SHAP-- recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0124
+SHAP-- recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0794
+SHAP-- recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_2          0.0472
+SHAP-- recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0132
+SHAP-- recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0143
+SHAP-- recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0097
+SHAP-- recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0504
+SHAP-- recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0328
+SHAP-- recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_1          0.0288
+SHAP-- recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0109
+SHAP-- recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0141
+SHAP-- recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-auckland-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0083
+RECURRENT Auckland 40 LR 0.34201656413110587 XpVar
+RECURRENT Auckland 40 RF 0.4468958905366322 XpVar
+RECURRENT Auckland 40 GBM 0.016835546642134585 XpVar
+RECURRENT Auckland 40 LLR 0.0 XpVar
+RECURRENT Auckland 40 RLR 0.34170630722602086 XpVar
+RECURRENT Auckland 40 LR 0.103584009217876 MSE
+RECURRENT Auckland 40 RF 0.09017818866906184 MSE
+RECURRENT Auckland 40 GBM 0.15124409479016163 MSE
+RECURRENT Auckland 40 LLR 0.1536048912402623 MSE
+RECURRENT Auckland 40 RLR 0.10388831748743742 MSE
+RECURRENT Auckland 40 LR 0.3288310864189289 R2
+RECURRENT Auckland 40 RF 0.4304333800686634 R2
+RECURRENT Auckland 40 GBM -0.018613897099952665 R2
+RECURRENT Auckland 40 LLR -0.03616836338128742 R2
+RECURRENT Auckland 40 RLR 0.3275462336535958 R2
+t_spatial, t_non_spatial, "seconds" : 2.1457672119140625e-06 119.19497752189636 seconds
+sorted_percentage_nan_per_column : maxspeed                         3.769841
+n                                0.000000
+lane_density                     0.000000
+streets_per_node_proportion_6    0.000000
+streets_per_node_count_6         0.000000
+streets_per_node_proportion_5    0.000000
+streets_per_node_count_5         0.000000
+streets_per_node_proportion_4    0.000000
+streets_per_node_count_4         0.000000
+streets_per_node_proportion_3    0.000000
+streets_per_node_count_3         0.000000
+streets_per_node_proportion_2    0.000000
+streets_per_node_count_2         0.000000
+streets_per_node_proportion_1    0.000000
+streets_per_node_count_1         0.000000
+mean_lanes                       0.000000
+m                                0.000000
+betweenness                      0.000000
+total_crossings                  0.000000
+non_metered_count                0.000000
+metered_count                    0.000000
+self_loop_proportion             0.000000
+circuity_avg                     0.000000
+street_length_avg                0.000000
+street_segment_count             0.000000
+street_length_total              0.000000
+streets_per_node_avg             0.000000
+edge_length_avg                  0.000000
+edge_length_total                0.000000
+k_avg                            0.000000
+global_betweenness               0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Auckland 60 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (1008, 17) (1008,)
+X.shape, Y.shape, "Inside the model-fitting function" : (1008, 17) (1008,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 1000}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 2,
+ 'xgbregressor__n_estimators': 2}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_3 -0.0028957313767768215 0.0844962230450664 -29.179579198094473
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 betweenness 0.018066941378343256 0.01782523813247397 0.9866217949785892
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_proportion_3 -0.0007787575167211379 0.027192112805543796 -34.917303809833925
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 non_metered_count -0.00039010627218286894 0.020207202515028694 -51.79922486751565
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 n -0.0006114074183231413 0.04204321762635776 -68.76465081445423
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 metered_count -0.004477528543060153 0.14474856285538243 -32.327781155015145
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_proportion_2 -0.010452705274611356 0.21637445254491802 -20.70033037958808
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 global_betweenness -0.0007019381820972805 0.022151839823857558 -31.558106381492678
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 mean_lanes -0.00014298005134169925 0.025777753696889033 -180.28916240409205
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 m -0.0005647631466302452 0.03816368782714229 -67.57467808381688
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 streets_per_node_avg -0.001108196681794713 0.07919154544571999 -71.45982905982908
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 total_crossings -0.17374587402578637 0.0947205548216086 -0.5451672182301763
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 streets_per_node_proportion_1 -0.002467873788584344 0.06757627100671154 -27.382385322660923
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 k_avg -0.00036710109782647597 0.01583877961391228 -43.14555229524012
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 circuity_avg -0.00026060278981443767 0.013652530602277693 -52.38827493749773
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 streets_per_node_count_2 -0.0004786757181910834 0.04185810746757876 -87.44564613755767
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0431
+SHAP-- recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0090
+SHAP-- recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_3          0.0039
+SHAP-- recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0102
+SHAP-- recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0250
+SHAP-- recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0664
+SHAP-- recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_2          0.0828
+SHAP-- recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0109
+SHAP-- recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0111
+SHAP-- recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0215
+SHAP-- recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0390
+SHAP-- recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0458
+SHAP-- recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_1          0.0311
+SHAP-- recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0079
+SHAP-- recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0067
+SHAP-- recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-auckland-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0224
+RECURRENT Auckland 60 LR 0.31277150859603947 XpVar
+RECURRENT Auckland 60 RF 0.43666311838442795 XpVar
+RECURRENT Auckland 60 GBM 0.011488214092859732 XpVar
+RECURRENT Auckland 60 LLR 0.0 XpVar
+RECURRENT Auckland 60 RLR 0.3128988304283003 XpVar
+RECURRENT Auckland 60 LR 0.12620814016057125 MSE
+RECURRENT Auckland 60 RF 0.1080480853619878 MSE
+RECURRENT Auckland 60 GBM 0.16960680352848637 MSE
+RECURRENT Auckland 60 LLR 0.1713222389652232 MSE
+RECURRENT Auckland 60 RLR 0.1259868680683251 MSE
+RECURRENT Auckland 60 LR 0.30416104870788974 R2
+RECURRENT Auckland 60 RF 0.4302015694073866 R2
+RECURRENT Auckland 60 GBM 0.005101969136913124 R2
+RECURRENT Auckland 60 LLR -0.006425910586997485 R2
+RECURRENT Auckland 60 RLR 0.3043503936180364 R2
+t_spatial, t_non_spatial, "seconds" : 1.6689300537109375e-06 190.99778532981873 seconds
+sorted_percentage_nan_per_column : maxspeed                         3.294118
+n                                0.000000
+lane_density                     0.000000
+streets_per_node_proportion_6    0.000000
+streets_per_node_count_6         0.000000
+streets_per_node_proportion_5    0.000000
+streets_per_node_count_5         0.000000
+streets_per_node_proportion_4    0.000000
+streets_per_node_count_4         0.000000
+streets_per_node_proportion_3    0.000000
+streets_per_node_count_3         0.000000
+streets_per_node_proportion_2    0.000000
+streets_per_node_count_2         0.000000
+streets_per_node_proportion_1    0.000000
+streets_per_node_count_1         0.000000
+mean_lanes                       0.000000
+m                                0.000000
+betweenness                      0.000000
+total_crossings                  0.000000
+non_metered_count                0.000000
+metered_count                    0.000000
+self_loop_proportion             0.000000
+circuity_avg                     0.000000
+street_length_avg                0.000000
+street_segment_count             0.000000
+street_length_total              0.000000
+streets_per_node_avg             0.000000
+edge_length_avg                  0.000000
+edge_length_total                0.000000
+k_avg                            0.000000
+global_betweenness               0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Auckland 70 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (1275, 17) (1275,)
+X.shape, Y.shape, "Inside the model-fitting function" : (1275, 17) (1275,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 500}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 2,
+ 'xgbregressor__n_estimators': 2}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_3 -0.0008946920589821317 0.042720370357610504 -47.74868618618609
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 betweenness -0.0013660531848415163 0.02427862958719617 -17.772828947368453
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_proportion_3 -0.00019656041841143487 0.013048874865300906 -66.38607594936718
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 non_metered_count -0.0003953840884509299 0.012096715764995904 -30.59484718363217
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 n -0.0011241888758156322 0.05071627915832973 -45.113663948625685
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 metered_count -0.004240428519497054 0.16081872677346054 -37.92511205743301
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_proportion_2 -0.00787367507892819 0.1440995558703368 -18.3014354066986
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 global_betweenness -0.0006249151905373806 0.02389988937437524 -38.24501266135508
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 mean_lanes -0.00019472465500710353 0.04088893238793424 -209.9833346036362
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 m -0.00042768627480984885 0.03381426054846692 -79.0632352265709
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 streets_per_node_avg -0.0006500163847695985 0.062074519953793005 -95.49685424590587
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 total_crossings 0.0023299139030459205 0.06926713439897525 29.72948241066831
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 streets_per_node_proportion_1 -0.0010573290785086005 0.038337785779447194 -36.25908580280793
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 k_avg -0.0007646660166461621 0.02161352040934737 -28.26530791069365
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 circuity_avg -0.0005945646482500176 0.016069873741273583 -27.027967082422492
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 streets_per_node_count_2 -0.00026281430240651774 0.026429942375966263 -100.5650839164939
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0211
+SHAP-- recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0114
+SHAP-- recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_3          0.0020
+SHAP-- recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0060
+SHAP-- recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0228
+SHAP-- recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0775
+SHAP-- recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_2          0.0659
+SHAP-- recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0114
+SHAP-- recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0205
+SHAP-- recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0165
+SHAP-- recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0311
+SHAP-- recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0344
+SHAP-- recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_1          0.0187
+SHAP-- recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0107
+SHAP-- recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0077
+SHAP-- recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-auckland-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0130
+RECURRENT Auckland 70 LR 0.3586411462552805 XpVar
+RECURRENT Auckland 70 RF 0.440599236947396 XpVar
+RECURRENT Auckland 70 GBM 0.015270669894694135 XpVar
+RECURRENT Auckland 70 LLR 0.0 XpVar
+RECURRENT Auckland 70 RLR 0.35880151503001345 XpVar
+RECURRENT Auckland 70 LR 0.09483618194787782 MSE
+RECURRENT Auckland 70 RF 0.08194038580307259 MSE
+RECURRENT Auckland 70 GBM 0.14519828481185834 MSE
+RECURRENT Auckland 70 LLR 0.14742716051403057 MSE
+RECURRENT Auckland 70 RLR 0.09488610776743599 MSE
+RECURRENT Auckland 70 LR 0.35529395071289577 R2
+RECURRENT Auckland 70 RF 0.4388380513587476 R2
+RECURRENT Auckland 70 GBM 0.00627215172593503 R2
+RECURRENT Auckland 70 LLR -0.009190506559649972 R2
+RECURRENT Auckland 70 RLR 0.3550026068944397 R2
+t_spatial, t_non_spatial, "seconds" : 1.1920928955078125e-06 179.00558137893677 seconds
+sorted_percentage_nan_per_column : maxspeed                         2.783172
+n                                0.000000
+lane_density                     0.000000
+streets_per_node_proportion_6    0.000000
+streets_per_node_count_6         0.000000
+streets_per_node_proportion_5    0.000000
+streets_per_node_count_5         0.000000
+streets_per_node_proportion_4    0.000000
+streets_per_node_count_4         0.000000
+streets_per_node_proportion_3    0.000000
+streets_per_node_count_3         0.000000
+streets_per_node_proportion_2    0.000000
+streets_per_node_count_2         0.000000
+streets_per_node_proportion_1    0.000000
+streets_per_node_count_1         0.000000
+mean_lanes                       0.000000
+m                                0.000000
+betweenness                      0.000000
+total_crossings                  0.000000
+non_metered_count                0.000000
+metered_count                    0.000000
+self_loop_proportion             0.000000
+circuity_avg                     0.000000
+street_length_avg                0.000000
+street_segment_count             0.000000
+street_length_total              0.000000
+streets_per_node_avg             0.000000
+edge_length_avg                  0.000000
+edge_length_total                0.000000
+k_avg                            0.000000
+global_betweenness               0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Auckland 80 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (1545, 17) (1545,)
+X.shape, Y.shape, "Inside the model-fitting function" : (1545, 17) (1545,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 100}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 2,
+ 'xgbregressor__n_estimators': 2}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_3 -0.001088756060141921 0.08383459531222355 -77.00034781096474
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 betweenness -0.0004983994325303687 0.022784761106558152 -45.7158648654156
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_proportion_3 -0.0008273866130324512 0.044408908541945374 -53.67370929435572
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 non_metered_count -0.0014147601468264914 0.021834081847355274 -15.433062555749984
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 n -0.0020029395603867973 0.05159708107107762 -25.76067800124406
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 metered_count -0.0033653067106422284 0.15461673009248095 -45.94432049938598
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_proportion_2 -0.007330785973135154 0.23709623004159774 -32.34253883696442
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 global_betweenness -0.01403073794848275 0.023274672932399626 -1.6588345543804053
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 mean_lanes -0.00011434532450398293 0.029912267369420868 -261.59589383454806
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 m -0.0007899859419950239 0.032629830395017496 -41.30431778648415
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 streets_per_node_avg -0.0005110088538041683 0.055805932093055524 -109.20736828258907
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 total_crossings 0.004890262279527987 0.08346137933586287 17.06685133949884
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 streets_per_node_proportion_1 -0.0015554570758295476 0.043325056472415996 -27.853585383775453
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 k_avg -0.0005943961470342437 0.01944478707007456 -32.71351466037402
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 circuity_avg -0.0001973343919330244 0.013725711484213476 -69.5555972264176
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 streets_per_node_count_2 -0.0003565795928361362 0.03504242100754737 -98.27377032103709
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0390
+SHAP-- recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0110
+SHAP-- recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_3          0.0047
+SHAP-- recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0109
+SHAP-- recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0267
+SHAP-- recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0707
+SHAP-- recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_2          0.0886
+SHAP-- recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0114
+SHAP-- recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0142
+SHAP-- recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0173
+SHAP-- recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0275
+SHAP-- recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0412
+SHAP-- recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_1          0.0211
+SHAP-- recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0095
+SHAP-- recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0068
+SHAP-- recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-auckland-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0180
+RECURRENT Auckland 80 LR 0.29725602236443854 XpVar
+RECURRENT Auckland 80 RF 0.3708851289758795 XpVar
+RECURRENT Auckland 80 GBM 0.012437493890405858 XpVar
+RECURRENT Auckland 80 LLR 6.344131569286608e-17 XpVar
+RECURRENT Auckland 80 RLR 0.29700835913162055 XpVar
+RECURRENT Auckland 80 LR 0.1386325029266385 MSE
+RECURRENT Auckland 80 RF 0.1279476164872599 MSE
+RECURRENT Auckland 80 GBM 0.18317971937679042 MSE
+RECURRENT Auckland 80 LLR 0.18509072440811694 MSE
+RECURRENT Auckland 80 RLR 0.13872146176243488 MSE
+RECURRENT Auckland 80 LR 0.2913214895342449 R2
+RECURRENT Auckland 80 RF 0.3671509317658099 R2
+RECURRENT Auckland 80 GBM 0.001356247518938655 R2
+RECURRENT Auckland 80 LLR -0.011241626333745116 R2
+RECURRENT Auckland 80 RLR 0.29123075807289533 R2
+t_spatial, t_non_spatial, "seconds" : 1.9073486328125e-06 154.67099928855896 seconds
+sorted_percentage_nan_per_column : maxspeed                         3.693645
+n                                0.000000
+lane_density                     0.000000
+streets_per_node_proportion_6    0.000000
+streets_per_node_count_6         0.000000
+streets_per_node_proportion_5    0.000000
+streets_per_node_count_5         0.000000
+streets_per_node_proportion_4    0.000000
+streets_per_node_count_4         0.000000
+streets_per_node_proportion_3    0.000000
+streets_per_node_count_3         0.000000
+streets_per_node_proportion_2    0.000000
+streets_per_node_count_2         0.000000
+streets_per_node_proportion_1    0.000000
+streets_per_node_count_1         0.000000
+mean_lanes                       0.000000
+m                                0.000000
+betweenness                      0.000000
+total_crossings                  0.000000
+non_metered_count                0.000000
+metered_count                    0.000000
+self_loop_proportion             0.000000
+circuity_avg                     0.000000
+street_length_avg                0.000000
+street_segment_count             0.000000
+street_length_total              0.000000
+streets_per_node_avg             0.000000
+edge_length_avg                  0.000000
+edge_length_total                0.000000
+k_avg                            0.000000
+global_betweenness               0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Auckland 90 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (1841, 17) (1841,)
+X.shape, Y.shape, "Inside the model-fitting function" : (1841, 17) (1841,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 400}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 2,
+ 'xgbregressor__n_estimators': 2}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_3 -0.0009502226492725137 0.06503966045330277 -68.44675877079635
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 betweenness -0.0004532394461451876 0.03457984138977756 -76.29486286747533
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_proportion_3 -0.000436621640484012 0.027944880337751575 -64.00250868640774
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 non_metered_count -0.00033039327886468715 0.014110408522939454 -42.707916369928284
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 n -0.0009218649427665512 0.05029568256695844 -54.55862375677202
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 metered_count -0.003013918739587599 0.15581310645755908 -51.69784586789467
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_proportion_2 -0.007974628250366362 0.13482066922365843 -16.906201140782287
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 global_betweenness -0.00040199694841581345 0.02471172527631406 -61.47242006114186
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 mean_lanes -0.00014989441579748634 0.041337256172040496 -275.775824950603
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 m -0.00029640772294997457 0.033313949213827125 -112.39231178686123
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 streets_per_node_avg -0.00038603812410906293 0.05452886318297861 -141.25253382376604
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 total_crossings 0.002768285300361868 0.09388387254454016 33.9140884547802
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 streets_per_node_proportion_1 -0.00277889822909096 0.05439638313822366 -19.574802189146
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 k_avg 0.00039436126757055894 0.019950093422830502 50.588369252720895
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 circuity_avg -0.00034558437143380685 0.02162098965231047 -62.56356316868846
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 streets_per_node_count_2 -0.0001390542597971275 0.01339335120796794 -96.317446351576
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0326
+SHAP-- recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0150
+SHAP-- recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_3          0.0028
+SHAP-- recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0068
+SHAP-- recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0223
+SHAP-- recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0680
+SHAP-- recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_2          0.0588
+SHAP-- recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0124
+SHAP-- recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0175
+SHAP-- recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0156
+SHAP-- recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0272
+SHAP-- recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0468
+SHAP-- recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_1          0.0232
+SHAP-- recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0100
+SHAP-- recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0102
+SHAP-- recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-auckland-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0067
+RECURRENT Auckland 90 LR 0.29776981925826174 XpVar
+RECURRENT Auckland 90 RF 0.40325675468755273 XpVar
+RECURRENT Auckland 90 GBM 0.01363962976290107 XpVar
+RECURRENT Auckland 90 LLR 1.586032892321652e-17 XpVar
+RECURRENT Auckland 90 RLR 0.29802698751242745 XpVar
+RECURRENT Auckland 90 LR 0.1172480935477879 MSE
+RECURRENT Auckland 90 RF 0.10110614058576192 MSE
+RECURRENT Auckland 90 GBM 0.1637124525729707 MSE
+RECURRENT Auckland 90 LLR 0.16582296527251636 MSE
+RECURRENT Auckland 90 RLR 0.11722813442676636 MSE
+RECURRENT Auckland 90 LR 0.296001756858128 R2
+RECURRENT Auckland 90 RF 0.4018746781418738 R2
+RECURRENT Auckland 90 GBM 0.008034611502064795 R2
+RECURRENT Auckland 90 LLR -0.005674472558480114 R2
+RECURRENT Auckland 90 RLR 0.29624605833233303 R2
+t_spatial, t_non_spatial, "seconds" : 1.6689300537109375e-06 231.71573758125305 seconds
+sorted_percentage_nan_per_column : maxspeed                         2.371542
+n                                0.000000
+lane_density                     0.000000
+streets_per_node_proportion_6    0.000000
+streets_per_node_count_6         0.000000
+streets_per_node_proportion_5    0.000000
+streets_per_node_count_5         0.000000
+streets_per_node_proportion_4    0.000000
+streets_per_node_count_4         0.000000
+streets_per_node_proportion_3    0.000000
+streets_per_node_count_3         0.000000
+streets_per_node_proportion_2    0.000000
+streets_per_node_count_2         0.000000
+streets_per_node_proportion_1    0.000000
+streets_per_node_count_1         0.000000
+mean_lanes                       0.000000
+m                                0.000000
+betweenness                      0.000000
+total_crossings                  0.000000
+non_metered_count                0.000000
+metered_count                    0.000000
+self_loop_proportion             0.000000
+circuity_avg                     0.000000
+street_length_avg                0.000000
+street_segment_count             0.000000
+street_length_total              0.000000
+streets_per_node_avg             0.000000
+edge_length_avg                  0.000000
+edge_length_total                0.000000
+k_avg                            0.000000
+global_betweenness               0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Auckland 25 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (253, 17) (253,)
+X.shape, Y.shape, "Inside the model-fitting function" : (253, 17) (253,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 1000}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 2,
+ 'xgbregressor__n_estimators': 2}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_3 -0.004447069738665576 0.08304373323893838 -18.673809523809524
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 betweenness -0.0010929165955050977 0.020257437076496413 -18.53520859671302
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_proportion_3 -0.0008860387861710465 0.01720727427185092 -19.42045262624555
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 non_metered_count 0.20194689831647833 0.07037543426180505 0.3484848484848584
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 n -0.0008526311930225169 0.016050606136125797 -18.824793495095506
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 metered_count -0.00763858495273367 0.13301250665305145 -17.413239163550756
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_proportion_2 -0.006213071460034804 0.03963399680091584 -6.379131007241597
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 global_betweenness -0.0015306545350416607 0.025176947927897382 -16.448484848484853
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 mean_lanes -0.0004965632322393732 0.01847223488329417 -37.200166431954926
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 m -0.0005178604764470479 0.012253547532621159 -23.66187050359713
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 streets_per_node_avg -0.0037806515088879833 0.077758580496849 -20.567508090614893
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 total_crossings 0.011823921770591314 0.08968377705408534 7.5849433710859415
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 streets_per_node_proportion_1 -0.0027344609266913918 0.03592501620506218 -13.137878787878776
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 k_avg -0.15061508776997362 0.019182289054016886 -0.12735967782532498
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 circuity_avg -0.0006714961759941754 0.014249400665662394 -21.22037499999999
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 streets_per_node_count_2 -0.0006936533418591015 0.013700381110117801 -19.751048951048944
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0414
+SHAP-- recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0101
+SHAP-- recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_3          0.0070
+SHAP-- recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0334
+SHAP-- recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0081
+SHAP-- recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0622
+SHAP-- recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_2          0.0194
+SHAP-- recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0119
+SHAP-- recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0090
+SHAP-- recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0062
+SHAP-- recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0380
+SHAP-- recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0418
+SHAP-- recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_1          0.0167
+SHAP-- recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0096
+SHAP-- recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0071
+SHAP-- recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-auckland-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0069
+RECURRENT Auckland 25 LR 0.4547621627465676 XpVar
+RECURRENT Auckland 25 RF 0.5272427688805871 XpVar
+RECURRENT Auckland 25 GBM 0.02023630439599224 XpVar
+RECURRENT Auckland 25 LLR 7.930164461608261e-17 XpVar
+RECURRENT Auckland 25 RLR 0.45762909652722195 XpVar
+RECURRENT Auckland 25 LR 0.06288569828598557 MSE
+RECURRENT Auckland 25 RF 0.05327699994495886 MSE
+RECURRENT Auckland 25 GBM 0.11305130443056298 MSE
+RECURRENT Auckland 25 LLR 0.11530198089470764 MSE
+RECURRENT Auckland 25 RLR 0.06307556207353213 MSE
+RECURRENT Auckland 25 LR 0.4257999433169531 R2
+RECURRENT Auckland 25 RF 0.5101531950959637 R2
+RECURRENT Auckland 25 GBM -0.05601821123962276 R2
+RECURRENT Auckland 25 LLR -0.0778907190130427 R2
+RECURRENT Auckland 25 RLR 0.4237932092597454 R2
+t_spatial, t_non_spatial, "seconds" : 2.1457672119140625e-06 76.38368844985962 seconds
+sorted_percentage_nan_per_column : maxspeed                         3.766234
+n                                0.000000
+lane_density                     0.000000
+streets_per_node_proportion_6    0.000000
+streets_per_node_count_6         0.000000
+streets_per_node_proportion_5    0.000000
+streets_per_node_count_5         0.000000
+streets_per_node_proportion_4    0.000000
+streets_per_node_count_4         0.000000
+streets_per_node_proportion_3    0.000000
+streets_per_node_count_3         0.000000
+streets_per_node_proportion_2    0.000000
+streets_per_node_count_2         0.000000
+streets_per_node_proportion_1    0.000000
+streets_per_node_count_1         0.000000
+mean_lanes                       0.000000
+m                                0.000000
+betweenness                      0.000000
+total_crossings                  0.000000
+non_metered_count                0.000000
+metered_count                    0.000000
+self_loop_proportion             0.000000
+circuity_avg                     0.000000
+street_length_avg                0.000000
+street_segment_count             0.000000
+street_length_total              0.000000
+streets_per_node_avg             0.000000
+edge_length_avg                  0.000000
+edge_length_total                0.000000
+k_avg                            0.000000
+global_betweenness               0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Auckland 50 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (770, 17) (770,)
+X.shape, Y.shape, "Inside the model-fitting function" : (770, 17) (770,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 500}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 2,
+ 'xgbregressor__n_estimators': 2}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_3 -0.0015053267769227256 0.05712715118421742 -37.94999999999999
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 betweenness 0.0034510699552894202 0.021247136942403783 6.156681034482801
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_proportion_3 -0.0002800332097465388 0.01423831898795513 -50.845108695652186
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 non_metered_count -0.0049647560434967295 0.05556177464419829 -11.191239641467973
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 n -0.0018274765622807755 0.04206023078995985 -23.015469340666527
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 metered_count -0.006759185102264731 0.14810156613536674 -21.911157024793397
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_proportion_2 -0.0028292231064217604 0.06722109463885942 -23.759559465735038
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 global_betweenness -0.000596459591176171 0.023931290453087985 -40.12223259902214
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 mean_lanes -0.0002846887455672729 0.03164615840777411 -111.16055306196154
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 m -0.00042940665640240245 0.02185468121503137 -50.89506855373725
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 streets_per_node_avg -0.0006914475079491634 0.048479947632192204 -70.11370649954898
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 total_crossings 0.00879792695806055 0.14046401100529224 15.96558049127708
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 streets_per_node_proportion_1 -0.007441759489563027 0.05725769828597021 -7.694107605368515
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 k_avg -0.003359632135752629 0.03281096769594387 -9.766238198157225
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 circuity_avg -0.00026643001922734124 0.013773308320627592 -51.695782481909475
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 streets_per_node_count_2 -0.0004851964990710795 0.02785122590608512 -57.40195149677908
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0284
+SHAP-- recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0104
+SHAP-- recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_3          0.0030
+SHAP-- recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0275
+SHAP-- recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0198
+SHAP-- recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0656
+SHAP-- recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_2          0.0326
+SHAP-- recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0117
+SHAP-- recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0151
+SHAP-- recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0125
+SHAP-- recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0242
+SHAP-- recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0686
+SHAP-- recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_1          0.0275
+SHAP-- recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0157
+SHAP-- recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0069
+SHAP-- recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-auckland-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0137
+RECURRENT Auckland 50 LR 0.30162488784544955 XpVar
+RECURRENT Auckland 50 RF 0.419402026596298 XpVar
+RECURRENT Auckland 50 GBM 0.013975484959031528 XpVar
+RECURRENT Auckland 50 LLR 1.1102230246251565e-16 XpVar
+RECURRENT Auckland 50 RLR 0.30328547817768137 XpVar
+RECURRENT Auckland 50 LR 0.11208896555500773 MSE
+RECURRENT Auckland 50 RF 0.09399859081981936 MSE
+RECURRENT Auckland 50 GBM 0.15531478522638203 MSE
+RECURRENT Auckland 50 LLR 0.15744838469831163 MSE
+RECURRENT Auckland 50 RLR 0.11192021637813378 MSE
+RECURRENT Auckland 50 LR 0.29004277597392736 R2
+RECURRENT Auckland 50 RF 0.41364941694232077 R2
+RECURRENT Auckland 50 GBM -0.01403111323888078 R2
+RECURRENT Auckland 50 LLR -0.02851794485690278 R2
+RECURRENT Auckland 50 RLR 0.2912907598153902 R2
+t_spatial, t_non_spatial, "seconds" : 1.9073486328125e-06 121.19994568824768 seconds
+sorted_percentage_nan_per_column : maxspeed                         3.927069
+n                                0.000000
+lane_density                     0.000000
+streets_per_node_proportion_6    0.000000
+streets_per_node_count_6         0.000000
+streets_per_node_proportion_5    0.000000
+streets_per_node_count_5         0.000000
+streets_per_node_proportion_4    0.000000
+streets_per_node_count_4         0.000000
+streets_per_node_proportion_3    0.000000
+streets_per_node_count_3         0.000000
+streets_per_node_proportion_2    0.000000
+streets_per_node_count_2         0.000000
+streets_per_node_proportion_1    0.000000
+streets_per_node_count_1         0.000000
+mean_lanes                       0.000000
+m                                0.000000
+betweenness                      0.000000
+total_crossings                  0.000000
+non_metered_count                0.000000
+metered_count                    0.000000
+self_loop_proportion             0.000000
+circuity_avg                     0.000000
+street_length_avg                0.000000
+street_segment_count             0.000000
+street_length_total              0.000000
+streets_per_node_avg             0.000000
+edge_length_avg                  0.000000
+edge_length_total                0.000000
+k_avg                            0.000000
+global_betweenness               0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Auckland 100 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (2139, 17) (2139,)
+X.shape, Y.shape, "Inside the model-fitting function" : (2139, 17) (2139,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 1000}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 2,
+ 'xgbregressor__n_estimators': 2}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_3 -0.0005904626798658911 0.04583269946850417 -77.6216703127011
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 betweenness -0.0005648438067972498 0.028088172660601735 -49.72732695763443
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 streets_per_node_proportion_3 -0.0002242827558124806 0.017291718827714422 -77.09785250798222
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 non_metered_count 0.0009298231485296573 0.021384149657665063 22.998082690756974
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 n -0.0017540097392296295 0.041736543196419604 -23.79493241283285
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 metered_count -0.003608093120168943 0.13855186226855837 -38.40030111586225
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_proportion_2 -0.0036385225323514363 0.16297109294735784 -44.7904586266327
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 global_betweenness 0.0010039934464988196 0.028750782041267756 28.636424014050135
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 mean_lanes -0.0001221381925423299 0.0425699774101936 -348.5394414645523
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 m -0.00031092597972669195 0.03190294698000927 -102.60624412296579
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 streets_per_node_avg -0.00044277416421983424 0.0665113950211264 -150.21516699900303
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 total_crossings 0.0019135247587140885 0.09447286107814998 49.37112030974549
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 streets_per_node_proportion_1 -0.0006553234412059276 0.03912231733227826 -59.699249061326555
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 k_avg -0.0007693730640636496 0.023938109029437542 -31.113786207957446
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 circuity_avg -0.00010341946575987446 0.012243840154315122 -118.39009285489453
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : RECURRENT recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 16 streets_per_node_count_2 -0.00013779279764784952 0.019504205352480444 -141.54734997344644
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0228
+SHAP-- recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0121
+SHAP-- recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_3          0.0016
+SHAP-- recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0102
+SHAP-- recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0188
+SHAP-- recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0580
+SHAP-- recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_2          0.0687
+SHAP-- recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0134
+SHAP-- recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0180
+SHAP-- recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0150
+SHAP-- recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0332
+SHAP-- recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0472
+SHAP-- recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_proportion_1          0.0188
+SHAP-- recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0121
+SHAP-- recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0061
+SHAP-- recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+SHAP-- recurrent-auckland-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0124
+RECURRENT Auckland 100 LR 0.2654117052380065 XpVar
+RECURRENT Auckland 100 RF 0.3555656181284172 XpVar
+RECURRENT Auckland 100 GBM 0.011672551125296225 XpVar
+RECURRENT Auckland 100 LLR 3.172065784643304e-17 XpVar
+RECURRENT Auckland 100 RLR 0.2652745301923855 XpVar
+RECURRENT Auckland 100 LR 0.1313619721406697 MSE
+RECURRENT Auckland 100 RF 0.11768339771957513 MSE
+RECURRENT Auckland 100 GBM 0.17207230718814068 MSE
+RECURRENT Auckland 100 LLR 0.17385505792601555 MSE
+RECURRENT Auckland 100 RLR 0.13137995062854638 MSE
+RECURRENT Auckland 100 LR 0.25929114411554016 R2
+RECURRENT Auckland 100 RF 0.35022488884829484 R2
+RECURRENT Auckland 100 GBM 0.0028649551032762233 R2
+RECURRENT Auckland 100 LLR -0.008857273812732285 R2
+RECURRENT Auckland 100 RLR 0.2592909910434845 R2
+t_spatial, t_non_spatial, "seconds" : 2.86102294921875e-06 388.1349880695343 seconds
+
+ Complete: python urbanscales/modelling/SHAP_analysis.py
+
