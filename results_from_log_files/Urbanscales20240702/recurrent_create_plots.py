@@ -67,7 +67,7 @@ def plot_data_by_model(df, model_types, city_list):
                          color=colors[city])
 
         # plt.title(r'GoF (R$^2$) vs '+f'Tile Area for {model} Model Across Cities')
-        plt.xlabel(r'Tile Area k.m.$^2$')
+        plt.xlabel(r'Tile Area km$^2$')
         plt.ylabel('Goodness of Fit '+ r'($R^2$)')
         plt.grid(True, alpha=0.2)
         plt.legend(ncol=2)
@@ -97,6 +97,18 @@ from skimage.filters import threshold_otsu
 def load_data(file_path):
     df = pd.read_csv(file_path, delim_whitespace=True, header=None)
     df.columns = ["marker", "City-Scale-tod", "feature", "absshap"]
+
+    def adjust_feature_name(feature_name):
+        if 'streets_per_node_count_' in feature_name:
+            parts = feature_name.split('_')
+            # Subtract 1 from the count number
+            count_number = int(parts[-1]) - 1
+            return '_'.join(parts[:-1]) + f'_{count_number}'
+        return feature_name
+
+    # Applying the renaming function to the 'feature' column
+    df['feature'] = df['feature'].apply(adjust_feature_name)
+    
     split_columns = df['City-Scale-tod'].str.split('-', expand=True)
     df['City'] = split_columns[1]
     df['Scale'] = split_columns[2].astype(int)
@@ -151,6 +163,9 @@ if "heatmapplotunfiltered" == "heatmapplotunfiltered":
     plt.figure(figsize=(15, 8))
     ax = sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': r'${Feature~Importance}_j = \mathbb{E} \left[ |\phi_j| \right]$'},
                      yticklabels=True, xticklabels=tick_positions)
+
+    backup_absshap = heatmap_data.to_numpy().copy()
+
     cbar = ax.collections[0].colorbar
     cbar.ax.tick_params(labelsize=24)  # Adjust the tick font size as needed
     cbar.set_label(r'${Feature~Importance}_j = \mathbb{E} \left[ |\phi_j| \right]$',
@@ -188,7 +203,7 @@ method = 'otsu'  # Change this variable to switch methods
 for column in heatmap_data.columns:
     if method == 'otsu':
         try:
-            thresh = threshold_otsu(np.array(heatmap_data[column].to_list()))
+            thresh = 0  # threshold_otsu(np.array(heatmap_data[column].to_list()))
         except Exception as e:
             debug_pitstop = True
             try:
@@ -494,7 +509,7 @@ if 1==1: # trick to allow code folding :)
     FI_as_timeseries = np.array(FI_as_timeseries)
 
     # Add labels and title
-    plt.xlabel(r'Tile Area (k.m.$^2$)')
+    plt.xlabel(r'Tile Area (km$^2$)')
     plt.ylabel('Feature Importance')
     # plt.title('Feature Importance vs. Scale for Each City-Feature Combination')
     # plt.legend(loc='best', fontsize='small')
@@ -585,7 +600,17 @@ if 1==1: # trick to allow code folding :)
     }
 
     # Extract city names from labels
-    city_labels = [label.split('-')[0] for label in heatmap_data.columns]
+    citylist_alphabetical = ['auckland',
+                         'bogota',
+                         'capetown',
+                         'istanbul',
+                         'mexicocity',
+                         'mumbai',
+                         'newyorkcity'
+                             ]
+    city_labels = []
+    for i, citynamelowercase in enumerate(citylist_alphabetical):
+        city_labels.extend([citynamelowercase] * heatmap_data.shape[0])
 
     ratio_of_last_to_first_element = []
     for row in cluster_representatives:
@@ -645,7 +670,7 @@ if 1==1: # trick to allow code folding :)
         plt.plot(arealist, values, label=f"{city}-{feature}", color=cluster_color[dictzip[city.lower(), feature]], marker='o')
         # FI_as_timeseries.append(np.array(values) / np.array(arealist))
     # Add labels and title
-    plt.xlabel(r'Tile Area (k.m.$^2$)')
+    plt.xlabel(r'Tile Area (km$^2$)')
     plt.ylabel('Feature Importance')
     # plt.title('ABSSHAP for Each City-Feature Combination')
     # plt.legend(loc='best', fontsize='small')
@@ -674,6 +699,18 @@ if 1==1: # allow code folding
         #     sprint (df.shape, len(["garbage" + str(x) for x in [0,1,2,3,4,5,6,7,8]] + ["City-Scale-tod", "garbage7", "feature",  "ratio", "num", "den"]))
         df.columns = ["garbage" + str(x) for x in [0, 1, 2, 3, 4, 5, 6, 7, 8]] + ["City-Scale-tod", "garbage7", "feature",
                                                                                   "ratio", "num", "den"]
+
+        def adjust_feature_name(feature_name):
+            if 'streets_per_node_count_' in feature_name:
+                parts = feature_name.split('_')
+                # Subtract 1 from the count number
+                count_number = int(parts[-1]) - 1
+                return '_'.join(parts[:-1]) + f'_{count_number}'
+            return feature_name
+
+        # Applying the renaming function to the 'feature' column
+        df['feature'] = df['feature'].apply(adjust_feature_name)
+        
         split_columns = df['City-Scale-tod'].str.split('-', expand=True)
 
         df['City'] = split_columns[1].apply(lambda x: x.lower())
@@ -767,6 +804,8 @@ if 1==1: # allow code folding
         cbar.set_ticks([-0.5, 0.5])  # Set ticks for your two values
         cbar.set_ticklabels(['-ve', '+ve'])  # Label the ticks
         cbar.ax.tick_params(labelsize=24)  # Adjust the tick font size
+        cbar.set_label('Direction of Relationship',
+                       size=24)  # Adju
 
         # Set custom x-tick labels properly
         ax.set_xticks(tick_positions + 0.5)  # Center ticks in the middle of the cells
@@ -781,14 +820,15 @@ if 1==1: # allow code folding
         # Add vertical lines to separate groups of cities every 10 columns
         for i in range(10, len(heatmap_data.columns), 10):
             ax.axvline(x=i, color='white', linestyle='--', lw=1)
+        # Add vertical lines to separate groups of cities every 10 columns
+        for i in range(1, heatmap_data.shape[0]):
+            ax.axhline(y=i, color='white', linestyle='--', lw=1)
 
         plt.ylabel("Feature", fontsize=25)
         plt.xlabel("City-Scale Combination", fontsize=25)
         plt.tight_layout()
         plt.savefig("recurrent_Fi_4a.png", dpi=300)
         plt.show()
-
-
 
 
 
@@ -799,6 +839,18 @@ if 1==1: # allow code folding
         #     sprint (df.shape, len(["garbage" + str(x) for x in [0,1,2,3,4,5,6,7,8]] + ["City-Scale-tod", "garbage7", "feature",  "ratio", "num", "den"]))
         df.columns = ["garbage" + str(x) for x in [0, 1, 2, 3, 4, 5, 6, 7, 8]] + ["City-Scale-tod", "garbage7", "feature",
                                                                                   "ratio", "num", "den"]
+
+        def adjust_feature_name(feature_name):
+            if 'streets_per_node_count_' in feature_name:
+                parts = feature_name.split('_')
+                # Subtract 1 from the count number
+                count_number = int(parts[-1]) - 1
+                return '_'.join(parts[:-1]) + f'_{count_number}'
+            return feature_name
+
+        # Applying the renaming function to the 'feature' column
+        df['feature'] = df['feature'].apply(adjust_feature_name)
+        
         split_columns = df['City-Scale-tod'].str.split('-', expand=True)
 
         df['City'] = split_columns[1].apply(lambda x: x.lower())
@@ -1045,7 +1097,18 @@ if 1==1: # allow code folding
     }
 
     # Extract city names from labels
-    city_labels = [label.split('-')[0] for label in heatmap_data.columns]
+    # Extract city names from labels
+    citylist_alphabetical = ['auckland',
+                         'bogota',
+                         'capetown',
+                         'istanbul',
+                         'mexicocity',
+                         'mumbai',
+                         'newyorkcity'
+                             ]
+    city_labels = []
+    for i, citynamelowercase in enumerate(citylist_alphabetical):
+        city_labels.extend([citynamelowercase] * heatmap_data.shape[0])
 
     ratio_of_last_to_first_element = []
     for row in cluster_representatives:
@@ -1068,6 +1131,11 @@ if 1==1: # allow code folding
             cluster_names[key] = "Indeterminate"
 
     # Plot the clustered time series
+    plt.clf()
+    plt.close()
+    plt.figure(figsize=(6, 6))
+
+    # Plot the clustered time series
     area_list = [(50/x)**2 for x in [20, 25, 30, 40, 50, 60, 70, 80, 90, 100]]
     for i in range(HARDCODED_CLUSTER):
         cluster_indices = np.where(clusters == i)[0]
@@ -1080,13 +1148,13 @@ if 1==1: # allow code folding
             plt.plot(area_list, timeseries_data[idx].ravel(), alpha=0.1, color=cluster_color[i])
         plt.plot(area_list, cluster_representatives[i], label=f"Cluster Representative ({cluster_names[i]})", linewidth=2, color=cluster_color[i])
 
-    plt.xlabel(r'Tile Area (k.m.$^2$)')
+    plt.xlabel(r'Tile Area (km$^2$)')
     plt.ylabel('Sensitivity Ratio (z-normalised)')
     # plt.title(f'Clustered Feature Importance vs. Scale (n_clusters={HARDCODED_CLUSTER})')
-    plt.legend(loc='best', fontsize=5)
+    plt.legend(loc='upper right', fontsize=12)
     plt.grid(True, alpha=0.0)
-    plt.tight_layout();
-    plt.savefig("nonrecurrent_Fi_4g.png", dpi=300)
+    # plt.tight_layout();
+    plt.savefig("recurrent_Fi_4g.png", dpi=300)
     plt.show()
 
     # Display the number of time series in each cluster
@@ -1112,7 +1180,7 @@ if 1==1: # allow code folding
         plt.plot(arealist, values, label=f"{city}-{feature}", color=cluster_color[dictzip[city.lower(), feature]], marker='o')
         # FI_as_timeseries.append(np.array(values) / np.array(arealist))
     # Add labels and title
-    plt.xlabel(r'Tile Area (k.m.$^2$)')
+    plt.xlabel(r'Tile Area (km$^2$)')
     plt.ylabel('Feature Importance')
     # plt.title('Ratio vs. Scale for Each City-Feature Combination')
     # plt.legend(loc='best', fontsize='small')
