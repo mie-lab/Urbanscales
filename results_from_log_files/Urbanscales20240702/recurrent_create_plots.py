@@ -108,7 +108,9 @@ def load_data(file_path):
 
     # Applying the renaming function to the 'feature' column
     df['feature'] = df['feature'].apply(adjust_feature_name)
-    
+    indices_to_drop = df[df['feature'] == 'streets_per_node_count_0'].index
+    df = df.drop(index=indices_to_drop)
+
     split_columns = df['City-Scale-tod'].str.split('-', expand=True)
     df['City'] = split_columns[1]
     df['Scale'] = split_columns[2].astype(int)
@@ -710,7 +712,9 @@ if 1==1: # allow code folding
 
         # Applying the renaming function to the 'feature' column
         df['feature'] = df['feature'].apply(adjust_feature_name)
-        
+        indices_to_drop = df[df['feature'] == 'streets_per_node_count_0'].index
+        df = df.drop(index=indices_to_drop)
+
         split_columns = df['City-Scale-tod'].str.split('-', expand=True)
 
         df['City'] = split_columns[1].apply(lambda x: x.lower())
@@ -850,7 +854,9 @@ if 1==1: # allow code folding
 
         # Applying the renaming function to the 'feature' column
         df['feature'] = df['feature'].apply(adjust_feature_name)
-        
+        indices_to_drop = df[df['feature'] == 'streets_per_node_count_0'].index
+        df = df.drop(index=indices_to_drop)
+
         split_columns = df['City-Scale-tod'].str.split('-', expand=True)
 
         df['City'] = split_columns[1].apply(lambda x: x.lower())
