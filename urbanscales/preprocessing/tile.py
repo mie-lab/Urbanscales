@@ -35,6 +35,7 @@ class Tile:
     # Initializing feature names for streets_per_node_counts and streets_per_node_proportions
     for i in range(1, 7):
         FEATURE_NAMES.append(f'streets_per_node_count_{i}')
+    for i in range(1, 7):
         FEATURE_NAMES.append(f'streets_per_node_proportion_{i}')
 
     def __init__(self, G: nx.MultiDiGraph, tile_area):
