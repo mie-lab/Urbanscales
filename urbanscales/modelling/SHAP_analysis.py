@@ -1172,7 +1172,7 @@ if __name__ == "__main__":
                      'betweenness',
                      'mean_lanes',
                      # 'lane_density',
-                     'maxspeed',
+                     # 'maxspeed',
                      'streets_per_node_count_1',
                      # 'streets_per_node_proportion_1',
                      'streets_per_node_count_2',
