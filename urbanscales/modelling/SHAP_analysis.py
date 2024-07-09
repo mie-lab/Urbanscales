@@ -499,13 +499,22 @@ def compare_models_gof_standard_cv_HPT_new(X, Y, feature_list, cityname, scale, 
         # Number of features to consider when looking for the best split
     }
 
-    gbm_params = {
-        'xgbregressor__n_estimators': [100, 200, 300, 400, 500, 1000],  # Number of boosting stages to perform
-        'xgbregressor__learning_rate': [0.001, 0.01, 0.1, 0.2],  # Step size shrinkage used to prevent overfitting
-        'xgbregressor__max_depth': [10, 20, 50, 100],  # Maximum depth of each tree
-        # 'xgbregressor__min_samples_split': [2, 10],  # Minimum number of samples required to split an internal node
-        # 'xgbregressor__subsample': [0.6, 0.8, 1.0]  # Subsample ratio of the training instances
-    }
+    if config.SHAP_GBM_ENABLED:
+        gbm_params = {
+            'xgbregressor__n_estimators': [100, 200, 300, 400, 500, 1000],  # Number of boosting stages to perform
+            'xgbregressor__learning_rate': [0.001, 0.01, 0.1, 0.2],  # Step size shrinkage used to prevent overfitting
+            'xgbregressor__max_depth': [10, 20, 50, 100],  # Maximum depth of each tree
+            # 'xgbregressor__min_samples_split': [2, 10],  # Minimum number of samples required to split an internal node
+            # 'xgbregressor__subsample': [0.6, 0.8, 1.0]  # Subsample ratio of the training instances
+        }
+    else:
+        gbm_params = {
+            'xgbregressor__n_estimators': [2], #  [100, 200, 300, 400, 500, 1000],  # Number of boosting stages to perform
+            'xgbregressor__learning_rate': [0.01],  # [0.001, 0.01, 0.1, 0.2],  # Step size shrinkage used to prevent overfitting
+            'xgbregressor__max_depth': [2], #[10, 20, 50, 100],  # Maximum depth of each tree
+            # 'xgbregressor__min_samples_split': [2, 10],  # Minimum number of samples required to split an internal node
+            # 'xgbregressor__subsample': [0.6, 0.8, 1.0]  # Subsample ratio of the training instances
+        }
 
     best_params = {}  # Store the best parameters
 
@@ -1173,7 +1182,8 @@ if __name__ == "__main__":
                      'mean_lanes',
                      # 'lane_density',
                      # 'maxspeed',
-                     'streets_per_node_count_1',
+                    # 'streets_per_node_count_0',
+                    'streets_per_node_count_1',
                      # 'streets_per_node_proportion_1',
                      'streets_per_node_count_2',
                      # 'streets_per_node_proportion_2',
@@ -1258,19 +1268,20 @@ if __name__ == "__main__":
 
                             import seaborn as sns
 
-                            plt.figure(figsize=(10, 10))
-                            corr = (filtered_X).corr()
-                            sns.heatmap(corr)
-                            if not os.path.exists(config.results_folder):
-                                os.mkdir(config.results_folder)
-                            plt.tight_layout()
-                            if not os.path.exists(os.path.join(config.BASE_FOLDER, "results")):
-                                os.mkdir(os.path.join(config.BASE_FOLDER, "results"))
-                            plt.savefig(os.path.join(config.BASE_FOLDER, "results", "cross-corr-" + slugify(
-                                str((city, str(scale), str(tod))))) + ".png")
+                            if config.MASTER_VISUALISE_EACH_STEP_INSIDE_ShapAnalysisScript:
+                                plt.figure(figsize=(10, 10))
+                                corr = (filtered_X).corr()
+                                sns.heatmap(corr)
+                                if not os.path.exists(config.results_folder):
+                                    os.mkdir(config.results_folder)
+                                plt.tight_layout()
+                                if not os.path.exists(os.path.join(config.BASE_FOLDER, "results")):
+                                    os.mkdir(os.path.join(config.BASE_FOLDER, "results"))
+                                plt.savefig(os.path.join(config.BASE_FOLDER, "results", "cross-corr-" + slugify(
+                                    str((city, str(scale), str(tod))))) + ".png")
 
-                            plt.show(block=False);
-                            plt.close()
+                                plt.show(block=False);
+                                plt.close()
 
 
                     except Exception as e:
@@ -1463,7 +1474,7 @@ if __name__ == "__main__":
                         }, crs="EPSG:4326")
 
                         # Plot the bounding boxes with different colors for each strip
-                        if config.MASTER_VISUALISE_EACH_STEP:
+                        if config.MASTER_VISUALISE_EACH_STEP_INSIDE_ShapAnalysisScript:
                             fig, ax = plt.subplots(figsize=(10, 6))
                             for strip, color in zip(range(len(strip_boundaries) - 1),
                                                     ['red', 'green', 'blue', 'orange', 'purple', 'brown', 'cyan']):
@@ -1548,7 +1559,7 @@ if __name__ == "__main__":
                         }, crs="EPSG:4326")
 
                         # Plot the bounding boxes with different colors for each grid cell
-                        if config.MASTER_VISUALISE_EACH_STEP:
+                        if config.MASTER_VISUALISE_EACH_STEP_INSIDE_ShapAnalysisScript:
                             fig, ax = plt.subplots(figsize=(10, 6))
                             unique_cells = set(gdf['grid_cell'])
                             colors = plt.cm.get_cmap('tab20', len(unique_cells))
@@ -1579,25 +1590,26 @@ if __name__ == "__main__":
 
                     from shapely.geometry import Polygon
 
-                    if config.SHAP_mode_spatial_CV == "vertical":
-                        n_strips = 6
-                        strip_boundaries = calculate_strip_boundaries_vertical(bboxes, n_strips)
-                        strip_assignments, bbox_to_strip = assign_bboxes_to_strips_vertical(bboxes, strip_boundaries)
-                        visualize_splits(bboxes, strip_boundaries, bbox_to_strip,
-                                         split_direction='vertical')
-                    elif config.SHAP_mode_spatial_CV == "horizontal":
-                        n_strips = 6
-                        strip_boundaries = calculate_strip_boundaries_horizontal(bboxes, n_strips)
-                        strip_assignments, bbox_to_strip = assign_bboxes_to_strips_horizontal(bboxes, strip_boundaries)
-                        visualize_splits(bboxes, strip_boundaries, bbox_to_strip,
-                                         split_direction='horizontal')
-                    elif config.SHAP_mode_spatial_CV == "grid":
-                        lon_boundaries, lat_boundaries = calculate_grid_boundaries(bboxes, n_strips=n_strips)
-                        grid_assignments, bbox_to_strip = assign_bboxes_to_grid(bboxes, lon_boundaries, lat_boundaries,
-                                                                                n_strips)
-                        visualize_grid(bboxes, lon_boundaries, lat_boundaries, bbox_to_strip, split_direction='grid')
-                    else:
-                        raise Exception("Wrong split type; must be grid or vertical")
+                    if config.MASTER_VISUALISE_EACH_STEP_INSIDE_ShapAnalysisScript:
+                        if config.SHAP_mode_spatial_CV == "vertical":
+                            n_strips = 6
+                            strip_boundaries = calculate_strip_boundaries_vertical(bboxes, n_strips)
+                            strip_assignments, bbox_to_strip = assign_bboxes_to_strips_vertical(bboxes, strip_boundaries)
+                            visualize_splits(bboxes, strip_boundaries, bbox_to_strip,
+                                             split_direction='vertical')
+                        elif config.SHAP_mode_spatial_CV == "horizontal":
+                            n_strips = 6
+                            strip_boundaries = calculate_strip_boundaries_horizontal(bboxes, n_strips)
+                            strip_assignments, bbox_to_strip = assign_bboxes_to_strips_horizontal(bboxes, strip_boundaries)
+                            visualize_splits(bboxes, strip_boundaries, bbox_to_strip,
+                                             split_direction='horizontal')
+                        elif config.SHAP_mode_spatial_CV == "grid":
+                            lon_boundaries, lat_boundaries = calculate_grid_boundaries(bboxes, n_strips=n_strips)
+                            grid_assignments, bbox_to_strip = assign_bboxes_to_grid(bboxes, lon_boundaries, lat_boundaries,
+                                                                                    n_strips)
+                            visualize_grid(bboxes, lon_boundaries, lat_boundaries, bbox_to_strip, split_direction='grid')
+                        else:
+                            raise Exception("Wrong split type; must be grid or vertical")
 
                     # After processing each city and time of day, concatenate data
                     x.append(filtered_X)
