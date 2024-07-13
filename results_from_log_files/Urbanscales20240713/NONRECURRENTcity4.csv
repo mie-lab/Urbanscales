@@ -1,0 +1,955 @@
+Loaded config file: Prefix for name of road network object pickle file!
+os.getcwd() : /home/niskumar/WCS/urbanscales/modelling
+sorted_percentage_nan_per_column : maxspeed                         76.588069
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Istanbul 150 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (7761, 16) (7761,)
+X.shape, Y.shape, "Inside the model-fitting function" : (7761, 16) (7761,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 1000}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 2,
+ 'xgbregressor__n_estimators': 2}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_4 -1.620666077256522e-05 0.0302336926850052 -1865.510305255791
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 circuity_avg 1.5834468275909566e-05 0.005245726222084487 331.2852778305978
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 betweenness -2.0949854566832085e-05 0.015061668990845486 -718.9390715242098
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 m -1.9754846213069917e-05 0.004294868336986102 -217.40834075157682
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 total_crossings -3.112976173419708e-05 0.04183004016807064 -1343.7314594707914
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_3 -4.36502782162963e-06 0.00559799065007135 -1282.4639106152154
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 n -9.737730667970225e-06 0.014212139597772554 -1459.491957866503
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_count_2 -5.008757145495368e-06 0.0033265738876491237 -664.1515631559182
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 k_avg -0.00033961819080507435 0.020278169300554205 -59.70872541451399
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 global_betweenness 5.925837440088726e-05 0.03103407825481659 523.7078905484104
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 metered_count -1.3682414646359368e-05 0.01574817250991436 -1150.9790425847568
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 streets_per_node_count_5 -1.004731348101529e-05 0.019963932765122143 -1986.9921250934008
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 non_metered_count -1.5317304636134067e-05 0.019694811516775233 -1285.78832794867
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 mean_lanes -5.5630141335409645e-05 0.020612840494101885 -370.5336711230216
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 streets_per_node_avg -1.5120342854541796e-05 0.029426682192225898 -1946.16500930644
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0129
+SHAP-- non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0020
+SHAP-- non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0075
+SHAP-- non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0027
+SHAP-- non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0123
+SHAP-- non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0029
+SHAP-- non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0069
+SHAP-- non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0017
+SHAP-- non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0102
+SHAP-- non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0113
+SHAP-- non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0028
+SHAP-- non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0100
+SHAP-- non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0053
+SHAP-- non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0096
+SHAP-- non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0143
+SHAP-- non-recurrent-mmm-istanbul-150-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+NON-RECURRENT-MMM Istanbul 150 LR 0.18774710081673712 XpVar
+NON-RECURRENT-MMM Istanbul 150 RF 0.24951655708706816 XpVar
+NON-RECURRENT-MMM Istanbul 150 GBM 0.005334053300070656 XpVar
+NON-RECURRENT-MMM Istanbul 150 LLR -1.586032892321652e-17 XpVar
+NON-RECURRENT-MMM Istanbul 150 RLR 0.18757821952328532 XpVar
+NON-RECURRENT-MMM Istanbul 150 LR 0.016117099194323463 MSE
+NON-RECURRENT-MMM Istanbul 150 RF 0.01494031699099819 MSE
+NON-RECURRENT-MMM Istanbul 150 GBM 0.01954352462823401 MSE
+NON-RECURRENT-MMM Istanbul 150 LLR 0.019644381462208895 MSE
+NON-RECURRENT-MMM Istanbul 150 RLR 0.01611987749713027 MSE
+NON-RECURRENT-MMM Istanbul 150 LR 0.18705649970958163 R2
+NON-RECURRENT-MMM Istanbul 150 RF 0.24897661934791587 R2
+NON-RECURRENT-MMM Istanbul 150 GBM 0.00454175183154767 R2
+NON-RECURRENT-MMM Istanbul 150 LLR -0.0007973105979137378 R2
+NON-RECURRENT-MMM Istanbul 150 RLR 0.18688310448240258 R2
+t_spatial, t_non_spatial, "seconds" : 2.1457672119140625e-06 1532.2499849796295 seconds
+sorted_percentage_nan_per_column : maxspeed                         68.208092
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Istanbul 75 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (2768, 16) (2768,)
+X.shape, Y.shape, "Inside the model-fitting function" : (2768, 16) (2768,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 400}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 2,
+ 'xgbregressor__n_estimators': 2}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_4 -2.4834768025780604e-05 0.019581148014831715 -788.4570532128513
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 circuity_avg 0.0001306707991585161 0.005068203908383996 38.7860481532357
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 betweenness -3.657856724753205e-05 0.015247202111261616 -416.83431743189294
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 m 1.8421465632015657e-05 0.005860469658925175 318.1326489429782
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 total_crossings -5.9778024229168506e-05 0.03804348755177769 -636.4125954704017
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_3 -2.8581500882638022e-05 0.004592653422880581 -160.68622294326087
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 n -1.8230848216769463e-05 0.008821571098591732 -483.8815503097271
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_count_2 -7.963292506889895e-06 0.002922264265292106 -366.96683724272884
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 k_avg -0.00039894147620159415 0.017306741512819225 -43.38165506780683
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 global_betweenness 0.00030984301279978545 0.021951379672619425 70.84677971035603
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 metered_count -5.4181185197327256e-05 0.032177378860765604 -593.8847358834245
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 streets_per_node_count_5 -3.504136769605761e-05 0.02758153396645295 -787.1135112558994
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 non_metered_count -2.137770264889451e-05 0.01305368935859092 -610.6217105263158
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 mean_lanes -6.720662903700347e-05 0.02060758830871559 -306.63029233870975
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 streets_per_node_avg -3.831971954339893e-05 0.027818385890807436 -725.954840543699
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0097
+SHAP-- non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0021
+SHAP-- non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0075
+SHAP-- non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0038
+SHAP-- non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0147
+SHAP-- non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0024
+SHAP-- non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0043
+SHAP-- non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0015
+SHAP-- non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0087
+SHAP-- non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0088
+SHAP-- non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0099
+SHAP-- non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0138
+SHAP-- non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0046
+SHAP-- non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0103
+SHAP-- non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0138
+SHAP-- non-recurrent-mmm-istanbul-75-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+NON-RECURRENT-MMM Istanbul 75 LR 0.27079481252012017 XpVar
+NON-RECURRENT-MMM Istanbul 75 RF 0.35141108178077135 XpVar
+NON-RECURRENT-MMM Istanbul 75 GBM 0.00971151160264153 XpVar
+NON-RECURRENT-MMM Istanbul 75 LLR -3.172065784643304e-17 XpVar
+NON-RECURRENT-MMM Istanbul 75 RLR 0.26919343881096125 XpVar
+NON-RECURRENT-MMM Istanbul 75 LR 0.010809919347946482 MSE
+NON-RECURRENT-MMM Istanbul 75 RF 0.009629923283124706 MSE
+NON-RECURRENT-MMM Istanbul 75 GBM 0.014436867986239828 MSE
+NON-RECURRENT-MMM Istanbul 75 LLR 0.014573546107015152 MSE
+NON-RECURRENT-MMM Istanbul 75 RLR 0.01083058515212819 MSE
+NON-RECURRENT-MMM Istanbul 75 LR 0.2657980369598492 R2
+NON-RECURRENT-MMM Istanbul 75 RF 0.34828705693740325 R2
+NON-RECURRENT-MMM Istanbul 75 GBM 0.005580139851335161 R2
+NON-RECURRENT-MMM Istanbul 75 LLR -0.004168870056160274 R2
+NON-RECURRENT-MMM Istanbul 75 RLR 0.26432160795250204 R2
+t_spatial, t_non_spatial, "seconds" : 3.0994415283203125e-06 325.67967796325684 seconds
+sorted_percentage_nan_per_column : maxspeed                         57.467532
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Istanbul 37 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (924, 16) (924,)
+X.shape, Y.shape, "Inside the model-fitting function" : (924, 16) (924,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 20,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 200}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 2,
+ 'xgbregressor__n_estimators': 2}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_4 -6.153269084425095e-05 0.016563132747488572 -269.1761488118974
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 circuity_avg 0.03525496672554263 0.005595043955907081 0.15870229007629177
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 betweenness -6.556113939584391e-05 0.00964429753854661 -147.10387323070205
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 m -5.8262988303309855e-05 0.005223630985851029 -89.65607734806628
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 total_crossings -0.00013581029409308467 0.033195900241930906 -244.42845414338302
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_3 -4.386274180314876e-05 0.0084265437306038 -192.11165066746662
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 n -4.296904650285269e-05 0.01011746555891108 -235.45939187269113
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_count_2 -6.361251283607778e-05 0.003187412069669636 -50.10668385138683
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 k_avg -0.0003723019075283878 0.016685116381917338 -44.81609157655231
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 global_betweenness -0.0003079332282230027 0.01775672748552796 -57.66421372580385
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 metered_count -0.0001158037062294009 0.027342145657798834 -236.10769074726778
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 streets_per_node_count_5 -7.068491467053063e-05 0.019221587251297183 -271.9333727838663
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 non_metered_count -6.464782171417838e-05 0.015590571609648529 -241.16159208855828
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 mean_lanes -9.378162139554089e-05 0.014480728880000574 -154.4090266783242
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 streets_per_node_avg -0.00013082134950274853 0.03283463400083669 -250.98834498834492
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0083
+SHAP-- non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0027
+SHAP-- non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0046
+SHAP-- non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0030
+SHAP-- non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0148
+SHAP-- non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0042
+SHAP-- non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0050
+SHAP-- non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0017
+SHAP-- non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0083
+SHAP-- non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0072
+SHAP-- non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0106
+SHAP-- non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0096
+SHAP-- non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0065
+SHAP-- non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0071
+SHAP-- non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0163
+SHAP-- non-recurrent-mmm-istanbul-37-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+NON-RECURRENT-MMM Istanbul 37 LR 0.3605810286296343 XpVar
+NON-RECURRENT-MMM Istanbul 37 RF 0.42602958482008757 XpVar
+NON-RECURRENT-MMM Istanbul 37 GBM 0.013600527067544301 XpVar
+NON-RECURRENT-MMM Istanbul 37 LLR -4.7580986769649563e-17 XpVar
+NON-RECURRENT-MMM Istanbul 37 RLR 0.35856636404283504 XpVar
+NON-RECURRENT-MMM Istanbul 37 LR 0.0070877564354749475 MSE
+NON-RECURRENT-MMM Istanbul 37 RF 0.006434879876324793 MSE
+NON-RECURRENT-MMM Istanbul 37 GBM 0.010916487100285149 MSE
+NON-RECURRENT-MMM Istanbul 37 LLR 0.011062674465854435 MSE
+NON-RECURRENT-MMM Istanbul 37 RLR 0.007127944725711139 MSE
+NON-RECURRENT-MMM Istanbul 37 LR 0.35722135264142413 R2
+NON-RECURRENT-MMM Istanbul 37 RF 0.4227049076291663 R2
+NON-RECURRENT-MMM Istanbul 37 GBM 0.004639328461223597 R2
+NON-RECURRENT-MMM Istanbul 37 LLR -0.009096004732026668 R2
+NON-RECURRENT-MMM Istanbul 37 RLR 0.3550859864007093 R2
+t_spatial, t_non_spatial, "seconds" : 1.1920928955078125e-06 141.2538149356842 seconds
+sorted_percentage_nan_per_column : maxspeed                         75.199278
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Istanbul 135 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (6649, 16) (6649,)
+X.shape, Y.shape, "Inside the model-fitting function" : (6649, 16) (6649,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 1000}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 2,
+ 'xgbregressor__n_estimators': 2}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_4 -1.6981100849401145e-05 0.02850381553026711 -1678.5611123246067
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 circuity_avg 1.9529310631129897e-05 0.00512183696584471 262.2640943444494
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 betweenness -2.5760352128774297e-05 0.015682976197324144 -608.8028656955457
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 m -7.766164519066222e-06 0.0040739489958053566 -524.5767052453834
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 total_crossings -3.651450987183954e-05 0.043717264350747465 -1197.2573232993818
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_3 -6.019818833562481e-06 0.004980333631250274 -827.3228429206652
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 n -1.1495373638910426e-05 0.014135063754348854 -1229.6306495426475
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_count_2 -2.9128369944969335e-06 0.002972505922131102 -1020.4848152323311
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 k_avg 0.00046722472870090883 0.018590852394046842 39.789958133717846
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 global_betweenness 6.046631859098763e-05 0.028010505981065914 463.24146456703284
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 metered_count -1.753807825516654e-05 0.017930419637595625 -1022.370830869882
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 streets_per_node_count_5 -1.3663265230407601e-05 0.0232544236344633 -1701.9667877566026
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 non_metered_count -1.3382361549078765e-05 0.015269641938598717 -1141.0274548777134
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 mean_lanes -4.9139894331363664e-05 0.022299778605330604 -453.8019242564328
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 streets_per_node_avg -1.2632939125309508e-05 0.021899022125743392 -1733.4859218841416
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0131
+SHAP-- non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0021
+SHAP-- non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0078
+SHAP-- non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0022
+SHAP-- non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0134
+SHAP-- non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0026
+SHAP-- non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0070
+SHAP-- non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0015
+SHAP-- non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0094
+SHAP-- non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0112
+SHAP-- non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0036
+SHAP-- non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0116
+SHAP-- non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0042
+SHAP-- non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0107
+SHAP-- non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0109
+SHAP-- non-recurrent-mmm-istanbul-135-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+NON-RECURRENT-MMM Istanbul 135 LR 0.2047453344378359 XpVar
+NON-RECURRENT-MMM Istanbul 135 RF 0.286805287459333 XpVar
+NON-RECURRENT-MMM Istanbul 135 GBM 0.006119524241589696 XpVar
+NON-RECURRENT-MMM Istanbul 135 LLR -3.172065784643304e-17 XpVar
+NON-RECURRENT-MMM Istanbul 135 RLR 0.2046628524222643 XpVar
+NON-RECURRENT-MMM Istanbul 135 LR 0.013810887790173013 MSE
+NON-RECURRENT-MMM Istanbul 135 RF 0.012410511220068287 MSE
+NON-RECURRENT-MMM Istanbul 135 GBM 0.017232734381690384 MSE
+NON-RECURRENT-MMM Istanbul 135 LLR 0.01733785401090821 MSE
+NON-RECURRENT-MMM Istanbul 135 RLR 0.01380826340562838 MSE
+NON-RECURRENT-MMM Istanbul 135 LR 0.20365871896014082 R2
+NON-RECURRENT-MMM Istanbul 135 RF 0.28568440530194117 R2
+NON-RECURRENT-MMM Istanbul 135 GBM 0.004387973519950382 R2
+NON-RECURRENT-MMM Istanbul 135 LLR -0.0017413482815503542 R2
+NON-RECURRENT-MMM Istanbul 135 RLR 0.20359670514119685 R2
+t_spatial, t_non_spatial, "seconds" : 1.430511474609375e-06 1315.183503627777 seconds
+sorted_percentage_nan_per_column : maxspeed                         74.101366
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Istanbul 120 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (5564, 16) (5564,)
+X.shape, Y.shape, "Inside the model-fitting function" : (5564, 16) (5564,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 1000}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 2,
+ 'xgbregressor__n_estimators': 2}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_4 -2.0236509270192946e-05 0.02819865299311789 -1393.4544054321
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 circuity_avg 2.673697888615874e-05 0.004919217545148466 183.98554175075697
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 betweenness -2.3533665482359208e-05 0.013392569062028372 -569.0813049105086
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 m -1.1511344351520345e-05 0.003769692611846208 -327.47631351574773
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 total_crossings -4.1289563062949257e-05 0.04281831128837062 -1037.0250521443072
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_3 -4.9998968845877345e-06 0.004607214940145576 -921.4619914157415
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 n -1.312096344082918e-05 0.01259360297423405 -959.8077939189957
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_count_2 -4.771664535639563e-06 0.0038267972633574134 -801.9837175843072
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 k_avg -0.00015879562489963482 0.01813247898961633 -114.18752249047657
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 global_betweenness 0.00011557851103044466 0.030475300577249266 263.67618258399034
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 metered_count -2.0391551978228978e-05 0.018845602984747026 -924.1867909253556
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 streets_per_node_count_5 -1.1074169484246229e-05 0.016151438625454394 -1458.4785476175825
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 non_metered_count -1.4329063121809293e-05 0.014082740913641182 -982.8096082713739
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 mean_lanes -6.249955867395326e-05 0.025670376386195903 -410.7289224250803
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 streets_per_node_avg -2.0910378028605548e-05 0.029501725191055973 -1410.8652244687974
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0136
+SHAP-- non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0020
+SHAP-- non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0067
+SHAP-- non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0020
+SHAP-- non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0142
+SHAP-- non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0023
+SHAP-- non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0063
+SHAP-- non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0019
+SHAP-- non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0090
+SHAP-- non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0113
+SHAP-- non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0042
+SHAP-- non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0081
+SHAP-- non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0043
+SHAP-- non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0124
+SHAP-- non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0146
+SHAP-- non-recurrent-mmm-istanbul-120-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+NON-RECURRENT-MMM Istanbul 120 LR 0.23120206296219997 XpVar
+NON-RECURRENT-MMM Istanbul 120 RF 0.2981072116526523 XpVar
+NON-RECURRENT-MMM Istanbul 120 GBM 0.00663399326850278 XpVar
+NON-RECURRENT-MMM Istanbul 120 LLR -3.172065784643304e-17 XpVar
+NON-RECURRENT-MMM Istanbul 120 RLR 0.2302800944662786 XpVar
+NON-RECURRENT-MMM Istanbul 120 LR 0.012749222638140446 MSE
+NON-RECURRENT-MMM Istanbul 120 RF 0.011681162375399599 MSE
+NON-RECURRENT-MMM Istanbul 120 GBM 0.016378846051437825 MSE
+NON-RECURRENT-MMM Istanbul 120 LLR 0.016485024769459216 MSE
+NON-RECURRENT-MMM Istanbul 120 RLR 0.012766306172805497 MSE
+NON-RECURRENT-MMM Istanbul 120 LR 0.2307255552982686 R2
+NON-RECURRENT-MMM Istanbul 120 RF 0.29733893812069745 R2
+NON-RECURRENT-MMM Istanbul 120 GBM 0.0060301524672522954 R2
+NON-RECURRENT-MMM Istanbul 120 LLR -0.0005986362996761267 R2
+NON-RECURRENT-MMM Istanbul 120 RLR 0.22978378746212869 R2
+t_spatial, t_non_spatial, "seconds" : 2.6226043701171875e-06 1062.779209136963 seconds
+sorted_percentage_nan_per_column : maxspeed                         72.267074
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Istanbul 105 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (4583, 16) (4583,)
+X.shape, Y.shape, "Inside the model-fitting function" : (4583, 16) (4583,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 1000}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 2,
+ 'xgbregressor__n_estimators': 2}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_4 -1.769507954976016e-05 0.021408993737126757 -1209.8840062811096
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 circuity_avg -6.151078518039648e-05 0.004479930403796403 -72.83162441607328
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 betweenness -2.0646588756151388e-05 0.011517611027213815 -557.8457130736567
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 m -3.0120838922955545e-05 0.003991565191943874 -132.5183937324482
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 total_crossings -4.4152952398962883e-05 0.040031836292319364 -906.6627284761071
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_3 -1.441680785372565e-05 0.006359570110333465 -441.1219303786447
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 n -1.2060098041098465e-05 0.011341564452866276 -940.4205848257977
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_count_2 -4.880804025560163e-06 0.0033123062239030932 -678.6394632025704
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 k_avg 0.0003656269291380991 0.01848049788916148 50.54468480405967
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 global_betweenness 0.00010968812358973576 0.026881395523610387 245.07115851625213
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 metered_count -2.6585009948502177e-05 0.021814904461281228 -820.5716117292745
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 streets_per_node_count_5 -1.934824709579861e-05 0.023994161527740338 -1240.12068943189
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 non_metered_count -1.55999763019367e-05 0.01335592491449072 -856.1503335638154
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 mean_lanes -5.4110397889566423e-05 0.024233148943257527 -447.84643780877036
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 streets_per_node_avg -2.1882243459369643e-05 0.026303976529442243 -1202.0694577447123
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0104
+SHAP-- non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0017
+SHAP-- non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0057
+SHAP-- non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0024
+SHAP-- non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0139
+SHAP-- non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0033
+SHAP-- non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0057
+SHAP-- non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0017
+SHAP-- non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0093
+SHAP-- non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0109
+SHAP-- non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0053
+SHAP-- non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0120
+SHAP-- non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0040
+SHAP-- non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0120
+SHAP-- non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0130
+SHAP-- non-recurrent-mmm-istanbul-105-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+NON-RECURRENT-MMM Istanbul 105 LR 0.2312566916119274 XpVar
+NON-RECURRENT-MMM Istanbul 105 RF 0.29685497940115846 XpVar
+NON-RECURRENT-MMM Istanbul 105 GBM 0.006990305497026632 XpVar
+NON-RECURRENT-MMM Istanbul 105 LLR 1.1102230246251565e-16 XpVar
+NON-RECURRENT-MMM Istanbul 105 RLR 0.22975950391845248 XpVar
+NON-RECURRENT-MMM Istanbul 105 LR 0.01259449830375815 MSE
+NON-RECURRENT-MMM Istanbul 105 RF 0.011507703411217188 MSE
+NON-RECURRENT-MMM Istanbul 105 GBM 0.016188957963443506 MSE
+NON-RECURRENT-MMM Istanbul 105 LLR 0.01630124506661423 MSE
+NON-RECURRENT-MMM Istanbul 105 RLR 0.012617438792792101 MSE
+NON-RECURRENT-MMM Istanbul 105 LR 0.23077263157464392 R2
+NON-RECURRENT-MMM Istanbul 105 RF 0.29612085273099537 R2
+NON-RECURRENT-MMM Istanbul 105 GBM 0.006599604218853099 R2
+NON-RECURRENT-MMM Istanbul 105 LLR -0.00038859830705360664 R2
+NON-RECURRENT-MMM Istanbul 105 RLR 0.2293143397281538 R2
+t_spatial, t_non_spatial, "seconds" : 1.6689300537109375e-06 851.288327217102 seconds
+sorted_percentage_nan_per_column : maxspeed                         70.606061
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Istanbul 90 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (3630, 16) (3630,)
+X.shape, Y.shape, "Inside the model-fitting function" : (3630, 16) (3630,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 500}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 2,
+ 'xgbregressor__n_estimators': 2}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_4 -1.6708364145335877e-05 0.01627056661104025 -973.7977021276592
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 circuity_avg 3.33652614543836e-05 0.004132826763403033 123.866158491021
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 betweenness -3.0888355068463346e-05 0.014367851679755583 -465.1543161786881
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 m 4.3235501898480474e-05 0.0041837705225769885 96.7670164301719
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 total_crossings -5.257586928989825e-05 0.04103187592027463 -780.4317165737925
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_3 -1.4902112582498387e-05 0.005099403590921209 -342.19333417935286
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 n -1.5267463694135536e-05 0.009769428505894448 -639.8854912389302
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_count_2 -8.496699898692447e-06 0.003909338046262115 -460.1007559256884
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 k_avg -0.000326085072518653 0.016031902662429452 -49.164785553047295
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 global_betweenness 0.00015035105309756176 0.023586473528053847 156.8760114553288
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 metered_count -2.8210438530039517e-05 0.019726232814860873 -699.2529660202074
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 streets_per_node_count_5 -2.8670166601932697e-05 0.028078427384287254 -979.3604541661243
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 non_metered_count -2.615540017444858e-05 0.01943039805831096 -742.8828436466697
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 mean_lanes -6.283116139335088e-05 0.024567446018505662 -391.00735166588083
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 streets_per_node_avg -3.3660067908698216e-05 0.03191605184619392 -948.1873872852877
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0081
+SHAP-- non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0018
+SHAP-- non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0072
+SHAP-- non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0025
+SHAP-- non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0152
+SHAP-- non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0026
+SHAP-- non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0047
+SHAP-- non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0020
+SHAP-- non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0080
+SHAP-- non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0103
+SHAP-- non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0051
+SHAP-- non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0136
+SHAP-- non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0065
+SHAP-- non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0122
+SHAP-- non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0157
+SHAP-- non-recurrent-mmm-istanbul-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+NON-RECURRENT-MMM Istanbul 90 LR 0.2479395616831627 XpVar
+NON-RECURRENT-MMM Istanbul 90 RF 0.3287475868708171 XpVar
+NON-RECURRENT-MMM Istanbul 90 GBM 0.008683714272502141 XpVar
+NON-RECURRENT-MMM Istanbul 90 LLR 3.172065784643304e-17 XpVar
+NON-RECURRENT-MMM Istanbul 90 RLR 0.24718998657588967 XpVar
+NON-RECURRENT-MMM Istanbul 90 LR 0.011514432561096615 MSE
+NON-RECURRENT-MMM Istanbul 90 RF 0.01027015635998477 MSE
+NON-RECURRENT-MMM Istanbul 90 GBM 0.015125261123313555 MSE
+NON-RECURRENT-MMM Istanbul 90 LLR 0.015256256498552568 MSE
+NON-RECURRENT-MMM Istanbul 90 RLR 0.011529131861989927 MSE
+NON-RECURRENT-MMM Istanbul 90 LR 0.24424339709975745 R2
+NON-RECURRENT-MMM Istanbul 90 RF 0.3261034417196074 R2
+NON-RECURRENT-MMM Istanbul 90 GBM 0.0016687370730544826 R2
+NON-RECURRENT-MMM Istanbul 90 LLR -0.0070737193578099345 R2
+NON-RECURRENT-MMM Istanbul 90 RLR 0.2436299040087939 R2
+t_spatial, t_non_spatial, "seconds" : 1.9073486328125e-06 450.61789298057556 seconds
+sorted_percentage_nan_per_column : maxspeed                         64.870361
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Istanbul 60 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (1967, 16) (1967,)
+X.shape, Y.shape, "Inside the model-fitting function" : (1967, 16) (1967,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 1000}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 2,
+ 'xgbregressor__n_estimators': 2}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_4 -2.7667143842056577e-05 0.015860915418650753 -573.27621200063
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 circuity_avg -2.92442848633888e-05 0.003965374648317305 -135.5948578274723
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 betweenness -4.5277399391403915e-05 0.014218441475861104 -314.0295526460941
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 m 5.173845459232202e-05 0.004122279486278711 79.6753501580323
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 total_crossings -6.810800953621217e-05 0.03185833981142969 -467.76201548646065
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_3 -1.5292299473687312e-05 0.006092183333406618 -398.3824240356482
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 n -2.0901069472480925e-05 0.010312863373903407 -493.41319052987603
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_count_2 -1.407308567479285e-05 0.004565888533569727 -324.44118078155134
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 k_avg -0.00015515908196744527 0.013548924987746534 -87.3227968092084
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 global_betweenness 0.0004266679823493324 0.021710255259516992 50.88325385930136
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 metered_count -4.2895981152916476e-05 0.018815887889210944 -438.63987682518973
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 streets_per_node_count_5 -5.5310084962194693e-05 0.030907156286043666 -558.7978450434344
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 non_metered_count -3.449039560168106e-05 0.01593821118329864 -462.10578061684544
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 mean_lanes -8.993956795942708e-05 0.02551971834428815 -283.7429501084598
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 streets_per_node_avg -5.006780353968017e-05 0.02729568117242031 -545.1743284641536
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0079
+SHAP-- non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0018
+SHAP-- non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0071
+SHAP-- non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0026
+SHAP-- non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0133
+SHAP-- non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0030
+SHAP-- non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0051
+SHAP-- non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0023
+SHAP-- non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0068
+SHAP-- non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0097
+SHAP-- non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0060
+SHAP-- non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0154
+SHAP-- non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0062
+SHAP-- non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0127
+SHAP-- non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0135
+SHAP-- non-recurrent-mmm-istanbul-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+NON-RECURRENT-MMM Istanbul 60 LR 0.297642348710161 XpVar
+NON-RECURRENT-MMM Istanbul 60 RF 0.38303422653983316 XpVar
+NON-RECURRENT-MMM Istanbul 60 GBM 0.01135182743723002 XpVar
+NON-RECURRENT-MMM Istanbul 60 LLR -3.172065784643304e-17 XpVar
+NON-RECURRENT-MMM Istanbul 60 RLR 0.2959961536773103 XpVar
+NON-RECURRENT-MMM Istanbul 60 LR 0.009190761712939938 MSE
+NON-RECURRENT-MMM Istanbul 60 RF 0.008120810100965553 MSE
+NON-RECURRENT-MMM Istanbul 60 GBM 0.012842354608889947 MSE
+NON-RECURRENT-MMM Istanbul 60 LLR 0.012985375749666864 MSE
+NON-RECURRENT-MMM Istanbul 60 RLR 0.009217475349989875 MSE
+NON-RECURRENT-MMM Istanbul 60 LR 0.29460785891143876 R2
+NON-RECURRENT-MMM Istanbul 60 RF 0.38077300941636566 R2
+NON-RECURRENT-MMM Istanbul 60 GBM 0.01016117638565907 R2
+NON-RECURRENT-MMM Istanbul 60 LLR -0.001177593134581529 R2
+NON-RECURRENT-MMM Istanbul 60 RLR 0.2929240312846567 R2
+t_spatial, t_non_spatial, "seconds" : 2.6226043701171875e-06 342.86335253715515 seconds
+sorted_percentage_nan_per_column : maxspeed                         60.031847
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Istanbul 45 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (1256, 16) (1256,)
+X.shape, Y.shape, "Inside the model-fitting function" : (1256, 16) (1256,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 50,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 300}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 2,
+ 'xgbregressor__n_estimators': 2}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_4 -4.3800577211374435e-05 0.014836179132537394 -338.72108718888376
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 circuity_avg -0.00025176354148338234 0.00667408505899191 -26.509338960154537
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 betweenness -8.18480356517709e-05 0.012192049849047908 -148.95959019615293
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 m -5.1105481812247854e-05 0.005553938443757552 -108.67598243495092
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 total_crossings -0.0001045013521968484 0.03316105101780329 -317.3265256447407
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_3 -3.991252488597726e-05 0.007852968479185292 -196.75449001584786
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 n -3.7819347989810434e-05 0.008738109967045774 -231.0486677189691
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_count_2 -2.3997476147224216e-05 0.0030534735061485767 -127.24144353412646
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 k_avg -0.00019855485006109704 0.016151479410642034 -81.34517694063925
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 global_betweenness -0.001398255385163166 0.0179539561699713 -12.840255335670463
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 metered_count -8.868300652757364e-05 0.027486552637460263 -309.9415966340073
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 streets_per_node_count_5 -6.453220749421079e-05 0.023507554858484013 -364.2763167615626
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 non_metered_count -4.667135494793958e-05 0.014467603559378536 -309.9889338014011
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 mean_lanes -0.00010045570584623548 0.021464495652644713 -213.67124417501748
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 streets_per_node_avg -9.438657550048524e-05 0.032040101645860276 -339.45613002662185
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0074
+SHAP-- non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0030
+SHAP-- non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0061
+SHAP-- non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0030
+SHAP-- non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0146
+SHAP-- non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0039
+SHAP-- non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0043
+SHAP-- non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0016
+SHAP-- non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0079
+SHAP-- non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0079
+SHAP-- non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0103
+SHAP-- non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0118
+SHAP-- non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0061
+SHAP-- non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0105
+SHAP-- non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0159
+SHAP-- non-recurrent-mmm-istanbul-45-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+NON-RECURRENT-MMM Istanbul 45 LR 0.2997695371721937 XpVar
+NON-RECURRENT-MMM Istanbul 45 RF 0.3813802571209898 XpVar
+NON-RECURRENT-MMM Istanbul 45 GBM 0.011502065952597887 XpVar
+NON-RECURRENT-MMM Istanbul 45 LLR 1.586032892321652e-17 XpVar
+NON-RECURRENT-MMM Istanbul 45 RLR 0.29741790517267097 XpVar
+NON-RECURRENT-MMM Istanbul 45 LR 0.008674153820621488 MSE
+NON-RECURRENT-MMM Istanbul 45 RF 0.007669330405897454 MSE
+NON-RECURRENT-MMM Istanbul 45 GBM 0.012227248569451806 MSE
+NON-RECURRENT-MMM Istanbul 45 LLR 0.01236698963810277 MSE
+NON-RECURRENT-MMM Istanbul 45 RLR 0.008707152859252146 MSE
+NON-RECURRENT-MMM Istanbul 45 LR 0.29441978811113356 R2
+NON-RECURRENT-MMM Istanbul 45 RF 0.37782862429715675 R2
+NON-RECURRENT-MMM Istanbul 45 GBM 0.005220540509765773 R2
+NON-RECURRENT-MMM Istanbul 45 LLR -0.006348401845515962 R2
+NON-RECURRENT-MMM Istanbul 45 RLR 0.292440853205984 R2
+t_spatial, t_non_spatial, "seconds" : 1.430511474609375e-06 251.75747537612915 seconds
+sorted_percentage_nan_per_column : maxspeed                         53.424658
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Istanbul 30 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (657, 16) (657,)
+X.shape, Y.shape, "Inside the model-fitting function" : (657, 16) (657,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 1000}
+Dict: model_trials.best_params_
+Key: Value
+{'xgbregressor__learning_rate': 0.01,
+ 'xgbregressor__max_depth': 2,
+ 'xgbregressor__n_estimators': 2}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_4 -7.806535552790599e-05 0.014950675672264723 -191.51486048020766
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 circuity_avg 0.004169505228347408 0.007941147293221694 1.904577847566145
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 betweenness -5.851084739892501e-05 0.007959544948074663 -136.03537295925233
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 m -2.7575580490835677e-05 0.0034851857655668686 -126.38666905761482
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 total_crossings -0.00017548153117097185 0.03403419840820777 -193.94746661429693
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_3 -3.994503622701792e-05 0.0047440743819096185 -118.7650539343067
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 n -5.083445714995485e-05 0.008539838936246965 -167.9931175630652
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_count_2 -2.6541403747381843e-05 0.0032273593832327766 -121.59716245419526
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 k_avg -0.00028533196667135136 0.009937155842140229 -34.82664756446991
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 global_betweenness 0.0003951189796244324 0.011626107955873013 29.424321673749603
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 metered_count -0.0001317443489000973 0.02326392317701918 -176.583841138115
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 streets_per_node_count_5 -0.00014118229351186578 0.02949733935294367 -208.93086958149286
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 non_metered_count -6.81512517365e-05 0.012603402360230359 -184.93280811569176
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 mean_lanes -0.0001083552108132586 0.012877461974257046 -118.84487951807233
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 14 streets_per_node_avg -0.00012346612414031974 0.022998343557389 -186.27249958256803
+config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1] : NON-RECURRENT-MMM non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 15 streets_per_node_count_1 0 0 0
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0075
+SHAP-- non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0029
+SHAP-- non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0038
+SHAP-- non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0020
+SHAP-- non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0149
+SHAP-- non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0023
+SHAP-- non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0042
+SHAP-- non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0016
+SHAP-- non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0050
+SHAP-- non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 global_betweenness            0.0055
+SHAP-- non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0093
+SHAP-- non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0148
+SHAP-- non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0054
+SHAP-- non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0061
+SHAP-- non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0115
+SHAP-- non-recurrent-mmm-istanbul-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_1          0.0000
+NON-RECURRENT-MMM Istanbul 30 LR 0.41249048436682617 XpVar
+NON-RECURRENT-MMM Istanbul 30 RF 0.48687655872004154 XpVar
+NON-RECURRENT-MMM Istanbul 30 GBM 0.016466884702051314 XpVar
+NON-RECURRENT-MMM Istanbul 30 LLR 0.0 XpVar
+NON-RECURRENT-MMM Istanbul 30 RLR 0.4102700717026316 XpVar
+NON-RECURRENT-MMM Istanbul 30 LR 0.006084352853183101 MSE
+NON-RECURRENT-MMM Istanbul 30 RF 0.005348097324174331 MSE
+NON-RECURRENT-MMM Istanbul 30 GBM 0.00970739731691923 MSE
+NON-RECURRENT-MMM Istanbul 30 LLR 0.009856955616101297 MSE
+NON-RECURRENT-MMM Istanbul 30 RLR 0.006110149570960982 MSE
+NON-RECURRENT-MMM Istanbul 30 LR 0.40656316886334926 R2
+NON-RECURRENT-MMM Istanbul 30 RF 0.4781869444438345 R2
+NON-RECURRENT-MMM Istanbul 30 GBM 0.00932080760722991 R2
+NON-RECURRENT-MMM Istanbul 30 LLR -0.007215373390122824 R2
+NON-RECURRENT-MMM Istanbul 30 RLR 0.4043513460844557 R2
+t_spatial, t_non_spatial, "seconds" : 1.1920928955078125e-06 121.83640384674072 seconds
+
+ Complete: python urbanscales/modelling/SHAP_analysis.py
+

@@ -114,8 +114,32 @@ def load_data(file_path):
         return feature_name
 
     # Applying the renaming function to the 'feature' column
+    def adjust_feature_name_plotting(feature_name):
+        feature_dict = {
+            'n': '#nodes',
+            'm': '#edges',
+            'k_avg': 'avg degree',
+            'streets_per_node_avg': 'SPN-avg',
+            'circuity_avg': 'avg circuity',
+            'metered_count': '#traffic lights',
+            'non_metered_count': '#free turns',
+            'total_crossings': '#total crossings',
+            'betweenness': 'local centrality',
+            'mean_lanes': 'avg lanes',
+            'streets_per_node_count_1': 'SPN-count-1',
+            'streets_per_node_count_2': 'SPN-count-2',
+            'streets_per_node_count_3': 'SPN-count-3',
+            'streets_per_node_count_4': 'SPN-count-4',
+            'streets_per_node_count_5': 'SPN-count-5',
+            'global_betweenness': 'global centrality'
+        }
+        return feature_dict.get(feature_name, feature_name)  # default to the original name if not found
+
+    # Applying the renaming function to the 'feature' column
     df['feature'] = df['feature'].apply(adjust_feature_name)
-    indices_to_drop = df[df['feature'] == 'streets_per_node_count_0'].index
+    df['feature'] = df['feature'].apply(adjust_feature_name_plotting)
+
+    indices_to_drop = df[df['feature'] == 'SPN-count-1'].index
     df = df.drop(index=indices_to_drop)
 
     split_columns = df['City-Scale-tod'].str.split('-', expand=True)
@@ -728,9 +752,32 @@ if 1==1: # allow code folding
             #     return "streets_per_node_count_5"
             return feature_name
 
+        def adjust_feature_name_plotting(feature_name):
+            feature_dict = {
+                'n': '#nodes',
+                'm': '#edges',
+                'k_avg': 'avg degree',
+                'streets_per_node_avg': 'SPN-avg',
+                'circuity_avg': 'avg circuity',
+                'metered_count': '#traffic lights',
+                'non_metered_count': '#free turns',
+                'total_crossings': '#total crossings',
+                'betweenness': 'local centrality',
+                'mean_lanes': 'avg lanes',
+                'streets_per_node_count_1': 'SPN-count-1',
+                'streets_per_node_count_2': 'SPN-count-2',
+                'streets_per_node_count_3': 'SPN-count-3',
+                'streets_per_node_count_4': 'SPN-count-4',
+                'streets_per_node_count_5': 'SPN-count-5',
+                'global_betweenness': 'global centrality'
+            }
+            return feature_dict.get(feature_name, feature_name)  # default to the original name if not found
+
         # Applying the renaming function to the 'feature' column
         df['feature'] = df['feature'].apply(adjust_feature_name)
-        indices_to_drop = df[df['feature'] == 'streets_per_node_count_0'].index
+        df['feature'] = df['feature'].apply(adjust_feature_name_plotting)
+
+        indices_to_drop = df[df['feature'] == 'SPN-count-1'].index
         df = df.drop(index=indices_to_drop)
 
         split_columns = df['City-Scale-tod'].str.split('-', expand=True)
@@ -824,10 +871,10 @@ if 1==1: # allow code folding
         # Adjust the colorbar
         cbar = ax.collections[0].colorbar
         cbar.set_ticks([-0.5, 0.5])  # Set ticks for your two values
-        cbar.set_ticklabels(['-ve', '+ve'])  # Label the ticks
+        cbar.set_ticklabels(['-ve SR \nCongestion\nAlleviating\nFeatures', '+ve SR\nCongestion\nExacerbating\n Features'])  # Label the ticks
         cbar.ax.tick_params(labelsize=24)  # Adjust the tick font size
         cbar.set_label('Direction of Relationship',
-                       size=24)  # Adju
+                       size=0.01)  # Adju
 
         # Set custom x-tick labels properly
         ax.set_xticks(tick_positions + 0.5)  # Center ticks in the middle of the cells
@@ -877,9 +924,32 @@ if 1==1: # allow code folding
             #     return "streets_per_node_count_5"
             return feature_name
 
+        def adjust_feature_name_plotting(feature_name):
+            feature_dict = {
+                'n': '#nodes',
+                'm': '#edges',
+                'k_avg': 'avg degree',
+                'streets_per_node_avg': 'SPN-avg',
+                'circuity_avg': 'avg circuity',
+                'metered_count': '#traffic lights',
+                'non_metered_count': '#free turns',
+                'total_crossings': '#total crossings',
+                'betweenness': 'local centrality',
+                'mean_lanes': 'avg lanes',
+                'streets_per_node_count_1': 'SPN-count-1',
+                'streets_per_node_count_2': 'SPN-count-2',
+                'streets_per_node_count_3': 'SPN-count-3',
+                'streets_per_node_count_4': 'SPN-count-4',
+                'streets_per_node_count_5': 'SPN-count-5',
+                'global_betweenness': 'global centrality'
+            }
+            return feature_dict.get(feature_name, feature_name)  # default to the original name if not found
+
         # Applying the renaming function to the 'feature' column
         df['feature'] = df['feature'].apply(adjust_feature_name)
-        indices_to_drop = df[df['feature'] == 'streets_per_node_count_0'].index
+        df['feature'] = df['feature'].apply(adjust_feature_name_plotting)
+
+        indices_to_drop = df[df['feature'] == 'SPN-count-1'].index
         df = df.drop(index=indices_to_drop)
 
         split_columns = df['City-Scale-tod'].str.split('-', expand=True)
@@ -970,8 +1040,8 @@ if 1==1: # allow code folding
     for key in listkeys:
         if not (len(set(([np.sign(x) for x in positive_vals[key]]))) == 1 and sum([np.sign(x) for x in positive_vals[key]]) == 10):
             del positive_vals[key]
-        else:
-            print (key, positive_vals[key])
+        # else:
+        #     print (key, positive_vals[key])
 
     # filter top 3
     count_per_city = {}
@@ -1074,8 +1144,8 @@ if 1==1: # allow code folding
     for key in listkeys:
         if not (len(set(([np.sign(x) for x in positive_vals[key]]))) == 1 and sum([np.sign(x) for x in positive_vals[key]]) == 10):
             del positive_vals[key]
-        else:
-            print (key, positive_vals[key])
+        # else:
+        #     print (key, positive_vals[key])
 
     # filter top 3
     count_per_city = {}
@@ -1155,6 +1225,7 @@ if 1==1: # allow code folding
     plt.yticks(fontsize=20)
     plt.savefig("recurrent_Fig5_var_abs_SR_Negative.png", dpi=300)
     plt.show()
+    print ("\n\n\n\n")
 
 
 
@@ -1214,7 +1285,7 @@ if 1==1: # allow code folding
 
     # Print the processed dictionary
     for city, features in top_features_per_city.items():
-        print(f"{city}: {[x[0] for x in features]}")
+        # print(f"{city}: {[x[0] for x in features]}")
         top_features_per_city[city] = [x[0] for x in features]
 
     listkeys = list(positive_vals.keys())
@@ -1309,7 +1380,7 @@ if 1==1: # allow code folding
         plt.title(f"Cluster {yi + 1}")
 
     plt.tight_layout()
-    plt.savefig("DTW_recurent_all_features_abs.png", dpi=300)
+    plt.savefig("DTW_recurent_selected_postive_features.png", dpi=300)
     plt.show()
 
     # Printing which label belongs to which cluster
