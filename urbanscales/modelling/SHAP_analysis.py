@@ -1193,7 +1193,7 @@ if __name__ == "__main__":
                      # 'streets_per_node_proportion_4',
                      'streets_per_node_count_5',
                      # 'streets_per_node_proportion_5',
-                     'streets_per_node_count_6',
+                     # 'streets_per_node_count_6',
                      # 'streets_per_node_proportion_6',
                      'global_betweenness'  ]
 
