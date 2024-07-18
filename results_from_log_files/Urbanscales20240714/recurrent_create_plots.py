@@ -219,7 +219,24 @@ if "heatmapplotunfiltered" == "heatmapplotunfiltered":
     for city, pos in city_labels.items():
         ax.text(pos, -0.5, city.title().replace("Newyorkcity", "New York City").replace("Mexicocity", "Mexico City").replace("Capetown", "Cape Town"), va='center', ha='center', color='black', rotation=0, fontsize=12)
 
-    # Add vertical lines to separate groups of cities every 10 columns
+    # Color-blind friendly palette for seven cities
+    colors = {
+        "Mumbai".lower(): "#E69F00",  # orange
+        "Auckland".lower(): "#56B4E9",  # sky blue
+        "Istanbul".lower(): "#009E73",  # bluish green
+        "MexicoCity".lower(): "#F0E442",  # yellow
+        "Bogota".lower(): "#0072B2",  # blue
+        "NewYorkCity".lower(): "#D55E00",  # vermilion
+        "Capetown".lower(): "#CC79A7",  # reddish purple
+    }
+
+    for city, pos in city_labels.items():
+        ax.text(pos, -0.5, city.title().replace("Newyorkcity", "New York City").replace("Mexicocity", "Mexico City").replace("Capetown", "Cape Town"),
+                va='center', ha='center', color='black', rotation=0, fontsize=12,
+                bbox=dict(facecolor=colors[city.replace(" ", "").lower()], alpha=0.4, edgecolor='none', boxstyle='round,pad=0.5'))
+
+
+        # Add vertical lines to separate groups of cities every 10 columns
     for i in range(10, len(heatmap_data.columns), 10):
         ax.axvline(x=i, color='white', linestyle='--', lw=1)  # Change color and style if needed
     for i in range(1, heatmap_data.shape[0]):
@@ -906,6 +923,26 @@ if 1==1: # allow code folding
             ax.text(pos, -0.5,
                     city.title().replace("Newyorkcity", "New York City").replace("Mexicocity", "Mexico City").replace("Capetown", "Cape Town"),
                     va='center', ha='center', color='black', rotation=0, fontsize=12)
+
+        # Color-blind friendly palette for seven cities
+        colors = {
+            "Mumbai".lower(): "#E69F00",  # orange
+            "Auckland".lower(): "#56B4E9",  # sky blue
+            "Istanbul".lower(): "#009E73",  # bluish green
+            "MexicoCity".lower(): "#F0E442",  # yellow
+            "Bogota".lower(): "#0072B2",  # blue
+            "NewYorkCity".lower(): "#D55E00",  # vermilion
+            "Capetown".lower(): "#CC79A7",  # reddish purple
+        }
+
+        for city, pos in city_labels.items():
+            ax.text(pos, -0.5,
+                    city.title().replace("Newyorkcity", "New York City").replace("Mexicocity", "Mexico City").replace(
+                        "Capetown", "Cape Town"),
+                    va='center', ha='center', color='black', rotation=0, fontsize=12,
+                    bbox=dict(facecolor=colors[city.replace(" ", "").lower()], alpha=0.4, edgecolor='none',
+                              boxstyle='round,pad=0.5'))
+
 
         # Add vertical lines to separate groups of cities every 10 columns
         for i in range(10, len(heatmap_data.columns), 10):
