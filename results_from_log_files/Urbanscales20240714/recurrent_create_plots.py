@@ -217,7 +217,7 @@ if "heatmapplotunfiltered" == "heatmapplotunfiltered":
 
     # Annotate with city names
     for city, pos in city_labels.items():
-        ax.text(pos, -0.5, city.title().replace("Newyorkcity", "New York City").replace("Mexicocity", "Mexico City"), va='center', ha='center', color='black', rotation=0, fontsize=12)
+        ax.text(pos, -0.5, city.title().replace("Newyorkcity", "New York City").replace("Mexicocity", "Mexico City").replace("Capetown", "Cape Town"), va='center', ha='center', color='black', rotation=0, fontsize=12)
 
     # Add vertical lines to separate groups of cities every 10 columns
     for i in range(10, len(heatmap_data.columns), 10):
@@ -235,6 +235,20 @@ if "heatmapplotunfiltered" == "heatmapplotunfiltered":
     plt.savefig("recurrent_Fi_2a.png", dpi=300)
     plt.show()
 
+    for citynum in range(7):
+        sprint (heatmap_data.iloc[:,citynum*10:(citynum+1)*10].columns)
+        sprint (np.mean(heatmap_data.iloc[:,citynum*10:(citynum+1)*10].to_numpy().flatten().tolist()),
+               np.std(heatmap_data.iloc[:,citynum*10:(citynum+1)*10].to_numpy().flatten().tolist()))
+        print ("===============================")
+    for citynum in range(7):
+        sprint (heatmap_data.iloc[:,citynum*10:(citynum+1)*10].columns)
+        sprint (np.max(heatmap_data.iloc[:,citynum*10:(citynum+1)*10].to_numpy().flatten().tolist()))
+        print ("===============================")
+
+    all_sum = heatmap_data.sum(axis=1).to_list()
+    all_std = heatmap_data.std(axis=1).to_list()
+    dict_FI = dict(zip(heatmap_data.index.to_list(), [(all_sum[i], all_std[i]) for i in range(len(all_sum))]))
+    sprint(sorted(dict_FI.items(), key=lambda x: x[1][0])[:])
 
 
 
@@ -321,7 +335,7 @@ if "heatmapplotunOtsu" == "heatmapplotunOtsu":
 
     # Annotate with city names
     for city, pos in city_labels.items():
-        ax.text(pos, -0.5, city.title().replace("Newyorkcity", "New York City").replace("Mexicocity", "Mexico City"), va='center', ha='center', color='black', rotation=0, fontsize=12)
+        ax.text(pos, -0.5, city.title().replace("Newyorkcity", "New York City").replace("Mexicocity", "Mexico City").replace("Capetown", "Cape Town"), va='center', ha='center', color='black', rotation=0, fontsize=12)
 
     # Add vertical lines to separate groups of cities every 10 columns
     for i in range(10, len(heatmap_data.columns), 10):
@@ -432,7 +446,7 @@ if "heatmapplotunOtsuSelected50" == "heatmapplotunOtsuSelected50":
 
     # Annotate with city names
     for city, pos in city_labels.items():
-        ax.text(pos, -0.5, city.title().replace("Newyorkcity", "New York City").replace("Mexicocity", "Mexico City"), va='center', ha='center', color='black', rotation=0, fontsize=12)
+        ax.text(pos, -0.5, city.title().replace("Newyorkcity", "New York City").replace("Mexicocity", "Mexico City").replace("Capetown", "Cape Town"), va='center', ha='center', color='black', rotation=0, fontsize=12)
 
     # Add vertical lines to separate groups of cities every 10 columns
     for i in range(10, len(heatmap_data.columns), 10):
@@ -890,7 +904,7 @@ if 1==1: # allow code folding
         # Annotate with city names
         for city, pos in city_labels.items():
             ax.text(pos, -0.5,
-                    city.title().replace("Newyorkcity", "New York City").replace("Mexicocity", "Mexico City"),
+                    city.title().replace("Newyorkcity", "New York City").replace("Mexicocity", "Mexico City").replace("Capetown", "Cape Town"),
                     va='center', ha='center', color='black', rotation=0, fontsize=12)
 
         # Add vertical lines to separate groups of cities every 10 columns
