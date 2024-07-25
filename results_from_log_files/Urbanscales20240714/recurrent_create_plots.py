@@ -70,16 +70,19 @@ def plot_data_by_model(df, model_types, city_list):
                 goflist.extend( subset['GoF'].tolist())
         sprint (round(np.mean(goflist),2), round(np.std(goflist),2))
 
-        # plt.title(r'GoF (R$^2$) vs '+f'Tile Area for {model} Model Across Cities')
-        plt.xlabel(r'Tile Area km$^2$', fontsize=25)
+        plt.title(r'GoF (R$^2$) vs '+f'Tile Area for {model} Model Across Cities')
+        # plt.xlabel(r'Tile Area (km$^2$)' + " \n" + r"coarse $\rightarrow$ fine", fontsize=25)
         plt.ylabel('Goodness of Fit '+ r'($R^2$)', fontsize=25)
         plt.grid(True, alpha=0.2)
-        plt.legend(ncol=2, fontsize=13.5, loc="upper left")
+        plt.legend(ncol=2, fontsize=13.5, loc="upper right")
         plt.ylim(0, 1)
         plt.tight_layout();
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
-        plt.savefig("recurrent_Fi_1.png",dpi=300)
+        plt.gca().invert_xaxis()
+        # plt.gca().invert_xaxis()
+        plt.savefig("recurrent_Fi_1_inverted.png",dpi=300)
+        # plt.savefig("recurrent_Fi_1.png",dpi=300)
         plt.show()
 
 
