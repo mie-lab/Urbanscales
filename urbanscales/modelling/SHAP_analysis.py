@@ -1544,6 +1544,8 @@ if __name__ == "__main__":
                             plt.close()
 
 
+
+
                     def visualize_grid(bboxes, lon_boundaries, lat_boundaries, bbox_to_grid, split_direction='grid'):
                         # Create a GeoDataFrame for the bounding boxes
                         gdf = gpd.GeoDataFrame({
@@ -1657,10 +1659,11 @@ if __name__ == "__main__":
                     common_features_list = list(set(common_features_list).intersection(set(X.columns.to_list())))
 
 
-                    compare_models_gof_standard_cv_HPT_new(X, Y, common_features_list, tod=tod, cityname=city,
-                                                           scale=scale,
-                                                           n_splits=7, include_interactions=False,
-                                                           scaling=config.SHAP_ScalingOfInputVector)
+                    # compare_models_gof_standard_cv_HPT_new(X, Y, common_features_list, tod=tod, cityname=city,
+                    #                                        scale=scale,
+                    #                                        n_splits=7, include_interactions=False,
+                    #                                        scaling=config.SHAP_ScalingOfInputVector)
+
                     t_non_spatial = time.time() - model_fit_time_start
                     # compare_models_gof_spatial_cv(X, Y, common_features, temp_obj=temp_obj, include_interactions=False,
                     #                               bbox_to_strip=bbox_to_strip, n_strips=N_STRIPS, tod=tod, cityname=city,
@@ -1712,6 +1715,60 @@ if __name__ == "__main__":
                                                      "_feature_" + str(column) + "_" + str(scale) + ".png"), dpi=300)
                             plt.show(block=False);
                             plt.close()
+
+
+                       ######################## SAME THING BUT WITH SAME COLOR TO SHOW DIFFERENCES    ########################
+                        # Plot the bboxes from scl_jf
+                        # Example list of bounding boxes
+                        for column in common_features:
+
+                            bboxes = [list(i.keys())[0] for i in temp_obj.bbox_X]
+                            from shapely.geometry import Polygon
+
+                            values_list = temp_obj.X[column]
+
+                            # Normalize the values for coloring
+                            values_normalized = (values_list - np.min(values_list)) / (
+                                    np.max(values_list) - np.min(values_list))
+
+                            # Create a GeoDataFrame including the values for heatmap
+                            try:
+                                gdf = gpd.GeoDataFrame({
+                                    'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)])
+                                                 for
+                                                 lat1, lat2, lon1, lon2 in bboxes],
+                                    'value': values_normalized
+                                }, crs="EPSG:4326")  # EPSG:4326 is WGS84 latitude-longitude projection
+                            except:
+                                gdf = gpd.GeoDataFrame({
+                                    'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)])
+                                                 for
+                                                 lat1, lat2, lon1, lon2, _unused_len_ in bboxes],
+                                    'value': values_normalized
+                                }, crs="EPSG:4326")  # EPSG:4326 is WGS84 latitude-longitude projection
+
+                            # Convert the GeoDataFrame to the Web Mercator projection
+                            gdf_mercator = gdf.to_crs(epsg=3857)
+
+                            # Plotting with heatmap based on values and making boundaries invisible
+                            fig, ax = plt.subplots(figsize=(10, 10))
+                            gdf_mercator.plot(ax=ax, column='value', color=(0.121569, 0.466667, 0.705882, 0.1), edgecolor=(0, 0, 0, 1), # using RGBA format for edgecolor
+                                            linewidth=0.8)
+
+                            ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
+                            ax.set_axis_off()
+                            plt.title(city, fontsize=40)
+                            # plt.colorbar()
+                            plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
+                                                     "_feature_empty_tiles" + str(column) + "_" + str(scale) + ".png"),
+                                        dpi=300)
+                            plt.show(block=False);
+                            plt.close()
+                            break # we only need one feature
+                        ###########################################################################################
+                        ###########################################################################################
+                        ###########################################################################################
+
 
                         if config.MASTER_VISUALISE_EACH_STEP_INSIDE_ShapAnalysisScript:
                             # Plot the bboxes from scl_jf
