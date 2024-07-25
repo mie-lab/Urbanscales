@@ -132,11 +132,11 @@ def load_data(file_path):
             'total_crossings': '#total crossings',
             'betweenness': 'local centrality',
             'mean_lanes': 'avg lanes',
-            'streets_per_node_count_1': 'SPN-count-1',
-            'streets_per_node_count_2': 'SPN-count-2',
-            'streets_per_node_count_3': 'SPN-count-3',
-            'streets_per_node_count_4': 'SPN-count-4',
-            'streets_per_node_count_5': 'SPN-count-5',
+            'streets_per_node_count_1': '#SPN-1',
+            'streets_per_node_count_2': '#SPN-2',
+            'streets_per_node_count_3': '#SPN-3',
+            'streets_per_node_count_4': '#SPN-4',
+            'streets_per_node_count_5': '#SPN-5',
             'global_betweenness': 'global centrality'
         }
         return feature_dict.get(feature_name, feature_name)  # default to the original name if not found
@@ -146,7 +146,7 @@ def load_data(file_path):
     df['feature'] = df['feature'].apply(adjust_feature_name_plotting)
 
 
-    indices_to_drop = df[df['feature'] == 'SPN-count-1'].index
+    indices_to_drop = df[df['feature'] == '#SPN-1'].index
     df = df.drop(index=indices_to_drop)
 
     split_columns = df['City-Scale-tod'].str.split('-', expand=True)
@@ -794,11 +794,11 @@ if 1==1: # allow code folding
                 'total_crossings': '#total crossings',
                 'betweenness': 'local centrality',
                 'mean_lanes': 'avg lanes',
-                'streets_per_node_count_1': 'SPN-count-1',
-                'streets_per_node_count_2': 'SPN-count-2',
-                'streets_per_node_count_3': 'SPN-count-3',
-                'streets_per_node_count_4': 'SPN-count-4',
-                'streets_per_node_count_5': 'SPN-count-5',
+                'streets_per_node_count_1': '#SPN-1',
+                'streets_per_node_count_2': '#SPN-2',
+                'streets_per_node_count_3': '#SPN-3',
+                'streets_per_node_count_4': '#SPN-4',
+                'streets_per_node_count_5': '#SPN-5',
                 'global_betweenness': 'global centrality'
             }
             return feature_dict.get(feature_name, feature_name)  # default to the original name if not found
@@ -806,7 +806,7 @@ if 1==1: # allow code folding
         # Applying the renaming function to the 'feature' column
         df['feature'] = df['feature'].apply(adjust_feature_name)
         df['feature'] = df['feature'].apply(adjust_feature_name_plotting)
-        indices_to_drop = df[df['feature'] == 'SPN-count-1'].index
+        indices_to_drop = df[df['feature'] == '#SPN-1'].index
         df = df.drop(index=indices_to_drop)
 
         split_columns = df['City-Scale-tod'].str.split('-', expand=True)
@@ -984,11 +984,11 @@ if 1==1: # allow code folding
                 'total_crossings': '#total crossings',
                 'betweenness': 'local centrality',
                 'mean_lanes': 'avg lanes',
-                'streets_per_node_count_1': 'SPN-count-1',
-                'streets_per_node_count_2': 'SPN-count-2',
-                'streets_per_node_count_3': 'SPN-count-3',
-                'streets_per_node_count_4': 'SPN-count-4',
-                'streets_per_node_count_5': 'SPN-count-5',
+                'streets_per_node_count_1': '#SPN-1',
+                'streets_per_node_count_2': '#SPN-2',
+                'streets_per_node_count_3': '#SPN-3',
+                'streets_per_node_count_4': '#SPN-4',
+                'streets_per_node_count_5': '#SPN-5',
                 'global_betweenness': 'global centrality'
             }
             return feature_dict.get(feature_name, feature_name)  # default to the original name if not found
@@ -996,7 +996,7 @@ if 1==1: # allow code folding
         # Applying the renaming function to the 'feature' column
         df['feature'] = df['feature'].apply(adjust_feature_name)
         df['feature'] = df['feature'].apply(adjust_feature_name_plotting)
-        indices_to_drop = df[df['feature'] == 'SPN-count-1'].index
+        indices_to_drop = df[df['feature'] == '#SPN-1'].index
         df = df.drop(index=indices_to_drop)
 
         split_columns = df['City-Scale-tod'].str.split('-', expand=True)
