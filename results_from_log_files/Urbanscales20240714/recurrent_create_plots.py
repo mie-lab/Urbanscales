@@ -170,13 +170,15 @@ sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': 'Featu
             yticklabels=True, xticklabels=True)
 # plt.title("Raw heatmap without filtering")
 plt.ylabel("Feature")
-plt.xlabel("City-Scale Combination")
+plt.xlabel("Scale")
 plt.tight_layout();
 plt.savefig("recurrent_Fi_2a_orig.png", dpi=300)
 plt.show()
 
 if "heatmapplotunfiltered" == "heatmapplotunfiltered":
     tick_positions = np.concatenate([np.arange(0, 8, 4), np.array([9]), np.arange(14, heatmap_data.columns.size, 10)])
+    # tick_positions = np.arange(0, heatmap_data.columns.size, 1)
+
     tick_labels = ["6.25 $km^2$", "4.0 $km^2$", "2.78 $km^2$", "1.56 $km^2$", "1.0 $km^2$", "0.69 $km^2$",
                    "0.51 $km^2$", "0.39 $km^2$", "0.31 $km^2$", "0.25 $km^2$"]
     tick_labels = tick_labels + tick_labels + tick_labels + tick_labels + tick_labels + tick_labels + tick_labels
@@ -250,7 +252,7 @@ if "heatmapplotunfiltered" == "heatmapplotunfiltered":
     ax.set_xticks(tick_positions)
     ax.set_xticklabels(tick_labels, rotation=90)  # Rotate labels for better visibility
     plt.ylabel("Feature", fontsize=25)
-    plt.xlabel("City-Scale Combination", fontsize=25)
+    plt.xlabel("Scale", fontsize=25)
     plt.tight_layout()
     plt.savefig("recurrent_Fi_2a.png", dpi=300)
     plt.show()
@@ -308,7 +310,7 @@ sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': 'Featu
             yticklabels=True, xticklabels=True)
 # plt.title("Heatmap with column wise Otsu")
 plt.ylabel("Feature")
-plt.xlabel("City-Scale Combination")
+plt.xlabel("Scale")
 plt.tight_layout();
 plt.savefig("recurrent_Fi_2b_orig.png", dpi=300)
 plt.show()
@@ -367,7 +369,7 @@ if "heatmapplotunOtsu" == "heatmapplotunOtsu":
     ax.set_xticks(tick_positions)
     ax.set_xticklabels(tick_labels, rotation=90)  # Rotate labels for better visibility
     plt.ylabel("Feature", fontsize=25)
-    plt.xlabel("City-Scale Combination", fontsize=25)
+    plt.xlabel("Scale", fontsize=25)
     plt.tight_layout()
     plt.savefig("recurrent_Fi_2b.png", dpi=300)
     plt.show()
@@ -415,7 +417,7 @@ sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': 'Featu
             yticklabels=True, xticklabels=True)
 # plt.title("Heatmap with Otsu and > 50% scales importance")
 plt.ylabel("Feature")
-plt.xlabel("City-Scale Combination")
+plt.xlabel("Scale")
 plt.tight_layout()
 plt.tight_layout();
 plt.savefig("recurrent_Fi_2c_orig.png", dpi=300)
@@ -478,7 +480,7 @@ if "heatmapplotunOtsuSelected50" == "heatmapplotunOtsuSelected50":
     ax.set_xticks(tick_positions)
     ax.set_xticklabels(tick_labels, rotation=90)  # Rotate labels for better visibility
     plt.ylabel("Feature", fontsize=25)
-    plt.xlabel("City-Scale Combination", fontsize=25)
+    plt.xlabel("Scale", fontsize=25)
     plt.tight_layout()
     plt.savefig("recurrent_Fi_2c.png", dpi=300)
     plt.show()
@@ -911,7 +913,7 @@ if 1==1: # allow code folding
         # Adjust the colorbar
         cbar = ax.collections[0].colorbar
         cbar.set_ticks([-0.5, 0.5])  # Set ticks for your two values
-        cbar.set_ticklabels(['-ve SR \nCongestion\nAlleviating\nFeatures', '+ve SR\nCongestion\nExacerbating\n Features'])  # Label the ticks
+        cbar.set_ticklabels(['Congestion\nAlleviating\nFeatures', 'Congestion\nExacerbating\n Features'])  # Label the ticks
         cbar.ax.tick_params(labelsize=24)  # Adjust the tick font size
         cbar.set_label('Direction of Relationship',
                        size=0.01)  # Adju
@@ -955,7 +957,7 @@ if 1==1: # allow code folding
             ax.axhline(y=i, color='white', linestyle='--', lw=1)
 
         plt.ylabel("Feature", fontsize=25)
-        plt.xlabel("City-Scale Combination", fontsize=25)
+        plt.xlabel("Scale", fontsize=25)
         plt.tight_layout()
         plt.savefig("recurrent_Fi_4a.png", dpi=300)
         plt.show()

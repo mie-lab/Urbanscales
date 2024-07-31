@@ -3,96 +3,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from smartprint import smartprint as sprint
 
-import pandas as pd
-import glob
-import os
-
-
-# ON-RECURRENT-MMM Bogota 70 RF 0.014390624005569454 MSE
-# NON-RECURRENT-MMM Bogota 70 GBM 0.027941862297532427 MSE
-# NON-RECURRENT-MMM Bogota 70 LLR 0.028374573538975316 MSE
-# NON-RECURRENT-MMM Bogota 70 RLR 0.016694790135212887 MSE
-# NON-RECURRENT-MMM Bogota 70 LR 0.420176034740506 R2
-# NON-RECURRENT-MMM Bogota 70 RF 0.49813574292000595 R2
-# NON-RECURRENT-MMM Bogota 70 GBM 0.009735688983875921 R2
-# NON-RECURRENT-MMM Bogota 70 LLR -0.005931713933676245 R2
-# NON-RECURRENT-MMM Bogota 70 RLR 0.4188192163378041 R2
-
-
-import pandas as pd
-import os
-import glob
-
-# Initialize an empty DataFrame to store the combined data
-combined_data = pd.DataFrame()
-
-
-# Helper function to process files
-def process_files(file_pattern, congestion_type):
-    files = glob.glob(file_pattern)
-    temp_data = pd.DataFrame()
-
-    for file in files:
-        # Create a temporary filtered CSV file
-        temp_file = f"temp_file_{congestion_type}.csv"
-        os.system(f"grep \"{congestion_type}\" {file} | grep \"R2\" | grep -v GBM > {temp_file}")
-
-        # Read the data from the temporary CSV file
-        data = pd.read_csv(temp_file, header=None, delimiter=r"\s+")
-        data.columns = ['CongestionType', 'CityName', 'Scale', 'Model', 'Gof', 'Metric']
-
-        # Calculate the adjusted scale and tiles
-        data['Scale'] = data['Scale'].astype(int)
-        data['n~#tiles=(nXn)'] = data['Scale'].astype(int)
-        data['Scale'] = round(
-            (75 / data['Scale'] if 'Istanbul' in data['CityName'].unique() else 50 / data['Scale']) ** 2, 2)
-
-        # Specify the R2 type
-        data['R2 Type'] = 'NRC' if 'NON-RECURRENT' in congestion_type else 'RC'
-
-        data['Gof'] = pd.to_numeric(data['Gof'], errors='coerce')
-        data['Gof'] = data['Gof'].round(3)
-
-        data = data[(data['n~#tiles=(nXn)'] == 75) | (data['n~#tiles=(nXn)'] == 50)]
-
-        # Append to the temporary DataFrame
-        temp_data = pd.concat([temp_data, data[['CityName', 'n~#tiles=(nXn)', 'Scale', 'Model', 'Gof', 'R2 Type']]])
-
-    return temp_data
-
-
-# Process Non-Recurrent and Recurrent files
-nrc_data = process_files('NONRECURRENTcity?.csv', 'NON-RECURRENT-MMM')
-rc_data = process_files('RECURRENTcity?.csv', 'RECURRENT')
-
-# Combine the data
-combined_data = pd.concat([nrc_data, rc_data])
-
-# Pivot the DataFrame to have separate columns for NRC and RC R2 values
-final_data = combined_data.pivot_table(index=['CityName', 'n~#tiles=(nXn)', 'Scale', 'Model'], columns='R2 Type',
-                                       values='Gof', aggfunc='first').reset_index()
-
-# Save the combined data to a new CSV file
-final_data.to_csv('final_combined_city_data.csv', index=False)
-
-# Convert the DataFrame to a LaTeX table
-from tabulate import tabulate
-
-latex_table = tabulate(final_data, headers='keys', tablefmt='latex_booktabs', showindex=False)
-
-# Print or save the LaTeX table
-print(latex_table)
-
-
-
-# Optionally, write the LaTeX table to a file
-with open('table_output_GoF.tex', 'w') as f:
-    f.write(latex_table)
-
-
-
-
-
 
 def set_global_rc_params():
     plt.rcParams.update({
@@ -120,7 +30,7 @@ def load_data(file_path):
 
 
 # Process files
-files = ['NONRECURRENTFigure1city' + str(x) + '.csv' for x in range(2, 9)]  # City indices from 2 to 8
+files = ['RECURRENTFigure1city' + str(x) + '.csv' for x in range(2, 9)]  # City indices from 2 to 8
 
 all_data = pd.concat([load_data(f) for f in files])
 
@@ -146,37 +56,34 @@ colors = {
 
 
 # Plotting function for each model type with lines for each city
-# Plotting function for each model type with lines for each city
 goflist = []
 def plot_data_by_model(df, model_types, city_list):
     for model in model_types:
         plt.figure(figsize=(7, 5))
-
         for city in city_list:
             subset = df[(df['City'] == city) & (df['Model'] == model)]
             subset = subset.sort_values(by='TileArea')
             if not subset.empty:
                 plt.plot(subset['TileArea'], subset['GoF'], marker='o', linestyle='-', label=f"{city} ".replace("NewYorkCity", "New York City").replace("Capetown", "Cape Town").replace("MexicoCity", "Mexico City"),
-                         color=colors[city], )
-                sprint("NRC: ", city, round(np.mean(subset['GoF']), 2), round(np.std(subset['GoF']), 2))
-                goflist.extend(subset['GoF'].tolist())
-        sprint(round(np.mean(goflist), 2), round(np.std(goflist), 2))
+                         color=colors[city])
+                sprint ("RC: ", city, round(np.mean( subset['GoF']),2), round(np.std(subset['GoF']),2))
+                goflist.extend( subset['GoF'].tolist())
+        sprint (round(np.mean(goflist),2), round(np.std(goflist),2))
+
         plt.title(r'GoF (R$^2$) vs '+f'Tile Area for {model} Model Across Cities')
-        # plt.xlabel(r'Tile Area (km$^2$)\n Coarse $\rightarrow$ fine', fontsize=25)
+        # plt.xlabel(r'Tile Area (km$^2$)' + " \n" + r"coarse $\rightarrow$ fine", fontsize=25)
         plt.ylabel('Goodness of Fit '+ r'($R^2$)', fontsize=25)
         plt.grid(True, alpha=0.2)
         plt.legend(ncol=2, fontsize=13.5, loc="upper right")
         plt.ylim(0, 1)
+        plt.tight_layout();
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
-        plt.tight_layout();
         plt.gca().invert_xaxis()
-        plt.savefig("nonrecurrent_Fi_1_inverted.png",dpi=300)
-
         # plt.gca().invert_xaxis()
-        # plt.savefig("nonrecurrent_Fi_1.png",dpi=300)
+        plt.savefig("recurrent_Fi_1_inverted.png",dpi=300)
+        # plt.savefig("recurrent_Fi_1.png",dpi=300)
         plt.show()
-
 
 
 # Example usage
@@ -184,10 +91,10 @@ city_list = [ "Auckland", "Bogota", "Capetown", "Istanbul", "MexicoCity", "Mumba
 model_types = ['RF']  # , 'LR', 'RLR', 'GBM']
 
 plot_data_by_model(all_data, model_types, city_list)
-non_recurrent_gof_dict = {}
+recurrent_gof_dict = {}
 for i in range(all_data.shape[0]):
     if all_data.iloc[i].Model == "RF":
-        non_recurrent_gof_dict[all_data.iloc[i].City.lower(), all_data.iloc[i].Scale] = all_data.iloc[i].GoF
+        recurrent_gof_dict[all_data.iloc[i].City.lower(), all_data.iloc[i].Scale] = all_data.iloc[i].GoF
 
 import pandas as pd
 import seaborn as sns
@@ -215,6 +122,7 @@ def load_data(file_path):
         #     return "streets_per_node_count_5"
         return feature_name
 
+    # Applying the renaming function to the 'feature' column
     def adjust_feature_name_plotting(feature_name):
         feature_dict = {
             'n': '#nodes',
@@ -240,20 +148,19 @@ def load_data(file_path):
     df['feature'] = df['feature'].apply(adjust_feature_name)
     df['feature'] = df['feature'].apply(adjust_feature_name_plotting)
 
-
     indices_to_drop = df[df['feature'] == '#SPN-1'].index
     df = df.drop(index=indices_to_drop)
 
     split_columns = df['City-Scale-tod'].str.split('-', expand=True)
-    df['City'] = split_columns[3]
-    df['Scale'] = split_columns[4].astype(int)
-    df['Scale'] = split_columns[4].astype(str)
+    df['City'] = split_columns[1]
+    df['Scale'] = split_columns[2].astype(int)
+    df['Scale'] = split_columns[2].astype(str)
     df['Scale'] = df['Scale'].apply(lambda x: x.zfill(3))
     df['City-Scale'] = df['City'] + '-' + df['Scale'].astype(str)
     return df
 
 
-files = ['NONRECURRENTFigure2city' + str(x) + '.csv' for x in range(2, 9)]  # City indices from 2 to 8
+files = ['RECURRENTFigure2city' + str(x) + '.csv' for x in range(2, 9)]  # City indices from 2 to 8
 all_data = pd.concat([load_data(f) for f in files])
 heatmap_data = all_data.pivot_table(index='feature', columns='City-Scale', values='absshap', aggfunc='mean')
 heatmap_data_backup = heatmap_data.copy() # pd.DataFrame(heatmap_data)
@@ -265,13 +172,13 @@ sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': 'Featu
 plt.ylabel("Feature")
 plt.xlabel("Scale")
 plt.tight_layout();
-plt.savefig("nonrecurrent_Fi_2a_orig.png", dpi=300)
+plt.savefig("recurrent_Fi_2a_orig.png", dpi=300)
 plt.show()
-
-
 
 if "heatmapplotunfiltered" == "heatmapplotunfiltered":
     tick_positions = np.concatenate([np.arange(0, 8, 4), np.array([9]), np.arange(14, heatmap_data.columns.size, 10)])
+    # tick_positions = np.arange(0, heatmap_data.columns.size, 1)
+
     tick_labels = ["6.25 $km^2$", "4.0 $km^2$", "2.78 $km^2$", "1.56 $km^2$", "1.0 $km^2$", "0.69 $km^2$",
                    "0.51 $km^2$", "0.39 $km^2$", "0.31 $km^2$", "0.25 $km^2$"]
     tick_labels = tick_labels + tick_labels + tick_labels + tick_labels + tick_labels + tick_labels + tick_labels
@@ -300,6 +207,9 @@ if "heatmapplotunfiltered" == "heatmapplotunfiltered":
     plt.figure(figsize=(15, 8))
     ax = sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': r'${Feature~Importance}_j = \mathbb{E} \left[ |\phi_j| \right]$'},
                      yticklabels=True, xticklabels=tick_positions)
+
+    backup_absshap = heatmap_data.to_numpy().copy()
+
     cbar = ax.collections[0].colorbar
     cbar.ax.tick_params(labelsize=24)  # Adjust the tick font size as needed
     cbar.set_label(r'${Feature~Importance}_j = \mathbb{E} \left[ |\phi_j| \right]$',
@@ -331,11 +241,12 @@ if "heatmapplotunfiltered" == "heatmapplotunfiltered":
                 bbox=dict(facecolor=colors[city.replace(" ", "").lower()], alpha=0.4, edgecolor='none', boxstyle='round,pad=0.5'))
 
 
-    # Add vertical lines to separate groups of cities every 10 columns
+        # Add vertical lines to separate groups of cities every 10 columns
     for i in range(10, len(heatmap_data.columns), 10):
         ax.axvline(x=i, color='white', linestyle='--', lw=1)  # Change color and style if needed
     for i in range(1, heatmap_data.shape[0]):
         ax.axhline(y=i, color='white', linestyle='--', lw=1)
+
 
     # Set custom x-tick labels
     ax.set_xticks(tick_positions)
@@ -343,22 +254,19 @@ if "heatmapplotunfiltered" == "heatmapplotunfiltered":
     plt.ylabel("Feature", fontsize=25)
     plt.xlabel("Scale", fontsize=25)
     plt.tight_layout()
-    plt.savefig("nonrecurrent_Fi_2a.png", dpi=300)
+    plt.savefig("recurrent_Fi_2a.png", dpi=300)
     plt.show()
 
     for citynum in range(7):
-        sprint (heatmap_data.iloc[:,citynum*10:(citynum+1)*10].columns)
-        sprint (np.mean(heatmap_data.iloc[:,citynum*10:(citynum+1)*10].to_numpy().flatten().tolist()),
-               np.std(heatmap_data.iloc[:,citynum*10:(citynum+1)*10].to_numpy().flatten().tolist()))
+        sprint (heatmap_data.iloc[:,citynum*1:(citynum+1)*1].columns)
+        sprint (np.mean(heatmap_data.iloc[:,citynum*1:(citynum+1)*1].to_numpy().flatten().tolist()),
+               np.std(heatmap_data.iloc[:,citynum*1:(citynum+1)*1].to_numpy().flatten().tolist()))
         print ("===============================")
     for citynum in range(7):
-        sprint (heatmap_data.iloc[:,citynum*10:(citynum+1)*10].columns)
-        sprint (np.max(heatmap_data.iloc[:,citynum*10:(citynum+1)*10].to_numpy().flatten().tolist()))
+        sprint (heatmap_data.iloc[:,citynum*1:(citynum+1)*1].columns)
+        sprint (np.max(heatmap_data.iloc[:,citynum*1:(citynum+1)*1].to_numpy().flatten().tolist()))
         print ("===============================")
 
-
-
-    # print for paper
     all_sum = heatmap_data.sum(axis=1).to_list()
     all_std = heatmap_data.std(axis=1).to_list()
     dict_FI = dict(zip(heatmap_data.index.to_list(), [(all_sum[i], all_std[i]) for i in range(len(all_sum))]))
@@ -371,7 +279,17 @@ method = 'otsu'  # Change this variable to switch methods
 
 for column in heatmap_data.columns:
     if method == 'otsu':
-        thresh = 0 # threshold_otsu(np.array(heatmap_data[column].to_list()))
+        try:
+            thresh = 0  # threshold_otsu(np.array(heatmap_data[column].to_list()))
+        except Exception as e:
+            debug_pitstop = True
+            try:
+                listval = np.array(heatmap_data[column].to_list())
+                # Istanbul has nan in global_betweenness
+                listval = listval[~np.isnan(listval)]
+                print ("Error (NaN) in ", heatmap_data[column].name, " Ignored")
+            except Exception as e2:
+                raise e2
     elif method == 'mean_std':
         thresh = heatmap_data[column].mean() + heatmap_data[column].std()
     elif method == 'quantile':
@@ -390,16 +308,12 @@ for column in heatmap_data.columns:
 plt.figure(figsize=(15, 8))
 sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': 'Feature Importance (mean |SHAP|)'},
             yticklabels=True, xticklabels=True)
-# plt.title("Heatmap with column wise Otsu thresholding")
+# plt.title("Heatmap with column wise Otsu")
 plt.ylabel("Feature")
 plt.xlabel("Scale")
 plt.tight_layout();
-
-plt.savefig("nonrecurrent_Fi_2b_orig.png", dpi=300)
+plt.savefig("recurrent_Fi_2b_orig.png", dpi=300)
 plt.show()
-
-
-
 
 if "heatmapplotunOtsu" == "heatmapplotunOtsu":
     tick_positions = np.concatenate([np.arange(0, 8, 4), np.array([9]), np.arange(14, heatmap_data.columns.size, 10)])
@@ -457,11 +371,12 @@ if "heatmapplotunOtsu" == "heatmapplotunOtsu":
     plt.ylabel("Feature", fontsize=25)
     plt.xlabel("Scale", fontsize=25)
     plt.tight_layout()
-    plt.savefig("nonrecurrent_Fi_2b.png", dpi=300)
+    plt.savefig("recurrent_Fi_2b.png", dpi=300)
     plt.show()
 
 
-backup_non_recurrent_nans = np.sign(pd.DataFrame(heatmap_data))
+
+backup_recurrent_nans = np.sign(pd.DataFrame(heatmap_data))
 
 import pandas as pd
 import numpy as np
@@ -490,23 +405,25 @@ def process_dataframe(df, nancountpercity):
     processed_df = df.apply(lambda row: process_row(row, nancountpercity), axis=1)
     return processed_df
 
-backup_non_recurrent_nans = process_dataframe(backup_non_recurrent_nans, NANCOUNTPERCITY)
+backup_recurrent_nans = process_dataframe(backup_recurrent_nans, NANCOUNTPERCITY)
 
 
-heatmap_data = heatmap_data_backup.where(backup_non_recurrent_nans.isna())
+heatmap_data = heatmap_data_backup.where(backup_recurrent_nans.isna())
 original_xticks = heatmap_data.columns.tolist()  # Save original x-tick labels
 
 heatmap_data.columns = original_xticks
 plt.figure(figsize=(15, 8))
 sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': 'Feature Importance (mean |SHAP|)'},
             yticklabels=True, xticklabels=True)
-# plt.title("Heatmap with > Otsu in > 50% scales")
+# plt.title("Heatmap with Otsu and > 50% scales importance")
 plt.ylabel("Feature")
 plt.xlabel("Scale")
 plt.tight_layout()
 plt.tight_layout();
-plt.savefig("nonrecurrent_Fi_2c_orig.png", dpi=300)
+plt.savefig("recurrent_Fi_2c_orig.png", dpi=300)
 plt.show()
+
+
 
 
 if "heatmapplotunOtsuSelected50" == "heatmapplotunOtsuSelected50":
@@ -565,14 +482,12 @@ if "heatmapplotunOtsuSelected50" == "heatmapplotunOtsuSelected50":
     plt.ylabel("Feature", fontsize=25)
     plt.xlabel("Scale", fontsize=25)
     plt.tight_layout()
-    plt.savefig("nonrecurrent_Fi_2c.png", dpi=300)
+    plt.savefig("recurrent_Fi_2c.png", dpi=300)
     plt.show()
-
 
 
 ################ FIGURE 2
 if 1==1: # trick to allow code folding :)
-
 
     # trick to allow code folding :)
 
@@ -595,8 +510,8 @@ if 1==1: # trick to allow code folding :)
 
 
     # Example usage
-    # Assuming backup_non_recurrent_nans is your DataFrame
-    city_feature_dict = create_city_feature_dict(backup_non_recurrent_nans)
+    # Assuming backup_recurrent_nans is your DataFrame
+    city_feature_dict = create_city_feature_dict(backup_recurrent_nans)
 
     # Display the result
     import pprint
@@ -679,7 +594,7 @@ if 1==1: # trick to allow code folding :)
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
-    plt.savefig("nonrecurrent_Fi_3a.png", dpi=300)
+    plt.savefig("recurrent_Fi_3a.png", dpi=300)
     plt.show()
     # Display the dictionary
 
@@ -710,7 +625,7 @@ if 1==1: # trick to allow code folding :)
             wcss.append(km.inertia_)  # WCSS
             silhouette_scores.append(ts_silhouette_score(timeseries_data, clusters, metric='dtw'))
 
-        # Plot Elbow method
+        # # Plot Elbow method
         # plt.figure(figsize=(14, 8))
         # plt.plot(range(2, max_clusters + 1), wcss, marker='o')
         # plt.xlabel('Number of Clusters')
@@ -718,6 +633,7 @@ if 1==1: # trick to allow code folding :)
         # # plt.title('Elbow Method for Determining the Optimal Number of Clusters')
         # plt.grid(True, alpha=0.3)
         # plt.tight_layout();
+        # 
         # plt.show()
 
         # Plot Silhouette scores
@@ -728,7 +644,7 @@ if 1==1: # trick to allow code folding :)
         # plt.title('Silhouette Analysis for Determining the Optimal Number of Clusters')
         plt.grid(True, alpha=0.3)
         plt.tight_layout();
-        plt.savefig("nonrecurrent_Fi_3b.png", dpi=300)
+        plt.savefig("recurrent_Fi_3b.png", dpi=300)
         plt.show()
 
         # Choose the optimal number of clusters (based on the Elbow or Silhouette)
@@ -763,7 +679,6 @@ if 1==1: # trick to allow code folding :)
     }
 
     # Extract city names from labels
-        # Extract city names from labels
     citylist_alphabetical = ['auckland',
                          'bogota',
                          'capetown',
@@ -800,10 +715,10 @@ if 1==1: # trick to allow code folding :)
     plt.xlabel('Scale')
     plt.ylabel('Feature Importance')
     # plt.title(f'Clustered Feature Importance vs. Scale (n_clusters={HARDCODED_CLUSTER})')
-    # plt.legend(loc='best', fontsize='small')
+    plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
-    plt.savefig("nonrecurrent_Fi_3c.png", dpi=300)
+    plt.savefig("recurrent_Fi_3c.png", dpi=300)
     plt.show()
 
     # Display the number of time series in each cluster
@@ -814,10 +729,10 @@ if 1==1: # trick to allow code folding :)
     inv_map = {}
     for k, v in dictzip.items():
         inv_map[v] = inv_map.get(v, []) + [k]
+
     print("============ ABS SHAP  ================")
     sprint (inv_map)
     print ("===================================")
-
 
 
 
@@ -840,8 +755,11 @@ if 1==1: # trick to allow code folding :)
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
-    plt.savefig("nonrecurrent_Fi_3d.png", dpi=300)
+    plt.savefig("recurrent_Fi_3d.png", dpi=300)
     plt.show()
+
+
+
 
 
 
@@ -876,7 +794,6 @@ if 1==1: # allow code folding
             #     return "streets_per_node_count_5"
             return feature_name
 
-        # Applying the renaming function to the 'feature' column
         def adjust_feature_name_plotting(feature_name):
             feature_dict = {
                 'n': '#nodes',
@@ -901,14 +818,15 @@ if 1==1: # allow code folding
         # Applying the renaming function to the 'feature' column
         df['feature'] = df['feature'].apply(adjust_feature_name)
         df['feature'] = df['feature'].apply(adjust_feature_name_plotting)
+
         indices_to_drop = df[df['feature'] == '#SPN-1'].index
         df = df.drop(index=indices_to_drop)
 
         split_columns = df['City-Scale-tod'].str.split('-', expand=True)
 
-        df['City'] = split_columns[3].apply(lambda x: x.lower())
-        df['Scale'] = split_columns[4].astype(int)
-        df['Scale'] = split_columns[4].astype(str)
+        df['City'] = split_columns[1].apply(lambda x: x.lower())
+        df['Scale'] = split_columns[2].astype(int)
+        df['Scale'] = split_columns[2].astype(str)
         df['Scale'] = df['Scale'].apply(lambda x: x.zfill(3))
         df['City-Scale'] = df['City'] + '-' + df['Scale'].astype(str)
         df["signeddenominator"] = np.sign(df["ratio"]) # * np.abs(df["num"])
@@ -916,16 +834,16 @@ if 1==1: # allow code folding
         #     for i in df.index:
         #         city_scale_tuple = (df.loc[i, 'City'], df.loc[i, 'Scale'])
         # #         print (city_scale_tuple, )
-        #         if city_scale_tuple in non_recurrent_gof_dict:
-        #             df.loc[i, 'signeddenominator'] /= non_recurrent_gof_dict[city_scale_tuple]
-        #             print (non_recurrent_gof_dict[city_scale_tuple])
+        #         if city_scale_tuple in recurrent_gof_dict:
+        #             df.loc[i, 'signeddenominator'] /= recurrent_gof_dict[city_scale_tuple]
+        #             print (recurrent_gof_dict[city_scale_tuple])
         return df
 
 
 
 
     # Process files
-    files = ['NONRECURRENTFigure3city' + str(x) + '.csv' for x in range(2, 9)]  # City indices from 2 to 8
+    files = ['RECURRENTFigure3city' + str(x) + '.csv' for x in range(2, 9)]  # City indices from 2 to 8
 
     all_data = pd.concat([load_data_direction(f) for f in files])
 
@@ -934,11 +852,12 @@ if 1==1: # allow code folding
     # plt.tight_layout(); plt.show()
     plt.clf()
 
-    heatmap_data = heatmap_data.where(backup_non_recurrent_nans.isna())
+    heatmap_data = heatmap_data.where(backup_recurrent_nans.isna())
     original_xticks = heatmap_data.columns.tolist()  # Save original x-tick labels\
     # heatmap_data = heatmap_data.apply(lambda row: adjust_row_based_on_nan_count(row), axis=1)
     plt.figure(figsize=(14, 8))
-
+    # sns.heatmap(heatmap_data, annot=False, cmap="seismic", cbar_kws={'label': 'Signed Numerator'}, center=0,
+    #             yticklabels=True, xticklabels=original_xticks)
     from matplotlib.colors import LinearSegmentedColormap
 
     colors = ["#fb8072", "#8dd3c7"]  # Crimson Red for -1, Teal Green for +1
@@ -947,9 +866,12 @@ if 1==1: # allow code folding
     # Create the heatmap
     sns.heatmap(heatmap_data, annot=False, cmap=cmap, cbar_kws={'label': 'Direction of Relationship'}, center=0,
                 yticklabels=True, xticklabels=original_xticks)
+
     plt.tight_layout();
-    plt.savefig("nonrecurrent_Fi_4a_orig.png", dpi=300)
+
+    plt.savefig("recurrent_Fi_4a_orig.png", dpi=300)
     plt.show()
+
 
     if "heatmaptratioSign" == "heatmaptratioSign":
         tick_positions = np.concatenate(
@@ -996,7 +918,6 @@ if 1==1: # allow code folding
         cbar.set_label('Direction of Relationship',
                        size=0.01)  # Adju
 
-
         # Set custom x-tick labels properly
         ax.set_xticks(tick_positions + 0.5)  # Center ticks in the middle of the cells
         ax.set_xticklabels(tick_labels, rotation=90, fontsize=20)
@@ -1028,7 +949,6 @@ if 1==1: # allow code folding
                               boxstyle='round,pad=0.5'))
 
 
-
         # Add vertical lines to separate groups of cities every 10 columns
         for i in range(10, len(heatmap_data.columns), 10):
             ax.axvline(x=i, color='white', linestyle='--', lw=1)
@@ -1039,7 +959,7 @@ if 1==1: # allow code folding
         plt.ylabel("Feature", fontsize=25)
         plt.xlabel("Scale", fontsize=25)
         plt.tight_layout()
-        plt.savefig("nonrecurrent_Fi_4a.png", dpi=300)
+        plt.savefig("recurrent_Fi_4a.png", dpi=300)
         plt.show()
 
 
@@ -1066,7 +986,6 @@ if 1==1: # allow code folding
             #     return "streets_per_node_count_5"
             return feature_name
 
-        # Applying the renaming function to the 'feature' column
         def adjust_feature_name_plotting(feature_name):
             feature_dict = {
                 'n': '#nodes',
@@ -1091,14 +1010,15 @@ if 1==1: # allow code folding
         # Applying the renaming function to the 'feature' column
         df['feature'] = df['feature'].apply(adjust_feature_name)
         df['feature'] = df['feature'].apply(adjust_feature_name_plotting)
+
         indices_to_drop = df[df['feature'] == '#SPN-1'].index
         df = df.drop(index=indices_to_drop)
 
         split_columns = df['City-Scale-tod'].str.split('-', expand=True)
 
-        df['City'] = split_columns[3].apply(lambda x: x.lower())
-        df['Scale'] = split_columns[4].astype(int)
-        df['Scale'] = split_columns[4].astype(str)
+        df['City'] = split_columns[1].apply(lambda x: x.lower())
+        df['Scale'] = split_columns[2].astype(int)
+        df['Scale'] = split_columns[2].astype(str)
         df['Scale'] = df['Scale'].apply(lambda x: x.zfill(3))
         df['City-Scale'] = df['City'] + '-' + df['Scale'].astype(str)
         df["signeddenominator"] = df["ratio"]
@@ -1106,16 +1026,16 @@ if 1==1: # allow code folding
         #     for i in df.index:
         #         city_scale_tuple = (df.loc[i, 'City'], df.loc[i, 'Scale'])
         # #         print (city_scale_tuple, )
-        #         if city_scale_tuple in non_recurrent_gof_dict:
-        #             df.loc[i, 'signeddenominator'] /= non_recurrent_gof_dict[city_scale_tuple]
-        #             print (non_recurrent_gof_dict[city_scale_tuple])
+        #         if city_scale_tuple in recurrent_gof_dict:
+        #             df.loc[i, 'signeddenominator'] /= recurrent_gof_dict[city_scale_tuple]
+        #             print (recurrent_gof_dict[city_scale_tuple])
         return df
 
 
 
 
     # Process files
-    files = ['NONRECURRENTFigure3city' + str(x) + '.csv' for x in range(2, 9)]  # City indices from 2 to 8
+    files = ['RECURRENTFigure3city' + str(x) + '.csv' for x in range(2, 9)]  # City indices from 2 to 8
 
     all_data = pd.concat([load_data_direction(f) for f in files])
 
@@ -1124,7 +1044,7 @@ if 1==1: # allow code folding
     # plt.tight_layout(); plt.show()
     plt.clf()
 
-    heatmap_data = heatmap_data.where(backup_non_recurrent_nans.isna())
+    heatmap_data = heatmap_data.where(backup_recurrent_nans.isna())
     original_xticks = heatmap_data.columns.tolist()  # Save original x-tick labels\
     # heatmap_data = heatmap_data.apply(lambda row: adjust_row_based_on_nan_count(row), axis=1)
     heatmap_data.columns = original_xticks
@@ -1134,8 +1054,16 @@ if 1==1: # allow code folding
                 yticklabels=True, xticklabels=True)
     # plt.title("Sensitivity")
     plt.tight_layout();
-    plt.savefig("nonrecurrent_Fi_4b.png", dpi=300)
+    plt.savefig("recurrent_Fi_4b.png", dpi=300)
     plt.show()
+
+
+
+
+
+
+
+
 
 
 
@@ -1253,7 +1181,7 @@ if 1==1: # allow code folding
     plt.tight_layout()
     plt.xticks(fontsize=20)
     plt.yticks(fontsize=20)
-    plt.savefig("nonrecurrent_Fig5_var_abs_SR_Positive.png", dpi=300)
+    plt.savefig("recurrent_Fig5_var_abs_SR_Positive.png", dpi=300)
     plt.show()
 
 
@@ -1357,17 +1285,9 @@ if 1==1: # allow code folding
     plt.tight_layout()
     plt.xticks(fontsize=20)
     plt.yticks(fontsize=20)
-    plt.savefig("nonrecurrent_Fig5_var_abs_SR_Negative.png", dpi=300)
+    plt.savefig("recurrent_Fig5_var_abs_SR_Negative.png", dpi=300)
     plt.show()
-
-
     print ("\n\n\n\n")
-
-
-
-
-
-
 
 
 
@@ -1401,6 +1321,7 @@ if 1==1: # allow code folding
                 positive_vals[city, feature] = [np.abs(heatmap_data[col][feature])]
             else:
                 positive_vals[city, feature].append(np.abs(heatmap_data[col][feature]))
+    print ("************** SELECTED FEATURES WITH POSITIVE SIGN *********\n\n\n\n\n\n")
     listkeys = list(positive_vals.keys())
     # for key in listkeys:
     #     if not (len(set(([np.sign(x) for x in positive_vals[key]]))) == 1 and sum([np.sign(x) for x in positive_vals[key]]) == 10):
@@ -1521,7 +1442,7 @@ if 1==1: # allow code folding
         plt.title(f"Cluster {yi + 1}")
 
     plt.tight_layout()
-    plt.savefig("DTW_nonrecurent_selected_postive_features.png", dpi=300)
+    plt.savefig("DTW_recurent_selected_postive_features.png", dpi=300)
     plt.show()
 
     # Printing which label belongs to which cluster
@@ -1563,14 +1484,12 @@ if 1==1: # allow code folding
 
 
 
-    plt.figure(figsize=(14, 8))
-    sns.heatmap(np.log(heatmap_data+0.127), annot=False, cmap="seismic", cbar_kws={'label': 'Sensitivity Ratio'},
-                yticklabels=True, xticklabels=True)
-    # plt.title("Log of sensitivity")
-    plt.savefig("nonrecurrent_Fi_4c.png", dpi=300)
-    plt.tight_layout();
-    plt.show()
 
+
+
+
+
+    # trick to allow code folding :)
 
     # trick to allow code folding :)
 
@@ -1593,8 +1512,8 @@ if 1==1: # allow code folding
 
 
     # Example usage
-    # Assuming backup_non_recurrent_nans is your DataFrame
-    city_feature_dict = create_city_feature_dict(backup_non_recurrent_nans)
+    # Assuming backup_recurrent_nans is your DataFrame
+    city_feature_dict = create_city_feature_dict(backup_recurrent_nans)
 
     # Display the result
     import pprint
@@ -1677,7 +1596,7 @@ if 1==1: # allow code folding
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
-    plt.savefig("nonrecurrent_Fi_4d.png", dpi=300)
+    plt.savefig("recurrent_Fi_4d.png", dpi=300)
     plt.show()
     # Display the dictionary
 
@@ -1716,7 +1635,7 @@ if 1==1: # allow code folding
         # plt.title('Elbow Method for Determining the Optimal Number of Clusters')
         plt.grid(True, alpha=0.3)
         plt.tight_layout();
-        plt.savefig("nonrecurrent_Fi_4e.png", dpi=300)
+        plt.savefig("recurrent_Fi_4e.png", dpi=300)
         plt.show()
 
         # Plot Silhouette scores
@@ -1727,7 +1646,7 @@ if 1==1: # allow code folding
         # plt.title('Silhouette Analysis for Determining the Optimal Number of Clusters')
         plt.grid(True, alpha=0.3)
         plt.tight_layout();
-        plt.savefig("nonrecurrent_Fi_4f.png", dpi=300)
+        plt.savefig("recurrent_Fi_4f.png", dpi=300)
         plt.show()
 
         # Choose the optimal number of clusters (based on the Elbow or Silhouette)
@@ -1762,7 +1681,7 @@ if 1==1: # allow code folding
     }
 
     # Extract city names from labels
-        # Extract city names from labels
+    # Extract city names from labels
     citylist_alphabetical = ['auckland',
                          'bogota',
                          'capetown',
@@ -1795,13 +1714,12 @@ if 1==1: # allow code folding
             # blue increasein
             cluster_names[key] = "Indeterminate"
 
-
-
     # Plot the clustered time series
     plt.clf()
     plt.close()
     plt.figure(figsize=(6, 6))
 
+    # Plot the clustered time series
     area_list = [(50/x)**2 for x in [20, 25, 30, 40, 50, 60, 70, 80, 90, 100]]
     for i in range(HARDCODED_CLUSTER):
         cluster_indices = np.where(clusters == i)[0]
@@ -1820,7 +1738,7 @@ if 1==1: # allow code folding
     plt.legend(loc='upper right', fontsize=12)
     plt.grid(True, alpha=0.0)
     # plt.tight_layout();
-    plt.savefig("nonrecurrent_Fi_4g.png", dpi=300)
+    plt.savefig("recurrent_Fi_4g.png", dpi=300)
     plt.show()
 
     # Display the number of time series in each cluster
@@ -1852,8 +1770,10 @@ if 1==1: # allow code folding
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
-    plt.savefig("nonrecurrent_Fi_4h.png", dpi=300)
+    plt.savefig("recurrent_Fi_4h.png", dpi=300)
     plt.show()
+
+
 
 debug_pitstop = True
 
