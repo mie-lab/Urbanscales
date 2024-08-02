@@ -399,20 +399,21 @@ def compare_models_gof_standard_cv(X, Y, feature_list, cityname, scale, tod, n_s
                 print(f"{name}: {score:.4f}")
                 csvwriter.writerow([name, results_explained_variance[name], results_mse[name], tod, scale, cityname])
 
-
-def plot_feature_influence(df, slugifiedstring):
-    # Compute MeanSHAP_pos, MeanSHAP_neg, MeanX_pos, MeanX_neg for each feature
+def plot_feature_influence(shap_values_df, feature_values_df, slugifiedstring):
+    # Ensure the DataFrame is structured with SHAP values
     means = {}
-    for column in df.columns:
-        pos_indices = df[column] > 0
-        neg_indices = df[column] < 0
+    for column in shap_values_df.columns:
+        # Identify positive and negative indices based on SHAP values
+        pos_indices = shap_values_df[column] > 0
+        neg_indices = shap_values_df[column] < 0
 
-        MeanSHAP_pos = df.loc[pos_indices, column].mean()
-        MeanSHAP_neg = df.loc[neg_indices, column].mean()
+        # Calculate MeanSHAP for positive and negative indices
+        MeanSHAP_pos = shap_values_df.loc[pos_indices, column].mean()
+        MeanSHAP_neg = shap_values_df.loc[neg_indices, column].mean()
 
-        # Convert index to a numerical series before calculating mean
-        MeanX_pos = pd.Series(df.loc[pos_indices].index).mean()
-        MeanX_neg = pd.Series(df.loc[neg_indices].index).mean()
+        # Calculate MeanX using the corresponding feature values
+        MeanX_pos = feature_values_df.loc[pos_indices, column].mean()
+        MeanX_neg = feature_values_df.loc[neg_indices, column].mean()
 
         # Calculate ExtendedDirection
         if pd.isna(MeanX_pos) or pd.isna(MeanX_neg):  # Handle cases where all SHAP are positive or negative
@@ -431,7 +432,7 @@ def plot_feature_influence(df, slugifiedstring):
     for i, (key, value) in enumerate(means.items()):
         # ax.arrow(i, 0, 0, value * 0.5, head_width=0.1, head_length=0.1, fc='blue', ec='blue')
         # ax.arrow(i, 0, 0, 1 * np.sign(value), head_width=0.1, head_length=0.1,width=abs(value) * 0.1, fc='blue', ec='blue')
-        sprint(config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1])
+        print(config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1])
 
     # ax.set_ylim(min(means.values()) - 1, max(means.values()) + 1)
     # plt.xticks(range(len(df.columns)), df.columns, rotation='vertical')
@@ -439,6 +440,9 @@ def plot_feature_influence(df, slugifiedstring):
     # plt.ylabel("SHAP-Dir")
     # plt.show(block=False);
     # plt.close()
+
+
+
 
 def compare_models_gof_standard_cv_HPT_new(X, Y, feature_list, cityname, scale, tod, n_splits,
                                            scaling=True, include_interactions=True):
@@ -488,14 +492,30 @@ def compare_models_gof_standard_cv_HPT_new(X, Y, feature_list, cityname, scale, 
         "LLR": Lasso(random_state=42),
         "RLR": Ridge(random_state=42)
     }
+    if config.SHAP_GBM_ENABLED:
+        models = {
+            "LR": LinearRegression(),
+            "RF": RandomForestRegressor(random_state=42),
+            "GBM": XGBRegressor(random_state=42),
+            "LLR": Lasso(random_state=42),
+            "RLR": Ridge(random_state=42)
+        }
+    else:
+        models = {
+            "LR": LinearRegression(),
+            "RF": RandomForestRegressor(random_state=42),
+            # "GBM": XGBRegressor(random_state=42),
+            "LLR": Lasso(random_state=42),
+            "RLR": Ridge(random_state=42)
+        }
 
     rf_params = {
-        'randomforestregressor__n_estimators': [100, 200, 300, 400, 500, 1000],  # Number of trees
+        'randomforestregressor__n_estimators': [50, 100, 200, 300, 400, 500, 600],  # Number of trees
         'randomforestregressor__max_depth': [10, 20, 50, 100],  # Maximum depth of each tree
         # 'randomforestregressor__min_samples_split': [2, 5, 10],
         # Minimum number of samples required to split an internal node
         # 'randomforestregressor__min_samples_leaf': [1, 2, 4, 5],  # Minimum number of samples required at a leaf node
-        'randomforestregressor__max_features': ['sqrt', 'log2']
+        'randomforestregressor__max_features': ['sqrt'] # , 'log2']
         # Number of features to consider when looking for the best split
     }
 
@@ -608,13 +628,49 @@ def compare_models_gof_standard_cv_HPT_new(X, Y, feature_list, cityname, scale, 
         if scaling:
             X = StandardScaler().fit_transform(X)
         rf_model_best.fit(X, Y)
+
+
         explainer = shap.TreeExplainer(rf_model_best)
-        shap_values = explainer.shap_values(X)
-        shap.summary_plot(shap_values, X, plot_type="bar")
-        shap_values_df = pd.DataFrame(shap_values, columns=feature_list)
 
-        plot_feature_influence(shap_values_df, slugifiedstring=slugify(str((config.CONGESTION_TYPE, cityname, scale, tod))))
 
+
+        if config.SHAP_generate_beeswarm:
+            plt.clf()
+            dfX = pd.DataFrame(X, columns=feature_list)
+
+            dfX = dfX.rename(columns={
+                    'n': '#nodes',
+                    'm': '#edges',
+                    'k_avg': 'avg degree',
+                    'streets_per_node_avg': 'SPN-avg',
+                    'circuity_avg': 'avg circuity',
+                    'metered_count': '#traffic lights',
+                    'non_metered_count': '#free turns',
+                    'total_crossings': '#total crossings',
+                    'betweenness': 'local centrality',
+                    'mean_lanes': 'avg lanes',
+                    'streets_per_node_count_1': '#SPN-1',
+                    'streets_per_node_count_2': '#SPN-2',
+                    'streets_per_node_count_3': '#SPN-3',
+                    'streets_per_node_count_4': '#SPN-4',
+                    'streets_per_node_count_5': '#SPN-5',
+                    'global_betweenness': 'global centrality'
+                })
+
+
+            shap_values = explainer(dfX)
+            shap.plots.beeswarm(shap_values, show=False)
+            plt.tight_layout()
+            plt.savefig("SHAP_Demo" +slugify(str((config.CONGESTION_TYPE, cityname, scale, tod)))+ ".png", dpi=300)
+            plt.show(block=False)
+
+
+        # shap.summary_plot(shap_values, X, plot_type="bar")
+        shap_values_without_columns = explainer.shap_values(X)
+        shap_values_df = pd.DataFrame(shap_values_without_columns, columns=feature_list)
+
+        plot_feature_influence(shap_values_df, pd.DataFrame(X, columns=feature_list),
+                               slugifiedstring=slugify(str((config.CONGESTION_TYPE, cityname, scale, tod))))
 
         print("SHAP Values for each feature:")
         # print(slugify(str((config.CONGESTION_TYPE, cityname, scale, tod))), shap_values_df.abs().mean(axis=0))
@@ -1183,7 +1239,7 @@ if __name__ == "__main__":
                      # 'lane_density',
                      # 'maxspeed',
                     # 'streets_per_node_count_0',
-                    'streets_per_node_count_1',
+                    # 'streets_per_node_count_1',
                      # 'streets_per_node_proportion_1',
                      'streets_per_node_count_2',
                      # 'streets_per_node_proportion_2',
@@ -1228,7 +1284,8 @@ if __name__ == "__main__":
                      'streets_per_node_proportion_5',
                      'streets_per_node_count_6',
                      'streets_per_node_proportion_6',
-                     'global_betweenness'  ]
+                     'global_betweenness'
+                     ]
 
     if config.SHAP_use_all_features_including_highly_correlated:
         common_features = all_features
@@ -1659,10 +1716,10 @@ if __name__ == "__main__":
                     common_features_list = list(set(common_features_list).intersection(set(X.columns.to_list())))
 
 
-                    # compare_models_gof_standard_cv_HPT_new(X, Y, common_features_list, tod=tod, cityname=city,
-                    #                                        scale=scale,
-                    #                                        n_splits=7, include_interactions=False,
-                    #                                        scaling=config.SHAP_ScalingOfInputVector)
+                    compare_models_gof_standard_cv_HPT_new(X, Y, common_features_list, tod=tod, cityname=city,
+                                                           scale=scale,
+                                                           n_splits=7, include_interactions=False,
+                                                           scaling=config.SHAP_ScalingOfInputVector)
 
                     t_non_spatial = time.time() - model_fit_time_start
                     # compare_models_gof_spatial_cv(X, Y, common_features, temp_obj=temp_obj, include_interactions=False,
