@@ -11,7 +11,7 @@ DEBUG_TRUNCATE = False
 MASTER_VISUALISE_EACH_STEP = False
 MASTER_VISUALISE_EACH_STEP_INSIDE_RN_class = False
 MASTER_VISUALISE_EACH_STEP_INSIDE_PrepNetwork_class = False
-MASTER_VISUALISE_EACH_STEP_INSIDE_ShapAnalysisScript = False
+MASTER_VISUALISE_EACH_STEP_INSIDE_ShapAnalysisScript = True
 
 CONGESTION_TYPE = "RECURRENT"
 assert CONGESTION_TYPE in ["RECURRENT", "NON-RECURRENT", "NON-RECURRENT-MMM"]
@@ -107,7 +107,7 @@ if RUNNING_ON_SERVER:
         # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
         # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
-    single_city = "Mumbai"
+    single_city = "Capetown"
     rn_city_wise_bboxes = {single_city : rn_city_wise_bboxes[single_city]}
 
 
@@ -126,7 +126,7 @@ elif RUNNING_ON_LOCAL:
         # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
         # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
-    single_city = "NewYorkCity"
+    single_city = "Capetown"
     rn_city_wise_bboxes = {single_city : rn_city_wise_bboxes[single_city]}
 
 if RUNNING_ON_SERVER:
@@ -226,7 +226,7 @@ scl_list_of_depths = [1]
 # ]  # 40, 45, 50, 55, 60, 65, 70, 80, 85, 90, 95, 100, 120]
 
 # test_small
-running_extended_scales = 0 # 0 implies single scale (1 sq.km), 1 implies 3 scales (1 sqkm, 4 swkm and 0.25 sqkm.) and 2 implies all from 20 to 100
+running_extended_scales = 1 # 0 implies single scale (1 sq.km), 1 implies 3 scales (1 sqkm, 4 swkm and 0.25 sqkm.) and 2 implies all from 20 to 100
 
 if RUNNING_ON_LOCAL:
     if single_city == "Istanbul":
@@ -353,15 +353,13 @@ SHAP_additive_regression_model = False # Poor GoF; no longer used
 SHAP_sort_features_alphabetical_For_heatmaps = False
 FAST_GEN_PDPs_for_multiple_runs = True  # True only when fast PDPs are needed for a large number of scenarios; this must be False for normal runs
 
-network_folder = CONGESTION_TYPE + "network_tmean_smean_" +str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" + str(shift_tile_marker)
+network_folder = CONGESTION_TYPE + "R2network_tmean_smean_" +str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" + str(shift_tile_marker)
 warnings_folder = "warnings"
-results_folder = CONGESTION_TYPE + "results_network_tmean_smean_"+str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" + str(shift_tile_marker)  # "results_50x50_max_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi-max-max"
-
+results_folder = CONGESTION_TYPE + "R2results_network_tmean_smean_"+str(rn_square_from_city_centre)+ "x" +str(rn_square_from_city_centre)+ "_shifting_" + str(shift_tile_marker)  # "results_50x50_max_" + ("full" if ppl_smallest_sample == -1 else str(ppl_smallest_sample)) + "_data" + "-fi-max-max"
 
 temp_folder_for_robust_pickle_files = os.path.join(BASE_FOLDER, "pickle_slack_temp")
 if not os.path.exists(temp_folder_for_robust_pickle_files):
     os.mkdir(temp_folder_for_robust_pickle_files)
-
 
 SHAP_ScalingOfInputVector = True
 SHAP_use_all_features_including_highly_correlated = False
@@ -374,6 +372,8 @@ else:
 
 SHAP_values_disabled = False # True only when we are interested in capturing the just the GoF for a large number of scenarios
 SHAP_disable_all_plots_for_server = True
+SHAP_GBM_ENABLED = False
+SHAP_generate_beeswarm = True
 
 # To ensure that we don't overwrite the network folder of max with mean or vice-versa
 # When we use mean, we use mean in the network folder and

@@ -390,3 +390,5 @@ if __name__ == "__main__":
     os.chdir(config.home_folder_path)
 
     TrainDataVectors.compute_training_data_for_all_cities()
+
+    debug_pitstop = True

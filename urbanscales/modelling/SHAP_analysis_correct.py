@@ -442,7 +442,45 @@ def plot_feature_influence(shap_values_df, feature_values_df, slugifiedstring):
     # plt.close()
 
 
+def plot_feature_influence_wrong(df, slugifiedstring):
+    # Compute MeanSHAP_pos, MeanSHAP_neg, MeanX_pos, MeanX_neg for each feature
+    means = {}
+    for column in df.columns:
+        pos_indices = df[column] > 0
+        neg_indices = df[column] < 0
 
+        MeanSHAP_pos = df.loc[pos_indices, column].mean()
+        MeanSHAP_neg = df.loc[neg_indices, column].mean()
+
+        # Convert index to a numerical series before calculating mean
+        MeanX_pos = pd.Series(df.loc[pos_indices].index).mean()
+        MeanX_neg = pd.Series(df.loc[neg_indices].index).mean()
+
+        # Calculate ExtendedDirection
+        if pd.isna(MeanX_pos) or pd.isna(MeanX_neg):  # Handle cases where all SHAP are positive or negative
+            ExtendedDirection = 0
+            numerator = 0
+            denominator = 0
+        else:
+            numerator = (MeanSHAP_pos - MeanSHAP_neg)
+            denominator = (MeanX_pos - MeanX_neg)
+            ExtendedDirection = numerator / denominator
+
+        means[column] = (numerator, denominator, ExtendedDirection)
+
+    # Plotting
+    # fig, ax = plt.subplots()
+    for i, (key, value) in enumerate(means.items()):
+        # ax.arrow(i, 0, 0, value * 0.5, head_width=0.1, head_length=0.1, fc='blue', ec='blue')
+        # ax.arrow(i, 0, 0, 1 * np.sign(value), head_width=0.1, head_length=0.1,width=abs(value) * 0.1, fc='blue', ec='blue')
+        sprint(config.CONGESTION_TYPE, slugifiedstring, i, key, value[2], value[0], value[1])
+
+    # ax.set_ylim(min(means.values()) - 1, max(means.values()) + 1)
+    # plt.xticks(range(len(df.columns)), df.columns, rotation='vertical')
+    # plt.xlabel("Features")
+    # plt.ylabel("SHAP-Dir")
+    # plt.show(block=False);
+    # plt.close()
 
 def compare_models_gof_standard_cv_HPT_new(X, Y, feature_list, cityname, scale, tod, n_splits,
                                            scaling=True, include_interactions=True):
@@ -1716,10 +1754,10 @@ if __name__ == "__main__":
                     common_features_list = list(set(common_features_list).intersection(set(X.columns.to_list())))
 
 
-                    # compare_models_gof_standard_cv_HPT_new(X, Y, common_features_list, tod=tod, cityname=city,
-                    #                                        scale=scale,
-                    #                                        n_splits=7, include_interactions=False,
-                    #                                        scaling=config.SHAP_ScalingOfInputVector)
+                    compare_models_gof_standard_cv_HPT_new(X, Y, common_features_list, tod=tod, cityname=city,
+                                                           scale=scale,
+                                                           n_splits=7, include_interactions=False,
+                                                           scaling=config.SHAP_ScalingOfInputVector)
 
                     t_non_spatial = time.time() - model_fit_time_start
                     # compare_models_gof_spatial_cv(X, Y, common_features, temp_obj=temp_obj, include_interactions=False,
@@ -1772,7 +1810,6 @@ if __name__ == "__main__":
                                                      "_feature_" + str(column) + "_" + str(scale) + ".png"), dpi=300)
                             plt.show(block=False);
                             plt.close()
-                            break # no need to plot all
 
 
                        ######################## SAME THING BUT WITH SAME COLOR TO SHOW DIFFERENCES    ########################
@@ -1825,119 +1862,6 @@ if __name__ == "__main__":
                             break # we only need one feature
                         ###########################################################################################
                         ###########################################################################################
-
-                        from matplotlib_scalebar.scalebar import ScaleBar
-
-                        # Add a scale bar
-                        scalebar = ScaleBar(1, location='lower left', scale_loc='bottom', length_fraction=0.15,
-                                            units='m', dimension='si-length')
-                        ax.add_artist(scalebar)
-                        import matplotlib.pyplot as plt
-                        import contextily as ctx
-
-
-                        def add_north_arrow(ax, x=0.05, y=0.95, arrow_length=0.1):
-                            """Add a north arrow to the plot"""
-                            ax.annotate('N', xy=(x, y), xytext=(x, y - arrow_length),
-                                        arrowprops=dict(facecolor='black', width=5, headwidth=15),
-                                        ha='center', va='center', fontsize=20, xycoords=ax.transAxes)
-
-
-                        add_north_arrow(ax)
-                        import geopandas as gpd
-                        import matplotlib.pyplot as plt
-                        import contextily as ctx
-                        from matplotlib_scalebar.scalebar import ScaleBar
-                        import numpy as np
-                        from shapely.geometry import Polygon
-
-                        # Assuming 'temp_obj', 'common_features', and 'config' are pre-defined as per your setup
-
-                        for column in common_features:
-                            bboxes = [list(i.keys())[0] for i in temp_obj.bbox_X]
-                            values_list = temp_obj.X[column]
-
-                            # Normalize the values for coloring
-                            values_normalized = (values_list - np.min(values_list)) / (
-                                        np.max(values_list) - np.min(values_list))
-
-                            # Create a GeoDataFrame including the values for heatmap
-                            try:
-                                gdf = gpd.GeoDataFrame({
-                                    'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)]) for
-                                                 lat1, lat2, lon1, lon2 in bboxes],
-                                    'value': values_normalized
-                                }, crs="EPSG:4326")
-                            except:
-                                gdf = gpd.GeoDataFrame({
-                                    'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)]) for
-                                                 lat1, lat2, lon1, lon2, _unused_len_ in bboxes],
-                                    'value': values_normalized
-                                }, crs="EPSG:4326")
-
-                            from geopy.distance import geodesic
-                            all_sides_distances = []
-                            min_lat = 99999999999999
-                            min_lon = 99999999999999
-                            max_lat = -99999999999999
-                            max_lon = -99999999999999
-                            for polygon in gdf['geometry']:
-                                coords = list(polygon.exterior.coords)
-                                sides_distances = []
-                                for i in range(len(coords) - 1):
-                                    point1 = (coords[i][1], coords[i][0])  # (latitude, longitude)
-                                    max_lat = max(max_lat, coords[i][1])
-                                    min_lat = min(min_lat, coords[i][1])
-                                    max_lon = max(max_lon, coords[i][0])
-                                    min_lon = min(min_lon, coords[i][0])
-
-                                    point2 = (coords[i + 1][1], coords[i + 1][0])  # (latitude, longitude)
-                                    distance = geodesic(point1, point2).kilometers  # distance in kilometers
-                                    sides_distances.append(distance)
-                                all_sides_distances.append(sides_distances)
-                            # Print or store the distances
-                            total_x_distance = geodesic((min_lat, min_lon), (min_lat, max_lon)).kilometers
-                            total_y_distance = geodesic((min_lat, min_lon), (max_lat, min_lon)).kilometers
-                            with open("debug_tile_size.txt", "a") as f2:
-                                csvwriter = csv.writer(f2)
-                                csvwriter.writerow([city, scale, np.mean(all_sides_distances), np.std(all_sides_distances), total_x_distance, total_y_distance])
-                            sprint(city, scale, np.mean(all_sides_distances), np.std(all_sides_distances), total_x_distance, total_y_distance)
-
-                            # Convert the GeoDataFrame to the Web Mercator projection
-                            gdf_mercator = gdf.to_crs(epsg=3857)
-
-                            # Plotting
-                            fig, ax = plt.subplots(figsize=(10, 10))
-                            gdf_mercator.plot(ax=ax, column='value', color=(0.121569, 0.466667, 0.705882, 0.1), edgecolor=(0, 0, 0, 1), # using RGBA format for edgecolor
-                                            linewidth=0.8)
-                            ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
-                            ax.set_axis_off()
-                            plt.title(city)
-
-                            # Adding scale bar
-                            scalebar = ScaleBar(1, location='lower center', scale_loc='bottom', length_fraction=0.15,
-                                                units='m', dimension='si-length')
-                            ax.add_artist(scalebar)
-                            # scalebar = ScaleBar(dx=1, units='m', dimension='si-length', length=2000,
-                            #                     location='lower center', scale_loc='bottom', length_fraction=0.15,
-                            #                     color='white',
-                            #                     scale_formatter=lambda value, _: f"{int(value / 1000)} km")
-
-                            ax.add_artist(scalebar)
-
-                            # Adding north arrow
-                            add_north_arrow(ax)
-
-                            # Save and display
-                            plt.savefig(os.path.join("./", city +
-                                                     "_empty_tiles_"  + "_" + str(scale) + "NORTH.png"), dpi=300)
-                            plt.show(block=False)
-                            plt.close()
-                            break
-
-                            # print ("For faster results; Exited after printing one plot per city; comment out if more are needed for other features")
-                            # sys.exit(0)
-
                         ###########################################################################################
 
 

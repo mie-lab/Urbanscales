@@ -113,6 +113,7 @@ class SquareFilter:
             new_center = center
 
         center = new_center
+        sprint (center)
 
         # Calculate half the side's length in kilometers
         half_side = square_side_in_kms / 2 ** 0.5
@@ -549,8 +550,10 @@ class RoadNetwork:
          """
 
         # Example usage
-        # square_filter = SquareFilter(N=self.N, E=self.E, S=self.S, W=self.W)
-        # square_filter.filter_square_from_road_network(square_side_in_kms)
+        square_filter = SquareFilter(N=self.N, E=self.E, S=self.S, W=self.W)
+        square_filter.filter_square_from_road_network(square_side_in_kms)
+
+        self.N, self.S, self.E, self.W = square_filter.N, square_filter.S, square_filter.E, square_filter.W
         NE_corner = np.array((self.N, self.E))
         SW_corner = np.array((self.S, self.W))
 
