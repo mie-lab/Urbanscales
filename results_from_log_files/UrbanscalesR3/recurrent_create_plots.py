@@ -81,8 +81,8 @@ def plot_data_by_model(df, model_types, city_list):
         plt.yticks(fontsize=15)
         plt.gca().invert_xaxis()
         # plt.gca().invert_xaxis()
-        plt.savefig("recurrent_Fi_1_inverted.png",dpi=300)
-        # plt.savefig("recurrent_Fi_1.png",dpi=300)
+        plt.savefig("recurrent_Fi_1_inverted.pdf",dpi=300)
+        # plt.savefig("recurrent_Fi_1.pdf",dpi=300)
         plt.show()
 
 
@@ -172,7 +172,7 @@ sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': 'Featu
 plt.ylabel("Feature")
 plt.xlabel("Scale")
 plt.tight_layout();
-plt.savefig("recurrent_Fi_2a_orig.png", dpi=300)
+plt.savefig("recurrent_Fi_2a_orig.pdf", dpi=300)
 plt.show()
 
 plt.figure(figsize=(4, 5))
@@ -180,7 +180,7 @@ plt.hist(heatmap_data.to_numpy().flatten().tolist(), bins=10)
 plt.xticks(rotation=90)
 plt.title("Histogram of FI values (RC)")
 plt.grid(alpha=0.3)
-plt.savefig("RC_histogram.png", dpi=300)
+plt.savefig("RC_histogram.pdf", dpi=300)
 plt.show()
 
 
@@ -274,7 +274,7 @@ if "heatmapplotunfiltered" == "heatmapplotunfiltered":
     plt.ylabel("Feature", fontsize=25)
     plt.xlabel("Scale", fontsize=25)
     plt.tight_layout()
-    plt.savefig("recurrent_Fi_2a.png", dpi=300)
+    plt.savefig("recurrent_Fi_2a.pdf", dpi=300)
     plt.show()
 
     for citynum in range(7):
@@ -332,7 +332,7 @@ sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': 'Featu
 plt.ylabel("Feature")
 plt.xlabel("Scale")
 plt.tight_layout();
-plt.savefig("recurrent_Fi_2b_orig.png", dpi=300)
+plt.savefig("recurrent_Fi_2b_orig.pdf", dpi=300)
 plt.show()
 
 if "heatmapplotunOtsu" == "heatmapplotunOtsu":
@@ -391,7 +391,7 @@ if "heatmapplotunOtsu" == "heatmapplotunOtsu":
     plt.ylabel("Feature", fontsize=25)
     plt.xlabel("Scale", fontsize=25)
     plt.tight_layout()
-    plt.savefig("recurrent_Fi_2b.png", dpi=300)
+    plt.savefig("recurrent_Fi_2b.pdf", dpi=300)
     plt.show()
 
 
@@ -440,7 +440,7 @@ plt.ylabel("Feature")
 plt.xlabel("Scale")
 plt.tight_layout()
 plt.tight_layout();
-plt.savefig("recurrent_Fi_2c_orig.png", dpi=300)
+plt.savefig("recurrent_Fi_2c_orig.pdf", dpi=300)
 plt.show()
 
 
@@ -502,7 +502,7 @@ if "heatmapplotunOtsuSelected50" == "heatmapplotunOtsuSelected50":
     plt.ylabel("Feature", fontsize=25)
     plt.xlabel("Scale", fontsize=25)
     plt.tight_layout()
-    plt.savefig("recurrent_Fi_2c.png", dpi=300)
+    plt.savefig("recurrent_Fi_2c.pdf", dpi=300)
     plt.show()
 
 
@@ -614,7 +614,7 @@ if 1==1: # trick to allow code folding :)
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
-    plt.savefig("recurrent_Fi_3a.png", dpi=300)
+    plt.savefig("recurrent_Fi_3a.pdf", dpi=300)
     plt.show()
     # Display the dictionary
 
@@ -664,7 +664,7 @@ if 1==1: # trick to allow code folding :)
         # plt.title('Silhouette Analysis for Determining the Optimal Number of Clusters')
         plt.grid(True, alpha=0.3)
         plt.tight_layout();
-        plt.savefig("recurrent_Fi_3b.png", dpi=300)
+        plt.savefig("recurrent_Fi_3b.pdf", dpi=300)
         plt.show()
 
         # Choose the optimal number of clusters (based on the Elbow or Silhouette)
@@ -738,7 +738,7 @@ if 1==1: # trick to allow code folding :)
     plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
-    plt.savefig("recurrent_Fi_3c.png", dpi=300)
+    plt.savefig("recurrent_Fi_3c.pdf", dpi=300)
     plt.show()
 
     # Display the number of time series in each cluster
@@ -775,7 +775,7 @@ if 1==1: # trick to allow code folding :)
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
-    plt.savefig("recurrent_Fi_3d.png", dpi=300)
+    plt.savefig("recurrent_Fi_3d.pdf", dpi=300)
     plt.show()
 
 
@@ -892,7 +892,7 @@ if 1==1: # allow code folding
 
     plt.tight_layout();
 
-    plt.savefig("recurrent_Fi_4a_orig.png", dpi=300)
+    plt.savefig("recurrent_Fi_4a_orig.pdf", dpi=300)
     plt.show()
 
 
@@ -982,7 +982,7 @@ if 1==1: # allow code folding
         plt.ylabel("Feature", fontsize=25)
         plt.xlabel("Scale", fontsize=25)
         plt.tight_layout()
-        plt.savefig("recurrent_Fi_4a.png", dpi=300)
+        plt.savefig("recurrent_Fi_4a.pdf", dpi=300)
         plt.show()
 
 
@@ -1077,7 +1077,7 @@ if 1==1: # allow code folding
                 yticklabels=True, xticklabels=True)
     # plt.title("Sensitivity")
     plt.tight_layout();
-    plt.savefig("recurrent_Fi_4b.png", dpi=300)
+    plt.savefig("recurrent_Fi_4b.pdf", dpi=300)
     plt.show()
 
 
@@ -1205,7 +1205,7 @@ if 1==1: # allow code folding
     plt.tight_layout()
     plt.xticks(fontsize=20)
     plt.yticks(fontsize=20)
-    plt.savefig("recurrent_Fig5_var_abs_SR_Positive.png", dpi=300)
+    plt.savefig("recurrent_Fig5_var_abs_SR_Positive.pdf", dpi=300)
     plt.show()
 
 
@@ -1310,7 +1310,7 @@ if 1==1: # allow code folding
     plt.tight_layout()
     plt.xticks(fontsize=20)
     plt.yticks(fontsize=20)
-    plt.savefig("recurrent_Fig5_var_abs_SR_Negative.png", dpi=300)
+    plt.savefig("recurrent_Fig5_var_abs_SR_Negative.pdf", dpi=300)
     plt.show()
     print ("\n\n\n\n")
 
@@ -1466,7 +1466,7 @@ if 1==1: # allow code folding
         plt.title(f"Cluster {yi + 1}")
 
     plt.tight_layout()
-    plt.savefig("DTW_recurent_selected_postive_features.png", dpi=300)
+    plt.savefig("DTW_recurent_selected_postive_features.pdf", dpi=300)
     plt.show()
 
     # Printing which label belongs to which cluster
@@ -1620,7 +1620,7 @@ if 1==1: # allow code folding
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
-    plt.savefig("recurrent_Fi_4d.png", dpi=300)
+    plt.savefig("recurrent_Fi_4d.pdf", dpi=300)
     plt.show()
     # Display the dictionary
 
@@ -1659,7 +1659,7 @@ if 1==1: # allow code folding
         # plt.title('Elbow Method for Determining the Optimal Number of Clusters')
         plt.grid(True, alpha=0.3)
         plt.tight_layout();
-        plt.savefig("recurrent_Fi_4e.png", dpi=300)
+        plt.savefig("recurrent_Fi_4e.pdf", dpi=300)
         plt.show()
 
         # Plot Silhouette scores
@@ -1670,7 +1670,7 @@ if 1==1: # allow code folding
         # plt.title('Silhouette Analysis for Determining the Optimal Number of Clusters')
         plt.grid(True, alpha=0.3)
         plt.tight_layout();
-        plt.savefig("recurrent_Fi_4f.png", dpi=300)
+        plt.savefig("recurrent_Fi_4f.pdf", dpi=300)
         plt.show()
 
         # Choose the optimal number of clusters (based on the Elbow or Silhouette)
@@ -1762,7 +1762,7 @@ if 1==1: # allow code folding
     plt.legend(loc='upper right', fontsize=12)
     plt.grid(True, alpha=0.0)
     # plt.tight_layout();
-    plt.savefig("recurrent_Fi_4g.png", dpi=300)
+    plt.savefig("recurrent_Fi_4g.pdf", dpi=300)
     plt.show()
 
     # Display the number of time series in each cluster
@@ -1794,7 +1794,7 @@ if 1==1: # allow code folding
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
-    plt.savefig("recurrent_Fi_4h.png", dpi=300)
+    plt.savefig("recurrent_Fi_4h.pdf", dpi=300)
     plt.show()
 
 
