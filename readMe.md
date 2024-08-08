@@ -17,3 +17,11 @@ To reuse recurrent data
 - copy the recurrent network folder
 - delete all prep_speed, train_data, and speed data object files. 
 - run the Pipeline in full. This will save time since we don't need to re-do the X; only the Y.
+- The latex-generation code is present only in the non-recurrent.py (it generates for both recurrent and non recurrent)
+- Copy these feature_importance_NRC_Shifting_1 files into the compare_shiifting_FI folder and run the script.
+- R2 plots for fix after tile areas
+- R3 with simplified graphs.
+- First run the filter_files_to_retain_the_SHAP_lines.py
+- Then run bash extrac_fig{1..3}.sh
+- run run_for_all_cities.sh but comment out the HPT_new call inside SHAP_analysis.py and also run only the SHAP_analysis.py inside the Pipeline.py
+- run grep "#tiles" RECURRENT*.csv and copy the contents in `tile_count.csv`

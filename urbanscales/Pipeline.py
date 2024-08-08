@@ -1,5 +1,5 @@
 import os
-os.environ['OMP_NUM_THREADS'] = '5'
+os.environ['OMP_NUM_THREADS'] = '1'
 
 import sys
 import subprocess
@@ -26,10 +26,14 @@ counter = int(sys.argv[1])
 backup_extension = '.bak'
 os.system('sed -i' + backup_extension + ' "s/single_city = .*/single_city = \\"' + cityname[counter] + '\\"/" config.py')
 os.system('rm config.py' + backup_extension)
+os.system('sed -i' + backup_extension + ' "s/CONGESTION_TYPE = .*/CONGESTION_TYPE = \\"' + sys.argv[2] + '\\"/" config.py')
+os.system('rm config.py' + backup_extension)
 run_command("python urbanscales/io/road_network.py", "python urbanscales/io/road_network.py")
 
 backup_extension = '.bak'
 os.system('sed -i' + backup_extension + ' "s/single_city = .*/single_city = \\"' + cityname[counter] + '\\"/" config.py')
+os.system('rm config.py' + backup_extension)
+os.system('sed -i' + backup_extension + ' "s/CONGESTION_TYPE = .*/CONGESTION_TYPE = \\"' + sys.argv[2] + '\\"/" config.py')
 os.system('rm config.py' + backup_extension)
 run_command("python urbanscales/io/speed_data.py", "python urbanscales/io/speed_data.py")
 
@@ -37,10 +41,14 @@ run_command("python urbanscales/io/speed_data.py", "python urbanscales/io/speed_
 backup_extension = '.bak'
 os.system('sed -i' + backup_extension + ' "s/single_city = .*/single_city = \\"' + cityname[counter] + '\\"/" config.py')
 os.system('rm config.py' + backup_extension)
+os.system('sed -i' + backup_extension + ' "s/CONGESTION_TYPE = .*/CONGESTION_TYPE = \\"' + sys.argv[2] + '\\"/" config.py')
+os.system('rm config.py' + backup_extension)
 run_command("python urbanscales/preprocessing/prep_network.py", "python urbanscales/preprocessing/prep_network.py")
 
 backup_extension = '.bak'
 os.system('sed -i' + backup_extension + ' "s/single_city = .*/single_city = \\"' + cityname[counter] + '\\"/" config.py')
+os.system('rm config.py' + backup_extension)
+os.system('sed -i' + backup_extension + ' "s/CONGESTION_TYPE = .*/CONGESTION_TYPE = \\"' + sys.argv[2] + '\\"/" config.py')
 os.system('rm config.py' + backup_extension)
 run_command("python urbanscales/preprocessing/prep_speed.py", "python urbanscales/preprocessing/prep_speed.py")
 
@@ -48,11 +56,16 @@ run_command("python urbanscales/preprocessing/prep_speed.py", "python urbanscale
 backup_extension = '.bak'
 os.system('sed -i' + backup_extension + ' "s/single_city = .*/single_city = \\"' + cityname[counter] + '\\"/" config.py')
 os.system('rm config.py' + backup_extension)
+os.system('sed -i' + backup_extension + ' "s/CONGESTION_TYPE = .*/CONGESTION_TYPE = \\"' + sys.argv[2] + '\\"/" config.py')
+os.system('rm config.py' + backup_extension)
 run_command("python urbanscales/preprocessing/train_data.py", "python urbanscales/preprocessing/train_data.py")
+
 """
 
 backup_extension = '.bak'
 os.system('sed -i' + backup_extension + ' "s/single_city = .*/single_city = \\"' + cityname[counter] + '\\"/" config.py')
+os.system('rm config.py' + backup_extension)
+os.system('sed -i' + backup_extension + ' "s/CONGESTION_TYPE = .*/CONGESTION_TYPE = \\"' + sys.argv[2] + '\\"/" config.py')
 os.system('rm config.py' + backup_extension)
 run_command("python urbanscales/modelling/SHAP_analysis.py", "python urbanscales/modelling/SHAP_analysis.py")
 

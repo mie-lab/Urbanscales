@@ -24,7 +24,7 @@ import joblib
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../"))
 import config
 
-config.MASTER_VISUALISE_EACH_STEP = True
+# config.MASTER_VISUALISE_EACH_STEP = True
 
 from sklearn.metrics import r2_score as r2_scorer
 
@@ -923,6 +923,7 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
 
     # Results dictionary to store model scores
     results_explained_variance = {name: [] for name in models}
+    r2_errors_dict = {name: [] for name in models}
     results_mse = {name: [] for name in models}
 
     models_trained = {}
@@ -985,6 +986,7 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
             explained_variance_score = explained_variance_scorer(Y_test, cloned_model.predict(X_test))
             mse = mean_squared_error(Y_test, cloned_model.predict(X_test))
             results_explained_variance[name].append(explained_variance_score)
+            r2_errors_dict[name].append(r2_scorer(Y_test, cloned_model.predict(X_test)))
             results_mse[name].append(mse)
             if name in models_trained:
                 models_trained[name].append(cloned_model)
@@ -999,163 +1001,167 @@ def compare_models_gof_spatial_cv(X, Y, feature_list, bbox_to_strip, cityname, t
                     [cityname, scale, config.CONGESTION_TYPE, tod, "X_train.shape", X_train.shape, "X_test.shape",
                      X_test.shape, "split_index", strip_index])
 
-    shap_values_list = []
+    for name, score in r2_errors_dict.items():
+        print("Inside Spatial CV", config.shift_tile_marker, config.CONGESTION_TYPE, city, scale, name, np.mean(score), "R2")
 
-    output_file_path = os.path.join(config.BASE_FOLDER, config.network_folder, cityname,
-                                    f"tod_{tod}_GOF_SPATIAL_CV_MEAN_AND_STD_scale_{scale}.csv")
-    with open(output_file_path, "w") as f:
-        csvwriter = csv.writer(f)
-        csvwriter.writerow(["Model", "Explained-var-Mean-across-CV", "Explained-var-STD-across-CV",
-                            "MSE-Mean-across-CV", "MSE-STD-across-CV"] + ["Explained-var-CV-values" + str(x)
-                                                                          for x in range(1, len(
-                results_explained_variance[name]) + 1)] +
-                           ["MSE-var-CV-values" + str(x) for x in range(1, len(results_mse[name]) + 1)])
-        for name in models:
-            csvwriter.writerow(
-                [name, np.mean(results_explained_variance[name]), np.std(results_explained_variance[name]),
-                 np.mean(results_mse[name]), np.std(results_mse[name])] +
-                results_explained_variance[name] + results_mse[name])
-
-        for name in models:
-            if name == "Random Forest":
-                print("logging_for_SPATIAL_explained_var", cityname, scale, np.mean(results_explained_variance[name]),
-                      np.median(results_explained_variance[name]), config.SHAP_mode_spatial_CV, config.CONGESTION_TYPE,
-                      sep=",")
-
-    for name in results_explained_variance:
-        print("Before computing mean: ", name)
-        print(results_explained_variance[name])
-        results_explained_variance[name] = np.mean(results_explained_variance[name])
-        results_mse[name] = np.mean(results_mse[name])
-
-    print("\n\n-------------------------------------------------------------")
-    print("results_explained_variance spatial")
-    for name, scores in results_explained_variance.items():
-        print(f"{name}:")
-        print(f"Scores for each fold: {scores}")
-        print(f"Average score explained variance: {np.mean(scores)}\n")
-
-    # Print the results
-    print("\n\n-------------------------------------------------------------")
-    print("results_MSE spatial")
-    for name, scores in results_mse.items():
-        print(f"{name}:")
-        print(f"Scores for each fold: {scores}")
-        print(f"Average score MSE: {np.mean(scores)}\n")
-
-    if not config.SHAP_values_disabled:
-        for strip_index in range(n_strips):
-            a = []
-            for i in range(len(temp_obj.bbox_X)):
-                if bbox_to_strip[list(temp_obj.bbox_X[i].keys())[0]] == strip_index:
-                    a.append(i)
-
-            test_mask = X.index.isin(a)
-            train_mask = ~test_mask
-
-            # Split the data into training and test sets based on spatial split
-            X_train, X_test = X[train_mask], X[test_mask]
-
-            try:
-                if X_train.shape[0] < 5 or X_test.shape[0] < 5:
-                    print("Skipped the strip since very few Test or train data in the strip, split_counter=",
-                          strip_index)
-                    sprint(X_train.shape, X_test.shape)
-                    continue
-            except:
-                # to skip when empty
-                print("Skipped the strip since very few Test or train data in the strip, split_counter=", strip_index)
-                continue
-
-            # If scaling is required, scale the features
-            if scaling:
-                scaler = StandardScaler()
-                X_train = scaler.fit_transform(X_train)
-                X_test = scaler.transform(X_test)
-                X_whole_data_standardised = scaler.transform(X)
-
-            rf_model = models_trained["Random Forest"][strip_index]
-            import shap
-            explainer = shap.TreeExplainer(rf_model)
-            # shap_values = explainer.shap_values(X_test)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
-            shap_values = explainer.shap_values(
-                X_whole_data_standardised)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
-            shap_values_list.append(shap_values)
-
-            if config.FAST_GEN_PDPs_for_multiple_runs:
-                break  # just a single run for SHAP values for fast prototyping
-
-        # Average the SHAP values across all folds
-        # concatenated_shap_values = np.concatenate(shap_values_list, axis=0)
-
-        shap_values_stack = np.stack(shap_values_list, axis=0)
-
-        # Compute the mean SHAP values across the first axis (the CV splits axis)
-        mean_shap_values = np.mean(shap_values_stack, axis=0)
-
-        # Aggregate SHAP values
-        shap_values_agg = mean_shap_values
-        # Aggregate SHAP values
-        shap_values_agg = mean_shap_values
-
-        # Plot feature importance
-        total_shap_values = np.abs(shap_values_agg).mean(axis=0)
-
-        # Create a list of tuples (feature name, total SHAP value)
-        feature_importance_list = [(feature, shap_value) for feature, shap_value in zip(X.columns, total_shap_values)]
-
-        # Sort the list based on SHAP values in descending order
-        sorted_feature_importance_list = sorted(feature_importance_list, key=lambda x: x[1], reverse=True)
-
-        # Write the sorted list to a file
-        spatial_folder = os.path.join(config.BASE_FOLDER, config.network_folder, cityname,
-                                      f"spatial_tod_{tod}_scale_{scale}")
-        if not os.path.exists(spatial_folder):
-            os.makedirs(spatial_folder)
-        output_file_path = os.path.join(spatial_folder, "spatial_total_feature_importance.csv")
-        with open(output_file_path, "w") as f:
-            csvwriter = csv.writer(f)
-            csvwriter.writerow(["Feature", "Total SHAP Value"])
-            for feature, shap_value in sorted_feature_importance_list:
-                csvwriter.writerow([feature, shap_value])
-
-        plt.clf();
-        plt.close()
-        shap.summary_plot(shap_values_agg, X, plot_type="bar", show=False)
-        plt.title("Feature Importance (Spatial)")
-        plt.tight_layout()
-        plt.savefig(os.path.join(spatial_folder, "spatial_shap_total_FI.png"))
-        plt.clf();
-        plt.close()
-
-        # Compute Otsu threshold
-        otsu_threshold = threshold_otsu(total_shap_values)
-
-        # Filter features based on Otsu threshold
-        # filtered_features = [idx for idx, val in enumerate(total_shap_values) if val > otsu_threshold]
-        filtered_features = [idx for idx, val in enumerate(total_shap_values) if
-                             val > 0]  # Removed this filter to plot all cases
-
-        for idx in filtered_features:
-            feature = X.columns[idx]
-            shap.dependence_plot(feature, shap_values_agg, X, show=False)
-            plt.ylim(-1, 3)
-            plt.tight_layout()
-            plt.savefig(os.path.join(spatial_folder, f"spatial_shap_pdp_{feature}.png"))
-            plt.clf();
-            plt.close()
-
-        # Write GOF results to a file
-        gof_file_path = os.path.join(spatial_folder, "GOF_spatial_tod_" + str(tod) + "_scale_" + str(scale) + ".csv")
-        if not os.path.exists(gof_file_path):
-            with open(gof_file_path, "w") as f:
-                csvwriter = csv.writer(f)
-                csvwriter.writerow(["model", "GoF_explained_Variance", "GoF_MSE", "TOD", "Scale", "cityname"])
-
-        with open(gof_file_path, "a") as f:
-            csvwriter = csv.writer(f)
-            for name, score in results_explained_variance.items():
-                csvwriter.writerow([name, score, results_mse[name], tod, scale, cityname])
+    # Commented out since SHAP Value computation using the spatial cross validation is not needed.
+    # shap_values_list = []
+    #
+    # output_file_path = os.path.join(config.BASE_FOLDER, config.network_folder, cityname,
+    #                                 f"tod_{tod}_GOF_SPATIAL_CV_MEAN_AND_STD_scale_{scale}.csv")
+    # with open(output_file_path, "w") as f:
+    #     csvwriter = csv.writer(f)
+    #     csvwriter.writerow(["Model", "Explained-var-Mean-across-CV", "Explained-var-STD-across-CV",
+    #                         "MSE-Mean-across-CV", "MSE-STD-across-CV"] + ["Explained-var-CV-values" + str(x)
+    #                                                                       for x in range(1, len(
+    #             results_explained_variance[name]) + 1)] +
+    #                        ["MSE-var-CV-values" + str(x) for x in range(1, len(results_mse[name]) + 1)])
+    #     for name in models:
+    #         csvwriter.writerow(
+    #             [name, np.mean(results_explained_variance[name]), np.std(results_explained_variance[name]),
+    #              np.mean(results_mse[name]), np.std(results_mse[name])] +
+    #             results_explained_variance[name] + results_mse[name])
+    #
+    #     for name in models:
+    #         if name == "Random Forest":
+    #             print("logging_for_SPATIAL_explained_var", cityname, scale, np.mean(results_explained_variance[name]),
+    #                   np.median(results_explained_variance[name]), config.SHAP_mode_spatial_CV, config.CONGESTION_TYPE,
+    #                   sep=",")
+    #
+    # for name in results_explained_variance:
+    #     print("Before computing mean: ", name)
+    #     print(results_explained_variance[name])
+    #     results_explained_variance[name] = np.mean(results_explained_variance[name])
+    #     results_mse[name] = np.mean(results_mse[name])
+    #
+    # print("\n\n-------------------------------------------------------------")
+    # print("results_explained_variance spatial")
+    # for name, scores in results_explained_variance.items():
+    #     print(f"{name}:")
+    #     print(f"Scores for each fold: {scores}")
+    #     print(f"Average score explained variance: {np.mean(scores)}\n")
+    #
+    # # Print the results
+    # print("\n\n-------------------------------------------------------------")
+    # print("results_MSE spatial")
+    # for name, scores in results_mse.items():
+    #     print(f"{name}:")
+    #     print(f"Scores for each fold: {scores}")
+    #     print(f"Average score MSE: {np.mean(scores)}\n")
+    #
+    # if not config.SHAP_values_disabled:
+    #     for strip_index in range(n_strips):
+    #         a = []
+    #         for i in range(len(temp_obj.bbox_X)):
+    #             if bbox_to_strip[list(temp_obj.bbox_X[i].keys())[0]] == strip_index:
+    #                 a.append(i)
+    #
+    #         test_mask = X.index.isin(a)
+    #         train_mask = ~test_mask
+    #
+    #         # Split the data into training and test sets based on spatial split
+    #         X_train, X_test = X[train_mask], X[test_mask]
+    #
+    #         try:
+    #             if X_train.shape[0] < 5 or X_test.shape[0] < 5:
+    #                 print("Skipped the strip since very few Test or train data in the strip, split_counter=",
+    #                       strip_index)
+    #                 sprint(X_train.shape, X_test.shape)
+    #                 continue
+    #         except:
+    #             # to skip when empty
+    #             print("Skipped the strip since very few Test or train data in the strip, split_counter=", strip_index)
+    #             continue
+    #
+    #         # If scaling is required, scale the features
+    #         if scaling:
+    #             scaler = StandardScaler()
+    #             X_train = scaler.fit_transform(X_train)
+    #             X_test = scaler.transform(X_test)
+    #             X_whole_data_standardised = scaler.transform(X)
+    #
+    #         rf_model = models_trained["Random Forest"][strip_index]
+    #         import shap
+    #         explainer = shap.TreeExplainer(rf_model)
+    #         # shap_values = explainer.shap_values(X_test)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
+    #         shap_values = explainer.shap_values(
+    #             X_whole_data_standardised)  # # computing shap for test data no post processing needed for statndardisation since the X_test is already standardised
+    #         shap_values_list.append(shap_values)
+    #
+    #         if config.FAST_GEN_PDPs_for_multiple_runs:
+    #             break  # just a single run for SHAP values for fast prototyping
+    #
+    #     # Average the SHAP values across all folds
+    #     # concatenated_shap_values = np.concatenate(shap_values_list, axis=0)
+    #
+    #     shap_values_stack = np.stack(shap_values_list, axis=0)
+    #
+    #     # Compute the mean SHAP values across the first axis (the CV splits axis)
+    #     mean_shap_values = np.mean(shap_values_stack, axis=0)
+    #
+    #     # Aggregate SHAP values
+    #     shap_values_agg = mean_shap_values
+    #     # Aggregate SHAP values
+    #     shap_values_agg = mean_shap_values
+    #
+    #     # Plot feature importance
+    #     total_shap_values = np.abs(shap_values_agg).mean(axis=0)
+    #
+    #     # Create a list of tuples (feature name, total SHAP value)
+    #     feature_importance_list = [(feature, shap_value) for feature, shap_value in zip(X.columns, total_shap_values)]
+    #
+    #     # Sort the list based on SHAP values in descending order
+    #     sorted_feature_importance_list = sorted(feature_importance_list, key=lambda x: x[1], reverse=True)
+    #
+    #     # Write the sorted list to a file
+    #     spatial_folder = os.path.join(config.BASE_FOLDER, config.network_folder, cityname,
+    #                                   f"spatial_tod_{tod}_scale_{scale}")
+    #     if not os.path.exists(spatial_folder):
+    #         os.makedirs(spatial_folder)
+    #     output_file_path = os.path.join(spatial_folder, "spatial_total_feature_importance.csv")
+    #     with open(output_file_path, "w") as f:
+    #         csvwriter = csv.writer(f)
+    #         csvwriter.writerow(["Feature", "Total SHAP Value"])
+    #         for feature, shap_value in sorted_feature_importance_list:
+    #             csvwriter.writerow([feature, shap_value])
+    #
+    #     plt.clf();
+    #     plt.close()
+    #     shap.summary_plot(shap_values_agg, X, plot_type="bar", show=False)
+    #     plt.title("Feature Importance (Spatial)")
+    #     plt.tight_layout()
+    #     plt.savefig(os.path.join(spatial_folder, "spatial_shap_total_FI.png"))
+    #     plt.clf();
+    #     plt.close()
+    #
+    #     # Compute Otsu threshold
+    #     otsu_threshold = threshold_otsu(total_shap_values)
+    #
+    #     # Filter features based on Otsu threshold
+    #     # filtered_features = [idx for idx, val in enumerate(total_shap_values) if val > otsu_threshold]
+    #     filtered_features = [idx for idx, val in enumerate(total_shap_values) if
+    #                          val > 0]  # Removed this filter to plot all cases
+    #
+    #     for idx in filtered_features:
+    #         feature = X.columns[idx]
+    #         shap.dependence_plot(feature, shap_values_agg, X, show=False)
+    #         plt.ylim(-1, 3)
+    #         plt.tight_layout()
+    #         plt.savefig(os.path.join(spatial_folder, f"spatial_shap_pdp_{feature}.png"))
+    #         plt.clf();
+    #         plt.close()
+    #
+    #     # Write GOF results to a file
+    #     gof_file_path = os.path.join(spatial_folder, "GOF_spatial_tod_" + str(tod) + "_scale_" + str(scale) + ".csv")
+    #     if not os.path.exists(gof_file_path):
+    #         with open(gof_file_path, "w") as f:
+    #             csvwriter = csv.writer(f)
+    #             csvwriter.writerow(["model", "GoF_explained_Variance", "GoF_MSE", "TOD", "Scale", "cityname"])
+    #
+    #     with open(gof_file_path, "a") as f:
+    #         csvwriter = csv.writer(f)
+    #         for name, score in results_explained_variance.items():
+    #             csvwriter.writerow([name, score, results_mse[name], tod, scale, cityname])
 
 
 
@@ -1251,7 +1257,8 @@ if __name__ == "__main__":
                      # 'streets_per_node_proportion_5',
                      # 'streets_per_node_count_6',
                      # 'streets_per_node_proportion_6',
-                     'global_betweenness'  ]
+                     # 'global_betweenness'
+                ]
 
 
     all_features = [ 'n',
@@ -1316,6 +1323,8 @@ if __name__ == "__main__":
                             temp_obj.X[filtered_columns] = temp_obj.X[filtered_columns].fillna(0)
 
                             filtered_X = temp_obj.X[common_features_list]
+
+                            print("#tiles", config.CONGESTION_TYPE, city, scale, temp_obj.X.shape[0])
 
                             percentage_nan_per_column = temp_obj.X.isna().mean() * 100
                             # Sort these percentages in descending order
@@ -1722,9 +1731,9 @@ if __name__ == "__main__":
                     #                                        scaling=config.SHAP_ScalingOfInputVector)
 
                     t_non_spatial = time.time() - model_fit_time_start
-                    # compare_models_gof_spatial_cv(X, Y, common_features, temp_obj=temp_obj, include_interactions=False,
-                    #                               bbox_to_strip=bbox_to_strip, n_strips=N_STRIPS, tod=tod, cityname=city,
-                    #                               scale=config.SHAP_ScalingOfInputVector)
+                    compare_models_gof_spatial_cv(X, Y, common_features_list, temp_obj=temp_obj, include_interactions=False,
+                                                  bbox_to_strip=bbox_to_strip, n_strips=N_STRIPS, tod=tod, cityname=city,
+                                                  scale=config.SHAP_ScalingOfInputVector)
                     t_spatial = time.time() - model_fit_time_start - t_non_spatial
                     sprint(t_spatial, t_non_spatial, "seconds")
 
@@ -1818,7 +1827,7 @@ if __name__ == "__main__":
                             plt.title(city, fontsize=40)
                             # plt.colorbar()
                             plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
-                                                     "_feature_empty_tiles" + str(column) + "_" + str(scale) + ".png"),
+                                                     "_feature_empty_tiles_shifting" + str(config.shift_tile_marker) +  str(column) + "_" + str(scale) + ".png"),
                                         dpi=300)
                             plt.show(block=False);
                             plt.close()
@@ -1826,12 +1835,7 @@ if __name__ == "__main__":
                         ###########################################################################################
                         ###########################################################################################
 
-                        from matplotlib_scalebar.scalebar import ScaleBar
 
-                        # Add a scale bar
-                        scalebar = ScaleBar(1, location='lower left', scale_loc='bottom', length_fraction=0.15,
-                                            units='m', dimension='si-length')
-                        ax.add_artist(scalebar)
                         import matplotlib.pyplot as plt
                         import contextily as ctx
 
@@ -1847,7 +1851,6 @@ if __name__ == "__main__":
                         import geopandas as gpd
                         import matplotlib.pyplot as plt
                         import contextily as ctx
-                        from matplotlib_scalebar.scalebar import ScaleBar
                         import numpy as np
                         from shapely.geometry import Polygon
 
@@ -1914,23 +1917,12 @@ if __name__ == "__main__":
                             ax.set_axis_off()
                             plt.title(city)
 
-                            # Adding scale bar
-                            scalebar = ScaleBar(1, location='lower center', scale_loc='bottom', length_fraction=0.15,
-                                                units='m', dimension='si-length')
-                            ax.add_artist(scalebar)
-                            # scalebar = ScaleBar(dx=1, units='m', dimension='si-length', length=2000,
-                            #                     location='lower center', scale_loc='bottom', length_fraction=0.15,
-                            #                     color='white',
-                            #                     scale_formatter=lambda value, _: f"{int(value / 1000)} km")
-
-                            ax.add_artist(scalebar)
-
                             # Adding north arrow
                             add_north_arrow(ax)
 
                             # Save and display
                             plt.savefig(os.path.join("./", city +
-                                                     "_empty_tiles_"  + "_" + str(scale) + "NORTH.png"), dpi=300)
+                                                     "__feature_empty_tiles_shifting" + str(config.shift_tile_marker) + "_" + str(scale) + "NORTH.png"), dpi=300)
                             plt.show(block=False)
                             plt.close()
                             break

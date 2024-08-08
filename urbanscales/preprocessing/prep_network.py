@@ -1,4 +1,5 @@
 import copy
+import csv
 import glob
 import os
 import shutil
@@ -326,7 +327,7 @@ class Scale:
                         gdf_mercator.boundary.plot(ax=ax, color='red')
                         ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
 
-                        G_sub = dict_of_subgraphs[bbox]
+                        G_sub = Tile(dict_of_subgraphs[bbox], 0.25).G
                         ox.plot_graph(G_sub, ax=ax, show=False, edge_color='black')
                         ax.set_axis_off()
                         if not os.path.exists(
@@ -339,6 +340,12 @@ class Scale:
                             os.path.join(config.BASE_FOLDER, config.network_folder, self.RoadNetwork.city_name,
                                          "OSM_subgraphs",
                                          f"{self.scale}_bbox_counter_{counter_bbox}_Subgraph.png"))
+                        with open(os.path.join(config.BASE_FOLDER, config.network_folder, self.RoadNetwork.city_name,
+                                         "OSM_subgraphs",
+                                         f"{self.scale}_bbox_counter_{counter_bbox}_Subgraph.txt"), "w") as f3:
+                            csvwriter = csv.writer(f3)
+                            csvwriter.writerow(["for-plotting-scale-100-Auckland"] + bboxes + [str(Tile(G_sub, 0.25))])
+
                         plt.show(block=False)
 
 

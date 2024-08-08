@@ -239,26 +239,30 @@ class TrainDataVectors:
             with open(betweenness_fname, "rb") as f_between:
                 dict_between = pickle.load(f_between)
         else:
-            K = 20
-            iterations = 10
-            initial_bc = nx.betweenness_centrality(scl.RoadNetwork.G_osm, k=K)
-            all_nodes = list(initial_bc.keys())
+            if not config.td_SIMPLIFY_GRAPH:
+                K = 20
+                iterations = 10
+                initial_bc = nx.betweenness_centrality(scl.RoadNetwork.G_osm, k=K)
+                all_nodes = list(initial_bc.keys())
 
-            # Dictionary to store the mean betweenness centrality values for each node up to each iteration
-            mean_values_per_node = {node: [] for node in all_nodes}
+                # Dictionary to store the mean betweenness centrality values for each node up to each iteration
+                mean_values_per_node = {node: [] for node in all_nodes}
 
-            for i in tqdm(range(iterations), desc="Computing betweenness using iterations.."):
-                bc = nx.betweenness_centrality(scl.RoadNetwork.G_osm, k=K)
-                for node in all_nodes:
-                    if i == 0:
-                        current_mean = bc[node]
-                    else:
-                        current_mean = (mean_values_per_node[node][-1] * i + bc[node]) / (i + 1)
-                    mean_values_per_node[node].append(current_mean)
-            overall_mean_bc_per_node = {node: sum(values) / len(values) for node, values in
-                                        mean_values_per_node.items()}
+                for i in tqdm(range(iterations), desc="Computing betweenness using iterations.."):
+                    bc = nx.betweenness_centrality(scl.RoadNetwork.G_osm, k=K)
+                    for node in all_nodes:
+                        if i == 0:
+                            current_mean = bc[node]
+                        else:
+                            current_mean = (mean_values_per_node[node][-1] * i + bc[node]) / (i + 1)
+                        mean_values_per_node[node].append(current_mean)
+                overall_mean_bc_per_node = {node: sum(values) / len(values) for node, values in
+                                            mean_values_per_node.items()}
 
-            dict_between = overall_mean_bc_per_node
+                dict_between = overall_mean_bc_per_node
+            elif config.td_SIMPLIFY_GRAPH:
+                dict_between = {node: 0 for node in scl.RoadNetwork.G_osm.nodes()}
+
             rand_pickle_marker = os.path.join(config.temp_folder_for_robust_pickle_files,
                                               str(int(np.random.rand() * 100000000000000)))
             with open(rand_pickle_marker, "wb") as f_between:

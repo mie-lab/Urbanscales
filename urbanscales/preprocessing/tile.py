@@ -50,7 +50,17 @@ class Tile:
             self.G = None
             self.tile_area = tile_area
 
-        self.G = G
+        if not config.td_SIMPLIFY_GRAPH:
+            self.G = G
+        elif config.td_SIMPLIFY_GRAPH:
+            try:
+                self.G = ox.simplify_graph(G)
+            except:
+                self.G = G # fall back: to handle the case of get_feature names where we pass an empty graph to the Tile class
+                # this can be changed to an if else. But asking for fogiveness is fine in python, hence we
+                # retain this :D
+
+
 
 
         if self.G is not None:
