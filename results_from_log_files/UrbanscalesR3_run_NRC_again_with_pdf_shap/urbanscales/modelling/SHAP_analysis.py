@@ -1725,15 +1725,15 @@ if __name__ == "__main__":
                     common_features_list = list(set(common_features_list).intersection(set(X.columns.to_list())))
 
 
-                    # compare_models_gof_standard_cv_HPT_new(X, Y, common_features_list, tod=tod, cityname=city,
-                    #                                        scale=scale,
-                    #                                        n_splits=7, include_interactions=False,
-                    #                                        scaling=config.SHAP_ScalingOfInputVector)
+                    compare_models_gof_standard_cv_HPT_new(X, Y, common_features_list, tod=tod, cityname=city,
+                                                           scale=scale,
+                                                           n_splits=7, include_interactions=False,
+                                                           scaling=config.SHAP_ScalingOfInputVector)
 
                     t_non_spatial = time.time() - model_fit_time_start
-                    compare_models_gof_spatial_cv(X, Y, common_features_list, temp_obj=temp_obj, include_interactions=False,
-                                                  bbox_to_strip=bbox_to_strip, n_strips=N_STRIPS, tod=tod, cityname=city,
-                                                  scale=config.SHAP_ScalingOfInputVector)
+                    # compare_models_gof_spatial_cv(X, Y, common_features_list, temp_obj=temp_obj, include_interactions=False,
+                    #                               bbox_to_strip=bbox_to_strip, n_strips=N_STRIPS, tod=tod, cityname=city,
+                    #                               scale=config.SHAP_ScalingOfInputVector)
                     t_spatial = time.time() - model_fit_time_start - t_non_spatial
                     sprint(t_spatial, t_non_spatial, "seconds")
 
@@ -1975,3 +1975,4 @@ if __name__ == "__main__":
                             plt.show(block=False);
                             plt.close()
                         # input("Enter any key to continue for different TOD")
+

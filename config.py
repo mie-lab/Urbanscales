@@ -126,7 +126,7 @@ elif RUNNING_ON_LOCAL:
         # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
         # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
-    single_city = "NewYorkCity"
+    single_city = "Mumbai"
     rn_city_wise_bboxes = {single_city : rn_city_wise_bboxes[single_city]}
 
 if RUNNING_ON_SERVER:
@@ -242,7 +242,7 @@ if RUNNING_ON_LOCAL:
         elif running_extended_scales == 1:
             scl_list_of_seeds = [25, 50, 100] # [25, 50, 100] # [25, 50, 100]
         elif running_extended_scales == 0:
-            scl_list_of_seeds = [50]
+            scl_list_of_seeds = [50, 100]
 elif RUNNING_ON_SERVER:
     if single_city == "Istanbul":
         if running_extended_scales == 2:
@@ -347,7 +347,7 @@ td_drop_feature_lists = [
 ]
 
 shift_tile_marker = 3
-SHAP_mode_spatial_CV = "vertical"
+SHAP_mode_spatial_CV = "horizontal"
 assert SHAP_mode_spatial_CV in ["vertical", "horizontal", "grid"]
 
 SHAP_additive_regression_model = False # Poor GoF; no longer used
