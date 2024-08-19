@@ -1311,6 +1311,11 @@ if __name__ == "__main__":
                                          f"_scale_{scale}_train_data_{tod}.pkl")
                     try:
                         temp_obj = CustomUnpicklerTrainDataVectors(open(fname, "rb")).load()
+
+                        if config.MASTER_VISUALISE_FEATURE_DIST_INSIDE_ShapAnalysisScript:
+                            from urbanscales.preprocessing.prep_network import Scale
+                            scl = Scale.get_object(cityname=city, scale=scale)
+
                         if isinstance(temp_obj.X, pd.DataFrame):
                             #  we only choose the features which exist in this dataframe
                             common_features_list = list(set(temp_obj.X.columns.to_list()).intersection(common_features))
@@ -1731,13 +1736,13 @@ if __name__ == "__main__":
                     #                                        scaling=config.SHAP_ScalingOfInputVector)
 
                     t_non_spatial = time.time() - model_fit_time_start
-                    compare_models_gof_spatial_cv(X, Y, common_features_list, temp_obj=temp_obj, include_interactions=False,
-                                                  bbox_to_strip=bbox_to_strip, n_strips=N_STRIPS, tod=tod, cityname=city,
-                                                  scale=config.SHAP_ScalingOfInputVector)
+                    # compare_models_gof_spatial_cv(X, Y, common_features_list, temp_obj=temp_obj, include_interactions=False,
+                    #                               bbox_to_strip=bbox_to_strip, n_strips=N_STRIPS, tod=tod, cityname=city,
+                    #                               scale=config.SHAP_ScalingOfInputVector)
                     t_spatial = time.time() - model_fit_time_start - t_non_spatial
                     sprint(t_spatial, t_non_spatial, "seconds")
 
-                    if config.MASTER_VISUALISE_EACH_STEP_INSIDE_ShapAnalysisScript:
+                    if config.MASTER_VISUALISE_FEATURE_DIST_INSIDE_ShapAnalysisScript:
                         # Plot the bboxes from scl_jf
                         # Example list of bounding boxes
                         for column in common_features:
@@ -1789,6 +1794,7 @@ if __name__ == "__main__":
                         # Example list of bounding boxes
                         for column in common_features:
 
+
                             bboxes = [list(i.keys())[0] for i in temp_obj.bbox_X]
                             from shapely.geometry import Polygon
 
@@ -1827,108 +1833,316 @@ if __name__ == "__main__":
                             plt.title(city, fontsize=40)
                             # plt.colorbar()
                             plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
-                                                     "_feature_empty_tiles_shifting" + str(config.shift_tile_marker) +  str(column) + "_" + str(scale) + ".png"),
+                                                     "_feature_empty_tiles_shifting" + str(config.shift_tile_marker) + str(column) + "_" + str(scale) + ".png"),
                                         dpi=300)
                             plt.show(block=False);
                             plt.close()
                             break # we only need one feature
-                        ###########################################################################################
-                        ###########################################################################################
 
 
+                        ##########################################################################################
+                        ##########################################################################################
+                        ##########################################################################################
                         import matplotlib.pyplot as plt
-                        import contextily as ctx
-
-
-                        def add_north_arrow(ax, x=0.05, y=0.95, arrow_length=0.1):
-                            """Add a north arrow to the plot"""
-                            ax.annotate('N', xy=(x, y), xytext=(x, y - arrow_length),
-                                        arrowprops=dict(facecolor='black', width=5, headwidth=15),
-                                        ha='center', va='center', fontsize=20, xycoords=ax.transAxes)
-
-
-                        add_north_arrow(ax)
                         import geopandas as gpd
-                        import matplotlib.pyplot as plt
-                        import contextily as ctx
-                        import numpy as np
                         from shapely.geometry import Polygon
+                        import contextily as ctx
+                        import osmnx as ox
 
-                        # Assuming 'temp_obj', 'common_features', and 'config' are pre-defined as per your setup
+                        # Extract the full graph for the total extent
 
+                        # full_graph = ox.simplify_graph(full_graph)
+
+                        # Loop over each feature
                         for column in common_features:
+                            # Get the list of bounding boxes
                             bboxes = [list(i.keys())[0] for i in temp_obj.bbox_X]
+
+                            # Get the list of values for the current feature
                             values_list = temp_obj.X[column]
 
-                            # Normalize the values for coloring
-                            values_normalized = (values_list - np.min(values_list)) / (
-                                        np.max(values_list) - np.min(values_list))
+                            # Find the indices of the minimum and maximum values
+                            min_idx = np.argmin(values_list)
+                            max_idx = np.argmax(values_list)
 
-                            # Create a GeoDataFrame including the values for heatmap
-                            try:
-                                gdf = gpd.GeoDataFrame({
-                                    'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)]) for
-                                                 lat1, lat2, lon1, lon2 in bboxes],
-                                    'value': values_normalized
-                                }, crs="EPSG:4326")
-                            except:
-                                gdf = gpd.GeoDataFrame({
-                                    'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)]) for
-                                                 lat1, lat2, lon1, lon2, _unused_len_ in bboxes],
-                                    'value': values_normalized
-                                }, crs="EPSG:4326")
+                            # Create a GeoDataFrame for the minimum and maximum tiles
+                            min_tile_gdf = gpd.GeoDataFrame({
+                                'geometry': [Polygon([(bboxes[min_idx][2], bboxes[min_idx][0]),
+                                                      (bboxes[min_idx][2], bboxes[min_idx][1]),
+                                                      (bboxes[min_idx][3], bboxes[min_idx][1]),
+                                                      (bboxes[min_idx][3], bboxes[min_idx][0])])],
+                                'value': [values_list[min_idx]]
+                            }, crs="EPSG:4326")
+                            from shapely.geometry import Polygon
 
-                            from geopy.distance import geodesic
-                            all_sides_distances = []
-                            min_lat = 99999999999999
-                            min_lon = 99999999999999
-                            max_lat = -99999999999999
-                            max_lon = -99999999999999
-                            for polygon in gdf['geometry']:
-                                coords = list(polygon.exterior.coords)
-                                sides_distances = []
-                                for i in range(len(coords) - 1):
-                                    point1 = (coords[i][1], coords[i][0])  # (latitude, longitude)
-                                    max_lat = max(max_lat, coords[i][1])
-                                    min_lat = min(min_lat, coords[i][1])
-                                    max_lon = max(max_lon, coords[i][0])
-                                    min_lon = min(min_lon, coords[i][0])
-
-                                    point2 = (coords[i + 1][1], coords[i + 1][0])  # (latitude, longitude)
-                                    distance = geodesic(point1, point2).kilometers  # distance in kilometers
-                                    sides_distances.append(distance)
-                                all_sides_distances.append(sides_distances)
-                            # Print or store the distances
-                            total_x_distance = geodesic((min_lat, min_lon), (min_lat, max_lon)).kilometers
-                            total_y_distance = geodesic((min_lat, min_lon), (max_lat, min_lon)).kilometers
-                            with open("debug_tile_size.txt", "a") as f2:
-                                csvwriter = csv.writer(f2)
-                                csvwriter.writerow([city, scale, np.mean(all_sides_distances), np.std(all_sides_distances), total_x_distance, total_y_distance])
-                            sprint(city, scale, np.mean(all_sides_distances), np.std(all_sides_distances), total_x_distance, total_y_distance)
-
-                            # Convert the GeoDataFrame to the Web Mercator projection
-                            gdf_mercator = gdf.to_crs(epsg=3857)
-
-                            # Plotting
+                            gdf_mercator = min_tile_gdf.to_crs(epsg=3857)
                             fig, ax = plt.subplots(figsize=(10, 10))
-                            gdf_mercator.plot(ax=ax, column='value', color=(0.121569, 0.466667, 0.705882, 0.1), edgecolor=(0, 0, 0, 1), # using RGBA format for edgecolor
-                                            linewidth=0.8)
+                            gdf_mercator.boundary.plot(ax=ax, color='red')
                             ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
                             ax.set_axis_off()
-                            plt.title(city)
-
-                            # Adding north arrow
-                            add_north_arrow(ax)
-
-                            # Save and display
-                            plt.savefig(os.path.join("./", city +
-                                                     "__feature_empty_tiles_shifting" + str(config.shift_tile_marker) + "_" + str(scale) + "NORTH.png"), dpi=300)
-                            plt.show(block=False)
+                            plt.title(f'{column} - Minimum Subgraph', fontsize=20)
+                            plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
+                                                     f"min_{column}_subgraph_CTX.png"), dpi=300)
+                            plt.clf()
                             plt.close()
-                            break
 
-                            # print ("For faster results; Exited after printing one plot per city; comment out if more are needed for other features")
-                            # sys.exit(0)
+
+                            max_tile_gdf = gpd.GeoDataFrame({
+                                'geometry': [Polygon([(bboxes[max_idx][2], bboxes[max_idx][0]),
+                                                      (bboxes[max_idx][2], bboxes[max_idx][1]),
+                                                      (bboxes[max_idx][3], bboxes[max_idx][1]),
+                                                      (bboxes[max_idx][3], bboxes[max_idx][0])])],
+                                'value': [values_list[max_idx]]
+                            }, crs="EPSG:4326")
+                            from shapely.geometry import Polygon
+                            gdf_mercator = max_tile_gdf.to_crs(epsg=3857)
+                            fig, ax = plt.subplots(figsize=(10, 10))
+                            gdf_mercator.boundary.plot(ax=ax, color='red')
+                            ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
+                            ax.set_axis_off()
+                            plt.title(f'{column} - Maximum Subgraph', fontsize=20)
+                            plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
+                                                     f"max_{column}_subgraph_CTX.png"), dpi=300)
+                            plt.clf()
+                            plt.close()
+
+
+                            dict_bbox_to_subgraph = scl.dict_bbox_to_subgraph
+                            list_of_bbox_min_max = list(((bboxes[max_idx][2], bboxes[max_idx][0]),
+                                                         (bboxes[max_idx][2], bboxes[max_idx][1]),
+                                                         (bboxes[max_idx][3], bboxes[max_idx][1]),
+                                                         (bboxes[max_idx][3], bboxes[max_idx][0])))
+                            lonlist, latlist = [x[0] for x in list_of_bbox_min_max], [x[1] for x in
+                                                                                      list_of_bbox_min_max]
+                            N, S, E, W = max(latlist), min(latlist), max(lonlist), min(lonlist)
+                            max_subgraph = scl.dict_bbox_to_subgraph[N,S,E,W].G # extracting from the tile
+
+                            dict_bbox_to_subgraph = scl.dict_bbox_to_subgraph
+                            list_of_bbox_min_max = list(((bboxes[min_idx][2], bboxes[min_idx][0]),
+                                                         (bboxes[min_idx][2], bboxes[min_idx][1]),
+                                                         (bboxes[min_idx][3], bboxes[min_idx][1]),
+                                                         (bboxes[min_idx][3], bboxes[min_idx][0])))
+                            lonlist, latlist = [x[0] for x in list_of_bbox_min_max], [x[1] for x in
+                                                                                      list_of_bbox_min_max]
+                            N, S, E, W = max(latlist), min(latlist), max(lonlist), min(lonlist)
+                            min_subgraph = scl.dict_bbox_to_subgraph[N,S,E,W].G # extracting from the tile
+
+
+                            # Plot the subgraph for the maximum value tile
+                            fig, ax = plt.subplots(figsize=(10, 10))
+
+                            # fig, ax = ox.plot_graph(min_subgraph, show=False, close=False, bgcolor="#E7E7E7")
+                            ox.plot_graph(max_subgraph, ax=ax, show=False, edge_color='black', edge_linewidth=3)
+                            ax.set_axis_off()
+                            sprint(max_subgraph.nodes().__len__())
+                            plt.title(f'{column} - Maximum Subgraph', fontsize=20)
+                            plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
+                                                     f"max_{column}_subgraph.png"), dpi=300)
+                            plt.show()
+                            plt.close()
+
+                            fig, ax = plt.subplots(figsize=(10, 10))
+
+                            # fig, ax = ox.plot_graph(min_subgraph, show=False, close=False, bgcolor="#E7E7E7")
+                            ox.plot_graph(min_subgraph, ax=ax, show=False, edge_color='black', edge_linewidth=3)
+                            ax.set_axis_off()
+                            sprint(max_subgraph.nodes().__len__())
+                            plt.title(f'{column} - Minimum Subgraph', fontsize=20)
+                            plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
+                                                     f"min_{column}_subgraph.png"), dpi=300)
+                            plt.show()
+                            plt.close()
+                            # break
+
+                        #
+                        #
+
+                        ###########################################################################################
+                        # ###########################################################################################
+                        # import os
+                        # import matplotlib.pyplot as plt
+                        # import geopandas as gpd
+                        # from shapely.geometry import Polygon
+                        # import contextily as ctx
+                        # import osmnx as ox
+                        #
+                        # # Set your Stadia Maps API key
+                        # api_key = '1844785d-cb2d-4478-bc79-442319986dc8'  # Replace with your actual API key
+                        #
+                        # # Define the Stadia.StamenTonerBackground tile URL with your API key
+                        # # stadia_toner_url = f"https://tiles.stadiamaps.com/tiles/stamen_toner_background/{{z}}/{{x}}/{{y}}.png?api_key={api_key}"
+                        # stadia_toner_url = f"https://tiles.stadiamaps.com/tiles/osm_bright/{{z}}/{{x}}/{{y}}.png?api_key={api_key}"
+                        #
+                        # # Get the full bounding box that covers all the tiles
+                        # full_bbox = [
+                        #     min([bbox[0] for bbox in bboxes]),  # min latitude
+                        #     max([bbox[1] for bbox in bboxes]),  # max latitude
+                        #     min([bbox[2] for bbox in bboxes]),  # min longitude
+                        #     max([bbox[3] for bbox in bboxes])  # max longitude
+                        # ]
+                        #
+                        # # Extract the full graph for the total extent
+                        # full_graph = ox.graph_from_bbox(full_bbox[1], full_bbox[0], full_bbox[3], full_bbox[2],
+                        #                                 network_type='drive')
+                        #
+                        # # Loop over each feature
+                        # for column in common_features:
+                        #     # Get the list of bounding boxes
+                        #     bboxes = [list(i.keys())[0] for i in temp_obj.bbox_X]
+                        #
+                        #     # Get the list of values for the current feature
+                        #     values_list = temp_obj.X[column]
+                        #
+                        #     # Find the indices of the minimum and maximum values
+                        #     min_idx = np.argmin(values_list)
+                        #     max_idx = np.argmax(values_list)
+                        #
+                        #     # Create a GeoDataFrame for the minimum and maximum tiles
+                        #     min_tile_gdf = gpd.GeoDataFrame({
+                        #         'geometry': [Polygon([(bboxes[min_idx][2], bboxes[min_idx][0]),
+                        #                               (bboxes[min_idx][2], bboxes[min_idx][1]),
+                        #                               (bboxes[min_idx][3], bboxes[min_idx][1]),
+                        #                               (bboxes[min_idx][3], bboxes[min_idx][0])])],
+                        #         'value': [values_list[min_idx]]
+                        #     }, crs="EPSG:4326")
+                        #
+                        #     max_tile_gdf = gpd.GeoDataFrame({
+                        #         'geometry': [Polygon([(bboxes[max_idx][2], bboxes[max_idx][0]),
+                        #                               (bboxes[max_idx][2], bboxes[max_idx][1]),
+                        #                               (bboxes[max_idx][3], bboxes[max_idx][1]),
+                        #                               (bboxes[max_idx][3], bboxes[max_idx][0])])],
+                        #         'value': [values_list[max_idx]]
+                        #     }, crs="EPSG:4326")
+                        #
+                        #     # Convert the GeoDataFrames to the Web Mercator projection
+                        #     min_tile_gdf_mercator = min_tile_gdf.to_crs(epsg=3857)
+                        #     max_tile_gdf_mercator = max_tile_gdf.to_crs(epsg=3857)
+                        #
+                        #     # Plotting the minimum value tile with black outline
+                        #     fig, ax = plt.subplots(figsize=(10, 10))
+                        #     min_tile_gdf_mercator.plot(ax=ax, facecolor='none', edgecolor='black', linewidth=0.8)
+                        #     ctx.add_basemap(ax, source=stadia_toner_url)
+                        #     ax.set_axis_off()
+                        #     plt.title(f'{column} - Minimum Value: {values_list[min_idx]:.2f}', fontsize=20)
+                        #     plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
+                        #                              f"min_{column}_tile.png"), dpi=300)
+                        #     plt.show()
+                        #     plt.close()
+                        #
+                        #     # Extract the subgraph for the minimum value tile from the full graph
+                        #
+                        #
+                        #     # Plotting the maximum value tile with black outline
+                        #     fig, ax = plt.subplots(figsize=(10, 10))
+                        #     max_tile_gdf_mercator.plot(ax=ax, facecolor='none', edgecolor='black', linewidth=0.8)
+                        #     ctx.add_basemap(ax, source=stadia_toner_url)
+                        #     ax.set_axis_off()
+                        #     plt.title(f'{column} - Maximum Value: {values_list[max_idx]:.2f}', fontsize=20)
+                        #     plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
+                        #                              f"max_{column}_tile.png"), dpi=300)
+                        #     plt.show()
+                        #     plt.close()
+                        #
+                        #     # Extract the subgraph for the maximum value tile from the full graph
+                        #
+                        #     break
+                        # ###########################################################################################
+                        # ###########################################################################################
+                        #
+                        #
+                        # import matplotlib.pyplot as plt
+                        # import contextily as ctx
+                        #
+                        #
+                        # def add_north_arrow(ax, x=0.05, y=0.95, arrow_length=0.1):
+                        #     """Add a north arrow to the plot"""
+                        #     ax.annotate('N', xy=(x, y), xytext=(x, y - arrow_length),
+                        #                 arrowprops=dict(facecolor='black', width=5, headwidth=15),
+                        #                 ha='center', va='center', fontsize=20, xycoords=ax.transAxes)
+                        #
+                        #
+                        # add_north_arrow(ax)
+                        # import geopandas as gpd
+                        # import matplotlib.pyplot as plt
+                        # import contextily as ctx
+                        # import numpy as np
+                        # from shapely.geometry import Polygon
+                        #
+                        # # Assuming 'temp_obj', 'common_features', and 'config' are pre-defined as per your setup
+                        #
+                        # for column in common_features:
+                        #     bboxes = [list(i.keys())[0] for i in temp_obj.bbox_X]
+                        #     values_list = temp_obj.X[column]
+                        #
+                        #     # Normalize the values for coloring
+                        #     values_normalized = (values_list - np.min(values_list)) / (
+                        #                 np.max(values_list) - np.min(values_list))
+                        #
+                        #     # Create a GeoDataFrame including the values for heatmap
+                        #     try:
+                        #         gdf = gpd.GeoDataFrame({
+                        #             'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)]) for
+                        #                          lat1, lat2, lon1, lon2 in bboxes],
+                        #             'value': values_normalized
+                        #         }, crs="EPSG:4326")
+                        #     except:
+                        #         gdf = gpd.GeoDataFrame({
+                        #             'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)]) for
+                        #                          lat1, lat2, lon1, lon2, _unused_len_ in bboxes],
+                        #             'value': values_normalized
+                        #         }, crs="EPSG:4326")
+                        #
+                        #     from geopy.distance import geodesic
+                        #     all_sides_distances = []
+                        #     min_lat = 99999999999999
+                        #     min_lon = 99999999999999
+                        #     max_lat = -99999999999999
+                        #     max_lon = -99999999999999
+                        #     for polygon in gdf['geometry']:
+                        #         coords = list(polygon.exterior.coords)
+                        #         sides_distances = []
+                        #         for i in range(len(coords) - 1):
+                        #             point1 = (coords[i][1], coords[i][0])  # (latitude, longitude)
+                        #             max_lat = max(max_lat, coords[i][1])
+                        #             min_lat = min(min_lat, coords[i][1])
+                        #             max_lon = max(max_lon, coords[i][0])
+                        #             min_lon = min(min_lon, coords[i][0])
+                        #
+                        #             point2 = (coords[i + 1][1], coords[i + 1][0])  # (latitude, longitude)
+                        #             distance = geodesic(point1, point2).kilometers  # distance in kilometers
+                        #             sides_distances.append(distance)
+                        #         all_sides_distances.append(sides_distances)
+                        #     # Print or store the distances
+                        #     total_x_distance = geodesic((min_lat, min_lon), (min_lat, max_lon)).kilometers
+                        #     total_y_distance = geodesic((min_lat, min_lon), (max_lat, min_lon)).kilometers
+                        #     with open("debug_tile_size.txt", "a") as f2:
+                        #         csvwriter = csv.writer(f2)
+                        #         csvwriter.writerow([city, scale, np.mean(all_sides_distances), np.std(all_sides_distances), total_x_distance, total_y_distance])
+                        #     sprint(city, scale, np.mean(all_sides_distances), np.std(all_sides_distances), total_x_distance, total_y_distance)
+                        #
+                        #     # Convert the GeoDataFrame to the Web Mercator projection
+                        #     gdf_mercator = gdf.to_crs(epsg=3857)
+                        #
+                        #     # Plotting
+                        #     fig, ax = plt.subplots(figsize=(10, 10))
+                        #     gdf_mercator.plot(ax=ax, column='value', color=(0.121569, 0.466667, 0.705882, 0.1), edgecolor=(0, 0, 0, 1), # using RGBA format for edgecolor
+                        #                     linewidth=0.8)
+                        #     ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
+                        #     ax.set_axis_off()
+                        #     plt.title(city)
+                        #
+                        #     # Adding north arrow
+                        #     add_north_arrow(ax)
+                        #
+                        #     # Save and display
+                        #     plt.savefig(os.path.join("./", city +
+                        #                              "__feature_empty_tiles_shifting" + str(config.shift_tile_marker) + "_" + str(scale) + "NORTH.png"), dpi=300)
+                        #     plt.show(block=False)
+                        #     plt.close()
+                        #     break
+                        #
+                        #     # print ("For faster results; Exited after printing one plot per city; comment out if more are needed for other features")
+                        #     # sys.exit(0)
 
                         ###########################################################################################
 

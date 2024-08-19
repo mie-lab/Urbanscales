@@ -36,7 +36,7 @@ print(f"SHAP values shape: {shap_values.shape}")
 shap.plots.beeswarm(explainer(X), show=False)
 
 plt.tight_layout()
-plt.savefig("SHAP_Demo.png", dpi=300)
+plt.savefig("SHAP_Demo.pdf", dpi=300)
 
 # Step 5: Calculate Sensitivity Ratios
 def calculate_sensitivity_ratio(shap_values, feature_values):

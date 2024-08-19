@@ -11,7 +11,8 @@ DEBUG_TRUNCATE = False
 MASTER_VISUALISE_EACH_STEP = False
 MASTER_VISUALISE_EACH_STEP_INSIDE_RN_class = False
 MASTER_VISUALISE_EACH_STEP_INSIDE_PrepNetwork_class = True
-MASTER_VISUALISE_EACH_STEP_INSIDE_ShapAnalysisScript = True
+MASTER_VISUALISE_EACH_STEP_INSIDE_ShapAnalysisScript = False
+MASTER_VISUALISE_FEATURE_DIST_INSIDE_ShapAnalysisScript = True
 
 CONGESTION_TYPE = "RECURRENT"
 assert CONGESTION_TYPE in ["RECURRENT", "NON-RECURRENT", "NON-RECURRENT-MMM"]
@@ -126,7 +127,7 @@ elif RUNNING_ON_LOCAL:
         # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
         # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
-    single_city = "Mumbai"
+    single_city = "Auckland"
     rn_city_wise_bboxes = {single_city : rn_city_wise_bboxes[single_city]}
 
 if RUNNING_ON_SERVER:
@@ -242,7 +243,7 @@ if RUNNING_ON_LOCAL:
         elif running_extended_scales == 1:
             scl_list_of_seeds = [25, 50, 100] # [25, 50, 100] # [25, 50, 100]
         elif running_extended_scales == 0:
-            scl_list_of_seeds = [50, 100]
+            scl_list_of_seeds = [50]
 elif RUNNING_ON_SERVER:
     if single_city == "Istanbul":
         if running_extended_scales == 2:

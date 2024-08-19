@@ -61,7 +61,7 @@ for congestion_type in ['RC', 'NRC']:
         axs[i, 0].legend()
 
     plt.tight_layout()
-    plt.savefig(congestion_type + "_tile_shifting.png", dpi=300)
+    plt.savefig(congestion_type + "_tile_shifting.pdf", dpi=300)
     plt.show()
 
 import pandas as pd
