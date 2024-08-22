@@ -43,7 +43,7 @@ Nishant Kumar, Yatao Zhang, Nina Wiedemann, Jimi Oke, and Martin Raubal. "Invest
   title = {Investigating the Link Between Road Network and Congestion for Highly Congested Cities},
   journal = {Journal/Conference Name},
   year = {2024},
-  doi = {10.0000/researchsquare.fake/000000},
+  doi = {10.0000/researchsquareToBeFilled/000000},
   address = {Singapore-ETH Centre, Singapore; ETH Zurich, Switzerland; University of Massachusetts Amherst, USA}
 }
 ```
