@@ -1,3 +1,4 @@
+
 environment name: wcs3 (local mac)
                     wcs (server SEC)
 
