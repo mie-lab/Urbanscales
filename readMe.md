@@ -1,6 +1,6 @@
 
 
-# Urban Scales: Analyzing Congestion Using OSM Data
+# Urban Scales:  Road network features in square urban tiles predict congestion levels 
 
 ## Introduction
 This repository contains the code and data for the research paper "Investigating the Link Between Road Network and Congestion for Highly Congested Cities". The study extracts 14 different features from OSM urban tiles of size varying from 0.25 sq. km. to 2 sq.km to predict congestion patterns in various cities. Seven cities were considered: Auckland, New York City, Cape Town, Bogota, Mexico City, Mumbai, and Istanbul. 
