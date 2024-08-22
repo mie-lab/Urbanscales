@@ -1,4 +1,4 @@
-
+commit id for plots in paper: ec9e079b53142c4ac3ce12d48e5509b8349fcac1
 environment name: wcs3 (local mac)
                     wcs (server SEC)
 

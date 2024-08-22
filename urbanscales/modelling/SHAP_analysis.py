@@ -1862,96 +1862,100 @@ if __name__ == "__main__":
                             values_list = temp_obj.X[column]
 
                             # Find the indices of the minimum and maximum values
-                            min_idx = np.argmin(values_list)
-                            max_idx = np.argmax(values_list)
+                            # min_idx = np.argmin(values_list)
+                            # max_idx = np.argmax(values_list)
+                            sorted_indices = np.argsort(values_list)
+                            min_idx = sorted_indices[:5].tolist()  # First 5 indices with min values
+                            max_idx = sorted_indices[-5:].tolist()[::-1]
 
-                            # Create a GeoDataFrame for the minimum and maximum tiles
-                            min_tile_gdf = gpd.GeoDataFrame({
-                                'geometry': [Polygon([(bboxes[min_idx][2], bboxes[min_idx][0]),
-                                                      (bboxes[min_idx][2], bboxes[min_idx][1]),
-                                                      (bboxes[min_idx][3], bboxes[min_idx][1]),
-                                                      (bboxes[min_idx][3], bboxes[min_idx][0])])],
-                                'value': [values_list[min_idx]]
-                            }, crs="EPSG:4326")
-                            from shapely.geometry import Polygon
+                            for from_top_count in range(3,4):
+                                # Create a GeoDataFrame for the minimum and maximum tiles
+                                min_tile_gdf = gpd.GeoDataFrame({
+                                    'geometry': [Polygon([(bboxes[min_idx[from_top_count]][2], bboxes[min_idx[from_top_count]][0]),
+                                                          (bboxes[min_idx[from_top_count]][2], bboxes[min_idx[from_top_count]][1]),
+                                                          (bboxes[min_idx[from_top_count]][3], bboxes[min_idx[from_top_count]][1]),
+                                                          (bboxes[min_idx[from_top_count]][3], bboxes[min_idx[from_top_count]][0])])],
+                                    'value': [values_list[min_idx[from_top_count]]]
+                                }, crs="EPSG:4326")
+                                from shapely.geometry import Polygon
 
-                            gdf_mercator = min_tile_gdf.to_crs(epsg=3857)
-                            fig, ax = plt.subplots(figsize=(10, 10))
-                            gdf_mercator.boundary.plot(ax=ax, color='red')
-                            ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
-                            ax.set_axis_off()
-                            plt.title(f'{column} - Minimum Subgraph', fontsize=20)
-                            plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
-                                                     f"min_{column}_subgraph_CTX.png"), dpi=300)
-                            plt.clf()
-                            plt.close()
-
-
-                            max_tile_gdf = gpd.GeoDataFrame({
-                                'geometry': [Polygon([(bboxes[max_idx][2], bboxes[max_idx][0]),
-                                                      (bboxes[max_idx][2], bboxes[max_idx][1]),
-                                                      (bboxes[max_idx][3], bboxes[max_idx][1]),
-                                                      (bboxes[max_idx][3], bboxes[max_idx][0])])],
-                                'value': [values_list[max_idx]]
-                            }, crs="EPSG:4326")
-                            from shapely.geometry import Polygon
-                            gdf_mercator = max_tile_gdf.to_crs(epsg=3857)
-                            fig, ax = plt.subplots(figsize=(10, 10))
-                            gdf_mercator.boundary.plot(ax=ax, color='red')
-                            ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
-                            ax.set_axis_off()
-                            plt.title(f'{column} - Maximum Subgraph', fontsize=20)
-                            plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
-                                                     f"max_{column}_subgraph_CTX.png"), dpi=300)
-                            plt.clf()
-                            plt.close()
+                                gdf_mercator = min_tile_gdf.to_crs(epsg=3857)
+                                fig, ax = plt.subplots(figsize=(10, 10))
+                                gdf_mercator.boundary.plot(ax=ax, color='red')
+                                ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
+                                ax.set_axis_off()
+                                # plt.title(f'{column} - Minimum Subgraph', fontsize=20)
+                                plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
+                                                         f"min_{column}_subgraph_CTX_" +str(from_top_count)+ ".png"), dpi=300)
+                                plt.clf()
+                                plt.close()
 
 
-                            dict_bbox_to_subgraph = scl.dict_bbox_to_subgraph
-                            list_of_bbox_min_max = list(((bboxes[max_idx][2], bboxes[max_idx][0]),
-                                                         (bboxes[max_idx][2], bboxes[max_idx][1]),
-                                                         (bboxes[max_idx][3], bboxes[max_idx][1]),
-                                                         (bboxes[max_idx][3], bboxes[max_idx][0])))
-                            lonlist, latlist = [x[0] for x in list_of_bbox_min_max], [x[1] for x in
-                                                                                      list_of_bbox_min_max]
-                            N, S, E, W = max(latlist), min(latlist), max(lonlist), min(lonlist)
-                            max_subgraph = scl.dict_bbox_to_subgraph[N,S,E,W].G # extracting from the tile
+                                max_tile_gdf = gpd.GeoDataFrame({
+                                    'geometry': [Polygon([(bboxes[max_idx[from_top_count]][2], bboxes[max_idx[from_top_count]][0]),
+                                                          (bboxes[max_idx[from_top_count]][2], bboxes[max_idx[from_top_count]][1]),
+                                                          (bboxes[max_idx[from_top_count]][3], bboxes[max_idx[from_top_count]][1]),
+                                                          (bboxes[max_idx[from_top_count]][3], bboxes[max_idx[from_top_count]][0])])],
+                                    'value': [values_list[max_idx[from_top_count]]]
+                                }, crs="EPSG:4326")
+                                from shapely.geometry import Polygon
+                                gdf_mercator = max_tile_gdf.to_crs(epsg=3857)
+                                fig, ax = plt.subplots(figsize=(10, 10))
+                                gdf_mercator.boundary.plot(ax=ax, color='red')
+                                ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
+                                ax.set_axis_off()
+                                # plt.title(f'{column} - Maximum Subgraph', fontsize=20)
+                                plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
+                                                         f"max_{column}_subgraph_CTX_" +str(from_top_count)+ ".png"), dpi=300)
+                                plt.clf()
+                                plt.close()
 
-                            dict_bbox_to_subgraph = scl.dict_bbox_to_subgraph
-                            list_of_bbox_min_max = list(((bboxes[min_idx][2], bboxes[min_idx][0]),
-                                                         (bboxes[min_idx][2], bboxes[min_idx][1]),
-                                                         (bboxes[min_idx][3], bboxes[min_idx][1]),
-                                                         (bboxes[min_idx][3], bboxes[min_idx][0])))
-                            lonlist, latlist = [x[0] for x in list_of_bbox_min_max], [x[1] for x in
-                                                                                      list_of_bbox_min_max]
-                            N, S, E, W = max(latlist), min(latlist), max(lonlist), min(lonlist)
-                            min_subgraph = scl.dict_bbox_to_subgraph[N,S,E,W].G # extracting from the tile
+
+                                dict_bbox_to_subgraph = scl.dict_bbox_to_subgraph
+                                list_of_bbox_min_max = list(((bboxes[max_idx[from_top_count]][2], bboxes[max_idx[from_top_count]][0]),
+                                                             (bboxes[max_idx[from_top_count]][2], bboxes[max_idx[from_top_count]][1]),
+                                                             (bboxes[max_idx[from_top_count]][3], bboxes[max_idx[from_top_count]][1]),
+                                                             (bboxes[max_idx[from_top_count]][3], bboxes[max_idx[from_top_count]][0])))
+                                lonlist, latlist = [x[0] for x in list_of_bbox_min_max], [x[1] for x in
+                                                                                          list_of_bbox_min_max]
+                                N, S, E, W = max(latlist), min(latlist), max(lonlist), min(lonlist)
+                                max_subgraph = scl.dict_bbox_to_subgraph[N,S,E,W].G # extracting from the tile
+
+                                dict_bbox_to_subgraph = scl.dict_bbox_to_subgraph
+                                list_of_bbox_min_max = list(((bboxes[min_idx[from_top_count]][2], bboxes[min_idx[from_top_count]][0]),
+                                                             (bboxes[min_idx[from_top_count]][2], bboxes[min_idx[from_top_count]][1]),
+                                                             (bboxes[min_idx[from_top_count]][3], bboxes[min_idx[from_top_count]][1]),
+                                                             (bboxes[min_idx[from_top_count]][3], bboxes[min_idx[from_top_count]][0])))
+                                lonlist, latlist = [x[0] for x in list_of_bbox_min_max], [x[1] for x in
+                                                                                          list_of_bbox_min_max]
+                                N, S, E, W = max(latlist), min(latlist), max(lonlist), min(lonlist)
+                                min_subgraph = scl.dict_bbox_to_subgraph[N,S,E,W].G # extracting from the tile
 
 
-                            # Plot the subgraph for the maximum value tile
-                            fig, ax = plt.subplots(figsize=(10, 10))
+                                # Plot the subgraph for the maximum value tile
+                                fig, ax = plt.subplots(figsize=(10, 10))
 
-                            # fig, ax = ox.plot_graph(min_subgraph, show=False, close=False, bgcolor="#E7E7E7")
-                            ox.plot_graph(max_subgraph, ax=ax, show=False, edge_color='black', edge_linewidth=3)
-                            ax.set_axis_off()
-                            sprint(max_subgraph.nodes().__len__())
-                            plt.title(f'{column} - Maximum Subgraph', fontsize=20)
-                            plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
-                                                     f"max_{column}_subgraph.png"), dpi=300)
-                            plt.show()
-                            plt.close()
+                                # fig, ax = ox.plot_graph(min_subgraph, show=False, close=False, bgcolor="#E7E7E7")
+                                ox.plot_graph(max_subgraph, ax=ax, show=False, edge_color='black', edge_linewidth=3)
+                                ax.set_axis_off()
+                                sprint(max_subgraph.nodes().__len__())
+                                # plt.title(f'{column} - Maximum Subgraph', fontsize=20)
+                                plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
+                                                         f"max_{column}_subgraph_" +str(from_top_count)+ ".pdf"), dpi=300)
+                                plt.show()
+                                plt.close()
 
-                            fig, ax = plt.subplots(figsize=(10, 10))
+                                fig, ax = plt.subplots(figsize=(10, 10))
 
-                            # fig, ax = ox.plot_graph(min_subgraph, show=False, close=False, bgcolor="#E7E7E7")
-                            ox.plot_graph(min_subgraph, ax=ax, show=False, edge_color='black', edge_linewidth=3)
-                            ax.set_axis_off()
-                            sprint(max_subgraph.nodes().__len__())
-                            plt.title(f'{column} - Minimum Subgraph', fontsize=20)
-                            plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
-                                                     f"min_{column}_subgraph.png"), dpi=300)
-                            plt.show()
-                            plt.close()
+                                # fig, ax = ox.plot_graph(min_subgraph, show=False, close=False, bgcolor="#E7E7E7")
+                                ox.plot_graph(min_subgraph, ax=ax, show=False, edge_color='black', edge_linewidth=3)
+                                ax.set_axis_off()
+                                sprint(max_subgraph.nodes().__len__())
+                                # plt.title(f'{column} - Minimum Subgraph', fontsize=20)
+                                plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
+                                                         f"min_{column}_subgraph_" +str(from_top_count)+ ".pdf"), dpi=300)
+                                plt.show()
+                                plt.close()
                             # break
 
                         #
