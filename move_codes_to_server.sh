@@ -1,8 +1,8 @@
 tar -czvf urbanscales.tar.gz urbanscales
 echo "zipped urbanscales folder; moving to server"
-scp urbanscales.tar.gz niskumar@172.25.185.141:
-scp config.py niskumar@172.25.185.141:WCS/config.py
-ssh -t -t  niskumar@172.25.185.141 << EOF
+scp urbanscales.tar.gz niskumar@XXX.XX.XXX.XXX:
+scp config.py username@XXX.XX.XXX.XXX:WCS/config.py
+ssh -t -t  niskumar@XXX.XX.XXX.XXX << EOF
   cd ~/WCS
   rm -rf urbanscales
   mv ~/urbanscales.tar.gz ./
