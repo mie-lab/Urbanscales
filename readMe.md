@@ -1,28 +1,77 @@
-commit id for plots in paper: ec9e079b53142c4ac3ce12d48e5509b8349fcac1
-environment name: wcs3 (local mac)
-                    wcs (server SEC)
-
-- three folders have been kept in G-drive `backups_to_reduce_repo_size`; these were used for some plots in the appendix
-- to run recurrent and non-recurrent end to end, run one of them first, make sure runallcities script has congestion type marker in the log filename, Thereafter wait for 10* ncities to ensure that all runs are posted; change the config to other congestion type and post the remaining runs with new marker in the run_all_cities shell script.
 
 
-- Urbanscales20240628 has runs without normalising before computing SHAP values
-- Urbanscales20240702 has runs with normalising before computing SHAP values
-- Urbanscales20240713 has runs with normalising before computing SHAP values; and correct train data columns, so no name correction is done in the plotting scripts
+```markdown
+# Urban Scales: Analyzing Congestion Using OSM Data
 
-After the log files are generated, these should be put in a folder and three bash scripts should be run. 
-Followed by plotting scripts for recurrent and non recurrent.
+## Introduction
+This repository contains the code and data for the research paper "Analyzing Urban Congestion Through OpenStreetMap Data". The study extracts 14 different features from OSM urban tiles of size 1 sq km to predict congestion patterns in various cities including Auckland, New York City, London, Cape Town, Bogota, Mexico City, Mumbai, and Istanbul. These features include graph-based metrics such as number of nodes and edges, traffic dynamics like intersection counts and traffic lights, and other relevant urban characteristics.
 
+## Features
+The features analyzed in this study include:
+- Number of nodes
+- Number of edges
+- Total crossings
+- Traffic lights
+- Free turns
+- Average lanes
+- Local centrality
+- And more...
 
-To reuse recurrent data
-- copy the recurrent network folder
-- delete all prep_speed, train_data, and speed data object files. 
-- run the Pipeline in full. This will save time since we don't need to re-do the X; only the Y.
-- The latex-generation code is present only in the non-recurrent.py (it generates for both recurrent and non recurrent)
-- Copy these feature_importance_NRC_Shifting_1 files into the compare_shiifting_FI folder and run the script.
-- R2 plots for fix after tile areas
-- R3 with simplified graphs.
-- First run the filter_files_to_retain_the_SHAP_lines.py
-- Then run bash extrac_fig{1..3}.sh
-- run run_for_all_cities.sh but comment out the HPT_new call inside SHAP_analysis.py and also run only the SHAP_analysis.py inside the Pipeline.py
-- run grep "#tiles" RECURRENT*.csv and copy the contents in `tile_count.csv`
+## Getting Started
+
+### Prerequisites
+- Python 3.x
+- Geopandas
+- Osmnx
+- Other Python libraries as specified in `requirements.txt`
+
+### Installation
+Clone this repository to your local machine:
+```bash
+git clone https://github.com/mie-lab/Urbanscales.git
+```
+
+Install the required Python packages:
+```bash
+pip install -r requirements.txt
+```
+
+### Usage
+To run the analysis scripts and generate the congestion features, checkout to the commit used for the paper:
+```bash
+git checkout <commit-id>  # Replace <commit-id> with the actual commit ID
+python analyze_congestion.py
+```
+
+## Data
+The data used in this study is derived from OpenStreetMap and processed using the Osmnx library. Note that due to the size of the data, only sample datasets are included in this repository.
+
+## Contributing
+Contributions are welcome! If you'd like to contribute, please fork the repository and use a new branch for your contributions. Pull requests are warmly welcome.
+
+## Citation
+If you find this repository useful for your research or if you use any of the methodologies in your work, please consider citing our paper:
+
+### Recommended Citation
+Nishant Kumar, Yatao Zhang, Nina Wiedemann, Jimi Oke, and Martin Raubal. "Investigating the Link Between Road Network and Congestion for Highly Congested Cities." *Under Review*, 2024. DOI: 10.0000/researchsquare.XXX/000000
+
+```bibtex
+@article{kumarUrbanscales2024,
+  author = {Nishant Kumar and Yatao Zhang and Nina Wiedemann and Jimi Oke and Martin Raubal},
+  title = {Investigating the Link Between Road Network and Congestion for Highly Congested Cities},
+  journal = {Journal/Conference Name},
+  year = {2024},
+  doi = {10.0000/researchsquare.fake/000000},
+  address = {Singapore-ETH Centre, Singapore; ETH Zurich, Switzerland; University of Massachusetts Amherst, USA}
+}
+```
+
+## License
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+## Contact
+For any additional questions or feedback, please contact [your contact information or that of your lab].
+
+```
+
+commit ID relevant for reproducing the results described in the paper: ec9e079b53142c4ac3ce12d48e5509b8349fcac1 
