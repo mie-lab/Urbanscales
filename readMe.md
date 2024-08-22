@@ -3,10 +3,7 @@
 # Urban Scales: Analyzing Congestion Using OSM Data
 
 ## Introduction
-This repository contains the code and data for the research paper "AInvestigating the Link Between Road Network and Congestion for Highly Congested Cities". The study extracts 14 different features from OSM urban tiles of size 1 sq km to predict congestion patterns in various cities including Auckland, New York City, Cape Town, Bogota, Mexico City, Mumbai, and Istanbul. These features include graph-based metrics such as number of nodes and edges, traffic dynamics like intersection counts and traffic lights.
-
-## Features
-Total of 14 features are used.
+This repository contains the code and data for the research paper "Investigating the Link Between Road Network and Congestion for Highly Congested Cities". The study extracts 14 different features from OSM urban tiles of size 1 sq km to predict congestion patterns in various cities, including Auckland, New York City, Cape Town, Bogota, Mexico City, Mumbai, and Istanbul. These features include graph-based metrics such as a number of nodes and edges and traffic dynamics like intersection counts and traffic lights.
 
 ### Prerequisites
 Install the required Python packages:
@@ -22,9 +19,9 @@ git clone https://github.com/mie-lab/Urbanscales.git
 
 
 ### Usage
-To run the analysis scripts and generate the congestion features, checkout to the commit used for the paper:
+To run the analysis scripts and generate the congestion features, checkout to the [commit id]([url](https://github.com/mie-lab/Urbanscales/tree/ed2b6b2e37d5aa3e39d74ac7e4ca859db4ec4ede)) at paper submit:
 ```bash
-git checkout ec9e079b53142c4ac3ce12d48e5509b8349fcac1  
+git checkout ed2b6b2e37d5aa3e39d74ac7e4ca859db4ec4ede  
 python analyze_congestion.py
 ```
 
