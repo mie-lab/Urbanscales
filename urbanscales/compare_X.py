@@ -1213,15 +1213,15 @@ if __name__ == "__main__":
         # list_of_cities[2:]
         # [list_of_cities[0]],
         # [list_of_cities[1]],
-        # [list_of_cities[2]],
-        # [list_of_cities[3]],
-        # [list_of_cities[4]],
-        # [list_of_cities[5]],
-        # [list_of_cities[6]],
-        # [list_of_cities[7]],
-        # [list_of_cities[8]],
+        [list_of_cities[2]],
+        [list_of_cities[3]],
+        [list_of_cities[4]],
+        [list_of_cities[5]],
+        [list_of_cities[6]],
+        [list_of_cities[7]],
+        [list_of_cities[8]],
         # [list_of_cities[9]],
-        list(config.rn_city_wise_bboxes.keys())
+        # list(config.rn_city_wise_bboxes.keys())
     ]
 
     tod_list_of_list = config.ps_tod_list
@@ -1299,6 +1299,7 @@ if __name__ == "__main__":
 
     scale_list = config.scl_list_of_seeds
 
+    dict_city_df = {}
     for list_of_cities in list_of_cities_list_of_list:
         for tod_list in tod_list_of_list:
             for scale in scale_list:
@@ -1307,14 +1308,16 @@ if __name__ == "__main__":
                     tod = tod_list
                     x = []
                     y = []
-                    fname = os.path.join(config.BASE_FOLDER, config.network_folder, city,
+                    config_network_folder = config.network_folder
+
+                    if city == "Istanbul":
+                        scale = 75
+                        config_network_folder = config_network_folder.replace("50", "75")
+                    fname = os.path.join(config.BASE_FOLDER, config_network_folder, city,
                                          f"_scale_{scale}_train_data_{tod}.pkl")
                     try:
                         temp_obj = CustomUnpicklerTrainDataVectors(open(fname, "rb")).load()
 
-                        if config.MASTER_VISUALISE_FEATURE_DIST_INSIDE_ShapAnalysisScript:
-                            from urbanscales.preprocessing.prep_network import Scale
-                            scl = Scale.get_object(cityname=city, scale=scale)
 
                         if isinstance(temp_obj.X, pd.DataFrame):
                             #  we only choose the features which exist in this dataframe
@@ -1335,25 +1338,12 @@ if __name__ == "__main__":
                             # Sort these percentages in descending order
                             sorted_percentage_nan_per_column = percentage_nan_per_column.sort_values(ascending=False)
                             # Print the sorted percentages
-                            sprint(sorted_percentage_nan_per_column)
+                            # sprint(sorted_percentage_nan_per_column)
+
+
+                            dict_city_df [city]  = filtered_X
 
                             import seaborn as sns
-
-                            if config.MASTER_VISUALISE_EACH_STEP_INSIDE_ShapAnalysisScript:
-                                plt.figure(figsize=(10, 10))
-                                corr = (filtered_X).corr()
-                                sns.heatmap(corr)
-                                if not os.path.exists(config.results_folder):
-                                    os.mkdir(config.results_folder)
-                                plt.tight_layout()
-                                if not os.path.exists(os.path.join(config.BASE_FOLDER, "results")):
-                                    os.mkdir(os.path.join(config.BASE_FOLDER, "results"))
-                                plt.savefig(os.path.join(config.BASE_FOLDER, "results", "cross-corr-" + slugify(
-                                    str((city, str(scale), str(tod))))) + ".png")
-
-                                plt.show(block=False);
-                                plt.close()
-
 
                     except Exception as e:
                         print("Error in :")
@@ -1362,834 +1352,184 @@ if __name__ == "__main__":
                         continue
 
 
-                    def calculate_strip_boundaries_vertical(bboxes, n_strips=7):
-                        # Extract all the longitude values from the bounding boxes
-                        all_lons = [list(bbox.keys())[0][3] for bbox in bboxes] + [list(bbox.keys())[0][2] for bbox
-                                                                                   in bboxes]
+from scipy.stats import wasserstein_distance
+feature_distributions = {city: df.iloc[:, 0] for city, df in dict_city_df.items()}
+
+# Compute pairwise Wasserstein distances (Earth Mover's Distance) between each city's feature distribution
+city_names = list(feature_distributions.keys())
+distance_matrix = np.zeros((len(city_names), len(city_names)))
+
+for i, city_a in enumerate(city_names):
+    for j, city_b in enumerate(city_names):
+        if i != j:
+            distance_matrix[i, j] = wasserstein_distance(feature_distributions[city_a], feature_distributions[city_b])
+        else:
+            distance_matrix[i, j] = 0  # distance to itself is zero
+
+# Step 3: Visualize the Wasserstein distance matrix as a heatmap
+plt.figure(figsize=(10, 8))
+plt.title("Wasserstein Distance Between City Feature Distributions (Feature 1)")
+heatmap = plt.imshow(distance_matrix, cmap="coolwarm", interpolation="nearest")
+plt.xticks(ticks=np.arange(len(city_names)), labels=city_names, rotation=45)
+plt.yticks(ticks=np.arange(len(city_names)), labels=city_names)
+plt.colorbar(heatmap)
+plt.savefig("/Users/nishant/Downloads/image.png", dpi=300)
 
-                        # Sort the longitude values
-                        sorted_lons = sorted(list(set(all_lons)))
+# Step 2: Fit a multivariate Gaussian distribution with regularization to ensure positive definiteness of the covariance matrix
+from scipy.stats import multivariate_normal
+from scipy.linalg import LinAlgError
 
-                        # Calculate the number of bboxes per strip
-                        bboxes_per_strip = len(sorted_lons) // n_strips
 
-                        # Initialize the list of strip boundaries
-                        strip_boundaries = [sorted_lons[0]]
+def regularize_covariance(cov_matrix, epsilon=1e-6):
+    """Add a small value to the diagonal to make the covariance matrix positive definite."""
+    return cov_matrix + np.eye(cov_matrix.shape[0]) * epsilon
 
-                        # Determine the boundaries of each strip
-                        for i in range(1, n_strips):
-                            boundary_index = i * bboxes_per_strip
-                            strip_boundaries.append(sorted_lons[boundary_index])
 
-                        # Add the last longitude value as the end boundary of the last strip
-                        strip_boundaries.append(sorted_lons[-1])
-
-                        return strip_boundaries
+fitted_distributions = {}
+combined_df = pd.concat(dict_city_df.values())
+scaler = StandardScaler()
 
+# Apply MinMaxScaler to normalize each feature
+normalized_combined_df = pd.DataFrame(scaler.fit_transform(combined_df), columns=combined_df.columns)
 
-                    def assign_bboxes_to_strips_vertical(bboxes, strip_boundaries):
-                        strip_assignments = {}
-                        bbox_to_strip = {}
-                        for i, bbox in enumerate(bboxes):
-                            bbox_coords = list(bbox.keys())[0]
-                            West, East = bbox_coords[3], bbox_coords[
-                                2]  # Assuming bbox_coords is in the format (North, South, East, West)
 
-                            # Find the strip that contains the bbox
-                            for strip_index in range(len(strip_boundaries) - 1):
-                                left_boundary = strip_boundaries[strip_index]
-                                right_boundary = strip_boundaries[strip_index + 1]
+from sklearn.decomposition import PCA
 
-                                # Check if bbox is within the current strip's boundaries
-                                if West >= left_boundary and East <= right_boundary:
-                                    if strip_index not in strip_assignments:
-                                        strip_assignments[strip_index] = []
-                                    strip_assignments[strip_index].append(bbox_coords)
-                                    bbox_to_strip[bbox_coords] = strip_index
-                                    break
+# Step 1: Apply PCA to reduce the dimensionality of the feature space for each city
+pca = PCA(n_components=5)
 
-                        return strip_assignments, bbox_to_strip
+# Perform PCA on the combined normalized data
+pca_results = {}
+for city, df in normalized_combined_df.items():
+    pca_results[city] = pca.fit_transform(df)
 
+# Step 2: Calculate pairwise Euclidean distances between cities based on their PCA-reduced components
+city_names = list(pca_results.keys())
+distance_matrix = np.zeros((len(city_names), len(city_names)))
 
-                    def calculate_strip_boundaries_horizontal(bboxes, n_strips=7):
-                        # Extract all the longitude values from the bounding boxes
-                        all_lats = [list(bbox.keys())[0][0] for bbox in bboxes] + [list(bbox.keys())[0][1] for bbox
-                                                                                   in bboxes]
-
-                        # Sort the longitude values
-                        sorted_lats = sorted(list(set(all_lats)))
-
-                        # Calculate the number of bboxes per strip
-                        bboxes_per_strip = len(sorted_lats) // n_strips
-
-                        # Initialize the list of strip boundaries
-                        strip_boundaries = [sorted_lats[0]]
-
-                        # Determine the boundaries of each strip
-                        for i in range(1, n_strips):
-                            boundary_index = i * bboxes_per_strip
-                            strip_boundaries.append(sorted_lats[boundary_index])
+for i, city_a in enumerate(city_names):
+    for j, city_b in enumerate(city_names):
+        if i != j:
+            # Calculate the Euclidean distance between the PCA-reduced components of each city
+            distance_matrix[i, j] = np.linalg.norm(np.mean(pca_results[city_a], axis=0) - np.mean(pca_results[city_b], axis=0))
+        else:
+            distance_matrix[i, j] = 0  # Distance to itself is zero
+
+# Step 3: Visualize the distance matrix as a heatmap
+plt.figure(figsize=(10, 8))
+plt.title("Euclidean Distance Between Cities Based on PCA (5 Components)")
+heatmap = plt.imshow(distance_matrix, cmap="coolwarm", interpolation="nearest")
+plt.xticks(ticks=np.arange(len(city_names)), labels=city_names, rotation=45)
+plt.yticks(ticks=np.arange(len(city_names)), labels=city_names)
+plt.colorbar(heatmap)
+plt.show()
 
-                        # Add the last longitude value as the end boundary of the last strip
-                        strip_boundaries.append(sorted_lats[-1])
 
-                        return strip_boundaries
 
-
-                    def assign_bboxes_to_strips_horizontal(bboxes, strip_boundaries):
-                        strip_assignments = {}
-                        bbox_to_strip = {}
-                        for i, bbox in enumerate(bboxes):
-                            bbox_coords = list(bbox.keys())[0]
-                            South, North = bbox_coords[1], bbox_coords[
-                                0]  # Assuming bbox_coords is in the format (North, South, East, West)
-
-                            # Find the strip that contains the bbox
-                            for strip_index in range(len(strip_boundaries) - 1):
-                                left_boundary = strip_boundaries[strip_index]
-                                right_boundary = strip_boundaries[strip_index + 1]
-
-                                # Check if bbox is within the current strip's boundaries
-                                if South >= left_boundary and North <= right_boundary:
-                                    if strip_index not in strip_assignments:
-                                        strip_assignments[strip_index] = []
-                                    strip_assignments[strip_index].append(bbox_coords)
-                                    bbox_to_strip[bbox_coords] = strip_index
-                                    break
-
-                        return strip_assignments, bbox_to_strip
-
-
-                    def calculate_grid_boundaries(bboxes, n_strips=7):
-                        # Extract all the longitude and latitude values from the bounding boxes
-                        all_lons = [bbox_coords[3] for bbox in bboxes for bbox_coords in bbox.keys()] + \
-                                   [bbox_coords[2] for bbox in bboxes for bbox_coords in bbox.keys()]
-                        all_lats = [bbox_coords[0] for bbox in bboxes for bbox_coords in bbox.keys()] + \
-                                   [bbox_coords[1] for bbox in bboxes for bbox_coords in bbox.keys()]
-
-                        # Sort the longitude and latitude values
-                        sorted_lons = sorted(list(set(all_lons)))
-                        sorted_lats = sorted(list(set(all_lats)))
-
-                        # Calculate the number of bboxes per strip for both longitude and latitude
-                        lons_per_strip = len(sorted_lons) // n_strips
-                        lats_per_strip = len(sorted_lats) // n_strips
-
-                        # Initialize the list of grid boundaries for longitude and latitude
-                        lon_boundaries = [sorted_lons[0]]
-                        lat_boundaries = [sorted_lats[0]]
-
-                        # Determine the boundaries of each strip for longitude
-                        for i in range(1, n_strips):
-                            lon_boundary_index = i * lons_per_strip
-                            lon_boundaries.append(sorted_lons[lon_boundary_index])
-
-                        # Add the last longitude value as the end boundary of the last strip
-                        lon_boundaries.append(sorted_lons[-1])
-
-                        # Determine the boundaries of each strip for latitude
-                        for i in range(1, n_strips):
-                            lat_boundary_index = i * lats_per_strip
-                            lat_boundaries.append(sorted_lats[lat_boundary_index])
-
-                        # Add the last latitude value as the end boundary of the last strip
-                        lat_boundaries.append(sorted_lats[-1])
-
-                        return lon_boundaries, lat_boundaries
-
-
-                    def assign_bboxes_to_grid(bboxes, lon_boundaries, lat_boundaries, n_strips):
-                        grid_assignments = {}
-                        bbox_to_grid = {}
-                        for i, bbox in enumerate(bboxes):
-                            bbox_coords = list(bbox.keys())[0]
-                            North, South, East, West = bbox_coords
-
-                            # Find the grid cell that contains the bbox
-                            for lon_index in range(len(lon_boundaries) - 1):
-                                for lat_index in range(len(lat_boundaries) - 1):
-                                    left_boundary = lon_boundaries[lon_index]
-                                    right_boundary = lon_boundaries[lon_index + 1]
-                                    bottom_boundary = lat_boundaries[lat_index]
-                                    top_boundary = lat_boundaries[lat_index + 1]
-
-                                    # Check if bbox is within the current grid cell's boundaries
-                                    if West >= left_boundary and East <= right_boundary and North <= top_boundary and South >= bottom_boundary:
-                                        grid_index = lon_index * n_strips + lat_index  # (lon_index, lat_index)
-                                        if grid_index not in grid_assignments:
-                                            grid_assignments[grid_index] = []
-                                        grid_assignments[grid_index].append(bbox_coords)
-                                        bbox_to_grid[bbox_coords] = grid_index
-                                        break
-
-                        return grid_assignments, bbox_to_grid
-
-
-                    from shapely.geometry import Polygon
-
-
-                    def visualize_splits(bboxes, strip_boundaries, bbox_to_strip,
-                                         split_direction='vertical'):
-                        # Create a GeoDataFrame for the bounding boxes
-                        gdf = gpd.GeoDataFrame({
-                            'geometry': [
-                                Polygon([(West, North), (East, North), (East, South), (West, South)])
-                                for bbox in bboxes
-                                for North, South, East, West in [list(bbox.keys())[0]]
-                            ],
-                            'strip': [
-                                bbox_to_strip[(North, South, East, West)]
-                                for bbox in bboxes
-                                for North, South, East, West in [list(bbox.keys())[0]]
-                            ]
-                        }, crs="EPSG:4326")
-
-                        # Plot the bounding boxes with different colors for each strip
-                        if config.MASTER_VISUALISE_EACH_STEP_INSIDE_ShapAnalysisScript:
-                            fig, ax = plt.subplots(figsize=(10, 6))
-                            for strip, color in zip(range(len(strip_boundaries) - 1),
-                                                    ['red', 'green', 'blue', 'orange', 'purple', 'brown', 'cyan']):
-                                gdf[gdf['strip'] == strip].plot(ax=ax, color=color, alpha=0.5, edgecolor='black')
-
-                            # Add split boundaries
-                            if split_direction == 'vertical':
-                                for lon in strip_boundaries:
-                                    plt.axvline(x=lon, color='black', linestyle='--', linewidth=3)
-                            elif split_direction == 'horizontal':
-                                for lat in strip_boundaries:
-                                    plt.axhline(y=lat, color='black', linestyle='--', linewidth=3)
-
-                            plt.xlabel('Longitude')
-                            plt.ylabel('Latitude')
-                            # plt.title('Spatial Splits')
-
-                            import geopy.distance
-
-                            # Calculate the average latitude of your bounding boxes
-                            a = []
-                            latlist = []
-                            lonlist = []
-                            for i in range(len(bboxes)):
-                                a.append(np.mean([list(bboxes[i].keys())[0][0], list(bboxes[i].keys())[0][1]]))
-                                latlist.append(list(bboxes[i].keys())[0][0])
-                                latlist.append(list(bboxes[i].keys())[0][1])  # The order is NSEW
-                                lonlist.append(list(bboxes[i].keys())[0][2])
-                                lonlist.append(list(bboxes[i].keys())[0][3])  # The order is NSEW
-
-                            average_latitude = np.mean(a)
-                            # sprint (average_latitude)
-
-                            km_in_degrees_lon = \
-                                geopy.distance.distance(kilometers=1).destination((average_latitude, 0), bearing=90)[1]
-                            km_in_degrees_lat = \
-                                geopy.distance.distance(kilometers=1).destination((average_latitude, 0), bearing=0)[
-                                    0] - average_latitude
-
-                            # Choose a corner for the scale box (e.g., bottom right)
-                            corner_lon = max(lonlist)
-                            corner_lat = min(latlist)
-
-                            # Create the scale box
-                            scale_box = Polygon([
-                                (corner_lon - km_in_degrees_lon, corner_lat),
-                                (corner_lon, corner_lat),
-                                (corner_lon, corner_lat + km_in_degrees_lat),
-                                (corner_lon - km_in_degrees_lon, corner_lat + km_in_degrees_lat),
-                                (corner_lon - km_in_degrees_lon, corner_lat)
-                            ])
-
-                            # Add the scale box to the plot
-                            ax.plot(*scale_box.exterior.xy, color='tab:blue')
-
-                            # Add labels for the 1 km edges
-                            ax.text(corner_lon - km_in_degrees_lon / 2, corner_lat - 0.0005, '1 km', ha='center',
-                                    fontsize=4)
-                            ax.text(corner_lon + 0.0005, corner_lat + km_in_degrees_lat / 2, '1 km', va='center',
-                                    rotation='vertical', fontsize=4)
-
-                            # Save and show the plot
-                            plt.title("Spatial Cross validation splits " + city + "_scale_" + str(scale))
-                            plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
-                                                     "Spatial_splits_for_spatial_CV" + str(scale) + ".png"), dpi=300)
-                            plt.show(block=False);
-                            plt.close()
-
-
-
-
-                    def visualize_grid(bboxes, lon_boundaries, lat_boundaries, bbox_to_grid, split_direction='grid'):
-                        # Create a GeoDataFrame for the bounding boxes
-                        gdf = gpd.GeoDataFrame({
-                            'geometry': [
-                                Polygon([(West, North), (East, North), (East, South), (West, South)])
-                                for bbox in bboxes
-                                for North, South, East, West in [list(bbox.keys())[0]]
-                            ],
-                            'grid_cell': [
-                                bbox_to_grid[list(bbox.keys())[0]]
-                                for bbox in bboxes
-                            ]
-                        }, crs="EPSG:4326")
-
-                        # Plot the bounding boxes with different colors for each grid cell
-                        if config.MASTER_VISUALISE_EACH_STEP_INSIDE_ShapAnalysisScript:
-                            fig, ax = plt.subplots(figsize=(10, 6))
-                            unique_cells = set(gdf['grid_cell'])
-                            colors = plt.cm.get_cmap('tab20', len(unique_cells))
-
-                            for i, cell in enumerate(unique_cells):
-                                gdf[gdf['grid_cell'] == cell].plot(ax=ax, color=colors(i), alpha=0.5, edgecolor='black')
-
-                            # Add split boundaries
-                            if split_direction == 'grid':
-                                for lon in lon_boundaries:
-                                    plt.axvline(x=lon, color='black', linestyle='--', linewidth=1)
-                                for lat in lat_boundaries:
-                                    plt.axhline(y=lat, color='black', linestyle='--', linewidth=1)
-
-                            plt.xlabel('Longitude')
-                            plt.ylabel('Latitude')
-                            plt.title('Spatial Grid Splits')
-
-                            # Save and show the plot
-                            plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
-                                                     "Spatial_grid_splits_for_spatial_CV.png"), dpi=300)
-                            plt.show(block=False);
-                            plt.close()
-
-
-                    bboxes = temp_obj.bbox_X
-                    n_strips = 4
-
-                    from shapely.geometry import Polygon
-
-                    if config.MASTER_VISUALISE_EACH_STEP_INSIDE_ShapAnalysisScript:
-                        if config.SHAP_mode_spatial_CV == "vertical":
-                            n_strips = 6
-                            strip_boundaries = calculate_strip_boundaries_vertical(bboxes, n_strips)
-                            strip_assignments, bbox_to_strip = assign_bboxes_to_strips_vertical(bboxes, strip_boundaries)
-                            visualize_splits(bboxes, strip_boundaries, bbox_to_strip,
-                                             split_direction='vertical')
-                        elif config.SHAP_mode_spatial_CV == "horizontal":
-                            n_strips = 6
-                            strip_boundaries = calculate_strip_boundaries_horizontal(bboxes, n_strips)
-                            strip_assignments, bbox_to_strip = assign_bboxes_to_strips_horizontal(bboxes, strip_boundaries)
-                            visualize_splits(bboxes, strip_boundaries, bbox_to_strip,
-                                             split_direction='horizontal')
-                        elif config.SHAP_mode_spatial_CV == "grid":
-                            lon_boundaries, lat_boundaries = calculate_grid_boundaries(bboxes, n_strips=n_strips)
-                            grid_assignments, bbox_to_strip = assign_bboxes_to_grid(bboxes, lon_boundaries, lat_boundaries,
-                                                                                    n_strips)
-                            visualize_grid(bboxes, lon_boundaries, lat_boundaries, bbox_to_strip, split_direction='grid')
-                        else:
-                            raise Exception("Wrong split type; must be grid or vertical")
-
-                    # After processing each city and time of day, concatenate data
-                    x.append(filtered_X)
-                    y.append(temp_obj.Y)
-
-                    # Concatenate the list of DataFrames in x and y
-                    assert len(x) == 1
-                    X = pd.concat(x, ignore_index=True)
-                    # Convert any NumPy arrays in the list to Pandas Series
-                    y_series = [pd.Series(array) if isinstance(array, np.ndarray) else array for array in y]
-
-                    # Concatenate the list of Series and DataFrames
-                    Y = pd.concat(y_series, ignore_index=True)
-
-                    sprint(city, scale, tod, config.shift_tile_marker, X.shape, Y.shape)
-
-                    # for column in common_features:
-                    #     # plt.hist(X[column], 50)
-                    #     # plt.title("Histogram for " + column)
-                    #     # plt.hist(X[column])
-                    #     # plt.show(block=False); plt.close()
-                    #
-                    #     plt.title("Histogram for Y")
-                    #     plt.hist(Y)
-                    #     plt.show(block=False); plt.close()
-                    #     break
-
-                    # locs = (Y > 0.5)  # & (Y < 6 )
-                    # X = X[locs]
-                    # Y = Y[locs]
-
-                    if config.SHAP_mode_spatial_CV == "grid":
-                        N_STRIPS = n_strips ** 2
-                    elif config.SHAP_mode_spatial_CV == "vertical" or config.SHAP_mode_spatial_CV == "horizontal":
-                        N_STRIPS = n_strips
-                    else:
-                        raise Exception("Wrong split type; must be grid or vertical")
-
-                    model_fit_time_start = time.time()
-
-                    assert X.shape[0] == Y.shape[0] # same number of lines in both X and Y
-
-                    # remove the Nan columns
-                    X = X.dropna(axis='columns')
-                    common_features_list = list(set(common_features_list).intersection(set(X.columns.to_list())))
-
-
-                    compare_models_gof_standard_cv_HPT_new(X, Y, common_features_list, tod=tod, cityname=city,
-                                                           scale=scale,
-                                                           n_splits=7, include_interactions=False,
-                                                           scaling=config.SHAP_ScalingOfInputVector)
-
-                    t_non_spatial = time.time() - model_fit_time_start
-                    # compare_models_gof_spatial_cv(X, Y, common_features_list, temp_obj=temp_obj, include_interactions=False,
-                    #                               bbox_to_strip=bbox_to_strip, n_strips=N_STRIPS, tod=tod, cityname=city,
-                    #                               scale=config.SHAP_ScalingOfInputVector)
-                    t_spatial = time.time() - model_fit_time_start - t_non_spatial
-                    sprint(t_spatial, t_non_spatial, "seconds")
-
-                    if config.MASTER_VISUALISE_FEATURE_DIST_INSIDE_ShapAnalysisScript:
-                        # Plot the bboxes from scl_jf
-                        # Example list of bounding boxes
-                        for column in common_features:
-
-                            bboxes = [list(i.keys())[0] for i in temp_obj.bbox_X]
-                            from shapely.geometry import Polygon
-
-                            values_list = temp_obj.X[column]
-
-                            # Normalize the values for coloring
-                            values_normalized = (values_list - np.min(values_list)) / (
-                                    np.max(values_list) - np.min(values_list))
-
-                            # Create a GeoDataFrame including the values for heatmap
-                            try:
-                                gdf = gpd.GeoDataFrame({
-                                    'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)]) for
-                                                 lat1, lat2, lon1, lon2 in bboxes],
-                                    'value': values_normalized
-                                }, crs="EPSG:4326")  # EPSG:4326 is WGS84 latitude-longitude projection
-                            except:
-                                gdf = gpd.GeoDataFrame({
-                                    'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)])
-                                                 for
-                                                 lat1, lat2, lon1, lon2, _unused_len_ in bboxes],
-                                    'value': values_normalized
-                                }, crs="EPSG:4326")  # EPSG:4326 is WGS84 latitude-longitude projection
-
-                            # Convert the GeoDataFrame to the Web Mercator projection
-                            gdf_mercator = gdf.to_crs(epsg=3857)
-
-                            # Plotting with heatmap based on values and making boundaries invisible
-                            fig, ax = plt.subplots(figsize=(10, 10))
-                            gdf_mercator.plot(ax=ax, column='value', cmap='viridis', edgecolor='none',
-                                              alpha=0.7)  # Use 'viridis' or any other colormap
-                            ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
-                            ax.set_axis_off()
-                            plt.title(column)
-                            # plt.colorbar()
-                            plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
-                                                     "_feature_" + str(column) + "_" + str(scale) + ".png"), dpi=300)
-                            plt.show(block=False);
-                            plt.close()
-                            break # no need to plot all
-
-
-                       ######################## SAME THING BUT WITH SAME COLOR TO SHOW DIFFERENCES    ########################
-                        # Plot the bboxes from scl_jf
-                        # Example list of bounding boxes
-                        for column in common_features:
-
-
-                            bboxes = [list(i.keys())[0] for i in temp_obj.bbox_X]
-                            from shapely.geometry import Polygon
-
-                            values_list = temp_obj.X[column]
-
-                            # Normalize the values for coloring
-                            values_normalized = (values_list - np.min(values_list)) / (
-                                    np.max(values_list) - np.min(values_list))
-
-                            # Create a GeoDataFrame including the values for heatmap
-                            try:
-                                gdf = gpd.GeoDataFrame({
-                                    'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)])
-                                                 for
-                                                 lat1, lat2, lon1, lon2 in bboxes],
-                                    'value': values_normalized
-                                }, crs="EPSG:4326")  # EPSG:4326 is WGS84 latitude-longitude projection
-                            except:
-                                gdf = gpd.GeoDataFrame({
-                                    'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)])
-                                                 for
-                                                 lat1, lat2, lon1, lon2, _unused_len_ in bboxes],
-                                    'value': values_normalized
-                                }, crs="EPSG:4326")  # EPSG:4326 is WGS84 latitude-longitude projection
-
-                            # Convert the GeoDataFrame to the Web Mercator projection
-                            gdf_mercator = gdf.to_crs(epsg=3857)
-
-                            # Plotting with heatmap based on values and making boundaries invisible
-                            fig, ax = plt.subplots(figsize=(10, 10))
-                            gdf_mercator.plot(ax=ax, column='value', color=(0.121569, 0.466667, 0.705882, 0.1), edgecolor=(0, 0, 0, 1), # using RGBA format for edgecolor
-                                            linewidth=0.8)
-
-                            ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
-                            ax.set_axis_off()
-                            plt.title(city, fontsize=40)
-                            # plt.colorbar()
-                            plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
-                                                     "_feature_empty_tiles_shifting" + str(config.shift_tile_marker) + str(column) + "_" + str(scale) + ".png"),
-                                        dpi=300)
-                            plt.show(block=False);
-                            plt.close()
-                            break # we only need one feature
-
-
-                        ##########################################################################################
-                        ##########################################################################################
-                        ##########################################################################################
-                        import matplotlib.pyplot as plt
-                        import geopandas as gpd
-                        from shapely.geometry import Polygon
-                        import contextily as ctx
-                        import osmnx as ox
-
-                        # Extract the full graph for the total extent
-
-                        # full_graph = ox.simplify_graph(full_graph)
-
-                        # Loop over each feature
-                        for column in common_features:
-                            # Get the list of bounding boxes
-                            bboxes = [list(i.keys())[0] for i in temp_obj.bbox_X]
-
-                            # Get the list of values for the current feature
-                            values_list = temp_obj.X[column]
-
-                            # Find the indices of the minimum and maximum values
-                            # min_idx = np.argmin(values_list)
-                            # max_idx = np.argmax(values_list)
-                            sorted_indices = np.argsort(values_list)
-                            min_idx = sorted_indices[:5].tolist()  # First 5 indices with min values
-                            max_idx = sorted_indices[-5:].tolist()[::-1]
-
-                            for from_top_count in range(3,4):
-                                # Create a GeoDataFrame for the minimum and maximum tiles
-                                min_tile_gdf = gpd.GeoDataFrame({
-                                    'geometry': [Polygon([(bboxes[min_idx[from_top_count]][2], bboxes[min_idx[from_top_count]][0]),
-                                                          (bboxes[min_idx[from_top_count]][2], bboxes[min_idx[from_top_count]][1]),
-                                                          (bboxes[min_idx[from_top_count]][3], bboxes[min_idx[from_top_count]][1]),
-                                                          (bboxes[min_idx[from_top_count]][3], bboxes[min_idx[from_top_count]][0])])],
-                                    'value': [values_list[min_idx[from_top_count]]]
-                                }, crs="EPSG:4326")
-                                from shapely.geometry import Polygon
-
-                                gdf_mercator = min_tile_gdf.to_crs(epsg=3857)
-                                fig, ax = plt.subplots(figsize=(10, 10))
-                                gdf_mercator.boundary.plot(ax=ax, color='red')
-                                ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
-                                ax.set_axis_off()
-                                # plt.title(f'{column} - Minimum Subgraph', fontsize=20)
-                                plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
-                                                         f"min_{column}_subgraph_CTX_" +str(from_top_count)+ ".png"), dpi=300)
-                                plt.clf()
-                                plt.close()
-
-
-                                max_tile_gdf = gpd.GeoDataFrame({
-                                    'geometry': [Polygon([(bboxes[max_idx[from_top_count]][2], bboxes[max_idx[from_top_count]][0]),
-                                                          (bboxes[max_idx[from_top_count]][2], bboxes[max_idx[from_top_count]][1]),
-                                                          (bboxes[max_idx[from_top_count]][3], bboxes[max_idx[from_top_count]][1]),
-                                                          (bboxes[max_idx[from_top_count]][3], bboxes[max_idx[from_top_count]][0])])],
-                                    'value': [values_list[max_idx[from_top_count]]]
-                                }, crs="EPSG:4326")
-                                from shapely.geometry import Polygon
-                                gdf_mercator = max_tile_gdf.to_crs(epsg=3857)
-                                fig, ax = plt.subplots(figsize=(10, 10))
-                                gdf_mercator.boundary.plot(ax=ax, color='red')
-                                ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
-                                ax.set_axis_off()
-                                # plt.title(f'{column} - Maximum Subgraph', fontsize=20)
-                                plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
-                                                         f"max_{column}_subgraph_CTX_" +str(from_top_count)+ ".png"), dpi=300)
-                                plt.clf()
-                                plt.close()
-
-
-                                dict_bbox_to_subgraph = scl.dict_bbox_to_subgraph
-                                list_of_bbox_min_max = list(((bboxes[max_idx[from_top_count]][2], bboxes[max_idx[from_top_count]][0]),
-                                                             (bboxes[max_idx[from_top_count]][2], bboxes[max_idx[from_top_count]][1]),
-                                                             (bboxes[max_idx[from_top_count]][3], bboxes[max_idx[from_top_count]][1]),
-                                                             (bboxes[max_idx[from_top_count]][3], bboxes[max_idx[from_top_count]][0])))
-                                lonlist, latlist = [x[0] for x in list_of_bbox_min_max], [x[1] for x in
-                                                                                          list_of_bbox_min_max]
-                                N, S, E, W = max(latlist), min(latlist), max(lonlist), min(lonlist)
-                                max_subgraph = scl.dict_bbox_to_subgraph[N,S,E,W].G # extracting from the tile
-
-                                dict_bbox_to_subgraph = scl.dict_bbox_to_subgraph
-                                list_of_bbox_min_max = list(((bboxes[min_idx[from_top_count]][2], bboxes[min_idx[from_top_count]][0]),
-                                                             (bboxes[min_idx[from_top_count]][2], bboxes[min_idx[from_top_count]][1]),
-                                                             (bboxes[min_idx[from_top_count]][3], bboxes[min_idx[from_top_count]][1]),
-                                                             (bboxes[min_idx[from_top_count]][3], bboxes[min_idx[from_top_count]][0])))
-                                lonlist, latlist = [x[0] for x in list_of_bbox_min_max], [x[1] for x in
-                                                                                          list_of_bbox_min_max]
-                                N, S, E, W = max(latlist), min(latlist), max(lonlist), min(lonlist)
-                                min_subgraph = scl.dict_bbox_to_subgraph[N,S,E,W].G # extracting from the tile
-
-
-                                # Plot the subgraph for the maximum value tile
-                                fig, ax = plt.subplots(figsize=(10, 10))
-
-                                # fig, ax = ox.plot_graph(min_subgraph, show=False, close=False, bgcolor="#E7E7E7")
-                                ox.plot_graph(max_subgraph, ax=ax, show=False, edge_color='black', edge_linewidth=3)
-                                ax.set_axis_off()
-                                sprint(max_subgraph.nodes().__len__())
-                                # plt.title(f'{column} - Maximum Subgraph', fontsize=20)
-                                plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
-                                                         f"max_{column}_subgraph_" +str(from_top_count)+ ".pdf"), dpi=300)
-                                plt.show()
-                                plt.close()
-
-                                fig, ax = plt.subplots(figsize=(10, 10))
-
-                                # fig, ax = ox.plot_graph(min_subgraph, show=False, close=False, bgcolor="#E7E7E7")
-                                ox.plot_graph(min_subgraph, ax=ax, show=False, edge_color='black', edge_linewidth=3)
-                                ax.set_axis_off()
-                                sprint(max_subgraph.nodes().__len__())
-                                # plt.title(f'{column} - Minimum Subgraph', fontsize=20)
-                                plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
-                                                         f"min_{column}_subgraph_" +str(from_top_count)+ ".pdf"), dpi=300)
-                                plt.show()
-                                plt.close()
-                            # break
-
-                        #
-                        #
-
-                        ###########################################################################################
-                        # ###########################################################################################
-                        # import os
-                        # import matplotlib.pyplot as plt
-                        # import geopandas as gpd
-                        # from shapely.geometry import Polygon
-                        # import contextily as ctx
-                        # import osmnx as ox
-                        #
-                        # # Set your Stadia Maps API key
-                        # api_key = '1844785d-cb2d-4478-bc79-442319986dc8'  # Replace with your actual API key
-                        #
-                        # # Define the Stadia.StamenTonerBackground tile URL with your API key
-                        # # stadia_toner_url = f"https://tiles.stadiamaps.com/tiles/stamen_toner_background/{{z}}/{{x}}/{{y}}.png?api_key={api_key}"
-                        # stadia_toner_url = f"https://tiles.stadiamaps.com/tiles/osm_bright/{{z}}/{{x}}/{{y}}.png?api_key={api_key}"
-                        #
-                        # # Get the full bounding box that covers all the tiles
-                        # full_bbox = [
-                        #     min([bbox[0] for bbox in bboxes]),  # min latitude
-                        #     max([bbox[1] for bbox in bboxes]),  # max latitude
-                        #     min([bbox[2] for bbox in bboxes]),  # min longitude
-                        #     max([bbox[3] for bbox in bboxes])  # max longitude
-                        # ]
-                        #
-                        # # Extract the full graph for the total extent
-                        # full_graph = ox.graph_from_bbox(full_bbox[1], full_bbox[0], full_bbox[3], full_bbox[2],
-                        #                                 network_type='drive')
-                        #
-                        # # Loop over each feature
-                        # for column in common_features:
-                        #     # Get the list of bounding boxes
-                        #     bboxes = [list(i.keys())[0] for i in temp_obj.bbox_X]
-                        #
-                        #     # Get the list of values for the current feature
-                        #     values_list = temp_obj.X[column]
-                        #
-                        #     # Find the indices of the minimum and maximum values
-                        #     min_idx = np.argmin(values_list)
-                        #     max_idx = np.argmax(values_list)
-                        #
-                        #     # Create a GeoDataFrame for the minimum and maximum tiles
-                        #     min_tile_gdf = gpd.GeoDataFrame({
-                        #         'geometry': [Polygon([(bboxes[min_idx][2], bboxes[min_idx][0]),
-                        #                               (bboxes[min_idx][2], bboxes[min_idx][1]),
-                        #                               (bboxes[min_idx][3], bboxes[min_idx][1]),
-                        #                               (bboxes[min_idx][3], bboxes[min_idx][0])])],
-                        #         'value': [values_list[min_idx]]
-                        #     }, crs="EPSG:4326")
-                        #
-                        #     max_tile_gdf = gpd.GeoDataFrame({
-                        #         'geometry': [Polygon([(bboxes[max_idx][2], bboxes[max_idx][0]),
-                        #                               (bboxes[max_idx][2], bboxes[max_idx][1]),
-                        #                               (bboxes[max_idx][3], bboxes[max_idx][1]),
-                        #                               (bboxes[max_idx][3], bboxes[max_idx][0])])],
-                        #         'value': [values_list[max_idx]]
-                        #     }, crs="EPSG:4326")
-                        #
-                        #     # Convert the GeoDataFrames to the Web Mercator projection
-                        #     min_tile_gdf_mercator = min_tile_gdf.to_crs(epsg=3857)
-                        #     max_tile_gdf_mercator = max_tile_gdf.to_crs(epsg=3857)
-                        #
-                        #     # Plotting the minimum value tile with black outline
-                        #     fig, ax = plt.subplots(figsize=(10, 10))
-                        #     min_tile_gdf_mercator.plot(ax=ax, facecolor='none', edgecolor='black', linewidth=0.8)
-                        #     ctx.add_basemap(ax, source=stadia_toner_url)
-                        #     ax.set_axis_off()
-                        #     plt.title(f'{column} - Minimum Value: {values_list[min_idx]:.2f}', fontsize=20)
-                        #     plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
-                        #                              f"min_{column}_tile.png"), dpi=300)
-                        #     plt.show()
-                        #     plt.close()
-                        #
-                        #     # Extract the subgraph for the minimum value tile from the full graph
-                        #
-                        #
-                        #     # Plotting the maximum value tile with black outline
-                        #     fig, ax = plt.subplots(figsize=(10, 10))
-                        #     max_tile_gdf_mercator.plot(ax=ax, facecolor='none', edgecolor='black', linewidth=0.8)
-                        #     ctx.add_basemap(ax, source=stadia_toner_url)
-                        #     ax.set_axis_off()
-                        #     plt.title(f'{column} - Maximum Value: {values_list[max_idx]:.2f}', fontsize=20)
-                        #     plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
-                        #                              f"max_{column}_tile.png"), dpi=300)
-                        #     plt.show()
-                        #     plt.close()
-                        #
-                        #     # Extract the subgraph for the maximum value tile from the full graph
-                        #
-                        #     break
-                        # ###########################################################################################
-                        # ###########################################################################################
-                        #
-                        #
-                        # import matplotlib.pyplot as plt
-                        # import contextily as ctx
-                        #
-                        #
-                        # def add_north_arrow(ax, x=0.05, y=0.95, arrow_length=0.1):
-                        #     """Add a north arrow to the plot"""
-                        #     ax.annotate('N', xy=(x, y), xytext=(x, y - arrow_length),
-                        #                 arrowprops=dict(facecolor='black', width=5, headwidth=15),
-                        #                 ha='center', va='center', fontsize=20, xycoords=ax.transAxes)
-                        #
-                        #
-                        # add_north_arrow(ax)
-                        # import geopandas as gpd
-                        # import matplotlib.pyplot as plt
-                        # import contextily as ctx
-                        # import numpy as np
-                        # from shapely.geometry import Polygon
-                        #
-                        # # Assuming 'temp_obj', 'common_features', and 'config' are pre-defined as per your setup
-                        #
-                        # for column in common_features:
-                        #     bboxes = [list(i.keys())[0] for i in temp_obj.bbox_X]
-                        #     values_list = temp_obj.X[column]
-                        #
-                        #     # Normalize the values for coloring
-                        #     values_normalized = (values_list - np.min(values_list)) / (
-                        #                 np.max(values_list) - np.min(values_list))
-                        #
-                        #     # Create a GeoDataFrame including the values for heatmap
-                        #     try:
-                        #         gdf = gpd.GeoDataFrame({
-                        #             'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)]) for
-                        #                          lat1, lat2, lon1, lon2 in bboxes],
-                        #             'value': values_normalized
-                        #         }, crs="EPSG:4326")
-                        #     except:
-                        #         gdf = gpd.GeoDataFrame({
-                        #             'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)]) for
-                        #                          lat1, lat2, lon1, lon2, _unused_len_ in bboxes],
-                        #             'value': values_normalized
-                        #         }, crs="EPSG:4326")
-                        #
-                        #     from geopy.distance import geodesic
-                        #     all_sides_distances = []
-                        #     min_lat = 99999999999999
-                        #     min_lon = 99999999999999
-                        #     max_lat = -99999999999999
-                        #     max_lon = -99999999999999
-                        #     for polygon in gdf['geometry']:
-                        #         coords = list(polygon.exterior.coords)
-                        #         sides_distances = []
-                        #         for i in range(len(coords) - 1):
-                        #             point1 = (coords[i][1], coords[i][0])  # (latitude, longitude)
-                        #             max_lat = max(max_lat, coords[i][1])
-                        #             min_lat = min(min_lat, coords[i][1])
-                        #             max_lon = max(max_lon, coords[i][0])
-                        #             min_lon = min(min_lon, coords[i][0])
-                        #
-                        #             point2 = (coords[i + 1][1], coords[i + 1][0])  # (latitude, longitude)
-                        #             distance = geodesic(point1, point2).kilometers  # distance in kilometers
-                        #             sides_distances.append(distance)
-                        #         all_sides_distances.append(sides_distances)
-                        #     # Print or store the distances
-                        #     total_x_distance = geodesic((min_lat, min_lon), (min_lat, max_lon)).kilometers
-                        #     total_y_distance = geodesic((min_lat, min_lon), (max_lat, min_lon)).kilometers
-                        #     with open("debug_tile_size.txt", "a") as f2:
-                        #         csvwriter = csv.writer(f2)
-                        #         csvwriter.writerow([city, scale, np.mean(all_sides_distances), np.std(all_sides_distances), total_x_distance, total_y_distance])
-                        #     sprint(city, scale, np.mean(all_sides_distances), np.std(all_sides_distances), total_x_distance, total_y_distance)
-                        #
-                        #     # Convert the GeoDataFrame to the Web Mercator projection
-                        #     gdf_mercator = gdf.to_crs(epsg=3857)
-                        #
-                        #     # Plotting
-                        #     fig, ax = plt.subplots(figsize=(10, 10))
-                        #     gdf_mercator.plot(ax=ax, column='value', color=(0.121569, 0.466667, 0.705882, 0.1), edgecolor=(0, 0, 0, 1), # using RGBA format for edgecolor
-                        #                     linewidth=0.8)
-                        #     ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
-                        #     ax.set_axis_off()
-                        #     plt.title(city)
-                        #
-                        #     # Adding north arrow
-                        #     add_north_arrow(ax)
-                        #
-                        #     # Save and display
-                        #     plt.savefig(os.path.join("./", city +
-                        #                              "__feature_empty_tiles_shifting" + str(config.shift_tile_marker) + "_" + str(scale) + "NORTH.png"), dpi=300)
-                        #     plt.show(block=False)
-                        #     plt.close()
-                        #     break
-                        #
-                        #     # print ("For faster results; Exited after printing one plot per city; comment out if more are needed for other features")
-                        #     # sys.exit(0)
-
-                        ###########################################################################################
-
-
-                        if config.MASTER_VISUALISE_EACH_STEP_INSIDE_ShapAnalysisScript:
-                            # Plot the bboxes from scl_jf
-                            # Example list of bounding boxes
-                            bboxes = [list(i.keys())[0] for i in temp_obj.bbox_X]
-                            from shapely.geometry import Polygon
-
-                            values_list = temp_obj.Y
-
-                            # Normalize the values for coloring
-                            values_normalized = (values_list - np.min(values_list)) / (
-                                    np.max(values_list) - np.min(values_list))
-
-                            try:
-                                gdf = gpd.GeoDataFrame({
-                                    'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)]) for
-                                                 lat1, lat2, lon1, lon2 in bboxes],
-                                    'value': values_normalized
-                                }, crs="EPSG:4326")  # EPSG:4326 is WGS84 latitude-longitude projection
-                            except:
-                                gdf = gpd.GeoDataFrame({
-                                    'geometry': [Polygon([(lon1, lat1), (lon1, lat2), (lon2, lat2), (lon2, lat1)])
-                                                 for
-                                                 lat1, lat2, lon1, lon2, _unused_len_ in bboxes],
-                                    'value': values_normalized
-                                }, crs="EPSG:4326")  # EPSG:4326 is WGS84 latitude-longitude projection
-
-                            # Convert the GeoDataFrame to the Web Mercator projection
-                            gdf_mercator = gdf.to_crs(epsg=3857)
-
-                            # Plotting with heatmap based on values and making boundaries invisible
-                            fig, ax = plt.subplots(figsize=(10, 10))
-                            gdf_mercator.plot(ax=ax, column='value', cmap='viridis', edgecolor='none',
-                                              alpha=0.7)  # Use 'viridis' or any other colormap
-                            ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
-                            ax.set_axis_off()
-                            plt.title("Y")
-                            # plt.colorbar()
-                            plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
-                                                     "_Y_distribution" + str(scale) + ".png"), dpi=300)
-                            plt.show(block=False);
-                            plt.close()
-                        # input("Enter any key to continue for different TOD")
+for city, df in normalized_dict_city_df.items():
+    # Calculate the mean and covariance matrix for each city
+    mean_vector = np.mean(df, axis=0)
+    covariance_matrix = np.cov(df, rowvar=False)
+
+    # Regularize the covariance matrix to ensure it's positive definite
+    try:
+        fitted_distributions[city] = multivariate_normal(mean=mean_vector, cov=covariance_matrix)
+    except LinAlgError:
+        # If the covariance matrix is not positive definite, regularize it
+        regularized_cov = regularize_covariance(covariance_matrix)
+        fitted_distributions[city] = multivariate_normal(mean=mean_vector, cov=regularized_cov)
+
+# Step 3: Compute the Jensen-Shannon divergence between the multivariate distributions
+num_samples = 1000  # Number of samples to draw from the fitted distributions
+city_names = list(fitted_distributions.keys())
+distance_matrix = np.zeros((len(city_names), len(city_names)))
+
+for i, city_a in enumerate(city_names):
+    for j, city_b in enumerate(city_names):
+        if i != j:
+            # Draw samples from each city's fitted multivariate Gaussian
+            samples_a = fitted_distributions[city_a].rvs(size=num_samples)
+            samples_b = fitted_distributions[city_b].rvs(size=num_samples)
+
+            # Compute the Jensen-Shannon divergence between the distributions
+            js_divergence = jensenshannon(np.histogram(samples_a, bins=50, density=True)[0],
+                                          np.histogram(samples_b, bins=50, density=True)[0])
+            distance_matrix[i, j] = js_divergence
+        else:
+            distance_matrix[i, j] = 0  # Distance to itself is zero
+
+# Step 4: Visualize the updated distance matrix as a heatmap
+plt.figure(figsize=(10, 8))
+plt.title("Jensen-Shannon Divergence Between City Feature Distributions (Regularized Covariance)")
+heatmap = plt.imshow(distance_matrix, cmap="coolwarm", interpolation="nearest")
+plt.xticks(ticks=np.arange(len(city_names)), labels=city_names, rotation=45)
+plt.yticks(ticks=np.arange(len(city_names)), labels=city_names)
+plt.colorbar(heatmap)
+
+
+
+
+plt.savefig("~/Downloads/image_3.png")
+
+
+
+# Start from the original dict_city_df and apply PCA, assuming it contains the original, non-normalized data
+
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+
+# Step 1: Standardize the data for each city
+# We'll first scale each city's data before applying PCA
+scaled_dict_city_df = {}
+
+for city, df in dict_city_df.items():
+    scaler = StandardScaler()
+    scaled_dict_city_df[city] = scaler.fit_transform(df)
+
+# Step 2: Apply PCA to reduce dimensionality to 5 components
+pca = PCA(n_components=3)
+pca_results = {}
+
+for city, df in scaled_dict_city_df.items():
+    pca_results[city] = pca.fit_transform(df.T)
+
+# Step 3: Calculate pairwise Euclidean distances between cities based on their PCA-reduced components
+city_names = list(pca_results.keys())
+distance_matrix = np.zeros((len(city_names), len(city_names)))
+
+for i, city_a in enumerate(city_names):
+    for j, city_b in enumerate(city_names):
+        if i != j:
+            # Calculate the Euclidean distance between the PCA-reduced components of each city
+            distance_matrix[i, j] = np.linalg.norm(np.mean(pca_results[city_a], axis=0) - np.mean(pca_results[city_b], axis=0))
+            # distance_matrix[i, j] = np.cos(np.mean(pca_results[city_a], axis=0) - np.mean(pca_results[city_b], axis=0))
+        else:
+            distance_matrix[i, j] = 0  # Distance to itself is zero
+
+# Step 4: Visualize the distance matrix as a heatmap
+plt.figure(figsize=(10, 8))
+plt.title("Euclidean Distance Between Cities Based on PCA (5 Components)")
+heatmap = plt.imshow(distance_matrix, cmap="coolwarm", interpolation="nearest")
+plt.xticks(ticks=np.arange(len(city_names)), labels=city_names, rotation=45)
+plt.yticks(ticks=np.arange(len(city_names)), labels=city_names)
+plt.colorbar(heatmap)
+plt.savefig("/Users/nishant/Downloads/image_3.png")
+
+
+
+from scipy.cluster.hierarchy import dendrogram, linkage
+
+# Convert the distance matrix into a format suitable for the linkage function
+# We use the condensed distance matrix because linkage expects a condensed version of the distance matrix.
+from scipy.spatial.distance import squareform
+condensed_distance_matrix = squareform(distance_matrix)
+
+# Perform the hierarchical clustering using the 'ward' method
+Z = linkage(condensed_distance_matrix, 'ward')
+
+# Plot the dendrogram
+plt.figure(figsize=(12, 8))
+plt.title('Hierarchical Clustering Dendrogram')
+dendrogram(Z, labels=city_names, leaf_rotation=45, leaf_font_size=12)
+plt.tight_layout()
+plt.savefig("/Users/nishant/Downloads/image_4.png")

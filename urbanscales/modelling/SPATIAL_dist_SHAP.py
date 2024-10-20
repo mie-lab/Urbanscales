@@ -1730,10 +1730,10 @@ if __name__ == "__main__":
                     common_features_list = list(set(common_features_list).intersection(set(X.columns.to_list())))
 
 
-                    compare_models_gof_standard_cv_HPT_new(X, Y, common_features_list, tod=tod, cityname=city,
-                                                           scale=scale,
-                                                           n_splits=7, include_interactions=False,
-                                                           scaling=config.SHAP_ScalingOfInputVector)
+                    # compare_models_gof_standard_cv_HPT_new(X, Y, common_features_list, tod=tod, cityname=city,
+                    #                                        scale=scale,
+                    #                                        n_splits=7, include_interactions=False,
+                    #                                        scaling=config.SHAP_ScalingOfInputVector)
 
                     t_non_spatial = time.time() - model_fit_time_start
                     # compare_models_gof_spatial_cv(X, Y, common_features_list, temp_obj=temp_obj, include_interactions=False,
@@ -1776,17 +1776,47 @@ if __name__ == "__main__":
 
                             # Plotting with heatmap based on values and making boundaries invisible
                             fig, ax = plt.subplots(figsize=(10, 10))
-                            gdf_mercator.plot(ax=ax, column='value', cmap='viridis', edgecolor='none',
+
+                            import matplotlib.pyplot as plt
+                            import matplotlib.colors as mcolors
+
+                            # Provided RGB values, arranged from pink to blue
+                            colors = [
+                                (255, 0, 84),  # Pink
+                                (245, 1, 109),
+                                (222, 0, 135),
+                                (190, 1, 158),
+                                (151, 42, 177),
+                                (121, 75, 206),
+                                (71, 100, 227),
+                                (2, 120, 242),
+                                (0, 137, 250)  # Blue
+                            ]
+
+                            # Normalize RGB values
+                            normalized_colors = [(r / 255.0, g / 255.0, b / 255.0) for r, g, b in colors][::-1]
+
+                            # Create the colormap
+                            custom_cmap_shaplike = mcolors.LinearSegmentedColormap.from_list("CustomGradient", normalized_colors,
+                                                                                    N=256)
+
+                            gdf_mercator.plot(ax=ax, column='value', cmap=custom_cmap_shaplike, edgecolor='none',
                                               alpha=0.7)  # Use 'viridis' or any other colormap
                             ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
                             ax.set_axis_off()
                             plt.title(column)
                             # plt.colorbar()
+
+                            sm = plt.cm.ScalarMappable(cmap=custom_cmap_shaplike,
+                                                       norm=plt.Normalize(vmin=np.min(values_normalized),
+                                                                          vmax=np.max(values_normalized)))
+                            plt.colorbar(sm, ax=ax)
+
                             plt.savefig(os.path.join(config.BASE_FOLDER, config.network_folder, city,
-                                                     "_feature_" + str(column) + "_" + str(scale) + ".png"), dpi=300)
+                                                     "_feature_" + str(column) + "_" + str(scale) + ".pdf"), dpi=300)
                             plt.show(block=False);
                             plt.close()
-                            break # no need to plot all
+                            # break # no need to plot all
 
 
                        ######################## SAME THING BUT WITH SAME COLOR TO SHOW DIFFERENCES    ########################
