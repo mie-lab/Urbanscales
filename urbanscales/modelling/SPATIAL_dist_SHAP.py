@@ -1818,6 +1818,7 @@ if __name__ == "__main__":
                             plt.close()
                             # break # no need to plot all
 
+                        sys.exit(0)
 
                        ######################## SAME THING BUT WITH SAME COLOR TO SHOW DIFFERENCES    ########################
                         # Plot the bboxes from scl_jf
