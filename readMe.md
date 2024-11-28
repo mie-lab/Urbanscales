@@ -23,7 +23,7 @@ To run the analysis scripts and generate the congestion features, check out to t
 
 
 ## Data
-The network data is derived from OpenStreetMaps and processed using `[osmnx](https://github.com/gboeing/osmnx)` and the jam factor data is obtained from the [HERE api](https://www.here.com/docs/bundle/traffic-api-developer-guide-v7/page/topics/use-cases/flow-filter-jam-factor.html). 
+The network data is derived from OpenStreetMaps and processed using [osmnx](https://github.com/gboeing/osmnx) and the jam factor data is obtained from the [HERE api](https://www.here.com/docs/bundle/traffic-api-developer-guide-v7/page/topics/use-cases/flow-filter-jam-factor.html). 
 
 ## Citation
 If you find this repository useful for your research or if you use any of the methodologies in your work, please consider citing our paper:
