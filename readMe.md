@@ -19,7 +19,7 @@ git clone https://github.com/mie-lab/Urbanscales.git
 
 
 ### Usage
-To run the analysis scripts and generate the congestion features, check out to the [commit id]([url](https://github.com/mie-lab/Urbanscales/tree/ed2b6b2e37d5aa3e39d74ac7e4ca859db4ec4ede)) at paper submit
+To run the analysis scripts and generate the congestion features, check out to the [commit id]([url](https://github.com/mie-lab/Urbanscales/tree/e09f7908619f9a6bab882e30002c4268ffe27f67c)) at paper submit (09f7908619f9a6bab882e30002c4268ffe27f67c)
 
 
 ## Data
@@ -31,7 +31,7 @@ If you find this repository useful for your research or if you use any of the me
 ```bibtex
 @article{kumarUrbanscales2024,
   author = {Nishant Kumar and Yatao Zhang and Nina Wiedemann and Jimi Oke and Martin Raubal},
-  title = {Investigating the Link Between Road Network and Congestion for Highly Congested Cities},
+  title = {Distilling actionable insights through road network features to alleviate traffic congestion},
   journal = {Journal/Conference Name},
   year = {2024},
   doi = {10.0000/researchsquareToBeFilled/000000},
