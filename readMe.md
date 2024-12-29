@@ -3,7 +3,7 @@
 # Urban Scales:  Road network features in square urban tiles predict congestion levels 
 
 ## Introduction
-This repository contains the code and data for the research paper "Investigating the Link Between Road Network and Congestion for Highly Congested Cities". The study extracts 14 different features from OSM urban tiles of size varying from 0.25 sq. km. to 2 sq.km to predict congestion patterns in various cities. Seven cities were considered: Auckland, New York City, Cape Town, Bogota, Mexico City, Mumbai, and Istanbul. 
+This repository contains the code and data for the research paper "_Investigating the Link Between Road Network and Congestion for Highly Congested Cities_". The study extracts 14 different features from OSM urban tiles of size varying from 0.25 sq. km. to 2 sq.km to predict congestion patterns in various cities. Seven cities were considered: Auckland, New York City, Cape Town, Bogota, Mexico City, Mumbai, and Istanbul. 
 
 ### Prerequisites
 Install the required Python packages:
@@ -19,7 +19,7 @@ git clone https://github.com/mie-lab/Urbanscales.git
 
 
 ### Usage
-To run the analysis scripts and generate the congestion features, check out to the [commit id]([url](https://github.com/mie-lab/Urbanscales/tree/e09f7908619f9a6bab882e30002c4268ffe27f67c)) at paper submit (09f7908619f9a6bab882e30002c4268ffe27f67c)
+To run the analysis scripts and generate the congestion features, check out to the [commit id]([url](https://github.com/mie-lab/Urbanscales/tree/e09f7908619f9a6bab882e30002c4268ffe27f67c)) at paper submit (09f7908619f9a6bab882e30002c4268ffe27f67c). We do not have the necessary permissions to share the raw traffic data collected. Please feel free to contact the corresponding author for a tarball of the collected data to reproduce the results from this paper. 
 
 
 ## Data
