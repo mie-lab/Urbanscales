@@ -1,5 +1,6 @@
-import os
+# polybox password: "data-7-cities"
 
+import os
 import osmnx as ox
 
 pickle_protocol = 5

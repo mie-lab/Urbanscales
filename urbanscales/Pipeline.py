@@ -22,7 +22,6 @@ counter = int(sys.argv[1])
 # The simpler solution of one line as shown below does not work on Ubuntu; so we now have this fancy 3-step solution
 # os.system('sed -i \'\' "s/single_city = .*/single_city = \\"' + cityname[counter] +'\\"/" config.py')
 
-"""
 backup_extension = '.bak'
 os.system('sed -i' + backup_extension + ' "s/single_city = .*/single_city = \\"' + cityname[counter] + '\\"/" config.py')
 os.system('rm config.py' + backup_extension)
@@ -60,7 +59,6 @@ os.system('sed -i' + backup_extension + ' "s/CONGESTION_TYPE = .*/CONGESTION_TYP
 os.system('rm config.py' + backup_extension)
 run_command("python urbanscales/preprocessing/train_data.py", "python urbanscales/preprocessing/train_data.py")
 
-"""
 
 backup_extension = '.bak'
 os.system('sed -i' + backup_extension + ' "s/single_city = .*/single_city = \\"' + cityname[counter] + '\\"/" config.py')
@@ -69,5 +67,3 @@ os.system('sed -i' + backup_extension + ' "s/CONGESTION_TYPE = .*/CONGESTION_TYP
 os.system('rm config.py' + backup_extension)
 run_command("python urbanscales/modelling/SHAP_analysis.py", "python urbanscales/modelling/SHAP_analysis.py")
 
-# run_command("python urbanscales/modelling/ML_Pipeline.py", "python urbanscales/modelling/ML_Pipeline.py")
-# run_command("python urbanscales/process_results/process_feature_importance.py", "python urbanscales/process_results/process_feature_importance.py")
