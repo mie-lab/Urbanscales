@@ -19,7 +19,7 @@ git clone https://github.com/mie-lab/Urbanscales.git
 
 
 ### Usage
-To run the analysis scripts and generate the congestion features, check out to the [commit id]([url](https://github.com/mie-lab/Urbanscales/tree/e09f7908619f9a6bab882e30002c4268ffe27f67c)) at paper submit (09f7908619f9a6bab882e30002c4268ffe27f67c). We do not have the necessary permissions to share the raw traffic data collected. Please feel free to contact the corresponding author for a tarball of the collected data to reproduce the results from this paper. 
+To run the analysis scripts and generate the congestion features, check out to the [commit id]([url](https://github.com/mie-lab/Urbanscales/tree/e09f7908619f9a6bab882e30002c4268ffe27f67c)) at paper submit (09f7908619f9a6bab882e30002c4268ffe27f67c). We lack permission to share the raw traffic data collected, but a tarball of the processed data comprising the jam factor at the segment level for seven cities using [this]([url](https://polybox.ethz.ch/index.php/s/05TB4iMrMR673Xz)) link to reproduce the results from the paper. To avoid spams, the password to access the link is provided at the top of the config file `config.py`.
 
 
 ## Data
