@@ -172,10 +172,10 @@ def plot_data_by_model(df, model_types, city_list):
         plt.yticks(fontsize=13)
         plt.tight_layout();
         plt.gca().invert_xaxis()
-        plt.savefig("nonrecurrent_Fi_1_inverted.pdf",dpi=300)
+        plt.savefig("../../urbanscalesresults/nonrecurrent_Fi_1_inverted.pdf",dpi=300)
 
         # plt.gca().invert_xaxis()
-        # plt.savefig("nonrecurrent_Fi_1.pdf",dpi=300)
+        # plt.savefig("../../urbanscalesresults/nonrecurrent_Fi_1.pdf",dpi=300)
         plt.show()
 
 
@@ -266,7 +266,7 @@ sns.heatmap(heatmap_data, annot=False, cmap="viridis", cbar_kws={'label': 'Featu
 plt.ylabel("Feature")
 plt.xlabel("Scale")
 plt.tight_layout();
-plt.savefig("nonrecurrent_Fi_2a_orig.pdf", dpi=300)
+plt.savefig("../../urbanscalesresults/nonrecurrent_Fi_2a_orig.pdf", dpi=300)
 plt.show()
 
 aaa = []
@@ -279,7 +279,7 @@ plt.hist(heatmap_data.to_numpy().flatten().tolist(), bins=10)
 plt.xticks(rotation=90)
 plt.title("Histogram of FI values (NRC)")
 plt.grid(alpha=0.3)
-# plt.savefig("NRC_histogram.pdf", dpi=300)
+# plt.savefig("../../urbanscalesresults/NRC_histogram.pdf", dpi=300)
 # plt.show()
 plt.clf()
 
@@ -368,7 +368,7 @@ if "heatmapplotunfiltered" == "heatmapplotunfiltered":
     plt.ylabel("Feature", fontsize=25)
     plt.xlabel("Scale", fontsize=25)
     plt.tight_layout()
-    # plt.savefig("nonrecurrent_Fi_2a.pdf", dpi=300)
+    # plt.savefig("../../urbanscalesresults/nonrecurrent_Fi_2a.pdf", dpi=300)
     # plt.show()
     plt.clf()
 
@@ -421,7 +421,7 @@ plt.ylabel("Feature")
 plt.xlabel("Scale")
 plt.tight_layout();
 
-# plt.savefig("nonrecurrent_Fi_2b_orig.pdf", dpi=300)
+# plt.savefig("../../urbanscalesresults/nonrecurrent_Fi_2b_orig.pdf", dpi=300)
 # plt.show()
 plt.clf()
 
@@ -484,7 +484,7 @@ if "heatmapplotunOtsu" == "heatmapplotunOtsu":
     plt.ylabel("Feature", fontsize=25)
     plt.xlabel("Scale", fontsize=25)
     plt.tight_layout()
-    # plt.savefig("nonrecurrent_Fi_2b.pdf", dpi=300)
+    # plt.savefig("../../urbanscalesresults/nonrecurrent_Fi_2b.pdf", dpi=300)
     # plt.show()
     plt.clf()
 
@@ -533,7 +533,7 @@ plt.ylabel("Feature")
 plt.xlabel("Scale")
 plt.tight_layout()
 plt.tight_layout();
-# plt.savefig("nonrecurrent_Fi_2c_orig.pdf", dpi=300)
+# plt.savefig("../../urbanscalesresults/nonrecurrent_Fi_2c_orig.pdf", dpi=300)
 # plt.show()
 plt.clf()
 
@@ -593,7 +593,7 @@ if "heatmapplotunOtsuSelected50" == "heatmapplotunOtsuSelected50":
     plt.ylabel("Feature", fontsize=25)
     plt.xlabel("Scale", fontsize=25)
     # plt.tight_layout()
-    # plt.savefig("nonrecurrent_Fi_2c.pdf", dpi=300)
+    # plt.savefig("../../urbanscalesresults/nonrecurrent_Fi_2c.pdf", dpi=300)
     # plt.show()
     plt.clf()
 
@@ -707,7 +707,7 @@ if 1==1: # trick to allow code folding :)
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
-    # plt.savefig("nonrecurrent_Fi_3a.pdf", dpi=300)
+    # plt.savefig("../../urbanscalesresults/nonrecurrent_Fi_3a.pdf", dpi=300)
     # plt.show()
     plt.clf()
     # Display the dictionary
@@ -757,7 +757,7 @@ if 1==1: # trick to allow code folding :)
         # plt.title('Silhouette Analysis for Determining the Optimal Number of Clusters')
         plt.grid(True, alpha=0.3)
         plt.tight_layout();
-        # plt.savefig("nonrecurrent_Fi_3b.pdf", dpi=300)
+        # plt.savefig("../../urbanscalesresults/nonrecurrent_Fi_3b.pdf", dpi=300)
         # plt.show()
         plt.clf()
 
@@ -833,7 +833,7 @@ if 1==1: # trick to allow code folding :)
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
-    # plt.savefig("nonrecurrent_Fi_3c.pdf", dpi=300)
+    # plt.savefig("../../urbanscalesresults/nonrecurrent_Fi_3c.pdf", dpi=300)
     # plt.show()
     plt.clf()
 
@@ -871,7 +871,7 @@ if 1==1: # trick to allow code folding :)
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
-    # plt.savefig("nonrecurrent_Fi_3d.pdf", dpi=300)
+    # plt.savefig("../../urbanscalesresults/nonrecurrent_Fi_3d.pdf", dpi=300)
     # plt.show()
     plt.clf()
 
@@ -981,7 +981,7 @@ if 1==1: # allow code folding
     sns.heatmap(heatmap_data, annot=False, cmap=cmap, cbar_kws={'label': 'Direction of Relationship'}, center=0,
                 yticklabels=True, xticklabels=original_xticks)
     plt.tight_layout();
-    plt.savefig("nonrecurrent_Fi_4a_orig.pdf", dpi=300)
+    plt.savefig("../../urbanscalesresults/nonrecurrent_Fi_4a_orig.pdf", dpi=300)
     plt.show()
 
     if "heatmaptratioSign" == "heatmaptratioSign":
@@ -1072,7 +1072,7 @@ if 1==1: # allow code folding
         plt.ylabel("Feature", fontsize=25)
         plt.xlabel("Scale", fontsize=25)
         plt.tight_layout()
-        plt.savefig("nonrecurrent_Fi_4a.pdf", dpi=300)
+        plt.savefig("../../urbanscalesresults/nonrecurrent_Fi_4a.pdf", dpi=300)
         plt.show()
 
 
@@ -1168,7 +1168,7 @@ if 1==1: # allow code folding
                 yticklabels=True, xticklabels=True)
     # plt.title("Sensitivity")
     plt.tight_layout();
-    # plt.savefig("nonrecurrent_Fi_4b.pdf", dpi=300)
+    # plt.savefig("../../urbanscalesresults/nonrecurrent_Fi_4b.pdf", dpi=300)
     # plt.show()
     plt.clf()
 
@@ -1288,7 +1288,7 @@ if 1==1: # allow code folding
     plt.tight_layout()
     plt.xticks(fontsize=20)
     plt.yticks(fontsize=20)
-    # plt.savefig("nonrecurrent_Fig5_var_abs_SR_Positive.pdf", dpi=300)
+    # plt.savefig("../../urbanscalesresults/nonrecurrent_Fig5_var_abs_SR_Positive.pdf", dpi=300)
     # plt.show()
     plt.clf()
 
@@ -1395,7 +1395,7 @@ if 1==1: # allow code folding
     plt.tight_layout()
     plt.xticks(fontsize=20)
     plt.yticks(fontsize=20)
-    # plt.savefig("nonrecurrent_Fig5_var_abs_SR_Negative.pdf", dpi=300)
+    # plt.savefig("../../urbanscalesresults/nonrecurrent_Fig5_var_abs_SR_Negative.pdf", dpi=300)
     # plt.show()
     plt.clf()
 
@@ -1559,7 +1559,7 @@ if 1==1: # allow code folding
         plt.title(f"Cluster {yi + 1}")
 
     plt.tight_layout()
-    # plt.savefig("DTW_nonrecurent_selected_postive_features.pdf", dpi=300)
+    # plt.savefig("../../urbanscalesresults/DTW_nonrecurent_selected_postive_features.pdf", dpi=300)
     # plt.show()
     plt.clf()
 
@@ -1606,7 +1606,7 @@ if 1==1: # allow code folding
     sns.heatmap(np.log(heatmap_data+0.127), annot=False, cmap="seismic", cbar_kws={'label': 'Sensitivity Ratio'},
                 yticklabels=True, xticklabels=True)
     # plt.title("Log of sensitivity")
-    # plt.savefig("nonrecurrent_Fi_4c.pdf", dpi=300)
+    # plt.savefig("../../urbanscalesresults/nonrecurrent_Fi_4c.pdf", dpi=300)
     # plt.tight_layout();
     # plt.show()
     plt.clf()
@@ -1716,7 +1716,7 @@ if 1==1: # allow code folding
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
-    # plt.savefig("nonrecurrent_Fi_4d.pdf", dpi=300)
+    # plt.savefig("../../urbanscalesresults/nonrecurrent_Fi_4d.pdf", dpi=300)
     # plt.show()
     plt.clf()
     # Display the dictionary
@@ -1756,7 +1756,7 @@ if 1==1: # allow code folding
         # plt.title('Elbow Method for Determining the Optimal Number of Clusters')
         plt.grid(True, alpha=0.3)
         plt.tight_layout();
-        # plt.savefig("nonrecurrent_Fi_4e.pdf", dpi=300)
+        # plt.savefig("../../urbanscalesresults/nonrecurrent_Fi_4e.pdf", dpi=300)
         # plt.show()
         plt.clf()
 
@@ -1768,7 +1768,7 @@ if 1==1: # allow code folding
         # plt.title('Silhouette Analysis for Determining the Optimal Number of Clusters')
         plt.grid(True, alpha=0.3)
         plt.tight_layout();
-        # plt.savefig("nonrecurrent_Fi_4f.pdf", dpi=300)
+        # plt.savefig("../../urbanscalesresults/nonrecurrent_Fi_4f.pdf", dpi=300)
         # plt.show()'
         plt.clf()
 
@@ -1862,7 +1862,7 @@ if 1==1: # allow code folding
     plt.legend(loc='upper right', fontsize=12)
     plt.grid(True, alpha=0.0)
     # plt.tight_layout();
-    # plt.savefig("nonrecurrent_Fi_4g.pdf", dpi=300)
+    # plt.savefig("../../urbanscalesresults/nonrecurrent_Fi_4g.pdf", dpi=300)
     # plt.show()
     plt.clf()
 
@@ -1895,7 +1895,7 @@ if 1==1: # allow code folding
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
-    # plt.savefig("nonrecurrent_Fi_4h.pdf", dpi=300)
+    # plt.savefig("../../urbanscalesresults/nonrecurrent_Fi_4h.pdf", dpi=300)
     # plt.show()
     plt.clf()
 
