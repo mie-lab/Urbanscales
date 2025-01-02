@@ -1,5 +1,6 @@
 # This file may be used to create an environment using:
-# $ conda create --name <env> --file <this file>
+# conda create --name urbanscales --file requirements_exported_from_conda.txt
+# conda activate urbanscales
 # platform: osx-64
 affine=2.4.0=pypi_0
 alphashape=1.3.1=pypi_0
