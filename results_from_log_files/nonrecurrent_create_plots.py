@@ -279,8 +279,9 @@ plt.hist(heatmap_data.to_numpy().flatten().tolist(), bins=10)
 plt.xticks(rotation=90)
 plt.title("Histogram of FI values (NRC)")
 plt.grid(alpha=0.3)
-plt.savefig("NRC_histogram.pdf", dpi=300)
-plt.show()
+# plt.savefig("NRC_histogram.pdf", dpi=300)
+# plt.show()
+plt.clf()
 
 
 # Reshape the DataFrame from pivot table format to a long format
@@ -367,8 +368,9 @@ if "heatmapplotunfiltered" == "heatmapplotunfiltered":
     plt.ylabel("Feature", fontsize=25)
     plt.xlabel("Scale", fontsize=25)
     plt.tight_layout()
-    plt.savefig("nonrecurrent_Fi_2a.pdf", dpi=300)
-    plt.show()
+    # plt.savefig("nonrecurrent_Fi_2a.pdf", dpi=300)
+    # plt.show()
+    plt.clf()
 
     for citynum in range(7):
         sprint (heatmap_data.iloc[:,citynum*10:(citynum+1)*10].columns)
@@ -419,8 +421,9 @@ plt.ylabel("Feature")
 plt.xlabel("Scale")
 plt.tight_layout();
 
-plt.savefig("nonrecurrent_Fi_2b_orig.pdf", dpi=300)
-plt.show()
+# plt.savefig("nonrecurrent_Fi_2b_orig.pdf", dpi=300)
+# plt.show()
+plt.clf()
 
 
 
@@ -481,8 +484,9 @@ if "heatmapplotunOtsu" == "heatmapplotunOtsu":
     plt.ylabel("Feature", fontsize=25)
     plt.xlabel("Scale", fontsize=25)
     plt.tight_layout()
-    plt.savefig("nonrecurrent_Fi_2b.pdf", dpi=300)
-    plt.show()
+    # plt.savefig("nonrecurrent_Fi_2b.pdf", dpi=300)
+    # plt.show()
+    plt.clf()
 
 
 backup_non_recurrent_nans = np.sign(pd.DataFrame(heatmap_data))
@@ -529,9 +533,9 @@ plt.ylabel("Feature")
 plt.xlabel("Scale")
 plt.tight_layout()
 plt.tight_layout();
-plt.savefig("nonrecurrent_Fi_2c_orig.pdf", dpi=300)
-plt.show()
-
+# plt.savefig("nonrecurrent_Fi_2c_orig.pdf", dpi=300)
+# plt.show()
+plt.clf()
 
 if "heatmapplotunOtsuSelected50" == "heatmapplotunOtsuSelected50":
     tick_positions = np.concatenate([np.arange(0, 8, 4), np.array([9]), np.arange(14, heatmap_data.columns.size, 10)])
@@ -588,10 +592,10 @@ if "heatmapplotunOtsuSelected50" == "heatmapplotunOtsuSelected50":
     ax.set_xticklabels(tick_labels, rotation=90)  # Rotate labels for better visibility
     plt.ylabel("Feature", fontsize=25)
     plt.xlabel("Scale", fontsize=25)
-    plt.tight_layout()
-    plt.savefig("nonrecurrent_Fi_2c.pdf", dpi=300)
-    plt.show()
-
+    # plt.tight_layout()
+    # plt.savefig("nonrecurrent_Fi_2c.pdf", dpi=300)
+    # plt.show()
+    plt.clf()
 
 
 ################ FIGURE 2
@@ -703,8 +707,9 @@ if 1==1: # trick to allow code folding :)
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
-    plt.savefig("nonrecurrent_Fi_3a.pdf", dpi=300)
-    plt.show()
+    # plt.savefig("nonrecurrent_Fi_3a.pdf", dpi=300)
+    # plt.show()
+    plt.clf()
     # Display the dictionary
 
     import pandas as pd
@@ -752,8 +757,9 @@ if 1==1: # trick to allow code folding :)
         # plt.title('Silhouette Analysis for Determining the Optimal Number of Clusters')
         plt.grid(True, alpha=0.3)
         plt.tight_layout();
-        plt.savefig("nonrecurrent_Fi_3b.pdf", dpi=300)
-        plt.show()
+        # plt.savefig("nonrecurrent_Fi_3b.pdf", dpi=300)
+        # plt.show()
+        plt.clf()
 
         # Choose the optimal number of clusters (based on the Elbow or Silhouette)
         optimal_clusters = np.argmax(silhouette_scores) + 2  # +2 because range starts from 2
@@ -827,8 +833,9 @@ if 1==1: # trick to allow code folding :)
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
-    plt.savefig("nonrecurrent_Fi_3c.pdf", dpi=300)
-    plt.show()
+    # plt.savefig("nonrecurrent_Fi_3c.pdf", dpi=300)
+    # plt.show()
+    plt.clf()
 
     # Display the number of time series in each cluster
     for i in range(HARDCODED_CLUSTER):
@@ -864,8 +871,9 @@ if 1==1: # trick to allow code folding :)
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
-    plt.savefig("nonrecurrent_Fi_3d.pdf", dpi=300)
-    plt.show()
+    # plt.savefig("nonrecurrent_Fi_3d.pdf", dpi=300)
+    # plt.show()
+    plt.clf()
 
 
 
@@ -1160,9 +1168,9 @@ if 1==1: # allow code folding
                 yticklabels=True, xticklabels=True)
     # plt.title("Sensitivity")
     plt.tight_layout();
-    plt.savefig("nonrecurrent_Fi_4b.pdf", dpi=300)
-    plt.show()
-
+    # plt.savefig("nonrecurrent_Fi_4b.pdf", dpi=300)
+    # plt.show()
+    plt.clf()
 
 
 
@@ -1280,8 +1288,9 @@ if 1==1: # allow code folding
     plt.tight_layout()
     plt.xticks(fontsize=20)
     plt.yticks(fontsize=20)
-    plt.savefig("nonrecurrent_Fig5_var_abs_SR_Positive.pdf", dpi=300)
-    plt.show()
+    # plt.savefig("nonrecurrent_Fig5_var_abs_SR_Positive.pdf", dpi=300)
+    # plt.show()
+    plt.clf()
 
 
 
@@ -1337,8 +1346,9 @@ if 1==1: # allow code folding
 
     print ("*******************************\n\n\n\n\n\n")
     plt.hist(val_list, bins=20)
-    plt.title("Hist of Positive SR values")
-    plt.show()
+    # plt.title("Hist of Positive SR values")
+    # plt.show()
+    plt.clf()
 
     # Define colors for each city
     colors = {
@@ -1385,9 +1395,9 @@ if 1==1: # allow code folding
     plt.tight_layout()
     plt.xticks(fontsize=20)
     plt.yticks(fontsize=20)
-    plt.savefig("nonrecurrent_Fig5_var_abs_SR_Negative.pdf", dpi=300)
-    plt.show()
-
+    # plt.savefig("nonrecurrent_Fig5_var_abs_SR_Negative.pdf", dpi=300)
+    # plt.show()
+    plt.clf()
 
     print ("\n\n\n\n")
 
@@ -1549,8 +1559,9 @@ if 1==1: # allow code folding
         plt.title(f"Cluster {yi + 1}")
 
     plt.tight_layout()
-    plt.savefig("DTW_nonrecurent_selected_postive_features.pdf", dpi=300)
-    plt.show()
+    # plt.savefig("DTW_nonrecurent_selected_postive_features.pdf", dpi=300)
+    # plt.show()
+    plt.clf()
 
     # Printing which label belongs to which cluster
     print("Cluster assignments:")
@@ -1595,10 +1606,10 @@ if 1==1: # allow code folding
     sns.heatmap(np.log(heatmap_data+0.127), annot=False, cmap="seismic", cbar_kws={'label': 'Sensitivity Ratio'},
                 yticklabels=True, xticklabels=True)
     # plt.title("Log of sensitivity")
-    plt.savefig("nonrecurrent_Fi_4c.pdf", dpi=300)
-    plt.tight_layout();
-    plt.show()
-
+    # plt.savefig("nonrecurrent_Fi_4c.pdf", dpi=300)
+    # plt.tight_layout();
+    # plt.show()
+    plt.clf()
 
     # trick to allow code folding :)
 
@@ -1705,8 +1716,9 @@ if 1==1: # allow code folding
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
-    plt.savefig("nonrecurrent_Fi_4d.pdf", dpi=300)
-    plt.show()
+    # plt.savefig("nonrecurrent_Fi_4d.pdf", dpi=300)
+    # plt.show()
+    plt.clf()
     # Display the dictionary
 
     import pandas as pd
@@ -1744,8 +1756,9 @@ if 1==1: # allow code folding
         # plt.title('Elbow Method for Determining the Optimal Number of Clusters')
         plt.grid(True, alpha=0.3)
         plt.tight_layout();
-        plt.savefig("nonrecurrent_Fi_4e.pdf", dpi=300)
-        plt.show()
+        # plt.savefig("nonrecurrent_Fi_4e.pdf", dpi=300)
+        # plt.show()
+        plt.clf()
 
         # Plot Silhouette scores
         plt.figure(figsize=(14, 8))
@@ -1755,8 +1768,9 @@ if 1==1: # allow code folding
         # plt.title('Silhouette Analysis for Determining the Optimal Number of Clusters')
         plt.grid(True, alpha=0.3)
         plt.tight_layout();
-        plt.savefig("nonrecurrent_Fi_4f.pdf", dpi=300)
-        plt.show()
+        # plt.savefig("nonrecurrent_Fi_4f.pdf", dpi=300)
+        # plt.show()'
+        plt.clf()
 
         # Choose the optimal number of clusters (based on the Elbow or Silhouette)
         optimal_clusters = np.argmax(silhouette_scores) + 2  # +2 because range starts from 2
@@ -1848,8 +1862,9 @@ if 1==1: # allow code folding
     plt.legend(loc='upper right', fontsize=12)
     plt.grid(True, alpha=0.0)
     # plt.tight_layout();
-    plt.savefig("nonrecurrent_Fi_4g.pdf", dpi=300)
-    plt.show()
+    # plt.savefig("nonrecurrent_Fi_4g.pdf", dpi=300)
+    # plt.show()
+    plt.clf()
 
     # Display the number of time series in each cluster
     for i in range(HARDCODED_CLUSTER):
@@ -1880,8 +1895,9 @@ if 1==1: # allow code folding
     # plt.legend(loc='best', fontsize='small')
     plt.grid(True, alpha=0.3)
     plt.tight_layout();
-    plt.savefig("nonrecurrent_Fi_4h.pdf", dpi=300)
-    plt.show()
+    # plt.savefig("nonrecurrent_Fi_4h.pdf", dpi=300)
+    # plt.show()
+    plt.clf()
 
 debug_pitstop = True
 
