@@ -1,0 +1,231 @@
+X.shape, Y.shape, "Inside the model-fitting function" : (386, 14) (386,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 20,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 600}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 circuity_avg -0.00766600862008511 0.008537506039025169 -1.1136833340699248
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 metered_count 0.003104417833086851 0.004825327428201421 1.554342130357948
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 mean_lanes 0.03661199188057639 0.003433012974753356 0.09376744608573614
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 streets_per_node_count_5 0.0002078398363002841 0.00022571112352548717 1.0859858607633952
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 m 0.04815926826259563 0.0033573416739133928 0.06971330327543566
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 k_avg -0.00563662677138301 0.004482304419252904 -0.7952104336603292
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_2 0.003785605649028497 0.005369518059421756 1.4184039641846318
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_avg 0.0053537262343332104 0.007510753792959511 1.4029021029863982
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 total_crossings 0.005933647922974306 0.010011087340573249 1.6871724562240427
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 betweenness -0.013327451606254403 0.004346248669640309 -0.3261125080807399
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 n 0.006413921530803004 0.004988705939650231 0.7777934163509574
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 streets_per_node_count_3 0.0041834844902760146 0.0031212066956705364 0.7460782280716924
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 streets_per_node_count_4 0.0048404031246389815 0.007563570371856326 1.5625910026699377
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 non_metered_count 0.0033034704503231652 0.00600800255082585 1.8186942008935214
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0043
+SHAP-- non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0023
+SHAP-- non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0016
+SHAP-- non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0001
+SHAP-- non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0017
+SHAP-- non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0023
+SHAP-- non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0027
+SHAP-- non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0038
+SHAP-- non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0047
+SHAP-- non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0021
+SHAP-- non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0025
+SHAP-- non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0016
+SHAP-- non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0038
+SHAP-- non-recurrent-mmm-capetown-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0018
+NON-RECURRENT-MMM Capetown 25 LR 0.17964099249157398 XpVar
+NON-RECURRENT-MMM Capetown 25 RF 0.20524248092052239 XpVar
+NON-RECURRENT-MMM Capetown 25 LLR 3.172065784643304e-17 XpVar
+NON-RECURRENT-MMM Capetown 25 RLR 0.1821277050694658 XpVar
+NON-RECURRENT-MMM Capetown 25 LR 0.0014792772464990026 MSE
+NON-RECURRENT-MMM Capetown 25 RF 0.0014612713820365073 MSE
+NON-RECURRENT-MMM Capetown 25 LLR 0.0018211289170453223 MSE
+NON-RECURRENT-MMM Capetown 25 RLR 0.0014742109264815103 MSE
+NON-RECURRENT-MMM Capetown 25 LR 0.1645429994125624 R2
+NON-RECURRENT-MMM Capetown 25 RF 0.18138247984371783 R2
+NON-RECURRENT-MMM Capetown 25 LLR -0.015058847104301165 R2
+NON-RECURRENT-MMM Capetown 25 RLR 0.1674180410909818 R2
+t_spatial, t_non_spatial, "seconds" : 2.6226043701171875e-06 71.64800572395325 seconds
+sorted_percentage_nan_per_column : maxspeed                         4.336283
+n                                0.000000
+lane_density                     0.000000
+streets_per_node_proportion_6    0.000000
+streets_per_node_proportion_5    0.000000
+streets_per_node_proportion_4    0.000000
+streets_per_node_proportion_3    0.000000
+streets_per_node_proportion_2    0.000000
+streets_per_node_proportion_1    0.000000
+streets_per_node_count_6         0.000000
+streets_per_node_count_5         0.000000
+streets_per_node_count_4         0.000000
+streets_per_node_count_3         0.000000
+streets_per_node_count_2         0.000000
+streets_per_node_count_1         0.000000
+mean_lanes                       0.000000
+m                                0.000000
+betweenness                      0.000000
+total_crossings                  0.000000
+non_metered_count                0.000000
+metered_count                    0.000000
+self_loop_proportion             0.000000
+circuity_avg                     0.000000
+street_length_avg                0.000000
+street_segment_count             0.000000
+street_length_total              0.000000
+streets_per_node_avg             0.000000
+edge_length_avg                  0.000000
+edge_length_total                0.000000
+k_avg                            0.000000
+global_betweenness               0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Capetown 50 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 1 (1130, 14) (1130,)
+X.shape, Y.shape, "Inside the model-fitting function" : (1130, 14) (1130,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 600}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 circuity_avg -0.007768713098313238 0.008096838761742367 -1.0422368105600879
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 metered_count 0.004338058126839746 0.006878314533224083 1.5855745432887738
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 mean_lanes -0.00586540474064588 0.003329086650600461 -0.5675800388557453
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 streets_per_node_count_5 0.00022233329250859443 0.0009994617494387943 4.495331032801395
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 m 0.006521068713221963 0.003182202448530835 0.4879878726133766
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 k_avg -0.004196728272682269 0.006135042694775129 -1.461863217285216
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_2 0.00322718116799424 0.003921424050294468 1.2151236159858092
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_avg 0.005540089617015383 0.008908872270285806 1.6080736750040678
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 total_crossings 0.0038902236528617113 0.007926591434420672 2.037567024864944
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 betweenness -0.006796011621452785 0.006641597608116322 -0.9772787302409801
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 n 0.005305202464501221 0.006586645174040929 1.2415445438914432
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 streets_per_node_count_3 0.003236305241368169 0.0028767878971946606 0.8889111757512959
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 streets_per_node_count_4 0.00716029340058752 0.009744045278552903 1.360844414246123
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 non_metered_count 0.004161996956377146 0.012101607583081573 2.9076445057315814
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0040
+SHAP-- non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0030
+SHAP-- non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0017
+SHAP-- non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0001
+SHAP-- non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0016
+SHAP-- non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0032
+SHAP-- non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0020
+SHAP-- non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0044
+SHAP-- non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0024
+SHAP-- non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0029
+SHAP-- non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0033
+SHAP-- non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0014
+SHAP-- non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0049
+SHAP-- non-recurrent-mmm-capetown-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0017
+NON-RECURRENT-MMM Capetown 50 LR 0.11281922296016109 XpVar
+NON-RECURRENT-MMM Capetown 50 RF 0.09679715359859996 XpVar
+NON-RECURRENT-MMM Capetown 50 LLR 1.586032892321652e-17 XpVar
+NON-RECURRENT-MMM Capetown 50 RLR 0.1125578518025103 XpVar
+NON-RECURRENT-MMM Capetown 50 LR 0.0026192799352888585 MSE
+NON-RECURRENT-MMM Capetown 50 RF 0.0026144521591726505 MSE
+NON-RECURRENT-MMM Capetown 50 LLR 0.0029460266680370268 MSE
+NON-RECURRENT-MMM Capetown 50 RLR 0.0026176471961674346 MSE
+NON-RECURRENT-MMM Capetown 50 LR 0.10759243363248214 R2
+NON-RECURRENT-MMM Capetown 50 RF 0.09183568287127557 R2
+NON-RECURRENT-MMM Capetown 50 LLR -0.0068923843463332924 R2
+NON-RECURRENT-MMM Capetown 50 RLR 0.10733573644386493 R2
+t_spatial, t_non_spatial, "seconds" : 4.0531158447265625e-06 133.01260900497437 seconds
+sorted_percentage_nan_per_column : maxspeed                         5.314827
+n                                0.000000
+lane_density                     0.000000
+streets_per_node_proportion_6    0.000000
+streets_per_node_proportion_5    0.000000
+streets_per_node_proportion_4    0.000000
+streets_per_node_proportion_3    0.000000
+streets_per_node_proportion_2    0.000000
+streets_per_node_proportion_1    0.000000
+streets_per_node_count_6         0.000000
+streets_per_node_count_5         0.000000
+streets_per_node_count_4         0.000000
+streets_per_node_count_3         0.000000
+streets_per_node_count_2         0.000000
+streets_per_node_count_1         0.000000
+mean_lanes                       0.000000
+m                                0.000000
+betweenness                      0.000000
+total_crossings                  0.000000
+non_metered_count                0.000000
+metered_count                    0.000000
+self_loop_proportion             0.000000
+circuity_avg                     0.000000
+street_length_avg                0.000000
+street_segment_count             0.000000
+street_length_total              0.000000
+streets_per_node_avg             0.000000
+edge_length_avg                  0.000000
+edge_length_total                0.000000
+k_avg                            0.000000
+global_betweenness               0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Capetown 100 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 1 (2954, 14) (2954,)
+X.shape, Y.shape, "Inside the model-fitting function" : (2954, 14) (2954,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 400}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 circuity_avg -0.00741265680214416 0.008635511841676052 -1.164968522376238
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 metered_count 0.005195162063163134 0.009856443730069053 1.897235083378293
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 mean_lanes -0.0050604041317952216 0.004459555257444775 -0.8812646463203938
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 streets_per_node_count_5 0.00020769939003872985 0.0011748986782961586 5.656726666732504
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 m 0.06949191577636082 0.004181432112857402 0.06017148996602863
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 k_avg -0.0038738042369412377 0.004899515895034985 -1.264781490069217
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_2 0.003440044599646692 0.004149609431017062 1.206266172084875
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_avg 0.005913439534336253 0.009068564641924142 1.5335515970473235
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 total_crossings 0.004243639246379609 0.006483922151508536 1.5279154930618073
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 betweenness -0.003733450934811057 0.0031201948459409464 -0.8357401504457842
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 n 0.006774874249397797 0.005606413081970865 0.8275302058144041
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 streets_per_node_count_3 0.009731108268279375 0.006484703823760844 0.6663890324701371
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 streets_per_node_count_4 0.002978471055639612 0.0039708181429194325 1.3331733190426183
+NON-RECURRENT-MMM non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 non_metered_count 0.0014046965763034572 0.0026691617081933123 1.900169583396701
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0042
+SHAP-- non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0036
+SHAP-- non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0022
+SHAP-- non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0001
+SHAP-- non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0020
+SHAP-- non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0024
+SHAP-- non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0019
+SHAP-- non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0045
+SHAP-- non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0029
+SHAP-- non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0015
+SHAP-- non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0028
+SHAP-- non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0031
+SHAP-- non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0017
+SHAP-- non-recurrent-mmm-capetown-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0007
+NON-RECURRENT-MMM Capetown 100 LR 0.07245770459241123 XpVar
+NON-RECURRENT-MMM Capetown 100 RF 0.07339360322906718 XpVar
+NON-RECURRENT-MMM Capetown 100 LLR 0.0 XpVar
+NON-RECURRENT-MMM Capetown 100 RLR 0.07246238414128903 XpVar
+NON-RECURRENT-MMM Capetown 100 LR 0.004432087279222298 MSE
+NON-RECURRENT-MMM Capetown 100 RF 0.004416380495496955 MSE
+NON-RECURRENT-MMM Capetown 100 LLR 0.004698184573650155 MSE
+NON-RECURRENT-MMM Capetown 100 RLR 0.00443175229693505 MSE
+NON-RECURRENT-MMM Capetown 100 LR 0.0712872445245372 R2
+NON-RECURRENT-MMM Capetown 100 RF 0.07136458149817239 R2
+NON-RECURRENT-MMM Capetown 100 LLR -0.0014505573054936097 R2
+NON-RECURRENT-MMM Capetown 100 RLR 0.07129000254643102 R2
+t_spatial, t_non_spatial, "seconds" : 3.814697265625e-06 291.02994775772095 seconds
+
+ Complete: python urbanscales/io/speed_data.py
+
+
+ Complete: python urbanscales/preprocessing/prep_network.py
+
+
+ Complete: python urbanscales/preprocessing/prep_speed.py
+
+
+ Complete: python urbanscales/preprocessing/train_data.py
+
+
+ Complete: python urbanscales/modelling/SHAP_analysis.py
+

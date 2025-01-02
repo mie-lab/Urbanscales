@@ -1,0 +1,99 @@
+city,scale,featurename,FI
+auckland,050,#SPN-2,0.021
+auckland,050,#SPN-3,0.0513
+auckland,050,#SPN-4,0.0339
+auckland,050,#SPN-5,0.0134
+auckland,050,#edges,0.0382
+auckland,050,#free turns,0.0031
+auckland,050,#nodes,0.0541
+auckland,050,#total crossings,0.0132
+auckland,050,#traffic lights,0.0295
+auckland,050,SPN-avg,0.0274
+auckland,050,avg circuity,0.0451
+auckland,050,avg degree,0.0147
+auckland,050,avg lanes,0.0108
+auckland,050,local centrality,0.0099
+bogota,050,#SPN-2,0.0374
+bogota,050,#SPN-3,0.0442
+bogota,050,#SPN-4,0.1292
+bogota,050,#SPN-5,0.0041
+bogota,050,#edges,0.0546
+bogota,050,#free turns,0.0498
+bogota,050,#nodes,0.0576
+bogota,050,#total crossings,0.1675
+bogota,050,#traffic lights,0.073
+bogota,050,SPN-avg,0.0366
+bogota,050,avg circuity,0.0455
+bogota,050,avg degree,0.0423
+bogota,050,avg lanes,0.1317
+bogota,050,local centrality,0.0251
+capetown,050,#SPN-2,0.0272
+capetown,050,#SPN-3,0.0296
+capetown,050,#SPN-4,0.0798
+capetown,050,#SPN-5,0.0002
+capetown,050,#edges,0.0237
+capetown,050,#free turns,0.0052
+capetown,050,#nodes,0.0369
+capetown,050,#total crossings,0.0369
+capetown,050,#traffic lights,0.0489
+capetown,050,SPN-avg,0.0525
+capetown,050,avg circuity,0.014
+capetown,050,avg degree,0.0106
+capetown,050,avg lanes,0.0132
+capetown,050,local centrality,0.0136
+istanbul,075,#SPN-2,0.0217
+istanbul,075,#SPN-3,0.0783
+istanbul,075,#SPN-4,0.0547
+istanbul,075,#SPN-5,0.0164
+istanbul,075,#edges,0.025
+istanbul,075,#free turns,0.01
+istanbul,075,#nodes,0.0423
+istanbul,075,#total crossings,0.0477
+istanbul,075,#traffic lights,0.018
+istanbul,075,SPN-avg,0.0547
+istanbul,075,avg circuity,0.0128
+istanbul,075,avg degree,0.0216
+istanbul,075,avg lanes,0.0293
+istanbul,075,local centrality,0.0166
+mexicocity,050,#SPN-2,0.0605
+mexicocity,050,#SPN-3,0.0371
+mexicocity,050,#SPN-4,0.1055
+mexicocity,050,#SPN-5,0.0123
+mexicocity,050,#edges,0.05
+mexicocity,050,#free turns,0.0061
+mexicocity,050,#nodes,0.0587
+mexicocity,050,#total crossings,0.1334
+mexicocity,050,#traffic lights,0.2036
+mexicocity,050,SPN-avg,0.0408
+mexicocity,050,avg circuity,0.0716
+mexicocity,050,avg degree,0.0252
+mexicocity,050,avg lanes,0.0308
+mexicocity,050,local centrality,0.0214
+mumbai,050,#SPN-2,0.0313
+mumbai,050,#SPN-3,0.0298
+mumbai,050,#SPN-4,0.0572
+mumbai,050,#SPN-5,0.0046
+mumbai,050,#edges,0.0461
+mumbai,050,#free turns,0.0028
+mumbai,050,#nodes,0.0535
+mumbai,050,#total crossings,0.0987
+mumbai,050,#traffic lights,0.0944
+mumbai,050,SPN-avg,0.0304
+mumbai,050,avg circuity,0.0633
+mumbai,050,avg degree,0.0313
+mumbai,050,avg lanes,0.0337
+mumbai,050,local centrality,0.034
+newyorkcity,050,#SPN-2,0.0118
+newyorkcity,050,#SPN-3,0.0159
+newyorkcity,050,#SPN-4,0.0467
+newyorkcity,050,#SPN-5,0.0043
+newyorkcity,050,#edges,0.0162
+newyorkcity,050,#free turns,0.0805
+newyorkcity,050,#nodes,0.0161
+newyorkcity,050,#total crossings,0.1414
+newyorkcity,050,#traffic lights,0.1348
+newyorkcity,050,SPN-avg,0.0457
+newyorkcity,050,avg circuity,0.0371
+newyorkcity,050,avg degree,0.0103
+newyorkcity,050,avg lanes,0.0286
+newyorkcity,050,local centrality,0.0152
