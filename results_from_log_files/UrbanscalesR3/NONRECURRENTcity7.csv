@@ -1,0 +1,800 @@
+X.shape, Y.shape, "Inside the model-fitting function" : (311, 14) (311,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 20,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 600}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_avg 0.008946786281813595 0.011983097602092773 1.3393745222741245
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 streets_per_node_count_3 -0.0071438935914183615 0.011254501719855047 -1.5754016455920585
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 metered_count 0.013117429515937116 0.014511956222596203 1.1063109738813384
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 m -0.010761094120011382 0.016719757610514616 -1.5537228300440638
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 mean_lanes 0.008939866176446322 0.012051623452128696 1.3480764940174224
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 non_metered_count 0.026381406113804802 0.04892275884320046 1.8544409131248039
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_4 0.250803752990149 0.0065517843645493635 0.026123151214594076
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_count_5 0.004838861705134028 0.007527577108331885 1.5556503919806453
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 total_crossings 0.017642504599756904 0.027349171058018935 1.5501864207191862
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 n -0.0068346466740056185 0.007873661507050095 -1.1520217331784228
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 streets_per_node_count_2 0.01198893198588113 0.017029732396717862 1.4204545005988085
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 k_avg -0.022290162827460984 0.03531201028407247 -1.584197053983332
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 betweenness -0.034130408173508896 0.0191443891237871 -0.5609188447575163
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 circuity_avg -0.011192002079812994 0.009292191566026425 -0.83025284482271
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0054
+SHAP-- non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0052
+SHAP-- non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0073
+SHAP-- non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0083
+SHAP-- non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0060
+SHAP-- non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0212
+SHAP-- non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0034
+SHAP-- non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0036
+SHAP-- non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0134
+SHAP-- non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0038
+SHAP-- non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0080
+SHAP-- non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0155
+SHAP-- non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0074
+SHAP-- non-recurrent-mmm-newyorkcity-20-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0045
+NON-RECURRENT-MMM NewYorkCity 20 LR 0.3703783957537398 XpVar
+NON-RECURRENT-MMM NewYorkCity 20 RF 0.31468037209761424 XpVar
+NON-RECURRENT-MMM NewYorkCity 20 LLR 4.7580986769649563e-17 XpVar
+NON-RECURRENT-MMM NewYorkCity 20 RLR 0.37571079772151694 XpVar
+NON-RECURRENT-MMM NewYorkCity 20 LR 0.008817924393999893 MSE
+NON-RECURRENT-MMM NewYorkCity 20 RF 0.009767376997822399 MSE
+NON-RECURRENT-MMM NewYorkCity 20 LLR 0.01418982035736158 MSE
+NON-RECURRENT-MMM NewYorkCity 20 RLR 0.008734370715802218 MSE
+NON-RECURRENT-MMM NewYorkCity 20 LR 0.33149047022600187 R2
+NON-RECURRENT-MMM NewYorkCity 20 RF 0.2811995944283884 R2
+NON-RECURRENT-MMM NewYorkCity 20 LLR -0.04931641761380136 R2
+NON-RECURRENT-MMM NewYorkCity 20 RLR 0.3369653890667911 R2
+t_spatial, t_non_spatial, "seconds" : 2.86102294921875e-06 59.013365745544434 seconds
+sorted_percentage_nan_per_column : maxspeed                         14.764079
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : NewYorkCity 30 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (657, 14) (657,)
+X.shape, Y.shape, "Inside the model-fitting function" : (657, 14) (657,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 20,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 100}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_avg 0.012077204990307736 0.012368887587183065 1.0241514983896862
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 streets_per_node_count_3 -0.007678409740042813 0.008693501933959598 -1.132200836928914
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 metered_count 0.01623981802271946 0.021907182893107557 1.348979579848707
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 m -0.008469350392276656 0.012123640807564102 -1.4314723380225072
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 mean_lanes 0.017226471719567794 0.017633082976999524 1.0236038617803467
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 non_metered_count 0.013545045060106379 0.023447800982522235 1.7310980420125737
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_4 0.027084465054365372 0.009885254469595966 0.36497875995533824
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_count_5 0.003531513335707042 0.0046888073749476655 1.3277048475335638
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 total_crossings 0.02004867198539243 0.029432330500748442 1.4680438944880236
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 n -0.007864123743114584 0.006417883968781759 -0.8160965135373057
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 streets_per_node_count_2 0.01382086632804449 0.019328414555681274 1.3984951519617255
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 k_avg -0.03021464298378228 0.04649604186767707 -1.538857893923613
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 betweenness -0.021692526154576338 0.01834470935671432 -0.8456695742115885
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 circuity_avg -0.024933712400794072 0.008913417811916723 -0.3574845842704456
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0062
+SHAP-- non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0040
+SHAP-- non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0108
+SHAP-- non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0062
+SHAP-- non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0084
+SHAP-- non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0105
+SHAP-- non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0050
+SHAP-- non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0020
+SHAP-- non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0142
+SHAP-- non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0032
+SHAP-- non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0096
+SHAP-- non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0218
+SHAP-- non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0078
+SHAP-- non-recurrent-mmm-newyorkcity-30-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0043
+NON-RECURRENT-MMM NewYorkCity 30 LR 0.2952984554212382 XpVar
+NON-RECURRENT-MMM NewYorkCity 30 RF 0.31150052835115155 XpVar
+NON-RECURRENT-MMM NewYorkCity 30 LLR 3.172065784643304e-17 XpVar
+NON-RECURRENT-MMM NewYorkCity 30 RLR 0.2957269024778667 XpVar
+NON-RECURRENT-MMM NewYorkCity 30 LR 0.010864463778200818 MSE
+NON-RECURRENT-MMM NewYorkCity 30 RF 0.010750693071177783 MSE
+NON-RECURRENT-MMM NewYorkCity 30 LLR 0.015704812023164996 MSE
+NON-RECURRENT-MMM NewYorkCity 30 RLR 0.010857217449994518 MSE
+NON-RECURRENT-MMM NewYorkCity 30 LR 0.2886697883920394 R2
+NON-RECURRENT-MMM NewYorkCity 30 RF 0.30434520190403436 R2
+NON-RECURRENT-MMM NewYorkCity 30 LLR -0.024275941583730493 R2
+NON-RECURRENT-MMM NewYorkCity 30 RLR 0.2888870330803376 R2
+t_spatial, t_non_spatial, "seconds" : 2.384185791015625e-06 57.915109157562256 seconds
+sorted_percentage_nan_per_column : maxspeed                         22.081448
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : NewYorkCity 40 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (1105, 14) (1105,)
+X.shape, Y.shape, "Inside the model-fitting function" : (1105, 14) (1105,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 50,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 50}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_avg 0.012449378549037163 0.013563499067648588 1.0894920589186832
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 streets_per_node_count_3 -0.011138016938945176 0.013836691536112423 -1.2422939929038055
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 metered_count 0.020237430388209254 0.02895848389453058 1.430936800721617
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 m -0.01059183962118713 0.015473253871764407 -1.4608655743628196
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 mean_lanes 0.039019497466298486 0.01994632330069639 0.511188626094537
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 non_metered_count 0.015891872763511356 0.025384510230882236 1.5973265460044783
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_4 -0.17079609423944792 0.0077230779523566 -0.045218118053268926
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_count_5 0.003673822489142489 0.005338762847164864 1.4531902025595664
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 total_crossings 0.02024888609618754 0.027394392584802724 1.3528839292528065
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 n -0.017722524493829057 0.00880271039670923 -0.49669619019425326
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 streets_per_node_count_2 0.01346881231991942 0.01799768070314859 1.3362485329557452
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 k_avg -0.03164097352355345 0.04775540766665606 -1.509290086510994
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 betweenness -0.014639575591829379 0.016334979518860746 -1.1158096364472208
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 circuity_avg -0.024975389498869575 0.008401825110521984 -0.33640416742658863
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0059
+SHAP-- non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0064
+SHAP-- non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0141
+SHAP-- non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0073
+SHAP-- non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0090
+SHAP-- non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0119
+SHAP-- non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0038
+SHAP-- non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0023
+SHAP-- non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0138
+SHAP-- non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0042
+SHAP-- non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0090
+SHAP-- non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0225
+SHAP-- non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0076
+SHAP-- non-recurrent-mmm-newyorkcity-40-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0043
+NON-RECURRENT-MMM NewYorkCity 40 LR 0.2862596374140538 XpVar
+NON-RECURRENT-MMM NewYorkCity 40 RF 0.2519137494244588 XpVar
+NON-RECURRENT-MMM NewYorkCity 40 LLR -1.586032892321652e-17 XpVar
+NON-RECURRENT-MMM NewYorkCity 40 RLR 0.2868669867065391 XpVar
+NON-RECURRENT-MMM NewYorkCity 40 LR 0.013087747060302052 MSE
+NON-RECURRENT-MMM NewYorkCity 40 RF 0.01377720063443971 MSE
+NON-RECURRENT-MMM NewYorkCity 40 LLR 0.018160265581569666 MSE
+NON-RECURRENT-MMM NewYorkCity 40 RLR 0.013079961437301706 MSE
+NON-RECURRENT-MMM NewYorkCity 40 LR 0.2810512665768075 R2
+NON-RECURRENT-MMM NewYorkCity 40 RF 0.24622083162194208 R2
+NON-RECURRENT-MMM NewYorkCity 40 LLR -0.001969637381871265 R2
+NON-RECURRENT-MMM NewYorkCity 40 RLR 0.28166846938088774 R2
+t_spatial, t_non_spatial, "seconds" : 3.0994415283203125e-06 81.47776961326599 seconds
+sorted_percentage_nan_per_column : maxspeed                         31.788079
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : NewYorkCity 60 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (2265, 14) (2265,)
+X.shape, Y.shape, "Inside the model-fitting function" : (2265, 14) (2265,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 400}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_avg 0.007163023786474616 0.00612816619539726 0.8555278298766231
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 streets_per_node_count_3 -0.013906069513692268 0.007252976181362334 -0.5215691014790966
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 metered_count 0.01742365590374205 0.027901859563613934 1.6013780183538575
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 m -0.01090183230905197 0.017171210971354076 -1.5750756831121442
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 mean_lanes 0.03125525137970943 0.023786658619527522 0.7610451866328474
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 non_metered_count 0.012867432577463795 0.018012409895668317 1.3998449020215198
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_4 -0.17218177203093327 0.0043664116462451535 -0.02535931414075996
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_count_5 0.0012677556223802892 0.002519582901754132 1.9874357938349823
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 total_crossings 0.01857731279399378 0.028921426522950294 1.5568143166702164
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 n -0.014073299324488935 0.005543499188948079 -0.3939018890404641
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 streets_per_node_count_2 0.009621106604368455 0.014523130231278722 1.5095072561283653
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 k_avg -0.03267593834202726 0.05410024580199555 -1.6556600528411662
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 betweenness -0.014571076528176968 0.02035491184432591 -1.3969394646280522
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 circuity_avg -0.040519556173789974 0.005584588039231567 -0.1378245115834697
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0030
+SHAP-- non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0031
+SHAP-- non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0132
+SHAP-- non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0067
+SHAP-- non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0110
+SHAP-- non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0089
+SHAP-- non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0022
+SHAP-- non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0009
+SHAP-- non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0140
+SHAP-- non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0026
+SHAP-- non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0073
+SHAP-- non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0240
+SHAP-- non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0100
+SHAP-- non-recurrent-mmm-newyorkcity-60-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0028
+NON-RECURRENT-MMM NewYorkCity 60 LR 0.25233910058863435 XpVar
+NON-RECURRENT-MMM NewYorkCity 60 RF 0.30226044993916157 XpVar
+NON-RECURRENT-MMM NewYorkCity 60 LLR 0.0 XpVar
+NON-RECURRENT-MMM NewYorkCity 60 RLR 0.2524946270400375 XpVar
+NON-RECURRENT-MMM NewYorkCity 60 LR 0.01592366361765263 MSE
+NON-RECURRENT-MMM NewYorkCity 60 RF 0.01481550682061264 MSE
+NON-RECURRENT-MMM NewYorkCity 60 LLR 0.021214538820989563 MSE
+NON-RECURRENT-MMM NewYorkCity 60 RLR 0.01592011731085926 MSE
+NON-RECURRENT-MMM NewYorkCity 60 LR 0.2513255132127267 R2
+NON-RECURRENT-MMM NewYorkCity 60 RF 0.30108168423383563 R2
+NON-RECURRENT-MMM NewYorkCity 60 LLR -0.0019766412475548745 R2
+NON-RECURRENT-MMM NewYorkCity 60 RLR 0.2514837168493364 R2
+t_spatial, t_non_spatial, "seconds" : 2.1457672119140625e-06 243.0707447528839 seconds
+sorted_percentage_nan_per_column : maxspeed                         35.560054
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : NewYorkCity 70 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (2964, 14) (2964,)
+X.shape, Y.shape, "Inside the model-fitting function" : (2964, 14) (2964,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 400}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_avg 0.010573042335124351 0.009432737352011465 0.8921497761032586
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 streets_per_node_count_3 -0.014216014934476964 0.006106368055289642 -0.4295414772307502
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 metered_count 0.01469465498259016 0.025845804216517523 1.7588575061570992
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 m -0.011179089672907611 0.01733857701549475 -1.5509829085202331
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 mean_lanes 0.02881817951963387 0.023723887381908663 0.8232264416891963
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 non_metered_count 0.014095051308885474 0.02032419898567979 1.4419386308205548
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_4 0.009725916269497545 0.006368339495051268 0.6547804153963034
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_count_5 0.0019050162703904108 0.00396668429420499 2.082231189233919
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 total_crossings 0.01739002932178293 0.028908450883276773 1.6623577998839683
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 n -0.01462124617848701 0.007669902675624887 -0.5245724326090623
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 streets_per_node_count_2 0.010137862054128546 0.014583807094709775 1.4385485832065215
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 k_avg -0.031407570003804425 0.05185575239594105 -1.651059040532576
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 betweenness -0.014506644779349112 0.020635219175248794 -1.422466703301648
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 circuity_avg 0.3008966585858558 0.005415240180416686 0.0179970100228665
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0041
+SHAP-- non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0027
+SHAP-- non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0114
+SHAP-- non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0067
+SHAP-- non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0111
+SHAP-- non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0100
+SHAP-- non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0028
+SHAP-- non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0014
+SHAP-- non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0131
+SHAP-- non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0032
+SHAP-- non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0073
+SHAP-- non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0230
+SHAP-- non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0093
+SHAP-- non-recurrent-mmm-newyorkcity-70-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0027
+NON-RECURRENT-MMM NewYorkCity 70 LR 0.21714711417622665 XpVar
+NON-RECURRENT-MMM NewYorkCity 70 RF 0.21795124872491375 XpVar
+NON-RECURRENT-MMM NewYorkCity 70 LLR 0.0 XpVar
+NON-RECURRENT-MMM NewYorkCity 70 RLR 0.21721540230672617 XpVar
+NON-RECURRENT-MMM NewYorkCity 70 LR 0.01658205242023406 MSE
+NON-RECURRENT-MMM NewYorkCity 70 RF 0.01665517981087822 MSE
+NON-RECURRENT-MMM NewYorkCity 70 LLR 0.02121111229481489 MSE
+NON-RECURRENT-MMM NewYorkCity 70 RLR 0.016580998244116917 MSE
+NON-RECURRENT-MMM NewYorkCity 70 LR 0.21514116768998998 R2
+NON-RECURRENT-MMM NewYorkCity 70 RF 0.21533177321225688 R2
+NON-RECURRENT-MMM NewYorkCity 70 LLR -0.001791561675470486 R2
+NON-RECURRENT-MMM NewYorkCity 70 RLR 0.21521840310680365 R2
+t_spatial, t_non_spatial, "seconds" : 3.5762786865234375e-06 338.60080647468567 seconds
+sorted_percentage_nan_per_column : maxspeed                         38.2361
+n                                 0.0000
+lane_density                      0.0000
+streets_per_node_proportion_6     0.0000
+streets_per_node_proportion_5     0.0000
+streets_per_node_proportion_4     0.0000
+streets_per_node_proportion_3     0.0000
+streets_per_node_proportion_2     0.0000
+streets_per_node_proportion_1     0.0000
+streets_per_node_count_6          0.0000
+streets_per_node_count_5          0.0000
+streets_per_node_count_4          0.0000
+streets_per_node_count_3          0.0000
+streets_per_node_count_2          0.0000
+streets_per_node_count_1          0.0000
+mean_lanes                        0.0000
+m                                 0.0000
+betweenness                       0.0000
+total_crossings                   0.0000
+non_metered_count                 0.0000
+metered_count                     0.0000
+self_loop_proportion              0.0000
+circuity_avg                      0.0000
+street_length_avg                 0.0000
+street_segment_count              0.0000
+street_length_total               0.0000
+streets_per_node_avg              0.0000
+edge_length_avg                   0.0000
+edge_length_total                 0.0000
+k_avg                             0.0000
+global_betweenness                0.0000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : NewYorkCity 80 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (3651, 14) (3651,)
+X.shape, Y.shape, "Inside the model-fitting function" : (3651, 14) (3651,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 300}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_avg 0.013741785983292685 0.009159212653252737 0.666522725967974
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 streets_per_node_count_3 -0.011997554930504539 0.006445950792304015 -0.5372720383146385
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 metered_count 0.015079927173878472 0.027524150614293957 1.8252177412349466
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 m -0.009095422407289926 0.013678911714641768 -1.5039336384947006
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 mean_lanes 0.032863299230434774 0.028111410436482506 0.8554043901486454
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 non_metered_count 0.013748665943044623 0.020526386255188565 1.49297294299108
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_4 0.009321128202110531 0.003958996161202326 0.4247335811029734
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_count_5 0.0012671381941013358 0.0028232809537209356 2.228076595641747
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 total_crossings 0.016264458897138553 0.025740284395401845 1.5826093298394572
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 n 0.36954720016745796 0.005813900613414944 0.01573249807001761
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 streets_per_node_count_2 0.00965023459732582 0.014775439568475254 1.5310964121607658
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 k_avg -0.033451528285469635 0.05322732566296155 -1.5911776947447254
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 betweenness -0.012384822915760903 0.018574772139692775 -1.4998011894101895
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 circuity_avg -0.02270097816032179 0.005988230515842102 -0.26378733434089247
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0041
+SHAP-- non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0028
+SHAP-- non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0115
+SHAP-- non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0058
+SHAP-- non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0133
+SHAP-- non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0100
+SHAP-- non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0019
+SHAP-- non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0009
+SHAP-- non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0124
+SHAP-- non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0026
+SHAP-- non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0073
+SHAP-- non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0250
+SHAP-- non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0091
+SHAP-- non-recurrent-mmm-newyorkcity-80-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0030
+NON-RECURRENT-MMM NewYorkCity 80 LR 0.24032618384959756 XpVar
+NON-RECURRENT-MMM NewYorkCity 80 RF 0.2583046823758605 XpVar
+NON-RECURRENT-MMM NewYorkCity 80 LLR -4.7580986769649563e-17 XpVar
+NON-RECURRENT-MMM NewYorkCity 80 RLR 0.240376606621373 XpVar
+NON-RECURRENT-MMM NewYorkCity 80 LR 0.016313058629033112 MSE
+NON-RECURRENT-MMM NewYorkCity 80 RF 0.015952189545681318 MSE
+NON-RECURRENT-MMM NewYorkCity 80 LLR 0.021346736389784127 MSE
+NON-RECURRENT-MMM NewYorkCity 80 RLR 0.016312338737204835 MSE
+NON-RECURRENT-MMM NewYorkCity 80 LR 0.2389110261744685 R2
+NON-RECURRENT-MMM NewYorkCity 80 RF 0.25587369290377027 R2
+NON-RECURRENT-MMM NewYorkCity 80 LLR -0.0020429115313944962 R2
+NON-RECURRENT-MMM NewYorkCity 80 RLR 0.23896177984321648 R2
+t_spatial, t_non_spatial, "seconds" : 3.5762786865234375e-06 343.86581563949585 seconds
+sorted_percentage_nan_per_column : maxspeed                         39.785192
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : NewYorkCity 90 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (4376, 14) (4376,)
+X.shape, Y.shape, "Inside the model-fitting function" : (4376, 14) (4376,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 600}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_avg 0.007936943551694385 0.008777323515757425 1.1058820638687339
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 streets_per_node_count_3 0.009507047672743024 0.0038931290299868628 0.40949926454545654
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 metered_count 0.016439942011477752 0.02872034161135565 1.746985578860569
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 m -0.010153467823603254 0.016174953701249 -1.5930472211324587
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 mean_lanes 0.03681687985189743 0.03227135907904005 0.8765370452047387
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 non_metered_count 0.01386923498407005 0.018384271442072404 1.3255432951556623
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_4 -0.023724008245509763 0.003130019141458151 -0.13193466757669708
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_count_5 0.0008119529894749612 0.0018648707097981881 2.296771776164138
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 total_crossings 0.01670254680023225 0.02653982973449785 1.5889690387892708
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 n 0.4251236971345648 0.004455319594617475 0.010480054686782677
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 streets_per_node_count_2 0.008243768292078442 0.012868685045857461 1.5610197412053868
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 k_avg -0.02933620878310416 0.04690644854392842 -1.598926735582262
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 betweenness -0.017226279032887423 0.02629762526771671 -1.5265992857488722
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 circuity_avg 0.022039954150446153 0.004414436373933405 0.2002924481512156
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0045
+SHAP-- non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0020
+SHAP-- non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0129
+SHAP-- non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0062
+SHAP-- non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0158
+SHAP-- non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0092
+SHAP-- non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0016
+SHAP-- non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0005
+SHAP-- non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0127
+SHAP-- non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0020
+SHAP-- non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0064
+SHAP-- non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0218
+SHAP-- non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0128
+SHAP-- non-recurrent-mmm-newyorkcity-90-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0022
+NON-RECURRENT-MMM NewYorkCity 90 LR 0.21259337777304704 XpVar
+NON-RECURRENT-MMM NewYorkCity 90 RF 0.24371921636329277 XpVar
+NON-RECURRENT-MMM NewYorkCity 90 LLR -3.172065784643304e-17 XpVar
+NON-RECURRENT-MMM NewYorkCity 90 RLR 0.21272418037690372 XpVar
+NON-RECURRENT-MMM NewYorkCity 90 LR 0.01792778458753028 MSE
+NON-RECURRENT-MMM NewYorkCity 90 RF 0.01728291940957874 MSE
+NON-RECURRENT-MMM NewYorkCity 90 LLR 0.022655164048247967 MSE
+NON-RECURRENT-MMM NewYorkCity 90 RLR 0.01792566135973931 MSE
+NON-RECURRENT-MMM NewYorkCity 90 LR 0.20861186387856065 R2
+NON-RECURRENT-MMM NewYorkCity 90 RF 0.23925817444601555 R2
+NON-RECURRENT-MMM NewYorkCity 90 LLR -0.00284883211778042 R2
+NON-RECURRENT-MMM NewYorkCity 90 RLR 0.2087449375766513 R2
+t_spatial, t_non_spatial, "seconds" : 1.430511474609375e-06 707.579996585846 seconds
+sorted_percentage_nan_per_column : maxspeed                         11.612903
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : NewYorkCity 25 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (465, 14) (465,)
+X.shape, Y.shape, "Inside the model-fitting function" : (465, 14) (465,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 500}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_avg 0.008395768988762611 0.010289883922825517 1.225603507742781
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 streets_per_node_count_3 -0.00759330614194078 0.010564295333070016 -1.39126424453234
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 metered_count 0.01602621392072143 0.024050214329037548 1.5006797268530976
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 m -0.008158965418775312 0.012569725458708565 -1.5406028599880157
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 mean_lanes 0.010812782562196229 0.011684811172258888 1.0806479372952023
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 non_metered_count 0.017870948898155107 0.02371094153471138 1.3267869361519555
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_4 0.014845327437970455 0.006382451661145743 0.42993000240743123
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_count_5 0.002778903437061184 0.003777170698371371 1.3592306404017767
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 total_crossings 0.017018983139053236 0.02951794087398674 1.734412722123939
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 n -0.006607906722461379 0.006731179797879617 -1.0186553897619668
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 streets_per_node_count_2 0.013253138872973398 0.019177146307254728 1.4469890107589474
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 k_avg -0.02418240778871335 0.038410779051991036 -1.5883769468943654
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 betweenness -0.026432544160639476 0.02776649916687124 -1.0504663871220594
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 circuity_avg -0.02378987297645473 0.006521407717059833 -0.2741253693752039
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0049
+SHAP-- non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0050
+SHAP-- non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0112
+SHAP-- non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0062
+SHAP-- non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0058
+SHAP-- non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0119
+SHAP-- non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0032
+SHAP-- non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0019
+SHAP-- non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0126
+SHAP-- non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0031
+SHAP-- non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0093
+SHAP-- non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0179
+SHAP-- non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0105
+SHAP-- non-recurrent-mmm-newyorkcity-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0033
+NON-RECURRENT-MMM NewYorkCity 25 LR 0.36929172720599246 XpVar
+NON-RECURRENT-MMM NewYorkCity 25 RF 0.38010572304419776 XpVar
+NON-RECURRENT-MMM NewYorkCity 25 LLR 3.172065784643304e-17 XpVar
+NON-RECURRENT-MMM NewYorkCity 25 RLR 0.37080044071761165 XpVar
+NON-RECURRENT-MMM NewYorkCity 25 LR 0.009408234706429224 MSE
+NON-RECURRENT-MMM NewYorkCity 25 RF 0.009287027500761389 MSE
+NON-RECURRENT-MMM NewYorkCity 25 LLR 0.014579656352546821 MSE
+NON-RECURRENT-MMM NewYorkCity 25 RLR 0.009384852104908092 MSE
+NON-RECURRENT-MMM NewYorkCity 25 LR 0.3524204188625487 R2
+NON-RECURRENT-MMM NewYorkCity 25 RF 0.36489581639202706 R2
+NON-RECURRENT-MMM NewYorkCity 25 LLR -0.01845815659116907 R2
+NON-RECURRENT-MMM NewYorkCity 25 RLR 0.3539392149491482 R2
+t_spatial, t_non_spatial, "seconds" : 1.1920928955078125e-06 51.1297287940979 seconds
+sorted_percentage_nan_per_column : maxspeed                         27.239488
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : NewYorkCity 50 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (1641, 14) (1641,)
+X.shape, Y.shape, "Inside the model-fitting function" : (1641, 14) (1641,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 200}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_avg 0.011510545529050573 0.008406921638703558 0.7303669159281792
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 streets_per_node_count_3 0.007079776028859068 0.007101066591003917 1.003007236677836
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 metered_count 0.01695609620195391 0.027754965022742207 1.636872349163949
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 m -0.010964671113944632 0.017101945988310226 -1.559731779511411
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 mean_lanes 0.02566918669042811 0.022593933287291486 0.8801966949625495
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 non_metered_count 0.014606917671758998 0.02288680311117174 1.566846861567589
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_4 0.01820351742097671 0.006023868731864248 0.3309178436538139
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_count_5 0.0015387688210827342 0.002753432608766827 1.7893737974424324
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 total_crossings 0.016682260745912704 0.026966821296785407 1.6164968110447804
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 n -0.013111696812930186 0.008727314044296526 -0.665612862226194
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 streets_per_node_count_2 0.01069583596328545 0.015014143664935819 1.4037372783645337
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 k_avg -0.03342399523541572 0.053888878105208066 -1.612281168832503
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 betweenness -0.014092334555100467 0.019253356892290283 -1.3662290528947083
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 circuity_avg -0.15320319261375565 0.006135215719517174 -0.04004626545208374
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0042
+SHAP-- non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0040
+SHAP-- non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0126
+SHAP-- non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0073
+SHAP-- non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0102
+SHAP-- non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0108
+SHAP-- non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0030
+SHAP-- non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0011
+SHAP-- non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0124
+SHAP-- non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0036
+SHAP-- non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0074
+SHAP-- non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0246
+SHAP-- non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0078
+SHAP-- non-recurrent-mmm-newyorkcity-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0031
+NON-RECURRENT-MMM NewYorkCity 50 LR 0.2546521649001102 XpVar
+NON-RECURRENT-MMM NewYorkCity 50 RF 0.27680160537539084 XpVar
+NON-RECURRENT-MMM NewYorkCity 50 LLR 0.0 XpVar
+NON-RECURRENT-MMM NewYorkCity 50 RLR 0.25489562429409934 XpVar
+NON-RECURRENT-MMM NewYorkCity 50 LR 0.014755799118539024 MSE
+NON-RECURRENT-MMM NewYorkCity 50 RF 0.014290316557957034 MSE
+NON-RECURRENT-MMM NewYorkCity 50 LLR 0.01975815337697903 MSE
+NON-RECURRENT-MMM NewYorkCity 50 RLR 0.014752282696138869 MSE
+NON-RECURRENT-MMM NewYorkCity 50 LR 0.25148164252412275 R2
+NON-RECURRENT-MMM NewYorkCity 50 RF 0.2742282757400916 R2
+NON-RECURRENT-MMM NewYorkCity 50 LLR -0.002848309011150566 R2
+NON-RECURRENT-MMM NewYorkCity 50 RLR 0.2517185254730551 R2
+t_spatial, t_non_spatial, "seconds" : 1.430511474609375e-06 105.66934752464294 seconds
+sorted_percentage_nan_per_column : maxspeed                         42.657209
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : NewYorkCity 100 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 3 (5216, 14) (5216,)
+X.shape, Y.shape, "Inside the model-fitting function" : (5216, 14) (5216,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 600}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_avg 0.04258493490087948 0.006350754344858643 0.1491314794689867
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 streets_per_node_count_3 0.006363490496711871 0.004490448728118439 0.7056581180468069
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 metered_count 0.015027201605132113 0.025011897268227584 1.6644414526045543
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 m -0.010158829641224297 0.015839547769673234 -1.5591902147267747
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 mean_lanes 0.029750407044096 0.02560700370674754 0.8607278437835449
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 non_metered_count 0.012079627877642734 0.01744287825046723 1.443991356948249
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_count_4 0.028957227007188027 0.0031009036610906045 0.10708565638280454
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 streets_per_node_count_5 0.0006549439189844002 0.0014007920860412905 2.13879699534191
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 total_crossings 0.017479901683902403 0.03032898330086267 1.7350774534843778
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 n 0.01292296360092171 0.004731038236089407 0.3660954547416641
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 streets_per_node_count_2 0.008425732019678006 0.012832925858659989 1.5230636137832456
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 k_avg -0.033895254673046694 0.05417569460402037 -1.5983268196860774
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 betweenness -0.013861699150851258 0.021433808470439478 -1.5462612654613277
+NON-RECURRENT-MMM non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 circuity_avg -0.017189574279556946 0.0050585352458351555 -0.29427926274190064
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0031
+SHAP-- non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0022
+SHAP-- non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0115
+SHAP-- non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0060
+SHAP-- non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0126
+SHAP-- non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0086
+SHAP-- non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0016
+SHAP-- non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0004
+SHAP-- non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0137
+SHAP-- non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0024
+SHAP-- non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0062
+SHAP-- non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0257
+SHAP-- non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0102
+SHAP-- non-recurrent-mmm-newyorkcity-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0026
+NON-RECURRENT-MMM NewYorkCity 100 LR 0.2091203722255812 XpVar
+NON-RECURRENT-MMM NewYorkCity 100 RF 0.24016620495890476 XpVar
+NON-RECURRENT-MMM NewYorkCity 100 LLR 6.344131569286608e-17 XpVar
+NON-RECURRENT-MMM NewYorkCity 100 RLR 0.20913967083159735 XpVar
+NON-RECURRENT-MMM NewYorkCity 100 LR 0.017427041869507807 MSE
+NON-RECURRENT-MMM NewYorkCity 100 RF 0.016766535864161512 MSE
+NON-RECURRENT-MMM NewYorkCity 100 LLR 0.022064616897132922 MSE
+NON-RECURRENT-MMM NewYorkCity 100 RLR 0.017426742017002863 MSE
+NON-RECURRENT-MMM NewYorkCity 100 LR 0.20785539574933357 R2
+NON-RECURRENT-MMM NewYorkCity 100 RF 0.23894901386987932 R2
+NON-RECURRENT-MMM NewYorkCity 100 LLR -0.0014859768727064626 R2
+NON-RECURRENT-MMM NewYorkCity 100 RLR 0.20787266556169515 R2
+t_spatial, t_non_spatial, "seconds" : 2.6226043701171875e-06 878.8875629901886 seconds
+
+ Complete: python urbanscales/modelling/SHAP_analysis.py
+

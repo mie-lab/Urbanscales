@@ -1,0 +1,231 @@
+X.shape, Y.shape, "Inside the model-fitting function" : (133, 14) (133,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 500}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_2 -0.015391456184814052 0.010028210563820625 -0.6515439763077737
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 k_avg -0.027799940502199298 0.04477403171503247 -1.610580127374385
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 m -0.02749232823895132 0.04291492533562251 -1.56097821045292
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 streets_per_node_count_5 0.004223152978024542 0.008408890758188996 1.9911404587864137
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 circuity_avg 0.024745998019974964 0.03060533119415199 1.2367790205691995
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_3 -0.029681980941886867 0.04729845392178945 -1.5935073206331192
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_avg 0.12144172507454644 0.008892097364185189 0.07322110550329235
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 metered_count 0.0067418766793031016 0.0059886838093032475 0.888281422840011
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 total_crossings 0.006907816339519337 0.007514722164699908 1.087857840358101
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 n -0.01996402031923919 0.02973631506030351 -1.489495331340994
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 betweenness 0.013657220493297354 0.012633780569359607 0.9250623562503053
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 non_metered_count 0.003689461471716797 0.005305815480321271 1.4381002541957282
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 streets_per_node_count_4 -0.011696193723038066 0.014711011309313226 -1.2577605721711718
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 mean_lanes -0.0128215922911137 0.007489610846918732 -0.5841404621881152
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0052
+SHAP-- non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0143
+SHAP-- non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0130
+SHAP-- non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0015
+SHAP-- non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0121
+SHAP-- non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0116
+SHAP-- non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0041
+SHAP-- non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0030
+SHAP-- non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0036
+SHAP-- non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0096
+SHAP-- non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0059
+SHAP-- non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0006
+SHAP-- non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0058
+SHAP-- non-recurrent-mmm-mumbai-25-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0038
+NON-RECURRENT-MMM Mumbai 25 LR -0.25379829263716586 XpVar
+NON-RECURRENT-MMM Mumbai 25 RF -0.3952694214042184 XpVar
+NON-RECURRENT-MMM Mumbai 25 LLR 9.516197353929913e-17 XpVar
+NON-RECURRENT-MMM Mumbai 25 RLR -0.22363371245574068 XpVar
+NON-RECURRENT-MMM Mumbai 25 LR 0.03775907513197587 MSE
+NON-RECURRENT-MMM Mumbai 25 RF 0.03454987224225931 MSE
+NON-RECURRENT-MMM Mumbai 25 LLR 0.03553604175483634 MSE
+NON-RECURRENT-MMM Mumbai 25 RLR 0.03712567460738566 MSE
+NON-RECURRENT-MMM Mumbai 25 LR -0.3189942798218594 R2
+NON-RECURRENT-MMM Mumbai 25 RF -0.48819310755892836 R2
+NON-RECURRENT-MMM Mumbai 25 LLR -0.05573935824235526 R2
+NON-RECURRENT-MMM Mumbai 25 RLR -0.28810138746707736 R2
+t_spatial, t_non_spatial, "seconds" : 1.430511474609375e-06 28.71573543548584 seconds
+sorted_percentage_nan_per_column : maxspeed                         73.218673
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Mumbai 50 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 1 (407, 14) (407,)
+X.shape, Y.shape, "Inside the model-fitting function" : (407, 14) (407,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 50,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 50}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_2 -0.09386389424732368 0.012818921662087139 -0.1365692502413157
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 k_avg -0.020697255791023283 0.023993890652165513 -1.1592788384328725
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 m -0.02399784380393764 0.027595648527663906 -1.1499219993729572
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 streets_per_node_count_5 0.003007639502459266 0.006598048333734635 2.193763025236099
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 circuity_avg 0.024109443199562278 0.034288929779211344 1.4222198951419118
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_3 -0.02513074915286098 0.02085402164577199 -0.8298209304833989
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_avg 0.054281163232953775 0.010873607184523388 0.20032008411201632
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 metered_count 0.010099753721948669 0.014868815717064646 1.4721958699598692
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 total_crossings 0.01034488226111077 0.015233386123182764 1.4725528757779305
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 n -0.02834990431320969 0.04271798872453984 -1.5068124482041132
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 betweenness -0.031148547400450553 0.014896336695480766 -0.47823535730161515
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 non_metered_count -0.003628609261725905 0.0007336739461725565 -0.2021914990713531
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 streets_per_node_count_4 -0.016699998448732378 0.016420819001395665 -0.9832826662712711
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 mean_lanes 0.031347113969470174 0.013597362641693131 0.4337676079187379
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0068
+SHAP-- non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0112
+SHAP-- non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0105
+SHAP-- non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0021
+SHAP-- non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0134
+SHAP-- non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0088
+SHAP-- non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0054
+SHAP-- non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0074
+SHAP-- non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0076
+SHAP-- non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0166
+SHAP-- non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0071
+SHAP-- non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0003
+SHAP-- non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0079
+SHAP-- non-recurrent-mmm-mumbai-50-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0068
+NON-RECURRENT-MMM Mumbai 50 LR -0.04755864457329754 XpVar
+NON-RECURRENT-MMM Mumbai 50 RF -0.2168406126824071 XpVar
+NON-RECURRENT-MMM Mumbai 50 LLR -1.2688263138573217e-16 XpVar
+NON-RECURRENT-MMM Mumbai 50 RLR -0.03816753702702074 XpVar
+NON-RECURRENT-MMM Mumbai 50 LR 0.03032404751264727 MSE
+NON-RECURRENT-MMM Mumbai 50 RF 0.03355526201038604 MSE
+NON-RECURRENT-MMM Mumbai 50 LLR 0.030707157686354066 MSE
+NON-RECURRENT-MMM Mumbai 50 RLR 0.03023857146135652 MSE
+NON-RECURRENT-MMM Mumbai 50 LR -0.06446093002105326 R2
+NON-RECURRENT-MMM Mumbai 50 RF -0.24769063891334522 R2
+NON-RECURRENT-MMM Mumbai 50 LLR -0.012449679355562817 R2
+NON-RECURRENT-MMM Mumbai 50 RLR -0.05464267213411161 R2
+t_spatial, t_non_spatial, "seconds" : 1.430511474609375e-06 33.691075563430786 seconds
+sorted_percentage_nan_per_column : maxspeed                         86.854839
+n                                 0.000000
+lane_density                      0.000000
+streets_per_node_proportion_6     0.000000
+streets_per_node_proportion_5     0.000000
+streets_per_node_proportion_4     0.000000
+streets_per_node_proportion_3     0.000000
+streets_per_node_proportion_2     0.000000
+streets_per_node_proportion_1     0.000000
+streets_per_node_count_6          0.000000
+streets_per_node_count_5          0.000000
+streets_per_node_count_4          0.000000
+streets_per_node_count_3          0.000000
+streets_per_node_count_2          0.000000
+streets_per_node_count_1          0.000000
+mean_lanes                        0.000000
+m                                 0.000000
+betweenness                       0.000000
+total_crossings                   0.000000
+non_metered_count                 0.000000
+metered_count                     0.000000
+self_loop_proportion              0.000000
+circuity_avg                      0.000000
+street_length_avg                 0.000000
+street_segment_count              0.000000
+street_length_total               0.000000
+streets_per_node_avg              0.000000
+edge_length_avg                   0.000000
+edge_length_total                 0.000000
+k_avg                             0.000000
+global_betweenness                0.000000
+dtype: float64
+city, scale, tod, config.shift_tile_marker, X.shape, Y.shape : Mumbai 100 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] 1 (1240, 14) (1240,)
+X.shape, Y.shape, "Inside the model-fitting function" : (1240, 14) (1240,) Inside the model-fitting function
+Dict: model_trials.best_params_
+Key: Value
+{'randomforestregressor__max_depth': 10,
+ 'randomforestregressor__max_features': 'sqrt',
+ 'randomforestregressor__n_estimators': 600}
+Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 0 streets_per_node_count_2 0.008072704071954167 0.010727664292684604 1.3288811527173632
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 1 k_avg -0.025091617693069942 0.03401730896579026 -1.3557240263223647
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 2 m -0.017852844216789877 0.023902142481385703 -1.3388422702365097
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 3 streets_per_node_count_5 0.0020443297377684667 0.006490825301238453 3.1750383420649437
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 4 circuity_avg 0.017559249830260054 0.012918870443131537 0.7357302030561865
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 5 streets_per_node_count_3 -0.014278183084842817 0.008459122273042026 -0.5924508897789602
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 6 streets_per_node_avg 0.18180765177367028 0.00709501900909087 0.039024864684591806
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 7 metered_count 0.012790506793666952 0.018218933545186607 1.4244106069516704
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 8 total_crossings 0.010234967087016942 0.01517836349365187 1.4829909431663564
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 9 n -0.014271969480357445 0.020999997343143097 -1.471415516411064
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 10 betweenness -0.010192915529857328 0.012084298418892456 -1.1855585758063867
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 11 non_metered_count -0.0006827241118685577 0.0005134054543781176 -0.7519954919608312
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 12 streets_per_node_count_4 -0.00798679241837427 0.008235577151440238 -1.0311495178582102
+NON-RECURRENT-MMM non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 13 mean_lanes 0.02355213606013185 0.009213926971276053 0.3912140685563139
+SHAP Values for each feature:
+Slug                           Feature Name         Mean Abs SHAP Value
+SHAP-- non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_2          0.0053
+SHAP-- non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 k_avg                         0.0169
+SHAP-- non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 m                             0.0094
+SHAP-- non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_5          0.0011
+SHAP-- non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 circuity_avg                  0.0065
+SHAP-- non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_3          0.0041
+SHAP-- non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_avg          0.0034
+SHAP-- non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 metered_count                 0.0090
+SHAP-- non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 total_crossings               0.0074
+SHAP-- non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 n                             0.0073
+SHAP-- non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 betweenness                   0.0061
+SHAP-- non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 non_metered_count             0.0001
+SHAP-- non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 streets_per_node_count_4          0.0041
+SHAP-- non-recurrent-mmm-mumbai-100-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24 mean_lanes                    0.0042
+NON-RECURRENT-MMM Mumbai 100 LR 0.0853348552494355 XpVar
+NON-RECURRENT-MMM Mumbai 100 RF 0.07470896057173367 XpVar
+NON-RECURRENT-MMM Mumbai 100 LLR -1.586032892321652e-17 XpVar
+NON-RECURRENT-MMM Mumbai 100 RLR 0.08598556400173829 XpVar
+NON-RECURRENT-MMM Mumbai 100 LR 0.024070542065930952 MSE
+NON-RECURRENT-MMM Mumbai 100 RF 0.024160505962742513 MSE
+NON-RECURRENT-MMM Mumbai 100 LLR 0.02633873478555652 MSE
+NON-RECURRENT-MMM Mumbai 100 RLR 0.02405988155314997 MSE
+NON-RECURRENT-MMM Mumbai 100 LR 0.07371330267392985 R2
+NON-RECURRENT-MMM Mumbai 100 RF 0.06254447253123381 R2
+NON-RECURRENT-MMM Mumbai 100 LLR -0.014978108624526134 R2
+NON-RECURRENT-MMM Mumbai 100 RLR 0.07434886205126243 R2
+t_spatial, t_non_spatial, "seconds" : 1.9073486328125e-06 137.27034878730774 seconds
+
+ Complete: python urbanscales/io/speed_data.py
+
+
+ Complete: python urbanscales/preprocessing/prep_network.py
+
+
+ Complete: python urbanscales/preprocessing/prep_speed.py
+
+
+ Complete: python urbanscales/preprocessing/train_data.py
+
+
+ Complete: python urbanscales/modelling/SHAP_analysis.py
+
