@@ -215,7 +215,9 @@ class SpeedData:
             if config.CONGESTION_TYPE == "RECURRENT":
                 self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy(
                     np.nanmean(np.array(a), axis=0).tolist())
-            elif config.CONGESTION_TYPE == "NON-RECURRENT":
+            elif config.CONGESTION_TYPE == "NON-RECURRENT": # legacy condition; we do not use this in the paper. The
+                # metric being used in the paper is based on the NRCI index defined in SI, which corresponds to the
+                # next condition: "NON-RECURRENT-MMM"
                 self.segment_jf_map[Segment.seg_hash(self.NID_road_segment_map[seg_nid])] = copy.deepcopy(
                     (np.nanmax(np.array(a), axis=0) - np.nanmedian(np.array(a), axis=0)).tolist())
             elif config.CONGESTION_TYPE == "NON-RECURRENT-MMM":
