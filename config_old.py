@@ -96,13 +96,18 @@ ppl_list_of_correlations = ["pearson", "spearman"]  # , "kendall", "spearman"]
 # format: city,location, N, E, S, W
 if RUNNING_ON_SERVER:
     rn_city_wise_bboxes = {
+        "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
+        "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
+        "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
         "Auckland": [-36.681247, 174.925937, -36.965932, 174.63532],
-        "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
-        "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
         "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
         "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
-        "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
+        "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
         "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
+        "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
+        "London": [51.28676, -0.510375, 51.691874, 0.334015],
+        # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
+        # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
     single_city = "Auckland"
     rn_city_wise_bboxes = {single_city : rn_city_wise_bboxes[single_city]}
@@ -110,14 +115,18 @@ if RUNNING_ON_SERVER:
 
 elif RUNNING_ON_LOCAL:
     rn_city_wise_bboxes = {
+        "Singapore": [1.51316, 104.135278, 1.130361, 103.566667],
+        "Zurich": [47.434666, 8.625441, 47.32022, 8.448006],
+        "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
         "Auckland": [-36.681247, 174.925937, -36.965932, 174.63532],
-        "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
-        "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
         "Istanbul": [41.671, 29.9581, 40.7289, 27.9714],
         "MexicoCity": [19.592757, -98.940303, 19.048237, -99.364924],
-        "Mumbai": [19.270177, 72.979731, 18.893957, 72.776333],
+        "Bogota": [4.837015, -73.996423, 4.4604, -74.223689],
         "NewYorkCity": [40.916178, -73.700181, 40.477399, -74.25909],
-
+        "Capetown": [-34.462, 18.1107, -33.3852, 19.0926],
+        "London": [51.28676, -0.510375, 51.691874, 0.334015],
+        # "Tokyo": [35.0721, 139.1704, 35.9707, 140.5547],  # @Tokyo removed because no data present in here-api at the time of our study
+        # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
     single_city = "Istanbul"
     rn_city_wise_bboxes = {single_city : rn_city_wise_bboxes[single_city]}
@@ -125,29 +134,36 @@ elif RUNNING_ON_LOCAL:
 if RUNNING_ON_SERVER:
     # rn_city_wise_tz_code can be commented out since we don't need to recompute the speed_data_object everytime.
     rn_city_wise_tz_code = {
-        "Auckland": "Pacific/Auckland",
-        "Bogota": "America/Bogota",
-        "Capetown": "Africa/Johannesburg",
-        "Istanbul": "Europe/Istanbul",
-        "NewYorkCity": "America/New_York",
-        "MexicoCity": "America/Mexico_City",
+        "Singapore": "Asia/Singapore",
+        "Zurich": "Europe/Zurich",
         "Mumbai": "Asia/Kolkata",
+        "Auckland": "Pacific/Auckland",
+        "Istanbul": "Europe/Istanbul",
+        "MexicoCity": "America/Mexico_City",
+        "Bogota": "America/Bogota",
+        "NewYorkCity": "America/New_York",
+        "Capetown": "Africa/Johannesburg",
+        "London": "Europe/London",
+        # "Tokyo": "Asia/Tokyo"
+        # "TokyoCore": [35.0721, 139.1704, 35.9707, 140.5547],
     }
 elif RUNNING_ON_LOCAL:
     # rn_city_wise_tz_code can be commented out since we don't need to recompute the speed_data_object everytime.
     rn_city_wise_tz_code = {
-        "Auckland": "Pacific/Auckland",
-        "Bogota": "America/Bogota",
-        "Capetown": "Africa/Johannesburg",
-        "Istanbul": "Europe/Istanbul",
-        "NewYorkCity": "America/New_York",
-        "MexicoCity": "America/Mexico_City",
+        "Singapore": "Asia/Singapore",
+        "Zurich": "Europe/Zurich",
         "Mumbai": "Asia/Kolkata",
+        "Auckland": "Pacific/Auckland",
+        "Istanbul": "Europe/Istanbul",
+        "MexicoCity": "America/Mexico_City",
+        "Bogota": "America/Bogota",
+        "NewYorkCity": "America/New_York",
+        "Capetown": "Africa/Johannesburg",
+        "London": "Europe/London",
+        "Tokyo": "Asia/Tokyo"
     }
 
 rn_master_list_of_cities = list(rn_city_wise_bboxes.keys())
-list.sort(rn_master_list_of_cities)
-
 rn_basemap_zoom_level = 13
 rn_do_not_filter_list = []  # ["Zurich"]
 rn_do_not_filter = True
